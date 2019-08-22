@@ -9,7 +9,7 @@ AWS Application Discovery Service AWS Application Discovery Service helps you pl
 */
 public struct ApplicationDiscoveryService {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

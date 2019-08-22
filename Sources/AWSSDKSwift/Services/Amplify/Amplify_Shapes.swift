@@ -1382,11 +1382,11 @@ extension Amplify {
         ]
 
         ///  Maximum number of records to list in a single response. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1435,11 +1435,11 @@ extension Amplify {
         ///  Unique Id for an Amplify App. 
         public let appId: String
         ///  Maximum number of records to list in a single response. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         ///  Pagination token. Set to null to start listing branches from start. If a non-null pagination token is returned in a result, then pass its value in here to list more branches. 
         public let nextToken: String?
 
-        public init(appId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(appId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1492,11 +1492,11 @@ extension Amplify {
         ///  Unique Id for an Amplify App. 
         public let appId: String
         ///  Maximum number of records to list in a single response. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         ///  Pagination token. Set to null to start listing Apps from start. If non-null pagination token is returned in a result, then pass its value in here to list more projects. 
         public let nextToken: String?
 
-        public init(appId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(appId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1552,11 +1552,11 @@ extension Amplify {
         ///  Name for a branch. 
         public let branchName: String
         ///  Maximum number of records to list in a single response. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         ///  Pagination token. Set to null to start listing steps from start. If a non-null pagination token is returned in a result, then pass its value in here to list more steps. 
         public let nextToken: String?
 
-        public init(appId: String, branchName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(appId: String, branchName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.branchName = branchName
             self.maxResults = maxResults
@@ -1651,11 +1651,11 @@ extension Amplify {
         ///  Unique Id for an Amplify App. 
         public let appId: String
         ///  Maximum number of records to list in a single response. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         ///  Pagination token. Set to null to start listing webhooks from start. If non-null pagination token is returned in a result, then pass its value in here to list more webhooks. 
         public let nextToken: String?
 
-        public init(appId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(appId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
             self.maxResults = maxResults
             self.nextToken = nextToken

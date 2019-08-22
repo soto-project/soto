@@ -998,11 +998,11 @@ extension WorkMail {
         ]
 
         /// The maximum allowed mailbox size, in MB, for the specified user.
-        public let mailboxQuota: Int32?
+        public let mailboxQuota: Int?
         /// The current mailbox size, in MB, for the specified user.
         public let mailboxSize: Double?
 
-        public init(mailboxQuota: Int32? = nil, mailboxSize: Double? = nil) {
+        public init(mailboxQuota: Int? = nil, mailboxSize: Double? = nil) {
             self.mailboxQuota = mailboxQuota
             self.mailboxSize = mailboxSize
         }
@@ -1066,13 +1066,13 @@ extension WorkMail {
         /// The identifier for the entity for which to list the aliases.
         public let entityId: String
         /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
         /// The identifier for the organization under which the entity exists.
         public let organizationId: String
 
-        public init(entityId: String, maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
+        public init(entityId: String, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.entityId = entityId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1130,13 +1130,13 @@ extension WorkMail {
         /// The identifier for the group to which the members (users or groups) are associated.
         public let groupId: String
         /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         ///  The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
         /// The identifier for the organization under which the group exists.
         public let organizationId: String
 
-        public init(groupId: String, maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
+        public init(groupId: String, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.groupId = groupId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1191,13 +1191,13 @@ extension WorkMail {
         ]
 
         /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
         /// The identifier for the organization under which the groups exist.
         public let organizationId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.organizationId = organizationId
@@ -1251,13 +1251,13 @@ extension WorkMail {
         /// The identifier of the user, group, or resource for which to list mailbox permissions.
         public let entityId: String
         /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
         /// The identifier of the organization under which the user, group, or resource exists.
         public let organizationId: String
 
-        public init(entityId: String, maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
+        public init(entityId: String, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.entityId = entityId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1311,11 +1311,11 @@ extension WorkMail {
         ]
 
         /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1364,7 +1364,7 @@ extension WorkMail {
         ]
 
         /// The number of maximum results in a page.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token used to paginate through the delegates associated with a resource.
         public let nextToken: String?
         /// The identifier for the organization that contains the resource for which delegates are listed.
@@ -1372,7 +1372,7 @@ extension WorkMail {
         /// The identifier for the resource whose delegates are listed.
         public let resourceId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String, resourceId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String, resourceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.organizationId = organizationId
@@ -1427,13 +1427,13 @@ extension WorkMail {
         ]
 
         /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
         /// The identifier for the organization under which the resources exist.
         public let organizationId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.organizationId = organizationId
@@ -1484,13 +1484,13 @@ extension WorkMail {
         ]
 
         /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
         /// The identifier for the organization under which the users exist.
         public let organizationId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, organizationId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.organizationId = organizationId
@@ -1843,13 +1843,13 @@ extension WorkMail {
         ]
 
         /// The updated mailbox quota, in MB, for the specified user.
-        public let mailboxQuota: Int32
+        public let mailboxQuota: Int
         /// The identifier for the organization that contains the user for whom to update the mailbox quota.
         public let organizationId: String
         /// The identifer for the user for whom to update the mailbox quota.
         public let userId: String
 
-        public init(mailboxQuota: Int32, organizationId: String, userId: String) {
+        public init(mailboxQuota: Int, organizationId: String, userId: String) {
             self.mailboxQuota = mailboxQuota
             self.organizationId = organizationId
             self.userId = userId

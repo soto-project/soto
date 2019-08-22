@@ -9,7 +9,7 @@ You use the AmazonCloudSearch2013 API to upload documents to a search domain and
 */
 public struct CloudSearchDomain {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

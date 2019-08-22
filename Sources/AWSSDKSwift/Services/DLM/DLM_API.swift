@@ -9,7 +9,7 @@ Amazon Data Lifecycle Manager With Amazon Data Lifecycle Manager, you can manage
 */
 public struct DLM {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

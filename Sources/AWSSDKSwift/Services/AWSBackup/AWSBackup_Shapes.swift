@@ -1744,11 +1744,11 @@ extension AWSBackup {
         /// Returns only backup jobs that are in the specified state.
         public let byState: BackupJobState?
         /// The maximum number of items to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(byBackupVaultName: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: BackupJobState? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(byBackupVaultName: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: BackupJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byBackupVaultName = byBackupVaultName
             self.byCreatedAfter = byCreatedAfter
             self.byCreatedBefore = byCreatedBefore
@@ -1807,11 +1807,11 @@ extension AWSBackup {
         ]
 
         /// The maximum number of items to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1859,11 +1859,11 @@ extension AWSBackup {
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
         /// The maximum number of items to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(backupPlanId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(backupPlanId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.backupPlanId = backupPlanId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1913,11 +1913,11 @@ extension AWSBackup {
         /// A Boolean value with a default value of FALSE that returns deleted backup plans when set to TRUE.
         public let includeDeleted: Bool?
         /// The maximum number of items to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(includeDeleted: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(includeDeleted: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.includeDeleted = includeDeleted
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1967,11 +1967,11 @@ extension AWSBackup {
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
         /// The maximum number of items to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(backupPlanId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(backupPlanId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.backupPlanId = backupPlanId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2018,11 +2018,11 @@ extension AWSBackup {
         ]
 
         /// The maximum number of items to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2067,11 +2067,11 @@ extension AWSBackup {
         ]
 
         /// The maximum number of items to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2134,11 +2134,11 @@ extension AWSBackup {
         /// Returns only recovery points that match the specified resource type.
         public let byResourceType: String?
         /// The maximum number of items to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(backupVaultName: String, byBackupPlanId: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(backupVaultName: String, byBackupPlanId: String? = nil, byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.backupVaultName = backupVaultName
             self.byBackupPlanId = byBackupPlanId
             self.byCreatedAfter = byCreatedAfter
@@ -2198,13 +2198,13 @@ extension AWSBackup {
         ]
 
         /// The maximum number of items to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -2251,11 +2251,11 @@ extension AWSBackup {
         ]
 
         /// The maximum number of items to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2301,13 +2301,13 @@ extension AWSBackup {
         ]
 
         /// The maximum number of items to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the type of resource. Valid targets for ListTags are recovery points, backup plans, and backup vaults.
         public let resourceArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn

@@ -9,7 +9,7 @@ AWS CloudTrail This is the CloudTrail API Reference. It provides descriptions of
 */
 public struct CloudTrail {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

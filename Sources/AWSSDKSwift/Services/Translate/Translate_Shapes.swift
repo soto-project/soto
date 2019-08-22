@@ -204,11 +204,11 @@ extension Translate {
         ]
 
         /// The maximum number of custom terminologies returned per list request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the result of the request to ListTerminologies was truncated, include the NextToken to fetch the next group of custom terminologies. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -356,15 +356,15 @@ extension Translate {
         /// The name of the custom terminology.
         public let name: String?
         /// The size of the file used when importing a custom terminology.
-        public let sizeBytes: Int32?
+        public let sizeBytes: Int?
         /// The language code for the source text of the translation request for which the custom terminology is being used.
         public let sourceLanguageCode: String?
         /// The language codes for the target languages available with the custom terminology file. All possible target languages are returned in array.
         public let targetLanguageCodes: [String]?
         /// The number of terms included in the custom terminology.
-        public let termCount: Int32?
+        public let termCount: Int?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, encryptionKey: EncryptionKey? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, sizeBytes: Int32? = nil, sourceLanguageCode: String? = nil, targetLanguageCodes: [String]? = nil, termCount: Int32? = nil) {
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, encryptionKey: EncryptionKey? = nil, lastUpdatedAt: TimeStamp? = nil, name: String? = nil, sizeBytes: Int? = nil, sourceLanguageCode: String? = nil, targetLanguageCodes: [String]? = nil, termCount: Int? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description

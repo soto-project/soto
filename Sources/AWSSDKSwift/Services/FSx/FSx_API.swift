@@ -9,7 +9,7 @@ Amazon FSx is a fully managed service that makes it easy for storage and applica
 */
 public struct FSx {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

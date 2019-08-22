@@ -33,7 +33,7 @@ extension DAX {
         ]
 
         /// The number of nodes in the cluster that are active (i.e., capable of serving requests).
-        public let activeNodes: Int32?
+        public let activeNodes: Int?
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster. 
         public let clusterArn: String?
         /// The configuration endpoint for this DAX cluster, consisting of a DNS name and a port number. Client applications can specify this endpoint, rather than an individual node endpoint, and allow the DAX client software to intelligently route requests and responses to nodes in the DAX cluster.
@@ -65,9 +65,9 @@ extension DAX {
         /// The subnet group where the DAX cluster is running.
         public let subnetGroup: String?
         /// The total number of nodes in the cluster.
-        public let totalNodes: Int32?
+        public let totalNodes: Int?
 
-        public init(activeNodes: Int32? = nil, clusterArn: String? = nil, clusterDiscoveryEndpoint: Endpoint? = nil, clusterName: String? = nil, description: String? = nil, iamRoleArn: String? = nil, nodeIdsToRemove: [String]? = nil, nodes: [Node]? = nil, nodeType: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, parameterGroup: ParameterGroupStatus? = nil, preferredMaintenanceWindow: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, sSEDescription: SSEDescription? = nil, status: String? = nil, subnetGroup: String? = nil, totalNodes: Int32? = nil) {
+        public init(activeNodes: Int? = nil, clusterArn: String? = nil, clusterDiscoveryEndpoint: Endpoint? = nil, clusterName: String? = nil, description: String? = nil, iamRoleArn: String? = nil, nodeIdsToRemove: [String]? = nil, nodes: [Node]? = nil, nodeType: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, parameterGroup: ParameterGroupStatus? = nil, preferredMaintenanceWindow: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, sSEDescription: SSEDescription? = nil, status: String? = nil, subnetGroup: String? = nil, totalNodes: Int? = nil) {
             self.activeNodes = activeNodes
             self.clusterArn = clusterArn
             self.clusterDiscoveryEndpoint = clusterDiscoveryEndpoint
@@ -142,7 +142,7 @@ extension DAX {
         /// Specifies the weekly time range during which maintenance on the DAX cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:05:00-sun:09:00   If you don't specify a preferred maintenance window when you create or modify a cache cluster, DAX assigns a 60-minute maintenance window on a randomly selected day of the week. 
         public let preferredMaintenanceWindow: String?
         /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to 2 or more.  AWS recommends that you have at least two read replicas per cluster. 
-        public let replicationFactor: Int32
+        public let replicationFactor: Int
         /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node.
         public let securityGroupIds: [String]?
         /// Represents the settings used to enable server-side encryption on the cluster.
@@ -152,7 +152,7 @@ extension DAX {
         /// A set of tags to associate with the DAX cluster. 
         public let tags: [Tag]?
 
-        public init(availabilityZones: [String]? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int32, securityGroupIds: [String]? = nil, sSESpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
+        public init(availabilityZones: [String]? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int, securityGroupIds: [String]? = nil, sSESpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterName = clusterName
             self.description = description
@@ -298,11 +298,11 @@ extension DAX {
         /// The name of the DAX cluster from which you want to remove nodes.
         public let clusterName: String
         /// The new number of nodes for the DAX cluster.
-        public let newReplicationFactor: Int32
+        public let newReplicationFactor: Int
         /// The unique identifiers of the nodes to be removed from the cluster.
         public let nodeIdsToRemove: [String]?
 
-        public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int32, nodeIdsToRemove: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int, nodeIdsToRemove: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterName = clusterName
             self.newReplicationFactor = newReplicationFactor
@@ -446,11 +446,11 @@ extension DAX {
         /// The names of the DAX clusters being described.
         public let clusterNames: [String]?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
-        public init(clusterNames: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(clusterNames: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterNames = clusterNames
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -492,11 +492,11 @@ extension DAX {
         ]
 
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -541,11 +541,11 @@ extension DAX {
         ]
 
         /// The number of minutes' worth of events to retrieve.
-        public let duration: Int32?
+        public let duration: Int?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.
         public let endTime: TimeStamp?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The identifier of the event source for which events will be returned. If not specified, then all sources are included in the response.
@@ -555,7 +555,7 @@ extension DAX {
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.
         public let startTime: TimeStamp?
 
-        public init(duration: Int32? = nil, endTime: TimeStamp? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.maxResults = maxResults
@@ -606,13 +606,13 @@ extension DAX {
         ]
 
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The names of the parameter groups.
         public let parameterGroupNames: [String]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, parameterGroupNames: [String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, parameterGroupNames: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.parameterGroupNames = parameterGroupNames
@@ -656,7 +656,7 @@ extension DAX {
         ]
 
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The name of the parameter group.
@@ -664,7 +664,7 @@ extension DAX {
         /// How the parameter is defined. For example, system denotes a system-defined parameter.
         public let source: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, parameterGroupName: String, source: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, parameterGroupName: String, source: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.parameterGroupName = parameterGroupName
@@ -709,13 +709,13 @@ extension DAX {
         ]
 
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
         /// The name of the subnet group.
         public let subnetGroupNames: [String]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, subnetGroupNames: [String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, subnetGroupNames: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.subnetGroupNames = subnetGroupNames
@@ -759,9 +759,9 @@ extension DAX {
         /// The DNS hostname of the endpoint.
         public let address: String?
         /// The port number that applications should use to connect to the endpoint.
-        public let port: Int32?
+        public let port: Int?
 
-        public init(address: String? = nil, port: Int32? = nil) {
+        public init(address: String? = nil, port: Int? = nil) {
             self.address = address
             self.port = port
         }
@@ -816,9 +816,9 @@ extension DAX {
         /// The name of the DAX cluster that will receive additional nodes.
         public let clusterName: String
         /// The new number of nodes for the DAX cluster.
-        public let newReplicationFactor: Int32
+        public let newReplicationFactor: Int
 
-        public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int32) {
+        public init(availabilityZones: [String]? = nil, clusterName: String, newReplicationFactor: Int) {
             self.availabilityZones = availabilityZones
             self.clusterName = clusterName
             self.newReplicationFactor = newReplicationFactor

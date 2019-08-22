@@ -9,7 +9,7 @@ Amazon API Gateway V2
 */
 public struct ApiGatewayV2 {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

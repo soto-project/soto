@@ -30,13 +30,13 @@ extension S3Control {
         /// The operation that you want this job to perform on each object listed in the manifest. For more information about the available operations, see Available Operations in the Amazon Simple Storage Service Developer Guide.
         public let operation: JobOperation
         /// The numerical priority for this job. Higher numbers indicate higher priority.
-        public let priority: Int32
+        public let priority: Int
         /// Configuration parameters for the optional job-completion report.
         public let report: JobReport
         /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) Role that batch operations will use to execute this job's operation on each object in the manifest.
         public let roleArn: String
 
-        public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest, operation: JobOperation, priority: Int32, report: JobReport, roleArn: String) {
+        public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest, operation: JobOperation, priority: Int, report: JobReport, roleArn: String) {
             self.accountId = accountId
             self.clientRequestToken = clientRequestToken
             self.confirmationRequired = confirmationRequired
@@ -234,7 +234,7 @@ extension S3Control {
         /// The operation that the specified job is configured to execute on the objects listed in the manifest.
         public let operation: JobOperation?
         /// The priority of the specified job.
-        public let priority: Int32?
+        public let priority: Int?
         /// Describes the total number of tasks that the specified job has executed, the number of tasks that succeeded, and the number of tasks that failed.
         public let progressSummary: JobProgressSummary?
         /// Contains the configuration information for the job-completion report if you requested one in the Create Job request.
@@ -251,7 +251,7 @@ extension S3Control {
         /// A timestamp indicating when this job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
         public let terminationDate: TimeStamp?
 
-        public init(confirmationRequired: Bool? = nil, creationTime: TimeStamp? = nil, description: String? = nil, failureReasons: [JobFailure]? = nil, jobArn: String? = nil, jobId: String? = nil, manifest: JobManifest? = nil, operation: JobOperation? = nil, priority: Int32? = nil, progressSummary: JobProgressSummary? = nil, report: JobReport? = nil, roleArn: String? = nil, status: JobStatus? = nil, statusUpdateReason: String? = nil, suspendedCause: String? = nil, suspendedDate: TimeStamp? = nil, terminationDate: TimeStamp? = nil) {
+        public init(confirmationRequired: Bool? = nil, creationTime: TimeStamp? = nil, description: String? = nil, failureReasons: [JobFailure]? = nil, jobArn: String? = nil, jobId: String? = nil, manifest: JobManifest? = nil, operation: JobOperation? = nil, priority: Int? = nil, progressSummary: JobProgressSummary? = nil, report: JobReport? = nil, roleArn: String? = nil, status: JobStatus? = nil, statusUpdateReason: String? = nil, suspendedCause: String? = nil, suspendedDate: TimeStamp? = nil, terminationDate: TimeStamp? = nil) {
             self.confirmationRequired = confirmationRequired
             self.creationTime = creationTime
             self.description = description
@@ -335,7 +335,7 @@ extension S3Control {
         /// The operation that the specified job is configured to run on each object listed in the manifest.
         public let operation: OperationName?
         /// The current priority for the specified job.
-        public let priority: Int32?
+        public let priority: Int?
         /// Describes the total number of tasks that the specified job has executed, the number of tasks that succeeded, and the number of tasks that failed.
         public let progressSummary: JobProgressSummary?
         /// The specified job's current status.
@@ -343,7 +343,7 @@ extension S3Control {
         /// A timestamp indicating when the specified job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
         public let terminationDate: TimeStamp?
 
-        public init(creationTime: TimeStamp? = nil, description: String? = nil, jobId: String? = nil, operation: OperationName? = nil, priority: Int32? = nil, progressSummary: JobProgressSummary? = nil, status: JobStatus? = nil, terminationDate: TimeStamp? = nil) {
+        public init(creationTime: TimeStamp? = nil, description: String? = nil, jobId: String? = nil, operation: OperationName? = nil, priority: Int? = nil, progressSummary: JobProgressSummary? = nil, status: JobStatus? = nil, terminationDate: TimeStamp? = nil) {
             self.creationTime = creationTime
             self.description = description
             self.jobId = jobId
@@ -639,11 +639,11 @@ extension S3Control {
         /// The List Jobs request returns jobs that match the statuses listed in this element.
         public let jobStatuses: [JobStatus]?
         /// The maximum number of jobs that Amazon S3 will include in the List Jobs response. If there are more jobs than this number, the response will include a pagination token in the NextToken field to enable you to retrieve the next page of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token to request the next page of results. Use the token that Amazon S3 returned in the NextToken element of the ListJobsResult from the previous List Jobs request.
         public let nextToken: String?
 
-        public init(accountId: String, jobStatuses: [JobStatus]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(accountId: String, jobStatuses: [JobStatus]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.jobStatuses = jobStatuses
             self.maxResults = maxResults
@@ -988,10 +988,10 @@ extension S3Control {
             AWSShapeMember(label: "GlacierJobTier", required: false, type: .enum)
         ]
 
-        public let expirationInDays: Int32?
+        public let expirationInDays: Int?
         public let glacierJobTier: S3GlacierJobTier?
 
-        public init(expirationInDays: Int32? = nil, glacierJobTier: S3GlacierJobTier? = nil) {
+        public init(expirationInDays: Int? = nil, glacierJobTier: S3GlacierJobTier? = nil) {
             self.expirationInDays = expirationInDays
             self.glacierJobTier = glacierJobTier
         }
@@ -1232,9 +1232,9 @@ extension S3Control {
         /// The ID for the job whose priority you want to update.
         public let jobId: String
         /// The priority you want to assign to this job.
-        public let priority: Int32
+        public let priority: Int
 
-        public init(accountId: String, jobId: String, priority: Int32) {
+        public init(accountId: String, jobId: String, priority: Int) {
             self.accountId = accountId
             self.jobId = jobId
             self.priority = priority
@@ -1264,9 +1264,9 @@ extension S3Control {
         /// The ID for the job whose priority Amazon S3 updated.
         public let jobId: String
         /// The new priority assigned to the specified job.
-        public let priority: Int32
+        public let priority: Int
 
-        public init(jobId: String, priority: Int32) {
+        public init(jobId: String, priority: Int) {
             self.jobId = jobId
             self.priority = priority
         }

@@ -112,13 +112,13 @@ extension Greengrass {
         ]
 
         /// The total number of records that returned a non-retryable error. For example, this can occur if a group record from the input file uses an invalid format or specifies a nonexistent group version, or if the execution role doesn't grant permission to deploy a group or group version.
-        public let invalidInputRecords: Int32?
+        public let invalidInputRecords: Int?
         /// The total number of group records from the input file that have been processed so far, or attempted.
-        public let recordsProcessed: Int32?
+        public let recordsProcessed: Int?
         /// The total number of deployment attempts that returned a retryable error. For example, a retry is triggered if the attempt to deploy a group returns a throttling error. ''StartBulkDeployment'' retries a group deployment up to five times.
-        public let retryAttempts: Int32?
+        public let retryAttempts: Int?
 
-        public init(invalidInputRecords: Int32? = nil, recordsProcessed: Int32? = nil, retryAttempts: Int32? = nil) {
+        public init(invalidInputRecords: Int? = nil, recordsProcessed: Int? = nil, retryAttempts: Int? = nil) {
             self.invalidInputRecords = invalidInputRecords
             self.recordsProcessed = recordsProcessed
             self.retryAttempts = retryAttempts
@@ -208,9 +208,9 @@ extension Greengrass {
         /// Metadata for this endpoint.
         public let metadata: String?
         /// The port of the Greengrass core. Usually 8883.
-        public let portNumber: Int32?
+        public let portNumber: Int?
 
-        public init(hostAddress: String? = nil, id: String? = nil, metadata: String? = nil, portNumber: Int32? = nil) {
+        public init(hostAddress: String? = nil, id: String? = nil, metadata: String? = nil, portNumber: Int? = nil) {
             self.hostAddress = hostAddress
             self.id = id
             self.metadata = metadata
@@ -1932,13 +1932,13 @@ extension Greengrass {
         /// The name of the function executable.
         public let executable: String?
         /// The memory size, in KB, which the function requires. This setting is not applicable and should be cleared when you run the Lambda function without containerization.
-        public let memorySize: Int32?
+        public let memorySize: Int?
         /// True if the function is pinned. Pinned means the function is long-lived and starts when the core starts.
         public let pinned: Bool?
         /// The allowed function execution time, after which Lambda should terminate the function. This timeout still applies to pinned Lambda functions for each request.
-        public let timeout: Int32?
+        public let timeout: Int?
 
-        public init(encodingType: EncodingType? = nil, environment: FunctionConfigurationEnvironment? = nil, execArgs: String? = nil, executable: String? = nil, memorySize: Int32? = nil, pinned: Bool? = nil, timeout: Int32? = nil) {
+        public init(encodingType: EncodingType? = nil, environment: FunctionConfigurationEnvironment? = nil, execArgs: String? = nil, executable: String? = nil, memorySize: Int? = nil, pinned: Bool? = nil, timeout: Int? = nil) {
             self.encodingType = encodingType
             self.environment = environment
             self.execArgs = execArgs
@@ -2082,11 +2082,11 @@ extension Greengrass {
         ]
 
         /// The group ID whose permissions are used to run a Lambda function.
-        public let gid: Int32?
+        public let gid: Int?
         /// The user ID whose permissions are used to run a Lambda function.
-        public let uid: Int32?
+        public let uid: Int?
 
-        public init(gid: Int32? = nil, uid: Int32? = nil) {
+        public init(gid: Int? = nil, uid: Int? = nil) {
             self.gid = gid
             self.uid = uid
         }
@@ -4461,11 +4461,11 @@ extension Greengrass {
         /// The level of the logs.
         public let level: LoggerLevel?
         /// The amount of file space, in KB, to use if the local file system is used for logging purposes.
-        public let space: Int32?
+        public let space: Int?
         /// The type of log output which will be used.
         public let `type`: LoggerType?
 
-        public init(component: LoggerComponent? = nil, id: String? = nil, level: LoggerLevel? = nil, space: Int32? = nil, type: LoggerType? = nil) {
+        public init(component: LoggerComponent? = nil, id: String? = nil, level: LoggerLevel? = nil, space: Int? = nil, type: LoggerType? = nil) {
             self.component = component
             self.id = id
             self.level = level

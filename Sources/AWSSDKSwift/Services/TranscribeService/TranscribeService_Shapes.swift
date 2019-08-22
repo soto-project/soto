@@ -266,13 +266,13 @@ extension TranscribeService {
         /// When specified, the jobs returned in the list are limited to jobs whose name contains the specified string.
         public let jobNameContains: String?
         /// The maximum number of jobs to return in the response. If there are fewer results in the list, this response contains only the actual results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the result of the previous request to ListTranscriptionJobs was truncated, include the NextToken to fetch the next set of jobs.
         public let nextToken: String?
         /// When specified, returns only transcription jobs with the specified status. Jobs are ordered by creation date, with the newest jobs returned first. If you don’t specify a status, Amazon Transcribe returns all transcription jobs ordered by creation date. 
         public let status: TranscriptionJobStatus?
 
-        public init(jobNameContains: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
+        public init(jobNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
             self.jobNameContains = jobNameContains
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -332,7 +332,7 @@ extension TranscribeService {
         ]
 
         /// The maximum number of vocabularies to return in the response. If there are fewer results in the list, this response contains only the actual results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// When specified, the vocabularies returned in the list are limited to vocabularies whose name contains the specified string. The search is case-insensitive, ListVocabularies will return both "vocabularyname" and "VocabularyName" in the response list.
         public let nameContains: String?
         /// If the result of the previous request to ListVocabularies was truncated, include the NextToken to fetch the next set of jobs.
@@ -340,7 +340,7 @@ extension TranscribeService {
         /// When specified, only returns vocabularies with the VocabularyState field equal to the specified state.
         public let stateEquals: VocabularyState?
 
-        public init(maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, stateEquals: VocabularyState? = nil) {
+        public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, stateEquals: VocabularyState? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
@@ -438,13 +438,13 @@ extension TranscribeService {
         /// Instructs Amazon Transcribe to process each audio channel separately and then merge the transcription output of each channel into a single transcription.  Amazon Transcribe also produces a transcription of each item detected on an audio channel, including the start time and end time of the item and alternative transcriptions of the item including the confidence that Amazon Transcribe has in the transcription. You can't set both ShowSpeakerLabels and ChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
         public let channelIdentification: Bool?
         /// The maximum number of speakers to identify in the input audio. If there are more speakers in the audio than this number, multiple speakers will be identified as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
-        public let maxSpeakerLabels: Int32?
+        public let maxSpeakerLabels: Int?
         /// Determines whether the transcription job uses speaker recognition to identify different speakers in the input audio. Speaker recognition labels individual speakers in the audio file. If you set the ShowSpeakerLabels field to true, you must also set the maximum number of speaker labels MaxSpeakerLabels field. You can't set both ShowSpeakerLabels and ChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
         public let showSpeakerLabels: Bool?
         /// The name of a vocabulary to use when processing the transcription job.
         public let vocabularyName: String?
 
-        public init(channelIdentification: Bool? = nil, maxSpeakerLabels: Int32? = nil, showSpeakerLabels: Bool? = nil, vocabularyName: String? = nil) {
+        public init(channelIdentification: Bool? = nil, maxSpeakerLabels: Int? = nil, showSpeakerLabels: Bool? = nil, vocabularyName: String? = nil) {
             self.channelIdentification = channelIdentification
             self.maxSpeakerLabels = maxSpeakerLabels
             self.showSpeakerLabels = showSpeakerLabels
@@ -485,7 +485,7 @@ extension TranscribeService {
         /// The format of the input media file.
         public let mediaFormat: MediaFormat
         /// The sample rate, in Hertz, of the audio track in the input media file. 
-        public let mediaSampleRateHertz: Int32?
+        public let mediaSampleRateHertz: Int?
         /// The location where the transcription is stored. If you set the OutputBucketName, Amazon Transcribe puts the transcription in the specified S3 bucket. When you call the GetTranscriptionJob operation, the operation returns this location in the TranscriptFileUri field. The S3 bucket must have permissions that allow Amazon Transcribe to put files in the bucket. For more information, see Permissions Required for IAM User Roles. Amazon Transcribe uses the default Amazon S3 key for server-side encryption of transcripts that are placed in your S3 bucket. You can't specify your own encryption key. If you don't set the OutputBucketName, Amazon Transcribe generates a pre-signed URL, a shareable URL that provides secure access to your transcription, and returns it in the TranscriptFileUri field. Use this URL to download the transcription.
         public let outputBucketName: String?
         /// A Settings object that provides optional settings for a transcription job.
@@ -493,7 +493,7 @@ extension TranscribeService {
         /// The name of the job. Note that you can't use the strings "." or ".." by themselves as the job name. The name must also be unique within an AWS account.
         public let transcriptionJobName: String
 
-        public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat, mediaSampleRateHertz: Int32? = nil, outputBucketName: String? = nil, settings: Settings? = nil, transcriptionJobName: String) {
+        public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat, mediaSampleRateHertz: Int? = nil, outputBucketName: String? = nil, settings: Settings? = nil, transcriptionJobName: String) {
             self.languageCode = languageCode
             self.media = media
             self.mediaFormat = mediaFormat
@@ -587,7 +587,7 @@ extension TranscribeService {
         /// The format of the input media file.
         public let mediaFormat: MediaFormat?
         /// The sample rate, in Hertz, of the audio track in the input media file. 
-        public let mediaSampleRateHertz: Int32?
+        public let mediaSampleRateHertz: Int?
         /// Optional settings for the transcription job. Use these settings to turn on speaker recognition, to set the maximum number of speakers that should be identified and to specify a custom vocabulary to use when processing the transcription job.
         public let settings: Settings?
         /// An object that describes the output of the transcription job.
@@ -597,7 +597,7 @@ extension TranscribeService {
         /// The status of the transcription job.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int32? = nil, settings: Settings? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, settings: Settings? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.failureReason = failureReason

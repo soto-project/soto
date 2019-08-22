@@ -1335,11 +1335,11 @@ extension AppSync {
         /// The API ID.
         public let apiId: String
         /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
-        public init(apiId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(apiId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1390,11 +1390,11 @@ extension AppSync {
         /// The API ID.
         public let apiId: String
         /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
         public let nextToken: String?
 
-        public init(apiId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(apiId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1445,11 +1445,11 @@ extension AppSync {
         /// The GraphQL API ID.
         public let apiId: String
         /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
-        public init(apiId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(apiId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1497,11 +1497,11 @@ extension AppSync {
         ]
 
         /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1553,11 +1553,11 @@ extension AppSync {
         /// The Function ID.
         public let functionId: String
         /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
         public let nextToken: String?
 
-        public init(apiId: String, functionId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(apiId: String, functionId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.functionId = functionId
             self.maxResults = maxResults
@@ -1611,13 +1611,13 @@ extension AppSync {
         /// The API ID.
         public let apiId: String
         /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
         public let nextToken: String?
         /// The type name.
         public let typeName: String
 
-        public init(apiId: String, maxResults: Int32? = nil, nextToken: String? = nil, typeName: String) {
+        public init(apiId: String, maxResults: Int? = nil, nextToken: String? = nil, typeName: String) {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1713,11 +1713,11 @@ extension AppSync {
         /// The type format: SDL or JSON.
         public let format: TypeDefinitionFormat
         /// The maximum number of results you want the request to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
         public let nextToken: String?
 
-        public init(apiId: String, format: TypeDefinitionFormat, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(apiId: String, format: TypeDefinitionFormat, maxResults: Int? = nil, nextToken: String? = nil) {
             self.apiId = apiId
             self.format = format
             self.maxResults = maxResults

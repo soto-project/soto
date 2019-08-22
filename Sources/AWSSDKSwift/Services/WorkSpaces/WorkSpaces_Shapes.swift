@@ -677,11 +677,11 @@ extension WorkSpaces {
         /// The identifiers of one or more IP access control groups.
         public let groupIds: [String]?
         /// The maximum number of items to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
-        public init(groupIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(groupIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.groupIds = groupIds
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -887,11 +887,11 @@ extension WorkSpaces {
         /// The identifier of the image.
         public let imageIds: [String]?
         /// The maximum number of items to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
-        public init(imageIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(imageIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.imageIds = imageIds
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1007,7 +1007,7 @@ extension WorkSpaces {
         /// The identifier of the directory. In addition, you can optionally specify a specific directory user (see UserName). You cannot combine this parameter with any other filter.
         public let directoryId: String?
         /// The maximum number of items to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
         /// The name of the directory user. You must specify this parameter with DirectoryId.
@@ -1015,7 +1015,7 @@ extension WorkSpaces {
         /// The identifiers of the WorkSpaces. You cannot combine this parameter with any other filter. Because the CreateWorkspaces operation is asynchronous, the identifier it returns is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information is returned.
         public let workspaceIds: [String]?
 
-        public init(bundleId: String? = nil, directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, userName: String? = nil, workspaceIds: [String]? = nil) {
+        public init(bundleId: String? = nil, directoryId: String? = nil, limit: Int? = nil, nextToken: String? = nil, userName: String? = nil, workspaceIds: [String]? = nil) {
             self.bundleId = bundleId
             self.directoryId = directoryId
             self.limit = limit
@@ -1262,11 +1262,11 @@ extension WorkSpaces {
         /// The IP address range to search. Specify an IP address range that is compatible with your network and in CIDR notation (that is, specify the range as an IPv4 CIDR block).
         public let managementCidrRangeConstraint: String
         /// The maximum number of items to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
-        public init(managementCidrRangeConstraint: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(managementCidrRangeConstraint: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.managementCidrRangeConstraint = managementCidrRangeConstraint
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2308,15 +2308,15 @@ extension WorkSpaces {
         /// The compute type. For more information, see Amazon WorkSpaces Bundles.
         public let computeTypeName: Compute?
         /// The size of the root volume.
-        public let rootVolumeSizeGib: Int32?
+        public let rootVolumeSizeGib: Int?
         /// The running mode. For more information, see Manage the WorkSpace Running Mode.
         public let runningMode: RunningMode?
         /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60 minute intervals.
-        public let runningModeAutoStopTimeoutInMinutes: Int32?
+        public let runningModeAutoStopTimeoutInMinutes: Int?
         /// The size of the user storage.
-        public let userVolumeSizeGib: Int32?
+        public let userVolumeSizeGib: Int?
 
-        public init(computeTypeName: Compute? = nil, rootVolumeSizeGib: Int32? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int32? = nil, userVolumeSizeGib: Int32? = nil) {
+        public init(computeTypeName: Compute? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {
             self.computeTypeName = computeTypeName
             self.rootVolumeSizeGib = rootVolumeSizeGib
             self.runningMode = runningMode

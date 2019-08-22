@@ -497,13 +497,13 @@ extension EMR {
         /// A CloudWatch metric dimension.
         public let dimensions: [MetricDimension]?
         /// The number of periods, expressed in seconds using Period, during which the alarm condition must exist before the alarm triggers automatic scaling activity. The default value is 1.
-        public let evaluationPeriods: Int32?
+        public let evaluationPeriods: Int?
         /// The name of the CloudWatch metric that is watched to determine an alarm condition.
         public let metricName: String
         /// The namespace for the CloudWatch metric. The default is AWS/ElasticMapReduce.
         public let namespace: String?
         /// The period, in seconds, over which the statistic is applied. EMR CloudWatch metrics are emitted every five minutes (300 seconds), so if an EMR CloudWatch metric is specified, specify 300.
-        public let period: Int32
+        public let period: Int
         /// The statistic to apply to the metric associated with the alarm. The default is AVERAGE.
         public let statistic: Statistic?
         /// The value against which the specified statistic is compared.
@@ -511,7 +511,7 @@ extension EMR {
         /// The unit of measure associated with the CloudWatch metric being watched. The value specified for Unit must correspond to the units specified in the CloudWatch metric.
         public let unit: Unit?
 
-        public init(comparisonOperator: ComparisonOperator, dimensions: [MetricDimension]? = nil, evaluationPeriods: Int32? = nil, metricName: String, namespace: String? = nil, period: Int32, statistic: Statistic? = nil, threshold: Double, unit: Unit? = nil) {
+        public init(comparisonOperator: ComparisonOperator, dimensions: [MetricDimension]? = nil, evaluationPeriods: Int? = nil, metricName: String, namespace: String? = nil, period: Int, statistic: Statistic? = nil, threshold: Double, unit: Unit? = nil) {
             self.comparisonOperator = comparisonOperator
             self.dimensions = dimensions
             self.evaluationPeriods = evaluationPeriods
@@ -580,7 +580,7 @@ extension EMR {
         /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
         public let customAmiId: String?
         /// The size, in GiB, of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
-        public let ebsRootVolumeSize: Int32?
+        public let ebsRootVolumeSize: Int?
         /// Provides information about the EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
         public let ec2InstanceAttributes: Ec2InstanceAttributes?
         /// The unique identifier for the cluster.
@@ -596,7 +596,7 @@ extension EMR {
         /// The name of the cluster.
         public let name: String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
-        public let normalizedInstanceHours: Int32?
+        public let normalizedInstanceHours: Int?
         /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
         public let releaseLabel: String?
         /// Applies only when CustomAmiID is used. Specifies the type of updates that are applied from the Amazon Linux AMI package repositories when an instance boots using the AMI.
@@ -620,7 +620,7 @@ extension EMR {
         /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and manage the cluster if they have the proper policy permissions set. If this value is false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
         public let visibleToAllUsers: Bool?
 
-        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int32? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int32? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
             self.applications = applications
             self.autoScalingRole = autoScalingRole
             self.autoTerminate = autoTerminate
@@ -762,11 +762,11 @@ extension EMR {
         /// The name of the cluster.
         public let name: String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
-        public let normalizedInstanceHours: Int32?
+        public let normalizedInstanceHours: Int?
         /// The details about the current status of the cluster.
         public let status: ClusterStatus?
 
-        public init(id: String? = nil, name: String? = nil, normalizedInstanceHours: Int32? = nil, status: ClusterStatus? = nil) {
+        public init(id: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, status: ClusterStatus? = nil) {
             self.id = id
             self.name = name
             self.normalizedInstanceHours = normalizedInstanceHours
@@ -1162,9 +1162,9 @@ extension EMR {
         /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
         public let volumeSpecification: VolumeSpecification
         /// Number of EBS volumes with a specific volume configuration that will be associated with every instance in the instance group
-        public let volumesPerInstance: Int32?
+        public let volumesPerInstance: Int?
 
-        public init(volumeSpecification: VolumeSpecification, volumesPerInstance: Int32? = nil) {
+        public init(volumeSpecification: VolumeSpecification, volumesPerInstance: Int? = nil) {
             self.volumeSpecification = volumeSpecification
             self.volumesPerInstance = volumesPerInstance
         }
@@ -1497,17 +1497,17 @@ extension EMR {
         /// A friendly name for the instance fleet.
         public let name: String?
         /// The number of On-Demand units that have been provisioned for the instance fleet to fulfill TargetOnDemandCapacity. This provisioned capacity might be less than or greater than TargetOnDemandCapacity.
-        public let provisionedOnDemandCapacity: Int32?
+        public let provisionedOnDemandCapacity: Int?
         /// The number of Spot units that have been provisioned for this instance fleet to fulfill TargetSpotCapacity. This provisioned capacity might be less than or greater than TargetSpotCapacity.
-        public let provisionedSpotCapacity: Int32?
+        public let provisionedSpotCapacity: Int?
         /// The current status of the instance fleet. 
         public let status: InstanceFleetStatus?
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedOnDemandCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        public let targetOnDemandCapacity: Int32?
+        public let targetOnDemandCapacity: Int?
         /// The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedSpotCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only On-Demand instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        public let targetSpotCapacity: Int32?
+        public let targetSpotCapacity: Int?
 
-        public init(id: String? = nil, instanceFleetType: InstanceFleetType? = nil, instanceTypeSpecifications: [InstanceTypeSpecification]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, provisionedOnDemandCapacity: Int32? = nil, provisionedSpotCapacity: Int32? = nil, status: InstanceFleetStatus? = nil, targetOnDemandCapacity: Int32? = nil, targetSpotCapacity: Int32? = nil) {
+        public init(id: String? = nil, instanceFleetType: InstanceFleetType? = nil, instanceTypeSpecifications: [InstanceTypeSpecification]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, provisionedOnDemandCapacity: Int? = nil, provisionedSpotCapacity: Int? = nil, status: InstanceFleetStatus? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
             self.id = id
             self.instanceFleetType = instanceFleetType
             self.instanceTypeSpecifications = instanceTypeSpecifications
@@ -1553,11 +1553,11 @@ extension EMR {
         /// The friendly name of the instance fleet.
         public let name: String?
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        public let targetOnDemandCapacity: Int32?
+        public let targetOnDemandCapacity: Int?
         /// The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only On-Demand instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        public let targetSpotCapacity: Int32?
+        public let targetSpotCapacity: Int?
 
-        public init(instanceFleetType: InstanceFleetType, instanceTypeConfigs: [InstanceTypeConfig]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, targetOnDemandCapacity: Int32? = nil, targetSpotCapacity: Int32? = nil) {
+        public init(instanceFleetType: InstanceFleetType, instanceTypeConfigs: [InstanceTypeConfig]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
             self.instanceFleetType = instanceFleetType
             self.instanceTypeConfigs = instanceTypeConfigs
             self.launchSpecifications = launchSpecifications
@@ -1598,11 +1598,11 @@ extension EMR {
         /// A unique identifier for the instance fleet.
         public let instanceFleetId: String
         /// The target capacity of On-Demand units for the instance fleet. For more information see InstanceFleetConfig$TargetOnDemandCapacity.
-        public let targetOnDemandCapacity: Int32?
+        public let targetOnDemandCapacity: Int?
         /// The target capacity of Spot units for the instance fleet. For more information, see InstanceFleetConfig$TargetSpotCapacity.
-        public let targetSpotCapacity: Int32?
+        public let targetSpotCapacity: Int?
 
-        public init(instanceFleetId: String, targetOnDemandCapacity: Int32? = nil, targetSpotCapacity: Int32? = nil) {
+        public init(instanceFleetId: String, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
             self.instanceFleetId = instanceFleetId
             self.targetOnDemandCapacity = targetOnDemandCapacity
             self.targetSpotCapacity = targetSpotCapacity
@@ -1791,15 +1791,15 @@ extension EMR {
         /// The name of the instance group.
         public let name: String?
         /// The target number of instances for the instance group.
-        public let requestedInstanceCount: Int32?
+        public let requestedInstanceCount: Int?
         /// The number of instances currently running in this instance group.
-        public let runningInstanceCount: Int32?
+        public let runningInstanceCount: Int?
         /// Policy for customizing shrink operations.
         public let shrinkPolicy: ShrinkPolicy?
         /// The current status of the instance group.
         public let status: InstanceGroupStatus?
 
-        public init(autoScalingPolicy: AutoScalingPolicyDescription? = nil, bidPrice: String? = nil, configurations: [Configuration]? = nil, configurationsVersion: Int64? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, id: String? = nil, instanceGroupType: InstanceGroupType? = nil, instanceType: String? = nil, lastSuccessfullyAppliedConfigurations: [Configuration]? = nil, lastSuccessfullyAppliedConfigurationsVersion: Int64? = nil, market: MarketType? = nil, name: String? = nil, requestedInstanceCount: Int32? = nil, runningInstanceCount: Int32? = nil, shrinkPolicy: ShrinkPolicy? = nil, status: InstanceGroupStatus? = nil) {
+        public init(autoScalingPolicy: AutoScalingPolicyDescription? = nil, bidPrice: String? = nil, configurations: [Configuration]? = nil, configurationsVersion: Int64? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, id: String? = nil, instanceGroupType: InstanceGroupType? = nil, instanceType: String? = nil, lastSuccessfullyAppliedConfigurations: [Configuration]? = nil, lastSuccessfullyAppliedConfigurationsVersion: Int64? = nil, market: MarketType? = nil, name: String? = nil, requestedInstanceCount: Int? = nil, runningInstanceCount: Int? = nil, shrinkPolicy: ShrinkPolicy? = nil, status: InstanceGroupStatus? = nil) {
             self.autoScalingPolicy = autoScalingPolicy
             self.bidPrice = bidPrice
             self.configurations = configurations
@@ -1862,7 +1862,7 @@ extension EMR {
         /// EBS configurations that will be attached to each EC2 instance in the instance group.
         public let ebsConfiguration: EbsConfiguration?
         /// Target number of instances for the instance group.
-        public let instanceCount: Int32
+        public let instanceCount: Int
         /// The role of the instance group in the cluster.
         public let instanceRole: InstanceRoleType
         /// The EC2 instance type for all instances in the instance group.
@@ -1872,7 +1872,7 @@ extension EMR {
         /// Friendly name given to the instance group.
         public let name: String?
 
-        public init(autoScalingPolicy: AutoScalingPolicy? = nil, bidPrice: String? = nil, configurations: [Configuration]? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceCount: Int32, instanceRole: InstanceRoleType, instanceType: String, market: MarketType? = nil, name: String? = nil) {
+        public init(autoScalingPolicy: AutoScalingPolicy? = nil, bidPrice: String? = nil, configurations: [Configuration]? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceCount: Int, instanceRole: InstanceRoleType, instanceType: String, market: MarketType? = nil, name: String? = nil) {
             self.autoScalingPolicy = autoScalingPolicy
             self.bidPrice = bidPrice
             self.configurations = configurations
@@ -1937,11 +1937,11 @@ extension EMR {
         /// Unique identifier for the instance group.
         public let instanceGroupId: String?
         /// Target number of instances to run in the instance group.
-        public let instanceRequestCount: Int32
+        public let instanceRequestCount: Int
         /// Instance group role in the cluster
         public let instanceRole: InstanceRoleType
         /// Actual count of running instances.
-        public let instanceRunningCount: Int32
+        public let instanceRunningCount: Int
         /// EC2 instance type.
         public let instanceType: String
         /// Details regarding the state of the instance group.
@@ -1957,7 +1957,7 @@ extension EMR {
         /// State of instance group. The following values are deprecated: STARTING, TERMINATED, and FAILED.
         public let state: InstanceGroupState
 
-        public init(bidPrice: String? = nil, creationDateTime: TimeStamp, endDateTime: TimeStamp? = nil, instanceGroupId: String? = nil, instanceRequestCount: Int32, instanceRole: InstanceRoleType, instanceRunningCount: Int32, instanceType: String, lastStateChangeReason: String? = nil, market: MarketType, name: String? = nil, readyDateTime: TimeStamp? = nil, startDateTime: TimeStamp? = nil, state: InstanceGroupState) {
+        public init(bidPrice: String? = nil, creationDateTime: TimeStamp, endDateTime: TimeStamp? = nil, instanceGroupId: String? = nil, instanceRequestCount: Int, instanceRole: InstanceRoleType, instanceRunningCount: Int, instanceType: String, lastStateChangeReason: String? = nil, market: MarketType, name: String? = nil, readyDateTime: TimeStamp? = nil, startDateTime: TimeStamp? = nil, state: InstanceGroupState) {
             self.bidPrice = bidPrice
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
@@ -2006,13 +2006,13 @@ extension EMR {
         /// The EC2 InstanceIds to terminate. After you terminate the instances, the instance group will not return to its original requested size.
         public let eC2InstanceIdsToTerminate: [String]?
         /// Target size for the instance group.
-        public let instanceCount: Int32?
+        public let instanceCount: Int?
         /// Unique ID of the instance group to expand or shrink.
         public let instanceGroupId: String
         /// Policy for customizing shrink operations.
         public let shrinkPolicy: ShrinkPolicy?
 
-        public init(configurations: [Configuration]? = nil, eC2InstanceIdsToTerminate: [String]? = nil, instanceCount: Int32? = nil, instanceGroupId: String, shrinkPolicy: ShrinkPolicy? = nil) {
+        public init(configurations: [Configuration]? = nil, eC2InstanceIdsToTerminate: [String]? = nil, instanceCount: Int? = nil, instanceGroupId: String, shrinkPolicy: ShrinkPolicy? = nil) {
             self.configurations = configurations
             self.eC2InstanceIdsToTerminate = eC2InstanceIdsToTerminate
             self.instanceCount = instanceCount
@@ -2153,9 +2153,9 @@ extension EMR {
         /// Specific list of instances to be terminated when shrinking an instance group.
         public let instancesToTerminate: [String]?
         /// Decommissioning timeout override for the specific list of instances to be terminated.
-        public let instanceTerminationTimeout: Int32?
+        public let instanceTerminationTimeout: Int?
 
-        public init(instancesToProtect: [String]? = nil, instancesToTerminate: [String]? = nil, instanceTerminationTimeout: Int32? = nil) {
+        public init(instancesToProtect: [String]? = nil, instancesToTerminate: [String]? = nil, instanceTerminationTimeout: Int? = nil) {
             self.instancesToProtect = instancesToProtect
             self.instancesToTerminate = instancesToTerminate
             self.instanceTerminationTimeout = instanceTerminationTimeout
@@ -2290,9 +2290,9 @@ extension EMR {
         /// An EC2 instance type, such as m3.xlarge. 
         public let instanceType: String
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. This value is 1 for a master instance fleet, and must be 1 or greater for core and task instance fleets. Defaults to 1 if not specified. 
-        public let weightedCapacity: Int32?
+        public let weightedCapacity: Int?
 
-        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceType: String, weightedCapacity: Int32? = nil) {
+        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceType: String, weightedCapacity: Int? = nil) {
             self.bidPrice = bidPrice
             self.bidPriceAsPercentageOfOnDemandPrice = bidPriceAsPercentageOfOnDemandPrice
             self.configurations = configurations
@@ -2346,9 +2346,9 @@ extension EMR {
         /// The EC2 instance type, for example m3.xlarge.
         public let instanceType: String?
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. Capacity values represent performance characteristics such as vCPUs, memory, or I/O. If not specified, the default value is 1.
-        public let weightedCapacity: Int32?
+        public let weightedCapacity: Int?
 
-        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, instanceType: String? = nil, weightedCapacity: Int32? = nil) {
+        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, instanceType: String? = nil, weightedCapacity: Int? = nil) {
             self.bidPrice = bidPrice
             self.bidPriceAsPercentageOfOnDemandPrice = bidPriceAsPercentageOfOnDemandPrice
             self.configurations = configurations
@@ -2543,7 +2543,7 @@ extension EMR {
         /// Applies only to Amazon EMR release versions earlier than 4.0. The Hadoop version for the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated), "0.20.205" (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow call, in which case the default version of Hadoop for that AMI version is used.
         public let hadoopVersion: String?
         /// The number of EC2 instances in the cluster.
-        public let instanceCount: Int32?
+        public let instanceCount: Int?
         ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  Describes the EC2 instances and instance configurations for clusters that use the instance fleet configuration.
         public let instanceFleets: [InstanceFleetConfig]?
         /// Configuration for the instance groups in a cluster.
@@ -2561,7 +2561,7 @@ extension EMR {
         /// Specifies whether to lock the cluster to prevent the Amazon EC2 instances from being terminated by API call, user intervention, or in the event of a job-flow error.
         public let terminationProtected: Bool?
 
-        public init(additionalMasterSecurityGroups: [String]? = nil, additionalSlaveSecurityGroups: [String]? = nil, ec2KeyName: String? = nil, ec2SubnetId: String? = nil, ec2SubnetIds: [String]? = nil, emrManagedMasterSecurityGroup: String? = nil, emrManagedSlaveSecurityGroup: String? = nil, hadoopVersion: String? = nil, instanceCount: Int32? = nil, instanceFleets: [InstanceFleetConfig]? = nil, instanceGroups: [InstanceGroupConfig]? = nil, keepJobFlowAliveWhenNoSteps: Bool? = nil, masterInstanceType: String? = nil, placement: PlacementType? = nil, serviceAccessSecurityGroup: String? = nil, slaveInstanceType: String? = nil, terminationProtected: Bool? = nil) {
+        public init(additionalMasterSecurityGroups: [String]? = nil, additionalSlaveSecurityGroups: [String]? = nil, ec2KeyName: String? = nil, ec2SubnetId: String? = nil, ec2SubnetIds: [String]? = nil, emrManagedMasterSecurityGroup: String? = nil, emrManagedSlaveSecurityGroup: String? = nil, hadoopVersion: String? = nil, instanceCount: Int? = nil, instanceFleets: [InstanceFleetConfig]? = nil, instanceGroups: [InstanceGroupConfig]? = nil, keepJobFlowAliveWhenNoSteps: Bool? = nil, masterInstanceType: String? = nil, placement: PlacementType? = nil, serviceAccessSecurityGroup: String? = nil, slaveInstanceType: String? = nil, terminationProtected: Bool? = nil) {
             self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
             self.additionalSlaveSecurityGroups = additionalSlaveSecurityGroups
             self.ec2KeyName = ec2KeyName
@@ -2675,7 +2675,7 @@ extension EMR {
         /// The Hadoop version for the cluster.
         public let hadoopVersion: String?
         /// The number of Amazon EC2 instances in the cluster. If the value is 1, the same instance serves as both the master and core and task node. If the value is greater than 1, one instance is the master node and all others are core and task nodes.
-        public let instanceCount: Int32
+        public let instanceCount: Int
         /// Details about the instance groups in a cluster.
         public let instanceGroups: [InstanceGroupDetail]?
         /// Specifies whether the cluster should remain available after completing all steps.
@@ -2687,7 +2687,7 @@ extension EMR {
         /// The DNS name of the master node. If the cluster is on a private subnet, this is the private DNS name. On a public subnet, this is the public DNS name.
         public let masterPublicDnsName: String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour that an m1.small runs. Larger instances are weighted more, so an Amazon EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
-        public let normalizedInstanceHours: Int32?
+        public let normalizedInstanceHours: Int?
         /// The Amazon EC2 Availability Zone for the cluster.
         public let placement: PlacementType?
         /// The Amazon EC2 core and task node instance type.
@@ -2695,7 +2695,7 @@ extension EMR {
         /// Specifies whether the Amazon EC2 instances in the cluster are protected from termination by API calls, user intervention, or in the event of a job-flow error.
         public let terminationProtected: Bool?
 
-        public init(ec2KeyName: String? = nil, ec2SubnetId: String? = nil, hadoopVersion: String? = nil, instanceCount: Int32, instanceGroups: [InstanceGroupDetail]? = nil, keepJobFlowAliveWhenNoSteps: Bool? = nil, masterInstanceId: String? = nil, masterInstanceType: String, masterPublicDnsName: String? = nil, normalizedInstanceHours: Int32? = nil, placement: PlacementType? = nil, slaveInstanceType: String, terminationProtected: Bool? = nil) {
+        public init(ec2KeyName: String? = nil, ec2SubnetId: String? = nil, hadoopVersion: String? = nil, instanceCount: Int, instanceGroups: [InstanceGroupDetail]? = nil, keepJobFlowAliveWhenNoSteps: Bool? = nil, masterInstanceId: String? = nil, masterInstanceType: String, masterPublicDnsName: String? = nil, normalizedInstanceHours: Int? = nil, placement: PlacementType? = nil, slaveInstanceType: String, terminationProtected: Bool? = nil) {
             self.ec2KeyName = ec2KeyName
             self.ec2SubnetId = ec2SubnetId
             self.hadoopVersion = hadoopVersion
@@ -3451,7 +3451,7 @@ extension EMR {
         /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches cluster EC2 instances. For more information about custom AMIs in Amazon EMR, see Using a Custom AMI in the Amazon EMR Management Guide. If omitted, the cluster uses the base Linux AMI for the ReleaseLabel specified. For Amazon EMR versions 2.x and 3.x, use AmiVersion instead. For information about creating a custom AMI, see Creating an Amazon EBS-Backed Linux AMI in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For information about finding an AMI ID, see Finding a Linux AMI. 
         public let customAmiId: String?
         /// The size, in GiB, of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
-        public let ebsRootVolumeSize: Int32?
+        public let ebsRootVolumeSize: Int?
         /// A specification of the number and type of Amazon EC2 instances.
         public let instances: JobFlowInstancesConfig
         /// Also called instance profile and EC2 role. An IAM role for an EMR cluster. The EC2 instances of the cluster assume this role. The default role is EMR_EC2_DefaultRole. In order to use the default role, you must have already created it using the CLI or console.
@@ -3483,7 +3483,7 @@ extension EMR {
         /// Whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it.
         public let visibleToAllUsers: Bool?
 
-        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int32? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
             self.additionalInfo = additionalInfo
             self.amiVersion = amiVersion
             self.applications = applications
@@ -3637,11 +3637,11 @@ extension EMR {
         ]
 
         /// The upper boundary of EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary.
-        public let maxCapacity: Int32
+        public let maxCapacity: Int
         /// The lower boundary of EC2 instances in an instance group below which scaling activities are not allowed to shrink. Scale-in activities will not terminate instances below this boundary.
-        public let minCapacity: Int32
+        public let minCapacity: Int
 
-        public init(maxCapacity: Int32, minCapacity: Int32) {
+        public init(maxCapacity: Int, minCapacity: Int) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
         }
@@ -3831,11 +3831,11 @@ extension EMR {
         ]
 
         /// The desired timeout for decommissioning an instance. Overrides the default YARN decommissioning timeout.
-        public let decommissionTimeout: Int32?
+        public let decommissionTimeout: Int?
         /// Custom policy for requesting termination protection or termination of specific instances when shrinking an instance group.
         public let instanceResizePolicy: InstanceResizePolicy?
 
-        public init(decommissionTimeout: Int32? = nil, instanceResizePolicy: InstanceResizePolicy? = nil) {
+        public init(decommissionTimeout: Int? = nil, instanceResizePolicy: InstanceResizePolicy? = nil) {
             self.decommissionTimeout = decommissionTimeout
             self.instanceResizePolicy = instanceResizePolicy
         }
@@ -3856,11 +3856,11 @@ extension EMR {
         /// The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment, which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment, which should be expressed as an integer. For example, 20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment, which should be expressed as a positive integer.
         public let adjustmentType: AdjustmentType?
         /// The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. The default value is 0.
-        public let coolDown: Int32?
+        public let coolDown: Int?
         /// The amount by which to scale in or scale out, based on the specified AdjustmentType. A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY, the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY, the value should express the percentage as an integer. For example, -20 indicates a decrease in 20% increments of cluster capacity.
-        public let scalingAdjustment: Int32
+        public let scalingAdjustment: Int
 
-        public init(adjustmentType: AdjustmentType? = nil, coolDown: Int32? = nil, scalingAdjustment: Int32) {
+        public init(adjustmentType: AdjustmentType? = nil, coolDown: Int? = nil, scalingAdjustment: Int) {
             self.adjustmentType = adjustmentType
             self.coolDown = coolDown
             self.scalingAdjustment = scalingAdjustment
@@ -3881,13 +3881,13 @@ extension EMR {
         ]
 
         /// The defined duration for Spot instances (also known as Spot blocks) in minutes. When specified, the Spot instance does not terminate before the defined duration expires, and defined duration pricing for Spot instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. 
-        public let blockDurationMinutes: Int32?
+        public let blockDurationMinutes: Int?
         /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired; that is, when all Spot instances could not be provisioned within the Spot provisioning timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND. SWITCH_TO_ON_DEMAND specifies that if no Spot instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
         public let timeoutAction: SpotProvisioningTimeoutAction
         /// The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
-        public let timeoutDurationMinutes: Int32
+        public let timeoutDurationMinutes: Int
 
-        public init(blockDurationMinutes: Int32? = nil, timeoutAction: SpotProvisioningTimeoutAction, timeoutDurationMinutes: Int32) {
+        public init(blockDurationMinutes: Int? = nil, timeoutAction: SpotProvisioningTimeoutAction, timeoutDurationMinutes: Int) {
             self.blockDurationMinutes = blockDurationMinutes
             self.timeoutAction = timeoutAction
             self.timeoutDurationMinutes = timeoutDurationMinutes
@@ -4314,13 +4314,13 @@ extension EMR {
         ]
 
         /// The number of I/O operations per second (IOPS) that the volume supports.
-        public let iops: Int32?
+        public let iops: Int?
         /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If the volume type is EBS-optimized, the minimum value is 10.
-        public let sizeInGB: Int32
+        public let sizeInGB: Int
         /// The volume type. Volume types supported are gp2, io1, standard.
         public let volumeType: String
 
-        public init(iops: Int32? = nil, sizeInGB: Int32, volumeType: String) {
+        public init(iops: Int? = nil, sizeInGB: Int, volumeType: String) {
             self.iops = iops
             self.sizeInGB = sizeInGB
             self.volumeType = volumeType

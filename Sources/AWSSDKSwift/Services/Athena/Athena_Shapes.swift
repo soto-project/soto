@@ -118,9 +118,9 @@ extension Athena {
         /// Indicates the column's nullable status.
         public let nullable: ColumnNullable?
         /// For DECIMAL data types, specifies the total number of digits, up to 38. For performance reasons, we recommend up to 18 digits.
-        public let precision: Int32?
+        public let precision: Int?
         /// For DECIMAL data types, specifies the total number of digits in the fractional part of the value. Defaults to 0.
-        public let scale: Int32?
+        public let scale: Int?
         /// The schema name (database name) to which the query results belong.
         public let schemaName: String?
         /// The table name for the query results.
@@ -128,7 +128,7 @@ extension Athena {
         /// The data type of the column.
         public let `type`: String
 
-        public init(caseSensitive: Bool? = nil, catalogName: String? = nil, label: String? = nil, name: String, nullable: ColumnNullable? = nil, precision: Int32? = nil, scale: Int32? = nil, schemaName: String? = nil, tableName: String? = nil, type: String) {
+        public init(caseSensitive: Bool? = nil, catalogName: String? = nil, label: String? = nil, name: String, nullable: ColumnNullable? = nil, precision: Int? = nil, scale: Int? = nil, schemaName: String? = nil, tableName: String? = nil, type: String) {
             self.caseSensitive = caseSensitive
             self.catalogName = catalogName
             self.label = label
@@ -466,13 +466,13 @@ extension Athena {
         ]
 
         /// The maximum number of results (rows) to return in this request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token that specifies where to start pagination if a previous request was truncated.
         public let nextToken: String?
         /// The unique ID of the query execution.
         public let queryExecutionId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, queryExecutionId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, queryExecutionId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.queryExecutionId = queryExecutionId
@@ -565,13 +565,13 @@ extension Athena {
         ]
 
         /// The maximum number of queries to return in this request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token that specifies where to start pagination if a previous request was truncated.
         public let nextToken: String?
         /// The name of the workgroup from which the named queries are being returned.
         public let workGroup: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, workGroup: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workGroup: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.workGroup = workGroup
@@ -622,13 +622,13 @@ extension Athena {
         ]
 
         /// The maximum number of query executions to return in this request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token that specifies where to start pagination if a previous request was truncated.
         public let nextToken: String?
         /// The name of the workgroup from which queries are being returned.
         public let workGroup: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, workGroup: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workGroup: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.workGroup = workGroup
@@ -679,13 +679,13 @@ extension Athena {
         ]
 
         /// The maximum number of results to be returned per request that lists the tags for the workgroup resource.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results, or null if there are no additional results for this request, where the request lists the tags for the workgroup resource with the specified ARN.
         public let nextToken: String?
         /// Lists the tags for the workgroup resource with the specified ARN.
         public let resourceARN: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceARN: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceARN: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceARN = resourceARN
@@ -735,11 +735,11 @@ extension Athena {
         ]
 
         /// The maximum number of workgroups to return in this request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to be used by the next request if this request is truncated.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

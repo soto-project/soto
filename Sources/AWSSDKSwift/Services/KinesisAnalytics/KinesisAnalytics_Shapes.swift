@@ -1192,9 +1192,9 @@ extension KinesisAnalytics {
         ]
 
         /// Number of in-application streams to create. For more information, see Limits. 
-        public let count: Int32?
+        public let count: Int?
 
-        public init(count: Int32? = nil) {
+        public init(count: Int? = nil) {
             self.count = count
         }
 
@@ -1214,9 +1214,9 @@ extension KinesisAnalytics {
         ]
 
         /// Number of in-application streams to create for the specified streaming source.
-        public let countUpdate: Int32?
+        public let countUpdate: Int?
 
-        public init(countUpdate: Int32? = nil) {
+        public init(countUpdate: Int? = nil) {
             self.countUpdate = countUpdate
         }
 
@@ -1860,9 +1860,9 @@ extension KinesisAnalytics {
         /// Name of the application to start the list with. When using pagination to retrieve the list, you don't need to specify this parameter in the first request. However, in subsequent requests, you add the last application name from the previous response to get the next page of applications.
         public let exclusiveStartApplicationName: String?
         /// Maximum number of applications to list.
-        public let limit: Int32?
+        public let limit: Int?
 
-        public init(exclusiveStartApplicationName: String? = nil, limit: Int32? = nil) {
+        public init(exclusiveStartApplicationName: String? = nil, limit: Int? = nil) {
             self.exclusiveStartApplicationName = exclusiveStartApplicationName
             self.limit = limit
         }

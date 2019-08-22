@@ -9,7 +9,7 @@ Amazon Athena is an interactive query service that lets you use standard SQL to 
 */
 public struct Athena {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

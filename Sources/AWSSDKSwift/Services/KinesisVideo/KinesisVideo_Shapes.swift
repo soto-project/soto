@@ -31,7 +31,7 @@ extension KinesisVideo {
         ]
 
         /// The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
-        public let dataRetentionInHours: Int32?
+        public let dataRetentionInHours: Int?
         /// The name of the device that is writing to the stream.   In the current implementation, Kinesis Video Streams does not use this name. 
         public let deviceName: String?
         /// The ID of the AWS Key Management Service (AWS KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo) is used.  For more information, see DescribeKey. 
@@ -43,7 +43,7 @@ extension KinesisVideo {
         /// A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional).
         public let tags: [String: String]?
 
-        public init(dataRetentionInHours: Int32? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, streamName: String, tags: [String: String]? = nil) {
+        public init(dataRetentionInHours: Int? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, streamName: String, tags: [String: String]? = nil) {
             self.dataRetentionInHours = dataRetentionInHours
             self.deviceName = deviceName
             self.kmsKeyId = kmsKeyId
@@ -248,13 +248,13 @@ extension KinesisVideo {
         ]
 
         /// The maximum number of streams to return in the response. The default is 10,000.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If you specify this parameter, when the result of a ListStreams operation is truncated, the call returns the NextToken in the response. To get another batch of streams, provide this token in your next request.
         public let nextToken: String?
         /// Optional: Returns only streams that satisfy a specific condition. Currently, you can specify only the prefix of a stream name as a condition. 
         public let streamNameCondition: StreamNameCondition?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, streamNameCondition: StreamNameCondition? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, streamNameCondition: StreamNameCondition? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.streamNameCondition = streamNameCondition
@@ -381,7 +381,7 @@ extension KinesisVideo {
         /// A time stamp that indicates when the stream was created.
         public let creationTime: TimeStamp?
         /// How long the stream retains data, in hours.
-        public let dataRetentionInHours: Int32?
+        public let dataRetentionInHours: Int?
         /// The name of the device that is associated with the stream.
         public let deviceName: String?
         /// The ID of the AWS Key Management Service (AWS KMS) key that Kinesis Video Streams uses to encrypt data on the stream.
@@ -397,7 +397,7 @@ extension KinesisVideo {
         /// The version of the stream.
         public let version: String?
 
-        public init(creationTime: TimeStamp? = nil, dataRetentionInHours: Int32? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, status: Status? = nil, streamARN: String? = nil, streamName: String? = nil, version: String? = nil) {
+        public init(creationTime: TimeStamp? = nil, dataRetentionInHours: Int? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, status: Status? = nil, streamARN: String? = nil, streamName: String? = nil, version: String? = nil) {
             self.creationTime = creationTime
             self.dataRetentionInHours = dataRetentionInHours
             self.deviceName = deviceName
@@ -562,7 +562,7 @@ extension KinesisVideo {
         /// The version of the stream whose retention period you want to change. To get the version, call either the DescribeStream or the ListStreams API.
         public let currentVersion: String
         /// The retention period, in hours. The value you specify replaces the current value. The maximum value for this parameter is 87600 (ten years).
-        public let dataRetentionChangeInHours: Int32
+        public let dataRetentionChangeInHours: Int
         /// Indicates whether you want to increase or decrease the retention period.
         public let operation: UpdateDataRetentionOperation
         /// The Amazon Resource Name (ARN) of the stream whose retention period you want to change.
@@ -570,7 +570,7 @@ extension KinesisVideo {
         /// The name of the stream whose retention period you want to change.
         public let streamName: String?
 
-        public init(currentVersion: String, dataRetentionChangeInHours: Int32, operation: UpdateDataRetentionOperation, streamARN: String? = nil, streamName: String? = nil) {
+        public init(currentVersion: String, dataRetentionChangeInHours: Int, operation: UpdateDataRetentionOperation, streamARN: String? = nil, streamName: String? = nil) {
             self.currentVersion = currentVersion
             self.dataRetentionChangeInHours = dataRetentionChangeInHours
             self.operation = operation

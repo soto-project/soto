@@ -43,9 +43,9 @@ extension CloudFormation {
         /// The name of the account limit.
         public let name: String?
         /// The value that is associated with the account limit name.
-        public let value: Int32?
+        public let value: Int?
 
-        public init(name: String? = nil, value: Int32? = nil) {
+        public init(name: String? = nil, value: Int? = nil) {
             self.name = name
             self.value = value
         }
@@ -449,9 +449,9 @@ extension CloudFormation {
         /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information, go to the Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateURL: String?
         /// The amount of time that can pass before the stack status becomes CREATE_FAILED; if DisableRollback is not set or is set to false, the stack will be rolled back.
-        public let timeoutInMinutes: Int32?
+        public let timeoutInMinutes: Int?
 
-        public init(capabilities: [Capability]? = nil, clientRequestToken: String? = nil, disableRollback: Bool? = nil, enableTerminationProtection: Bool? = nil, notificationARNs: [String]? = nil, onFailure: OnFailure? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String, stackPolicyBody: String? = nil, stackPolicyURL: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, timeoutInMinutes: Int32? = nil) {
+        public init(capabilities: [Capability]? = nil, clientRequestToken: String? = nil, disableRollback: Bool? = nil, enableTerminationProtection: Bool? = nil, notificationARNs: [String]? = nil, onFailure: OnFailure? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String, stackPolicyBody: String? = nil, stackPolicyURL: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, timeoutInMinutes: Int? = nil) {
             self.capabilities = capabilities
             self.clientRequestToken = clientRequestToken
             self.disableRollback = disableRollback
@@ -1086,7 +1086,7 @@ extension CloudFormation {
         /// The reason the stack drift detection operation has its current status.
         public let detectionStatusReason: String?
         /// Total number of stack resources that have drifted. This is NULL until the drift detection operation reaches a status of DETECTION_COMPLETE. This value will be 0 for stacks whose drift status is IN_SYNC.
-        public let driftedStackResourceCount: Int32?
+        public let driftedStackResourceCount: Int?
         /// The ID of the drift detection results of this operation.  AWS CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of reports AWS CloudFormation retains for any given stack, and for how long, may vary.
         public let stackDriftDetectionId: String
         /// Status of the stack's actual configuration compared to its expected configuration.     DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: AWS CloudFormation has not checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: This value is reserved for future use.  
@@ -1096,7 +1096,7 @@ extension CloudFormation {
         /// Time at which the stack drift detection operation was initiated.
         public let timestamp: TimeStamp
 
-        public init(detectionStatus: StackDriftDetectionStatus, detectionStatusReason: String? = nil, driftedStackResourceCount: Int32? = nil, stackDriftDetectionId: String, stackDriftStatus: StackDriftStatus? = nil, stackId: String, timestamp: TimeStamp) {
+        public init(detectionStatus: StackDriftDetectionStatus, detectionStatusReason: String? = nil, driftedStackResourceCount: Int? = nil, stackDriftDetectionId: String, stackDriftStatus: StackDriftStatus? = nil, stackId: String, timestamp: TimeStamp) {
             self.detectionStatus = detectionStatus
             self.detectionStatusReason = detectionStatusReason
             self.driftedStackResourceCount = driftedStackResourceCount
@@ -1223,7 +1223,7 @@ extension CloudFormation {
         ]
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string that identifies the next page of stack resource drift results.
         public let nextToken: String?
         /// The name of the stack for which you want drift information.
@@ -1231,7 +1231,7 @@ extension CloudFormation {
         /// The resource drift status values to use as filters for the resource drift results returned.    DELETED: The resource differs from its expected template configuration in that the resource has been deleted.    MODIFIED: One or more resource properties differ from their expected template values.    IN_SYNC: The resources's actual configuration matches its expected template configuration.    NOT_CHECKED: AWS CloudFormation does not currently return this value.  
         public let stackResourceDriftStatusFilters: [StackResourceDriftStatus]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, stackName: String, stackResourceDriftStatusFilters: [StackResourceDriftStatus]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, stackName: String, stackResourceDriftStatusFilters: [StackResourceDriftStatus]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.stackName = stackName
@@ -2062,7 +2062,7 @@ extension CloudFormation {
         ]
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the previous request didn't return all of the remaining results, the response's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
         /// The name of the AWS account that you want to list stack instances for.
@@ -2072,7 +2072,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to list stack instances for.
         public let stackSetName: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, stackInstanceAccount: String? = nil, stackInstanceRegion: String? = nil, stackSetName: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, stackInstanceAccount: String? = nil, stackInstanceRegion: String? = nil, stackSetName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.stackInstanceAccount = stackInstanceAccount
@@ -2177,7 +2177,7 @@ extension CloudFormation {
         ]
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the previous request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
         /// The ID of the stack set operation.
@@ -2185,7 +2185,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to get operation results for.
         public let stackSetName: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, operationId: String, stackSetName: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, operationId: String, stackSetName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.operationId = operationId
@@ -2240,13 +2240,13 @@ extension CloudFormation {
         ]
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperations again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
         /// The name or unique ID of the stack set that you want to get operation summaries for.
         public let stackSetName: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, stackSetName: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, stackSetName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.stackSetName = stackSetName
@@ -2296,13 +2296,13 @@ extension CloudFormation {
         ]
 
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSets again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
         /// The status of the stack sets that you want to get summary information about.
         public let status: StackSetStatus?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, status: StackSetStatus? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, status: StackSetStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
@@ -2734,11 +2734,11 @@ extension CloudFormation {
         ]
 
         /// The amount of time, in minutes, during which CloudFormation should monitor all the rollback triggers after the stack creation or update operation deploys all necessary resources. The default is 0 minutes. If you specify a monitoring period but do not specify any rollback triggers, CloudFormation still waits the specified period of time before cleaning up old resources after update operations. You can use this monitoring period to perform any manual stack validation desired, and manually cancel the stack creation or update (using CancelUpdateStack, for example) as necessary. If you specify 0 for this parameter, CloudFormation still monitors the specified rollback triggers during stack creation and update operations. Then, for update operations, it begins disposing of old resources immediately once the operation completes.
-        public let monitoringTimeInMinutes: Int32?
+        public let monitoringTimeInMinutes: Int?
         /// The triggers to monitor during stack creation or update actions.  By default, AWS CloudFormation saves the rollback triggers specified for a stack and applies them to any subsequent update operations for the stack, unless you specify otherwise. If you do specify rollback triggers for this parameter, those triggers replace any list of triggers previously specified for the stack. This means:   To use the rollback triggers previously specified for this stack, if any, don't specify this parameter.   To specify new or updated rollback triggers, you must specify all the triggers that you want used for this stack, even triggers you've specifed before (for example, when creating the stack or during a previous stack update). Any triggers that you don't include in the updated list of triggers are no longer applied to the stack.   To remove all currently specified triggers, specify an empty list for this parameter.   If a specified trigger is missing, the entire stack operation fails and is rolled back. 
         public let rollbackTriggers: [RollbackTrigger]?
 
-        public init(monitoringTimeInMinutes: Int32? = nil, rollbackTriggers: [RollbackTrigger]? = nil) {
+        public init(monitoringTimeInMinutes: Int? = nil, rollbackTriggers: [RollbackTrigger]? = nil) {
             self.monitoringTimeInMinutes = monitoringTimeInMinutes
             self.rollbackTriggers = rollbackTriggers
         }
@@ -2919,9 +2919,9 @@ extension CloudFormation {
         /// A list of Tags that specify information about the stack.
         public let tags: [Tag]?
         /// The amount of time within which stack creation should complete.
-        public let timeoutInMinutes: Int32?
+        public let timeoutInMinutes: Int?
 
-        public init(capabilities: [Capability]? = nil, changeSetId: String? = nil, creationTime: TimeStamp, deletionTime: TimeStamp? = nil, description: String? = nil, disableRollback: Bool? = nil, driftInformation: StackDriftInformation? = nil, enableTerminationProtection: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, notificationARNs: [String]? = nil, outputs: [Output]? = nil, parameters: [Parameter]? = nil, parentId: String? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootId: String? = nil, stackId: String? = nil, stackName: String, stackStatus: StackStatus, stackStatusReason: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int32? = nil) {
+        public init(capabilities: [Capability]? = nil, changeSetId: String? = nil, creationTime: TimeStamp, deletionTime: TimeStamp? = nil, description: String? = nil, disableRollback: Bool? = nil, driftInformation: StackDriftInformation? = nil, enableTerminationProtection: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, notificationARNs: [String]? = nil, outputs: [Output]? = nil, parameters: [Parameter]? = nil, parentId: String? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootId: String? = nil, stackId: String? = nil, stackName: String, stackStatus: StackStatus, stackStatusReason: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil) {
             self.capabilities = capabilities
             self.changeSetId = changeSetId
             self.creationTime = creationTime
@@ -3630,17 +3630,17 @@ extension CloudFormation {
         ]
 
         /// The number of accounts, per region, for which this operation can fail before AWS CloudFormation stops the operation in that region. If the operation is stopped in a region, AWS CloudFormation doesn't attempt the operation in any subsequent regions. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage (but not both).
-        public let failureToleranceCount: Int32?
+        public let failureToleranceCount: Int?
         /// The percentage of accounts, per region, for which this stack operation can fail before AWS CloudFormation stops the operation in that region. If the operation is stopped in a region, AWS CloudFormation doesn't attempt the operation in any subsequent regions. When calculating the number of accounts based on the specified percentage, AWS CloudFormation rounds down to the next whole number. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage, but not both.
-        public let failureTolerancePercentage: Int32?
+        public let failureTolerancePercentage: Int?
         /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of FailureToleranceCount—MaxConcurrentCount is at most one more than the FailureToleranceCount . Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both.
-        public let maxConcurrentCount: Int32?
+        public let maxConcurrentCount: Int?
         /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both.
-        public let maxConcurrentPercentage: Int32?
+        public let maxConcurrentPercentage: Int?
         /// The order of the regions in where you want to perform the stack operation.
         public let regionOrder: [String]?
 
-        public init(failureToleranceCount: Int32? = nil, failureTolerancePercentage: Int32? = nil, maxConcurrentCount: Int32? = nil, maxConcurrentPercentage: Int32? = nil, regionOrder: [String]? = nil) {
+        public init(failureToleranceCount: Int? = nil, failureTolerancePercentage: Int? = nil, maxConcurrentCount: Int? = nil, maxConcurrentPercentage: Int? = nil, regionOrder: [String]? = nil) {
             self.failureToleranceCount = failureToleranceCount
             self.failureTolerancePercentage = failureTolerancePercentage
             self.maxConcurrentCount = maxConcurrentCount

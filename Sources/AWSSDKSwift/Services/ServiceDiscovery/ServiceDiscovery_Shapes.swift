@@ -364,7 +364,7 @@ extension ServiceDiscovery {
         /// The health status of the instances that you want to discover.
         public let healthStatus: HealthStatusFilter?
         /// The maximum number of instances that you want Cloud Map to return in the response to a DiscoverInstances request. If you don't specify a value for MaxResults, Cloud Map returns up to 100 instances.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of the namespace that you specified when you registered the instance.
         public let namespaceName: String
         /// A string map that contains attributes with values that you can use to filter instances by any custom attribute that you specified when you registered the instance. Only instances that match all the specified key/value pairs will be returned.
@@ -372,7 +372,7 @@ extension ServiceDiscovery {
         /// The name of the service that you specified when you registered the instance.
         public let serviceName: String
 
-        public init(healthStatus: HealthStatusFilter? = nil, maxResults: Int32? = nil, namespaceName: String, queryParameters: [String: String]? = nil, serviceName: String) {
+        public init(healthStatus: HealthStatusFilter? = nil, maxResults: Int? = nil, namespaceName: String, queryParameters: [String: String]? = nil, serviceName: String) {
             self.healthStatus = healthStatus
             self.maxResults = maxResults
             self.namespaceName = namespaceName
@@ -574,13 +574,13 @@ extension ServiceDiscovery {
         /// An array that contains the IDs of all the instances that you want to get the health status for. If you omit Instances, AWS Cloud Map returns the health status for all the instances that are associated with the specified service.  To get the IDs for the instances that you've registered by using a specified service, submit a ListInstances request. 
         public let instances: [String]?
         /// The maximum number of instances that you want AWS Cloud Map to return in the response to a GetInstancesHealthStatus request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 instances.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// For the first GetInstancesHealthStatus request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another GetInstancesHealthStatus request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
         public let nextToken: String?
         /// The ID of the service that the instance is associated with.
         public let serviceId: String
 
-        public init(instances: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, serviceId: String) {
+        public init(instances: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceId: String) {
             self.instances = instances
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -750,13 +750,13 @@ extension ServiceDiscovery {
         ]
 
         /// The number of consecutive health checks that an endpoint must pass or fail for Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide.
-        public let failureThreshold: Int32?
+        public let failureThreshold: Int?
         /// The path that you want Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, such as the file /docs/route53-health-check.html. Route 53 automatically adds the DNS name for the service. If you don't specify a value for ResourcePath, the default value is /. If you specify TCP for Type, you must not specify a value for ResourcePath.
         public let resourcePath: String?
         /// The type of health check that you want to create, which indicates how Route 53 determines whether an endpoint is healthy.  You can't change the value of Type after you create a health check.  You can create the following types of health checks:    HTTP: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400.    HTTPS: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400.  If you specify HTTPS for the value of Type, the endpoint must support TLS v1.0 or later.     TCP: Route 53 tries to establish a TCP connection. If you specify TCP for Type, don't specify a value for ResourcePath.   For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide.
         public let `type`: HealthCheckType
 
-        public init(failureThreshold: Int32? = nil, resourcePath: String? = nil, type: HealthCheckType) {
+        public init(failureThreshold: Int? = nil, resourcePath: String? = nil, type: HealthCheckType) {
             self.failureThreshold = failureThreshold
             self.resourcePath = resourcePath
             self.`type` = `type`
@@ -781,9 +781,9 @@ extension ServiceDiscovery {
         ]
 
         /// The number of 30-second intervals that you want Cloud Map to wait after receiving an UpdateInstanceCustomHealthStatus request before it changes the health status of a service instance. For example, suppose you specify a value of 2 for FailureTheshold, and then your application sends an UpdateInstanceCustomHealthStatus request. Cloud Map waits for approximately 60 seconds (2 x 30) before changing the status of the service instance based on that request. Sending a second or subsequent UpdateInstanceCustomHealthStatus request with the same value before FailureThreshold x 30 seconds has passed doesn't accelerate the change. Cloud Map still waits FailureThreshold x 30 seconds after the first request to make the change.
-        public let failureThreshold: Int32?
+        public let failureThreshold: Int?
 
-        public init(failureThreshold: Int32? = nil) {
+        public init(failureThreshold: Int? = nil) {
             self.failureThreshold = failureThreshold
         }
 
@@ -929,13 +929,13 @@ extension ServiceDiscovery {
         ]
 
         /// The maximum number of instances that you want AWS Cloud Map to return in the response to a ListInstances request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 instances.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// For the first ListInstances request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
         public let nextToken: String?
         /// The ID of the service that you want to list instances for.
         public let serviceId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, serviceId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serviceId = serviceId
@@ -987,11 +987,11 @@ extension ServiceDiscovery {
         /// A complex type that contains specifications for the namespaces that you want to list. If you specify more than one filter, a namespace must match all filters to be returned by ListNamespaces.
         public let filters: [NamespaceFilter]?
         /// The maximum number of namespaces that you want AWS Cloud Map to return in the response to a ListNamespaces request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 namespaces.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// For the first ListNamespaces request, omit this value. If the response contains NextToken, submit another ListNamespaces request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults namespaces and then filters them based on the specified criteria. It's possible that no namespaces in the first MaxResults namespaces matched the specified criteria but that subsequent groups of MaxResults namespaces do contain namespaces that match the criteria. 
         public let nextToken: String?
 
-        public init(filters: [NamespaceFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [NamespaceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1045,11 +1045,11 @@ extension ServiceDiscovery {
         /// A complex type that contains specifications for the operations that you want to list, for example, operations that you started between a specified start date and end date. If you specify more than one filter, an operation must match all filters to be returned by ListOperations.
         public let filters: [OperationFilter]?
         /// The maximum number of items that you want AWS Cloud Map to return in the response to a ListOperations request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 operations.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// For the first ListOperations request, omit this value. If the response contains NextToken, submit another ListOperations request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults operations and then filters them based on the specified criteria. It's possible that no operations in the first MaxResults operations matched the specified criteria but that subsequent groups of MaxResults operations do contain operations that match the criteria. 
         public let nextToken: String?
 
-        public init(filters: [OperationFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [OperationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1103,11 +1103,11 @@ extension ServiceDiscovery {
         /// A complex type that contains specifications for the namespaces that you want to list services for.  If you specify more than one filter, an operation must match all filters to be returned by ListServices.
         public let filters: [ServiceFilter]?
         /// The maximum number of services that you want AWS Cloud Map to return in the response to a ListServices request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 services.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// For the first ListServices request, omit this value. If the response contains NextToken, submit another ListServices request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults services and then filters them based on the specified criteria. It's possible that no services in the first MaxResults services matched the specified criteria but that subsequent groups of MaxResults services do contain services that match the criteria. 
         public let nextToken: String?
 
-        public init(filters: [ServiceFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [ServiceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1179,11 +1179,11 @@ extension ServiceDiscovery {
         /// A complex type that contains information that's specific to the type of the namespace.
         public let properties: NamespaceProperties?
         /// The number of services that are associated with the namespace.
-        public let serviceCount: Int32?
+        public let serviceCount: Int?
         /// The type of the namespace. Valid values are DNS_PUBLIC and DNS_PRIVATE.
         public let `type`: NamespaceType?
 
-        public init(arn: String? = nil, createDate: TimeStamp? = nil, creatorRequestId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int32? = nil, type: NamespaceType? = nil) {
+        public init(arn: String? = nil, createDate: TimeStamp? = nil, creatorRequestId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int? = nil, type: NamespaceType? = nil) {
             self.arn = arn
             self.createDate = createDate
             self.creatorRequestId = creatorRequestId
@@ -1293,11 +1293,11 @@ extension ServiceDiscovery {
         public let name: String?
         public let properties: NamespaceProperties?
         /// The number of services that were created using the namespace.
-        public let serviceCount: Int32?
+        public let serviceCount: Int?
         /// The type of the namespace, either public or private.
         public let `type`: NamespaceType?
 
-        public init(arn: String? = nil, createDate: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int32? = nil, type: NamespaceType? = nil) {
+        public init(arn: String? = nil, createDate: TimeStamp? = nil, description: String? = nil, id: String? = nil, name: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int? = nil, type: NamespaceType? = nil) {
             self.arn = arn
             self.createDate = createDate
             self.description = description
@@ -1573,13 +1573,13 @@ extension ServiceDiscovery {
         /// The ID that AWS Cloud Map assigned to the service when you created it.
         public let id: String?
         /// The number of instances that are currently associated with the service. Instances that were previously associated with the service but that have been deleted are not included in the count.
-        public let instanceCount: Int32?
+        public let instanceCount: Int?
         /// The name of the service.
         public let name: String?
         /// The ID of the namespace that was used to create the service.
         public let namespaceId: String?
 
-        public init(arn: String? = nil, createDate: TimeStamp? = nil, creatorRequestId: String? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int32? = nil, name: String? = nil, namespaceId: String? = nil) {
+        public init(arn: String? = nil, createDate: TimeStamp? = nil, creatorRequestId: String? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int? = nil, name: String? = nil, namespaceId: String? = nil) {
             self.arn = arn
             self.createDate = createDate
             self.creatorRequestId = creatorRequestId
@@ -1704,11 +1704,11 @@ extension ServiceDiscovery {
         /// The ID that AWS Cloud Map assigned to the service when you created it.
         public let id: String?
         /// The number of instances that are currently associated with the service. Instances that were previously associated with the service but that have been deleted are not included in the count.
-        public let instanceCount: Int32?
+        public let instanceCount: Int?
         /// The name of the service.
         public let name: String?
 
-        public init(arn: String? = nil, createDate: TimeStamp? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int32? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createDate: TimeStamp? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int? = nil, name: String? = nil) {
             self.arn = arn
             self.createDate = createDate
             self.description = description

@@ -9,7 +9,7 @@ AWS Marketplace Entitlement Service This reference provides descriptions of the 
 */
 public struct MarketplaceEntitlementService {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

@@ -9,7 +9,7 @@ Using the Amazon Cognito User Pools API, you can create a user pool to manage di
 */
 public struct CognitoIdentityProvider {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

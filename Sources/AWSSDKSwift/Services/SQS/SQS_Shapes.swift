@@ -103,9 +103,9 @@ extension SQS {
         /// A receipt handle.
         public let receiptHandle: String
         /// The new value (in seconds) for the message's visibility timeout.
-        public let visibilityTimeout: Int32?
+        public let visibilityTimeout: Int?
 
-        public init(id: String, receiptHandle: String, visibilityTimeout: Int32? = nil) {
+        public init(id: String, receiptHandle: String, visibilityTimeout: Int? = nil) {
             self.id = id
             self.receiptHandle = receiptHandle
             self.visibilityTimeout = visibilityTimeout
@@ -169,9 +169,9 @@ extension SQS {
         /// The receipt handle associated with the message whose visibility timeout is changed. This parameter is returned by the  ReceiveMessage  action.
         public let receiptHandle: String
         /// The new value for the message's visibility timeout (in seconds). Values values: 0 to 43200. Maximum: 12 hours.
-        public let visibilityTimeout: Int32
+        public let visibilityTimeout: Int
 
-        public init(queueUrl: String, receiptHandle: String, visibilityTimeout: Int32) {
+        public init(queueUrl: String, receiptHandle: String, visibilityTimeout: Int) {
             self.queueUrl = queueUrl
             self.receiptHandle = receiptHandle
             self.visibilityTimeout = visibilityTimeout
@@ -673,7 +673,7 @@ extension SQS {
         /// A list of s that need to be returned along with each message. These attributes include:    All - Returns all values.    ApproximateFirstReceiveTimestamp - Returns the time the message was first received from the queue (epoch time in milliseconds).    ApproximateReceiveCount - Returns the number of times a message has been received from the queue but not deleted.    SenderId    For an IAM user, returns the IAM user ID, for example ABCDEFGHI1JKLMNOPQ23R.   For an IAM role, returns the IAM role ID, for example ABCDE1F2GH3I4JK5LMNOP:i-a123b456.      SentTimestamp - Returns the time the message was sent to the queue (epoch time in milliseconds).    MessageDeduplicationId - Returns the value provided by the producer that calls the  SendMessage  action.    MessageGroupId - Returns the value provided by the producer that calls the  SendMessage  action. Messages with the same MessageGroupId are returned in sequence.    SequenceNumber - Returns the value provided by Amazon SQS.  
         public let attributeNames: [QueueAttributeName]?
         /// The maximum number of messages to return. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10. Default: 1.
-        public let maxNumberOfMessages: Int32?
+        public let maxNumberOfMessages: Int?
         /// The name of the message attribute, where N is the index.   The name can contain alphanumeric characters and the underscore (_), hyphen (-), and period (.).   The name is case-sensitive and must be unique among all attribute names for the message.   The name must not start with AWS-reserved prefixes such as AWS. or Amazon. (or any casing variants).   The name must not start or end with a period (.), and it should not have periods in succession (..).   The name can be up to 256 characters long.   When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or .* in your request. You can also use all message attributes starting with a prefix, for example bar.*.
         public let messageAttributeNames: [String]?
         /// The URL of the Amazon SQS queue from which messages are received. Queue URLs and names are case-sensitive.
@@ -681,11 +681,11 @@ extension SQS {
         /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of ReceiveMessage calls. If a networking issue occurs after a ReceiveMessage action, and instead of a response you receive a generic error, you can retry the same action with an identical ReceiveRequestAttemptId to retrieve the same set of messages, even if their visibility timeout has not yet expired.   You can use ReceiveRequestAttemptId only for 5 minutes after a ReceiveMessage action.   When you set FifoQueue, a caller of the ReceiveMessage action can provide a ReceiveRequestAttemptId explicitly.   If a caller of the ReceiveMessage action doesn't provide a ReceiveRequestAttemptId, Amazon SQS generates a ReceiveRequestAttemptId.   You can retry the ReceiveMessage action with the same ReceiveRequestAttemptId if none of the messages have been modified (deleted or had their visibility changes).   During a visibility timeout, subsequent calls with the same ReceiveRequestAttemptId return the same messages and receipt handles. If a retry occurs within the deduplication interval, it resets the visibility timeout. For more information, see Visibility Timeout in the Amazon Simple Queue Service Developer Guide.  If a caller of the ReceiveMessage action still processes messages when the visibility timeout expires and messages become visible, another worker consuming from the same queue can receive the same messages and therefore process duplicates. Also, if a consumer whose message processing time is longer than the visibility timeout tries to delete the processed messages, the action fails with an error. To mitigate this effect, ensure that your application observes a safe threshold before the visibility timeout expires and extend the visibility timeout as necessary.    While messages with a particular MessageGroupId are invisible, no more messages belonging to the same MessageGroupId are returned until the visibility timeout expires. You can still receive messages with another MessageGroupId as long as it is also visible.   If a caller of ReceiveMessage can't track the ReceiveRequestAttemptId, no retries work until the original visibility timeout expires. As a result, delays might occur but the messages in the queue remain in a strict order.   The length of ReceiveRequestAttemptId is 128 characters. ReceiveRequestAttemptId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). For best practices of using ReceiveRequestAttemptId, see Using the ReceiveRequestAttemptId Request Parameter in the Amazon Simple Queue Service Developer Guide.
         public let receiveRequestAttemptId: String?
         /// The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request.
-        public let visibilityTimeout: Int32?
+        public let visibilityTimeout: Int?
         /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list of messages.
-        public let waitTimeSeconds: Int32?
+        public let waitTimeSeconds: Int?
 
-        public init(attributeNames: [QueueAttributeName]? = nil, maxNumberOfMessages: Int32? = nil, messageAttributeNames: [String]? = nil, queueUrl: String, receiveRequestAttemptId: String? = nil, visibilityTimeout: Int32? = nil, waitTimeSeconds: Int32? = nil) {
+        public init(attributeNames: [QueueAttributeName]? = nil, maxNumberOfMessages: Int? = nil, messageAttributeNames: [String]? = nil, queueUrl: String, receiveRequestAttemptId: String? = nil, visibilityTimeout: Int? = nil, waitTimeSeconds: Int? = nil) {
             self.attributeNames = attributeNames
             self.maxNumberOfMessages = maxNumberOfMessages
             self.messageAttributeNames = messageAttributeNames
@@ -778,7 +778,7 @@ extension SQS {
         ]
 
         /// The length of time, in seconds, for which a specific message is delayed. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue is applied.   When you set FifoQueue, you can't set DelaySeconds per message. You can set this parameter only on a queue level. 
-        public let delaySeconds: Int32?
+        public let delaySeconds: Int?
         /// An identifier for a message in this batch used to communicate the result.  The Ids of a batch request need to be unique within a request This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_). 
         public let id: String
         /// Each message attribute consists of a Name, Type, and Value. For more information, see Amazon SQS Message Attributes in the Amazon Simple Queue Service Developer Guide.
@@ -790,7 +790,7 @@ extension SQS {
         /// This parameter applies only to FIFO (first-in-first-out) queues. The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple consumers can process the queue, but the session data of each user is processed in a FIFO fashion.   You must associate a non-empty MessageGroupId with a message. If you don't provide a MessageGroupId, the action fails.    ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId, the messages are sorted by time sent. The caller can't specify a MessageGroupId.   The length of MessageGroupId is 128 characters. Valid values: alphanumeric characters and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). For best practices of using MessageGroupId, see Using the MessageGroupId Property in the Amazon Simple Queue Service Developer Guide.   MessageGroupId is required for FIFO queues. You can't use it for Standard queues. 
         public let messageGroupId: String?
 
-        public init(delaySeconds: Int32? = nil, id: String, messageAttributes: [String: MessageAttributeValue]? = nil, messageBody: String, messageDeduplicationId: String? = nil, messageGroupId: String? = nil) {
+        public init(delaySeconds: Int? = nil, id: String, messageAttributes: [String: MessageAttributeValue]? = nil, messageBody: String, messageDeduplicationId: String? = nil, messageGroupId: String? = nil) {
             self.delaySeconds = delaySeconds
             self.id = id
             self.messageAttributes = messageAttributes
@@ -879,7 +879,7 @@ extension SQS {
         ]
 
         ///  The length of time, in seconds, for which to delay a specific message. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue applies.   When you set FifoQueue, you can't set DelaySeconds per message. You can set this parameter only on a queue level. 
-        public let delaySeconds: Int32?
+        public let delaySeconds: Int?
         /// Each message attribute consists of a Name, Type, and Value. For more information, see Amazon SQS Message Attributes in the Amazon Simple Queue Service Developer Guide.
         public let messageAttributes: [String: MessageAttributeValue]?
         /// The message to send. The maximum string size is 256 KB.  A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed:  #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF  Any characters not included in this list will be rejected. For more information, see the W3C specification for characters. 
@@ -891,7 +891,7 @@ extension SQS {
         /// The URL of the Amazon SQS queue to which a message is sent. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
-        public init(delaySeconds: Int32? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageBody: String, messageDeduplicationId: String? = nil, messageGroupId: String? = nil, queueUrl: String) {
+        public init(delaySeconds: Int? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageBody: String, messageDeduplicationId: String? = nil, messageGroupId: String? = nil, queueUrl: String) {
             self.delaySeconds = delaySeconds
             self.messageAttributes = messageAttributes
             self.messageBody = messageBody

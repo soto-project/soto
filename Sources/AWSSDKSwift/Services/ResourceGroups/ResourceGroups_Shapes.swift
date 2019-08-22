@@ -367,11 +367,11 @@ extension ResourceGroups {
         /// The name of the resource group.
         public let groupName: String
         /// The maximum number of group member ARNs that are returned in a single call by ListGroupResources, in paginated output. By default, this number is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The NextToken value that is returned in a paginated ListGroupResources request. To get the next page of results, run the call again, add the NextToken parameter, and specify the NextToken value.
         public let nextToken: String?
 
-        public init(filters: [ResourceFilter]? = nil, groupName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [ResourceFilter]? = nil, groupName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.groupName = groupName
             self.maxResults = maxResults
@@ -437,11 +437,11 @@ extension ResourceGroups {
         /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter groups by resource type. Specify up to five resource types in the format AWS::ServiceCode::ResourceType. For example, AWS::EC2::Instance, or AWS::S3::Bucket.  
         public let filters: [GroupFilter]?
         /// The maximum number of resource group results that are returned by ListGroups in paginated output. By default, this number is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The NextToken value that is returned in a paginated ListGroups request. To get the next page of results, run the call again, add the NextToken parameter, and specify the NextToken value.
         public let nextToken: String?
 
-        public init(filters: [GroupFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [GroupFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -615,13 +615,13 @@ extension ResourceGroups {
         ]
 
         /// The maximum number of group member ARNs returned by SearchResources in paginated output. By default, this number is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The NextToken value that is returned in a paginated SearchResources request. To get the next page of results, run the call again, add the NextToken parameter, and specify the NextToken value.
         public let nextToken: String?
         /// The search query, using the same formats that are supported for resource group definition.
         public let resourceQuery: ResourceQuery
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceQuery: ResourceQuery) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceQuery: ResourceQuery) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceQuery = resourceQuery

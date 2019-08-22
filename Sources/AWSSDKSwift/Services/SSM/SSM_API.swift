@@ -9,7 +9,7 @@ AWS Systems Manager AWS Systems Manager is a collection of capabilities that hel
 */
 public struct SSM {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

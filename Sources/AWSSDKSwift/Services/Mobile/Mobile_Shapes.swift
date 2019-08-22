@@ -298,11 +298,11 @@ extension Mobile {
         ]
 
         ///  Maximum number of records to list in a single response. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         ///  Pagination token. Set to null to start listing bundles from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more bundles. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -342,11 +342,11 @@ extension Mobile {
         ]
 
         ///  Maximum number of records to list in a single response. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         ///  Pagination token. Set to null to start listing projects from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more projects. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

@@ -1547,7 +1547,7 @@ extension Chime {
         ]
 
         /// The maximum number of results to return in a single call. Defaults to 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Amazon Chime account name prefix with which to filter results.
         public let name: String?
         /// The token to use to retrieve the next page of results.
@@ -1555,7 +1555,7 @@ extension Chime {
         /// User email address with which to filter results.
         public let userEmail: String?
 
-        public init(maxResults: Int32? = nil, name: String? = nil, nextToken: String? = nil, userEmail: String? = nil) {
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, userEmail: String? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -1611,11 +1611,11 @@ extension Chime {
         /// The Amazon Chime account ID.
         public let accountId: String
         /// The maximum number of results to return in a single call. Default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(accountId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1663,11 +1663,11 @@ extension Chime {
         ]
 
         /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1720,7 +1720,7 @@ extension Chime {
         /// The value to use for the filter.
         public let filterValue: String?
         /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
         /// The phone number product type.
@@ -1728,7 +1728,7 @@ extension Chime {
         /// The phone number status.
         public let status: PhoneNumberStatus?
 
-        public init(filterName: PhoneNumberAssociationName? = nil, filterValue: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil) {
+        public init(filterName: PhoneNumberAssociationName? = nil, filterValue: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil) {
             self.filterName = filterName
             self.filterValue = filterValue
             self.maxResults = maxResults
@@ -1785,13 +1785,13 @@ extension Chime {
         /// The Amazon Chime account ID.
         public let accountId: String
         /// The maximum number of results to return in a single call. Defaults to 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
         /// Optional. The user email address used to filter results. Maximum 1.
         public let userEmail: String?
 
-        public init(accountId: String, maxResults: Int32? = nil, nextToken: String? = nil, userEmail: String? = nil) {
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil, userEmail: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1880,11 +1880,11 @@ extension Chime {
         ]
 
         /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2026,15 +2026,15 @@ extension Chime {
         /// The FODN or IP address to contact for origination traffic.
         public let host: String?
         /// The designated origination route port. Defaults to 5060.
-        public let port: Int32?
+        public let port: Int?
         /// The priority associated with the host, with 1 being the highest priority. Higher priority hosts are attempted first.
-        public let priority: Int32?
+        public let priority: Int?
         /// The protocol to use for the origination route. Encryption-enabled Amazon Chime Voice Connectors use TCP protocol by default.
         public let `protocol`: OriginationRouteProtocol?
         /// The weight associated with the host. If hosts are equal in priority, calls are distributed among them based on their relative weight.
-        public let weight: Int32?
+        public let weight: Int?
 
-        public init(host: String? = nil, port: Int32? = nil, priority: Int32? = nil, protocol: OriginationRouteProtocol? = nil, weight: Int32? = nil) {
+        public init(host: String? = nil, port: Int? = nil, priority: Int? = nil, protocol: OriginationRouteProtocol? = nil, weight: Int? = nil) {
             self.host = host
             self.port = port
             self.priority = priority
@@ -2622,7 +2622,7 @@ extension Chime {
         /// The country used to filter results.
         public let country: String?
         /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
         /// The state used to filter results.
@@ -2630,7 +2630,7 @@ extension Chime {
         /// The toll-free prefix that you use to filter results.
         public let tollFreePrefix: String?
 
-        public init(areaCode: String? = nil, city: String? = nil, country: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, state: String? = nil, tollFreePrefix: String? = nil) {
+        public init(areaCode: String? = nil, city: String? = nil, country: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, state: String? = nil, tollFreePrefix: String? = nil) {
             self.areaCode = areaCode
             self.city = city
             self.country = country
@@ -2717,13 +2717,13 @@ extension Chime {
         /// The IP addresses allowed to make calls, in CIDR format.
         public let cidrAllowedList: [String]?
         /// The limit on calls per second. Max value based on account service limit. Default value of 1.
-        public let cpsLimit: Int32?
+        public let cpsLimit: Int?
         /// The default caller ID phone number.
         public let defaultPhoneNumber: String?
         /// When termination settings are disabled, outbound calls can not be made.
         public let disabled: Bool?
 
-        public init(callingRegions: [String]? = nil, cidrAllowedList: [String]? = nil, cpsLimit: Int32? = nil, defaultPhoneNumber: String? = nil, disabled: Bool? = nil) {
+        public init(callingRegions: [String]? = nil, cidrAllowedList: [String]? = nil, cpsLimit: Int? = nil, defaultPhoneNumber: String? = nil, disabled: Bool? = nil) {
             self.callingRegions = callingRegions
             self.cidrAllowedList = cidrAllowedList
             self.cpsLimit = cpsLimit

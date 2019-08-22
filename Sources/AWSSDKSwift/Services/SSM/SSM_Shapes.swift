@@ -34,13 +34,13 @@ extension SSM {
         /// The Amazon Identity and Access Management (IAM) role to assign to the managed instance.
         public let iamRole: String?
         /// The maximum number of managed instances that can be registered using this activation.
-        public let registrationLimit: Int32?
+        public let registrationLimit: Int?
         /// The number of managed instances already registered with this activation.
-        public let registrationsCount: Int32?
+        public let registrationsCount: Int?
         /// Tags assigned to the activation.
         public let tags: [Tag]?
 
-        public init(activationId: String? = nil, createdDate: TimeStamp? = nil, defaultInstanceName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, expired: Bool? = nil, iamRole: String? = nil, registrationLimit: Int32? = nil, registrationsCount: Int32? = nil, tags: [Tag]? = nil) {
+        public init(activationId: String? = nil, createdDate: TimeStamp? = nil, defaultInstanceName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, expired: Bool? = nil, iamRole: String? = nil, registrationLimit: Int? = nil, registrationsCount: Int? = nil, tags: [Tag]? = nil) {
             self.activationId = activationId
             self.createdDate = createdDate
             self.defaultInstanceName = defaultInstanceName
@@ -524,13 +524,13 @@ extension SSM {
         ]
 
         /// Returns the number of targets for the association status. For example, if you created an association with two instances, and one of them was successful, this would return the count of instances by status.
-        public let associationStatusAggregatedCount: [String: Int32]?
+        public let associationStatusAggregatedCount: [String: Int]?
         /// A detailed status of the association.
         public let detailedStatus: String?
         /// The status of the association. Status can be: Pending, Success, or Failed.
         public let status: String?
 
-        public init(associationStatusAggregatedCount: [String: Int32]? = nil, detailedStatus: String? = nil, status: String? = nil) {
+        public init(associationStatusAggregatedCount: [String: Int]? = nil, detailedStatus: String? = nil, status: String? = nil) {
             self.associationStatusAggregatedCount = associationStatusAggregatedCount
             self.detailedStatus = detailedStatus
             self.status = status
@@ -1222,15 +1222,15 @@ extension SSM {
         /// User-specified information about the command, such as a brief description of what the command should do.
         public let comment: String?
         /// The number of targets for which the command invocation reached a terminal state. Terminal states include the following: Success, Failed, Execution Timed Out, Delivery Timed Out, Canceled, Terminated, or Undeliverable.
-        public let completedCount: Int32?
+        public let completedCount: Int?
         /// The number of targets for which the status is Delivery Timed Out.
-        public let deliveryTimedOutCount: Int32?
+        public let deliveryTimedOutCount: Int?
         /// The name of the document requested for execution.
         public let documentName: String?
         /// The SSM document version.
         public let documentVersion: String?
         /// The number of targets for which the status is Failed or Execution Timed Out.
-        public let errorCount: Int32?
+        public let errorCount: Int?
         /// If this time is reached and the command has not already started running, it will not run. Calculated based on the ExpiresAfter user input provided as part of the SendCommand API.
         public let expiresAfter: TimeStamp?
         /// The instance IDs against which this command was requested.
@@ -1258,11 +1258,11 @@ extension SSM {
         /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to any instances.   In Progress: The command has been sent to at least one instance but has not reached a final state on all instances.   Success: The command successfully ran on all invocations. This is a terminal state.   Delivery Timed Out: The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out: The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed: The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete: The command was attempted on all instances and one or more invocations does not have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Rate Exceeded: The number of instances targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before running it on any instance. This is a terminal state.  
         public let statusDetails: String?
         /// The number of targets for the command.
-        public let targetCount: Int32?
+        public let targetCount: Int?
         /// An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
         public let targets: [Target]?
 
-        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, completedCount: Int32? = nil, deliveryTimedOutCount: Int32? = nil, documentName: String? = nil, documentVersion: String? = nil, errorCount: Int32? = nil, expiresAfter: TimeStamp? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, requestedDateTime: TimeStamp? = nil, serviceRole: String? = nil, status: CommandStatus? = nil, statusDetails: String? = nil, targetCount: Int32? = nil, targets: [Target]? = nil) {
+        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, completedCount: Int? = nil, deliveryTimedOutCount: Int? = nil, documentName: String? = nil, documentVersion: String? = nil, errorCount: Int? = nil, expiresAfter: TimeStamp? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, requestedDateTime: TimeStamp? = nil, serviceRole: String? = nil, status: CommandStatus? = nil, statusDetails: String? = nil, targetCount: Int? = nil, targets: [Target]? = nil) {
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.commandId = commandId
             self.comment = comment
@@ -1481,7 +1481,7 @@ extension SSM {
         /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
         public let outputS3Region: String?
         /// A numeric response code generated after running the plugin. 
-        public let responseCode: Int32?
+        public let responseCode: Int?
         /// The time the plugin stopped running. Could stop prematurely if, for example, a cancel command was sent. 
         public let responseFinishDateTime: TimeStamp?
         /// The time the plugin started running. 
@@ -1495,7 +1495,7 @@ extension SSM {
         /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
-        public init(name: String? = nil, output: String? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, responseCode: Int32? = nil, responseFinishDateTime: TimeStamp? = nil, responseStartDateTime: TimeStamp? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, status: CommandPluginStatus? = nil, statusDetails: String? = nil) {
+        public init(name: String? = nil, output: String? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, responseCode: Int? = nil, responseFinishDateTime: TimeStamp? = nil, responseStartDateTime: TimeStamp? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, status: CommandPluginStatus? = nil, statusDetails: String? = nil) {
             self.name = name
             self.output = output
             self.outputS3BucketName = outputS3BucketName
@@ -1778,11 +1778,11 @@ extension SSM {
         ]
 
         /// The total number of resources that are compliant.
-        public let compliantCount: Int32?
+        public let compliantCount: Int?
         /// A summary of the compliance severity by compliance type.
         public let severitySummary: SeveritySummary?
 
-        public init(compliantCount: Int32? = nil, severitySummary: SeveritySummary? = nil) {
+        public init(compliantCount: Int? = nil, severitySummary: SeveritySummary? = nil) {
             self.compliantCount = compliantCount
             self.severitySummary = severitySummary
         }
@@ -1818,11 +1818,11 @@ extension SSM {
         /// The Amazon Identity and Access Management (IAM) role that you want to assign to the managed instance. 
         public let iamRole: String
         /// Specify the maximum number of managed instances you want to register. The default value is 1 instance.
-        public let registrationLimit: Int32?
+        public let registrationLimit: Int?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an activation to identify which servers or virtual machines (VMs) in your on-premises environment you intend to activate. In this case, you could specify the following key name/value pairs:    Key=OS,Value=Windows     Key=Environment,Value=Production     When you install SSM Agent on your on-premises servers and VMs, you specify an activation ID and code. When you specify the activation ID and code, tags assigned to the activation are automatically applied to the on-premises servers or VMs.  You can't add tags to or delete tags from an existing activation. You can tag your on-premises servers and VMs after they connect to Systems Manager for the first time and are assigned a managed instance ID. This means they are listed in the AWS Systems Manager console with an ID that is prefixed with "mi-". For information about how to add tags to your managed instances, see AddTagsToResource. For information about how to remove tags from your managed instances, see RemoveTagsFromResource.
         public let tags: [Tag]?
 
-        public init(defaultInstanceName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, iamRole: String, registrationLimit: Int32? = nil, tags: [Tag]? = nil) {
+        public init(defaultInstanceName: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, iamRole: String, registrationLimit: Int? = nil, tags: [Tag]? = nil) {
             self.defaultInstanceName = defaultInstanceName
             self.description = description
             self.expirationDate = expirationDate
@@ -2237,11 +2237,11 @@ extension SSM {
         /// User-provided idempotency token.
         public let clientToken: String?
         /// The number of hours before the end of the maintenance window that Systems Manager stops scheduling new tasks for execution.
-        public let cutoff: Int32
+        public let cutoff: Int
         /// An optional description for the maintenance window. We recommend specifying a description to help you organize your maintenance windows. 
         public let description: String?
         /// The duration of the maintenance window in hours.
-        public let duration: Int32
+        public let duration: Int
         /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become inactive. EndDate allows you to set a date and time in the future when the maintenance window will no longer run.
         public let endDate: String?
         /// The name of the maintenance window.
@@ -2255,7 +2255,7 @@ extension SSM {
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of targets, and the environment it will run in. In this case, you could specify the following key name/value pairs:    Key=TaskType,Value=AgentUpdate     Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing maintenance window, use the AddTagsToResource action. 
         public let tags: [Tag]?
 
-        public init(allowUnassociatedTargets: Bool, clientToken: String? = CreateMaintenanceWindowRequest.idempotencyToken(), cutoff: Int32, description: String? = nil, duration: Int32, endDate: String? = nil, name: String, schedule: String, scheduleTimezone: String? = nil, startDate: String? = nil, tags: [Tag]? = nil) {
+        public init(allowUnassociatedTargets: Bool, clientToken: String? = CreateMaintenanceWindowRequest.idempotencyToken(), cutoff: Int, description: String? = nil, duration: Int, endDate: String? = nil, name: String, schedule: String, scheduleTimezone: String? = nil, startDate: String? = nil, tags: [Tag]? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.clientToken = clientToken
             self.cutoff = cutoff
@@ -2340,7 +2340,7 @@ extension SSM {
         /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems Manually in the AWS Systems Manager User Guide.
         public let operationalData: [String: OpsItemDataValue]?
         /// The importance of this OpsItem in relation to other OpsItems in the system.
-        public let priority: Int32?
+        public let priority: Int?
         /// One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
         public let relatedOpsItems: [RelatedOpsItem]?
         /// The origin of the OpsItem, such as Amazon EC2 or AWS Systems Manager.
@@ -2350,7 +2350,7 @@ extension SSM {
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String
 
-        public init(description: String, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, priority: Int32? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, source: String, tags: [Tag]? = nil, title: String) {
+        public init(description: String, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, source: String, tags: [Tag]? = nil, title: String) {
             self.description = description
             self.notifications = notifications
             self.operationalData = operationalData
@@ -3170,11 +3170,11 @@ extension SSM {
         /// A filter to view information about your activations.
         public let filters: [DescribeActivationsFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
 
-        public init(filters: [DescribeActivationsFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [DescribeActivationsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3230,11 +3230,11 @@ extension SSM {
         /// Filters for the request. You can specify the following filters and values. Status (EQUAL) ResourceId (EQUAL) ResourceType (EQUAL)
         public let filters: [AssociationExecutionTargetsFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
 
-        public init(associationId: String, executionId: String, filters: [AssociationExecutionTargetsFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(associationId: String, executionId: String, filters: [AssociationExecutionTargetsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.associationId = associationId
             self.executionId = executionId
             self.filters = filters
@@ -3297,11 +3297,11 @@ extension SSM {
         /// Filters for the request. You can specify the following filters and values. ExecutionId (EQUAL) Status (EQUAL) CreatedTime (EQUAL, GREATER_THAN, LESS_THAN)
         public let filters: [AssociationExecutionFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
 
-        public init(associationId: String, filters: [AssociationExecutionFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(associationId: String, filters: [AssociationExecutionFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.associationId = associationId
             self.filters = filters
             self.maxResults = maxResults
@@ -3414,11 +3414,11 @@ extension SSM {
         /// Filters used to limit the scope of executions that are requested.
         public let filters: [AutomationExecutionFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(filters: [AutomationExecutionFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [AutomationExecutionFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3477,13 +3477,13 @@ extension SSM {
         /// One or more filters to limit the number of step executions returned by the request.
         public let filters: [StepExecutionFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// A boolean that indicates whether to list step executions in reverse order by start time. The default value is false.
         public let reverseOrder: Bool?
 
-        public init(automationExecutionId: String, filters: [StepExecutionFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil) {
+        public init(automationExecutionId: String, filters: [StepExecutionFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil) {
             self.automationExecutionId = automationExecutionId
             self.filters = filters
             self.maxResults = maxResults
@@ -3544,11 +3544,11 @@ extension SSM {
         /// Filters used to scope down the returned patches.
         public let filters: [PatchOrchestratorFilter]?
         /// The maximum number of patches to return (per page).
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3696,11 +3696,11 @@ extension SSM {
         /// The instance ID for which you want to view all associations.
         public let instanceId: String
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3751,11 +3751,11 @@ extension SSM {
         /// The ID of the patch baseline to retrieve the effective patches for.
         public let baselineId: String
         /// The maximum number of patches to return (per page).
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(baselineId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(baselineId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.baselineId = baselineId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3808,11 +3808,11 @@ extension SSM {
         /// The instance IDs for which you want association status information.
         public let instanceId: String
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3866,11 +3866,11 @@ extension SSM {
         /// This is a legacy method. We recommend that you don't use this method. Instead, use the InstanceInformationFilter action. The InstanceInformationFilter action enables you to return instance information by using tags that are specified as a key-value mapping.  If you do use this method, then you can't use the InstanceInformationFilter action. Using this method and the InstanceInformationFilter action causes an exception error. 
         public let instanceInformationFilterList: [InstanceInformationFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(filters: [InstanceInformationStringFilter]? = nil, instanceInformationFilterList: [InstanceInformationFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [InstanceInformationStringFilter]? = nil, instanceInformationFilterList: [InstanceInformationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.instanceInformationFilterList = instanceInformationFilterList
             self.maxResults = maxResults
@@ -3931,13 +3931,13 @@ extension SSM {
         /// Each entry in the array is a structure containing: Key (string between 1 and 200 characters)  Values (array containing a single string)  Type (string "Equal", "NotEqual", "LessThan", "GreaterThan")
         public let filters: [InstancePatchStateFilter]?
         /// The maximum number of patches to return (per page).
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The name of the patch group for which the patch state information should be retrieved.
         public let patchGroup: String
 
-        public init(filters: [InstancePatchStateFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, patchGroup: String) {
+        public init(filters: [InstancePatchStateFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, patchGroup: String) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3997,11 +3997,11 @@ extension SSM {
         /// The ID of the instance whose patch state information should be retrieved.
         public let instanceIds: [String]
         /// The maximum number of instances to return (per page).
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(instanceIds: [String], maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(instanceIds: [String], maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceIds = instanceIds
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4059,11 +4059,11 @@ extension SSM {
         /// The ID of the instance whose patch state information should be retrieved.
         public let instanceId: String
         /// The maximum number of patches to return (per page).
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(filters: [PatchOrchestratorFilter]? = nil, instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [PatchOrchestratorFilter]? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -4121,11 +4121,11 @@ extension SSM {
         /// Specify the delete inventory ID for which you want information. This ID was returned by the DeleteInventory action.
         public let deletionId: String?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
 
-        public init(deletionId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(deletionId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.deletionId = deletionId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4177,7 +4177,7 @@ extension SSM {
         /// Optional filters used to scope down the returned task invocations. The supported filter key is STATUS with the corresponding values PENDING, IN_PROGRESS, SUCCESS, FAILED, TIMED_OUT, CANCELLING, and CANCELLED.
         public let filters: [MaintenanceWindowFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The ID of the specific task in the maintenance window task that should be retrieved.
@@ -4185,7 +4185,7 @@ extension SSM {
         /// The ID of the maintenance window execution the task is part of.
         public let windowExecutionId: String
 
-        public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, taskId: String, windowExecutionId: String) {
+        public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, taskId: String, windowExecutionId: String) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4251,13 +4251,13 @@ extension SSM {
         /// Optional filters used to scope down the returned tasks. The supported filter key is STATUS with the corresponding values PENDING, IN_PROGRESS, SUCCESS, FAILED, TIMED_OUT, CANCELLING, and CANCELLED. 
         public let filters: [MaintenanceWindowFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The ID of the maintenance window execution whose task executions should be retrieved.
         public let windowExecutionId: String
 
-        public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, windowExecutionId: String) {
+        public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, windowExecutionId: String) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4318,13 +4318,13 @@ extension SSM {
         /// Each entry in the array is a structure containing: Key (string, between 1 and 128 characters) Values (array of strings, each string is between 1 and 256 characters) The supported Keys are ExecutedBefore and ExecutedAfter with the value being a date/time string such as 2016-11-04T05:00:00Z.
         public let filters: [MaintenanceWindowFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The ID of the maintenance window whose executions should be retrieved.
         public let windowId: String
 
-        public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, windowId: String) {
+        public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, windowId: String) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4387,7 +4387,7 @@ extension SSM {
         /// Filters used to limit the range of results. For example, you can limit maintenance window executions to only those scheduled before or after a certain date and time.
         public let filters: [PatchOrchestratorFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The type of resource you want to retrieve information about. For example, "INSTANCE".
@@ -4397,7 +4397,7 @@ extension SSM {
         /// The ID of the maintenance window to retrieve information about.
         public let windowId: String?
 
-        public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resourceType: MaintenanceWindowResourceType? = nil, targets: [Target]? = nil, windowId: String? = nil) {
+        public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceType: MaintenanceWindowResourceType? = nil, targets: [Target]? = nil, windowId: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4466,13 +4466,13 @@ extension SSM {
         /// Optional filters that can be used to narrow down the scope of the returned window targets. The supported filter keys are Type, WindowTargetId and OwnerInformation.
         public let filters: [MaintenanceWindowFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The ID of the maintenance window whose targets should be retrieved.
         public let windowId: String
 
-        public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, windowId: String) {
+        public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, windowId: String) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4533,13 +4533,13 @@ extension SSM {
         /// Optional filters used to narrow down the scope of the returned tasks. The supported filter keys are WindowTaskId, TaskArn, Priority, and TaskType.
         public let filters: [MaintenanceWindowFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The ID of the maintenance window whose tasks should be retrieved.
         public let windowId: String
 
-        public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, windowId: String) {
+        public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, windowId: String) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4598,7 +4598,7 @@ extension SSM {
         ]
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The type of resource you want to retrieve information about. For example, "INSTANCE".
@@ -4606,7 +4606,7 @@ extension SSM {
         /// The instance ID or key/value pair to retrieve information about.
         public let targets: [Target]
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceType: MaintenanceWindowResourceType, targets: [Target]) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceType: MaintenanceWindowResourceType, targets: [Target]) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceType = resourceType
@@ -4662,11 +4662,11 @@ extension SSM {
         /// Optional filters used to narrow down the scope of the returned maintenance windows. Supported filter keys are Name and Enabled.
         public let filters: [MaintenanceWindowFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [MaintenanceWindowFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4719,13 +4719,13 @@ extension SSM {
         ]
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
         /// One or more filters to limit the reponse.   Key: CreatedTime Operations: GreaterThan, LessThan   Key: LastModifiedBy Operations: Contains, Equals   Key: LastModifiedTime Operations: GreaterThan, LessThan   Key: Priority Operations: Equals   Key: Source Operations: Contains, Equals   Key: Status Operations: Equals   Key: Title Operations: Contains   Key: OperationalData* Operations: Equals   Key: OperationalDataKey Operations: Equals   Key: OperationalDataValue Operations: Equals, Contains   Key: OpsItemId Operations: Equals   Key: ResourceId Operations: Contains   Key: AutomationId Operations: Equals   *If you filter the response by using the OperationalData operator, specify a key-value pair by using the following JSON format: {"key":"key_name","value":"a_value"}
         public let opsItemFilters: [OpsItemFilter]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, opsItemFilters: [OpsItemFilter]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, opsItemFilters: [OpsItemFilter]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.opsItemFilters = opsItemFilters
@@ -4776,13 +4776,13 @@ extension SSM {
         /// One or more filters. Use a filter to return a more specific list of results.
         public let filters: [ParametersFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// Filters to limit the request results.
         public let parameterFilters: [ParameterStringFilter]?
 
-        public init(filters: [ParametersFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, parameterFilters: [ParameterStringFilter]? = nil) {
+        public init(filters: [ParametersFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, parameterFilters: [ParameterStringFilter]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4840,11 +4840,11 @@ extension SSM {
         /// Each element in the array is a structure containing:  Key: (string, "NAME_PREFIX" or "OWNER") Value: (array of strings, exactly 1 entry, between 1 and 255 characters)
         public let filters: [PatchOrchestratorFilter]?
         /// The maximum number of patch baselines to return (per page).
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4925,23 +4925,23 @@ extension SSM {
         ]
 
         /// The number of instances in the patch group.
-        public let instances: Int32?
+        public let instances: Int?
         /// The number of instances with patches from the patch baseline that failed to install.
-        public let instancesWithFailedPatches: Int32?
+        public let instancesWithFailedPatches: Int?
         /// The number of instances with patches installed that aren't defined in the patch baseline.
-        public let instancesWithInstalledOtherPatches: Int32?
+        public let instancesWithInstalledOtherPatches: Int?
         /// The number of instances with installed patches.
-        public let instancesWithInstalledPatches: Int32?
+        public let instancesWithInstalledPatches: Int?
         /// The number of instances with patches installed that are specified in a RejectedPatches list. Patches with a status of INSTALLED_REJECTED were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstancesWithInstalledRejectedPatches will always be 0 (zero). 
-        public let instancesWithInstalledRejectedPatches: Int32?
+        public let instancesWithInstalledRejectedPatches: Int?
         /// The number of instances with missing patches from the patch baseline.
-        public let instancesWithMissingPatches: Int32?
+        public let instancesWithMissingPatches: Int?
         /// The number of instances with patches that aren't applicable.
-        public let instancesWithNotApplicablePatches: Int32?
+        public let instancesWithNotApplicablePatches: Int?
         /// The number of instances with NotApplicable patches beyond the supported limit, which are not reported by name to Systems Manager Inventory.
-        public let instancesWithUnreportedNotApplicablePatches: Int32?
+        public let instancesWithUnreportedNotApplicablePatches: Int?
 
-        public init(instances: Int32? = nil, instancesWithFailedPatches: Int32? = nil, instancesWithInstalledOtherPatches: Int32? = nil, instancesWithInstalledPatches: Int32? = nil, instancesWithInstalledRejectedPatches: Int32? = nil, instancesWithMissingPatches: Int32? = nil, instancesWithNotApplicablePatches: Int32? = nil, instancesWithUnreportedNotApplicablePatches: Int32? = nil) {
+        public init(instances: Int? = nil, instancesWithFailedPatches: Int? = nil, instancesWithInstalledOtherPatches: Int? = nil, instancesWithInstalledPatches: Int? = nil, instancesWithInstalledRejectedPatches: Int? = nil, instancesWithMissingPatches: Int? = nil, instancesWithNotApplicablePatches: Int? = nil, instancesWithUnreportedNotApplicablePatches: Int? = nil) {
             self.instances = instances
             self.instancesWithFailedPatches = instancesWithFailedPatches
             self.instancesWithInstalledOtherPatches = instancesWithInstalledOtherPatches
@@ -4974,11 +4974,11 @@ extension SSM {
         /// One or more filters. Use a filter to return a more specific list of results.
         public let filters: [PatchOrchestratorFilter]?
         /// The maximum number of patch groups to return (per page).
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [PatchOrchestratorFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5033,7 +5033,7 @@ extension SSM {
         ]
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The operating system type for which to list patches.
@@ -5043,7 +5043,7 @@ extension SSM {
         /// The patch property for which you want to view patch details. 
         public let property: PatchProperty
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, operatingSystem: OperatingSystem, patchSet: PatchSet? = nil, property: PatchProperty) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, operatingSystem: OperatingSystem, patchSet: PatchSet? = nil, property: PatchProperty) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.operatingSystem = operatingSystem
@@ -5098,13 +5098,13 @@ extension SSM {
         /// One or more filters to limit the type of sessions returned by the request.
         public let filters: [SessionFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The session status to retrieve a list of sessions for. For example, "Active".
         public let state: SessionState
 
-        public init(filters: [SessionFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, state: SessionState) {
+        public init(filters: [SessionFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, state: SessionState) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5751,7 +5751,7 @@ extension SSM {
         /// The name of the plugin for which you want detailed results. For example, aws:RunShellScript is a plugin.
         public let pluginName: String?
         /// The error level response code for the plugin script. If the response code is -1, then the command has not started running on the instance, or it was not received by the instance.
-        public let responseCode: Int32?
+        public let responseCode: Int?
         /// The first 8,000 characters written by the plugin to stderr. If the command has not finished running, then this string is empty.
         public let standardErrorContent: String?
         /// The URL for the complete text written by the plugin to stderr. If the command has not finished running, then this string is empty.
@@ -5765,7 +5765,7 @@ extension SSM {
         /// A detailed status of the command execution for an invocation. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding Command Statuses in the AWS Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Delayed: The system attempted to send the command to the target, but the target was not available. The instance might not be available because of network issues, the instance was stopped, etc. The system will try to deliver the command again.   Success: The command or plugin was run successfully. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: The command started to run on the instance, but the execution was not complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't run successfully on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
-        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executionElapsedTime: String? = nil, executionEndDateTime: String? = nil, executionStartDateTime: String? = nil, instanceId: String? = nil, pluginName: String? = nil, responseCode: Int32? = nil, standardErrorContent: String? = nil, standardErrorUrl: String? = nil, standardOutputContent: String? = nil, standardOutputUrl: String? = nil, status: CommandInvocationStatus? = nil, statusDetails: String? = nil) {
+        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executionElapsedTime: String? = nil, executionEndDateTime: String? = nil, executionStartDateTime: String? = nil, instanceId: String? = nil, pluginName: String? = nil, responseCode: Int? = nil, standardErrorContent: String? = nil, standardErrorUrl: String? = nil, standardOutputContent: String? = nil, standardOutputUrl: String? = nil, status: CommandInvocationStatus? = nil, statusDetails: String? = nil) {
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.commandId = commandId
             self.comment = comment
@@ -6059,13 +6059,13 @@ extension SSM {
         /// One or more filters. Use a filter to return a more specific list of results.
         public let filters: [InventoryFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The list of inventory item types to return.
         public let resultAttributes: [ResultAttribute]?
 
-        public init(aggregators: [InventoryAggregator]? = nil, filters: [InventoryFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resultAttributes: [ResultAttribute]? = nil) {
+        public init(aggregators: [InventoryAggregator]? = nil, filters: [InventoryFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, resultAttributes: [ResultAttribute]? = nil) {
             self.aggregators = aggregators
             self.filters = filters
             self.maxResults = maxResults
@@ -6136,7 +6136,7 @@ extension SSM {
         /// Returns inventory schemas that support aggregation. For example, this call returns the AWS:InstanceInformation type, because it supports aggregation based on the PlatformName, PlatformType, and PlatformVersion attributes.
         public let aggregator: Bool?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// Returns the sub-type schema for a specified inventory type.
@@ -6144,7 +6144,7 @@ extension SSM {
         /// The type of inventory item to return.
         public let typeName: String?
 
-        public init(aggregator: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil, subType: Bool? = nil, typeName: String? = nil) {
+        public init(aggregator: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, subType: Bool? = nil, typeName: String? = nil) {
             self.aggregator = aggregator
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6421,7 +6421,7 @@ extension SSM {
         /// The defined maximum number of task execution errors allowed before scheduling of the task execution would have been stopped.
         public let maxErrors: String?
         /// The priority of the task.
-        public let priority: Int32?
+        public let priority: Int?
         /// The role that was assumed when running the task.
         public let serviceRole: String?
         /// The time the task execution started.
@@ -6441,7 +6441,7 @@ extension SSM {
         /// The ID of the maintenance window execution that includes the task.
         public let windowExecutionId: String?
 
-        public init(endTime: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, priority: Int32? = nil, serviceRole: String? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskArn: String? = nil, taskExecutionId: String? = nil, taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]? = nil, type: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil) {
+        public init(endTime: TimeStamp? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, priority: Int? = nil, serviceRole: String? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, statusDetails: String? = nil, taskArn: String? = nil, taskExecutionId: String? = nil, taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]? = nil, type: MaintenanceWindowTaskType? = nil, windowExecutionId: String? = nil) {
             self.endTime = endTime
             self.maxConcurrency = maxConcurrency
             self.maxErrors = maxErrors
@@ -6520,11 +6520,11 @@ extension SSM {
         /// The date the maintenance window was created.
         public let createdDate: TimeStamp?
         /// The number of hours before the end of the maintenance window that Systems Manager stops scheduling new tasks for execution.
-        public let cutoff: Int32?
+        public let cutoff: Int?
         /// The description of the maintenance window.
         public let description: String?
         /// The duration of the maintenance window in hours.
-        public let duration: Int32?
+        public let duration: Int?
         /// Indicates whether the maintenance window is enabled.
         public let enabled: Bool?
         /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become inactive. The maintenance window will not run after this specified time.
@@ -6544,7 +6544,7 @@ extension SSM {
         /// The ID of the created maintenance window.
         public let windowId: String?
 
-        public init(allowUnassociatedTargets: Bool? = nil, createdDate: TimeStamp? = nil, cutoff: Int32? = nil, description: String? = nil, duration: Int32? = nil, enabled: Bool? = nil, endDate: String? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
+        public init(allowUnassociatedTargets: Bool? = nil, createdDate: TimeStamp? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.createdDate = createdDate
             self.cutoff = cutoff
@@ -6639,7 +6639,7 @@ extension SSM {
         /// The retrieved task name.
         public let name: String?
         /// The priority of the task when it runs. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
-        public let priority: Int32?
+        public let priority: Int?
         /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for maintenance window Run Command tasks.
         public let serviceRoleArn: String?
         /// The targets where the task should run.
@@ -6657,7 +6657,7 @@ extension SSM {
         /// The retrieved maintenance window task ID.
         public let windowTaskId: String?
 
-        public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+        public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
             self.description = description
             self.loggingInfo = loggingInfo
             self.maxConcurrency = maxConcurrency
@@ -6743,11 +6743,11 @@ extension SSM {
         /// Optional filters used to scope down the returned OpsItems. 
         public let filters: [OpsFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
 
-        public init(aggregators: [OpsAggregator], filters: [OpsFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(aggregators: [OpsAggregator], filters: [OpsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.aggregators = aggregators
             self.filters = filters
             self.maxResults = maxResults
@@ -6808,7 +6808,7 @@ extension SSM {
         ]
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of a parameter you want to query.
         public let name: String
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -6816,7 +6816,7 @@ extension SSM {
         /// Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
         public let withDecryption: Bool?
 
-        public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil, withDecryption: Bool? = nil) {
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil, withDecryption: Bool? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -6915,7 +6915,7 @@ extension SSM {
         ]
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
         /// Filters to limit the request results.  You can't filter using the parameter name. 
@@ -6927,7 +6927,7 @@ extension SSM {
         /// Retrieve all parameters in a hierarchy with their value decrypted.
         public let withDecryption: Bool?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, parameterFilters: [ParameterStringFilter]? = nil, path: String, recursive: Bool? = nil, withDecryption: Bool? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, parameterFilters: [ParameterStringFilter]? = nil, path: String, recursive: Bool? = nil, withDecryption: Bool? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.parameterFilters = parameterFilters
@@ -7244,9 +7244,9 @@ extension SSM {
         /// Detailed status information about the aggregated associations.
         public let detailedStatus: String?
         /// The number of associations for the instance(s).
-        public let instanceAssociationStatusAggregatedCount: [String: Int32]?
+        public let instanceAssociationStatusAggregatedCount: [String: Int]?
 
-        public init(detailedStatus: String? = nil, instanceAssociationStatusAggregatedCount: [String: Int32]? = nil) {
+        public init(detailedStatus: String? = nil, instanceAssociationStatusAggregatedCount: [String: Int]? = nil) {
             self.detailedStatus = detailedStatus
             self.instanceAssociationStatusAggregatedCount = instanceAssociationStatusAggregatedCount
         }
@@ -7602,21 +7602,21 @@ extension SSM {
         /// The ID of the patch baseline used to patch the instance.
         public let baselineId: String
         /// The number of patches from the patch baseline that were attempted to be installed during the last patching operation, but failed to install.
-        public let failedCount: Int32?
+        public let failedCount: Int?
         /// The number of patches from the patch baseline that are installed on the instance.
-        public let installedCount: Int32?
+        public let installedCount: Int?
         /// The number of patches not specified in the patch baseline that are installed on the instance.
-        public let installedOtherCount: Int32?
+        public let installedOtherCount: Int?
         /// The number of instances with patches installed that are specified in a RejectedPatches list. Patches with a status of InstalledRejected were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstalledRejectedCount will always be 0 (zero). 
-        public let installedRejectedCount: Int32?
+        public let installedRejectedCount: Int?
         /// An https URL or an Amazon S3 path-style URL to a list of patches to be installed. This patch installation list, which you maintain in an Amazon S3 bucket in YAML format and specify in the SSM document AWS-RunPatchBaseline, overrides the patches specified by the default patch baseline. For more information about the InstallOverrideList parameter, see About the SSM Document AWS-RunPatchBaseline in the AWS Systems Manager User Guide.
         public let installOverrideList: String?
         /// The ID of the managed instance the high-level patch compliance information was collected for.
         public let instanceId: String
         /// The number of patches from the patch baseline that are applicable for the instance but aren't currently installed.
-        public let missingCount: Int32?
+        public let missingCount: Int?
         /// The number of patches from the patch baseline that aren't applicable for the instance and therefore aren't installed on the instance. This number may be truncated if the list of patch names is very large. The number of patches beyond this limit are reported in UnreportedNotApplicableCount.
-        public let notApplicableCount: Int32?
+        public let notApplicableCount: Int?
         /// The type of patching operation that was performed: SCAN (assess patch compliance state) or INSTALL (install missing patches).
         public let operation: PatchOperationType
         /// The time the most recent patching operation completed on the instance.
@@ -7630,9 +7630,9 @@ extension SSM {
         /// The ID of the patch baseline snapshot used during the patching operation when this compliance data was collected.
         public let snapshotId: String?
         /// The number of patches beyond the supported limit of NotApplicableCount that are not reported by name to Systems Manager Inventory.
-        public let unreportedNotApplicableCount: Int32?
+        public let unreportedNotApplicableCount: Int?
 
-        public init(baselineId: String, failedCount: Int32? = nil, installedCount: Int32? = nil, installedOtherCount: Int32? = nil, installedRejectedCount: Int32? = nil, installOverrideList: String? = nil, instanceId: String, missingCount: Int32? = nil, notApplicableCount: Int32? = nil, operation: PatchOperationType, operationEndTime: TimeStamp, operationStartTime: TimeStamp, ownerInformation: String? = nil, patchGroup: String, snapshotId: String? = nil, unreportedNotApplicableCount: Int32? = nil) {
+        public init(baselineId: String, failedCount: Int? = nil, installedCount: Int? = nil, installedOtherCount: Int? = nil, installedRejectedCount: Int? = nil, installOverrideList: String? = nil, instanceId: String, missingCount: Int? = nil, notApplicableCount: Int? = nil, operation: PatchOperationType, operationEndTime: TimeStamp, operationStartTime: TimeStamp, ownerInformation: String? = nil, patchGroup: String, snapshotId: String? = nil, unreportedNotApplicableCount: Int? = nil) {
             self.baselineId = baselineId
             self.failedCount = failedCount
             self.installedCount = installedCount
@@ -7822,13 +7822,13 @@ extension SSM {
         ]
 
         /// Remaining number of items to delete.
-        public let remainingCount: Int32?
+        public let remainingCount: Int?
         /// A list of counts and versions for deleted items.
         public let summaryItems: [InventoryDeletionSummaryItem]?
         /// The total number of items to delete. This count does not change during the delete operation.
-        public let totalCount: Int32?
+        public let totalCount: Int?
 
-        public init(remainingCount: Int32? = nil, summaryItems: [InventoryDeletionSummaryItem]? = nil, totalCount: Int32? = nil) {
+        public init(remainingCount: Int? = nil, summaryItems: [InventoryDeletionSummaryItem]? = nil, totalCount: Int? = nil) {
             self.remainingCount = remainingCount
             self.summaryItems = summaryItems
             self.totalCount = totalCount
@@ -7849,13 +7849,13 @@ extension SSM {
         ]
 
         /// A count of the number of deleted items.
-        public let count: Int32?
+        public let count: Int?
         /// The remaining number of items to delete.
-        public let remainingCount: Int32?
+        public let remainingCount: Int?
         /// The inventory type version.
         public let version: String?
 
-        public init(count: Int32? = nil, remainingCount: Int32? = nil, version: String? = nil) {
+        public init(count: Int? = nil, remainingCount: Int? = nil, version: String? = nil) {
             self.count = count
             self.remainingCount = remainingCount
             self.version = version
@@ -8194,11 +8194,11 @@ extension SSM {
         /// The association ID for which you want to view all versions.
         public let associationId: String
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
 
-        public init(associationId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(associationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.associationId = associationId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -8249,11 +8249,11 @@ extension SSM {
         /// One or more filters. Use a filter to return a more specific list of results.
         public let associationFilterList: [AssociationFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(associationFilterList: [AssociationFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(associationFilterList: [AssociationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.associationFilterList = associationFilterList
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -8316,11 +8316,11 @@ extension SSM {
         /// (Optional) The command execution details for a specific instance ID.
         public let instanceId: String?
         /// (Optional) The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(commandId: String? = nil, details: Bool? = nil, filters: [CommandFilter]? = nil, instanceId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(commandId: String? = nil, details: Bool? = nil, filters: [CommandFilter]? = nil, instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.commandId = commandId
             self.details = details
             self.filters = filters
@@ -8390,11 +8390,11 @@ extension SSM {
         /// (Optional) Lists commands issued against this instance ID.
         public let instanceId: String?
         /// (Optional) The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(commandId: String? = nil, filters: [CommandFilter]? = nil, instanceId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(commandId: String? = nil, filters: [CommandFilter]? = nil, instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.commandId = commandId
             self.filters = filters
             self.instanceId = instanceId
@@ -8458,7 +8458,7 @@ extension SSM {
         /// One or more compliance filters. Use a filter to return a more specific list of results.
         public let filters: [ComplianceStringFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
         /// The ID for the resources from which to get compliance information. Currently, you can only specify one resource ID.
@@ -8466,7 +8466,7 @@ extension SSM {
         /// The type of resource from which to get compliance information. Currently, the only supported resource type is ManagedInstance.
         public let resourceTypes: [String]?
 
-        public init(filters: [ComplianceStringFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, resourceTypes: [String]? = nil) {
+        public init(filters: [ComplianceStringFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, resourceTypes: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -8533,11 +8533,11 @@ extension SSM {
         /// One or more compliance or inventory filters. Use a filter to return a more specific list of results.
         public let filters: [ComplianceStringFilter]?
         /// The maximum number of items to return for this call. Currently, you can specify null or 50. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
 
-        public init(filters: [ComplianceStringFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [ComplianceStringFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -8588,13 +8588,13 @@ extension SSM {
         ]
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of the document about which you want version information.
         public let name: String
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -8648,11 +8648,11 @@ extension SSM {
         /// One or more filters. Use a filter to return a more specific list of results.
         public let filters: [DocumentKeyValuesFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(documentFilterList: [DocumentFilter]? = nil, filters: [DocumentKeyValuesFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(documentFilterList: [DocumentFilter]? = nil, filters: [DocumentKeyValuesFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.documentFilterList = documentFilterList
             self.filters = filters
             self.maxResults = maxResults
@@ -8717,13 +8717,13 @@ extension SSM {
         /// The instance ID for which you want inventory information.
         public let instanceId: String
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The type of inventory item for which you want information.
         public let typeName: String
 
-        public init(filters: [InventoryFilter]? = nil, instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil, typeName: String) {
+        public init(filters: [InventoryFilter]? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, typeName: String) {
             self.filters = filters
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -8806,11 +8806,11 @@ extension SSM {
         /// One or more filters. Use a filter to return a more specific list of results.
         public let filters: [ComplianceStringFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
 
-        public init(filters: [ComplianceStringFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [ComplianceStringFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -8860,11 +8860,11 @@ extension SSM {
         ]
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -9233,11 +9233,11 @@ extension SSM {
         ]
 
         /// The number of hours before the end of the maintenance window that Systems Manager stops scheduling new tasks for execution.
-        public let cutoff: Int32?
+        public let cutoff: Int?
         /// A description of the maintenance window.
         public let description: String?
         /// The duration of the maintenance window in hours.
-        public let duration: Int32?
+        public let duration: Int?
         /// Indicates whether the maintenance window is enabled.
         public let enabled: Bool?
         /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become inactive.
@@ -9255,7 +9255,7 @@ extension SSM {
         /// The ID of the maintenance window.
         public let windowId: String?
 
-        public init(cutoff: Int32? = nil, description: String? = nil, duration: Int32? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
+        public init(cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, nextExecutionTime: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
             self.cutoff = cutoff
             self.description = description
             self.duration = duration
@@ -9376,9 +9376,9 @@ extension SSM {
         /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for maintenance window Run Command tasks.
         public let serviceRoleArn: String?
         /// If this time is reached and the command has not already started running, it doesn't run.
-        public let timeoutSeconds: Int32?
+        public let timeoutSeconds: Int?
 
-        public init(comment: String? = nil, documentHash: String? = nil, documentHashType: DocumentHashType? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, parameters: [String: [String]]? = nil, serviceRoleArn: String? = nil, timeoutSeconds: Int32? = nil) {
+        public init(comment: String? = nil, documentHash: String? = nil, documentHashType: DocumentHashType? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, parameters: [String: [String]]? = nil, serviceRoleArn: String? = nil, timeoutSeconds: Int? = nil) {
             self.comment = comment
             self.documentHash = documentHash
             self.documentHashType = documentHashType
@@ -9516,7 +9516,7 @@ extension SSM {
         /// The task name.
         public let name: String?
         /// The priority of the task in the maintenance window. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
-        public let priority: Int32?
+        public let priority: Int?
         /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for maintenance window Run Command tasks.
         public let serviceRoleArn: String?
         /// The targets (either instances or tags). Instances are specified using Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;. Tags are specified using Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
@@ -9532,7 +9532,7 @@ extension SSM {
         /// The task ID.
         public let windowTaskId: String?
 
-        public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, type: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+        public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, type: MaintenanceWindowTaskType? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
             self.description = description
             self.loggingInfo = loggingInfo
             self.maxConcurrency = maxConcurrency
@@ -9695,11 +9695,11 @@ extension SSM {
         ]
 
         /// The total number of compliance items that are not compliant.
-        public let nonCompliantCount: Int32?
+        public let nonCompliantCount: Int?
         /// A summary of the non-compliance severity by compliance type
         public let severitySummary: SeveritySummary?
 
-        public init(nonCompliantCount: Int32? = nil, severitySummary: SeveritySummary? = nil) {
+        public init(nonCompliantCount: Int? = nil, severitySummary: SeveritySummary? = nil) {
             self.nonCompliantCount = nonCompliantCount
             self.severitySummary = severitySummary
         }
@@ -9949,7 +9949,7 @@ extension SSM {
         /// The ID of the OpsItem.
         public let opsItemId: String?
         /// The importance of this OpsItem in relation to other OpsItems in the system.
-        public let priority: Int32?
+        public let priority: Int?
         /// One or more OpsItems that share something in common with the current OpsItem. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
         public let relatedOpsItems: [RelatedOpsItem]?
         /// The origin of the OpsItem, such as Amazon EC2 or AWS Systems Manager. The impacted resource is a subset of source.
@@ -9961,7 +9961,7 @@ extension SSM {
         /// The version of this OpsItem. Each time the OpsItem is edited the version number increments by one.
         public let version: String?
 
-        public init(createdBy: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: TimeStamp? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int32? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil, version: String? = nil) {
+        public init(createdBy: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: TimeStamp? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil, version: String? = nil) {
             self.createdBy = createdBy
             self.createdTime = createdTime
             self.description = description
@@ -10127,7 +10127,7 @@ extension SSM {
         /// The ID of the OpsItem.
         public let opsItemId: String?
         /// The importance of this OpsItem in relation to other OpsItems in the system.
-        public let priority: Int32?
+        public let priority: Int?
         /// The impacted AWS resource.
         public let source: String?
         /// The OpsItem status. Status can be Open, In Progress, or Resolved.
@@ -10135,7 +10135,7 @@ extension SSM {
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
 
-        public init(createdBy: String? = nil, createdTime: TimeStamp? = nil, lastModifiedBy: String? = nil, lastModifiedTime: TimeStamp? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int32? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+        public init(createdBy: String? = nil, createdTime: TimeStamp? = nil, lastModifiedBy: String? = nil, lastModifiedTime: TimeStamp? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
             self.createdBy = createdBy
             self.createdTime = createdTime
             self.lastModifiedBy = lastModifiedBy
@@ -10826,7 +10826,7 @@ extension SSM {
         ]
 
         /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. 
-        public let approveAfterDays: Int32
+        public let approveAfterDays: Int
         /// A compliance severity level for all approved patches in a patch baseline. Valid compliance severity levels include the following: Unspecified, Critical, High, Medium, Low, and Informational.
         public let complianceLevel: PatchComplianceLevel?
         /// For instances identified by the approval rule filters, enables a patch baseline to apply non-security updates available in the specified repository. The default value is 'false'. Applies to Linux instances only.
@@ -10834,7 +10834,7 @@ extension SSM {
         /// The patch filter group that defines the criteria for the rule.
         public let patchFilterGroup: PatchFilterGroup
 
-        public init(approveAfterDays: Int32, complianceLevel: PatchComplianceLevel? = nil, enableNonSecurity: Bool? = nil, patchFilterGroup: PatchFilterGroup) {
+        public init(approveAfterDays: Int, complianceLevel: PatchComplianceLevel? = nil, enableNonSecurity: Bool? = nil, patchFilterGroup: PatchFilterGroup) {
             self.approveAfterDays = approveAfterDays
             self.complianceLevel = complianceLevel
             self.enableNonSecurity = enableNonSecurity
@@ -10975,17 +10975,17 @@ extension SSM {
         ]
 
         /// The total number of steps that the system cancelled in all specified AWS Regions and accounts for the current Automation execution.
-        public let cancelledSteps: Int32?
+        public let cancelledSteps: Int?
         /// The total number of steps that failed to run in all specified AWS Regions and accounts for the current Automation execution.
-        public let failedSteps: Int32?
+        public let failedSteps: Int?
         /// The total number of steps that successfully completed in all specified AWS Regions and accounts for the current Automation execution.
-        public let successSteps: Int32?
+        public let successSteps: Int?
         /// The total number of steps that timed out in all specified AWS Regions and accounts for the current Automation execution.
-        public let timedOutSteps: Int32?
+        public let timedOutSteps: Int?
         /// The total number of steps run in all specified AWS Regions and accounts for the current Automation execution.
-        public let totalSteps: Int32?
+        public let totalSteps: Int?
 
-        public init(cancelledSteps: Int32? = nil, failedSteps: Int32? = nil, successSteps: Int32? = nil, timedOutSteps: Int32? = nil, totalSteps: Int32? = nil) {
+        public init(cancelledSteps: Int? = nil, failedSteps: Int? = nil, successSteps: Int? = nil, timedOutSteps: Int? = nil, totalSteps: Int? = nil) {
             self.cancelledSteps = cancelledSteps
             self.failedSteps = failedSteps
             self.successSteps = successSteps
@@ -11422,7 +11422,7 @@ extension SSM {
         /// An optional name for the task.
         public let name: String?
         /// The priority of the task in the maintenance window, the lower the number the higher the priority. Tasks in a maintenance window are scheduled in priority order with tasks that have the same priority scheduled in parallel.
-        public let priority: Int32?
+        public let priority: Int?
         /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Service-Linked Role Permissions for Systems Manager     Should I Use a Service-Linked Role or a Custom Service Role to Run Maintenance Window Tasks?    
         public let serviceRoleArn: String?
         /// The targets (either instances or maintenance window targets). Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=&lt;WindowTargetIds&gt;,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt; 
@@ -11438,7 +11438,7 @@ extension SSM {
         /// The ID of the maintenance window the task should be added to.
         public let windowId: String
 
-        public init(clientToken: String? = RegisterTaskWithMaintenanceWindowRequest.idempotencyToken(), description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String, maxErrors: String, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target], taskArn: String, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType, windowId: String) {
+        public init(clientToken: String? = RegisterTaskWithMaintenanceWindowRequest.idempotencyToken(), description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String, maxErrors: String, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target], taskArn: String, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, taskType: MaintenanceWindowTaskType, windowId: String) {
             self.clientToken = clientToken
             self.description = description
             self.loggingInfo = loggingInfo
@@ -12066,9 +12066,9 @@ extension SSM {
         /// (Optional) An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call. For more information about how to use targets, see Sending Commands to a Fleet in the AWS Systems Manager User Guide.
         public let targets: [Target]?
         /// If this time is reached and the command has not already started running, it will not run.
-        public let timeoutSeconds: Int32?
+        public let timeoutSeconds: Int?
 
-        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, comment: String? = nil, documentHash: String? = nil, documentHashType: DocumentHashType? = nil, documentName: String, documentVersion: String? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, timeoutSeconds: Int32? = nil) {
+        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, comment: String? = nil, documentHash: String? = nil, documentHashType: DocumentHashType? = nil, documentName: String, documentVersion: String? = nil, instanceIds: [String]? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, parameters: [String: [String]]? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, timeoutSeconds: Int? = nil) {
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.comment = comment
             self.documentHash = documentHash
@@ -12341,19 +12341,19 @@ extension SSM {
         ]
 
         /// The total number of resources or compliance items that have a severity level of critical. Critical severity is determined by the organization that published the compliance items.
-        public let criticalCount: Int32?
+        public let criticalCount: Int?
         /// The total number of resources or compliance items that have a severity level of high. High severity is determined by the organization that published the compliance items.
-        public let highCount: Int32?
+        public let highCount: Int?
         /// The total number of resources or compliance items that have a severity level of informational. Informational severity is determined by the organization that published the compliance items.
-        public let informationalCount: Int32?
+        public let informationalCount: Int?
         /// The total number of resources or compliance items that have a severity level of low. Low severity is determined by the organization that published the compliance items.
-        public let lowCount: Int32?
+        public let lowCount: Int?
         /// The total number of resources or compliance items that have a severity level of medium. Medium severity is determined by the organization that published the compliance items.
-        public let mediumCount: Int32?
+        public let mediumCount: Int?
         /// The total number of resources or compliance items that have a severity level of unspecified. Unspecified severity is determined by the organization that published the compliance items.
-        public let unspecifiedCount: Int32?
+        public let unspecifiedCount: Int?
 
-        public init(criticalCount: Int32? = nil, highCount: Int32? = nil, informationalCount: Int32? = nil, lowCount: Int32? = nil, mediumCount: Int32? = nil, unspecifiedCount: Int32? = nil) {
+        public init(criticalCount: Int? = nil, highCount: Int? = nil, informationalCount: Int? = nil, lowCount: Int? = nil, mediumCount: Int? = nil, unspecifiedCount: Int? = nil) {
             self.criticalCount = criticalCount
             self.highCount = highCount
             self.informationalCount = informationalCount
@@ -12639,7 +12639,7 @@ extension SSM {
         /// The flag which can be used to end automation no matter whether the step succeeds or fails.
         public let isEnd: Bool?
         /// The maximum number of tries to run the action of the step. The default value is 1.
-        public let maxAttempts: Int32?
+        public let maxAttempts: Int?
         /// The next step after the step succeeds.
         public let nextStep: String?
         /// The action to take if the step fails. The default value is Abort.
@@ -12667,7 +12667,7 @@ extension SSM {
         /// Strategies used when step fails, we support Continue and Abort. Abort will fail the automation when the step fails. Continue will ignore the failure of current step and allow automation to run the next step. With conditional branching, we add step:stepName to support the automation to go to another specific step.
         public let validNextSteps: [String]?
 
-        public init(action: String? = nil, executionEndTime: TimeStamp? = nil, executionStartTime: TimeStamp? = nil, failureDetails: FailureDetails? = nil, failureMessage: String? = nil, inputs: [String: String]? = nil, isCritical: Bool? = nil, isEnd: Bool? = nil, maxAttempts: Int32? = nil, nextStep: String? = nil, onFailure: String? = nil, outputs: [String: [String]]? = nil, overriddenParameters: [String: [String]]? = nil, response: String? = nil, responseCode: String? = nil, stepExecutionId: String? = nil, stepName: String? = nil, stepStatus: AutomationExecutionStatus? = nil, targetLocation: TargetLocation? = nil, targets: [Target]? = nil, timeoutSeconds: Int64? = nil, validNextSteps: [String]? = nil) {
+        public init(action: String? = nil, executionEndTime: TimeStamp? = nil, executionStartTime: TimeStamp? = nil, failureDetails: FailureDetails? = nil, failureMessage: String? = nil, inputs: [String: String]? = nil, isCritical: Bool? = nil, isEnd: Bool? = nil, maxAttempts: Int? = nil, nextStep: String? = nil, onFailure: String? = nil, outputs: [String: [String]]? = nil, overriddenParameters: [String: [String]]? = nil, response: String? = nil, responseCode: String? = nil, stepExecutionId: String? = nil, stepName: String? = nil, stepStatus: AutomationExecutionStatus? = nil, targetLocation: TargetLocation? = nil, targets: [Target]? = nil, timeoutSeconds: Int64? = nil, validNextSteps: [String]? = nil) {
             self.action = action
             self.executionEndTime = executionEndTime
             self.executionStartTime = executionStartTime
@@ -13261,11 +13261,11 @@ extension SSM {
         /// Whether targets must be registered with the maintenance window before tasks can be defined for those targets.
         public let allowUnassociatedTargets: Bool?
         /// The number of hours before the end of the maintenance window that Systems Manager stops scheduling new tasks for execution.
-        public let cutoff: Int32?
+        public let cutoff: Int?
         /// An optional description for the update request.
         public let description: String?
         /// The duration of the maintenance window in hours.
-        public let duration: Int32?
+        public let duration: Int?
         /// Whether the maintenance window is enabled.
         public let enabled: Bool?
         /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become inactive. EndDate allows you to set a date and time in the future when the maintenance window will no longer run.
@@ -13283,7 +13283,7 @@ extension SSM {
         /// The ID of the maintenance window to update.
         public let windowId: String
 
-        public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int32? = nil, description: String? = nil, duration: Int32? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, replace: Bool? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String) {
+        public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, replace: Bool? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.cutoff = cutoff
             self.description = description
@@ -13349,11 +13349,11 @@ extension SSM {
         /// Whether targets must be registered with the maintenance window before tasks can be defined for those targets.
         public let allowUnassociatedTargets: Bool?
         /// The number of hours before the end of the maintenance window that Systems Manager stops scheduling new tasks for execution.
-        public let cutoff: Int32?
+        public let cutoff: Int?
         /// An optional description of the update.
         public let description: String?
         /// The duration of the maintenance window in hours.
-        public let duration: Int32?
+        public let duration: Int?
         /// Whether the maintenance window is enabled.
         public let enabled: Bool?
         /// The date and time, in ISO-8601 Extended format, for when the maintenance window is scheduled to become inactive. The maintenance window will not run after this specified time.
@@ -13369,7 +13369,7 @@ extension SSM {
         /// The ID of the created maintenance window.
         public let windowId: String?
 
-        public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int32? = nil, description: String? = nil, duration: Int32? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
+        public init(allowUnassociatedTargets: Bool? = nil, cutoff: Int? = nil, description: String? = nil, duration: Int? = nil, enabled: Bool? = nil, endDate: String? = nil, name: String? = nil, schedule: String? = nil, scheduleTimezone: String? = nil, startDate: String? = nil, windowId: String? = nil) {
             self.allowUnassociatedTargets = allowUnassociatedTargets
             self.cutoff = cutoff
             self.description = description
@@ -13537,7 +13537,7 @@ extension SSM {
         /// The new task name to specify.
         public let name: String?
         /// The new task priority to specify. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
-        public let priority: Int32?
+        public let priority: Int?
         /// If True, then all fields that are required by the RegisterTaskWithMaintenanceWndow action are also required for this API request. Optional fields that are not specified are set to null.
         public let replace: Bool?
         /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Service-Linked Role Permissions for Systems Manager     Should I Use a Service-Linked Role or a Custom Service Role to Run Maintenance Window Tasks?    
@@ -13555,7 +13555,7 @@ extension SSM {
         /// The task ID to modify.
         public let windowTaskId: String
 
-        public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int32? = nil, replace: Bool? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String, windowTaskId: String) {
+        public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, replace: Bool? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String, windowTaskId: String) {
             self.description = description
             self.loggingInfo = loggingInfo
             self.maxConcurrency = maxConcurrency
@@ -13653,7 +13653,7 @@ extension SSM {
         /// The updated task name.
         public let name: String?
         /// The updated priority value.
-        public let priority: Int32?
+        public let priority: Int?
         /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for maintenance window Run Command tasks.
         public let serviceRoleArn: String?
         /// The updated target values.
@@ -13669,7 +13669,7 @@ extension SSM {
         /// The task ID of the maintenance window that was updated.
         public let windowTaskId: String?
 
-        public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int32? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
+        public init(description: String? = nil, loggingInfo: LoggingInfo? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, priority: Int? = nil, serviceRoleArn: String? = nil, targets: [Target]? = nil, taskArn: String? = nil, taskInvocationParameters: MaintenanceWindowTaskInvocationParameters? = nil, taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]? = nil, windowId: String? = nil, windowTaskId: String? = nil) {
             self.description = description
             self.loggingInfo = loggingInfo
             self.maxConcurrency = maxConcurrency
@@ -13761,7 +13761,7 @@ extension SSM {
         /// The ID of the OpsItem.
         public let opsItemId: String
         /// The importance of this OpsItem in relation to other OpsItems in the system.
-        public let priority: Int32?
+        public let priority: Int?
         /// One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
         public let relatedOpsItems: [RelatedOpsItem]?
         /// The OpsItem status. Status can be Open, In Progress, or Resolved. For more information, see Editing OpsItem Details in the AWS Systems Manager User Guide.
@@ -13769,7 +13769,7 @@ extension SSM {
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
 
-        public init(description: String? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, operationalDataToDelete: [String]? = nil, opsItemId: String, priority: Int32? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+        public init(description: String? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, operationalDataToDelete: [String]? = nil, opsItemId: String, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
             self.description = description
             self.notifications = notifications
             self.operationalData = operationalData

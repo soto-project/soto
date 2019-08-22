@@ -12,11 +12,11 @@ extension Firehose {
         ]
 
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300.
-        public let intervalInSeconds: Int32?
+        public let intervalInSeconds: Int?
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
-        public let sizeInMBs: Int32?
+        public let sizeInMBs: Int?
 
-        public init(intervalInSeconds: Int32? = nil, sizeInMBs: Int32? = nil) {
+        public init(intervalInSeconds: Int? = nil, sizeInMBs: Int? = nil) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
         }
@@ -371,9 +371,9 @@ extension Firehose {
         /// The ID of the destination to start returning the destination information. Kinesis Data Firehose supports one destination per delivery stream.
         public let exclusiveStartDestinationId: String?
         /// The limit on the number of destinations to return. You can have one destination per delivery stream.
-        public let limit: Int32?
+        public let limit: Int?
 
-        public init(deliveryStreamName: String, exclusiveStartDestinationId: String? = nil, limit: Int32? = nil) {
+        public init(deliveryStreamName: String, exclusiveStartDestinationId: String? = nil, limit: Int? = nil) {
             self.deliveryStreamName = deliveryStreamName
             self.exclusiveStartDestinationId = exclusiveStartDestinationId
             self.limit = limit
@@ -489,11 +489,11 @@ extension Firehose {
         ]
 
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
-        public let intervalInSeconds: Int32?
+        public let intervalInSeconds: Int?
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
-        public let sizeInMBs: Int32?
+        public let sizeInMBs: Int?
 
-        public init(intervalInSeconds: Int32? = nil, sizeInMBs: Int32? = nil) {
+        public init(intervalInSeconds: Int? = nil, sizeInMBs: Int? = nil) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
         }
@@ -756,9 +756,9 @@ extension Firehose {
         ]
 
         /// After an initial failure to deliver to Amazon ES, the total amount of time during which Kinesis Data Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
-        public let durationInSeconds: Int32?
+        public let durationInSeconds: Int?
 
-        public init(durationInSeconds: Int32? = nil) {
+        public init(durationInSeconds: Int? = nil) {
             self.durationInSeconds = durationInSeconds
         }
 
@@ -1191,9 +1191,9 @@ extension Firehose {
         /// The list of delivery streams returned by this call to ListDeliveryStreams will start with the delivery stream whose name comes alphabetically immediately after the name you specify in ExclusiveStartDeliveryStreamName.
         public let exclusiveStartDeliveryStreamName: String?
         /// The maximum number of delivery streams to list. The default value is 10.
-        public let limit: Int32?
+        public let limit: Int?
 
-        public init(deliveryStreamType: DeliveryStreamType? = nil, exclusiveStartDeliveryStreamName: String? = nil, limit: Int32? = nil) {
+        public init(deliveryStreamType: DeliveryStreamType? = nil, exclusiveStartDeliveryStreamName: String? = nil, limit: Int? = nil) {
             self.deliveryStreamType = deliveryStreamType
             self.exclusiveStartDeliveryStreamName = exclusiveStartDeliveryStreamName
             self.limit = limit
@@ -1248,9 +1248,9 @@ extension Firehose {
         /// The key to use as the starting point for the list of tags. If you set this parameter, ListTagsForDeliveryStream gets all tags that occur after ExclusiveStartTagKey.
         public let exclusiveStartTagKey: String?
         /// The number of tags to return. If this number is less than the total number of tags associated with the delivery stream, HasMoreTags is set to true in the response. To list additional tags, set ExclusiveStartTagKey to the last key in the response. 
-        public let limit: Int32?
+        public let limit: Int?
 
-        public init(deliveryStreamName: String, exclusiveStartTagKey: String? = nil, limit: Int32? = nil) {
+        public init(deliveryStreamName: String, exclusiveStartTagKey: String? = nil, limit: Int? = nil) {
             self.deliveryStreamName = deliveryStreamName
             self.exclusiveStartTagKey = exclusiveStartTagKey
             self.limit = limit
@@ -1362,7 +1362,7 @@ extension Firehose {
         ]
 
         /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value for padding calculations.
-        public let blockSizeBytes: Int32?
+        public let blockSizeBytes: Int?
         /// The column names for which you want Kinesis Data Firehose to create bloom filters. The default is null.
         public let bloomFilterColumns: [String]?
         /// The Bloom filter false positive probability (FPP). The lower the FPP, the bigger the Bloom filter. The default value is 0.05, the minimum is 0, and the maximum is 1.
@@ -1378,11 +1378,11 @@ extension Firehose {
         /// A number between 0 and 1 that defines the tolerance for block padding as a decimal fraction of stripe size. The default value is 0.05, which means 5 percent of stripe size. For the default values of 64 MiB ORC stripes and 256 MiB HDFS blocks, the default block padding tolerance of 5 percent reserves a maximum of 3.2 MiB for padding within the 256 MiB block. In such a case, if the available size within the block is more than 3.2 MiB, a new, smaller stripe is inserted to fit within that space. This ensures that no stripe crosses block boundaries and causes remote reads within a node-local task. Kinesis Data Firehose ignores this parameter when OrcSerDe$EnablePadding is false.
         public let paddingTolerance: Double?
         /// The number of rows between index entries. The default is 10,000 and the minimum is 1,000.
-        public let rowIndexStride: Int32?
+        public let rowIndexStride: Int?
         /// The number of bytes in each stripe. The default is 64 MiB and the minimum is 8 MiB.
-        public let stripeSizeBytes: Int32?
+        public let stripeSizeBytes: Int?
 
-        public init(blockSizeBytes: Int32? = nil, bloomFilterColumns: [String]? = nil, bloomFilterFalsePositiveProbability: Double? = nil, compression: OrcCompression? = nil, dictionaryKeyThreshold: Double? = nil, enablePadding: Bool? = nil, formatVersion: OrcFormatVersion? = nil, paddingTolerance: Double? = nil, rowIndexStride: Int32? = nil, stripeSizeBytes: Int32? = nil) {
+        public init(blockSizeBytes: Int? = nil, bloomFilterColumns: [String]? = nil, bloomFilterFalsePositiveProbability: Double? = nil, compression: OrcCompression? = nil, dictionaryKeyThreshold: Double? = nil, enablePadding: Bool? = nil, formatVersion: OrcFormatVersion? = nil, paddingTolerance: Double? = nil, rowIndexStride: Int? = nil, stripeSizeBytes: Int? = nil) {
             self.blockSizeBytes = blockSizeBytes
             self.bloomFilterColumns = bloomFilterColumns
             self.bloomFilterFalsePositiveProbability = bloomFilterFalsePositiveProbability
@@ -1463,19 +1463,19 @@ extension Firehose {
         ]
 
         /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose uses this value for padding calculations.
-        public let blockSizeBytes: Int32?
+        public let blockSizeBytes: Int?
         /// The compression code to use over data blocks. The possible values are UNCOMPRESSED, SNAPPY, and GZIP, with the default being SNAPPY. Use SNAPPY for higher decompression speed. Use GZIP if the compression ration is more important than speed.
         public let compression: ParquetCompression?
         /// Indicates whether to enable dictionary compression.
         public let enableDictionaryCompression: Bool?
         /// The maximum amount of padding to apply. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 0.
-        public let maxPaddingBytes: Int32?
+        public let maxPaddingBytes: Int?
         /// The Parquet page size. Column chunks are divided into pages. A page is conceptually an indivisible unit (in terms of compression and encoding). The minimum value is 64 KiB and the default is 1 MiB.
-        public let pageSizeBytes: Int32?
+        public let pageSizeBytes: Int?
         /// Indicates the version of row format to output. The possible values are V1 and V2. The default is V1.
         public let writerVersion: ParquetWriterVersion?
 
-        public init(blockSizeBytes: Int32? = nil, compression: ParquetCompression? = nil, enableDictionaryCompression: Bool? = nil, maxPaddingBytes: Int32? = nil, pageSizeBytes: Int32? = nil, writerVersion: ParquetWriterVersion? = nil) {
+        public init(blockSizeBytes: Int? = nil, compression: ParquetCompression? = nil, enableDictionaryCompression: Bool? = nil, maxPaddingBytes: Int? = nil, pageSizeBytes: Int? = nil, writerVersion: ParquetWriterVersion? = nil) {
             self.blockSizeBytes = blockSizeBytes
             self.compression = compression
             self.enableDictionaryCompression = enableDictionaryCompression
@@ -1646,11 +1646,11 @@ extension Firehose {
         /// Indicates whether server-side encryption (SSE) was enabled during this operation.
         public let encrypted: Bool?
         /// The number of records that might have failed processing. This number might be greater than 0 even if the PutRecordBatch call succeeds. Check FailedPutCount to determine whether there are records that you need to resend.
-        public let failedPutCount: Int32
+        public let failedPutCount: Int
         /// The results array. For each record, the index of the response element is the same as the index used in the request array.
         public let requestResponses: [PutRecordBatchResponseEntry]
 
-        public init(encrypted: Bool? = nil, failedPutCount: Int32, requestResponses: [PutRecordBatchResponseEntry]) {
+        public init(encrypted: Bool? = nil, failedPutCount: Int, requestResponses: [PutRecordBatchResponseEntry]) {
             self.encrypted = encrypted
             self.failedPutCount = failedPutCount
             self.requestResponses = requestResponses
@@ -1995,9 +1995,9 @@ extension Firehose {
         ]
 
         /// The length of time during which Kinesis Data Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Kinesis Data Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
-        public let durationInSeconds: Int32?
+        public let durationInSeconds: Int?
 
-        public init(durationInSeconds: Int32? = nil) {
+        public init(durationInSeconds: Int? = nil) {
             self.durationInSeconds = durationInSeconds
         }
 
@@ -2312,7 +2312,7 @@ extension Firehose {
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
-        public let hECAcknowledgmentTimeoutInSeconds: Int32?
+        public let hECAcknowledgmentTimeoutInSeconds: Int?
         /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends your data.
         public let hECEndpoint: String
         /// This type can be either "Raw" or "Event."
@@ -2328,7 +2328,7 @@ extension Firehose {
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
 
-        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int32? = nil, hECEndpoint: String, hECEndpointType: HECEndpointType, hECToken: String, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration) {
+        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int? = nil, hECEndpoint: String, hECEndpointType: HECEndpointType, hECToken: String, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hECAcknowledgmentTimeoutInSeconds = hECAcknowledgmentTimeoutInSeconds
             self.hECEndpoint = hECEndpoint
@@ -2377,7 +2377,7 @@ extension Firehose {
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
-        public let hECAcknowledgmentTimeoutInSeconds: Int32?
+        public let hECAcknowledgmentTimeoutInSeconds: Int?
         /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends your data.
         public let hECEndpoint: String?
         /// This type can be either "Raw" or "Event."
@@ -2393,7 +2393,7 @@ extension Firehose {
         /// The Amazon S3 destination.&gt;
         public let s3DestinationDescription: S3DestinationDescription?
 
-        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int32? = nil, hECEndpoint: String? = nil, hECEndpointType: HECEndpointType? = nil, hECToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil) {
+        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int? = nil, hECEndpoint: String? = nil, hECEndpointType: HECEndpointType? = nil, hECToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hECAcknowledgmentTimeoutInSeconds = hECAcknowledgmentTimeoutInSeconds
             self.hECEndpoint = hECEndpoint
@@ -2434,7 +2434,7 @@ extension Firehose {
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
-        public let hECAcknowledgmentTimeoutInSeconds: Int32?
+        public let hECAcknowledgmentTimeoutInSeconds: Int?
         /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends your data.
         public let hECEndpoint: String?
         /// This type can be either "Raw" or "Event."
@@ -2450,7 +2450,7 @@ extension Firehose {
         /// Your update to the configuration of the backup Amazon S3 location.
         public let s3Update: S3DestinationUpdate?
 
-        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int32? = nil, hECEndpoint: String? = nil, hECEndpointType: HECEndpointType? = nil, hECToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil) {
+        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int? = nil, hECEndpoint: String? = nil, hECEndpointType: HECEndpointType? = nil, hECToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hECAcknowledgmentTimeoutInSeconds = hECAcknowledgmentTimeoutInSeconds
             self.hECEndpoint = hECEndpoint
@@ -2489,9 +2489,9 @@ extension Firehose {
         ]
 
         /// The total amount of time that Kinesis Data Firehose spends on retries. This duration starts after the initial attempt to send data to Splunk fails. It doesn't include the periods during which Kinesis Data Firehose waits for acknowledgment from Splunk after each attempt.
-        public let durationInSeconds: Int32?
+        public let durationInSeconds: Int?
 
-        public init(durationInSeconds: Int32? = nil) {
+        public init(durationInSeconds: Int? = nil) {
             self.durationInSeconds = durationInSeconds
         }
 

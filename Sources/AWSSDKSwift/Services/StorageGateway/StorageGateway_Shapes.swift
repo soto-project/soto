@@ -1298,7 +1298,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
         /// The number of virtual tapes that you want to create.
-        public let numTapesToCreate: Int32
+        public let numTapesToCreate: Int
         /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (Glacier or Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
         public let poolId: String?
         /// A list of up to 50 tags that can be assigned to a virtual tape. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
@@ -1308,7 +1308,7 @@ extension StorageGateway {
         /// The size, in bytes, of the virtual tapes that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 byte). 
         public let tapeSizeInBytes: Int64
 
-        public init(clientToken: String, gatewayARN: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, numTapesToCreate: Int32, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcodePrefix: String, tapeSizeInBytes: Int64) {
+        public init(clientToken: String, gatewayARN: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, numTapesToCreate: Int, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcodePrefix: String, tapeSizeInBytes: Int64) {
             self.clientToken = clientToken
             self.gatewayARN = gatewayARN
             self.kMSEncrypted = kMSEncrypted
@@ -2034,18 +2034,18 @@ extension StorageGateway {
         ]
 
         /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.  This value is only available for tape and volume gateways. 
-        public let dayOfMonth: Int32?
+        public let dayOfMonth: Int?
         /// An ordinal number between 0 and 6 that represents the day of the week, where 0 represents Sunday and 6 represents Saturday. The day of week is in the time zone of the gateway.
-        public let dayOfWeek: Int32?
+        public let dayOfWeek: Int?
         public let gatewayARN: String?
         /// The hour component of the maintenance start time represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
-        public let hourOfDay: Int32?
+        public let hourOfDay: Int?
         /// The minute component of the maintenance start time represented as mm, where mm is the minute (0 to 59). The minute of the hour is in the time zone of the gateway.
-        public let minuteOfHour: Int32?
+        public let minuteOfHour: Int?
         /// A value that indicates the time zone that is set for the gateway. The start time and day of week specified should be in the time zone of the gateway.
         public let timezone: String?
 
-        public init(dayOfMonth: Int32? = nil, dayOfWeek: Int32? = nil, gatewayARN: String? = nil, hourOfDay: Int32? = nil, minuteOfHour: Int32? = nil, timezone: String? = nil) {
+        public init(dayOfMonth: Int? = nil, dayOfWeek: Int? = nil, gatewayARN: String? = nil, hourOfDay: Int? = nil, minuteOfHour: Int? = nil, timezone: String? = nil) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
             self.gatewayARN = gatewayARN
@@ -2236,15 +2236,15 @@ extension StorageGateway {
         /// The snapshot description.
         public let description: String?
         /// The number of hours between snapshots.
-        public let recurrenceInHours: Int32?
+        public let recurrenceInHours: Int?
         /// The hour of the day at which the snapshot schedule begins represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
-        public let startAt: Int32?
+        public let startAt: Int?
         /// A value that indicates the time zone of the gateway.
         public let timezone: String?
         /// The Amazon Resource Name (ARN) of the volume that was specified in the request.
         public let volumeARN: String?
 
-        public init(description: String? = nil, recurrenceInHours: Int32? = nil, startAt: Int32? = nil, timezone: String? = nil, volumeARN: String? = nil) {
+        public init(description: String? = nil, recurrenceInHours: Int? = nil, startAt: Int? = nil, timezone: String? = nil, volumeARN: String? = nil) {
             self.description = description
             self.recurrenceInHours = recurrenceInHours
             self.startAt = startAt
@@ -2310,13 +2310,13 @@ extension StorageGateway {
         ]
 
         /// Specifies that the number of virtual tapes descried be limited to the specified number.
-        public let limit: Int32?
+        public let limit: Int?
         /// An opaque string that indicates the position at which to begin describing virtual tapes.
         public let marker: String?
         /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe.
         public let tapeARNs: [String]?
 
-        public init(limit: Int32? = nil, marker: String? = nil, tapeARNs: [String]? = nil) {
+        public init(limit: Int? = nil, marker: String? = nil, tapeARNs: [String]? = nil) {
             self.limit = limit
             self.marker = marker
             self.tapeARNs = tapeARNs
@@ -2371,11 +2371,11 @@ extension StorageGateway {
 
         public let gatewayARN: String
         /// Specifies that the number of virtual tape recovery points that are described be limited to the specified number.
-        public let limit: Int32?
+        public let limit: Int?
         /// An opaque string that indicates the position at which to begin describing the virtual tape recovery points.
         public let marker: String?
 
-        public init(gatewayARN: String, limit: Int32? = nil, marker: String? = nil) {
+        public init(gatewayARN: String, limit: Int? = nil, marker: String? = nil) {
             self.gatewayARN = gatewayARN
             self.limit = limit
             self.marker = marker
@@ -2432,13 +2432,13 @@ extension StorageGateway {
 
         public let gatewayARN: String
         /// Specifies that the number of virtual tapes described be limited to the specified number.  Amazon Web Services may impose its own limit, if this field is not set. 
-        public let limit: Int32?
+        public let limit: Int?
         /// A marker value, obtained in a previous call to DescribeTapes. This marker indicates which page of results to retrieve.  If not specified, the first page of results is retrieved.
         public let marker: String?
         /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe. If this parameter is not specified, Tape gateway returns a description of all virtual tapes associated with the specified gateway.
         public let tapeARNs: [String]?
 
-        public init(gatewayARN: String, limit: Int32? = nil, marker: String? = nil, tapeARNs: [String]? = nil) {
+        public init(gatewayARN: String, limit: Int? = nil, marker: String? = nil, tapeARNs: [String]? = nil) {
             self.gatewayARN = gatewayARN
             self.limit = limit
             self.marker = marker
@@ -2550,13 +2550,13 @@ extension StorageGateway {
 
         public let gatewayARN: String
         /// Specifies that the number of VTL devices described be limited to the specified number.
-        public let limit: Int32?
+        public let limit: Int?
         /// An opaque string that indicates the position at which to begin describing the VTL devices.
         public let marker: String?
         /// An array of strings, where each string represents the Amazon Resource Name (ARN) of a VTL device.  All of the specified VTL devices must be from the same gateway. If no VTL devices are specified, the result will contain all devices on the specified gateway. 
         public let vTLDeviceARNs: [String]?
 
-        public init(gatewayARN: String, limit: Int32? = nil, marker: String? = nil, vTLDeviceARNs: [String]? = nil) {
+        public init(gatewayARN: String, limit: Int? = nil, marker: String? = nil, vTLDeviceARNs: [String]? = nil) {
             self.gatewayARN = gatewayARN
             self.limit = limit
             self.marker = marker
@@ -2718,11 +2718,11 @@ extension StorageGateway {
         /// The network interface identifier of the VTL device.
         public let networkInterfaceId: String?
         /// The port used to communicate with iSCSI VTL device targets.
-        public let networkInterfacePort: Int32?
+        public let networkInterfacePort: Int?
         /// Specifies the unique Amazon Resource Name (ARN) that encodes the iSCSI qualified name(iqn) of a tape drive or media changer target.
         public let targetARN: String?
 
-        public init(chapEnabled: Bool? = nil, networkInterfaceId: String? = nil, networkInterfacePort: Int32? = nil, targetARN: String? = nil) {
+        public init(chapEnabled: Bool? = nil, networkInterfaceId: String? = nil, networkInterfacePort: Int? = nil, targetARN: String? = nil) {
             self.chapEnabled = chapEnabled
             self.networkInterfaceId = networkInterfaceId
             self.networkInterfacePort = networkInterfacePort
@@ -2998,11 +2998,11 @@ extension StorageGateway {
         /// The Amazon resource Name (ARN) of the gateway whose file shares you want to list. If this field is not present, all file shares under your account are listed.
         public let gatewayARN: String?
         /// The maximum number of file shares to return in the response. The value must be an integer with a value greater than zero. Optional.
-        public let limit: Int32?
+        public let limit: Int?
         /// Opaque pagination token returned from a previous ListFileShares operation. If present, Marker specifies where to continue the list from after a previous call to ListFileShares. Optional.
         public let marker: String?
 
-        public init(gatewayARN: String? = nil, limit: Int32? = nil, marker: String? = nil) {
+        public init(gatewayARN: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.gatewayARN = gatewayARN
             self.limit = limit
             self.marker = marker
@@ -3057,11 +3057,11 @@ extension StorageGateway {
         ]
 
         /// Specifies that the list of gateways returned be limited to the specified number of items.
-        public let limit: Int32?
+        public let limit: Int?
         /// An opaque string that indicates the position at which to begin the returned list of gateways.
         public let marker: String?
 
-        public init(limit: Int32? = nil, marker: String? = nil) {
+        public init(limit: Int? = nil, marker: String? = nil) {
             self.limit = limit
             self.marker = marker
         }
@@ -3150,13 +3150,13 @@ extension StorageGateway {
         ]
 
         /// Specifies that the list of tags returned be limited to the specified number of items.
-        public let limit: Int32?
+        public let limit: Int?
         /// An opaque string that indicates the position at which to begin returning the list of tags.
         public let marker: String?
         /// The Amazon Resource Name (ARN) of the resource for which you want to list tags.
         public let resourceARN: String
 
-        public init(limit: Int32? = nil, marker: String? = nil, resourceARN: String) {
+        public init(limit: Int? = nil, marker: String? = nil, resourceARN: String) {
             self.limit = limit
             self.marker = marker
             self.resourceARN = resourceARN
@@ -3212,12 +3212,12 @@ extension StorageGateway {
         ]
 
         /// An optional number limit for the tapes in the list returned by this call.
-        public let limit: Int32?
+        public let limit: Int?
         /// A string that indicates the position at which to begin the returned list of tapes.
         public let marker: String?
         public let tapeARNs: [String]?
 
-        public init(limit: Int32? = nil, marker: String? = nil, tapeARNs: [String]? = nil) {
+        public init(limit: Int? = nil, marker: String? = nil, tapeARNs: [String]? = nil) {
             self.limit = limit
             self.marker = marker
             self.tapeARNs = tapeARNs
@@ -3352,11 +3352,11 @@ extension StorageGateway {
 
         public let gatewayARN: String?
         /// Specifies that the list of volumes returned be limited to the specified number of items.
-        public let limit: Int32?
+        public let limit: Int?
         /// A string that indicates the position at which to begin the returned list of volumes. Obtain the marker from the response of a previous List iSCSI Volumes request.
         public let marker: String?
 
-        public init(gatewayARN: String? = nil, limit: Int32? = nil, marker: String? = nil) {
+        public init(gatewayARN: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.gatewayARN = gatewayARN
             self.limit = limit
             self.marker = marker
@@ -4658,16 +4658,16 @@ extension StorageGateway {
         ]
 
         /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.  This value is only available for tape and volume gateways. 
-        public let dayOfMonth: Int32?
+        public let dayOfMonth: Int?
         /// The day of the week component of the maintenance start time week represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 Saturday.
-        public let dayOfWeek: Int32?
+        public let dayOfWeek: Int?
         public let gatewayARN: String
         /// The hour component of the maintenance start time represented as hh, where hh is the hour (00 to 23). The hour of the day is in the time zone of the gateway.
-        public let hourOfDay: Int32
+        public let hourOfDay: Int
         /// The minute component of the maintenance start time represented as mm, where mm is the minute (00 to 59). The minute of the hour is in the time zone of the gateway.
-        public let minuteOfHour: Int32
+        public let minuteOfHour: Int
 
-        public init(dayOfMonth: Int32? = nil, dayOfWeek: Int32? = nil, gatewayARN: String, hourOfDay: Int32, minuteOfHour: Int32) {
+        public init(dayOfMonth: Int? = nil, dayOfWeek: Int? = nil, gatewayARN: String, hourOfDay: Int, minuteOfHour: Int) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
             self.gatewayARN = gatewayARN
@@ -4984,15 +4984,15 @@ extension StorageGateway {
         /// Optional description of the snapshot that overwrites the existing description.
         public let description: String?
         /// Frequency of snapshots. Specify the number of hours between snapshots.
-        public let recurrenceInHours: Int32
+        public let recurrenceInHours: Int
         /// The hour of the day at which the snapshot schedule begins represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
-        public let startAt: Int32
+        public let startAt: Int
         /// A list of up to 50 tags that can be assigned to a snapshot. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
         public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
 
-        public init(description: String? = nil, recurrenceInHours: Int32, startAt: Int32, tags: [Tag]? = nil, volumeARN: String) {
+        public init(description: String? = nil, recurrenceInHours: Int, startAt: Int, tags: [Tag]? = nil, volumeARN: String) {
             self.description = description
             self.recurrenceInHours = recurrenceInHours
             self.startAt = startAt
@@ -5213,15 +5213,15 @@ extension StorageGateway {
         /// Indicates whether mutual CHAP is enabled for the iSCSI target.
         public let chapEnabled: Bool?
         /// The logical disk number.
-        public let lunNumber: Int32?
+        public let lunNumber: Int?
         /// The network interface identifier.
         public let networkInterfaceId: String?
         /// The port used to communicate with iSCSI targets.
-        public let networkInterfacePort: Int32?
+        public let networkInterfacePort: Int?
         /// The Amazon Resource Name (ARN) of the volume target.
         public let targetARN: String?
 
-        public init(chapEnabled: Bool? = nil, lunNumber: Int32? = nil, networkInterfaceId: String? = nil, networkInterfacePort: Int32? = nil, targetARN: String? = nil) {
+        public init(chapEnabled: Bool? = nil, lunNumber: Int? = nil, networkInterfaceId: String? = nil, networkInterfacePort: Int? = nil, targetARN: String? = nil) {
             self.chapEnabled = chapEnabled
             self.lunNumber = lunNumber
             self.networkInterfaceId = networkInterfaceId

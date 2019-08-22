@@ -101,11 +101,11 @@ extension SMS {
         /// A message related to the status of the application
         public let statusMessage: String?
         /// Number of server groups present in the application.
-        public let totalServerGroups: Int32?
+        public let totalServerGroups: Int?
         /// Number of servers present in the application.
-        public let totalServers: Int32?
+        public let totalServers: Int?
 
-        public init(appId: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, lastModified: TimeStamp? = nil, latestReplicationTime: TimeStamp? = nil, launchDetails: LaunchDetails? = nil, launchStatus: AppLaunchStatus? = nil, launchStatusMessage: String? = nil, name: String? = nil, replicationStatus: AppReplicationStatus? = nil, replicationStatusMessage: String? = nil, roleName: String? = nil, status: AppStatus? = nil, statusMessage: String? = nil, totalServerGroups: Int32? = nil, totalServers: Int32? = nil) {
+        public init(appId: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, lastModified: TimeStamp? = nil, latestReplicationTime: TimeStamp? = nil, launchDetails: LaunchDetails? = nil, launchStatus: AppLaunchStatus? = nil, launchStatusMessage: String? = nil, name: String? = nil, replicationStatus: AppReplicationStatus? = nil, replicationStatusMessage: String? = nil, roleName: String? = nil, status: AppStatus? = nil, statusMessage: String? = nil, totalServerGroups: Int? = nil, totalServers: Int? = nil) {
             self.appId = appId
             self.creationTime = creationTime
             self.description = description
@@ -308,13 +308,13 @@ extension SMS {
         /// When true, the replication job produces encrypted AMIs. See also KmsKeyId below.
         public let encrypted: Bool?
         /// The time between consecutive replication runs, in hours.
-        public let frequency: Int32?
+        public let frequency: Int?
         /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
         public let kmsKeyId: String?
         /// The license type to be used for the AMI created by a successful replication run.
         public let licenseType: LicenseType?
         /// The maximum number of SMS-created AMIs to retain. The oldest will be deleted once the maximum number is reached and a new AMI is created.
-        public let numberOfRecentAmisToKeep: Int32?
+        public let numberOfRecentAmisToKeep: Int?
         /// The name of the IAM role to be used by the AWS SMS.
         public let roleName: String?
         public let runOnce: Bool?
@@ -323,7 +323,7 @@ extension SMS {
         /// The identifier of the server.
         public let serverId: String
 
-        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int32? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int32? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: TimeStamp, serverId: String) {
+        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: TimeStamp, serverId: String) {
             self.description = description
             self.encrypted = encrypted
             self.frequency = frequency
@@ -725,11 +725,11 @@ extension SMS {
         ]
 
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -770,13 +770,13 @@ extension SMS {
         ]
 
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The identifier of the replication job.
         public let replicationJobId: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, replicationJobId: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, replicationJobId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.replicationJobId = replicationJobId
@@ -819,13 +819,13 @@ extension SMS {
         ]
 
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The identifier of the replication job.
         public let replicationJobId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, replicationJobId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, replicationJobId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.replicationJobId = replicationJobId
@@ -873,13 +873,13 @@ extension SMS {
         ]
 
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// List of VmServerAddress objects
         public let vmServerAddressList: [VmServerAddress]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, vmServerAddressList: [VmServerAddress]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, vmServerAddressList: [VmServerAddress]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.vmServerAddressList = vmServerAddressList
@@ -1007,11 +1007,11 @@ extension SMS {
 
         public let appIds: [String]?
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(appIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(appIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appIds = appIds
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1144,7 +1144,7 @@ extension SMS {
         /// Whether the replication job should produce encrypted AMIs or not. See also KmsKeyId below.
         public let encrypted: Bool?
         /// The time between consecutive replication runs, in hours.
-        public let frequency: Int32?
+        public let frequency: Int?
         /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
         public let kmsKeyId: String?
         /// The ID of the latest Amazon Machine Image (AMI).
@@ -1154,7 +1154,7 @@ extension SMS {
         /// The start time of the next replication run.
         public let nextReplicationRunStartTime: TimeStamp?
         /// Number of recent AMIs to keep in the customer's account for a replication job. By default the value is set to zero, meaning that all AMIs are kept.
-        public let numberOfRecentAmisToKeep: Int32?
+        public let numberOfRecentAmisToKeep: Int?
         /// The identifier of the replication job.
         public let replicationJobId: String?
         /// Information about the replication runs.
@@ -1175,7 +1175,7 @@ extension SMS {
         /// Information about the VM server.
         public let vmServer: VmServer?
 
-        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int32? = nil, kmsKeyId: String? = nil, latestAmiId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: TimeStamp? = nil, numberOfRecentAmisToKeep: Int32? = nil, replicationJobId: String? = nil, replicationRunList: [ReplicationRun]? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: TimeStamp? = nil, serverId: String? = nil, serverType: ServerType? = nil, state: ReplicationJobState? = nil, statusMessage: String? = nil, vmServer: VmServer? = nil) {
+        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, latestAmiId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: TimeStamp? = nil, numberOfRecentAmisToKeep: Int? = nil, replicationJobId: String? = nil, replicationRunList: [ReplicationRun]? = nil, roleName: String? = nil, runOnce: Bool? = nil, seedReplicationTime: TimeStamp? = nil, serverId: String? = nil, serverType: ServerType? = nil, state: ReplicationJobState? = nil, statusMessage: String? = nil, vmServer: VmServer? = nil) {
             self.description = description
             self.encrypted = encrypted
             self.frequency = frequency
@@ -1439,13 +1439,13 @@ extension SMS {
         ]
 
         /// Launch order of servers in the server group.
-        public let launchOrder: Int32?
+        public let launchOrder: Int?
         /// Identifier of the server group the launch configuration is associated with.
         public let serverGroupId: String?
         /// Launch configuration for servers in the server group.
         public let serverLaunchConfigurations: [ServerLaunchConfiguration]?
 
-        public init(launchOrder: Int32? = nil, serverGroupId: String? = nil, serverLaunchConfigurations: [ServerLaunchConfiguration]? = nil) {
+        public init(launchOrder: Int? = nil, serverGroupId: String? = nil, serverLaunchConfigurations: [ServerLaunchConfiguration]? = nil) {
             self.launchOrder = launchOrder
             self.serverGroupId = serverGroupId
             self.serverLaunchConfigurations = serverLaunchConfigurations
@@ -1573,18 +1573,18 @@ extension SMS {
         /// When true, the replication job produces encrypted AMIs. See also KmsKeyId below.
         public let encrypted: Bool?
         /// Frequency of creating replication jobs for the server.
-        public let frequency: Int32?
+        public let frequency: Int?
         ///  KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
         public let kmsKeyId: String?
         /// License type for creating a replication job for the server.
         public let licenseType: LicenseType?
         /// Number of recent AMIs to keep when creating a replication job for this server.
-        public let numberOfRecentAmisToKeep: Int32?
+        public let numberOfRecentAmisToKeep: Int?
         public let runOnce: Bool?
         /// Seed time for creating a replication job for the server.
         public let seedTime: TimeStamp?
 
-        public init(encrypted: Bool? = nil, frequency: Int32? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int32? = nil, runOnce: Bool? = nil, seedTime: TimeStamp? = nil) {
+        public init(encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, numberOfRecentAmisToKeep: Int? = nil, runOnce: Bool? = nil, seedTime: TimeStamp? = nil) {
             self.encrypted = encrypted
             self.frequency = frequency
             self.kmsKeyId = kmsKeyId
@@ -1833,7 +1833,7 @@ extension SMS {
         /// When true, the replication job produces encrypted AMIs . See also KmsKeyId below.
         public let encrypted: Bool?
         /// The time between consecutive replication runs, in hours.
-        public let frequency: Int32?
+        public let frequency: Int?
         ///  KMS key ID for replication jobs that produce encrypted AMIs. Can be any of the following:    KMS key ID   KMS key alias   ARN referring to KMS key ID   ARN referring to KMS key alias    If encrypted is true but a KMS key id is not specified, the customer's default KMS key for EBS is used. 
         public let kmsKeyId: String?
         /// The license type to be used for the AMI created by a successful replication run.
@@ -1841,13 +1841,13 @@ extension SMS {
         /// The start time of the next replication run.
         public let nextReplicationRunStartTime: TimeStamp?
         /// The maximum number of SMS-created AMIs to retain. The oldest will be deleted once the maximum number is reached and a new AMI is created.
-        public let numberOfRecentAmisToKeep: Int32?
+        public let numberOfRecentAmisToKeep: Int?
         /// The identifier of the replication job.
         public let replicationJobId: String
         /// The name of the IAM role to be used by AWS SMS.
         public let roleName: String?
 
-        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int32? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: TimeStamp? = nil, numberOfRecentAmisToKeep: Int32? = nil, replicationJobId: String, roleName: String? = nil) {
+        public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: TimeStamp? = nil, numberOfRecentAmisToKeep: Int? = nil, replicationJobId: String, roleName: String? = nil) {
             self.description = description
             self.encrypted = encrypted
             self.frequency = frequency

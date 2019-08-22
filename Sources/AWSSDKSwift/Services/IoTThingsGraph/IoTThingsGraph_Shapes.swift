@@ -963,11 +963,11 @@ extension IoTThingsGraph {
         /// The ID of the workflow. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME 
         public let id: String
         /// The maximum number of results to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
-        public init(id: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(id: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.id = id
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1147,11 +1147,11 @@ extension IoTThingsGraph {
         /// The ID of the system template. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME 
         public let id: String
         /// The maximum number of results to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
-        public init(id: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(id: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.id = id
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1272,11 +1272,11 @@ extension IoTThingsGraph {
         /// The ID of the flow execution.
         public let flowExecutionId: String
         /// The maximum number of results to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
-        public init(flowExecutionId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(flowExecutionId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.flowExecutionId = flowExecutionId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1324,13 +1324,13 @@ extension IoTThingsGraph {
         ]
 
         /// The maximum number of tags to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token that specifies the next page of results to return.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource whose tags are to be returned.
         public let resourceArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -1425,13 +1425,13 @@ extension IoTThingsGraph {
         /// Optional filter to apply to the search. Valid filters are NAME NAMESPACE, SEMANTIC_TYPE_PATH and REFERENCED_ENTITY_ID. REFERENCED_ENTITY_ID filters on entities that are used by the entity in the result set. For example, you can filter on the ID of a property that is used in a state. Multiple filters function as OR criteria in the query. Multiple values passed inside the filter function as AND criteria.
         public let filters: [EntityFilter]?
         /// The maximum number of results to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The version of the user's namespace. Defaults to the latest version of the user's namespace.
         public let namespaceVersion: Int64?
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
-        public init(entityTypes: [EntityType], filters: [EntityFilter]? = nil, maxResults: Int32? = nil, namespaceVersion: Int64? = nil, nextToken: String? = nil) {
+        public init(entityTypes: [EntityType], filters: [EntityFilter]? = nil, maxResults: Int? = nil, namespaceVersion: Int64? = nil, nextToken: String? = nil) {
             self.entityTypes = entityTypes
             self.filters = filters
             self.maxResults = maxResults
@@ -1490,7 +1490,7 @@ extension IoTThingsGraph {
         /// The ID of a flow execution.
         public let flowExecutionId: String?
         /// The maximum number of results to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
         /// The date and time of the earliest flow execution to return.
@@ -1498,7 +1498,7 @@ extension IoTThingsGraph {
         /// The ID of the system instance that contains the flow.
         public let systemInstanceId: String
 
-        public init(endTime: TimeStamp? = nil, flowExecutionId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil, systemInstanceId: String) {
+        public init(endTime: TimeStamp? = nil, flowExecutionId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil, systemInstanceId: String) {
             self.endTime = endTime
             self.flowExecutionId = flowExecutionId
             self.maxResults = maxResults
@@ -1556,11 +1556,11 @@ extension IoTThingsGraph {
         /// An array of objects that limit the result set. The only valid filter is DEVICE_MODEL_ID.
         public let filters: [FlowTemplateFilter]?
         /// The maximum number of results to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
-        public init(filters: [FlowTemplateFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [FlowTemplateFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1613,11 +1613,11 @@ extension IoTThingsGraph {
         /// Optional filter to apply to the search. Valid filters are SYSTEM_TEMPLATE_ID, STATUS, and GREENGRASS_GROUP_NAME. Multiple filters function as OR criteria in the query. Multiple values passed inside the filter function as AND criteria.
         public let filters: [SystemInstanceFilter]?
         /// The maximum number of results to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
-        public init(filters: [SystemInstanceFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [SystemInstanceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1667,11 +1667,11 @@ extension IoTThingsGraph {
         /// An array of filters that limit the result set. The only valid filter is FLOW_TEMPLATE_ID.
         public let filters: [SystemTemplateFilter]?
         /// The maximum number of results to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
-        public init(filters: [SystemTemplateFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [SystemTemplateFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1725,13 +1725,13 @@ extension IoTThingsGraph {
         /// The ID of the entity to which the things are associated. The IDs should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME 
         public let entityId: String
         /// The maximum number of results to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The version of the user's namespace. Defaults to the latest version of the user's namespace.
         public let namespaceVersion: Int64?
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
-        public init(entityId: String, maxResults: Int32? = nil, namespaceVersion: Int64? = nil, nextToken: String? = nil) {
+        public init(entityId: String, maxResults: Int? = nil, namespaceVersion: Int64? = nil, nextToken: String? = nil) {
             self.entityId = entityId
             self.maxResults = maxResults
             self.namespaceVersion = namespaceVersion

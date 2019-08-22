@@ -375,13 +375,13 @@ extension IoTEventsData {
         /// The name of the detector model whose detectors (instances) are listed.
         public let detectorModelName: String
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// A filter that limits results to those detectors (instances) in the given state.
         public let stateName: String?
 
-        public init(detectorModelName: String, maxResults: Int32? = nil, nextToken: String? = nil, stateName: String? = nil) {
+        public init(detectorModelName: String, maxResults: Int? = nil, nextToken: String? = nil, stateName: String? = nil) {
             self.detectorModelName = detectorModelName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -495,9 +495,9 @@ extension IoTEventsData {
         /// The name of the timer.
         public let name: String
         /// The new setting of the timer (the number of seconds before the timer elapses).
-        public let seconds: Int32
+        public let seconds: Int
 
-        public init(name: String, seconds: Int32) {
+        public init(name: String, seconds: Int) {
             self.name = name
             self.seconds = seconds
         }

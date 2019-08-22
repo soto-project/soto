@@ -9,7 +9,7 @@ Amazon Kinesis Data Analytics is a fully managed service that you can use to pro
 */
 public struct KinesisAnalyticsV2 {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

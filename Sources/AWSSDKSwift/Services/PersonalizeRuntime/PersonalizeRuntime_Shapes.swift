@@ -72,11 +72,11 @@ extension PersonalizeRuntime {
         /// The item ID to provide recommendations for. Required for RELATED_ITEMS recipe type.
         public let itemId: String?
         /// The number of results to return. The default is 25. The maximum is 100.
-        public let numResults: Int32?
+        public let numResults: Int?
         /// The user ID to provide recommendations for. Required for USER_PERSONALIZATION recipe type.
         public let userId: String?
 
-        public init(campaignArn: String, itemId: String? = nil, numResults: Int32? = nil, userId: String? = nil) {
+        public init(campaignArn: String, itemId: String? = nil, numResults: Int? = nil, userId: String? = nil) {
             self.campaignArn = campaignArn
             self.itemId = itemId
             self.numResults = numResults

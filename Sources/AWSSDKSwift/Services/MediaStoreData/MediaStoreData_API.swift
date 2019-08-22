@@ -9,7 +9,7 @@ An AWS Elemental MediaStore asset is an object, similar to an object in the Amaz
 */
 public struct MediaStoreData {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

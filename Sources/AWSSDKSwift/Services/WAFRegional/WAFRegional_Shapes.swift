@@ -22,13 +22,13 @@ extension WAFRegional {
         /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup will block a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup will then override any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests will be counted. You can view a record of counted requests using GetSampledRequests.   ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.
         public let overrideAction: WafOverrideAction?
         /// Specifies the order in which the Rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before Rules with a higher value. The value must be a unique integer. If you add multiple Rules to a WebACL, the values don't need to be consecutive.
-        public let priority: Int32
+        public let priority: Int
         /// The RuleId for a Rule. You use RuleId to get more information about a Rule (see GetRule), update a Rule (see UpdateRule), insert a Rule into a WebACL or delete a one from a WebACL (see UpdateWebACL), or delete a Rule from AWS WAF (see DeleteRule).  RuleId is returned by CreateRule and by ListRules.
         public let ruleId: String
         /// The rule type, either REGULAR, as defined by Rule, RATE_BASED, as defined by RateBasedRule, or GROUP, as defined by RuleGroup. The default is REGULAR. Although this field is optional, be aware that if you try to add a RATE_BASED rule to a web ACL without setting the type, the UpdateWebACL request will fail because the request tries to add a REGULAR rule with the specified ID, which does not exist. 
         public let `type`: WafRuleType?
 
-        public init(action: WafAction? = nil, excludedRules: [ExcludedRule]? = nil, overrideAction: WafOverrideAction? = nil, priority: Int32, ruleId: String, type: WafRuleType? = nil) {
+        public init(action: WafAction? = nil, excludedRules: [ExcludedRule]? = nil, overrideAction: WafOverrideAction? = nil, priority: Int, ruleId: String, type: WafRuleType? = nil) {
             self.action = action
             self.excludedRules = excludedRules
             self.overrideAction = overrideAction
@@ -2849,13 +2849,13 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of ActivatedRules that you want AWS WAF to return for this request. If you have more ActivatedRules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ActivatedRules.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more ActivatedRules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ActivatedRules. For the second and subsequent ListActivatedRulesInRuleGroup requests, specify the value of NextMarker from the previous response to get information about another batch of ActivatedRules.
         public let nextMarker: String?
         /// The RuleGroupId of the RuleGroup for which you want to get a list of ActivatedRule objects.
         public let ruleGroupId: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil, ruleGroupId: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil, ruleGroupId: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
             self.ruleGroupId = ruleGroupId
@@ -2905,11 +2905,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of ByteMatchSet objects that you want AWS WAF to return for this request. If you have more ByteMatchSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ByteMatchSet objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more ByteMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListByteMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -2955,11 +2955,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of GeoMatchSet objects that you want AWS WAF to return for this request. If you have more GeoMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of GeoMatchSet objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more GeoMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of GeoMatchSet objects. For the second and subsequent ListGeoMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of GeoMatchSet objects.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -3005,11 +3005,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of IPSet objects that you want AWS WAF to return for this request. If you have more IPSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of IPSet objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more IPSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of IPSets. For the second and subsequent ListIPSets requests, specify the value of NextMarker from the previous response to get information about another batch of IPSets.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -3055,11 +3055,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of LoggingConfigurations that you want AWS WAF to return for this request. If you have more LoggingConfigurations than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of LoggingConfigurations.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more LoggingConfigurations than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of LoggingConfigurations. For the second and subsequent ListLoggingConfigurations requests, specify the value of NextMarker from the previous response to get information about another batch of ListLoggingConfigurations.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -3105,11 +3105,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRateBasedRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -3155,11 +3155,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of RegexMatchSet objects that you want AWS WAF to return for this request. If you have more RegexMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RegexMatchSet objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more RegexMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListRegexMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of RegexMatchSet objects.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -3205,11 +3205,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of RegexPatternSet objects that you want AWS WAF to return for this request. If you have more RegexPatternSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RegexPatternSet objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more RegexPatternSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of RegexPatternSet objects. For the second and subsequent ListRegexPatternSets requests, specify the value of NextMarker from the previous response to get information about another batch of RegexPatternSet objects.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -3299,11 +3299,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of RuleGroups that you want AWS WAF to return for this request. If you have more RuleGroups than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RuleGroups.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more RuleGroups than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of RuleGroups. For the second and subsequent ListRuleGroups requests, specify the value of NextMarker from the previous response to get information about another batch of RuleGroups.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -3349,11 +3349,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -3399,11 +3399,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more SizeConstraintSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SizeConstraintSets. For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker from the previous response to get information about another batch of SizeConstraintSets.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -3449,11 +3449,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of SqlInjectionMatchSet objects that you want AWS WAF to return for this request. If you have more SqlInjectionMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more SqlInjectionMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SqlInjectionMatchSets. For the second and subsequent ListSqlInjectionMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of SqlInjectionMatchSets.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -3499,11 +3499,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of subscribed rule groups that you want AWS WAF to return for this request. If you have more objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more ByteMatchSetssubscribed rule groups than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of subscribed rule groups. For the second and subsequent ListSubscribedRuleGroupsRequest requests, specify the value of NextMarker from the previous response to get information about another batch of subscribed rule groups.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -3549,11 +3549,11 @@ extension WAFRegional {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
 
-        public let limit: Int32?
+        public let limit: Int?
         public let nextMarker: String?
         public let resourceARN: String
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil, resourceARN: String) {
+        public init(limit: Int? = nil, nextMarker: String? = nil, resourceARN: String) {
             self.limit = limit
             self.nextMarker = nextMarker
             self.resourceARN = resourceARN
@@ -3601,11 +3601,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of WebACL objects.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }
@@ -3651,11 +3651,11 @@ extension WAFRegional {
         ]
 
         /// Specifies the number of XssMatchSet objects that you want AWS WAF to return for this request. If you have more XssMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
-        public let limit: Int32?
+        public let limit: Int?
         /// If you specify a value for Limit and you have more XssMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of XssMatchSets. For the second and subsequent ListXssMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of XssMatchSets.
         public let nextMarker: String?
 
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+        public init(limit: Int? = nil, nextMarker: String? = nil) {
             self.limit = limit
             self.nextMarker = nextMarker
         }

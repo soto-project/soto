@@ -9,7 +9,7 @@ AWS Performance Insights enables you to monitor and explore different dimensions
 */
 public struct PI {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

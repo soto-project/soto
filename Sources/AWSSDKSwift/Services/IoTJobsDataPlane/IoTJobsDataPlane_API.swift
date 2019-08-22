@@ -9,7 +9,7 @@ AWS IoT Jobs is a service that allows you to define a set of jobs — remote ope
 */
 public struct IoTJobsDataPlane {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

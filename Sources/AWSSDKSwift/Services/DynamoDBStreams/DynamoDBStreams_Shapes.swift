@@ -77,11 +77,11 @@ extension DynamoDBStreams {
         /// The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the previous operation. 
         public let exclusiveStartShardId: String?
         /// The maximum number of shard objects to return. The upper limit is 100.
-        public let limit: Int32?
+        public let limit: Int?
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String
 
-        public init(exclusiveStartShardId: String? = nil, limit: Int32? = nil, streamArn: String) {
+        public init(exclusiveStartShardId: String? = nil, limit: Int? = nil, streamArn: String) {
             self.exclusiveStartShardId = exclusiveStartShardId
             self.limit = limit
             self.streamArn = streamArn
@@ -126,11 +126,11 @@ extension DynamoDBStreams {
         ]
 
         /// The maximum number of records to return from the shard. The upper limit is 1000.
-        public let limit: Int32?
+        public let limit: Int?
         /// A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard.
         public let shardIterator: String
 
-        public init(limit: Int32? = nil, shardIterator: String) {
+        public init(limit: Int? = nil, shardIterator: String) {
             self.limit = limit
             self.shardIterator = shardIterator
         }
@@ -287,11 +287,11 @@ extension DynamoDBStreams {
         /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation. 
         public let exclusiveStartStreamArn: String?
         /// The maximum number of streams to return. The upper limit is 100.
-        public let limit: Int32?
+        public let limit: Int?
         /// If this parameter is provided, then only the streams associated with this table name are returned.
         public let tableName: String?
 
-        public init(exclusiveStartStreamArn: String? = nil, limit: Int32? = nil, tableName: String? = nil) {
+        public init(exclusiveStartStreamArn: String? = nil, limit: Int? = nil, tableName: String? = nil) {
             self.exclusiveStartStreamArn = exclusiveStartStreamArn
             self.limit = limit
             self.tableName = tableName

@@ -1438,9 +1438,9 @@ extension SageMaker {
         /// A list of tags to associate with the notebook instance. You can add tags later by using the CreateTags API.
         public let tags: [Tag]?
         /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB.
-        public let volumeSizeInGB: Int32?
+        public let volumeSizeInGB: Int?
 
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, instanceType: InstanceType, kmsKeyId: String? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, roleArn: String, rootAccess: RootAccess? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [Tag]? = nil, volumeSizeInGB: Int32? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, instanceType: InstanceType, kmsKeyId: String? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, roleArn: String, rootAccess: RootAccess? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [Tag]? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.defaultCodeRepository = defaultCodeRepository
@@ -1593,9 +1593,9 @@ extension SageMaker {
         /// The name of the notebook instance.
         public let notebookInstanceName: String
         /// The duration of the session, in seconds. The default is 12 hours.
-        public let sessionExpirationDurationInSeconds: Int32?
+        public let sessionExpirationDurationInSeconds: Int?
 
-        public init(notebookInstanceName: String, sessionExpirationDurationInSeconds: Int32? = nil) {
+        public init(notebookInstanceName: String, sessionExpirationDurationInSeconds: Int? = nil) {
             self.notebookInstanceName = notebookInstanceName
             self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
         }
@@ -1771,9 +1771,9 @@ extension SageMaker {
         /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
         public let environment: [String: String]?
         /// The maximum number of parallel requests that can be sent to each instance in a transform job. If MaxConcurrentTransforms is set to 0 or left unset, Amazon SageMaker checks the optional execution-parameters to determine the optimal settings for your chosen algorithm. If the execution-parameters endpoint is not enabled, the default value is 1. For more information on execution-parameters, see How Containers Serve Requests. For built-in algorithms, you don't need to set a value for MaxConcurrentTransforms.
-        public let maxConcurrentTransforms: Int32?
+        public let maxConcurrentTransforms: Int?
         /// The maximum allowed size of the payload, in MB. A payload is the data portion of a record (without metadata). The value in MaxPayloadInMB must be greater than, or equal to, the size of a single record. To estimate the size of a record in MB, divide the size of your dataset by the number of records. To ensure that the records fit within the maximum payload size, we recommend using a slightly larger value. The default value is 6 MB.  For cases where the payload might be arbitrarily large and is transmitted using HTTP chunked encoding, set the value to 0. This feature works only in supported algorithms. Currently, Amazon SageMaker built-in algorithms do not support HTTP chunked encoding.
-        public let maxPayloadInMB: Int32?
+        public let maxPayloadInMB: Int?
         /// The name of the model that you want to use for the transform job. ModelName must be the name of an existing Amazon SageMaker model within an AWS Region in an AWS account.
         public let modelName: String
         /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
@@ -1787,7 +1787,7 @@ extension SageMaker {
         /// Describes the resources, including ML instance types and ML instance count, to use for the transform job.
         public let transformResources: TransformResources
 
-        public init(batchStrategy: BatchStrategy? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, maxConcurrentTransforms: Int32? = nil, maxPayloadInMB: Int32? = nil, modelName: String, tags: [Tag]? = nil, transformInput: TransformInput, transformJobName: String, transformOutput: TransformOutput, transformResources: TransformResources) {
+        public init(batchStrategy: BatchStrategy? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelName: String, tags: [Tag]? = nil, transformInput: TransformInput, transformJobName: String, transformOutput: TransformOutput, transformResources: TransformResources) {
             self.batchStrategy = batchStrategy
             self.dataProcessing = dataProcessing
             self.environment = environment
@@ -3195,9 +3195,9 @@ extension SageMaker {
         /// The URL that you use to connect to the Jupyter notebook that is running in your notebook instance. 
         public let url: String?
         /// The size, in GB, of the ML storage volume attached to the notebook instance.
-        public let volumeSizeInGB: Int32?
+        public let volumeSizeInGB: Int?
 
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, creationTime: TimeStamp? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, failureReason: String? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lastModifiedTime: TimeStamp? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int32? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, creationTime: TimeStamp? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, failureReason: String? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lastModifiedTime: TimeStamp? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.creationTime = creationTime
@@ -3494,9 +3494,9 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the Amazon SageMaker Ground Truth labeling job that created the transform or training job.
         public let labelingJobArn: String?
         /// The maximum number of parallel requests on each instance node that can be launched in a transform job. The default value is 1.
-        public let maxConcurrentTransforms: Int32?
+        public let maxConcurrentTransforms: Int?
         /// The maximum payload size, in MB, used in the transform job.
-        public let maxPayloadInMB: Int32?
+        public let maxPayloadInMB: Int?
         /// The name of the model used in the transform job.
         public let modelName: String
         /// Indicates when the transform job has been completed, or has stopped or failed. You are billed for the time interval between this time and the value of TransformStartTime.
@@ -3516,7 +3516,7 @@ extension SageMaker {
         /// Indicates when the transform job starts on ML instances. You are billed for the time interval between this time and the value of TransformEndTime.
         public let transformStartTime: TimeStamp?
 
-        public init(batchStrategy: BatchStrategy? = nil, creationTime: TimeStamp, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int32? = nil, maxPayloadInMB: Int32? = nil, modelName: String, transformEndTime: TimeStamp? = nil, transformInput: TransformInput, transformJobArn: String, transformJobName: String, transformJobStatus: TransformJobStatus, transformOutput: TransformOutput? = nil, transformResources: TransformResources, transformStartTime: TimeStamp? = nil) {
+        public init(batchStrategy: BatchStrategy? = nil, creationTime: TimeStamp, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelName: String, transformEndTime: TimeStamp? = nil, transformInput: TransformInput, transformJobArn: String, transformJobName: String, transformJobStatus: TransformJobStatus, transformOutput: TransformOutput? = nil, transformResources: TransformResources, transformStartTime: TimeStamp? = nil) {
             self.batchStrategy = batchStrategy
             self.creationTime = creationTime
             self.dataProcessing = dataProcessing
@@ -3605,13 +3605,13 @@ extension SageMaker {
         ]
 
         /// The variant's capacity.
-        public let desiredInstanceCount: Int32?
+        public let desiredInstanceCount: Int?
         /// The variant's weight.
         public let desiredWeight: Float?
         /// The name of the variant to update.
         public let variantName: String
 
-        public init(desiredInstanceCount: Int32? = nil, desiredWeight: Float? = nil, variantName: String) {
+        public init(desiredInstanceCount: Int? = nil, desiredWeight: Float? = nil, variantName: String) {
             self.desiredInstanceCount = desiredInstanceCount
             self.desiredWeight = desiredWeight
             self.variantName = variantName
@@ -3936,21 +3936,21 @@ extension SageMaker {
         /// Configures how labels are consolidated across human workers.
         public let annotationConsolidationConfig: AnnotationConsolidationConfig
         /// Defines the maximum number of data objects that can be labeled by human workers at the same time. Each object may have more than one worker at one time.
-        public let maxConcurrentTaskCount: Int32?
+        public let maxConcurrentTaskCount: Int?
         /// The number of human workers that will label an object. 
-        public let numberOfHumanWorkersPerDataObject: Int32
+        public let numberOfHumanWorkersPerDataObject: Int
         /// The Amazon Resource Name (ARN) of a Lambda function that is run before a data object is sent to a human worker. Use this function to provide input to a custom labeling job. For the built-in bounding box, image classification, semantic segmentation, and text classification task types, Amazon SageMaker Ground Truth provides the following Lambda functions:  US East (Northern Virginia) (us-east-1):     arn:aws:lambda:us-east-1:432418664414:function:PRE-BoundingBox     arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-1:432418664414:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClass     US East (Ohio) (us-east-2):     arn:aws:lambda:us-east-2:266458841044:function:PRE-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClass     US West (Oregon) (us-west-2):     arn:aws:lambda:us-west-2:081040173940:function:PRE-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClass     EU (Ireland) (eu-west-1):     arn:aws:lambda:eu-west-1:568282634449:function:PRE-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClass     Asia Pacific (Tokyo) (ap-northeast-1):     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClass     Asia Pacific (Sydney) (ap-southeast-1):     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClass   
         public let preHumanTaskLambdaArn: String
         /// The price that you pay for each task performed by a public worker.
         public let publicWorkforceTaskPrice: PublicWorkforceTaskPrice?
         /// The length of time that a task remains available for labelling by human workers.
-        public let taskAvailabilityLifetimeInSeconds: Int32?
+        public let taskAvailabilityLifetimeInSeconds: Int?
         /// A description of the task for your human workers.
         public let taskDescription: String
         /// Keywords used to describe the task so that workers on Amazon Mechanical Turk can discover the task.
         public let taskKeywords: [String]?
         /// The amount of time that a worker has to complete a task.
-        public let taskTimeLimitInSeconds: Int32
+        public let taskTimeLimitInSeconds: Int
         /// A title for the task for your human workers.
         public let taskTitle: String
         /// Information about the user interface that workers use to complete the labeling task.
@@ -3958,7 +3958,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the work team assigned to complete the tasks.
         public let workteamArn: String
 
-        public init(annotationConsolidationConfig: AnnotationConsolidationConfig, maxConcurrentTaskCount: Int32? = nil, numberOfHumanWorkersPerDataObject: Int32, preHumanTaskLambdaArn: String, publicWorkforceTaskPrice: PublicWorkforceTaskPrice? = nil, taskAvailabilityLifetimeInSeconds: Int32? = nil, taskDescription: String, taskKeywords: [String]? = nil, taskTimeLimitInSeconds: Int32, taskTitle: String, uiConfig: UiConfig, workteamArn: String) {
+        public init(annotationConsolidationConfig: AnnotationConsolidationConfig, maxConcurrentTaskCount: Int? = nil, numberOfHumanWorkersPerDataObject: Int, preHumanTaskLambdaArn: String, publicWorkforceTaskPrice: PublicWorkforceTaskPrice? = nil, taskAvailabilityLifetimeInSeconds: Int? = nil, taskDescription: String, taskKeywords: [String]? = nil, taskTimeLimitInSeconds: Int, taskTitle: String, uiConfig: UiConfig, workteamArn: String) {
             self.annotationConsolidationConfig = annotationConsolidationConfig
             self.maxConcurrentTaskCount = maxConcurrentTaskCount
             self.numberOfHumanWorkersPerDataObject = numberOfHumanWorkersPerDataObject
@@ -4695,17 +4695,17 @@ extension SageMaker {
         ]
 
         /// The total number of objects that could not be labeled due to an error.
-        public let failedNonRetryableError: Int32?
+        public let failedNonRetryableError: Int?
         /// The total number of objects labeled by a human worker.
-        public let humanLabeled: Int32?
+        public let humanLabeled: Int?
         /// The total number of objects labeled by automated data labeling.
-        public let machineLabeled: Int32?
+        public let machineLabeled: Int?
         /// The total number of objects labeled.
-        public let totalLabeled: Int32?
+        public let totalLabeled: Int?
         /// The total number of objects not yet labeled.
-        public let unlabeled: Int32?
+        public let unlabeled: Int?
 
-        public init(failedNonRetryableError: Int32? = nil, humanLabeled: Int32? = nil, machineLabeled: Int32? = nil, totalLabeled: Int32? = nil, unlabeled: Int32? = nil) {
+        public init(failedNonRetryableError: Int? = nil, humanLabeled: Int? = nil, machineLabeled: Int? = nil, totalLabeled: Int? = nil, unlabeled: Int? = nil) {
             self.failedNonRetryableError = failedNonRetryableError
             self.humanLabeled = humanLabeled
             self.machineLabeled = machineLabeled
@@ -4730,13 +4730,13 @@ extension SageMaker {
         ]
 
         /// The total number of data objects labeled by a human worker.
-        public let humanLabeled: Int32?
+        public let humanLabeled: Int?
         /// The total number of data objects that need to be labeled by a human worker.
-        public let pendingHuman: Int32?
+        public let pendingHuman: Int?
         /// The total number of tasks in the labeling job.
-        public let total: Int32?
+        public let total: Int?
 
-        public init(humanLabeled: Int32? = nil, pendingHuman: Int32? = nil, total: Int32? = nil) {
+        public init(humanLabeled: Int? = nil, pendingHuman: Int? = nil, total: Int? = nil) {
             self.humanLabeled = humanLabeled
             self.pendingHuman = pendingHuman
             self.total = total
@@ -4846,10 +4846,10 @@ extension SageMaker {
         /// The name of the labeling job that the work team is assigned to.
         public let labelingJobName: String?
         /// The configured number of workers per data object.
-        public let numberOfHumanWorkersPerDataObject: Int32?
+        public let numberOfHumanWorkersPerDataObject: Int?
         public let workRequesterAccountId: String
 
-        public init(creationTime: TimeStamp, jobReferenceCode: String, labelCounters: LabelCountersForWorkteam? = nil, labelingJobName: String? = nil, numberOfHumanWorkersPerDataObject: Int32? = nil, workRequesterAccountId: String) {
+        public init(creationTime: TimeStamp, jobReferenceCode: String, labelCounters: LabelCountersForWorkteam? = nil, labelingJobName: String? = nil, numberOfHumanWorkersPerDataObject: Int? = nil, workRequesterAccountId: String) {
             self.creationTime = creationTime
             self.jobReferenceCode = jobReferenceCode
             self.labelCounters = labelCounters
@@ -5006,11 +5006,11 @@ extension SageMaker {
         ]
 
         /// The maximum number of objects that can be labeled by human workers.
-        public let maxHumanLabeledObjectCount: Int32?
+        public let maxHumanLabeledObjectCount: Int?
         /// The maximum number of input data objects that should be labeled.
-        public let maxPercentageOfInputDatasetLabeled: Int32?
+        public let maxPercentageOfInputDatasetLabeled: Int?
 
-        public init(maxHumanLabeledObjectCount: Int32? = nil, maxPercentageOfInputDatasetLabeled: Int32? = nil) {
+        public init(maxHumanLabeledObjectCount: Int? = nil, maxPercentageOfInputDatasetLabeled: Int? = nil) {
             self.maxHumanLabeledObjectCount = maxHumanLabeledObjectCount
             self.maxPercentageOfInputDatasetLabeled = maxPercentageOfInputDatasetLabeled
         }
@@ -5115,7 +5115,7 @@ extension SageMaker {
         /// A filter that returns only algorithms created before the specified time (timestamp).
         public let creationTimeBefore: TimeStamp?
         /// The maximum number of algorithms to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the algorithm name. This filter returns only algorithms whose name contains the specified string.
         public let nameContains: String?
         /// If the response to a previous ListAlgorithms request was truncated, the response includes a NextToken. To retrieve the next set of algorithms, use the token in the next request.
@@ -5125,7 +5125,7 @@ extension SageMaker {
         /// The sort order for the results. The default is Ascending.
         public let sortOrder: SortOrder?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: AlgorithmSortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: AlgorithmSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.maxResults = maxResults
@@ -5199,7 +5199,7 @@ extension SageMaker {
         /// A filter that returns only Git repositories that were last modified before the specified time.
         public let lastModifiedTimeBefore: TimeStamp?
         /// The maximum number of Git repositories to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the Git repositories name. This filter returns only repositories whose name contains the specified string.
         public let nameContains: String?
         /// If the result of a ListCodeRepositoriesOutput request was truncated, the response includes a NextToken. To get the next set of Git repositories, use the token in the next request.
@@ -5209,7 +5209,7 @@ extension SageMaker {
         /// The sort order for results. The default is Ascending.
         public let sortOrder: CodeRepositorySortOrder?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: CodeRepositorySortBy? = nil, sortOrder: CodeRepositorySortOrder? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: CodeRepositorySortBy? = nil, sortOrder: CodeRepositorySortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -5288,7 +5288,7 @@ extension SageMaker {
         /// A filter that returns the model compilation jobs that were modified before a specified time.
         public let lastModifiedTimeBefore: TimeStamp?
         /// The maximum number of model compilation jobs to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A filter that returns the model compilation jobs whose name contains a specified string.
         public let nameContains: String?
         /// If the result of the previous ListCompilationJobs request was truncated, the response includes a NextToken. To retrieve the next set of model compilation jobs, use the token in the next request.
@@ -5300,7 +5300,7 @@ extension SageMaker {
         /// A filter that retrieves model compilation jobs with a specific DescribeCompilationJobResponse$CompilationJobStatus status.
         public let statusEquals: CompilationJobStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListCompilationJobsSortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: CompilationJobStatus? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListCompilationJobsSortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: CompilationJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -5381,7 +5381,7 @@ extension SageMaker {
         /// A filter that returns only endpoint configurations created before the specified time (timestamp).
         public let creationTimeBefore: TimeStamp?
         /// The maximum number of training jobs to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the endpoint configuration name. This filter returns only endpoint configurations whose name contains the specified string. 
         public let nameContains: String?
         /// If the result of the previous ListEndpointConfig request was truncated, the response includes a NextToken. To retrieve the next set of endpoint configurations, use the token in the next request. 
@@ -5391,7 +5391,7 @@ extension SageMaker {
         /// The sort order for results. The default is Descending.
         public let sortOrder: OrderKey?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: EndpointConfigSortKey? = nil, sortOrder: OrderKey? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: EndpointConfigSortKey? = nil, sortOrder: OrderKey? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.maxResults = maxResults
@@ -5466,7 +5466,7 @@ extension SageMaker {
         ///  A filter that returns only endpoints that were modified before the specified timestamp. 
         public let lastModifiedTimeBefore: TimeStamp?
         /// The maximum number of endpoints to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in endpoint names. This filter returns only endpoints whose name contains the specified string.
         public let nameContains: String?
         /// If the result of a ListEndpoints request was truncated, the response includes a NextToken. To retrieve the next set of endpoints, use the token in the next request.
@@ -5478,7 +5478,7 @@ extension SageMaker {
         ///  A filter that returns only endpoints with the specified status.
         public let statusEquals: EndpointStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: EndpointSortKey? = nil, sortOrder: OrderKey? = nil, statusEquals: EndpointStatus? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: EndpointSortKey? = nil, sortOrder: OrderKey? = nil, statusEquals: EndpointStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -5559,7 +5559,7 @@ extension SageMaker {
         /// A filter that returns only tuning jobs that were modified before the specified time.
         public let lastModifiedTimeBefore: TimeStamp?
         /// The maximum number of tuning jobs to return. The default value is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the tuning job name. This filter returns only tuning jobs whose name contains the specified string.
         public let nameContains: String?
         /// If the result of the previous ListHyperParameterTuningJobs request was truncated, the response includes a NextToken. To retrieve the next set of tuning jobs, use the token in the next request.
@@ -5571,7 +5571,7 @@ extension SageMaker {
         /// A filter that returns only tuning jobs with the specified status.
         public let statusEquals: HyperParameterTuningJobStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: HyperParameterTuningJobSortByOptions? = nil, sortOrder: SortOrder? = nil, statusEquals: HyperParameterTuningJobStatus? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: HyperParameterTuningJobSortByOptions? = nil, sortOrder: SortOrder? = nil, statusEquals: HyperParameterTuningJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -5648,7 +5648,7 @@ extension SageMaker {
         /// A filter the limits jobs to only the ones whose job reference code contains the specified string.
         public let jobReferenceCodeContains: String?
         /// The maximum number of labeling jobs to return in each page of the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the result of the previous ListLabelingJobsForWorkteam request was truncated, the response includes a NextToken. To retrieve the next set of labeling jobs, use the token in the next request.
         public let nextToken: String?
         /// The field to sort results by. The default is CreationTime.
@@ -5658,7 +5658,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the work team for which you want to see labeling jobs for.
         public let workteamArn: String
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, jobReferenceCodeContains: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortBy: ListLabelingJobsForWorkteamSortByOptions? = nil, sortOrder: SortOrder? = nil, workteamArn: String) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, jobReferenceCodeContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ListLabelingJobsForWorkteamSortByOptions? = nil, sortOrder: SortOrder? = nil, workteamArn: String) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.jobReferenceCodeContains = jobReferenceCodeContains
@@ -5743,7 +5743,7 @@ extension SageMaker {
         /// A filter that returns only labeling jobs modified before the specified time (timestamp).
         public let lastModifiedTimeBefore: TimeStamp?
         /// The maximum number of labeling jobs to return in each page of the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the labeling job name. This filter returns only labeling jobs whose name contains the specified string.
         public let nameContains: String?
         /// If the result of the previous ListLabelingJobs request was truncated, the response includes a NextToken. To retrieve the next set of labeling jobs, use the token in the next request.
@@ -5755,7 +5755,7 @@ extension SageMaker {
         /// A filter that retrieves only labeling jobs with a specific status.
         public let statusEquals: LabelingJobStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: LabelingJobStatus? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: LabelingJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -5829,7 +5829,7 @@ extension SageMaker {
         /// A filter that returns only model packages created before the specified time (timestamp).
         public let creationTimeBefore: TimeStamp?
         /// The maximum number of model packages to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the model package name. This filter returns only model packages whose name contains the specified string.
         public let nameContains: String?
         /// If the response to a previous ListModelPackages request was truncated, the response includes a NextToken. To retrieve the next set of model packages, use the token in the next request.
@@ -5839,7 +5839,7 @@ extension SageMaker {
         /// The sort order for the results. The default is Ascending.
         public let sortOrder: SortOrder?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelPackageSortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelPackageSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.maxResults = maxResults
@@ -5907,7 +5907,7 @@ extension SageMaker {
         /// A filter that returns only models created before the specified time (timestamp).
         public let creationTimeBefore: TimeStamp?
         /// The maximum number of models to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the training job name. This filter returns only models in the training job whose name contains the specified string.
         public let nameContains: String?
         /// If the response to a previous ListModels request was truncated, the response includes a NextToken. To retrieve the next set of models, use the token in the next request.
@@ -5917,7 +5917,7 @@ extension SageMaker {
         /// The sort order for results. The default is Descending.
         public let sortOrder: OrderKey?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelSortKey? = nil, sortOrder: OrderKey? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelSortKey? = nil, sortOrder: OrderKey? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.maxResults = maxResults
@@ -5991,7 +5991,7 @@ extension SageMaker {
         /// A filter that returns only lifecycle configurations that were modified before the specified time (timestamp).
         public let lastModifiedTimeBefore: TimeStamp?
         /// The maximum number of lifecycle configurations to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the lifecycle configuration name. This filter returns only lifecycle configurations whose name contains the specified string.
         public let nameContains: String?
         /// If the result of a ListNotebookInstanceLifecycleConfigs request was truncated, the response includes a NextToken. To get the next set of lifecycle configurations, use the token in the next request.
@@ -6001,7 +6001,7 @@ extension SageMaker {
         /// The sort order for results.
         public let sortOrder: NotebookInstanceLifecycleConfigSortOrder?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: NotebookInstanceLifecycleConfigSortKey? = nil, sortOrder: NotebookInstanceLifecycleConfigSortOrder? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: NotebookInstanceLifecycleConfigSortKey? = nil, sortOrder: NotebookInstanceLifecycleConfigSortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -6087,7 +6087,7 @@ extension SageMaker {
         /// A filter that returns only notebook instances that were modified before the specified time (timestamp).
         public let lastModifiedTimeBefore: TimeStamp?
         /// The maximum number of notebook instances to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the notebook instances' name. This filter returns only notebook instances whose name contains the specified string.
         public let nameContains: String?
         ///  If the previous call to the ListNotebookInstances is truncated, the response includes a NextToken. You can use this token in your subsequent ListNotebookInstances request to fetch the next set of notebook instances.   You might specify a filter or a sort order in your request. When response is truncated, you must use the same values for the filer and sort order in the next request.  
@@ -6101,7 +6101,7 @@ extension SageMaker {
         /// A filter that returns only notebook instances with the specified status.
         public let statusEquals: NotebookInstanceStatus?
 
-        public init(additionalCodeRepositoryEquals: String? = nil, creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, defaultCodeRepositoryContains: String? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, notebookInstanceLifecycleConfigNameContains: String? = nil, sortBy: NotebookInstanceSortKey? = nil, sortOrder: NotebookInstanceSortOrder? = nil, statusEquals: NotebookInstanceStatus? = nil) {
+        public init(additionalCodeRepositoryEquals: String? = nil, creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, defaultCodeRepositoryContains: String? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, notebookInstanceLifecycleConfigNameContains: String? = nil, sortBy: NotebookInstanceSortKey? = nil, sortOrder: NotebookInstanceSortOrder? = nil, statusEquals: NotebookInstanceStatus? = nil) {
             self.additionalCodeRepositoryEquals = additionalCodeRepositoryEquals
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -6180,13 +6180,13 @@ extension SageMaker {
         ]
 
         /// The maximum number of work teams to return in each page of the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the work team name. This filter returns only work teams whose name contains the specified string.
         public let nameContains: String?
         /// If the result of the previous ListSubscribedWorkteams request was truncated, the response includes a NextToken. To retrieve the next set of labeling jobs, use the token in the next request.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
@@ -6239,13 +6239,13 @@ extension SageMaker {
         ]
 
         /// Maximum number of tags to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         ///  If the response to the previous ListTags request is truncated, Amazon SageMaker returns this token. To retrieve the next set of tags, use it in the subsequent request. 
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
         public let resourceArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -6301,7 +6301,7 @@ extension SageMaker {
         /// The name of the tuning job whose training jobs you want to list.
         public let hyperParameterTuningJobName: String
         /// The maximum number of training jobs to return. The default value is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If the result of the previous ListTrainingJobsForHyperParameterTuningJob request was truncated, the response includes a NextToken. To retrieve the next set of training jobs, use the token in the next request.
         public let nextToken: String?
         /// The field to sort results by. The default is Name. If the value of this field is FinalObjectiveMetricValue, any training jobs that did not return an objective metric are not listed.
@@ -6311,7 +6311,7 @@ extension SageMaker {
         /// A filter that returns only training jobs with the specified status.
         public let statusEquals: TrainingJobStatus?
 
-        public init(hyperParameterTuningJobName: String, maxResults: Int32? = nil, nextToken: String? = nil, sortBy: TrainingJobSortByOptions? = nil, sortOrder: SortOrder? = nil, statusEquals: TrainingJobStatus? = nil) {
+        public init(hyperParameterTuningJobName: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: TrainingJobSortByOptions? = nil, sortOrder: SortOrder? = nil, statusEquals: TrainingJobStatus? = nil) {
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6385,7 +6385,7 @@ extension SageMaker {
         /// A filter that returns only training jobs modified before the specified time (timestamp).
         public let lastModifiedTimeBefore: TimeStamp?
         /// The maximum number of training jobs to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the training job name. This filter returns only training jobs whose name contains the specified string.
         public let nameContains: String?
         /// If the result of the previous ListTrainingJobs request was truncated, the response includes a NextToken. To retrieve the next set of training jobs, use the token in the next request. 
@@ -6397,7 +6397,7 @@ extension SageMaker {
         /// A filter that retrieves only training jobs with a specific status.
         public let statusEquals: TrainingJobStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: TrainingJobStatus? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: TrainingJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -6478,7 +6478,7 @@ extension SageMaker {
         /// A filter that returns only transform jobs modified before the specified time.
         public let lastModifiedTimeBefore: TimeStamp?
         /// The maximum number of transform jobs to return in the response. The default value is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the transform job name. This filter returns only transform jobs whose name contains the specified string.
         public let nameContains: String?
         /// If the result of the previous ListTransformJobs request was truncated, the response includes a NextToken. To retrieve the next set of transform jobs, use the token in the next request.
@@ -6490,7 +6490,7 @@ extension SageMaker {
         /// A filter that retrieves only transform jobs with a specific status.
         public let statusEquals: TransformJobStatus?
 
-        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: TransformJobStatus? = nil) {
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: TransformJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -6558,7 +6558,7 @@ extension SageMaker {
         ]
 
         /// The maximum number of work teams to return in each page of the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A string in the work team's name. This filter returns only work teams whose name contains the specified string.
         public let nameContains: String?
         /// If the result of the previous ListWorkteams request was truncated, the response includes a NextToken. To retrieve the next set of labeling jobs, use the token in the next request.
@@ -6568,7 +6568,7 @@ extension SageMaker {
         /// The sort order for results. The default is Ascending.
         public let sortOrder: SortOrder?
 
-        public init(maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListWorkteamsSortByOptions? = nil, sortOrder: SortOrder? = nil) {
+        public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListWorkteamsSortByOptions? = nil, sortOrder: SortOrder? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
@@ -7195,13 +7195,13 @@ extension SageMaker {
         ]
 
         /// The number of training jobs whose final objective metric was not evaluated and used in the hyperparameter tuning process. This typically occurs when the training job failed or did not emit an objective metric.
-        public let failed: Int32?
+        public let failed: Int?
         /// The number of training jobs that are in progress and pending evaluation of their final objective metric.
-        public let pending: Int32?
+        public let pending: Int?
         /// The number of training jobs whose final objective metric was evaluated by the hyperparameter tuning job and used in the hyperparameter tuning process.
-        public let succeeded: Int32?
+        public let succeeded: Int?
 
-        public init(failed: Int32? = nil, pending: Int32? = nil, succeeded: Int32? = nil) {
+        public init(failed: Int? = nil, pending: Int? = nil, succeeded: Int? = nil) {
             self.failed = failed
             self.pending = pending
             self.succeeded = succeeded
@@ -7409,7 +7409,7 @@ extension SageMaker {
         /// The size of the Elastic Inference (EI) instance to use for the production variant. EI instances provide on-demand GPU computing for inference. For more information, see Using Elastic Inference in Amazon SageMaker. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorType: ProductionVariantAcceleratorType?
         /// Number of instances to launch initially.
-        public let initialInstanceCount: Int32
+        public let initialInstanceCount: Int
         /// Determines initial traffic distribution among all of the models that you specify in the endpoint configuration. The traffic to a production variant is determined by the ratio of the VariantWeight to the sum of all VariantWeight values across all ProductionVariants. If unspecified, it defaults to 1.0. 
         public let initialVariantWeight: Float?
         /// The ML compute instance type.
@@ -7419,7 +7419,7 @@ extension SageMaker {
         /// The name of the production variant.
         public let variantName: String
 
-        public init(acceleratorType: ProductionVariantAcceleratorType? = nil, initialInstanceCount: Int32, initialVariantWeight: Float? = nil, instanceType: ProductionVariantInstanceType, modelName: String, variantName: String) {
+        public init(acceleratorType: ProductionVariantAcceleratorType? = nil, initialInstanceCount: Int, initialVariantWeight: Float? = nil, instanceType: ProductionVariantInstanceType, modelName: String, variantName: String) {
             self.acceleratorType = acceleratorType
             self.initialInstanceCount = initialInstanceCount
             self.initialVariantWeight = initialVariantWeight
@@ -7501,19 +7501,19 @@ extension SageMaker {
         ]
 
         /// The number of instances associated with the variant.
-        public let currentInstanceCount: Int32?
+        public let currentInstanceCount: Int?
         /// The weight associated with the variant.
         public let currentWeight: Float?
         /// An array of DeployedImage objects that specify the Amazon EC2 Container Registry paths of the inference images deployed on instances of this ProductionVariant.
         public let deployedImages: [DeployedImage]?
         /// The number of instances requested in the UpdateEndpointWeightsAndCapacities request. 
-        public let desiredInstanceCount: Int32?
+        public let desiredInstanceCount: Int?
         /// The requested weight, as specified in the UpdateEndpointWeightsAndCapacities request. 
         public let desiredWeight: Float?
         /// The name of the variant.
         public let variantName: String
 
-        public init(currentInstanceCount: Int32? = nil, currentWeight: Float? = nil, deployedImages: [DeployedImage]? = nil, desiredInstanceCount: Int32? = nil, desiredWeight: Float? = nil, variantName: String) {
+        public init(currentInstanceCount: Int? = nil, currentWeight: Float? = nil, deployedImages: [DeployedImage]? = nil, desiredInstanceCount: Int? = nil, desiredWeight: Float? = nil, variantName: String) {
             self.currentInstanceCount = currentInstanceCount
             self.currentWeight = currentWeight
             self.deployedImages = deployedImages
@@ -7710,15 +7710,15 @@ extension SageMaker {
         ]
 
         /// The number of ML compute instances to use. For distributed training, provide a value greater than 1. 
-        public let instanceCount: Int32
+        public let instanceCount: Int
         /// The ML compute instance type. 
         public let instanceType: TrainingInstanceType
         /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job. The VolumeKmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
         /// The size of the ML storage volume that you want to provision.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose File as the TrainingInputMode in the algorithm specification.  You must specify sufficient ML storage for your scenario.    Amazon SageMaker supports only the General Purpose SSD (gp2) ML storage volume type.  
-        public let volumeSizeInGB: Int32
+        public let volumeSizeInGB: Int
 
-        public init(instanceCount: Int32, instanceType: TrainingInstanceType, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int32) {
+        public init(instanceCount: Int, instanceType: TrainingInstanceType, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeKmsKeyId = volumeKmsKeyId
@@ -7747,11 +7747,11 @@ extension SageMaker {
         ]
 
         /// The maximum number of training jobs that a hyperparameter tuning job can launch.
-        public let maxNumberOfTrainingJobs: Int32
+        public let maxNumberOfTrainingJobs: Int
         /// The maximum number of concurrent training jobs that a hyperparameter tuning job can launch.
-        public let maxParallelTrainingJobs: Int32
+        public let maxParallelTrainingJobs: Int
 
-        public init(maxNumberOfTrainingJobs: Int32, maxParallelTrainingJobs: Int32) {
+        public init(maxNumberOfTrainingJobs: Int, maxParallelTrainingJobs: Int) {
             self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
             self.maxParallelTrainingJobs = maxParallelTrainingJobs
         }
@@ -7912,7 +7912,7 @@ extension SageMaker {
         ]
 
         /// The maximum number of results to return in a SearchResponse.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If more than MaxResults resource objects match the specified SearchExpression, the SearchResponse includes a NextToken. The NextToken can be passed to the next SearchRequest to continue retrieving results for the specified SearchExpression and Sort parameters.
         public let nextToken: String?
         /// The name of the Amazon SageMaker resource to search for. Currently, the only valid Resource value is TrainingJob.
@@ -7924,7 +7924,7 @@ extension SageMaker {
         /// How SearchResults are ordered. Valid values are Ascending or Descending. The default is Descending.
         public let sortOrder: SearchSortOrder?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resource: ResourceType, searchExpression: SearchExpression? = nil, sortBy: String? = nil, sortOrder: SearchSortOrder? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resource: ResourceType, searchExpression: SearchExpression? = nil, sortBy: String? = nil, sortOrder: SearchSortOrder? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resource = resource
@@ -8288,9 +8288,9 @@ extension SageMaker {
         ]
 
         /// The maximum length of time, in seconds, that the training or compilation job can run. If job does not complete during this time, Amazon SageMaker ends the job. If value is not specified, default value is 1 day. The maximum value is 28 days.
-        public let maxRuntimeInSeconds: Int32?
+        public let maxRuntimeInSeconds: Int?
 
-        public init(maxRuntimeInSeconds: Int32? = nil) {
+        public init(maxRuntimeInSeconds: Int? = nil) {
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
         }
 
@@ -8675,17 +8675,17 @@ extension SageMaker {
         ]
 
         /// The number of completed training jobs launched by the hyperparameter tuning job.
-        public let completed: Int32?
+        public let completed: Int?
         /// The number of in-progress training jobs launched by a hyperparameter tuning job.
-        public let inProgress: Int32?
+        public let inProgress: Int?
         /// The number of training jobs that failed and can't be retried. A failed training job can't be retried if it failed because a client error occurred.
-        public let nonRetryableError: Int32?
+        public let nonRetryableError: Int?
         /// The number of training jobs that failed, but can be retried. A failed training job can be retried only if it failed because an internal service error occurred.
-        public let retryableError: Int32?
+        public let retryableError: Int?
         /// The number of training jobs launched by a hyperparameter tuning job that were manually stopped.
-        public let stopped: Int32?
+        public let stopped: Int?
 
-        public init(completed: Int32? = nil, inProgress: Int32? = nil, nonRetryableError: Int32? = nil, retryableError: Int32? = nil, stopped: Int32? = nil) {
+        public init(completed: Int? = nil, inProgress: Int? = nil, nonRetryableError: Int? = nil, retryableError: Int? = nil, stopped: Int? = nil) {
             self.completed = completed
             self.inProgress = inProgress
             self.nonRetryableError = nonRetryableError
@@ -8926,9 +8926,9 @@ extension SageMaker {
         /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
         public let environment: [String: String]?
         /// The maximum number of parallel requests that can be sent to each instance in a transform job. The default value is 1.
-        public let maxConcurrentTransforms: Int32?
+        public let maxConcurrentTransforms: Int?
         /// The maximum payload size allowed, in MB. A payload is the data portion of a record (without metadata).
-        public let maxPayloadInMB: Int32?
+        public let maxPayloadInMB: Int?
         /// A description of the input source and the way the transform job consumes it.
         public let transformInput: TransformInput
         /// Identifies the Amazon S3 location where you want Amazon SageMaker to save the results from the transform job.
@@ -8936,7 +8936,7 @@ extension SageMaker {
         /// Identifies the ML compute instances for the transform job.
         public let transformResources: TransformResources
 
-        public init(batchStrategy: BatchStrategy? = nil, environment: [String: String]? = nil, maxConcurrentTransforms: Int32? = nil, maxPayloadInMB: Int32? = nil, transformInput: TransformInput, transformOutput: TransformOutput, transformResources: TransformResources) {
+        public init(batchStrategy: BatchStrategy? = nil, environment: [String: String]? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, transformInput: TransformInput, transformOutput: TransformOutput, transformResources: TransformResources) {
             self.batchStrategy = batchStrategy
             self.environment = environment
             self.maxConcurrentTransforms = maxConcurrentTransforms
@@ -9076,13 +9076,13 @@ extension SageMaker {
         ]
 
         /// The number of ML compute instances to use in the transform job. For distributed transform jobs, specify a value greater than 1. The default value is 1.
-        public let instanceCount: Int32
+        public let instanceCount: Int
         /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.largeinstance types.
         public let instanceType: TransformInstanceType
         /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the batch transform job. The VolumeKmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
 
-        public init(instanceCount: Int32, instanceType: TransformInstanceType, volumeKmsKeyId: String? = nil) {
+        public init(instanceCount: Int, instanceType: TransformInstanceType, volumeKmsKeyId: String? = nil) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeKmsKeyId = volumeKmsKeyId
@@ -9136,13 +9136,13 @@ extension SageMaker {
         ]
 
         /// The fractional portion, in cents, of the amount. 
-        public let cents: Int32?
+        public let cents: Int?
         /// The whole number of dollars in the amount.
-        public let dollars: Int32?
+        public let dollars: Int?
         /// Fractions of a cent, in tenths.
-        public let tenthFractionsOfACent: Int32?
+        public let tenthFractionsOfACent: Int?
 
-        public init(cents: Int32? = nil, dollars: Int32? = nil, tenthFractionsOfACent: Int32? = nil) {
+        public init(cents: Int? = nil, dollars: Int? = nil, tenthFractionsOfACent: Int? = nil) {
             self.cents = cents
             self.dollars = dollars
             self.tenthFractionsOfACent = tenthFractionsOfACent
@@ -9391,9 +9391,9 @@ extension SageMaker {
         /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  If you set this to Disabled, users don't have root access on the notebook instance, but lifecycle configuration scripts still run with root permissions. 
         public let rootAccess: RootAccess?
         /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so Amazon SageMaker can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
-        public let volumeSizeInGB: Int32?
+        public let volumeSizeInGB: Int?
 
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, disassociateAcceleratorTypes: Bool? = nil, disassociateAdditionalCodeRepositories: Bool? = nil, disassociateDefaultCodeRepository: Bool? = nil, disassociateLifecycleConfig: Bool? = nil, instanceType: InstanceType? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, roleArn: String? = nil, rootAccess: RootAccess? = nil, volumeSizeInGB: Int32? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, disassociateAcceleratorTypes: Bool? = nil, disassociateAdditionalCodeRepositories: Bool? = nil, disassociateDefaultCodeRepository: Bool? = nil, disassociateLifecycleConfig: Bool? = nil, instanceType: InstanceType? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, roleArn: String? = nil, rootAccess: RootAccess? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.defaultCodeRepository = defaultCodeRepository

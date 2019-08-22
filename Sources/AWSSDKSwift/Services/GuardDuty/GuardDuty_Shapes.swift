@@ -385,11 +385,11 @@ extension GuardDuty {
         /// The name of the filter.
         public let name: String
         /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
-        public let rank: Int32?
+        public let rank: Int?
         /// The tags to be added to a new filter resource.
         public let tags: [String: String]?
 
-        public init(action: FilterAction? = nil, clientToken: String? = CreateFilterRequest.idempotencyToken(), description: String? = nil, detectorId: String, findingCriteria: FindingCriteria, name: String, rank: Int32? = nil, tags: [String: String]? = nil) {
+        public init(action: FilterAction? = nil, clientToken: String? = CreateFilterRequest.idempotencyToken(), description: String? = nil, detectorId: String, findingCriteria: FindingCriteria, name: String, rank: Int? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.clientToken = clientToken
             self.description = description
@@ -1225,9 +1225,9 @@ extension GuardDuty {
         ]
 
         /// Represents a map of severity to count statistic for a set of findings
-        public let countBySeverity: [String: Int32]?
+        public let countBySeverity: [String: Int]?
 
-        public init(countBySeverity: [String: Int32]? = nil) {
+        public init(countBySeverity: [String: Int]? = nil) {
             self.countBySeverity = countBySeverity
         }
 
@@ -1368,11 +1368,11 @@ extension GuardDuty {
         /// The name of the filter.
         public let name: String
         /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
-        public let rank: Int32?
+        public let rank: Int?
         /// The tags of the filter resource.
         public let tags: [String: String]?
 
-        public init(action: FilterAction, description: String? = nil, findingCriteria: FindingCriteria, name: String, rank: Int32? = nil, tags: [String: String]? = nil) {
+        public init(action: FilterAction, description: String? = nil, findingCriteria: FindingCriteria, name: String, rank: Int? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.description = description
             self.findingCriteria = findingCriteria
@@ -1575,9 +1575,9 @@ extension GuardDuty {
         ]
 
         /// The number of received invitations.
-        public let invitationsCount: Int32?
+        public let invitationsCount: Int?
 
-        public init(invitationsCount: Int32? = nil) {
+        public init(invitationsCount: Int? = nil) {
             self.invitationsCount = invitationsCount
         }
 
@@ -1958,11 +1958,11 @@ extension GuardDuty {
         ]
 
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2010,11 +2010,11 @@ extension GuardDuty {
         /// The unique ID of the detector the filter is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(detectorId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2070,13 +2070,13 @@ extension GuardDuty {
         /// Represents the criteria used for querying findings.
         public let findingCriteria: FindingCriteria?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
         /// Represents the criteria used for sorting findings.
         public let sortCriteria: SortCriteria?
 
-        public init(detectorId: String, findingCriteria: FindingCriteria? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
+        public init(detectorId: String, findingCriteria: FindingCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
             self.detectorId = detectorId
             self.findingCriteria = findingCriteria
             self.maxResults = maxResults
@@ -2132,11 +2132,11 @@ extension GuardDuty {
         /// The unique ID of the detector the ipSet is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(detectorId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2185,11 +2185,11 @@ extension GuardDuty {
         ]
 
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2238,13 +2238,13 @@ extension GuardDuty {
         /// The unique ID of the detector the member is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
         /// Specifies whether to only return associated members or to return all members (including members which haven't been invited yet or have been disassociated).
         public let onlyAssociated: String?
 
-        public init(detectorId: String, maxResults: Int32? = nil, nextToken: String? = nil, onlyAssociated: String? = nil) {
+        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2335,11 +2335,11 @@ extension GuardDuty {
         /// The unique ID of the detector the threatIntelSet is associated with.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(detectorId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorId = detectorId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2388,11 +2388,11 @@ extension GuardDuty {
         ]
 
         /// Port number of the local connection.
-        public let port: Int32?
+        public let port: Int?
         /// Port name of the local connection.
         public let portName: String?
 
-        public init(port: Int32? = nil, portName: String? = nil) {
+        public init(port: Int? = nil, portName: String? = nil) {
             self.port = port
             self.portName = portName
         }
@@ -2756,11 +2756,11 @@ extension GuardDuty {
         ]
 
         /// Port number of the remote connection.
-        public let port: Int32?
+        public let port: Int?
         /// Port name of the remote connection.
         public let portName: String?
 
-        public init(port: Int32? = nil, portName: String? = nil) {
+        public init(port: Int? = nil, portName: String? = nil) {
             self.port = port
             self.portName = portName
         }
@@ -2838,7 +2838,7 @@ extension GuardDuty {
         /// Indicates whether this finding is archived.
         public let archived: Bool?
         /// Total count of the occurrences of this finding type.
-        public let count: Int32?
+        public let count: Int?
         /// Detector ID for the GuardDuty service.
         public let detectorId: String?
         /// First seen timestamp of the activity that prompted GuardDuty to generate this finding.
@@ -2852,7 +2852,7 @@ extension GuardDuty {
         /// Feedback left about the finding.
         public let userFeedback: String?
 
-        public init(action: Action? = nil, archived: Bool? = nil, count: Int32? = nil, detectorId: String? = nil, eventFirstSeen: String? = nil, eventLastSeen: String? = nil, resourceRole: String? = nil, serviceName: String? = nil, userFeedback: String? = nil) {
+        public init(action: Action? = nil, archived: Bool? = nil, count: Int? = nil, detectorId: String? = nil, eventFirstSeen: String? = nil, eventLastSeen: String? = nil, resourceRole: String? = nil, serviceName: String? = nil, userFeedback: String? = nil) {
             self.action = action
             self.archived = archived
             self.count = count
@@ -3247,9 +3247,9 @@ extension GuardDuty {
         /// Represents the criteria to be used in the filter for querying findings.
         public let findingCriteria: FindingCriteria?
         /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
-        public let rank: Int32?
+        public let rank: Int?
 
-        public init(action: FilterAction? = nil, description: String? = nil, detectorId: String, filterName: String, findingCriteria: FindingCriteria? = nil, rank: Int32? = nil) {
+        public init(action: FilterAction? = nil, description: String? = nil, detectorId: String, filterName: String, findingCriteria: FindingCriteria? = nil, rank: Int? = nil) {
             self.action = action
             self.description = description
             self.detectorId = detectorId

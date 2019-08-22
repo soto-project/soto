@@ -157,7 +157,7 @@ extension RDSDataService {
         ]
 
         /// The type of the column.
-        public let arrayBaseColumnType: Int32?
+        public let arrayBaseColumnType: Int?
         /// A value that indicates whether the column increments automatically.
         public let isAutoIncrement: Bool?
         /// A value that indicates whether the column is case-sensitive.
@@ -171,21 +171,21 @@ extension RDSDataService {
         /// The name of the column.
         public let name: String?
         /// A value that indicates whether the column is nullable.
-        public let nullable: Int32?
+        public let nullable: Int?
         /// The precision value of a decimal number column.
-        public let precision: Int32?
+        public let precision: Int?
         /// The scale value of a decimal number column.
-        public let scale: Int32?
+        public let scale: Int?
         /// The name of the schema that owns the table that includes the column.
         public let schemaName: String?
         /// The name of the table that includes the column.
         public let tableName: String?
         /// The type of the column.
-        public let `type`: Int32?
+        public let `type`: Int?
         /// The database-specific data type of the column.
         public let typeName: String?
 
-        public init(arrayBaseColumnType: Int32? = nil, isAutoIncrement: Bool? = nil, isCaseSensitive: Bool? = nil, isCurrency: Bool? = nil, isSigned: Bool? = nil, label: String? = nil, name: String? = nil, nullable: Int32? = nil, precision: Int32? = nil, scale: Int32? = nil, schemaName: String? = nil, tableName: String? = nil, type: Int32? = nil, typeName: String? = nil) {
+        public init(arrayBaseColumnType: Int? = nil, isAutoIncrement: Bool? = nil, isCaseSensitive: Bool? = nil, isCurrency: Bool? = nil, isSigned: Bool? = nil, label: String? = nil, name: String? = nil, nullable: Int? = nil, precision: Int? = nil, scale: Int? = nil, schemaName: String? = nil, tableName: String? = nil, type: Int? = nil, typeName: String? = nil) {
             self.arrayBaseColumnType = arrayBaseColumnType
             self.isAutoIncrement = isAutoIncrement
             self.isCaseSensitive = isCaseSensitive
@@ -699,7 +699,7 @@ extension RDSDataService {
         /// A value for a column of double data type.
         public let doubleValue: Double?
         /// A value for a column of integer data type.
-        public let intValue: Int32?
+        public let intValue: Int?
         /// A NULL value.
         public let isNull: Bool?
         /// A value for a column of real data type.
@@ -709,7 +709,7 @@ extension RDSDataService {
         /// A value for a column of STRUCT data type.
         public let structValue: StructValue?
 
-        public init(arrayValues: [Value]? = nil, bigIntValue: Int64? = nil, bitValue: Bool? = nil, blobValue: Data? = nil, doubleValue: Double? = nil, intValue: Int32? = nil, isNull: Bool? = nil, realValue: Float? = nil, stringValue: String? = nil, structValue: StructValue? = nil) {
+        public init(arrayValues: [Value]? = nil, bigIntValue: Int64? = nil, bitValue: Bool? = nil, blobValue: Data? = nil, doubleValue: Double? = nil, intValue: Int? = nil, isNull: Bool? = nil, realValue: Float? = nil, stringValue: String? = nil, structValue: StructValue? = nil) {
             self.arrayValues = arrayValues
             self.bigIntValue = bigIntValue
             self.bitValue = bitValue

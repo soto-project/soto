@@ -627,11 +627,11 @@ extension Snowball {
         ]
 
         /// The number of ADDRESS objects to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of ADDRESS objects, you have the option of specifying a value for NextToken as the starting point for your list of returned addresses.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -900,11 +900,11 @@ extension Snowball {
         ]
 
         /// The service limit for number of Snowballs this account can have at once. The default service limit is 1 (one).
-        public let snowballLimit: Int32?
+        public let snowballLimit: Int?
         /// The number of Snowballs that this account is currently using.
-        public let snowballsInUse: Int32?
+        public let snowballsInUse: Int?
 
-        public init(snowballLimit: Int32? = nil, snowballsInUse: Int32? = nil) {
+        public init(snowballLimit: Int? = nil, snowballsInUse: Int? = nil) {
             self.snowballLimit = snowballLimit
             self.snowballsInUse = snowballsInUse
         }
@@ -1215,11 +1215,11 @@ extension Snowball {
         /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String
         /// The number of JobListEntry objects to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
 
-        public init(clusterId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(clusterId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterId = clusterId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1270,11 +1270,11 @@ extension Snowball {
         ]
 
         /// The number of ClusterListEntry objects to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of ClusterListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1320,11 +1320,11 @@ extension Snowball {
         ]
 
         /// The maximum number of results for the list of compatible images. Currently, each supported device can store 10 AMIs.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of compatible images, you can specify a value for NextToken as the starting point for your list of returned images.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1370,11 +1370,11 @@ extension Snowball {
         ]
 
         /// The number of JobListEntry objects to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

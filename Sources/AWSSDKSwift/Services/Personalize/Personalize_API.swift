@@ -9,7 +9,7 @@ Amazon Personalize is a machine learning service that makes it easy to add indiv
 */
 public struct Personalize {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

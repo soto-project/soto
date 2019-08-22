@@ -9,7 +9,7 @@ AWS Firewall Manager This is the AWS Firewall Manager API Reference. This guide 
 */
 public struct FMS {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

@@ -1203,15 +1203,15 @@ extension CloudSearch {
         /// True if IndexDocuments needs to be called to activate the current domain configuration.
         public let requiresIndexDocuments: Bool
         /// The number of search instances that are available to process search requests.
-        public let searchInstanceCount: Int32?
+        public let searchInstanceCount: Int?
         /// The instance type that is being used to process search requests.
         public let searchInstanceType: String?
         /// The number of partitions across which the search index is spread.
-        public let searchPartitionCount: Int32?
+        public let searchPartitionCount: Int?
         /// The service endpoint for requesting search results from a search domain.
         public let searchService: ServiceEndpoint?
 
-        public init(arn: String? = nil, created: Bool? = nil, deleted: Bool? = nil, docService: ServiceEndpoint? = nil, domainId: String, domainName: String, limits: Limits? = nil, processing: Bool? = nil, requiresIndexDocuments: Bool, searchInstanceCount: Int32? = nil, searchInstanceType: String? = nil, searchPartitionCount: Int32? = nil, searchService: ServiceEndpoint? = nil) {
+        public init(arn: String? = nil, created: Bool? = nil, deleted: Bool? = nil, docService: ServiceEndpoint? = nil, domainId: String, domainName: String, limits: Limits? = nil, processing: Bool? = nil, requiresIndexDocuments: Bool, searchInstanceCount: Int? = nil, searchInstanceType: String? = nil, searchPartitionCount: Int? = nil, searchService: ServiceEndpoint? = nil) {
             self.arn = arn
             self.created = created
             self.deleted = deleted
@@ -1682,10 +1682,10 @@ extension CloudSearch {
             AWSShapeMember(label: "MaximumReplicationCount", required: true, type: .integer)
         ]
 
-        public let maximumPartitionCount: Int32
-        public let maximumReplicationCount: Int32
+        public let maximumPartitionCount: Int
+        public let maximumReplicationCount: Int
 
-        public init(maximumPartitionCount: Int32, maximumReplicationCount: Int32) {
+        public init(maximumPartitionCount: Int, maximumReplicationCount: Int) {
             self.maximumPartitionCount = maximumPartitionCount
             self.maximumReplicationCount = maximumReplicationCount
         }
@@ -1831,9 +1831,9 @@ extension CloudSearch {
         /// A timestamp for when this option was last updated.
         public let updateDate: TimeStamp
         /// A unique integer that indicates when this option was last updated.
-        public let updateVersion: Int32?
+        public let updateVersion: Int?
 
-        public init(creationDate: TimeStamp, pendingDeletion: Bool? = nil, state: OptionState, updateDate: TimeStamp, updateVersion: Int32? = nil) {
+        public init(creationDate: TimeStamp, pendingDeletion: Bool? = nil, state: OptionState, updateDate: TimeStamp, updateVersion: Int? = nil) {
             self.creationDate = creationDate
             self.pendingDeletion = pendingDeletion
             self.state = state
@@ -1872,11 +1872,11 @@ extension CloudSearch {
         /// The instance type that you want to preconfigure for your domain. For example, search.m1.small.
         public let desiredInstanceType: PartitionInstanceType?
         /// The number of partitions you want to preconfigure for your domain. Only valid when you select m2.2xlarge as the desired instance type.
-        public let desiredPartitionCount: Int32?
+        public let desiredPartitionCount: Int?
         /// The number of replicas you want to preconfigure for each index partition.
-        public let desiredReplicationCount: Int32?
+        public let desiredReplicationCount: Int?
 
-        public init(desiredInstanceType: PartitionInstanceType? = nil, desiredPartitionCount: Int32? = nil, desiredReplicationCount: Int32? = nil) {
+        public init(desiredInstanceType: PartitionInstanceType? = nil, desiredPartitionCount: Int? = nil, desiredReplicationCount: Int? = nil) {
             self.desiredInstanceType = desiredInstanceType
             self.desiredPartitionCount = desiredPartitionCount
             self.desiredReplicationCount = desiredReplicationCount

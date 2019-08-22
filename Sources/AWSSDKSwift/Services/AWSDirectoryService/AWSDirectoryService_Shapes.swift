@@ -1065,11 +1065,11 @@ extension AWSDirectoryService {
         /// A list of identifiers of the directories for which to obtain the information. If this member is null, all directories that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
         public let directoryIds: [String]?
         /// The maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
-        public let limit: Int32?
+        public let limit: Int?
         /// The DescribeDirectoriesResult.NextToken value from a previous call to DescribeDirectories. Pass null if this is the first call.
         public let nextToken: String?
 
-        public init(directoryIds: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(directoryIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.directoryIds = directoryIds
             self.limit = limit
             self.nextToken = nextToken
@@ -1124,11 +1124,11 @@ extension AWSDirectoryService {
         /// A list of identifiers for the domain controllers whose information will be provided.
         public let domainControllerIds: [String]?
         /// The maximum number of items to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// The DescribeDomainControllers.NextToken value from a previous call to DescribeDomainControllers. Pass null if this is the first call. 
         public let nextToken: String?
 
-        public init(directoryId: String, domainControllerIds: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(directoryId: String, domainControllerIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.domainControllerIds = domainControllerIds
             self.limit = limit
@@ -1230,7 +1230,7 @@ extension AWSDirectoryService {
         ]
 
         /// The number of shared directories to return in the response object.
-        public let limit: Int32?
+        public let limit: Int?
         /// The DescribeSharedDirectoriesResult.NextToken value from a previous call to DescribeSharedDirectories. Pass null if this is the first call. 
         public let nextToken: String?
         /// Returns the identifier of the directory in the directory owner account. 
@@ -1238,7 +1238,7 @@ extension AWSDirectoryService {
         /// A list of identifiers of all shared directories in your account. 
         public let sharedDirectoryIds: [String]?
 
-        public init(limit: Int32? = nil, nextToken: String? = nil, ownerDirectoryId: String, sharedDirectoryIds: [String]? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil, ownerDirectoryId: String, sharedDirectoryIds: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.ownerDirectoryId = ownerDirectoryId
@@ -1294,13 +1294,13 @@ extension AWSDirectoryService {
         /// The identifier of the directory for which to retrieve snapshot information.
         public let directoryId: String?
         /// The maximum number of objects to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// The DescribeSnapshotsResult.NextToken value from a previous call to DescribeSnapshots. Pass null if this is the first call.
         public let nextToken: String?
         /// A list of identifiers of the snapshots to obtain the information for. If this member is null or empty, all snapshots are returned using the Limit and NextToken members.
         public let snapshotIds: [String]?
 
-        public init(directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, snapshotIds: [String]? = nil) {
+        public init(directoryId: String? = nil, limit: Int? = nil, nextToken: String? = nil, snapshotIds: [String]? = nil) {
             self.directoryId = directoryId
             self.limit = limit
             self.nextToken = nextToken
@@ -1356,13 +1356,13 @@ extension AWSDirectoryService {
         /// The Directory ID of the AWS directory that is a part of the requested trust relationship.
         public let directoryId: String?
         /// The maximum number of objects to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// The DescribeTrustsResult.NextToken value from a previous call to DescribeTrusts. Pass null if this is the first call.
         public let nextToken: String?
         /// A list of identifiers of the trust relationships for which to obtain the information. If this member is null, all trust relationships that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
         public let trustIds: [String]?
 
-        public init(directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil, trustIds: [String]? = nil) {
+        public init(directoryId: String? = nil, limit: Int? = nil, nextToken: String? = nil, trustIds: [String]? = nil) {
             self.directoryId = directoryId
             self.limit = limit
             self.nextToken = nextToken
@@ -1530,7 +1530,7 @@ extension AWSDirectoryService {
         /// The textual description for the directory.
         public let description: String?
         /// The desired number of domain controllers in the directory if the directory is Microsoft AD.
-        public let desiredNumberOfDomainControllers: Int32?
+        public let desiredNumberOfDomainControllers: Int?
         /// The directory identifier.
         public let directoryId: String?
         /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in the on-premises directory to which the AD Connector is connected.
@@ -1570,7 +1570,7 @@ extension AWSDirectoryService {
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
 
-        public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int32? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: TimeStamp? = nil, name: String? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: TimeStamp? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
+        public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: TimeStamp? = nil, name: String? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: TimeStamp? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
             self.accessUrl = accessUrl
             self.alias = alias
             self.connectSettings = connectSettings
@@ -1645,25 +1645,25 @@ extension AWSDirectoryService {
         ]
 
         /// The current number of cloud directories in the region.
-        public let cloudOnlyDirectoriesCurrentCount: Int32?
+        public let cloudOnlyDirectoriesCurrentCount: Int?
         /// The maximum number of cloud directories allowed in the region.
-        public let cloudOnlyDirectoriesLimit: Int32?
+        public let cloudOnlyDirectoriesLimit: Int?
         /// Indicates if the cloud directory limit has been reached.
         public let cloudOnlyDirectoriesLimitReached: Bool?
         /// The current number of AWS Managed Microsoft AD directories in the region.
-        public let cloudOnlyMicrosoftADCurrentCount: Int32?
+        public let cloudOnlyMicrosoftADCurrentCount: Int?
         /// The maximum number of AWS Managed Microsoft AD directories allowed in the region.
-        public let cloudOnlyMicrosoftADLimit: Int32?
+        public let cloudOnlyMicrosoftADLimit: Int?
         /// Indicates if the AWS Managed Microsoft AD directory limit has been reached.
         public let cloudOnlyMicrosoftADLimitReached: Bool?
         /// The current number of connected directories in the region.
-        public let connectedDirectoriesCurrentCount: Int32?
+        public let connectedDirectoriesCurrentCount: Int?
         /// The maximum number of connected directories allowed in the region.
-        public let connectedDirectoriesLimit: Int32?
+        public let connectedDirectoriesLimit: Int?
         /// Indicates if the connected directory limit has been reached.
         public let connectedDirectoriesLimitReached: Bool?
 
-        public init(cloudOnlyDirectoriesCurrentCount: Int32? = nil, cloudOnlyDirectoriesLimit: Int32? = nil, cloudOnlyDirectoriesLimitReached: Bool? = nil, cloudOnlyMicrosoftADCurrentCount: Int32? = nil, cloudOnlyMicrosoftADLimit: Int32? = nil, cloudOnlyMicrosoftADLimitReached: Bool? = nil, connectedDirectoriesCurrentCount: Int32? = nil, connectedDirectoriesLimit: Int32? = nil, connectedDirectoriesLimitReached: Bool? = nil) {
+        public init(cloudOnlyDirectoriesCurrentCount: Int? = nil, cloudOnlyDirectoriesLimit: Int? = nil, cloudOnlyDirectoriesLimitReached: Bool? = nil, cloudOnlyMicrosoftADCurrentCount: Int? = nil, cloudOnlyMicrosoftADLimit: Int? = nil, cloudOnlyMicrosoftADLimitReached: Bool? = nil, connectedDirectoriesCurrentCount: Int? = nil, connectedDirectoriesLimit: Int? = nil, connectedDirectoriesLimitReached: Bool? = nil) {
             self.cloudOnlyDirectoriesCurrentCount = cloudOnlyDirectoriesCurrentCount
             self.cloudOnlyDirectoriesLimit = cloudOnlyDirectoriesLimit
             self.cloudOnlyDirectoriesLimitReached = cloudOnlyDirectoriesLimitReached
@@ -2192,11 +2192,11 @@ extension AWSDirectoryService {
         /// Identifier (ID) of the directory for which you want to retrieve the IP addresses.
         public let directoryId: String
         /// Maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
-        public let limit: Int32?
+        public let limit: Int?
         /// The ListIpRoutes.NextToken value from a previous call to ListIpRoutes. Pass null if this is the first call.
         public let nextToken: String?
 
-        public init(directoryId: String, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(directoryId: String, limit: Int? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.limit = limit
             self.nextToken = nextToken
@@ -2246,11 +2246,11 @@ extension AWSDirectoryService {
         /// If a DirectoryID is provided, lists only the log subscription associated with that directory. If no DirectoryId is provided, lists all log subscriptions associated with your AWS account. If there are no log subscriptions for the AWS account or the directory, an empty list will be returned.
         public let directoryId: String?
         /// The maximum number of items returned.
-        public let limit: Int32?
+        public let limit: Int?
         /// The token for the next set of items to return.
         public let nextToken: String?
 
-        public init(directoryId: String? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(directoryId: String? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.limit = limit
             self.nextToken = nextToken
@@ -2300,11 +2300,11 @@ extension AWSDirectoryService {
         /// The identifier of the directory from which to retrieve the schema extension information.
         public let directoryId: String
         /// The maximum number of items to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// The ListSchemaExtensions.NextToken value from a previous call to ListSchemaExtensions. Pass null if this is the first call.
         public let nextToken: String?
 
-        public init(directoryId: String, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(directoryId: String, limit: Int? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.limit = limit
             self.nextToken = nextToken
@@ -2352,13 +2352,13 @@ extension AWSDirectoryService {
         ]
 
         /// Reserved for future use.
-        public let limit: Int32?
+        public let limit: Int?
         /// Reserved for future use.
         public let nextToken: String?
         /// Identifier (ID) of the directory for which you want to retrieve tags.
         public let resourceId: String
 
-        public init(limit: Int32? = nil, nextToken: String? = nil, resourceId: String) {
+        public init(limit: Int? = nil, nextToken: String? = nil, resourceId: String) {
             self.limit = limit
             self.nextToken = nextToken
             self.resourceId = resourceId
@@ -2492,19 +2492,19 @@ extension AWSDirectoryService {
         /// Not currently used.
         public let displayLabel: String?
         /// The port that your RADIUS server is using for communications. Your on-premises network must allow inbound traffic over this port from the AWS Directory Service servers.
-        public let radiusPort: Int32?
+        public let radiusPort: Int?
         /// The maximum number of times that communication with the RADIUS server is attempted.
-        public let radiusRetries: Int32?
+        public let radiusRetries: Int?
         /// An array of strings that contains the IP addresses of the RADIUS server endpoints, or the IP addresses of your RADIUS server load balancer.
         public let radiusServers: [String]?
         /// The amount of time, in seconds, to wait for the RADIUS server to respond.
-        public let radiusTimeout: Int32?
+        public let radiusTimeout: Int?
         /// Required for enabling RADIUS on the directory.
         public let sharedSecret: String?
         /// Not currently used.
         public let useSameUsername: Bool?
 
-        public init(authenticationProtocol: RadiusAuthenticationProtocol? = nil, displayLabel: String? = nil, radiusPort: Int32? = nil, radiusRetries: Int32? = nil, radiusServers: [String]? = nil, radiusTimeout: Int32? = nil, sharedSecret: String? = nil, useSameUsername: Bool? = nil) {
+        public init(authenticationProtocol: RadiusAuthenticationProtocol? = nil, displayLabel: String? = nil, radiusPort: Int? = nil, radiusRetries: Int? = nil, radiusServers: [String]? = nil, radiusTimeout: Int? = nil, sharedSecret: String? = nil, useSameUsername: Bool? = nil) {
             self.authenticationProtocol = authenticationProtocol
             self.displayLabel = displayLabel
             self.radiusPort = radiusPort
@@ -3054,13 +3054,13 @@ extension AWSDirectoryService {
         ]
 
         /// The current number of manual snapshots of the directory.
-        public let manualSnapshotsCurrentCount: Int32?
+        public let manualSnapshotsCurrentCount: Int?
         /// The maximum number of manual snapshots allowed.
-        public let manualSnapshotsLimit: Int32?
+        public let manualSnapshotsLimit: Int?
         /// Indicates if the manual snapshot limit has been reached.
         public let manualSnapshotsLimitReached: Bool?
 
-        public init(manualSnapshotsCurrentCount: Int32? = nil, manualSnapshotsLimit: Int32? = nil, manualSnapshotsLimitReached: Bool? = nil) {
+        public init(manualSnapshotsCurrentCount: Int? = nil, manualSnapshotsLimit: Int? = nil, manualSnapshotsLimitReached: Bool? = nil) {
             self.manualSnapshotsCurrentCount = manualSnapshotsCurrentCount
             self.manualSnapshotsLimit = manualSnapshotsLimit
             self.manualSnapshotsLimitReached = manualSnapshotsLimitReached
@@ -3404,11 +3404,11 @@ extension AWSDirectoryService {
         ]
 
         /// The number of domain controllers desired in the directory.
-        public let desiredNumber: Int32
+        public let desiredNumber: Int
         /// Identifier of the directory to which the domain controllers will be added or removed.
         public let directoryId: String
 
-        public init(desiredNumber: Int32, directoryId: String) {
+        public init(desiredNumber: Int, directoryId: String) {
             self.desiredNumber = desiredNumber
             self.directoryId = directoryId
         }

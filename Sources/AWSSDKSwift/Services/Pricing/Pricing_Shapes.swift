@@ -33,13 +33,13 @@ extension Pricing {
         /// The format version that you want the response to be in. Valid values are: aws_v1 
         public let formatVersion: String?
         /// The maximum number of results that you want returned in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token that indicates the next set of results that you want to retrieve.
         public let nextToken: String?
         /// The code for the service whose information you want to retrieve, such as AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank.
         public let serviceCode: String?
 
-        public init(formatVersion: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
+        public init(formatVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
             self.formatVersion = formatVersion
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -129,13 +129,13 @@ extension Pricing {
         /// The name of the attribute that you want to retrieve the values for, such as volumeType.
         public let attributeName: String
         /// The maximum number of results to return in response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token that indicates the next set of results that you want to retrieve.
         public let nextToken: String?
         /// The service code for the service whose attributes you want to retrieve. For example, if you want the retrieve an EC2 attribute, use AmazonEC2.
         public let serviceCode: String
 
-        public init(attributeName: String, maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String) {
+        public init(attributeName: String, maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String) {
             self.attributeName = attributeName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -191,13 +191,13 @@ extension Pricing {
         /// The format version that you want the response to be in. Valid values are: aws_v1 
         public let formatVersion: String?
         /// The maximum number of results to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token that indicates the next set of results that you want to retrieve.
         public let nextToken: String?
         /// The code for the service whose products you want to retrieve. 
         public let serviceCode: String?
 
-        public init(filters: [Filter]? = nil, formatVersion: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
+        public init(filters: [Filter]? = nil, formatVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
             self.filters = filters
             self.formatVersion = formatVersion
             self.maxResults = maxResults

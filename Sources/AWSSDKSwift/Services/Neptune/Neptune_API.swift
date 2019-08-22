@@ -9,7 +9,7 @@ Amazon Neptune Amazon Neptune is a fast, reliable, fully-managed graph database 
 */
 public struct Neptune {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

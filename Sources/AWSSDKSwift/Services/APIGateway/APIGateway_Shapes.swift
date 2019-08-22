@@ -224,7 +224,7 @@ extension APIGateway {
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
         public let authorizerCredentials: String?
         /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
-        public let authorizerResultTtlInSeconds: Int32?
+        public let authorizerResultTtlInSeconds: Int?
         /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
         public let authorizerUri: String?
         /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
@@ -242,7 +242,7 @@ extension APIGateway {
         /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
         public let `type`: AuthorizerType?
 
-        public init(authorizerCredentials: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerUri: String? = nil, authType: String? = nil, id: String? = nil, identitySource: String? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerARNs: [String]? = nil, type: AuthorizerType? = nil) {
+        public init(authorizerCredentials: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerUri: String? = nil, authType: String? = nil, id: String? = nil, identitySource: String? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerARNs: [String]? = nil, type: AuthorizerType? = nil) {
             self.authorizerCredentials = authorizerCredentials
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
             self.authorizerUri = authorizerUri
@@ -542,7 +542,7 @@ extension APIGateway {
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
         public let authorizerCredentials: String?
         /// The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
-        public let authorizerResultTtlInSeconds: Int32?
+        public let authorizerResultTtlInSeconds: Int?
         /// Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
         public let authorizerUri: String?
         /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
@@ -560,7 +560,7 @@ extension APIGateway {
         /// [Required] The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
         public let `type`: AuthorizerType
 
-        public init(authorizerCredentials: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerUri: String? = nil, authType: String? = nil, identitySource: String? = nil, identityValidationExpression: String? = nil, name: String, providerARNs: [String]? = nil, restApiId: String, type: AuthorizerType) {
+        public init(authorizerCredentials: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerUri: String? = nil, authType: String? = nil, identitySource: String? = nil, identityValidationExpression: String? = nil, name: String, providerARNs: [String]? = nil, restApiId: String, type: AuthorizerType) {
             self.authorizerCredentials = authorizerCredentials
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
             self.authorizerUri = authorizerUri
@@ -927,7 +927,7 @@ extension APIGateway {
         /// The endpoint configuration of this RestApi showing the endpoint types of the API. 
         public let endpointConfiguration: EndpointConfiguration?
         /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
-        public let minimumCompressionSize: Int32?
+        public let minimumCompressionSize: Int?
         /// [Required] The name of the RestApi.
         public let name: String
         /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
@@ -937,7 +937,7 @@ extension APIGateway {
         /// A version identifier for the API.
         public let version: String?
 
-        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, cloneFrom: String? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, minimumCompressionSize: Int32? = nil, name: String, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, cloneFrom: String? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, minimumCompressionSize: Int? = nil, name: String, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
             self.cloneFrom = cloneFrom
@@ -2217,13 +2217,13 @@ extension APIGateway {
         /// A boolean flag to specify whether (true) or not (false) the result contains key values.
         public let includeValues: Bool?
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The name of queried API keys.
         public let nameQuery: String?
         /// The current pagination position in the paged result set.
         public let position: String?
 
-        public init(customerId: String? = nil, includeValues: Bool? = nil, limit: Int32? = nil, nameQuery: String? = nil, position: String? = nil) {
+        public init(customerId: String? = nil, includeValues: Bool? = nil, limit: Int? = nil, nameQuery: String? = nil, position: String? = nil) {
             self.customerId = customerId
             self.includeValues = includeValues
             self.limit = limit
@@ -2270,13 +2270,13 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
 
-        public init(limit: Int32? = nil, position: String? = nil, restApiId: String) {
+        public init(limit: Int? = nil, position: String? = nil, restApiId: String) {
             self.limit = limit
             self.position = position
             self.restApiId = restApiId
@@ -2321,11 +2321,11 @@ extension APIGateway {
         /// [Required] The domain name of a BasePathMapping resource.
         public let domainName: String
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
 
-        public init(domainName: String, limit: Int32? = nil, position: String? = nil) {
+        public init(domainName: String, limit: Int? = nil, position: String? = nil) {
             self.domainName = domainName
             self.limit = limit
             self.position = position
@@ -2362,11 +2362,11 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
 
-        public init(limit: Int32? = nil, position: String? = nil) {
+        public init(limit: Int? = nil, position: String? = nil) {
             self.limit = limit
             self.position = position
         }
@@ -2412,13 +2412,13 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
 
-        public init(limit: Int32? = nil, position: String? = nil, restApiId: String) {
+        public init(limit: Int? = nil, position: String? = nil, restApiId: String) {
             self.limit = limit
             self.position = position
             self.restApiId = restApiId
@@ -2465,7 +2465,7 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The status of the API documentation parts to retrieve. Valid values are DOCUMENTED for retrieving DocumentationPart resources with content and UNDOCUMENTED for DocumentationPart resources without content.
         public let locationStatus: LocationStatusType?
         /// The name of API entities of the to-be-retrieved documentation parts.
@@ -2479,7 +2479,7 @@ extension APIGateway {
         /// The type of API entities of the to-be-retrieved documentation parts. 
         public let `type`: DocumentationPartType?
 
-        public init(limit: Int32? = nil, locationStatus: LocationStatusType? = nil, nameQuery: String? = nil, path: String? = nil, position: String? = nil, restApiId: String, type: DocumentationPartType? = nil) {
+        public init(limit: Int? = nil, locationStatus: LocationStatusType? = nil, nameQuery: String? = nil, path: String? = nil, position: String? = nil, restApiId: String, type: DocumentationPartType? = nil) {
             self.limit = limit
             self.locationStatus = locationStatus
             self.nameQuery = nameQuery
@@ -2530,13 +2530,13 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
 
-        public init(limit: Int32? = nil, position: String? = nil, restApiId: String) {
+        public init(limit: Int? = nil, position: String? = nil, restApiId: String) {
             self.limit = limit
             self.position = position
             self.restApiId = restApiId
@@ -2573,11 +2573,11 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
 
-        public init(limit: Int32? = nil, position: String? = nil) {
+        public init(limit: Int? = nil, position: String? = nil) {
             self.limit = limit
             self.position = position
         }
@@ -2655,13 +2655,13 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500. The GatewayResponses collection does not support pagination and the limit does not apply here.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set. The GatewayResponse collection does not support pagination and the position does not apply here.
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
 
-        public init(limit: Int32? = nil, position: String? = nil, restApiId: String) {
+        public init(limit: Int? = nil, position: String? = nil, restApiId: String) {
             self.limit = limit
             self.position = position
             self.restApiId = restApiId
@@ -2857,13 +2857,13 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
 
-        public init(limit: Int32? = nil, position: String? = nil, restApiId: String) {
+        public init(limit: Int? = nil, position: String? = nil, restApiId: String) {
             self.limit = limit
             self.position = position
             self.restApiId = restApiId
@@ -2906,13 +2906,13 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
 
-        public init(limit: Int32? = nil, position: String? = nil, restApiId: String) {
+        public init(limit: Int? = nil, position: String? = nil, restApiId: String) {
             self.limit = limit
             self.position = position
             self.restApiId = restApiId
@@ -2963,13 +2963,13 @@ extension APIGateway {
         /// A query parameter used to retrieve the specified resources embedded in the returned Resources resource in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources?embed=methods.
         public let embed: [String]?
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
 
-        public init(embed: [String]? = nil, limit: Int32? = nil, position: String? = nil, restApiId: String) {
+        public init(embed: [String]? = nil, limit: Int? = nil, position: String? = nil, restApiId: String) {
             self.embed = embed
             self.limit = limit
             self.position = position
@@ -3008,11 +3008,11 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
 
-        public init(limit: Int32? = nil, position: String? = nil) {
+        public init(limit: Int? = nil, position: String? = nil) {
             self.limit = limit
             self.position = position
         }
@@ -3079,11 +3079,11 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
 
-        public init(limit: Int32? = nil, position: String? = nil) {
+        public init(limit: Int? = nil, position: String? = nil) {
             self.limit = limit
             self.position = position
         }
@@ -3146,13 +3146,13 @@ extension APIGateway {
         ]
 
         /// (Not currently supported) The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// (Not currently supported) The current pagination position in the paged result set.
         public let position: String?
         /// [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded.
         public let resourceArn: String
 
-        public init(limit: Int32? = nil, position: String? = nil, resourceArn: String) {
+        public init(limit: Int? = nil, position: String? = nil, resourceArn: String) {
             self.limit = limit
             self.position = position
             self.resourceArn = resourceArn
@@ -3196,7 +3196,7 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// A query parameter specifying the name of the to-be-returned usage plan keys.
         public let nameQuery: String?
         /// The current pagination position in the paged result set.
@@ -3204,7 +3204,7 @@ extension APIGateway {
         /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
         public let usagePlanId: String
 
-        public init(limit: Int32? = nil, nameQuery: String? = nil, position: String? = nil, usagePlanId: String) {
+        public init(limit: Int? = nil, nameQuery: String? = nil, position: String? = nil, usagePlanId: String) {
             self.limit = limit
             self.nameQuery = nameQuery
             self.position = position
@@ -3246,11 +3246,11 @@ extension APIGateway {
         /// The identifier of the API key associated with the usage plans.
         public let keyId: String?
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
 
-        public init(keyId: String? = nil, limit: Int32? = nil, position: String? = nil) {
+        public init(keyId: String? = nil, limit: Int? = nil, position: String? = nil) {
             self.keyId = keyId
             self.limit = limit
             self.position = position
@@ -3278,7 +3278,7 @@ extension APIGateway {
         /// The Id of the API key associated with the resultant usage data.
         public let keyId: String?
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
         /// [Required] The starting date (e.g., 2016-01-01) of the usage data.
@@ -3286,7 +3286,7 @@ extension APIGateway {
         /// [Required] The Id of the usage plan associated with the usage data.
         public let usagePlanId: String
 
-        public init(endDate: String, keyId: String? = nil, limit: Int32? = nil, position: String? = nil, startDate: String, usagePlanId: String) {
+        public init(endDate: String, keyId: String? = nil, limit: Int? = nil, position: String? = nil, startDate: String, usagePlanId: String) {
             self.endDate = endDate
             self.keyId = keyId
             self.limit = limit
@@ -3329,11 +3329,11 @@ extension APIGateway {
         ]
 
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
-        public let limit: Int32?
+        public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
 
-        public init(limit: Int32? = nil, position: String? = nil) {
+        public init(limit: Int? = nil, position: String? = nil) {
             self.limit = limit
             self.position = position
         }
@@ -3477,13 +3477,13 @@ extension APIGateway {
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
         public let requestTemplates: [String: String]?
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
-        public let timeoutInMillis: Int32?
+        public let timeoutInMillis: Int?
         /// Specifies an API method integration type. The valid value is one of the following:  AWS: for integrating the API method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration. AWS_PROXY: for integrating the API method request with the Lambda function-invoking action with the client request passed through as-is. This integration is also referred to as the Lambda proxy integration. HTTP: for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC. This integration is also referred to as the HTTP custom integration. HTTP_PROXY: for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC, with the client request passed through as-is. This is also referred to as the HTTP proxy integration. MOCK: for integrating the API method request with API Gateway as a "loop-back" endpoint without invoking any backend.  For the HTTP and HTTP proxy integrations, each integration can specify a protocol (http/https), port and path. Standard 80 and 443 ports are supported as well as custom ports above 1024. An HTTP or HTTP proxy integration with a connectionType of VPC_LINK is referred to as a private integration and uses a VpcLink to connect API Gateway to a network load balancer of a VPC.
         public let `type`: IntegrationType?
         /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} 
         public let uri: String?
 
-        public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String? = nil, integrationResponses: [String: IntegrationResponse]? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, timeoutInMillis: Int32? = nil, type: IntegrationType? = nil, uri: String? = nil) {
+        public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String? = nil, integrationResponses: [String: IntegrationResponse]? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, timeoutInMillis: Int? = nil, type: IntegrationType? = nil, uri: String? = nil) {
             self.cacheKeyParameters = cacheKeyParameters
             self.cacheNamespace = cacheNamespace
             self.connectionId = connectionId
@@ -3681,7 +3681,7 @@ extension APIGateway {
         /// Specifies whether the cached responses are encrypted. The PATCH path for this setting is /{method_setting_key}/caching/dataEncrypted, and the value is a Boolean.
         public let cacheDataEncrypted: Bool?
         /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response will be cached. The PATCH path for this setting is /{method_setting_key}/caching/ttlInSeconds, and the value is an integer.
-        public let cacheTtlInSeconds: Int32?
+        public let cacheTtlInSeconds: Int?
         /// Specifies whether responses should be cached and returned for requests. A cache cluster must be enabled on the stage for responses to be cached. The PATCH path for this setting is /{method_setting_key}/caching/enabled, and the value is a Boolean.
         public let cachingEnabled: Bool?
         /// Specifies whether data trace logging is enabled for this method, which affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
@@ -3693,13 +3693,13 @@ extension APIGateway {
         /// Specifies whether authorization is required for a cache invalidation request. The PATCH path for this setting is /{method_setting_key}/caching/requireAuthorizationForCacheControl, and the value is a Boolean.
         public let requireAuthorizationForCacheControl: Bool?
         /// Specifies the throttling burst limit. The PATCH path for this setting is /{method_setting_key}/throttling/burstLimit, and the value is an integer.
-        public let throttlingBurstLimit: Int32?
+        public let throttlingBurstLimit: Int?
         /// Specifies the throttling rate limit. The PATCH path for this setting is /{method_setting_key}/throttling/rateLimit, and the value is a double.
         public let throttlingRateLimit: Double?
         /// Specifies how to handle unauthorized requests for cache invalidation. The PATCH path for this setting is /{method_setting_key}/caching/unauthorizedCacheControlHeaderStrategy, and the available values are FAIL_WITH_403, SUCCEED_WITH_RESPONSE_HEADER, SUCCEED_WITHOUT_RESPONSE_HEADER.
         public let unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy?
 
-        public init(cacheDataEncrypted: Bool? = nil, cacheTtlInSeconds: Int32? = nil, cachingEnabled: Bool? = nil, dataTraceEnabled: Bool? = nil, loggingLevel: String? = nil, metricsEnabled: Bool? = nil, requireAuthorizationForCacheControl: Bool? = nil, throttlingBurstLimit: Int32? = nil, throttlingRateLimit: Double? = nil, unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy? = nil) {
+        public init(cacheDataEncrypted: Bool? = nil, cacheTtlInSeconds: Int? = nil, cachingEnabled: Bool? = nil, dataTraceEnabled: Bool? = nil, loggingLevel: String? = nil, metricsEnabled: Bool? = nil, requireAuthorizationForCacheControl: Bool? = nil, throttlingBurstLimit: Int? = nil, throttlingRateLimit: Double? = nil, unauthorizedCacheControlHeaderStrategy: UnauthorizedCacheControlHeaderStrategy? = nil) {
             self.cacheDataEncrypted = cacheDataEncrypted
             self.cacheTtlInSeconds = cacheTtlInSeconds
             self.cachingEnabled = cachingEnabled
@@ -3936,13 +3936,13 @@ extension APIGateway {
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
-        public let timeoutInMillis: Int32?
+        public let timeoutInMillis: Int?
         /// [Required] Specifies a put integration input's type.
         public let `type`: IntegrationType
         /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} 
         public let uri: String?
 
-        public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String, integrationHttpMethod: String? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, resourceId: String, restApiId: String, timeoutInMillis: Int32? = nil, type: IntegrationType, uri: String? = nil) {
+        public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String, integrationHttpMethod: String? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, resourceId: String, restApiId: String, timeoutInMillis: Int? = nil, type: IntegrationType, uri: String? = nil) {
             self.cacheKeyParameters = cacheKeyParameters
             self.cacheNamespace = cacheNamespace
             self.connectionId = connectionId
@@ -4210,13 +4210,13 @@ extension APIGateway {
         ]
 
         /// The maximum number of requests that can be made in a given time period.
-        public let limit: Int32?
+        public let limit: Int?
         /// The number of requests subtracted from the given limit in the initial time period.
-        public let offset: Int32?
+        public let offset: Int?
         /// The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH".
         public let period: QuotaPeriodType?
 
-        public init(limit: Int32? = nil, offset: Int32? = nil, period: QuotaPeriodType? = nil) {
+        public init(limit: Int? = nil, offset: Int? = nil, period: QuotaPeriodType? = nil) {
             self.limit = limit
             self.offset = offset
             self.period = period
@@ -4369,7 +4369,7 @@ extension APIGateway {
         /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
         public let id: String?
         /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
-        public let minimumCompressionSize: Int32?
+        public let minimumCompressionSize: Int?
         /// The API's name.
         public let name: String?
         /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
@@ -4381,7 +4381,7 @@ extension APIGateway {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
-        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, createdDate: TimeStamp? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int32? = nil, name: String? = nil, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, createdDate: TimeStamp? = nil, description: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int? = nil, name: String? = nil, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
             self.createdDate = createdDate
@@ -4817,7 +4817,7 @@ extension APIGateway {
         /// The open identity claims, with any supported custom attributes, returned from the Cognito Your User Pool configured for the API.
         public let claims: [String: String]?
         /// The HTTP status code that the client would have received. Value is 0 if the authorizer succeeded.
-        public let clientStatus: Int32?
+        public let clientStatus: Int?
         /// The execution latency of the test authorizer request.
         public let latency: Int64?
         /// The API Gateway execution log for the test authorizer request.
@@ -4827,7 +4827,7 @@ extension APIGateway {
         /// The principal identity returned by the Authorizer
         public let principalId: String?
 
-        public init(authorization: [String: [String]]? = nil, claims: [String: String]? = nil, clientStatus: Int32? = nil, latency: Int64? = nil, log: String? = nil, policy: String? = nil, principalId: String? = nil) {
+        public init(authorization: [String: [String]]? = nil, claims: [String: String]? = nil, clientStatus: Int? = nil, latency: Int64? = nil, log: String? = nil, policy: String? = nil, principalId: String? = nil) {
             self.authorization = authorization
             self.claims = claims
             self.clientStatus = clientStatus
@@ -4926,9 +4926,9 @@ extension APIGateway {
         /// The headers of the HTTP response as a map from string to list of values.
         public let multiValueHeaders: [String: [String]]?
         /// The HTTP status code.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(body: String? = nil, headers: [String: String]? = nil, latency: Int64? = nil, log: String? = nil, multiValueHeaders: [String: [String]]? = nil, status: Int32? = nil) {
+        public init(body: String? = nil, headers: [String: String]? = nil, latency: Int64? = nil, log: String? = nil, multiValueHeaders: [String: [String]]? = nil, status: Int? = nil) {
             self.body = body
             self.headers = headers
             self.latency = latency
@@ -4954,11 +4954,11 @@ extension APIGateway {
         ]
 
         /// The API request burst limit, the maximum rate limit over a time ranging from one to a few seconds, depending upon whether the underlying token bucket is at its full capacity.
-        public let burstLimit: Int32?
+        public let burstLimit: Int?
         /// The API request steady-state rate limit.
         public let rateLimit: Double?
 
-        public init(burstLimit: Int32? = nil, rateLimit: Double? = nil) {
+        public init(burstLimit: Int? = nil, rateLimit: Double? = nil) {
             self.burstLimit = burstLimit
             self.rateLimit = rateLimit
         }

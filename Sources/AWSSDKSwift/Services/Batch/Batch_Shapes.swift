@@ -17,9 +17,9 @@ extension Batch {
         ]
 
         /// The size of the array job.
-        public let size: Int32?
+        public let size: Int?
 
-        public init(size: Int32? = nil) {
+        public init(size: Int? = nil) {
             self.size = size
         }
 
@@ -36,13 +36,13 @@ extension Batch {
         ]
 
         /// The job index within the array that is associated with this job. This parameter is returned for array job children.
-        public let index: Int32?
+        public let index: Int?
         /// The size of the array job. This parameter is returned for parent array jobs.
-        public let size: Int32?
+        public let size: Int?
         /// A summary of the number of array job children in each available job status. This parameter is returned for parent array jobs.
-        public let statusSummary: [String: Int32]?
+        public let statusSummary: [String: Int]?
 
-        public init(index: Int32? = nil, size: Int32? = nil, statusSummary: [String: Int32]? = nil) {
+        public init(index: Int? = nil, size: Int? = nil, statusSummary: [String: Int]? = nil) {
             self.index = index
             self.size = size
             self.statusSummary = statusSummary
@@ -62,11 +62,11 @@ extension Batch {
         ]
 
         /// The job index within the array that is associated with this job. This parameter is returned for children of array jobs.
-        public let index: Int32?
+        public let index: Int?
         /// The size of the array job. This parameter is returned for parent array jobs.
-        public let size: Int32?
+        public let size: Int?
 
-        public init(index: Int32? = nil, size: Int32? = nil) {
+        public init(index: Int? = nil, size: Int? = nil) {
             self.index = index
             self.size = size
         }
@@ -90,7 +90,7 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the Amazon ECS container instance that hosts the job attempt.
         public let containerInstanceArn: String?
         /// The exit code for the job attempt. A non-zero exit code is considered a failure.
-        public let exitCode: Int32?
+        public let exitCode: Int?
         /// The name of the CloudWatch Logs log stream associated with the container. The log group for AWS Batch jobs is /aws/batch/job. Each container attempt receives a log stream name when they reach the RUNNING status.
         public let logStreamName: String?
         /// The network interfaces associated with the job attempt.
@@ -100,7 +100,7 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the Amazon ECS task that is associated with the job attempt. Each container attempt receives a task ARN when they reach the STARTING status.
         public let taskArn: String?
 
-        public init(containerInstanceArn: String? = nil, exitCode: Int32? = nil, logStreamName: String? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, taskArn: String? = nil) {
+        public init(containerInstanceArn: String? = nil, exitCode: Int? = nil, logStreamName: String? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, taskArn: String? = nil) {
             self.containerInstanceArn = containerInstanceArn
             self.exitCode = exitCode
             self.logStreamName = logStreamName
@@ -275,9 +275,9 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironment: String
         /// The order of the compute environment.
-        public let order: Int32
+        public let order: Int
 
-        public init(computeEnvironment: String, order: Int32) {
+        public init(computeEnvironment: String, order: Int) {
             self.computeEnvironment = computeEnvironment
             self.order = order
         }
@@ -308,9 +308,9 @@ extension Batch {
         ]
 
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, then the Spot price must be below 20% of the current On-Demand price for that EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. If you leave this field empty, the default value is 100% of the On-Demand price.
-        public let bidPercentage: Int32?
+        public let bidPercentage: Int?
         /// The desired number of EC2 vCPUS in the compute environment. 
-        public let desiredvCpus: Int32?
+        public let desiredvCpus: Int?
         /// The EC2 key pair that is used for instances launched in the compute environment.
         public let ec2KeyPair: String?
         /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment.
@@ -322,9 +322,9 @@ extension Batch {
         /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a CreateComputeEnvironment API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see Launch Template Support in the AWS Batch User Guide.
         public let launchTemplate: LaunchTemplateSpecification?
         /// The maximum number of EC2 vCPUs that an environment can reach. 
-        public let maxvCpus: Int32
+        public let maxvCpus: Int
         /// The minimum number of EC2 vCPUs that an environment should maintain (even if the compute environment is DISABLED). 
-        public let minvCpus: Int32
+        public let minvCpus: Int
         /// The Amazon EC2 placement group to associate with your compute resources. If you intend to submit multi-node parallel jobs to your compute environment, you should consider creating a cluster placement group and associate it with your compute resources. This keeps your multi-node parallel job on a logical grouping of instances within a single Availability Zone with high network flow potential. For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
         public let placementGroup: String?
         /// The EC2 security group that is associated with instances launched in the compute environment. 
@@ -338,7 +338,7 @@ extension Batch {
         /// The type of compute environment: EC2 or SPOT.
         public let `type`: CRType
 
-        public init(bidPercentage: Int32? = nil, desiredvCpus: Int32? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String, instanceTypes: [String], launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int32, minvCpus: Int32, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String], tags: [String: String]? = nil, type: CRType) {
+        public init(bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String, instanceTypes: [String], launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int, minvCpus: Int, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String], tags: [String: String]? = nil, type: CRType) {
             self.bidPercentage = bidPercentage
             self.desiredvCpus = desiredvCpus
             self.ec2KeyPair = ec2KeyPair
@@ -383,13 +383,13 @@ extension Batch {
         ]
 
         /// The desired number of EC2 vCPUS in the compute environment.
-        public let desiredvCpus: Int32?
+        public let desiredvCpus: Int?
         /// The maximum number of EC2 vCPUs that an environment can reach.
-        public let maxvCpus: Int32?
+        public let maxvCpus: Int?
         /// The minimum number of EC2 vCPUs that an environment should maintain.
-        public let minvCpus: Int32?
+        public let minvCpus: Int?
 
-        public init(desiredvCpus: Int32? = nil, maxvCpus: Int32? = nil, minvCpus: Int32? = nil) {
+        public init(desiredvCpus: Int? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil) {
             self.desiredvCpus = desiredvCpus
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
@@ -433,7 +433,7 @@ extension Batch {
         /// The environment variables to pass to a container.  Environment variables must not start with AWS_BATCH; this naming convention is reserved for variables that are set by the AWS Batch service. 
         public let environment: [KeyValuePair]?
         /// The exit code to return upon completion.
-        public let exitCode: Int32?
+        public let exitCode: Int?
         /// The image used to start the container.
         public let image: String?
         /// The instance type of the underlying host infrastructure of a multi-node parallel job.
@@ -443,7 +443,7 @@ extension Batch {
         /// The name of the CloudWatch Logs log stream associated with the container. The log group for AWS Batch jobs is /aws/batch/job. Each container attempt receives a log stream name when they reach the RUNNING status.
         public let logStreamName: String?
         /// The number of MiB of memory reserved for the job.
-        public let memory: Int32?
+        public let memory: Int?
         /// The mount points for data volumes in your container.
         public let mountPoints: [MountPoint]?
         /// The network interfaces associated with the job.
@@ -463,11 +463,11 @@ extension Batch {
         /// The user name to use inside the container.
         public let user: String?
         /// The number of VCPUs allocated for the job. 
-        public let vcpus: Int32?
+        public let vcpus: Int?
         /// A list of volumes associated with the job.
         public let volumes: [Volume]?
 
-        public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, exitCode: Int32? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, logStreamName: String? = nil, memory: Int32? = nil, mountPoints: [MountPoint]? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, resourceRequirements: [ResourceRequirement]? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int32? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, exitCode: Int? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, logStreamName: String? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, resourceRequirements: [ResourceRequirement]? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.containerInstanceArn = containerInstanceArn
             self.environment = environment
@@ -531,13 +531,13 @@ extension Batch {
         /// The instance type to use for a multi-node parallel job. This parameter is not valid for single-node container jobs.
         public let instanceType: String?
         /// The number of MiB of memory reserved for the job. This value overrides the value set in the job definition.
-        public let memory: Int32?
+        public let memory: Int?
         /// The type and amount of a resource to assign to a container. This value overrides the value set in the job definition. Currently, the only supported resource is GPU.
         public let resourceRequirements: [ResourceRequirement]?
         /// The number of vCPUs to reserve for the container. This value overrides the value set in the job definition.
-        public let vcpus: Int32?
+        public let vcpus: Int?
 
-        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, instanceType: String? = nil, memory: Int32? = nil, resourceRequirements: [ResourceRequirement]? = nil, vcpus: Int32? = nil) {
+        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, instanceType: String? = nil, memory: Int? = nil, resourceRequirements: [ResourceRequirement]? = nil, vcpus: Int? = nil) {
             self.command = command
             self.environment = environment
             self.instanceType = instanceType
@@ -585,7 +585,7 @@ extension Batch {
         /// The Amazon Resource Name (ARN) of the IAM role that the container can assume for AWS permissions.
         public let jobRoleArn: String?
         /// The hard limit (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. You must specify at least 4 MiB of memory for a job.  If you are trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory Management in the AWS Batch User Guide. 
-        public let memory: Int32?
+        public let memory: Int?
         /// The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run.
         public let mountPoints: [MountPoint]?
         /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the Create a container section of the Docker Remote API and the --privileged option to docker run.
@@ -599,11 +599,11 @@ extension Batch {
         /// The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.
         public let user: String?
         /// The number of vCPUs reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. Each vCPU is equivalent to 1,024 CPU shares. You must specify at least one vCPU.
-        public let vcpus: Int32?
+        public let vcpus: Int?
         /// A list of data volumes used in a job.
         public let volumes: [Volume]?
 
-        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, memory: Int32? = nil, mountPoints: [MountPoint]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int32? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.environment = environment
             self.image = image
@@ -645,11 +645,11 @@ extension Batch {
         ]
 
         /// The exit code to return upon completion.
-        public let exitCode: Int32?
+        public let exitCode: Int?
         /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
         public let reason: String?
 
-        public init(exitCode: Int32? = nil, reason: String? = nil) {
+        public init(exitCode: Int? = nil, reason: String? = nil) {
             self.exitCode = exitCode
             self.reason = reason
         }
@@ -732,11 +732,11 @@ extension Batch {
         /// The name of the job queue.
         public let jobQueueName: String
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order, for example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1.
-        public let priority: Int32
+        public let priority: Int
         /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs.
         public let state: JQState?
 
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueName: String, priority: Int32, state: JQState? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueName: String, priority: Int, state: JQState? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueName = jobQueueName
             self.priority = priority
@@ -858,11 +858,11 @@ extension Batch {
         /// A list of up to 100 compute environment names or full Amazon Resource Name (ARN) entries. 
         public let computeEnvironments: [String]?
         /// The maximum number of cluster results returned by DescribeComputeEnvironments in paginated output. When this parameter is used, DescribeComputeEnvironments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeComputeEnvironments request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeComputeEnvironments returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated DescribeComputeEnvironments request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(computeEnvironments: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(computeEnvironments: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.computeEnvironments = computeEnvironments
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -911,13 +911,13 @@ extension Batch {
         /// A list of up to 100 job definition names or full Amazon Resource Name (ARN) entries.
         public let jobDefinitions: [String]?
         /// The maximum number of results returned by DescribeJobDefinitions in paginated output. When this parameter is used, DescribeJobDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeJobDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeJobDefinitions returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated DescribeJobDefinitions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The status with which to filter job definitions.
         public let status: String?
 
-        public init(jobDefinitionName: String? = nil, jobDefinitions: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, status: String? = nil) {
+        public init(jobDefinitionName: String? = nil, jobDefinitions: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: String? = nil) {
             self.jobDefinitionName = jobDefinitionName
             self.jobDefinitions = jobDefinitions
             self.maxResults = maxResults
@@ -966,11 +966,11 @@ extension Batch {
         /// A list of up to 100 queue names or full queue Amazon Resource Name (ARN) entries.
         public let jobQueues: [String]?
         /// The maximum number of results returned by DescribeJobQueues in paginated output. When this parameter is used, DescribeJobQueues only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeJobQueues request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeJobQueues returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated DescribeJobQueues request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(jobQueues: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(jobQueues: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobQueues = jobQueues
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1099,7 +1099,7 @@ extension Batch {
         /// The retry strategy to use for failed jobs that are submitted with this job definition.
         public let retryStrategy: RetryStrategy?
         /// The revision of the job definition.
-        public let revision: Int32
+        public let revision: Int
         /// The status of the job definition.
         public let status: String?
         /// The timeout configuration for jobs that are submitted with this job definition. You can specify a timeout duration after which AWS Batch terminates your jobs if they have not finished.
@@ -1107,7 +1107,7 @@ extension Batch {
         /// The type of job definition.
         public let `type`: String
 
-        public init(containerProperties: ContainerProperties? = nil, jobDefinitionArn: String, jobDefinitionName: String, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, revision: Int32, status: String? = nil, timeout: JobTimeout? = nil, type: String) {
+        public init(containerProperties: ContainerProperties? = nil, jobDefinitionArn: String, jobDefinitionName: String, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, revision: Int, status: String? = nil, timeout: JobTimeout? = nil, type: String) {
             self.containerProperties = containerProperties
             self.jobDefinitionArn = jobDefinitionArn
             self.jobDefinitionName = jobDefinitionName
@@ -1282,7 +1282,7 @@ extension Batch {
         /// The name of the job queue.
         public let jobQueueName: String
         /// The priority of the job queue. 
-        public let priority: Int32
+        public let priority: Int
         /// Describes the ability of the queue to accept new jobs.
         public let state: JQState
         /// The status of the job queue (for example, CREATING or VALID).
@@ -1290,7 +1290,7 @@ extension Batch {
         /// A short, human-readable string to provide additional details about the current status of the job queue.
         public let statusReason: String?
 
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueArn: String, jobQueueName: String, priority: Int32, state: JQState, status: JQStatus? = nil, statusReason: String? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueArn: String, jobQueueName: String, priority: Int, state: JQState, status: JQStatus? = nil, statusReason: String? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueArn = jobQueueArn
             self.jobQueueName = jobQueueName
@@ -1390,9 +1390,9 @@ extension Batch {
         ]
 
         /// The time duration in seconds (measured from the job attempt's startedAt timestamp) after which AWS Batch terminates your jobs if they have not finished.
-        public let attemptDurationSeconds: Int32?
+        public let attemptDurationSeconds: Int?
 
-        public init(attemptDurationSeconds: Int32? = nil) {
+        public init(attemptDurationSeconds: Int? = nil) {
             self.attemptDurationSeconds = attemptDurationSeconds
         }
 
@@ -1467,13 +1467,13 @@ extension Batch {
         /// The job status with which to filter jobs in the specified queue. If you do not specify a status, only RUNNING jobs are returned.
         public let jobStatus: JobStatus?
         /// The maximum number of results returned by ListJobs in paginated output. When this parameter is used, ListJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListJobs returns up to 100 results and a nextToken value if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The job ID for a multi-node parallel job. Specifying a multi-node parallel job ID with this parameter lists all nodes that are associated with the specified job.
         public let multiNodeJobId: String?
         /// The nextToken value returned from a previous paginated ListJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(arrayJobId: String? = nil, jobQueue: String? = nil, jobStatus: JobStatus? = nil, maxResults: Int32? = nil, multiNodeJobId: String? = nil, nextToken: String? = nil) {
+        public init(arrayJobId: String? = nil, jobQueue: String? = nil, jobStatus: JobStatus? = nil, maxResults: Int? = nil, multiNodeJobId: String? = nil, nextToken: String? = nil) {
             self.arrayJobId = arrayJobId
             self.jobQueue = jobQueue
             self.jobStatus = jobStatus
@@ -1577,9 +1577,9 @@ extension Batch {
         /// Specifies whether the current node is the main node for a multi-node parallel job.
         public let isMainNode: Bool?
         /// The node index for the node. Node index numbering begins at zero. This index is also available on the node with the AWS_BATCH_JOB_NODE_INDEX environment variable.
-        public let nodeIndex: Int32?
+        public let nodeIndex: Int?
 
-        public init(isMainNode: Bool? = nil, nodeIndex: Int32? = nil) {
+        public init(isMainNode: Bool? = nil, nodeIndex: Int? = nil) {
             self.isMainNode = isMainNode
             self.nodeIndex = nodeIndex
         }
@@ -1599,9 +1599,9 @@ extension Batch {
         /// The node property overrides for the job.
         public let nodePropertyOverrides: [NodePropertyOverride]?
         /// The number of nodes to use with a multi-node parallel job. This value overrides the number of nodes that are specified in the job definition. To use this override:   There must be at least one node range in your job definition that has an open upper boundary (such as : or n:).   The lower boundary of the node range specified in the job definition must be fewer than the number of nodes specified in the override.   The main node index specified in the job definition must be fewer than the number of nodes specified in the override.  
-        public let numNodes: Int32?
+        public let numNodes: Int?
 
-        public init(nodePropertyOverrides: [NodePropertyOverride]? = nil, numNodes: Int32? = nil) {
+        public init(nodePropertyOverrides: [NodePropertyOverride]? = nil, numNodes: Int? = nil) {
             self.nodePropertyOverrides = nodePropertyOverrides
             self.numNodes = numNodes
         }
@@ -1620,13 +1620,13 @@ extension Batch {
         ]
 
         /// Specifies the node index for the main node of a multi-node parallel job. This node index value must be fewer than the number of nodes.
-        public let mainNode: Int32
+        public let mainNode: Int
         /// A list of node ranges and their properties associated with a multi-node parallel job.
         public let nodeRangeProperties: [NodeRangeProperty]
         /// The number of nodes associated with a multi-node parallel job.
-        public let numNodes: Int32
+        public let numNodes: Int
 
-        public init(mainNode: Int32, nodeRangeProperties: [NodeRangeProperty], numNodes: Int32) {
+        public init(mainNode: Int, nodeRangeProperties: [NodeRangeProperty], numNodes: Int) {
             self.mainNode = mainNode
             self.nodeRangeProperties = nodeRangeProperties
             self.numNodes = numNodes
@@ -1649,11 +1649,11 @@ extension Batch {
         /// Specifies whether the current node is the main node for a multi-node parallel job.
         public let isMainNode: Bool?
         /// The node index for the node. Node index numbering begins at zero. This index is also available on the node with the AWS_BATCH_JOB_NODE_INDEX environment variable.
-        public let nodeIndex: Int32?
+        public let nodeIndex: Int?
         /// The number of nodes associated with a multi-node parallel job.
-        public let numNodes: Int32?
+        public let numNodes: Int?
 
-        public init(isMainNode: Bool? = nil, nodeIndex: Int32? = nil, numNodes: Int32? = nil) {
+        public init(isMainNode: Bool? = nil, nodeIndex: Int? = nil, numNodes: Int? = nil) {
             self.isMainNode = isMainNode
             self.nodeIndex = nodeIndex
             self.numNodes = numNodes
@@ -1769,9 +1769,9 @@ extension Batch {
         /// The name of the job definition.
         public let jobDefinitionName: String
         /// The revision of the job definition.
-        public let revision: Int32
+        public let revision: Int
 
-        public init(jobDefinitionArn: String, jobDefinitionName: String, revision: Int32) {
+        public init(jobDefinitionArn: String, jobDefinitionName: String, revision: Int) {
             self.jobDefinitionArn = jobDefinitionArn
             self.jobDefinitionName = jobDefinitionName
             self.revision = revision
@@ -1817,9 +1817,9 @@ extension Batch {
         ]
 
         /// The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If the value of attempts is greater than one, the job is retried on failure the same number of attempts as the value.
-        public let attempts: Int32?
+        public let attempts: Int?
 
-        public init(attempts: Int32? = nil) {
+        public init(attempts: Int? = nil) {
             self.attempts = attempts
         }
 
@@ -1950,13 +1950,13 @@ extension Batch {
         ]
 
         /// The hard limit for the ulimit type.
-        public let hardLimit: Int32
+        public let hardLimit: Int
         /// The type of the ulimit.
         public let name: String
         /// The soft limit for the ulimit type.
-        public let softLimit: Int32
+        public let softLimit: Int
 
-        public init(hardLimit: Int32, name: String, softLimit: Int32) {
+        public init(hardLimit: Int, name: String, softLimit: Int) {
             self.hardLimit = hardLimit
             self.name = name
             self.softLimit = softLimit
@@ -2036,11 +2036,11 @@ extension Batch {
         /// The name or the Amazon Resource Name (ARN) of the job queue.
         public let jobQueue: String
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order, for example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1.
-        public let priority: Int32?
+        public let priority: Int?
         /// Describes the queue's ability to accept new jobs.
         public let state: JQState?
 
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueue: String, priority: Int32? = nil, state: JQState? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueue: String, priority: Int? = nil, state: JQState? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueue = jobQueue
             self.priority = priority

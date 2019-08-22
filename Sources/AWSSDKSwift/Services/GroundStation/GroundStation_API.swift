@@ -12,7 +12,7 @@ Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully m
 */
 public struct GroundStation {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

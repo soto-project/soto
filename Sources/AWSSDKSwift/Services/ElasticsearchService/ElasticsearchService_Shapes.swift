@@ -550,13 +550,13 @@ extension ElasticsearchService {
         ]
 
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination.
         public let nextToken: String?
         /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier.
         public let reservedElasticsearchInstanceOfferingId: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, reservedElasticsearchInstanceOfferingId: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, reservedElasticsearchInstanceOfferingId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.reservedElasticsearchInstanceOfferingId = reservedElasticsearchInstanceOfferingId
@@ -604,13 +604,13 @@ extension ElasticsearchService {
         ]
 
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination.
         public let nextToken: String?
         /// The reserved instance identifier filter value. Use this parameter to show only the reservation that matches the specified reserved Elasticsearch instance ID.
         public let reservedElasticsearchInstanceId: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, reservedElasticsearchInstanceId: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, reservedElasticsearchInstanceId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.reservedElasticsearchInstanceId = reservedElasticsearchInstanceId
@@ -678,13 +678,13 @@ extension ElasticsearchService {
         /// Specifies whether EBS-based storage is enabled.
         public let eBSEnabled: Bool?
         /// Specifies the IOPD for a Provisioned IOPS EBS volume (SSD).
-        public let iops: Int32?
+        public let iops: Int?
         ///  Integer to specify the size of an EBS volume.
-        public let volumeSize: Int32?
+        public let volumeSize: Int?
         ///  Specifies the volume type for EBS-based storage.
         public let volumeType: VolumeType?
 
-        public init(eBSEnabled: Bool? = nil, iops: Int32? = nil, volumeSize: Int32? = nil, volumeType: VolumeType? = nil) {
+        public init(eBSEnabled: Bool? = nil, iops: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.eBSEnabled = eBSEnabled
             self.iops = iops
             self.volumeSize = volumeSize
@@ -777,13 +777,13 @@ extension ElasticsearchService {
         ]
 
         /// Total number of dedicated master nodes, active and on standby, for the cluster.
-        public let dedicatedMasterCount: Int32?
+        public let dedicatedMasterCount: Int?
         /// A boolean value to indicate whether a dedicated master node is enabled. See About Dedicated Master Nodes for more information.
         public let dedicatedMasterEnabled: Bool?
         /// The instance type for a dedicated master node.
         public let dedicatedMasterType: ESPartitionInstanceType?
         /// The number of instances in the specified domain cluster.
-        public let instanceCount: Int32?
+        public let instanceCount: Int?
         /// The instance type for an Elasticsearch cluster.
         public let instanceType: ESPartitionInstanceType?
         /// Specifies the zone awareness configuration for a domain when zone awareness is enabled.
@@ -791,7 +791,7 @@ extension ElasticsearchService {
         /// A boolean value to indicate whether zone awareness is enabled. See About Zone Awareness for more information.
         public let zoneAwarenessEnabled: Bool?
 
-        public init(dedicatedMasterCount: Int32? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: ESPartitionInstanceType? = nil, instanceCount: Int32? = nil, instanceType: ESPartitionInstanceType? = nil, zoneAwarenessConfig: ZoneAwarenessConfig? = nil, zoneAwarenessEnabled: Bool? = nil) {
+        public init(dedicatedMasterCount: Int? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: ESPartitionInstanceType? = nil, instanceCount: Int? = nil, instanceType: ESPartitionInstanceType? = nil, zoneAwarenessConfig: ZoneAwarenessConfig? = nil, zoneAwarenessEnabled: Bool? = nil) {
             self.dedicatedMasterCount = dedicatedMasterCount
             self.dedicatedMasterEnabled = dedicatedMasterEnabled
             self.dedicatedMasterType = dedicatedMasterType
@@ -1135,10 +1135,10 @@ extension ElasticsearchService {
         ]
 
         public let domainName: String
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(domainName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1235,10 +1235,10 @@ extension ElasticsearchService {
             AWSShapeMember(label: "MinimumInstanceCount", required: false, type: .integer)
         ]
 
-        public let maximumInstanceCount: Int32?
-        public let minimumInstanceCount: Int32?
+        public let maximumInstanceCount: Int?
+        public let minimumInstanceCount: Int?
 
-        public init(maximumInstanceCount: Int32? = nil, minimumInstanceCount: Int32? = nil) {
+        public init(maximumInstanceCount: Int? = nil, minimumInstanceCount: Int? = nil) {
             self.maximumInstanceCount = maximumInstanceCount
             self.minimumInstanceCount = minimumInstanceCount
         }
@@ -1321,11 +1321,11 @@ extension ElasticsearchService {
         /// Version of Elasticsearch for which list of supported elasticsearch instance types are needed. 
         public let elasticsearchVersion: String
         ///  Set this value to limit the number of results returned. Value provided must be greater than 30 else it wont be honored. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination. 
         public let nextToken: String?
 
-        public init(domainName: String? = nil, elasticsearchVersion: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(domainName: String? = nil, elasticsearchVersion: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.elasticsearchVersion = elasticsearchVersion
             self.maxResults = maxResults
@@ -1376,10 +1376,10 @@ extension ElasticsearchService {
         ]
 
         ///  Set this value to limit the number of results returned. Value provided must be greater than 10 else it wont be honored. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1562,9 +1562,9 @@ extension ElasticsearchService {
         /// Timestamp which tells the last updated time for the entity.
         public let updateDate: TimeStamp
         /// Specifies the latest version for the entity.
-        public let updateVersion: Int32?
+        public let updateVersion: Int?
 
-        public init(creationDate: TimeStamp, pendingDeletion: Bool? = nil, state: OptionState, updateDate: TimeStamp, updateVersion: Int32? = nil) {
+        public init(creationDate: TimeStamp, pendingDeletion: Bool? = nil, state: OptionState, updateDate: TimeStamp, updateVersion: Int? = nil) {
             self.creationDate = creationDate
             self.pendingDeletion = pendingDeletion
             self.state = state
@@ -1589,13 +1589,13 @@ extension ElasticsearchService {
         ]
 
         /// The number of Elasticsearch instances to reserve.
-        public let instanceCount: Int32?
+        public let instanceCount: Int?
         /// A customer-specified identifier to track this reservation.
         public let reservationName: String
         /// The ID of the reserved Elasticsearch instance offering to purchase.
         public let reservedElasticsearchInstanceOfferingId: String
 
-        public init(instanceCount: Int32? = nil, reservationName: String, reservedElasticsearchInstanceOfferingId: String) {
+        public init(instanceCount: Int? = nil, reservationName: String, reservedElasticsearchInstanceOfferingId: String) {
             self.instanceCount = instanceCount
             self.reservationName = reservationName
             self.reservedElasticsearchInstanceOfferingId = reservedElasticsearchInstanceOfferingId
@@ -1701,9 +1701,9 @@ extension ElasticsearchService {
         /// The currency code for the reserved Elasticsearch instance offering.
         public let currencyCode: String?
         /// The duration, in seconds, for which the Elasticsearch instance is reserved.
-        public let duration: Int32?
+        public let duration: Int?
         /// The number of Elasticsearch instances that have been reserved.
-        public let elasticsearchInstanceCount: Int32?
+        public let elasticsearchInstanceCount: Int?
         /// The Elasticsearch instance type offered by the reserved instance offering.
         public let elasticsearchInstanceType: ESPartitionInstanceType?
         /// The upfront fixed charge you will paid to purchase the specific reserved Elasticsearch instance offering. 
@@ -1725,7 +1725,7 @@ extension ElasticsearchService {
         /// The rate you are charged for each hour for the domain that is using this reserved instance.
         public let usagePrice: Double?
 
-        public init(currencyCode: String? = nil, duration: Int32? = nil, elasticsearchInstanceCount: Int32? = nil, elasticsearchInstanceType: ESPartitionInstanceType? = nil, fixedPrice: Double? = nil, paymentOption: ReservedElasticsearchInstancePaymentOption? = nil, recurringCharges: [RecurringCharge]? = nil, reservationName: String? = nil, reservedElasticsearchInstanceId: String? = nil, reservedElasticsearchInstanceOfferingId: String? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
+        public init(currencyCode: String? = nil, duration: Int? = nil, elasticsearchInstanceCount: Int? = nil, elasticsearchInstanceType: ESPartitionInstanceType? = nil, fixedPrice: Double? = nil, paymentOption: ReservedElasticsearchInstancePaymentOption? = nil, recurringCharges: [RecurringCharge]? = nil, reservationName: String? = nil, reservedElasticsearchInstanceId: String? = nil, reservedElasticsearchInstanceOfferingId: String? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.elasticsearchInstanceCount = elasticsearchInstanceCount
@@ -1773,7 +1773,7 @@ extension ElasticsearchService {
         /// The currency code for the reserved Elasticsearch instance offering.
         public let currencyCode: String?
         /// The duration, in seconds, for which the offering will reserve the Elasticsearch instance.
-        public let duration: Int32?
+        public let duration: Int?
         /// The Elasticsearch instance type offered by the reserved instance offering.
         public let elasticsearchInstanceType: ESPartitionInstanceType?
         /// The upfront fixed charge you will pay to purchase the specific reserved Elasticsearch instance offering. 
@@ -1787,7 +1787,7 @@ extension ElasticsearchService {
         /// The rate you are charged for each hour the domain that is using the offering is running.
         public let usagePrice: Double?
 
-        public init(currencyCode: String? = nil, duration: Int32? = nil, elasticsearchInstanceType: ESPartitionInstanceType? = nil, fixedPrice: Double? = nil, paymentOption: ReservedElasticsearchInstancePaymentOption? = nil, recurringCharges: [RecurringCharge]? = nil, reservedElasticsearchInstanceOfferingId: String? = nil, usagePrice: Double? = nil) {
+        public init(currencyCode: String? = nil, duration: Int? = nil, elasticsearchInstanceType: ESPartitionInstanceType? = nil, fixedPrice: Double? = nil, paymentOption: ReservedElasticsearchInstancePaymentOption? = nil, recurringCharges: [RecurringCharge]? = nil, reservedElasticsearchInstanceOfferingId: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.elasticsearchInstanceType = elasticsearchInstanceType
@@ -1870,9 +1870,9 @@ extension ElasticsearchService {
         ]
 
         /// Specifies the time, in UTC format, when the service takes a daily automated snapshot of the specified Elasticsearch domain. Default value is 0 hours.
-        public let automatedSnapshotStartHour: Int32?
+        public let automatedSnapshotStartHour: Int?
 
-        public init(automatedSnapshotStartHour: Int32? = nil) {
+        public init(automatedSnapshotStartHour: Int? = nil) {
             self.automatedSnapshotStartHour = automatedSnapshotStartHour
         }
 
@@ -2326,9 +2326,9 @@ extension ElasticsearchService {
         ]
 
         /// An integer value to indicate the number of availability zones for a domain when zone awareness is enabled. This should be equal to number of subnets if VPC endpoints is enabled
-        public let availabilityZoneCount: Int32?
+        public let availabilityZoneCount: Int?
 
-        public init(availabilityZoneCount: Int32? = nil) {
+        public init(availabilityZoneCount: Int? = nil) {
             self.availabilityZoneCount = availabilityZoneCount
         }
 

@@ -267,9 +267,9 @@ extension CodePipeline {
         /// The ARN of the IAM service role that will perform the declared action. This is assumed through the roleArn for the pipeline.
         public let roleArn: String?
         /// The order in which actions are run.
-        public let runOrder: Int32?
+        public let runOrder: Int?
 
-        public init(actionTypeId: ActionTypeId, configuration: [String: String]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, outputArtifacts: [OutputArtifact]? = nil, region: String? = nil, roleArn: String? = nil, runOrder: Int32? = nil) {
+        public init(actionTypeId: ActionTypeId, configuration: [String: String]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, outputArtifacts: [OutputArtifact]? = nil, region: String? = nil, roleArn: String? = nil, runOrder: Int? = nil) {
             self.actionTypeId = actionTypeId
             self.configuration = configuration
             self.inputArtifacts = inputArtifacts
@@ -341,7 +341,7 @@ extension CodePipeline {
         /// The ARN of the user who last changed the pipeline.
         public let lastUpdatedBy: String?
         /// A percentage of completeness of the action as it runs.
-        public let percentComplete: Int32?
+        public let percentComplete: Int?
         /// The status of the action, or for a completed action, the last status of the action.
         public let status: ActionExecutionStatus?
         /// A summary of the run of the action.
@@ -349,7 +349,7 @@ extension CodePipeline {
         /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState command and is used to validate that the approval request corresponding to this token is still valid.
         public let token: String?
 
-        public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, lastStatusChange: TimeStamp? = nil, lastUpdatedBy: String? = nil, percentComplete: Int32? = nil, status: ActionExecutionStatus? = nil, summary: String? = nil, token: String? = nil) {
+        public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, lastStatusChange: TimeStamp? = nil, lastUpdatedBy: String? = nil, percentComplete: Int? = nil, status: ActionExecutionStatus? = nil, summary: String? = nil, token: String? = nil) {
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
             self.externalExecutionUrl = externalExecutionUrl
@@ -401,7 +401,7 @@ extension CodePipeline {
         /// The pipeline execution ID for the action execution.
         public let pipelineExecutionId: String?
         /// The version of the pipeline where the action was run.
-        public let pipelineVersion: Int32?
+        public let pipelineVersion: Int?
         /// The name of the stage that contains the action.
         public let stageName: String?
         /// The start time of the action execution.
@@ -409,7 +409,7 @@ extension CodePipeline {
         ///  The status of the action execution. Status categories are InProgress, Succeeded, and Failed.
         public let status: ActionExecutionStatus?
 
-        public init(actionExecutionId: String? = nil, actionName: String? = nil, input: ActionExecutionInput? = nil, lastUpdateTime: TimeStamp? = nil, output: ActionExecutionOutput? = nil, pipelineExecutionId: String? = nil, pipelineVersion: Int32? = nil, stageName: String? = nil, startTime: TimeStamp? = nil, status: ActionExecutionStatus? = nil) {
+        public init(actionExecutionId: String? = nil, actionName: String? = nil, input: ActionExecutionInput? = nil, lastUpdateTime: TimeStamp? = nil, output: ActionExecutionOutput? = nil, pipelineExecutionId: String? = nil, pipelineVersion: Int? = nil, stageName: String? = nil, startTime: TimeStamp? = nil, status: ActionExecutionStatus? = nil) {
             self.actionExecutionId = actionExecutionId
             self.actionName = actionName
             self.input = input
@@ -837,11 +837,11 @@ extension CodePipeline {
         ]
 
         /// The maximum number of artifacts allowed for the action type.
-        public let maximumCount: Int32
+        public let maximumCount: Int
         /// The minimum number of artifacts allowed for the action type.
-        public let minimumCount: Int32
+        public let minimumCount: Int
 
-        public init(maximumCount: Int32, minimumCount: Int32) {
+        public init(maximumCount: Int, minimumCount: Int) {
             self.maximumCount = maximumCount
             self.minimumCount = minimumCount
         }
@@ -1449,11 +1449,11 @@ extension CodePipeline {
         /// The system-generated unique ID of this action used to identify this job worker in any external systems, such as AWS CodeDeploy.
         public let externalExecutionId: String?
         /// The percentage of work completed on the action, represented on a scale of zero to one hundred percent.
-        public let percentComplete: Int32?
+        public let percentComplete: Int?
         /// The summary of the current status of the actions.
         public let summary: String?
 
-        public init(externalExecutionId: String? = nil, percentComplete: Int32? = nil, summary: String? = nil) {
+        public init(externalExecutionId: String? = nil, percentComplete: Int? = nil, summary: String? = nil) {
             self.externalExecutionId = externalExecutionId
             self.percentComplete = percentComplete
             self.summary = summary
@@ -1612,9 +1612,9 @@ extension CodePipeline {
         /// The name of the pipeline for which you want to get information. Pipeline names must be unique under an Amazon Web Services (AWS) user account.
         public let name: String
         /// The version number of the pipeline. If you do not specify a version, defaults to the most current version.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(name: String, version: Int32? = nil) {
+        public init(name: String, version: Int? = nil) {
             self.name = name
             self.version = version
         }
@@ -1691,13 +1691,13 @@ extension CodePipeline {
         /// The name of the pipeline for which you want to get the state.
         public let pipelineName: String?
         /// The version number of the pipeline.  A newly-created pipeline is always assigned a version number of 1. 
-        public let pipelineVersion: Int32?
+        public let pipelineVersion: Int?
         /// A list of the pipeline stage output information, including stage name, state, most recent run details, whether the stage is disabled, and other data.
         public let stageStates: [StageState]?
         /// The date and time the pipeline was last updated, in timestamp format.
         public let updated: TimeStamp?
 
-        public init(created: TimeStamp? = nil, pipelineName: String? = nil, pipelineVersion: Int32? = nil, stageStates: [StageState]? = nil, updated: TimeStamp? = nil) {
+        public init(created: TimeStamp? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, stageStates: [StageState]? = nil, updated: TimeStamp? = nil) {
             self.created = created
             self.pipelineName = pipelineName
             self.pipelineVersion = pipelineVersion
@@ -1916,13 +1916,13 @@ extension CodePipeline {
         /// Input information used to filter action execution history.
         public let filter: ActionExecutionFilter?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Action execution history is retained for up to 12 months, based on action execution start times. Default value is 100.   Detailed execution history is available for executions run on or after February 21, 2019. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token that was returned from the previous ListActionExecutions call, which can be used to return the next set of action executions in the list.
         public let nextToken: String?
         ///  The name of the pipeline for which you want to list action execution history.
         public let pipelineName: String
 
-        public init(filter: ActionExecutionFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil, pipelineName: String) {
+        public init(filter: ActionExecutionFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, pipelineName: String) {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2027,13 +2027,13 @@ extension CodePipeline {
         ]
 
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Pipeline history is limited to the most recent 12 months, based on pipeline execution start times. Default value is 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token that was returned from the previous ListPipelineExecutions call, which can be used to return the next set of pipeline executions in the list.
         public let nextToken: String?
         /// The name of the pipeline for which you want to get execution summary information.
         public let pipelineName: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, pipelineName: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, pipelineName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.pipelineName = pipelineName
@@ -2130,13 +2130,13 @@ extension CodePipeline {
         ]
 
         /// The maximum number of results to return in a single call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token that was returned from the previous API call, which would be used to return the next page of the list. However, the ListTagsforResource call lists all available tags in one call and does not use pagination.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource to get tags for.
         public let resourceArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -2233,11 +2233,11 @@ extension CodePipeline {
         ]
 
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token that was returned from the previous ListWebhooks call, which can be used to return the next set of webhooks in the list.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2358,9 +2358,9 @@ extension CodePipeline {
         /// The stage in which to perform the action.
         public let stages: [StageDeclaration]
         /// The version number of the pipeline. A new pipeline always has a version number of 1. This number is automatically incremented when a pipeline is updated.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(artifactStore: ArtifactStore? = nil, artifactStores: [String: ArtifactStore]? = nil, name: String, roleArn: String, stages: [StageDeclaration], version: Int32? = nil) {
+        public init(artifactStore: ArtifactStore? = nil, artifactStores: [String: ArtifactStore]? = nil, name: String, roleArn: String, stages: [StageDeclaration], version: Int? = nil) {
             self.artifactStore = artifactStore
             self.artifactStores = artifactStores
             self.name = name
@@ -2413,11 +2413,11 @@ extension CodePipeline {
         /// The name of the pipeline that was executed.
         public let pipelineName: String?
         /// The version number of the pipeline that was executed.
-        public let pipelineVersion: Int32?
+        public let pipelineVersion: Int?
         /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead.    Failed: The pipeline execution was not completed successfully.  
         public let status: PipelineExecutionStatus?
 
-        public init(artifactRevisions: [ArtifactRevision]? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, pipelineVersion: Int32? = nil, status: PipelineExecutionStatus? = nil) {
+        public init(artifactRevisions: [ArtifactRevision]? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, status: PipelineExecutionStatus? = nil) {
             self.artifactRevisions = artifactRevisions
             self.pipelineExecutionId = pipelineExecutionId
             self.pipelineName = pipelineName
@@ -2521,9 +2521,9 @@ extension CodePipeline {
         /// The date and time of the last update to the pipeline, in timestamp format.
         public let updated: TimeStamp?
         /// The version number of the pipeline.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(created: TimeStamp? = nil, name: String? = nil, updated: TimeStamp? = nil, version: Int32? = nil) {
+        public init(created: TimeStamp? = nil, name: String? = nil, updated: TimeStamp? = nil, version: Int? = nil) {
             self.created = created
             self.name = name
             self.updated = updated
@@ -2548,11 +2548,11 @@ extension CodePipeline {
         /// Represents information about an action type.
         public let actionTypeId: ActionTypeId
         /// The maximum number of jobs to return in a poll for jobs call.
-        public let maxBatchSize: Int32?
+        public let maxBatchSize: Int?
         /// A map of property names and values. For an action type with no queryable properties, this value must be null or an empty map. For an action type with a queryable property, you must supply that property as a key in the map. Only jobs whose action configuration matches the mapped value will be returned.
         public let queryParam: [String: String]?
 
-        public init(actionTypeId: ActionTypeId, maxBatchSize: Int32? = nil, queryParam: [String: String]? = nil) {
+        public init(actionTypeId: ActionTypeId, maxBatchSize: Int? = nil, queryParam: [String: String]? = nil) {
             self.actionTypeId = actionTypeId
             self.maxBatchSize = maxBatchSize
             self.queryParam = queryParam
@@ -2603,9 +2603,9 @@ extension CodePipeline {
         /// Represents information about an action type.
         public let actionTypeId: ActionTypeId
         /// The maximum number of jobs to return in a poll for jobs call.
-        public let maxBatchSize: Int32?
+        public let maxBatchSize: Int?
 
-        public init(actionTypeId: ActionTypeId, maxBatchSize: Int32? = nil) {
+        public init(actionTypeId: ActionTypeId, maxBatchSize: Int? = nil) {
             self.actionTypeId = actionTypeId
             self.maxBatchSize = maxBatchSize
         }

@@ -55,11 +55,11 @@ extension MarketplaceEntitlementService {
         /// The DoubleValue field will be populated with a double value when the entitlement is a double type. Otherwise, the field will not be set.
         public let doubleValue: Double?
         /// The IntegerValue field will be populated with an integer value when the entitlement is an integer type. Otherwise, the field will not be set.
-        public let integerValue: Int32?
+        public let integerValue: Int?
         /// The StringValue field will be populated with a string value when the entitlement is a string type. Otherwise, the field will not be set.
         public let stringValue: String?
 
-        public init(booleanValue: Bool? = nil, doubleValue: Double? = nil, integerValue: Int32? = nil, stringValue: String? = nil) {
+        public init(booleanValue: Bool? = nil, doubleValue: Double? = nil, integerValue: Int? = nil, stringValue: String? = nil) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
             self.integerValue = integerValue
@@ -91,13 +91,13 @@ extension MarketplaceEntitlementService {
         /// Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.
         public let filter: [GetEntitlementFilterName: [String]]?
         /// The maximum number of items to retrieve from the GetEntitlements operation. For pagination, use the NextToken field in subsequent calls to GetEntitlements.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// For paginated calls to GetEntitlements, pass the NextToken from the previous GetEntitlementsResult.
         public let nextToken: String?
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code will be provided by AWS Marketplace when the product listing is created.
         public let productCode: String
 
-        public init(filter: [GetEntitlementFilterName: [String]]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, productCode: String) {
+        public init(filter: [GetEntitlementFilterName: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil, productCode: String) {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken

@@ -299,7 +299,7 @@ extension RAM {
         ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
         /// The principal.
@@ -307,7 +307,7 @@ extension RAM {
         /// The Amazon Resource Names (ARN) of the resources.
         public let resourceArns: [String]
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.principal = principal
@@ -365,7 +365,7 @@ extension RAM {
         /// The association type.
         public let associationType: ResourceShareAssociationType
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
         /// The principal.
@@ -375,7 +375,7 @@ extension RAM {
         /// The Amazon Resource Names (ARN) of the resource shares.
         public let resourceShareArns: [String]?
 
-        public init(associationStatus: ResourceShareAssociationStatus? = nil, associationType: ResourceShareAssociationType, maxResults: Int32? = nil, nextToken: String? = nil, principal: String? = nil, resourceArn: String? = nil, resourceShareArns: [String]? = nil) {
+        public init(associationStatus: ResourceShareAssociationStatus? = nil, associationType: ResourceShareAssociationType, maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArn: String? = nil, resourceShareArns: [String]? = nil) {
             self.associationStatus = associationStatus
             self.associationType = associationType
             self.maxResults = maxResults
@@ -432,7 +432,7 @@ extension RAM {
         ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
         /// The Amazon Resource Names (ARN) of the resource shares.
@@ -440,7 +440,7 @@ extension RAM {
         /// The Amazon Resource Names (ARN) of the invitations.
         public let resourceShareInvitationArns: [String]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceShareArns: [String]? = nil, resourceShareInvitationArns: [String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceShareArns: [String]? = nil, resourceShareInvitationArns: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceShareArns = resourceShareArns
@@ -494,7 +494,7 @@ extension RAM {
         ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of the resource share.
         public let name: String?
         /// The token for the next page of results.
@@ -508,7 +508,7 @@ extension RAM {
         /// One or more tag filters.
         public let tagFilters: [TagFilter]?
 
-        public init(maxResults: Int32? = nil, name: String? = nil, nextToken: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceShareStatus: ResourceShareStatus? = nil, tagFilters: [TagFilter]? = nil) {
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceShareStatus: ResourceShareStatus? = nil, tagFilters: [TagFilter]? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -568,7 +568,7 @@ extension RAM {
         ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
         /// The principals.
@@ -582,7 +582,7 @@ extension RAM {
         /// The resource type.
         public let resourceType: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, principals: [String]? = nil, resourceArn: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, principals: [String]? = nil, resourceArn: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.principals = principals
@@ -642,7 +642,7 @@ extension RAM {
         ]
 
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
         /// The principal.
@@ -656,7 +656,7 @@ extension RAM {
         /// The resource type.
         public let resourceType: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.principal = principal

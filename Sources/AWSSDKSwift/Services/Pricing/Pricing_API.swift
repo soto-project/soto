@@ -9,7 +9,7 @@ AWS Price List Service API (AWS Price List Service) is a centralized and conveni
 */
 public struct Pricing {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

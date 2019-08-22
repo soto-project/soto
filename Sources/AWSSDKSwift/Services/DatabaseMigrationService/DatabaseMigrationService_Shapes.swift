@@ -163,7 +163,7 @@ extension DatabaseMigrationService {
         /// The location of the imported Oracle Wallet certificate for use with SSL.
         public let certificateWallet: Data?
         /// The key length of the cryptographic algorithm being used.
-        public let keyLength: Int32?
+        public let keyLength: Int?
         /// The signing algorithm for the certificate.
         public let signingAlgorithm: String?
         /// The beginning date that the certificate is valid.
@@ -171,7 +171,7 @@ extension DatabaseMigrationService {
         /// The final date that the certificate is valid.
         public let validToDate: TimeStamp?
 
-        public init(certificateArn: String? = nil, certificateCreationDate: TimeStamp? = nil, certificateIdentifier: String? = nil, certificateOwner: String? = nil, certificatePem: String? = nil, certificateWallet: Data? = nil, keyLength: Int32? = nil, signingAlgorithm: String? = nil, validFromDate: TimeStamp? = nil, validToDate: TimeStamp? = nil) {
+        public init(certificateArn: String? = nil, certificateCreationDate: TimeStamp? = nil, certificateIdentifier: String? = nil, certificateOwner: String? = nil, certificatePem: String? = nil, certificateWallet: Data? = nil, keyLength: Int? = nil, signingAlgorithm: String? = nil, validFromDate: TimeStamp? = nil, validToDate: TimeStamp? = nil) {
             self.certificateArn = certificateArn
             self.certificateCreationDate = certificateCreationDate
             self.certificateIdentifier = certificateIdentifier
@@ -301,7 +301,7 @@ extension DatabaseMigrationService {
         /// The password to be used to log in to the endpoint database.
         public let password: String?
         /// The port used by the endpoint database.
-        public let port: Int32?
+        public let port: Int?
         public let redshiftSettings: RedshiftSettings?
         /// Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see Extra Connection Attributes When Using Amazon S3 as a Target for AWS DMS in the AWS Database Migration Service User Guide. 
         public let s3Settings: S3Settings?
@@ -316,7 +316,7 @@ extension DatabaseMigrationService {
         /// The user name to be used to log in to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int32? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -467,7 +467,7 @@ extension DatabaseMigrationService {
         ]
 
         /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
-        public let allocatedStorage: Int32?
+        public let allocatedStorage: Int?
         /// Indicates that minor engine upgrades will be applied automatically to the replication instance during the maintenance window. Default: true 
         public let autoMinorVersionUpgrade: Bool?
         /// The EC2 Availability Zone that the replication instance will be created in. Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d 
@@ -495,7 +495,7 @@ extension DatabaseMigrationService {
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
         public let vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceClass: String, replicationInstanceIdentifier: String, replicationSubnetGroupIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceClass: String, replicationInstanceIdentifier: String, replicationSubnetGroupIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -918,9 +918,9 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -967,9 +967,9 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1016,9 +1016,9 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1065,9 +1065,9 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1154,11 +1154,11 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The name of the AWS DMS event subscription to be described.
         public let subscriptionName: String?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, subscriptionName: String? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, subscriptionName: String? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1209,7 +1209,7 @@ extension DatabaseMigrationService {
         ]
 
         /// The duration of the events to be listed.
-        public let duration: Int32?
+        public let duration: Int?
         /// The end time for the events to be listed.
         public let endTime: TimeStamp?
         /// A list of event categories for a source type that you want to subscribe to.
@@ -1219,7 +1219,7 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         ///  The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens. It cannot end with a hyphen or contain two consecutive hyphens. 
         public let sourceIdentifier: String?
         /// The type of AWS DMS resource that generates events. Valid values: replication-instance | migration-task
@@ -1227,7 +1227,7 @@ extension DatabaseMigrationService {
         /// The start time for the events to be listed.
         public let startTime: TimeStamp?
 
-        public init(duration: Int32? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: TimeStamp? = nil, eventCategories: [String]? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.eventCategories = eventCategories
@@ -1283,9 +1283,9 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
         }
@@ -1330,11 +1330,11 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The ARN of the replication instance.
         public let replicationInstanceArn: String?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, replicationInstanceArn: String? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, replicationInstanceArn: String? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1415,11 +1415,11 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, replicationInstanceArn: String) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, replicationInstanceArn: String) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.replicationInstanceArn = replicationInstanceArn
@@ -1471,9 +1471,9 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1520,9 +1520,9 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1567,11 +1567,11 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// - The Amazon Resource Name (ARN) string that uniquely identifies the task. When this input parameter is specified the API will return only one result and ignore the values of the max-records and marker parameters. 
         public let replicationTaskArn: String?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, replicationTaskArn: String? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, replicationTaskArn: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.replicationTaskArn = replicationTaskArn
@@ -1624,11 +1624,11 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// Set this flag to avoid returning setting information. Use this to reduce overhead when settings are too large. Choose TRUE to use this flag, otherwise choose FALSE (default).
         public let withoutSettings: Bool?
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, withoutSettings: Bool? = nil) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, withoutSettings: Bool? = nil) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1677,9 +1677,9 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(endpointArn: String, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(endpointArn: String, marker: String? = nil, maxRecords: Int? = nil) {
             self.endpointArn = endpointArn
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1727,11 +1727,11 @@ extension DatabaseMigrationService {
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 500.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The Amazon Resource Name (ARN) of the replication task.
         public let replicationTaskArn: String
 
-        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int32? = nil, replicationTaskArn: String) {
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, replicationTaskArn: String) {
             self.filters = filters
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1831,13 +1831,13 @@ extension DatabaseMigrationService {
         /// The endpoint for the ElasticSearch cluster.
         public let endpointUri: String
         /// The maximum number of seconds that DMS retries failed API requests to the Elasticsearch cluster.
-        public let errorRetryDuration: Int32?
+        public let errorRetryDuration: Int?
         /// The maximum percentage of records that can fail to be written before a full load operation stops. 
-        public let fullLoadErrorPercentage: Int32?
+        public let fullLoadErrorPercentage: Int?
         /// The Amazon Resource Name (ARN) used by service to access the IAM role.
         public let serviceAccessRoleArn: String
 
-        public init(endpointUri: String, errorRetryDuration: Int32? = nil, fullLoadErrorPercentage: Int32? = nil, serviceAccessRoleArn: String) {
+        public init(endpointUri: String, errorRetryDuration: Int? = nil, fullLoadErrorPercentage: Int? = nil, serviceAccessRoleArn: String) {
             self.endpointUri = endpointUri
             self.errorRetryDuration = errorRetryDuration
             self.fullLoadErrorPercentage = fullLoadErrorPercentage
@@ -1926,7 +1926,7 @@ extension DatabaseMigrationService {
         /// The settings for the MongoDB source endpoint. For more information, see the MongoDbSettings structure.
         public let mongoDbSettings: MongoDbSettings?
         /// The port value used to access the endpoint.
-        public let port: Int32?
+        public let port: Int?
         /// Settings for the Amazon Redshift endpoint
         public let redshiftSettings: RedshiftSettings?
         /// The settings for the S3 target endpoint. For more information, see the S3Settings structure.
@@ -1942,7 +1942,7 @@ extension DatabaseMigrationService {
         /// The user name used to connect to the endpoint.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, port: Int32? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, mongoDbSettings: MongoDbSettings? = nil, port: Int? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -2311,7 +2311,7 @@ extension DatabaseMigrationService {
         /// The password to be used to login to the endpoint database.
         public let password: String?
         /// The port used by the endpoint database.
-        public let port: Int32?
+        public let port: Int?
         public let redshiftSettings: RedshiftSettings?
         /// Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see Extra Connection Attributes When Using Amazon S3 as a Target for AWS DMS in the AWS Database Migration Service User Guide. 
         public let s3Settings: S3Settings?
@@ -2324,7 +2324,7 @@ extension DatabaseMigrationService {
         /// The user name to be used to login to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int32? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, kinesisSettings: KinesisSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, password: String? = nil, port: Int? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -2460,7 +2460,7 @@ extension DatabaseMigrationService {
         ]
 
         /// The amount of storage (in gigabytes) to be allocated for the replication instance.
-        public let allocatedStorage: Int32?
+        public let allocatedStorage: Int?
         /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
         public let allowMajorVersionUpgrade: Bool?
         /// Indicates whether the changes should be applied immediately or during the next maintenance window.
@@ -2482,7 +2482,7 @@ extension DatabaseMigrationService {
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
         public let vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int32? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
@@ -2676,13 +2676,13 @@ extension DatabaseMigrationService {
         ///  The password for the user account you use to access the MongoDB source endpoint. 
         public let password: String?
         ///  The port value for the MongoDB source endpoint. 
-        public let port: Int32?
+        public let port: Int?
         ///  The name of the server on the MongoDB source endpoint. 
         public let serverName: String?
         /// The user name you use to access the MongoDB source endpoint. 
         public let username: String?
 
-        public init(authMechanism: AuthMechanismValue? = nil, authSource: String? = nil, authType: AuthTypeValue? = nil, databaseName: String? = nil, docsToInvestigate: String? = nil, extractDocId: String? = nil, kmsKeyId: String? = nil, nestingLevel: NestingLevelValue? = nil, password: String? = nil, port: Int32? = nil, serverName: String? = nil, username: String? = nil) {
+        public init(authMechanism: AuthMechanismValue? = nil, authSource: String? = nil, authType: AuthTypeValue? = nil, databaseName: String? = nil, docsToInvestigate: String? = nil, extractDocId: String? = nil, kmsKeyId: String? = nil, nestingLevel: NestingLevelValue? = nil, password: String? = nil, port: Int? = nil, serverName: String? = nil, username: String? = nil) {
             self.authMechanism = authMechanism
             self.authSource = authSource
             self.authType = authType
@@ -2734,21 +2734,21 @@ extension DatabaseMigrationService {
         /// List of availability zones for this replication instance.
         public let availabilityZones: [String]?
         /// The default amount of storage (in gigabytes) that is allocated for the replication instance.
-        public let defaultAllocatedStorage: Int32?
+        public let defaultAllocatedStorage: Int?
         /// The version of the replication engine.
         public let engineVersion: String?
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        public let includedAllocatedStorage: Int32?
+        public let includedAllocatedStorage: Int?
         /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
-        public let maxAllocatedStorage: Int32?
+        public let maxAllocatedStorage: Int?
         /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
-        public let minAllocatedStorage: Int32?
+        public let minAllocatedStorage: Int?
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
         public let replicationInstanceClass: String?
         /// The type of storage used by the replication instance.
         public let storageType: String?
 
-        public init(availabilityZones: [String]? = nil, defaultAllocatedStorage: Int32? = nil, engineVersion: String? = nil, includedAllocatedStorage: Int32? = nil, maxAllocatedStorage: Int32? = nil, minAllocatedStorage: Int32? = nil, replicationInstanceClass: String? = nil, storageType: String? = nil) {
+        public init(availabilityZones: [String]? = nil, defaultAllocatedStorage: Int? = nil, engineVersion: String? = nil, includedAllocatedStorage: Int? = nil, maxAllocatedStorage: Int? = nil, minAllocatedStorage: Int? = nil, replicationInstanceClass: String? = nil, storageType: String? = nil) {
             self.availabilityZones = availabilityZones
             self.defaultAllocatedStorage = defaultAllocatedStorage
             self.engineVersion = engineVersion
@@ -2896,7 +2896,7 @@ extension DatabaseMigrationService {
         /// The name of the S3 bucket you want to use
         public let bucketName: String?
         /// Sets the amount of time to wait (in milliseconds) before timing out, beginning from when you initially establish a connection.
-        public let connectionTimeout: Int32?
+        public let connectionTimeout: Int?
         /// The name of the Amazon Redshift data warehouse (service) you are working with.
         public let databaseName: String?
         /// The date format you are using. Valid values are auto (case-sensitive), your date format string enclosed in quotes, or NULL. If this is left unset (NULL), it defaults to a format of 'YYYY-MM-DD'. Using auto recognizes most strings, even some that are not supported when you use a date format string.  If your date and time values use formats different from each other, set this to auto. 
@@ -2906,15 +2906,15 @@ extension DatabaseMigrationService {
         /// The type of server side encryption you want to use for your data. This is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (default) or SSE_KMS. To use SSE_S3, create an IAM role with a policy that allows "arn:aws:s3:::*" to use the following actions: "s3:PutObject", "s3:ListBucket".
         public let encryptionMode: EncryptionModeValue?
         /// Specifies the number of threads used to upload a single file. This accepts a value between 1 and 64. It defaults to 10.
-        public let fileTransferUploadStreams: Int32?
+        public let fileTransferUploadStreams: Int?
         /// Sets the amount of time to wait (in milliseconds) before timing out, beginning from when you begin loading.
-        public let loadTimeout: Int32?
+        public let loadTimeout: Int?
         /// Specifies the maximum size (in KB) of any CSV file used to transfer data to Amazon Redshift. This accepts a value between 1 and 1048576. It defaults to 32768 KB (32 MB).
-        public let maxFileSize: Int32?
+        public let maxFileSize: Int?
         /// The password for the user named in the username property.
         public let password: String?
         /// The port number for Amazon Redshift. The default value is 5439.
-        public let port: Int32?
+        public let port: Int?
         /// Removes surrounding quotation marks from strings in the incoming data. All characters within the quotation marks, including delimiters, are retained. Choose TRUE to remove quotation marks. The default is FALSE.
         public let removeQuotes: Bool?
         /// Replaces invalid characters specified in ReplaceInvalidChars, substituting the specified value instead. The default is "?".
@@ -2936,9 +2936,9 @@ extension DatabaseMigrationService {
         /// An Amazon Redshift user name for a registered user.
         public let username: String?
         /// The size of the write buffer to use in rows. Valid values range from 1 to 2048. Defaults to 1024. Use this setting to tune performance. 
-        public let writeBufferSize: Int32?
+        public let writeBufferSize: Int?
 
-        public init(acceptAnyDate: Bool? = nil, afterConnectScript: String? = nil, bucketFolder: String? = nil, bucketName: String? = nil, connectionTimeout: Int32? = nil, databaseName: String? = nil, dateFormat: String? = nil, emptyAsNull: Bool? = nil, encryptionMode: EncryptionModeValue? = nil, fileTransferUploadStreams: Int32? = nil, loadTimeout: Int32? = nil, maxFileSize: Int32? = nil, password: String? = nil, port: Int32? = nil, removeQuotes: Bool? = nil, replaceChars: String? = nil, replaceInvalidChars: String? = nil, serverName: String? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timeFormat: String? = nil, trimBlanks: Bool? = nil, truncateColumns: Bool? = nil, username: String? = nil, writeBufferSize: Int32? = nil) {
+        public init(acceptAnyDate: Bool? = nil, afterConnectScript: String? = nil, bucketFolder: String? = nil, bucketName: String? = nil, connectionTimeout: Int? = nil, databaseName: String? = nil, dateFormat: String? = nil, emptyAsNull: Bool? = nil, encryptionMode: EncryptionModeValue? = nil, fileTransferUploadStreams: Int? = nil, loadTimeout: Int? = nil, maxFileSize: Int? = nil, password: String? = nil, port: Int? = nil, removeQuotes: Bool? = nil, replaceChars: String? = nil, replaceInvalidChars: String? = nil, serverName: String? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timeFormat: String? = nil, trimBlanks: Bool? = nil, truncateColumns: Bool? = nil, username: String? = nil, writeBufferSize: Int? = nil) {
             self.acceptAnyDate = acceptAnyDate
             self.afterConnectScript = afterConnectScript
             self.bucketFolder = bucketFolder
@@ -3190,7 +3190,7 @@ extension DatabaseMigrationService {
         ]
 
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        public let allocatedStorage: Int32?
+        public let allocatedStorage: Int?
         /// Boolean value indicating if minor version upgrades will be automatically applied to the instance.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone for the instance.
@@ -3232,7 +3232,7 @@ extension DatabaseMigrationService {
         /// The VPC security group for the instance.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: TimeStamp? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dnsNameServers: String? = nil, engineVersion: String? = nil, freeUntil: TimeStamp? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceArn: String? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, replicationInstancePublicIpAddresses: [String]? = nil, replicationInstanceStatus: String? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, secondaryAvailabilityZone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -3317,7 +3317,7 @@ extension DatabaseMigrationService {
         ]
 
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        public let allocatedStorage: Int32?
+        public let allocatedStorage: Int?
         /// The engine version number of the replication instance.
         public let engineVersion: String?
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
@@ -3325,7 +3325,7 @@ extension DatabaseMigrationService {
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
         public let replicationInstanceClass: String?
 
-        public init(allocatedStorage: Int32? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, replicationInstanceClass: String? = nil) {
+        public init(allocatedStorage: Int? = nil, engineVersion: String? = nil, multiAZ: Bool? = nil, replicationInstanceClass: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.engineVersion = engineVersion
             self.multiAZ = multiAZ
@@ -3534,17 +3534,17 @@ extension DatabaseMigrationService {
         /// The elapsed time of the task, in milliseconds.
         public let elapsedTimeMillis: Int64?
         /// The percent complete for the full load migration task.
-        public let fullLoadProgressPercent: Int32?
+        public let fullLoadProgressPercent: Int?
         /// The number of errors that have occurred during this task.
-        public let tablesErrored: Int32?
+        public let tablesErrored: Int?
         /// The number of tables loaded for this task.
-        public let tablesLoaded: Int32?
+        public let tablesLoaded: Int?
         /// The number of tables currently loading for this task.
-        public let tablesLoading: Int32?
+        public let tablesLoading: Int?
         /// The number of tables queued for this task.
-        public let tablesQueued: Int32?
+        public let tablesQueued: Int?
 
-        public init(elapsedTimeMillis: Int64? = nil, fullLoadProgressPercent: Int32? = nil, tablesErrored: Int32? = nil, tablesLoaded: Int32? = nil, tablesLoading: Int32? = nil, tablesQueued: Int32? = nil) {
+        public init(elapsedTimeMillis: Int64? = nil, fullLoadProgressPercent: Int? = nil, tablesErrored: Int? = nil, tablesLoaded: Int? = nil, tablesLoading: Int? = nil, tablesQueued: Int? = nil) {
             self.elapsedTimeMillis = elapsedTimeMillis
             self.fullLoadProgressPercent = fullLoadProgressPercent
             self.tablesErrored = tablesErrored
@@ -3621,9 +3621,9 @@ extension DatabaseMigrationService {
         /// The format of the data which you want to use for output. You can choose one of the following:     CSV : This is a row-based format with comma-separated values.     PARQUET : Apache Parquet is a columnar storage format that features efficient compression and provides faster query response.   
         public let dataFormat: DataFormatValue?
         /// The size of one data page in bytes. Defaults to 1024 * 1024 bytes (1MiB). For PARQUET format only. 
-        public let dataPageSize: Int32?
+        public let dataPageSize: Int?
         /// The maximum size of an encoded dictionary page of a column. If the dictionary page exceeds this, this column is stored using an encoding type of PLAIN. Defaults to 1024 * 1024 bytes (1MiB), the maximum size of a dictionary page before it reverts to PLAIN encoding. For PARQUET format only. 
-        public let dictPageSizeLimit: Int32?
+        public let dictPageSizeLimit: Int?
         /// Enables statistics for Parquet pages and rowGroups. Choose TRUE to enable statistics, choose FALSE to disable. Statistics include NULL, DISTINCT, MAX, and MIN values. Defaults to TRUE. For PARQUET format only.
         public let enableStatistics: Bool?
         /// The type of encoding you are using: RLE_DICTIONARY (default), PLAIN, or PLAIN_DICTIONARY.    RLE_DICTIONARY uses a combination of bit-packing and run-length encoding to store repeated values more efficiently.    PLAIN does not use encoding at all. Values are stored as they are.    PLAIN_DICTIONARY builds a dictionary of the values encountered in a given column. The dictionary is stored in a dictionary page for each column chunk.  
@@ -3635,13 +3635,13 @@ extension DatabaseMigrationService {
         /// The version of Apache Parquet format you want to use: PARQUET_1_0 (default) or PARQUET_2_0.
         public let parquetVersion: ParquetVersionValue?
         /// The number of rows in a row group. A smaller row group size provides faster reads. But as the number of row groups grows, the slower writes become. Defaults to 10,000 (ten thousand) rows. For PARQUET format only.  If you choose a value larger than the maximum, RowGroupLength is set to the max row group length in bytes (64 * 1024 * 1024). 
-        public let rowGroupLength: Int32?
+        public let rowGroupLength: Int?
         /// If you are using SSE_KMS for the EncryptionMode, provide the KMS Key ID. The key you use needs an attached policy that enables IAM user permissions and allows use of the key. Here is a CLI example: aws dms create-endpoint --endpoint-identifier &lt;value&gt; --endpoint-type target --engine-name s3 --s3-settings ServiceAccessRoleArn=&lt;value&gt;,BucketFolder=&lt;value&gt;,BucketName=&lt;value&gt;,EncryptionMode=SSE_KMS,ServerSideEncryptionKmsKeyId=&lt;value&gt;  
         public let serverSideEncryptionKmsKeyId: String?
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
         public let serviceAccessRoleArn: String?
 
-        public init(bucketFolder: String? = nil, bucketName: String? = nil, cdcInsertsOnly: Bool? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int32? = nil, dictPageSizeLimit: Int32? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, parquetVersion: ParquetVersionValue? = nil, rowGroupLength: Int32? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil) {
+        public init(bucketFolder: String? = nil, bucketName: String? = nil, cdcInsertsOnly: Bool? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, parquetVersion: ParquetVersionValue? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil) {
             self.bucketFolder = bucketFolder
             self.bucketName = bucketName
             self.cdcInsertsOnly = cdcInsertsOnly
