@@ -9,7 +9,7 @@ Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web 
 */
 public struct Route53 {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

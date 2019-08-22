@@ -842,11 +842,11 @@ extension IoTEvents {
         /// The name of the detector model whose versions are returned.
         public let detectorModelName: String
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(detectorModelName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(detectorModelName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.detectorModelName = detectorModelName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -896,11 +896,11 @@ extension IoTEvents {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -945,11 +945,11 @@ extension IoTEvents {
         ]
 
         /// The maximum number of results to return at one time.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1223,11 +1223,11 @@ extension IoTEvents {
         ]
 
         /// The number of seconds until the timer expires. The minimum value is 60 seconds to ensure accuracy.
-        public let seconds: Int32
+        public let seconds: Int
         /// The name of the timer.
         public let timerName: String
 
-        public init(seconds: Int32, timerName: String) {
+        public init(seconds: Int, timerName: String) {
             self.seconds = seconds
             self.timerName = timerName
         }

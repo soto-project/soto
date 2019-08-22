@@ -72,9 +72,9 @@ extension MediaStore {
         /// One or more headers in the response that you want users to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). This element is optional for each rule.
         public let exposeHeaders: [String]?
         /// The time in seconds that your browser caches the preflight response for the specified resource. A CORS rule can have only one MaxAgeSeconds element.
-        public let maxAgeSeconds: Int32?
+        public let maxAgeSeconds: Int?
 
-        public init(allowedHeaders: [String], allowedMethods: [MethodName]? = nil, allowedOrigins: [String], exposeHeaders: [String]? = nil, maxAgeSeconds: Int32? = nil) {
+        public init(allowedHeaders: [String], allowedMethods: [MethodName]? = nil, allowedOrigins: [String], exposeHeaders: [String]? = nil, maxAgeSeconds: Int? = nil) {
             self.allowedHeaders = allowedHeaders
             self.allowedMethods = allowedMethods
             self.allowedOrigins = allowedOrigins
@@ -458,11 +458,11 @@ extension MediaStore {
         ]
 
         /// Enter the maximum number of containers in the response. Use from 1 to 255 characters. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Only if you used MaxResults in the first command, enter the token (which was included in the previous response) to obtain the next set of containers. This token is included in a response only if there actually are more containers to list.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

@@ -217,11 +217,11 @@ extension Macie {
         ]
 
         /// Use this parameter to indicate the maximum number of items that you want in the response. The default value is 250. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListMemberAccounts action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -267,13 +267,13 @@ extension Macie {
         ]
 
         /// Use this parameter to indicate the maximum number of items that you want in the response. The default value is 250. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The Amazon Macie member account ID whose associated S3 resources you want to list. 
         public let memberAccountId: String?
         /// Use this parameter when paginating results. Set its value to null on your first call to the ListS3Resources action. Subsequent calls to the action fill nextToken in the request with the value of nextToken from the previous response to continue listing data. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, memberAccountId: String? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, memberAccountId: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.memberAccountId = memberAccountId
             self.nextToken = nextToken

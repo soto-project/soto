@@ -44,9 +44,9 @@ extension CloudWatchEvents {
         ]
 
         /// The size of the array, if this is an array batch job. Valid values are integers between 2 and 10,000.
-        public let size: Int32?
+        public let size: Int?
 
-        public init(size: Int32? = nil) {
+        public init(size: Int? = nil) {
             self.size = size
         }
 
@@ -93,9 +93,9 @@ extension CloudWatchEvents {
         ]
 
         /// The number of times to attempt to retry, if the job fails. Valid values are 1–10.
-        public let attempts: Int32?
+        public let attempts: Int?
 
-        public init(attempts: Int32? = nil) {
+        public init(attempts: Int? = nil) {
             self.attempts = attempts
         }
 
@@ -311,11 +311,11 @@ extension CloudWatchEvents {
         /// Specifies the platform version for the task. Specify only the numeric portion of the platform version, such as 1.1.0. This structure is used only if LaunchType is FARGATE. For more information about valid platform versions, see AWS Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
         public let platformVersion: String?
         /// The number of tasks to create based on TaskDefinition. The default is 1.
-        public let taskCount: Int32?
+        public let taskCount: Int?
         /// The ARN of the task definition to use if the event target is an Amazon ECS task. 
         public let taskDefinitionArn: String
 
-        public init(group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, platformVersion: String? = nil, taskCount: Int32? = nil, taskDefinitionArn: String) {
+        public init(group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, platformVersion: String? = nil, taskCount: Int? = nil, taskDefinitionArn: String) {
             self.group = group
             self.launchType = launchType
             self.networkConfiguration = networkConfiguration
@@ -431,13 +431,13 @@ extension CloudWatchEvents {
         ]
 
         /// The maximum number of results to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the target resource.
         public let targetArn: String
 
-        public init(limit: Int32? = nil, nextToken: String? = nil, targetArn: String) {
+        public init(limit: Int? = nil, nextToken: String? = nil, targetArn: String) {
             self.limit = limit
             self.nextToken = nextToken
             self.targetArn = targetArn
@@ -489,13 +489,13 @@ extension CloudWatchEvents {
         ]
 
         /// The maximum number of results to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// The prefix matching the rule name.
         public let namePrefix: String?
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(limit: Int32? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
+        public init(limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.namePrefix = namePrefix
             self.nextToken = nextToken
@@ -587,13 +587,13 @@ extension CloudWatchEvents {
         ]
 
         /// The maximum number of results to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
         /// The name of the rule.
         public let rule: String
 
-        public init(limit: Int32? = nil, nextToken: String? = nil, rule: String) {
+        public init(limit: Int? = nil, nextToken: String? = nil, rule: String) {
             self.limit = limit
             self.nextToken = nextToken
             self.rule = rule
@@ -723,9 +723,9 @@ extension CloudWatchEvents {
         /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry.
         public let entries: [PutEventsResultEntry]?
         /// The number of failed entries.
-        public let failedEntryCount: Int32?
+        public let failedEntryCount: Int?
 
-        public init(entries: [PutEventsResultEntry]? = nil, failedEntryCount: Int32? = nil) {
+        public init(entries: [PutEventsResultEntry]? = nil, failedEntryCount: Int? = nil) {
             self.entries = entries
             self.failedEntryCount = failedEntryCount
         }
@@ -926,9 +926,9 @@ extension CloudWatchEvents {
         /// The failed target entries.
         public let failedEntries: [PutTargetsResultEntry]?
         /// The number of failed entries.
-        public let failedEntryCount: Int32?
+        public let failedEntryCount: Int?
 
-        public init(failedEntries: [PutTargetsResultEntry]? = nil, failedEntryCount: Int32? = nil) {
+        public init(failedEntries: [PutTargetsResultEntry]? = nil, failedEntryCount: Int? = nil) {
             self.failedEntries = failedEntries
             self.failedEntryCount = failedEntryCount
         }
@@ -1038,9 +1038,9 @@ extension CloudWatchEvents {
         /// The failed target entries.
         public let failedEntries: [RemoveTargetsResultEntry]?
         /// The number of failed entries.
-        public let failedEntryCount: Int32?
+        public let failedEntryCount: Int?
 
-        public init(failedEntries: [RemoveTargetsResultEntry]? = nil, failedEntryCount: Int32? = nil) {
+        public init(failedEntries: [RemoveTargetsResultEntry]? = nil, failedEntryCount: Int? = nil) {
             self.failedEntries = failedEntries
             self.failedEntryCount = failedEntryCount
         }

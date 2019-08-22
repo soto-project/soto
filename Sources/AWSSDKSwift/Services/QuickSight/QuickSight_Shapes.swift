@@ -61,9 +61,9 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(groupMember: GroupMember? = nil, requestId: String? = nil, status: Int32? = nil) {
+        public init(groupMember: GroupMember? = nil, requestId: String? = nil, status: Int? = nil) {
             self.groupMember = groupMember
             self.requestId = requestId
             self.status = status
@@ -131,9 +131,9 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(group: Group? = nil, requestId: String? = nil, status: Int32? = nil) {
+        public init(group: Group? = nil, requestId: String? = nil, status: Int? = nil) {
             self.group = group
             self.requestId = requestId
             self.status = status
@@ -199,9 +199,9 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(requestId: String? = nil, status: Int32? = nil) {
+        public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
         }
@@ -257,9 +257,9 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(requestId: String? = nil, status: Int32? = nil) {
+        public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
         }
@@ -313,9 +313,9 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(requestId: String? = nil, status: Int32? = nil) {
+        public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
         }
@@ -371,9 +371,9 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(requestId: String? = nil, status: Int32? = nil) {
+        public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
         }
@@ -432,9 +432,9 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(group: Group? = nil, requestId: String? = nil, status: Int32? = nil) {
+        public init(group: Group? = nil, requestId: String? = nil, status: Int? = nil) {
             self.group = group
             self.requestId = requestId
             self.status = status
@@ -493,11 +493,11 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
         /// The user name.
         public let user: User?
 
-        public init(requestId: String? = nil, status: Int32? = nil, user: User? = nil) {
+        public init(requestId: String? = nil, status: Int? = nil, user: User? = nil) {
             self.requestId = requestId
             self.status = status
             self.user = user
@@ -572,9 +572,9 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(embedUrl: String? = nil, requestId: String? = nil, status: Int32? = nil) {
+        public init(embedUrl: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.embedUrl = embedUrl
             self.requestId = requestId
             self.status = status
@@ -661,13 +661,13 @@ extension QuickSight {
         /// The name of the group that you want to see a membership list of.
         public let groupName: String
         /// The maximum number of results to return from this request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
 
-        public init(awsAccountId: String, groupName: String, maxResults: Int32? = nil, namespace: String, nextToken: String? = nil) {
+        public init(awsAccountId: String, groupName: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.groupName = groupName
             self.maxResults = maxResults
@@ -710,9 +710,9 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(groupMemberList: [GroupMember]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int32? = nil) {
+        public init(groupMemberList: [GroupMember]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.groupMemberList = groupMemberList
             self.nextToken = nextToken
             self.requestId = requestId
@@ -738,13 +738,13 @@ extension QuickSight {
         /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The maximum number of results to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
 
-        public init(awsAccountId: String, maxResults: Int32? = nil, namespace: String, nextToken: String? = nil) {
+        public init(awsAccountId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.namespace = namespace
@@ -783,9 +783,9 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(groupList: [Group]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int32? = nil) {
+        public init(groupList: [Group]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.groupList = groupList
             self.nextToken = nextToken
             self.requestId = requestId
@@ -812,7 +812,7 @@ extension QuickSight {
         /// The AWS Account ID that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The maximum number of results to return from this request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
         /// A pagination token that can be used in a subsequent request.
@@ -820,7 +820,7 @@ extension QuickSight {
         /// The Amazon QuickSight user name that you want to list group memberships for.
         public let userName: String
 
-        public init(awsAccountId: String, maxResults: Int32? = nil, namespace: String, nextToken: String? = nil, userName: String) {
+        public init(awsAccountId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil, userName: String) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.namespace = namespace
@@ -863,9 +863,9 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(groupList: [Group]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int32? = nil) {
+        public init(groupList: [Group]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.groupList = groupList
             self.nextToken = nextToken
             self.requestId = requestId
@@ -891,13 +891,13 @@ extension QuickSight {
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The maximum number of results to return from this request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
 
-        public init(awsAccountId: String, maxResults: Int32? = nil, namespace: String, nextToken: String? = nil) {
+        public init(awsAccountId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.namespace = namespace
@@ -934,11 +934,11 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
         /// The list of users.
         public let userList: [User]?
 
-        public init(nextToken: String? = nil, requestId: String? = nil, status: Int32? = nil, userList: [User]? = nil) {
+        public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, userList: [User]? = nil) {
             self.nextToken = nextToken
             self.requestId = requestId
             self.status = status
@@ -1028,13 +1028,13 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
         /// The user name.
         public let user: User?
         /// The URL the user visits to complete registration and provide a password. This is returned only for users with an identity type of QUICKSIGHT.
         public let userInvitationUrl: String?
 
-        public init(requestId: String? = nil, status: Int32? = nil, user: User? = nil, userInvitationUrl: String? = nil) {
+        public init(requestId: String? = nil, status: Int? = nil, user: User? = nil, userInvitationUrl: String? = nil) {
             self.requestId = requestId
             self.status = status
             self.user = user
@@ -1104,9 +1104,9 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(group: Group? = nil, requestId: String? = nil, status: Int32? = nil) {
+        public init(group: Group? = nil, requestId: String? = nil, status: Int? = nil) {
             self.group = group
             self.requestId = requestId
             self.status = status
@@ -1175,11 +1175,11 @@ extension QuickSight {
         /// The AWS request ID for this operation.
         public let requestId: String?
         /// The http status of the request.
-        public let status: Int32?
+        public let status: Int?
         /// The Amazon QuickSight user.
         public let user: User?
 
-        public init(requestId: String? = nil, status: Int32? = nil, user: User? = nil) {
+        public init(requestId: String? = nil, status: Int? = nil, user: User? = nil) {
             self.requestId = requestId
             self.status = status
             self.user = user

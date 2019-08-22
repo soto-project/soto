@@ -1145,11 +1145,11 @@ extension RoboMaker {
         ]
 
         /// The percentage of robots receiving the deployment at the same time.
-        public let concurrentDeploymentPercentage: Int32?
+        public let concurrentDeploymentPercentage: Int?
         /// The percentage of deployments that need to fail before stopping deployment.
-        public let failureThresholdPercentage: Int32?
+        public let failureThresholdPercentage: Int?
 
-        public init(concurrentDeploymentPercentage: Int32? = nil, failureThresholdPercentage: Int32? = nil) {
+        public init(concurrentDeploymentPercentage: Int? = nil, failureThresholdPercentage: Int? = nil) {
             self.concurrentDeploymentPercentage = concurrentDeploymentPercentage
             self.failureThresholdPercentage = failureThresholdPercentage
         }
@@ -2037,11 +2037,11 @@ extension RoboMaker {
         /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status InProgress or the status Pending.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListDeploymentJobs in paginated output. When this parameter is used, ListDeploymentJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDeploymentJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListDeploymentJobs returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListDeploymentJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2097,11 +2097,11 @@ extension RoboMaker {
         /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListFleets in paginated output. When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListFleets returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListFleets request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2158,13 +2158,13 @@ extension RoboMaker {
         /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListRobotApplications in paginated output. When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobotApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListRobotApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The version qualifier of the robot application.
         public let versionQualifier: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2223,11 +2223,11 @@ extension RoboMaker {
         /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Registered or the status Available.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListRobots in paginated output. When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobots request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobots returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListRobots request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2284,13 +2284,13 @@ extension RoboMaker {
         /// Optional list of filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListSimulationApplications in paginated output. When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListSimulationApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The version qualifier of the simulation application.
         public let versionQualifier: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, versionQualifier: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2349,11 +2349,11 @@ extension RoboMaker {
         /// Optional filters to limit results. The filter names status and simulationApplicationName and robotApplicationName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Preparing or the status Running.
         public let filters: [Filter]?
         /// The maximum number of deployment job results returned by ListSimulationJobs in paginated output. When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationJobs returns up to 100 results and a nextToken value if applicable. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListSimulationJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2481,13 +2481,13 @@ extension RoboMaker {
         /// The current progress status.  Validating  Validating the deployment.  DownloadingExtracting  Downloading and extracting the bundle on the robot.  ExecutingPreLaunch  Executing pre-launch script(s) if provided.  Launching  Launching the robot application.  ExecutingPostLaunch  Executing post-launch script(s) if provided.  Finished  Deployment is complete.  
         public let currentProgress: RobotDeploymentStep?
         /// Estimated amount of time in seconds remaining in the step. This currently only applies to the Downloading/Extracting step of the deployment. It is empty for other steps.
-        public let estimatedTimeRemainingSeconds: Int32?
+        public let estimatedTimeRemainingSeconds: Int?
         /// Precentage of the step that is done. This currently only applies to the Downloading/Extracting step of the deployment. It is empty for other steps.
         public let percentDone: Float?
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let targetResource: String?
 
-        public init(currentProgress: RobotDeploymentStep? = nil, estimatedTimeRemainingSeconds: Int32? = nil, percentDone: Float? = nil, targetResource: String? = nil) {
+        public init(currentProgress: RobotDeploymentStep? = nil, estimatedTimeRemainingSeconds: Int? = nil, percentDone: Float? = nil, targetResource: String? = nil) {
             self.currentProgress = currentProgress
             self.estimatedTimeRemainingSeconds = estimatedTimeRemainingSeconds
             self.percentDone = percentDone

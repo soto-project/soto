@@ -455,13 +455,13 @@ extension IoT1ClickProjects {
         ]
 
         /// The maximum number of results to return per request. If not set, a default value of 100 is used.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
         /// The project containing the placements to be listed.
         public let projectName: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, projectName: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, projectName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.projectName = projectName
@@ -513,11 +513,11 @@ extension IoT1ClickProjects {
         ]
 
         /// The maximum number of results to return per request. If not set, a default value of 100 is used.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

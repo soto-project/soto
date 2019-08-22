@@ -247,13 +247,13 @@ extension Polly {
         /// Date lexicon was last modified (a timestamp value).
         public let lastModified: TimeStamp?
         /// Number of lexemes in the lexicon.
-        public let lexemesCount: Int32?
+        public let lexemesCount: Int?
         /// Amazon Resource Name (ARN) of the lexicon.
         public let lexiconArn: String?
         /// Total size of the lexicon, in characters.
-        public let size: Int32?
+        public let size: Int?
 
-        public init(alphabet: String? = nil, languageCode: LanguageCode? = nil, lastModified: TimeStamp? = nil, lexemesCount: Int32? = nil, lexiconArn: String? = nil, size: Int32? = nil) {
+        public init(alphabet: String? = nil, languageCode: LanguageCode? = nil, lastModified: TimeStamp? = nil, lexemesCount: Int? = nil, lexiconArn: String? = nil, size: Int? = nil) {
             self.alphabet = alphabet
             self.languageCode = languageCode
             self.lastModified = lastModified
@@ -346,13 +346,13 @@ extension Polly {
         ]
 
         /// Maximum number of speech synthesis tasks returned in a List operation.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token to use in the next request to continue the listing of speech synthesis tasks. 
         public let nextToken: String?
         /// Status of the speech synthesis tasks returned in a List operation
         public let status: TaskStatus?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, status: TaskStatus? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, status: TaskStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
@@ -568,7 +568,7 @@ extension Polly {
         /// Pathway for the output speech file.
         public let outputUri: String?
         /// Number of billable characters synthesized.
-        public let requestCharacters: Int32?
+        public let requestCharacters: Int?
         /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", and "22050". The default value is "22050". Valid values for pcm are "8000" and "16000" The default value is "16000". 
         public let sampleRate: String?
         /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
@@ -586,7 +586,7 @@ extension Polly {
         /// Voice ID to use for the synthesis. 
         public let voiceId: VoiceId?
 
-        public init(creationTime: TimeStamp? = nil, languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat? = nil, outputUri: String? = nil, requestCharacters: Int32? = nil, sampleRate: String? = nil, snsTopicArn: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, taskId: String? = nil, taskStatus: TaskStatus? = nil, taskStatusReason: String? = nil, textType: TextType? = nil, voiceId: VoiceId? = nil) {
+        public init(creationTime: TimeStamp? = nil, languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat? = nil, outputUri: String? = nil, requestCharacters: Int? = nil, sampleRate: String? = nil, snsTopicArn: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, taskId: String? = nil, taskStatus: TaskStatus? = nil, taskStatusReason: String? = nil, textType: TextType? = nil, voiceId: VoiceId? = nil) {
             self.creationTime = creationTime
             self.languageCode = languageCode
             self.lexiconNames = lexiconNames
@@ -695,9 +695,9 @@ extension Polly {
         ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.     If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.     If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.     If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.    If you request json as the OutputFormat, the ContentType returned is audio/json.    
         public let contentType: String?
         /// Number of characters synthesized.
-        public let requestCharacters: Int32?
+        public let requestCharacters: Int?
 
-        public init(audioStream: Data? = nil, contentType: String? = nil, requestCharacters: Int32? = nil) {
+        public init(audioStream: Data? = nil, contentType: String? = nil, requestCharacters: Int? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
             self.requestCharacters = requestCharacters

@@ -23,7 +23,7 @@ extension ELBV2 {
         /// [Application Load Balancer] Information for creating an action that returns a custom HTTP response. Specify only when Type is fixed-response.
         public let fixedResponseConfig: FixedResponseActionConfig?
         /// The order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first. The final action to be performed must be a forward or a fixed-response action.
-        public let order: Int32?
+        public let order: Int?
         /// [Application Load Balancer] Information for creating a redirect action. Specify only when Type is redirect.
         public let redirectConfig: RedirectActionConfig?
         /// The Amazon Resource Name (ARN) of the target group. Specify only when Type is forward.
@@ -31,7 +31,7 @@ extension ELBV2 {
         /// The type of action. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect.
         public let `type`: ActionTypeEnum
 
-        public init(authenticateCognitoConfig: AuthenticateCognitoActionConfig? = nil, authenticateOidcConfig: AuthenticateOidcActionConfig? = nil, fixedResponseConfig: FixedResponseActionConfig? = nil, order: Int32? = nil, redirectConfig: RedirectActionConfig? = nil, targetGroupArn: String? = nil, type: ActionTypeEnum) {
+        public init(authenticateCognitoConfig: AuthenticateCognitoActionConfig? = nil, authenticateOidcConfig: AuthenticateOidcActionConfig? = nil, fixedResponseConfig: FixedResponseActionConfig? = nil, order: Int? = nil, redirectConfig: RedirectActionConfig? = nil, targetGroupArn: String? = nil, type: ActionTypeEnum) {
             self.authenticateCognitoConfig = authenticateCognitoConfig
             self.authenticateOidcConfig = authenticateOidcConfig
             self.fixedResponseConfig = fixedResponseConfig
@@ -340,9 +340,9 @@ extension ELBV2 {
         /// The name of the cipher.
         public let name: String?
         /// The priority of the cipher.
-        public let priority: Int32?
+        public let priority: Int?
 
-        public init(name: String? = nil, priority: Int32? = nil) {
+        public init(name: String? = nil, priority: Int? = nil) {
             self.name = name
             self.priority = priority
         }
@@ -370,13 +370,13 @@ extension ELBV2 {
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
         /// The port on which the load balancer is listening.
-        public let port: Int32
+        public let port: Int
         /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP.
         public let `protocol`: ProtocolEnum
         /// [HTTPS and TLS listeners] The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
         public let sslPolicy: String?
 
-        public init(certificates: [Certificate]? = nil, defaultActions: [Action], loadBalancerArn: String, port: Int32, protocol: ProtocolEnum, sslPolicy: String? = nil) {
+        public init(certificates: [Certificate]? = nil, defaultActions: [Action], loadBalancerArn: String, port: Int, protocol: ProtocolEnum, sslPolicy: String? = nil) {
             self.certificates = certificates
             self.defaultActions = defaultActions
             self.loadBalancerArn = loadBalancerArn
@@ -511,9 +511,9 @@ extension ELBV2 {
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
         /// The rule priority. A listener can't have multiple rules with the same priority.
-        public let priority: Int32
+        public let priority: Int
 
-        public init(actions: [Action], conditions: [RuleCondition], listenerArn: String, priority: Int32) {
+        public init(actions: [Action], conditions: [RuleCondition], listenerArn: String, priority: Int) {
             self.actions = actions
             self.conditions = conditions
             self.listenerArn = listenerArn
@@ -577,7 +577,7 @@ extension ELBV2 {
         /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance or ip, health checks are always enabled and cannot be disabled.
         public let healthCheckEnabled: Bool?
         /// The approximate amount of time, in seconds, between health checks of an individual target. For HTTP and HTTPS health checks, the range is 5–300 seconds. For TCP health checks, the supported values are 10 and 30 seconds. If the target type is instance or ip, the default is 30 seconds. If the target type is lambda, the default is 35 seconds.
-        public let healthCheckIntervalSeconds: Int32?
+        public let healthCheckIntervalSeconds: Int?
         /// [HTTP/HTTPS health checks] The ping path that is the destination on the targets for health checks. The default is /.
         public let healthCheckPath: String?
         /// The port the load balancer uses when performing health checks on targets. The default is traffic-port, which is the port on which each target receives traffic from the load balancer.
@@ -585,25 +585,25 @@ extension ELBV2 {
         /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers, the default is TCP. The TCP protocol is supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The TLS, UDP, and TCP_UDP protocols are not supported for health checks.
         public let healthCheckProtocol: ProtocolEnum?
         /// The amount of time, in seconds, during which no response from a target means a failed health check. For target groups with a protocol of HTTP or HTTPS, the default is 5 seconds. For target groups with a protocol of TCP or TLS, this value must be 6 seconds for HTTP health checks and 10 seconds for TCP and HTTPS health checks. If the target type is lambda, the default is 30 seconds.
-        public let healthCheckTimeoutSeconds: Int32?
+        public let healthCheckTimeoutSeconds: Int?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy. For target groups with a protocol of HTTP or HTTPS, the default is 5. For target groups with a protocol of TCP or TLS, the default is 3. If the target type is lambda, the default is 5.
-        public let healthyThresholdCount: Int32?
+        public let healthyThresholdCount: Int?
         /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target.
         public let matcher: Matcher?
         /// The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
         public let name: String
         /// The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target. If the target is a Lambda function, this parameter does not apply.
-        public let port: Int32?
+        public let port: Int?
         /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, or TCP_UDP. A TCP_UDP listener must be associated with a TCP_UDP target group. If the target is a Lambda function, this parameter does not apply.
         public let `protocol`: ProtocolEnum?
         /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Targets are specified by instance ID. This is the default value. If the target group protocol is UDP or TCP_UDP, the target type must be instance.    ip - Targets are specified by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - The target groups contains a single Lambda function.  
         public let targetType: TargetTypeEnum?
         /// The number of consecutive health check failures required before considering a target unhealthy. For target groups with a protocol of HTTP or HTTPS, the default is 2. For target groups with a protocol of TCP or TLS, this value must be the same as the healthy threshold count. If the target type is lambda, the default is 2.
-        public let unhealthyThresholdCount: Int32?
+        public let unhealthyThresholdCount: Int?
         /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply.
         public let vpcId: String?
 
-        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthyThresholdCount: Int32? = nil, matcher: Matcher? = nil, name: String, port: Int32? = nil, protocol: ProtocolEnum? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int32? = nil, vpcId: String? = nil) {
+        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, matcher: Matcher? = nil, name: String, port: Int? = nil, protocol: ProtocolEnum? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckPath = healthCheckPath
@@ -815,9 +815,9 @@ extension ELBV2 {
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(marker: String? = nil, pageSize: Int32? = nil) {
+        public init(marker: String? = nil, pageSize: Int? = nil) {
             self.marker = marker
             self.pageSize = pageSize
         }
@@ -867,9 +867,9 @@ extension ELBV2 {
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(listenerArn: String, marker: String? = nil, pageSize: Int32? = nil) {
+        public init(listenerArn: String, marker: String? = nil, pageSize: Int? = nil) {
             self.listenerArn = listenerArn
             self.marker = marker
             self.pageSize = pageSize
@@ -924,9 +924,9 @@ extension ELBV2 {
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(listenerArns: [String]? = nil, loadBalancerArn: String? = nil, marker: String? = nil, pageSize: Int32? = nil) {
+        public init(listenerArns: [String]? = nil, loadBalancerArn: String? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.listenerArns = listenerArns
             self.loadBalancerArn = loadBalancerArn
             self.marker = marker
@@ -1017,9 +1017,9 @@ extension ELBV2 {
         /// The names of the load balancers.
         public let names: [String]?
         /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(loadBalancerArns: [String]? = nil, marker: String? = nil, names: [String]? = nil, pageSize: Int32? = nil) {
+        public init(loadBalancerArns: [String]? = nil, marker: String? = nil, names: [String]? = nil, pageSize: Int? = nil) {
             self.loadBalancerArns = loadBalancerArns
             self.marker = marker
             self.names = names
@@ -1074,11 +1074,11 @@ extension ELBV2 {
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The Amazon Resource Names (ARN) of the rules.
         public let ruleArns: [String]?
 
-        public init(listenerArn: String? = nil, marker: String? = nil, pageSize: Int32? = nil, ruleArns: [String]? = nil) {
+        public init(listenerArn: String? = nil, marker: String? = nil, pageSize: Int? = nil, ruleArns: [String]? = nil) {
             self.listenerArn = listenerArn
             self.marker = marker
             self.pageSize = pageSize
@@ -1132,9 +1132,9 @@ extension ELBV2 {
         /// The names of the policies.
         public let names: [String]?
         /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(marker: String? = nil, names: [String]? = nil, pageSize: Int32? = nil) {
+        public init(marker: String? = nil, names: [String]? = nil, pageSize: Int? = nil) {
             self.marker = marker
             self.names = names
             self.pageSize = pageSize
@@ -1258,11 +1258,11 @@ extension ELBV2 {
         /// The names of the target groups.
         public let names: [String]?
         /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The Amazon Resource Names (ARN) of the target groups.
         public let targetGroupArns: [String]?
 
-        public init(loadBalancerArn: String? = nil, marker: String? = nil, names: [String]? = nil, pageSize: Int32? = nil, targetGroupArns: [String]? = nil) {
+        public init(loadBalancerArn: String? = nil, marker: String? = nil, names: [String]? = nil, pageSize: Int? = nil, targetGroupArns: [String]? = nil) {
             self.loadBalancerArn = loadBalancerArn
             self.marker = marker
             self.names = names
@@ -1490,13 +1490,13 @@ extension ELBV2 {
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
         /// The port on which the load balancer is listening.
-        public let port: Int32?
+        public let port: Int?
         /// The protocol for connections from clients to the load balancer.
         public let `protocol`: ProtocolEnum?
         /// [HTTPS or TLS listener] The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
         public let sslPolicy: String?
 
-        public init(certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String? = nil, loadBalancerArn: String? = nil, port: Int32? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
+        public init(certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String? = nil, loadBalancerArn: String? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
             self.certificates = certificates
             self.defaultActions = defaultActions
             self.listenerArn = listenerArn
@@ -1715,13 +1715,13 @@ extension ELBV2 {
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
         /// The port for connections from clients to the load balancer.
-        public let port: Int32?
+        public let port: Int?
         /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols.
         public let `protocol`: ProtocolEnum?
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security Policies in the Application Load Balancers Guide.
         public let sslPolicy: String?
 
-        public init(certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String, port: Int32? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
+        public init(certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil) {
             self.certificates = certificates
             self.defaultActions = defaultActions
             self.listenerArn = listenerArn
@@ -1926,7 +1926,7 @@ extension ELBV2 {
         /// Indicates whether health checks are enabled.
         public let healthCheckEnabled: Bool?
         /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5 to 300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. If the protocol of the target group is TCP, you can't modify this setting.
-        public let healthCheckIntervalSeconds: Int32?
+        public let healthCheckIntervalSeconds: Int?
         /// [HTTP/HTTPS health checks] The ping path that is the destination for the health check request.
         public let healthCheckPath: String?
         /// The port the load balancer uses when performing health checks on targets.
@@ -1934,17 +1934,17 @@ extension ELBV2 {
         /// The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The TLS, UDP, and TCP_UDP protocols are not supported for health checks. If the protocol of the target group is TCP, you can't modify this setting.
         public let healthCheckProtocol: ProtocolEnum?
         /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check. If the protocol of the target group is TCP, you can't modify this setting.
-        public let healthCheckTimeoutSeconds: Int32?
+        public let healthCheckTimeoutSeconds: Int?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
-        public let healthyThresholdCount: Int32?
+        public let healthyThresholdCount: Int?
         /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target. If the protocol of the target group is TCP, you can't modify this setting.
         public let matcher: Matcher?
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
         /// The number of consecutive health check failures required before considering the target unhealthy. For Network Load Balancers, this value must be the same as the healthy threshold count.
-        public let unhealthyThresholdCount: Int32?
+        public let unhealthyThresholdCount: Int?
 
-        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthyThresholdCount: Int32? = nil, matcher: Matcher? = nil, targetGroupArn: String, unhealthyThresholdCount: Int32? = nil) {
+        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, matcher: Matcher? = nil, targetGroupArn: String, unhealthyThresholdCount: Int? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckPath = healthCheckPath
@@ -2329,11 +2329,11 @@ extension ELBV2 {
         ]
 
         /// The rule priority.
-        public let priority: Int32?
+        public let priority: Int?
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
 
-        public init(priority: Int32? = nil, ruleArn: String? = nil) {
+        public init(priority: Int? = nil, ruleArn: String? = nil) {
             self.priority = priority
             self.ruleArn = ruleArn
         }
@@ -2642,9 +2642,9 @@ extension ELBV2 {
         /// The ID of the target. If the target type of the target group is instance, specify an instance ID. If the target type is ip, specify an IP address. If the target type is lambda, specify the ARN of the Lambda function.
         public let id: String
         /// The port on which the target is listening.
-        public let port: Int32?
+        public let port: Int?
 
-        public init(availabilityZone: String? = nil, id: String, port: Int32? = nil) {
+        public init(availabilityZone: String? = nil, id: String, port: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.id = id
             self.port = port
@@ -2685,7 +2685,7 @@ extension ELBV2 {
         /// Indicates whether health checks are enabled.
         public let healthCheckEnabled: Bool?
         /// The approximate amount of time, in seconds, between health checks of an individual target.
-        public let healthCheckIntervalSeconds: Int32?
+        public let healthCheckIntervalSeconds: Int?
         /// The destination for the health check request.
         public let healthCheckPath: String?
         /// The port to use to connect with the target.
@@ -2693,15 +2693,15 @@ extension ELBV2 {
         /// The protocol to use to connect with the target.
         public let healthCheckProtocol: ProtocolEnum?
         /// The amount of time, in seconds, during which no response means a failed health check.
-        public let healthCheckTimeoutSeconds: Int32?
+        public let healthCheckTimeoutSeconds: Int?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
-        public let healthyThresholdCount: Int32?
+        public let healthyThresholdCount: Int?
         /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
         public let loadBalancerArns: [String]?
         /// The HTTP codes to use when checking for a successful response from a target.
         public let matcher: Matcher?
         /// The port on which the targets are listening.
-        public let port: Int32?
+        public let port: Int?
         /// The protocol to use for routing traffic to the targets.
         public let `protocol`: ProtocolEnum?
         /// The Amazon Resource Name (ARN) of the target group.
@@ -2711,11 +2711,11 @@ extension ELBV2 {
         /// The type of target that you must specify when registering targets with this target group. The possible values are instance (targets are specified by instance ID) or ip (targets are specified by IP address).
         public let targetType: TargetTypeEnum?
         /// The number of consecutive health check failures required before considering the target unhealthy.
-        public let unhealthyThresholdCount: Int32?
+        public let unhealthyThresholdCount: Int?
         /// The ID of the VPC for the targets.
         public let vpcId: String?
 
-        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthyThresholdCount: Int32? = nil, loadBalancerArns: [String]? = nil, matcher: Matcher? = nil, port: Int32? = nil, protocol: ProtocolEnum? = nil, targetGroupArn: String? = nil, targetGroupName: String? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int32? = nil, vpcId: String? = nil) {
+        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, loadBalancerArns: [String]? = nil, matcher: Matcher? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, targetGroupArn: String? = nil, targetGroupName: String? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckPath = healthCheckPath

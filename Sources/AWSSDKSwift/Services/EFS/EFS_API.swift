@@ -9,7 +9,7 @@ Amazon Elastic File System Amazon Elastic File System (Amazon EFS) provides simp
 */
 public struct EFS {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

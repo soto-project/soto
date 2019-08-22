@@ -9,7 +9,7 @@ Amazon Route 53 API actions let you register domain names and perform related op
 */
 public struct Route53Domains {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

@@ -489,7 +489,7 @@ extension MigrationHub {
         ]
 
         /// Maximum number of results to be returned per page.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Unique identifier that references the migration task.
         public let migrationTaskName: String
         /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
@@ -497,7 +497,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream. 
         public let progressUpdateStream: String
 
-        public init(maxResults: Int32? = nil, migrationTaskName: String, nextToken: String? = nil, progressUpdateStream: String) {
+        public init(maxResults: Int? = nil, migrationTaskName: String, nextToken: String? = nil, progressUpdateStream: String) {
             self.maxResults = maxResults
             self.migrationTaskName = migrationTaskName
             self.nextToken = nextToken
@@ -554,7 +554,7 @@ extension MigrationHub {
         ]
 
         /// The maximum number of results returned per page.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of the MigrationTask.
         public let migrationTaskName: String
         /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
@@ -562,7 +562,7 @@ extension MigrationHub {
         /// The name of the ProgressUpdateStream.
         public let progressUpdateStream: String
 
-        public init(maxResults: Int32? = nil, migrationTaskName: String, nextToken: String? = nil, progressUpdateStream: String) {
+        public init(maxResults: Int? = nil, migrationTaskName: String, nextToken: String? = nil, progressUpdateStream: String) {
             self.maxResults = maxResults
             self.migrationTaskName = migrationTaskName
             self.nextToken = nextToken
@@ -618,13 +618,13 @@ extension MigrationHub {
         ]
 
         /// Value to specify how many results are returned per page.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
         public let nextToken: String?
         /// Filter migration tasks by discovered resource name.
         public let resourceName: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceName: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceName = resourceName
@@ -673,11 +673,11 @@ extension MigrationHub {
         ]
 
         /// Filter to limit the maximum number of results to list per page.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -763,7 +763,7 @@ extension MigrationHub {
 
         /// Unique identifier that references the migration task.
         public let migrationTaskName: String?
-        public let progressPercent: Int32?
+        public let progressPercent: Int?
         /// An AWS resource used for access control. It should uniquely identify the migration tool as it is used for all updates made by the tool.
         public let progressUpdateStream: String?
         /// Status of the task.
@@ -773,7 +773,7 @@ extension MigrationHub {
         /// The timestamp when the task was gathered.
         public let updateDateTime: TimeStamp?
 
-        public init(migrationTaskName: String? = nil, progressPercent: Int32? = nil, progressUpdateStream: String? = nil, status: Status? = nil, statusDetail: String? = nil, updateDateTime: TimeStamp? = nil) {
+        public init(migrationTaskName: String? = nil, progressPercent: Int? = nil, progressUpdateStream: String? = nil, status: Status? = nil, statusDetail: String? = nil, updateDateTime: TimeStamp? = nil) {
             self.migrationTaskName = migrationTaskName
             self.progressPercent = progressPercent
             self.progressUpdateStream = progressUpdateStream
@@ -847,7 +847,7 @@ extension MigrationHub {
         /// Unique identifier that references the migration task.
         public let migrationTaskName: String
         /// Number of seconds after the UpdateDateTime within which the Migration Hub can expect an update. If Migration Hub does not receive an update within the specified interval, then the migration task will be considered stale.
-        public let nextUpdateSeconds: Int32
+        public let nextUpdateSeconds: Int
         /// The name of the ProgressUpdateStream. 
         public let progressUpdateStream: String
         /// Information about the task's progress and status.
@@ -855,7 +855,7 @@ extension MigrationHub {
         /// The timestamp when the task was gathered.
         public let updateDateTime: TimeStamp
 
-        public init(dryRun: Bool? = nil, migrationTaskName: String, nextUpdateSeconds: Int32, progressUpdateStream: String, task: Task, updateDateTime: TimeStamp) {
+        public init(dryRun: Bool? = nil, migrationTaskName: String, nextUpdateSeconds: Int, progressUpdateStream: String, task: Task, updateDateTime: TimeStamp) {
             self.dryRun = dryRun
             self.migrationTaskName = migrationTaskName
             self.nextUpdateSeconds = nextUpdateSeconds
@@ -1021,13 +1021,13 @@ extension MigrationHub {
         ]
 
         /// Indication of the percentage completion of the task.
-        public let progressPercent: Int32?
+        public let progressPercent: Int?
         /// Status of the task - Not Started, In-Progress, Complete.
         public let status: Status
         /// Details of task status as notified by a migration tool. A tool might use this field to provide clarifying information about the status that is unique to that tool or that explains an error state.
         public let statusDetail: String?
 
-        public init(progressPercent: Int32? = nil, status: Status, statusDetail: String? = nil) {
+        public init(progressPercent: Int? = nil, status: Status, statusDetail: String? = nil) {
             self.progressPercent = progressPercent
             self.status = status
             self.statusDetail = statusDetail

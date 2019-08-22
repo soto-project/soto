@@ -9,7 +9,7 @@ Amazon Cognito Sync Amazon Cognito Sync provides an AWS service and client libra
 */
 public struct CognitoSync {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

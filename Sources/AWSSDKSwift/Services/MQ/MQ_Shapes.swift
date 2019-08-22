@@ -232,9 +232,9 @@ extension MQ {
         /// Required. The unique ID that Amazon MQ generates for the configuration.
         public let id: String?
         /// The revision number of the configuration.
-        public let revision: Int32?
+        public let revision: Int?
 
-        public init(id: String? = nil, revision: Int32? = nil) {
+        public init(id: String? = nil, revision: Int? = nil) {
             self.id = id
             self.revision = revision
         }
@@ -257,9 +257,9 @@ extension MQ {
         /// The description of the configuration revision.
         public let description: String?
         /// Required. The revision number of the configuration.
-        public let revision: Int32?
+        public let revision: Int?
 
-        public init(created: TimeStamp? = nil, description: String? = nil, revision: Int32? = nil) {
+        public init(created: TimeStamp? = nil, description: String? = nil, revision: Int? = nil) {
             self.created = created
             self.description = description
             self.revision = revision
@@ -616,10 +616,10 @@ extension MQ {
         ]
 
         public let engineType: String?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(engineType: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(engineType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.engineType = engineType
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -645,10 +645,10 @@ extension MQ {
         ]
 
         public let brokerEngineTypes: [BrokerEngineType]?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(brokerEngineTypes: [BrokerEngineType]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(brokerEngineTypes: [BrokerEngineType]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.brokerEngineTypes = brokerEngineTypes
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -671,10 +671,10 @@ extension MQ {
 
         public let engineType: String?
         public let hostInstanceType: String?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(engineType: String? = nil, hostInstanceType: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(engineType: String? = nil, hostInstanceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.engineType = engineType
             self.hostInstanceType = hostInstanceType
             self.maxResults = maxResults
@@ -702,10 +702,10 @@ extension MQ {
         ]
 
         public let brokerInstanceOptions: [BrokerInstanceOption]?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(brokerInstanceOptions: [BrokerInstanceOption]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(brokerInstanceOptions: [BrokerInstanceOption]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.brokerInstanceOptions = brokerInstanceOptions
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1018,10 +1018,10 @@ extension MQ {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1065,10 +1065,10 @@ extension MQ {
         ]
 
         public let configurationId: String
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(configurationId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(configurationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.configurationId = configurationId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1095,11 +1095,11 @@ extension MQ {
         ]
 
         public let configurationId: String?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         public let revisions: [ConfigurationRevision]?
 
-        public init(configurationId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, revisions: [ConfigurationRevision]? = nil) {
+        public init(configurationId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, revisions: [ConfigurationRevision]? = nil) {
             self.configurationId = configurationId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1120,10 +1120,10 @@ extension MQ {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1147,10 +1147,10 @@ extension MQ {
         ]
 
         public let configurations: [Configuration]?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(configurations: [Configuration]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(configurations: [Configuration]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.configurations = configurations
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1203,10 +1203,10 @@ extension MQ {
         ]
 
         public let brokerId: String
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(brokerId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(brokerId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.brokerId = brokerId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1233,11 +1233,11 @@ extension MQ {
         ]
 
         public let brokerId: String?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         public let users: [UserSummary]?
 
-        public init(brokerId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, users: [UserSummary]? = nil) {
+        public init(brokerId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, users: [UserSummary]? = nil) {
             self.brokerId = brokerId
             self.maxResults = maxResults
             self.nextToken = nextToken

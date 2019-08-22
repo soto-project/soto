@@ -9,7 +9,7 @@ Pinpoint SMS and Voice Messaging public facing APIs
 */
 public struct PinpointSMSVoice {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

@@ -742,11 +742,11 @@ extension CognitoIdentity {
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
         /// The maximum number of identities to return.
-        public let maxResults: Int32
+        public let maxResults: Int
         /// A pagination token.
         public let nextToken: String?
 
-        public init(hideDisabled: Bool? = nil, identityPoolId: String, maxResults: Int32, nextToken: String? = nil) {
+        public init(hideDisabled: Bool? = nil, identityPoolId: String, maxResults: Int, nextToken: String? = nil) {
             self.hideDisabled = hideDisabled
             self.identityPoolId = identityPoolId
             self.maxResults = maxResults
@@ -805,11 +805,11 @@ extension CognitoIdentity {
         ]
 
         /// The maximum number of identities to return.
-        public let maxResults: Int32
+        public let maxResults: Int
         /// A pagination token.
         public let nextToken: String?
 
-        public init(maxResults: Int32, nextToken: String? = nil) {
+        public init(maxResults: Int, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -904,11 +904,11 @@ extension CognitoIdentity {
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
         /// The maximum number of identities to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match.
         public let nextToken: String?
 
-        public init(developerUserIdentifier: String? = nil, identityId: String? = nil, identityPoolId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(developerUserIdentifier: String? = nil, identityId: String? = nil, identityPoolId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.developerUserIdentifier = developerUserIdentifier
             self.identityId = identityId
             self.identityPoolId = identityPoolId

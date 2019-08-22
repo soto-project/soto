@@ -9,7 +9,7 @@ Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides 
 */
 public struct EC2 {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

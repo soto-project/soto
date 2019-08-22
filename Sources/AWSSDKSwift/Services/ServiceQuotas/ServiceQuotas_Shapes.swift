@@ -339,13 +339,13 @@ extension ServiceQuotas {
         ]
 
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
         public let nextToken: String?
         /// Specifies the service that you want to use.
         public let serviceCode: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serviceCode = serviceCode
@@ -400,7 +400,7 @@ extension ServiceQuotas {
         ]
 
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// Specifies the service quota that you want to use
@@ -410,7 +410,7 @@ extension ServiceQuotas {
         /// Specifies the status value of the quota increase request.
         public let status: RequestStatus?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, quotaCode: String, serviceCode: String, status: RequestStatus? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, quotaCode: String, serviceCode: String, status: RequestStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.quotaCode = quotaCode
@@ -471,7 +471,7 @@ extension ServiceQuotas {
         ]
 
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// Specifies the service that you want to use.
@@ -479,7 +479,7 @@ extension ServiceQuotas {
         /// Specifies the status value of the quota increase request.
         public let status: RequestStatus?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String? = nil, status: RequestStatus? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String? = nil, status: RequestStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serviceCode = serviceCode
@@ -537,13 +537,13 @@ extension ServiceQuotas {
         /// Specifies the AWS Region for the quota that you want to use.
         public let awsRegion: String?
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// The identifier for a service. When performing an operation, use the ServiceCode to specify a particular service. 
         public let serviceCode: String?
 
-        public init(awsRegion: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
+        public init(awsRegion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String? = nil) {
             self.awsRegion = awsRegion
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -601,13 +601,13 @@ extension ServiceQuotas {
         ]
 
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
         /// The identifier for a service. When performing an operation, use the ServiceCode to specify a particular service. 
         public let serviceCode: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, serviceCode: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceCode: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serviceCode = serviceCode
@@ -659,11 +659,11 @@ extension ServiceQuotas {
         ]
 
         /// (Optional) Limits the number of results that you want to include in the response. If you don't include this parameter, the response defaults to a value that's specific to the operation. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -818,9 +818,9 @@ extension ServiceQuotas {
         /// The time unit of a period.
         public let periodUnit: PeriodUnit?
         /// The value of a period.
-        public let periodValue: Int32?
+        public let periodValue: Int?
 
-        public init(periodUnit: PeriodUnit? = nil, periodValue: Int32? = nil) {
+        public init(periodUnit: PeriodUnit? = nil, periodValue: Int? = nil) {
             self.periodUnit = periodUnit
             self.periodValue = periodValue
         }

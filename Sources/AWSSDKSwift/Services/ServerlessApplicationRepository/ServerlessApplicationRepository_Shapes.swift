@@ -672,11 +672,11 @@ extension ServerlessApplicationRepository {
         ]
 
         public let applicationId: String
-        public let maxItems: Int32?
+        public let maxItems: Int?
         public let nextToken: String?
         public let semanticVersion: String?
 
-        public init(applicationId: String, maxItems: Int32? = nil, nextToken: String? = nil, semanticVersion: String? = nil) {
+        public init(applicationId: String, maxItems: Int? = nil, nextToken: String? = nil, semanticVersion: String? = nil) {
             self.applicationId = applicationId
             self.maxItems = maxItems
             self.nextToken = nextToken
@@ -724,10 +724,10 @@ extension ServerlessApplicationRepository {
         ]
 
         public let applicationId: String
-        public let maxItems: Int32?
+        public let maxItems: Int?
         public let nextToken: String?
 
-        public init(applicationId: String, maxItems: Int32? = nil, nextToken: String? = nil) {
+        public init(applicationId: String, maxItems: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxItems = maxItems
             self.nextToken = nextToken
@@ -771,10 +771,10 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        public let maxItems: Int32?
+        public let maxItems: Int?
         public let nextToken: String?
 
-        public init(maxItems: Int32? = nil, nextToken: String? = nil) {
+        public init(maxItems: Int? = nil, nextToken: String? = nil) {
             self.maxItems = maxItems
             self.nextToken = nextToken
         }
@@ -846,13 +846,13 @@ extension ServerlessApplicationRepository {
         /// A string of up to 4,000 characters that describes the parameter.
         public let description: String?
         /// An integer value that determines the largest number of characters that you want to allow for String types.
-        public let maxLength: Int32?
+        public let maxLength: Int?
         /// A numeric value that determines the largest numeric value that you want to allow for Number types.
-        public let maxValue: Int32?
+        public let maxValue: Int?
         /// An integer value that determines the smallest number of characters that you want to allow for String types.
-        public let minLength: Int32?
+        public let minLength: Int?
         /// A numeric value that determines the smallest numeric value that you want to allow for Number types.
-        public let minValue: Int32?
+        public let minValue: Int?
         /// The name of the parameter.
         public let name: String
         /// Whether to mask the parameter value whenever anyone makes a call that describes the stack. If you set the
@@ -871,7 +871,7 @@ extension ServerlessApplicationRepository {
         ///  Also, each member string is space-trimmed.For example, users might specify "test,dev,prod", and then Ref results in ["test","dev","prod"].
         public let `type`: String?
 
-        public init(allowedPattern: String? = nil, allowedValues: [String]? = nil, constraintDescription: String? = nil, defaultValue: String? = nil, description: String? = nil, maxLength: Int32? = nil, maxValue: Int32? = nil, minLength: Int32? = nil, minValue: Int32? = nil, name: String, noEcho: Bool? = nil, referencedByResources: [String], type: String? = nil) {
+        public init(allowedPattern: String? = nil, allowedValues: [String]? = nil, constraintDescription: String? = nil, defaultValue: String? = nil, description: String? = nil, maxLength: Int? = nil, maxValue: Int? = nil, minLength: Int? = nil, minValue: Int? = nil, name: String, noEcho: Bool? = nil, referencedByResources: [String], type: String? = nil) {
             self.allowedPattern = allowedPattern
             self.allowedValues = allowedValues
             self.constraintDescription = constraintDescription
@@ -971,12 +971,12 @@ extension ServerlessApplicationRepository {
 
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration
         ///   Data Type.
-        public let monitoringTimeInMinutes: Int32?
+        public let monitoringTimeInMinutes: Int?
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration
         ///   Data Type.
         public let rollbackTriggers: [RollbackTrigger]?
 
-        public init(monitoringTimeInMinutes: Int32? = nil, rollbackTriggers: [RollbackTrigger]? = nil) {
+        public init(monitoringTimeInMinutes: Int? = nil, rollbackTriggers: [RollbackTrigger]? = nil) {
             self.monitoringTimeInMinutes = monitoringTimeInMinutes
             self.rollbackTriggers = rollbackTriggers
         }

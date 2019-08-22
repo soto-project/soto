@@ -9,7 +9,7 @@ Amazon GameLift Service  Amazon GameLift is a managed service for developers who
 */
 public struct GameLift {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

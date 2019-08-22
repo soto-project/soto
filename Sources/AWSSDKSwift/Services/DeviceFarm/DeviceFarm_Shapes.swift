@@ -20,21 +20,21 @@ extension DeviceFarm {
         /// The AWS account number specified in the AccountSettings container.
         public let awsAccountNumber: String?
         /// The default number of minutes (at the account level) a test run will execute before it times out. The default value is 150 minutes.
-        public let defaultJobTimeoutMinutes: Int32?
+        public let defaultJobTimeoutMinutes: Int?
         /// The maximum number of minutes a test run will execute before it times out.
-        public let maxJobTimeoutMinutes: Int32?
+        public let maxJobTimeoutMinutes: Int?
         /// The maximum number of device slots that the AWS account can purchase. Each maximum is expressed as an offering-id:number pair, where the offering-id represents one of the IDs returned by the ListOfferings command.
-        public let maxSlots: [String: Int32]?
+        public let maxSlots: [String: Int]?
         /// When set to true, for private devices, Device Farm will not sign your app again. For public devices, Device Farm always signs your apps again and this parameter has no effect. For more information about how Device Farm re-signs your app(s), see Do you modify my app? in the AWS Device Farm FAQs.
         public let skipAppResign: Bool?
         /// Information about an AWS account's usage of free trial device minutes.
         public let trialMinutes: TrialMinutes?
         /// Returns the unmetered devices you have purchased or want to purchase.
-        public let unmeteredDevices: [DevicePlatform: Int32]?
+        public let unmeteredDevices: [DevicePlatform: Int]?
         /// Returns the unmetered remote access devices you have purchased or want to purchase.
-        public let unmeteredRemoteAccessDevices: [DevicePlatform: Int32]?
+        public let unmeteredRemoteAccessDevices: [DevicePlatform: Int]?
 
-        public init(awsAccountNumber: String? = nil, defaultJobTimeoutMinutes: Int32? = nil, maxJobTimeoutMinutes: Int32? = nil, maxSlots: [String: Int32]? = nil, skipAppResign: Bool? = nil, trialMinutes: TrialMinutes? = nil, unmeteredDevices: [DevicePlatform: Int32]? = nil, unmeteredRemoteAccessDevices: [DevicePlatform: Int32]? = nil) {
+        public init(awsAccountNumber: String? = nil, defaultJobTimeoutMinutes: Int? = nil, maxJobTimeoutMinutes: Int? = nil, maxSlots: [String: Int]? = nil, skipAppResign: Bool? = nil, trialMinutes: TrialMinutes? = nil, unmeteredDevices: [DevicePlatform: Int]? = nil, unmeteredRemoteAccessDevices: [DevicePlatform: Int]? = nil) {
             self.awsAccountNumber = awsAccountNumber
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
             self.maxJobTimeoutMinutes = maxJobTimeoutMinutes
@@ -178,21 +178,21 @@ extension DeviceFarm {
         ]
 
         /// The number of errored entities.
-        public let errored: Int32?
+        public let errored: Int?
         /// The number of failed entities.
-        public let failed: Int32?
+        public let failed: Int?
         /// The number of passed entities.
-        public let passed: Int32?
+        public let passed: Int?
         /// The number of skipped entities.
-        public let skipped: Int32?
+        public let skipped: Int?
         /// The number of stopped entities.
-        public let stopped: Int32?
+        public let stopped: Int?
         /// The total number of entities.
-        public let total: Int32?
+        public let total: Int?
         /// The number of warned entities.
-        public let warned: Int32?
+        public let warned: Int?
 
-        public init(errored: Int32? = nil, failed: Int32? = nil, passed: Int32? = nil, skipped: Int32? = nil, stopped: Int32? = nil, total: Int32? = nil, warned: Int32? = nil) {
+        public init(errored: Int? = nil, failed: Int? = nil, passed: Int? = nil, skipped: Int? = nil, stopped: Int? = nil, total: Int? = nil, warned: Int? = nil) {
             self.errored = errored
             self.failed = failed
             self.passed = passed
@@ -225,7 +225,7 @@ extension DeviceFarm {
         /// The device pool's description.
         public let description: String?
         /// The number of devices that Device Farm can add to your device pool. Device Farm adds devices that are available and that meet the criteria that you assign for the rules parameter. Depending on how many devices meet these constraints, your device pool might contain fewer devices than the value for this parameter. By specifying the maximum number of devices, you can control the costs that you incur by running tests.
-        public let maxDevices: Int32?
+        public let maxDevices: Int?
         /// The device pool's name.
         public let name: String
         /// The ARN of the project for the device pool.
@@ -233,7 +233,7 @@ extension DeviceFarm {
         /// The device pool's rules.
         public let rules: [Rule]
 
-        public init(description: String? = nil, maxDevices: Int32? = nil, name: String, projectArn: String, rules: [Rule]) {
+        public init(description: String? = nil, maxDevices: Int? = nil, name: String, projectArn: String, rules: [Rule]) {
             self.description = description
             self.maxDevices = maxDevices
             self.name = name
@@ -362,7 +362,7 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let downlinkJitterMs: Int64?
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        public let downlinkLossPercent: Int32?
+        public let downlinkLossPercent: Int?
         /// The name you wish to specify for the new network profile.
         public let name: String
         /// The Amazon Resource Name (ARN) of the project for which you want to create a network profile.
@@ -376,9 +376,9 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        public let uplinkLossPercent: Int32?
+        public let uplinkLossPercent: Int?
 
-        public init(description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int32? = nil, name: String, projectArn: String, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int32? = nil) {
+        public init(description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int? = nil, name: String, projectArn: String, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int? = nil) {
             self.description = description
             self.downlinkBandwidthBits = downlinkBandwidthBits
             self.downlinkDelayMs = downlinkDelayMs
@@ -446,11 +446,11 @@ extension DeviceFarm {
         ]
 
         /// Sets the execution timeout value (in minutes) for a project. All test runs in this project will use the specified execution timeout value unless overridden when scheduling a run.
-        public let defaultJobTimeoutMinutes: Int32?
+        public let defaultJobTimeoutMinutes: Int?
         /// The project's name.
         public let name: String
 
-        public init(defaultJobTimeoutMinutes: Int32? = nil, name: String) {
+        public init(defaultJobTimeoutMinutes: Int? = nil, name: String) {
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
             self.name = name
         }
@@ -1290,7 +1290,7 @@ extension DeviceFarm {
         /// The device pool's description.
         public let description: String?
         /// The number of devices that Device Farm can add to your device pool. Device Farm adds devices that are available and that meet the criteria that you assign for the rules parameter. Depending on how many devices meet these constraints, your device pool might contain fewer devices than the value for this parameter. By specifying the maximum number of devices, you can control the costs that you incur by running tests.
-        public let maxDevices: Int32?
+        public let maxDevices: Int?
         /// The device pool's name.
         public let name: String?
         /// Information about the device pool's rules.
@@ -1298,7 +1298,7 @@ extension DeviceFarm {
         /// The device pool's type. Allowed values include:   CURATED: A device pool that is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and managed by the device pool developer.  
         public let `type`: DevicePoolType?
 
-        public init(arn: String? = nil, description: String? = nil, maxDevices: Int32? = nil, name: String? = nil, rules: [Rule]? = nil, type: DevicePoolType? = nil) {
+        public init(arn: String? = nil, description: String? = nil, maxDevices: Int? = nil, name: String? = nil, rules: [Rule]? = nil, type: DevicePoolType? = nil) {
             self.arn = arn
             self.description = description
             self.maxDevices = maxDevices
@@ -1359,9 +1359,9 @@ extension DeviceFarm {
         /// Used to dynamically select a set of devices for a test run. A filter is made up of an attribute, an operator, and one or more values.    Attribute  The aspect of a device such as platform or model used as the selection criteria in a device filter. Allowed values include:   ARN: The Amazon Resource Name (ARN) of the device. For example, "arn:aws:devicefarm:us-west-2::device:12345Example".   PLATFORM: The device platform. Valid values are "ANDROID" or "IOS".   OS_VERSION: The operating system version. For example, "10.3.2".   MODEL: The device model. For example, "iPad 5th Gen".   AVAILABILITY: The current availability of the device. Valid values are "AVAILABLE", "HIGHLY_AVAILABLE", "BUSY", or "TEMPORARY_NOT_AVAILABLE".   FORM_FACTOR: The device form factor. Valid values are "PHONE" or "TABLET".   MANUFACTURER: The device manufacturer. For example, "Apple".   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid values are "TRUE" or "FALSE".   REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging. Valid values are "TRUE" or "FALSE".   INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.   INSTANCE_LABELS: The label of the device instance.   FLEET_TYPE: The fleet type. Valid values are "PUBLIC" or "PRIVATE".      Operator  The filter operator.   The EQUALS operator is available for every attribute except INSTANCE_LABELS.   The CONTAINS operator is available for the INSTANCE_LABELS and MODEL attributes.   The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL, MANUFACTURER, and INSTANCE_ARN attributes.   The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS operators are also available for the OS_VERSION attribute.      Values  An array of one or more filter values.  Operator Values    The IN and NOT_IN operators can take a values array that has more than one element.   The other operators require an array with a single element.    Attribute Values    The PLATFORM attribute can be set to "ANDROID" or "IOS".   The AVAILABILITY attribute can be set to "AVAILABLE", "HIGHLY_AVAILABLE", "BUSY", or "TEMPORARY_NOT_AVAILABLE".   The FORM_FACTOR attribute can be set to "PHONE" or "TABLET".   The FLEET_TYPE attribute can be set to "PUBLIC" or "PRIVATE".    
         public let filters: [DeviceFilter]
         /// The maximum number of devices to be included in a test run.
-        public let maxDevices: Int32
+        public let maxDevices: Int
 
-        public init(filters: [DeviceFilter], maxDevices: Int32) {
+        public init(filters: [DeviceFilter], maxDevices: Int) {
             self.filters = filters
             self.maxDevices = maxDevices
         }
@@ -1382,11 +1382,11 @@ extension DeviceFarm {
         /// The filters in a device selection result.
         public let filters: [DeviceFilter]?
         /// The number of devices that matched the device filter selection criteria.
-        public let matchedDevicesCount: Int32?
+        public let matchedDevicesCount: Int?
         /// The maximum number of devices to be selected by a device filter and included in a test run.
-        public let maxDevices: Int32?
+        public let maxDevices: Int?
 
-        public init(filters: [DeviceFilter]? = nil, matchedDevicesCount: Int32? = nil, maxDevices: Int32? = nil) {
+        public init(filters: [DeviceFilter]? = nil, matchedDevicesCount: Int? = nil, maxDevices: Int? = nil) {
             self.filters = filters
             self.matchedDevicesCount = matchedDevicesCount
             self.maxDevices = maxDevices
@@ -1413,13 +1413,13 @@ extension DeviceFarm {
         /// True if app package cleanup is enabled at the beginning of the test; otherwise, false.
         public let appPackagesCleanup: Bool?
         /// The number of minutes a test run will execute before it times out.
-        public let jobTimeoutMinutes: Int32?
+        public let jobTimeoutMinutes: Int?
         /// When set to true, for private devices, Device Farm will not sign your app again. For public devices, Device Farm always signs your apps again and this parameter has no effect. For more information about how Device Farm re-signs your app(s), see Do you modify my app? in the AWS Device Farm FAQs.
         public let skipAppResign: Bool?
         /// Set to true to enable video capture; otherwise, set to false. The default is true.
         public let videoCapture: Bool?
 
-        public init(accountsCleanup: Bool? = nil, appPackagesCleanup: Bool? = nil, jobTimeoutMinutes: Int32? = nil, skipAppResign: Bool? = nil, videoCapture: Bool? = nil) {
+        public init(accountsCleanup: Bool? = nil, appPackagesCleanup: Bool? = nil, jobTimeoutMinutes: Int? = nil, skipAppResign: Bool? = nil, videoCapture: Bool? = nil) {
             self.accountsCleanup = accountsCleanup
             self.appPackagesCleanup = appPackagesCleanup
             self.jobTimeoutMinutes = jobTimeoutMinutes
@@ -2390,11 +2390,11 @@ extension DeviceFarm {
         ]
 
         /// An integer specifying the maximum number of items you want to return in the API response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2551,11 +2551,11 @@ extension DeviceFarm {
         ]
 
         /// An integer specifying the maximum number of items you want to return in the API response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3291,11 +3291,11 @@ extension DeviceFarm {
         ]
 
         /// An integer specifying the maximum number of items you want to return in the API response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3404,7 +3404,7 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let downlinkJitterMs: Int64?
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        public let downlinkLossPercent: Int32?
+        public let downlinkLossPercent: Int?
         /// The name of the network profile.
         public let name: String?
         /// The type of network profile. Valid values are listed below.
@@ -3416,9 +3416,9 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        public let uplinkLossPercent: Int32?
+        public let uplinkLossPercent: Int?
 
-        public init(arn: String? = nil, description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int32? = nil, name: String? = nil, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int32? = nil) {
+        public init(arn: String? = nil, description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int? = nil, name: String? = nil, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int? = nil) {
             self.arn = arn
             self.description = description
             self.downlinkBandwidthBits = downlinkBandwidthBits
@@ -3527,11 +3527,11 @@ extension DeviceFarm {
         /// Represents the metadata of an offering status.
         public let offering: Offering?
         /// The number of available devices in the offering.
-        public let quantity: Int32?
+        public let quantity: Int?
         /// The type specified for the offering status.
         public let `type`: OfferingTransactionType?
 
-        public init(effectiveOn: TimeStamp? = nil, offering: Offering? = nil, quantity: Int32? = nil, type: OfferingTransactionType? = nil) {
+        public init(effectiveOn: TimeStamp? = nil, offering: Offering? = nil, quantity: Int? = nil, type: OfferingTransactionType? = nil) {
             self.effectiveOn = effectiveOn
             self.offering = offering
             self.quantity = quantity
@@ -3677,11 +3677,11 @@ extension DeviceFarm {
         /// When the project was created.
         public let created: TimeStamp?
         /// The default number of minutes (at the project level) a test run will execute before it times out. The default value is 150 minutes.
-        public let defaultJobTimeoutMinutes: Int32?
+        public let defaultJobTimeoutMinutes: Int?
         /// The project's name.
         public let name: String?
 
-        public init(arn: String? = nil, created: TimeStamp? = nil, defaultJobTimeoutMinutes: Int32? = nil, name: String? = nil) {
+        public init(arn: String? = nil, created: TimeStamp? = nil, defaultJobTimeoutMinutes: Int? = nil, name: String? = nil) {
             self.arn = arn
             self.created = created
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
@@ -3708,9 +3708,9 @@ extension DeviceFarm {
         /// The ID of the offering promotion to be applied to the purchase.
         public let offeringPromotionId: String?
         /// The number of device slots you wish to purchase in an offering request.
-        public let quantity: Int32?
+        public let quantity: Int?
 
-        public init(offeringId: String? = nil, offeringPromotionId: String? = nil, quantity: Int32? = nil) {
+        public init(offeringId: String? = nil, offeringPromotionId: String? = nil, quantity: Int? = nil) {
             self.offeringId = offeringId
             self.offeringPromotionId = offeringPromotionId
             self.quantity = quantity
@@ -3930,9 +3930,9 @@ extension DeviceFarm {
         /// The ID of a request to renew an offering.
         public let offeringId: String?
         /// The quantity requested in an offering renewal.
-        public let quantity: Int32?
+        public let quantity: Int?
 
-        public init(offeringId: String? = nil, quantity: Int32? = nil) {
+        public init(offeringId: String? = nil, quantity: Int? = nil) {
             self.offeringId = offeringId
             self.quantity = quantity
         }
@@ -3971,11 +3971,11 @@ extension DeviceFarm {
         ]
 
         /// The screen resolution's height, expressed in pixels.
-        public let height: Int32?
+        public let height: Int?
         /// The screen resolution's width, expressed in pixels.
-        public let width: Int32?
+        public let width: Int?
 
-        public init(height: Int32? = nil, width: Int32? = nil) {
+        public init(height: Int? = nil, width: Int? = nil) {
             self.height = height
             self.width = width
         }
@@ -4067,7 +4067,7 @@ extension DeviceFarm {
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
         public let billingMethod: BillingMethod?
         /// The total number of completed jobs.
-        public let completedJobs: Int32?
+        public let completedJobs: Int?
         /// The run's result counters.
         public let counters: Counters?
         /// When the run was created.
@@ -4081,9 +4081,9 @@ extension DeviceFarm {
         /// The results of a device filter used to select the devices for a test run.
         public let deviceSelectionResult: DeviceSelectionResult?
         /// For fuzz tests, this is the number of events, between 1 and 10000, that the UI fuzz test should perform.
-        public let eventCount: Int32?
+        public let eventCount: Int?
         /// The number of minutes the job will execute before it times out.
-        public let jobTimeoutMinutes: Int32?
+        public let jobTimeoutMinutes: Int?
         /// Information about the locale that is used for the run.
         public let locale: String?
         /// Information about the location that is used for the run.
@@ -4105,7 +4105,7 @@ extension DeviceFarm {
         /// Supporting field for the result field. Set only if result is SKIPPED. PARSING_FAILED if the result is skipped because of test package parsing failure.
         public let resultCode: ExecutionResultCode?
         /// For fuzz tests, this is a seed to use for randomizing the UI fuzz test. Using the same seed value between tests ensures identical event sequences.
-        public let seed: Int32?
+        public let seed: Int?
         /// When set to true, for private devices, Device Farm will not sign your app again. For public devices, Device Farm always signs your apps again and this parameter has no effect. For more information about how Device Farm re-signs your app(s), see Do you modify my app? in the AWS Device Farm FAQs.
         public let skipAppResign: Bool?
         /// The run's start time.
@@ -4117,13 +4117,13 @@ extension DeviceFarm {
         /// The ARN of the YAML-formatted test specification for the run.
         public let testSpecArn: String?
         /// The total number of jobs for the run.
-        public let totalJobs: Int32?
+        public let totalJobs: Int?
         /// The run's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_NODE: The Appium Node.js type.   APPIUM_RUBY: The Appium Ruby type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for web apps.   APPIUM_WEB_PYTHON: The Appium Python type for web apps.   APPIUM_WEB_NODE: The Appium Node.js type for web apps.   APPIUM_WEB_RUBY: The Appium Ruby type for web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The Xcode test type.   XCTEST_UI: The Xcode UI test type.  
         public let `type`: TestType?
         /// The Device Farm console URL for the recording of the run.
         public let webUrl: String?
 
-        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int32? = nil, counters: Counters? = nil, created: TimeStamp? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, eventCount: Int32? = nil, jobTimeoutMinutes: Int32? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int32? = nil, skipAppResign: Bool? = nil, started: TimeStamp? = nil, status: ExecutionStatus? = nil, stopped: TimeStamp? = nil, testSpecArn: String? = nil, totalJobs: Int32? = nil, type: TestType? = nil, webUrl: String? = nil) {
+        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int? = nil, counters: Counters? = nil, created: TimeStamp? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, eventCount: Int? = nil, jobTimeoutMinutes: Int? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int? = nil, skipAppResign: Bool? = nil, started: TimeStamp? = nil, status: ExecutionStatus? = nil, stopped: TimeStamp? = nil, testSpecArn: String? = nil, totalJobs: Int? = nil, type: TestType? = nil, webUrl: String? = nil) {
             self.appUpload = appUpload
             self.arn = arn
             self.billingMethod = billingMethod
@@ -4936,13 +4936,13 @@ extension DeviceFarm {
         /// A description of the device pool you wish to update.
         public let description: String?
         /// The number of devices that Device Farm can add to your device pool. Device Farm adds devices that are available and that meet the criteria that you assign for the rules parameter. Depending on how many devices meet these constraints, your device pool might contain fewer devices than the value for this parameter. By specifying the maximum number of devices, you can control the costs that you incur by running tests. If you use this parameter in your request, you cannot use the clearMaxDevices parameter in the same request.
-        public let maxDevices: Int32?
+        public let maxDevices: Int?
         /// A string representing the name of the device pool you wish to update.
         public let name: String?
         /// Represents the rules you wish to modify for the device pool. Updating rules is optional; however, if you choose to update rules for your request, the update will replace the existing rules.
         public let rules: [Rule]?
 
-        public init(arn: String, clearMaxDevices: Bool? = nil, description: String? = nil, maxDevices: Int32? = nil, name: String? = nil, rules: [Rule]? = nil) {
+        public init(arn: String, clearMaxDevices: Bool? = nil, description: String? = nil, maxDevices: Int? = nil, name: String? = nil, rules: [Rule]? = nil) {
             self.arn = arn
             self.clearMaxDevices = clearMaxDevices
             self.description = description
@@ -5082,7 +5082,7 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let downlinkJitterMs: Int64?
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        public let downlinkLossPercent: Int32?
+        public let downlinkLossPercent: Int?
         /// The name of the network profile about which you are returning information.
         public let name: String?
         /// The type of network profile you wish to return information about. Valid values are listed below.
@@ -5094,9 +5094,9 @@ extension DeviceFarm {
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        public let uplinkLossPercent: Int32?
+        public let uplinkLossPercent: Int?
 
-        public init(arn: String, description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int32? = nil, name: String? = nil, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int32? = nil) {
+        public init(arn: String, description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int? = nil, name: String? = nil, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int? = nil) {
             self.arn = arn
             self.description = description
             self.downlinkBandwidthBits = downlinkBandwidthBits
@@ -5167,11 +5167,11 @@ extension DeviceFarm {
         /// The Amazon Resource Name (ARN) of the project whose name you wish to update.
         public let arn: String
         /// The number of minutes a test run in the project will execute before it times out.
-        public let defaultJobTimeoutMinutes: Int32?
+        public let defaultJobTimeoutMinutes: Int?
         /// A string representing the new name of the project that you are updating.
         public let name: String?
 
-        public init(arn: String, defaultJobTimeoutMinutes: Int32? = nil, name: String? = nil) {
+        public init(arn: String, defaultJobTimeoutMinutes: Int? = nil, name: String? = nil) {
             self.arn = arn
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
             self.name = name

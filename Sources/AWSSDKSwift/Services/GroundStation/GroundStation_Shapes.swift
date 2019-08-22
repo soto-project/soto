@@ -400,14 +400,14 @@ extension GroundStation {
         ]
 
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
-        public let contactPostPassDurationSeconds: Int32?
+        public let contactPostPassDurationSeconds: Int?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
-        public let contactPrePassDurationSeconds: Int32?
+        public let contactPrePassDurationSeconds: Int?
         /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to 
         ///          Config.
         public let dataflowEdges: [[String]]
         /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
-        public let minimumViableContactDurationSeconds: Int32
+        public let minimumViableContactDurationSeconds: Int
         /// Name of a mission profile.
         public let name: String
         /// Tags assigned to a mission profile.
@@ -415,7 +415,7 @@ extension GroundStation {
         /// ARN of a tracking Config.
         public let trackingConfigArn: String
 
-        public init(contactPostPassDurationSeconds: Int32? = nil, contactPrePassDurationSeconds: Int32? = nil, dataflowEdges: [[String]], minimumViableContactDurationSeconds: Int32, name: String, tags: [String: String]? = nil, trackingConfigArn: String) {
+        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]], minimumViableContactDurationSeconds: Int, name: String, tags: [String: String]? = nil, trackingConfigArn: String) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
             self.dataflowEdges = dataflowEdges
@@ -993,11 +993,11 @@ extension GroundStation {
         ]
 
         /// The month being requested, with a value of 1-12.
-        public let month: Int32
+        public let month: Int
         /// The year being requested, in the format of YYYY.
-        public let year: Int32
+        public let year: Int
 
-        public init(month: Int32, year: Int32) {
+        public init(month: Int, year: Int) {
             self.month = month
             self.year = year
         }
@@ -1018,17 +1018,17 @@ extension GroundStation {
         ]
 
         /// Estimated number of minutes remaining for an account, specific to the month being requested.
-        public let estimatedMinutesRemaining: Int32?
+        public let estimatedMinutesRemaining: Int?
         /// Returns whether or not an account has signed up for the reserved minutes pricing plan, specific to the month being requested.
         public let isReservedMinutesCustomer: Bool?
         /// Total number of reserved minutes allocated, specific to the month being requested.
-        public let totalReservedMinuteAllocation: Int32?
+        public let totalReservedMinuteAllocation: Int?
         /// Total scheduled minutes for an account, specific to the month being requested.
-        public let totalScheduledMinutes: Int32?
+        public let totalScheduledMinutes: Int?
         /// Upcoming minutes scheduled for an account, specific to the month being requested.
-        public let upcomingMinutesScheduled: Int32?
+        public let upcomingMinutesScheduled: Int?
 
-        public init(estimatedMinutesRemaining: Int32? = nil, isReservedMinutesCustomer: Bool? = nil, totalReservedMinuteAllocation: Int32? = nil, totalScheduledMinutes: Int32? = nil, upcomingMinutesScheduled: Int32? = nil) {
+        public init(estimatedMinutesRemaining: Int? = nil, isReservedMinutesCustomer: Bool? = nil, totalReservedMinuteAllocation: Int? = nil, totalScheduledMinutes: Int? = nil, upcomingMinutesScheduled: Int? = nil) {
             self.estimatedMinutesRemaining = estimatedMinutesRemaining
             self.isReservedMinutesCustomer = isReservedMinutesCustomer
             self.totalReservedMinuteAllocation = totalReservedMinuteAllocation
@@ -1077,14 +1077,14 @@ extension GroundStation {
         ]
 
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
-        public let contactPostPassDurationSeconds: Int32?
+        public let contactPostPassDurationSeconds: Int?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
-        public let contactPrePassDurationSeconds: Int32?
+        public let contactPrePassDurationSeconds: Int?
         /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to 
         ///          Config.
         public let dataflowEdges: [[String]]?
         /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
-        public let minimumViableContactDurationSeconds: Int32?
+        public let minimumViableContactDurationSeconds: Int?
         /// ARN of a mission profile.
         public let missionProfileArn: String?
         /// ID of a mission profile.
@@ -1098,7 +1098,7 @@ extension GroundStation {
         /// ARN of a tracking Config.
         public let trackingConfigArn: String?
 
-        public init(contactPostPassDurationSeconds: Int32? = nil, contactPrePassDurationSeconds: Int32? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int32? = nil, missionProfileArn: String? = nil, missionProfileId: String? = nil, name: String? = nil, region: String? = nil, tags: [String: String]? = nil, trackingConfigArn: String? = nil) {
+        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int? = nil, missionProfileArn: String? = nil, missionProfileId: String? = nil, name: String? = nil, region: String? = nil, tags: [String: String]? = nil, trackingConfigArn: String? = nil) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
             self.dataflowEdges = dataflowEdges
@@ -1157,7 +1157,7 @@ extension GroundStation {
         /// When a satellite was last updated.
         public let lastUpdated: TimeStamp?
         /// NORAD satellite ID number.
-        public let noradSatelliteID: Int32?
+        public let noradSatelliteID: Int?
         /// ARN of a satellite.
         public let satelliteArn: String?
         /// UUID of a satellite.
@@ -1165,7 +1165,7 @@ extension GroundStation {
         /// Tags assigned to a satellite.
         public let tags: [String: String]?
 
-        public init(dateCreated: TimeStamp? = nil, lastUpdated: TimeStamp? = nil, noradSatelliteID: Int32? = nil, satelliteArn: String? = nil, satelliteId: String? = nil, tags: [String: String]? = nil) {
+        public init(dateCreated: TimeStamp? = nil, lastUpdated: TimeStamp? = nil, noradSatelliteID: Int? = nil, satelliteArn: String? = nil, satelliteId: String? = nil, tags: [String: String]? = nil) {
             self.dateCreated = dateCreated
             self.lastUpdated = lastUpdated
             self.noradSatelliteID = noradSatelliteID
@@ -1218,11 +1218,11 @@ extension GroundStation {
         ]
 
         /// Maximum number of Configs returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Next token returned in the request of a previous ListConfigs call. Used to get the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1272,7 +1272,7 @@ extension GroundStation {
         /// Name of a ground station.
         public let groundStation: String?
         /// Maximum number of contacts returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// ARN of a mission profile.
         public let missionProfileArn: String?
         /// Next token returned in the request of a previous ListContacts call. Used to get the next page of results.
@@ -1284,7 +1284,7 @@ extension GroundStation {
         /// Status of a contact reservation.
         public let statusList: [ContactStatus]
 
-        public init(endTime: TimeStamp, groundStation: String? = nil, maxResults: Int32? = nil, missionProfileArn: String? = nil, nextToken: String? = nil, satelliteArn: String? = nil, startTime: TimeStamp, statusList: [ContactStatus]) {
+        public init(endTime: TimeStamp, groundStation: String? = nil, maxResults: Int? = nil, missionProfileArn: String? = nil, nextToken: String? = nil, satelliteArn: String? = nil, startTime: TimeStamp, statusList: [ContactStatus]) {
             self.endTime = endTime
             self.groundStation = groundStation
             self.maxResults = maxResults
@@ -1336,11 +1336,11 @@ extension GroundStation {
         ]
 
         /// Maximum number of dataflow endpoint groups returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Next token returned in the request of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1380,11 +1380,11 @@ extension GroundStation {
         ]
 
         /// Maximum number of ground stations returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Next token that can be supplied in the next call to get the next page of ground stations.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1424,11 +1424,11 @@ extension GroundStation {
         ]
 
         /// Maximum number of mission profiles returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Next token returned in the request of a previous ListMissionProfiles call. Used to get the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1468,11 +1468,11 @@ extension GroundStation {
         ]
 
         /// Maximum number of satellites returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Next token that can be supplied in the next call to get the next page of satellites.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1645,13 +1645,13 @@ extension GroundStation {
         ]
 
         /// NORAD satellite ID number.
-        public let noradSatelliteID: Int32?
+        public let noradSatelliteID: Int?
         /// ARN of a satellite.
         public let satelliteArn: String?
         /// ID of a satellite.
         public let satelliteId: String?
 
-        public init(noradSatelliteID: Int32? = nil, satelliteArn: String? = nil, satelliteId: String? = nil) {
+        public init(noradSatelliteID: Int? = nil, satelliteArn: String? = nil, satelliteId: String? = nil) {
             self.noradSatelliteID = noradSatelliteID
             self.satelliteArn = satelliteArn
             self.satelliteId = satelliteId
@@ -1700,9 +1700,9 @@ extension GroundStation {
         /// Name of a socket address.
         public let name: String
         /// Port of a socket address.
-        public let port: Int32
+        public let port: Int
 
-        public init(name: String, port: Int32) {
+        public init(name: String, port: Int) {
             self.name = name
             self.port = port
         }
@@ -1868,14 +1868,14 @@ extension GroundStation {
         ]
 
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
-        public let contactPostPassDurationSeconds: Int32?
+        public let contactPostPassDurationSeconds: Int?
         /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
-        public let contactPrePassDurationSeconds: Int32?
+        public let contactPrePassDurationSeconds: Int?
         /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to 
         ///          Config.
         public let dataflowEdges: [[String]]?
         /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
-        public let minimumViableContactDurationSeconds: Int32?
+        public let minimumViableContactDurationSeconds: Int?
         /// ID of a mission profile.
         public let missionProfileId: String
         /// Name of a mission profile.
@@ -1883,7 +1883,7 @@ extension GroundStation {
         /// ARN of a tracking Config.
         public let trackingConfigArn: String?
 
-        public init(contactPostPassDurationSeconds: Int32? = nil, contactPrePassDurationSeconds: Int32? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int32? = nil, missionProfileId: String, name: String? = nil, trackingConfigArn: String? = nil) {
+        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int? = nil, missionProfileId: String, name: String? = nil, trackingConfigArn: String? = nil) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
             self.dataflowEdges = dataflowEdges

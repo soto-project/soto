@@ -9,7 +9,7 @@ AWS Import/Export Service AWS Import/Export accelerates transferring large amoun
 */
 public struct ImportExport {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

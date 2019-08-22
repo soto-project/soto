@@ -741,11 +741,11 @@ extension ElasticTranscoder {
         /// The detected frame rate of the input file, in frames per second.
         public let frameRate: String?
         /// The detected height of the input file, in pixels.
-        public let height: Int32?
+        public let height: Int?
         /// The detected width of the input file, in pixels.
-        public let width: Int32?
+        public let width: Int?
 
-        public init(durationMillis: Int64? = nil, fileSize: Int64? = nil, frameRate: String? = nil, height: Int32? = nil, width: Int32? = nil) {
+        public init(durationMillis: Int64? = nil, fileSize: Int64? = nil, frameRate: String? = nil, height: Int? = nil, width: Int? = nil) {
             self.durationMillis = durationMillis
             self.fileSize = fileSize
             self.frameRate = frameRate
@@ -1107,7 +1107,7 @@ extension ElasticTranscoder {
         /// Frame rate of the output file, in frames per second.
         public let frameRate: String?
         /// Height of the output file, in pixels.
-        public let height: Int32?
+        public let height: Int?
         /// A sequential counter, starting with 1, that identifies an output among the outputs from the current job. In the Output syntax, this value is always 1.
         public let id: String?
         ///  The name to assign to the transcoded file. Elastic Transcoder saves the file in the Amazon S3 bucket specified by the OutputBucket object in the pipeline that is specified by the pipeline ID.
@@ -1129,9 +1129,9 @@ extension ElasticTranscoder {
         /// Information about the watermarks that you want Elastic Transcoder to add to the video during transcoding. You can specify up to four watermarks for each output. Settings for each watermark must be defined in the preset that you specify in Preset for the current output. Watermarks are added to the output video in the sequence in which you list them in the job output—the first watermark in the list is added to the output video first, the second watermark in the list is added next, and so on. As a result, if the settings in a preset cause Elastic Transcoder to place all watermarks in the same location, the second watermark that you add covers the first one, the third one covers the second, and the fourth one covers the third.
         public let watermarks: [JobWatermark]?
         /// Specifies the width of the output file in pixels.
-        public let width: Int32?
+        public let width: Int?
 
-        public init(albumArt: JobAlbumArt? = nil, appliedColorSpaceConversion: String? = nil, captions: Captions? = nil, duration: Int64? = nil, durationMillis: Int64? = nil, encryption: Encryption? = nil, fileSize: Int64? = nil, frameRate: String? = nil, height: Int32? = nil, id: String? = nil, key: String? = nil, presetId: String? = nil, rotate: String? = nil, segmentDuration: String? = nil, status: String? = nil, statusDetail: String? = nil, thumbnailEncryption: Encryption? = nil, thumbnailPattern: String? = nil, watermarks: [JobWatermark]? = nil, width: Int32? = nil) {
+        public init(albumArt: JobAlbumArt? = nil, appliedColorSpaceConversion: String? = nil, captions: Captions? = nil, duration: Int64? = nil, durationMillis: Int64? = nil, encryption: Encryption? = nil, fileSize: Int64? = nil, frameRate: String? = nil, height: Int? = nil, id: String? = nil, key: String? = nil, presetId: String? = nil, rotate: String? = nil, segmentDuration: String? = nil, status: String? = nil, statusDetail: String? = nil, thumbnailEncryption: Encryption? = nil, thumbnailPattern: String? = nil, watermarks: [JobWatermark]? = nil, width: Int? = nil) {
             self.albumArt = albumArt
             self.appliedColorSpaceConversion = appliedColorSpaceConversion
             self.captions = captions

@@ -281,13 +281,13 @@ extension DynamoDB {
         /// Indicates whether scale in by the target tracking policy is disabled. If the value is true, scale in is disabled and the target tracking policy won't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking policy can remove capacity from the scalable resource. The default value is false.
         public let disableScaleIn: Bool?
         /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. The cooldown period is used to block subsequent scale in requests until it has expired. You should scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, application autoscaling scales out your scalable target immediately. 
-        public let scaleInCooldown: Int32?
+        public let scaleInCooldown: Int?
         /// The amount of time, in seconds, after a scale out activity completes before another scale out activity can start. While the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. You should continuously (but not excessively) scale out.
-        public let scaleOutCooldown: Int32?
+        public let scaleOutCooldown: Int?
         /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
         public let targetValue: Double
 
-        public init(disableScaleIn: Bool? = nil, scaleInCooldown: Int32? = nil, scaleOutCooldown: Int32? = nil, targetValue: Double) {
+        public init(disableScaleIn: Bool? = nil, scaleInCooldown: Int? = nil, scaleOutCooldown: Int? = nil, targetValue: Double) {
             self.disableScaleIn = disableScaleIn
             self.scaleInCooldown = scaleInCooldown
             self.scaleOutCooldown = scaleOutCooldown
@@ -313,13 +313,13 @@ extension DynamoDB {
         /// Indicates whether scale in by the target tracking policy is disabled. If the value is true, scale in is disabled and the target tracking policy won't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking policy can remove capacity from the scalable resource. The default value is false.
         public let disableScaleIn: Bool?
         /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. The cooldown period is used to block subsequent scale in requests until it has expired. You should scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, application autoscaling scales out your scalable target immediately. 
-        public let scaleInCooldown: Int32?
+        public let scaleInCooldown: Int?
         /// The amount of time, in seconds, after a scale out activity completes before another scale out activity can start. While the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. You should continuously (but not excessively) scale out.
-        public let scaleOutCooldown: Int32?
+        public let scaleOutCooldown: Int?
         /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
         public let targetValue: Double
 
-        public init(disableScaleIn: Bool? = nil, scaleInCooldown: Int32? = nil, scaleOutCooldown: Int32? = nil, targetValue: Double) {
+        public init(disableScaleIn: Bool? = nil, scaleInCooldown: Int? = nil, scaleOutCooldown: Int? = nil, targetValue: Double) {
             self.disableScaleIn = disableScaleIn
             self.scaleInCooldown = scaleInCooldown
             self.scaleOutCooldown = scaleOutCooldown
@@ -2330,7 +2330,7 @@ extension DynamoDB {
         ///  LastEvaluatedBackupArn is the Amazon Resource Name (ARN) of the backup last evaluated when the current page of results was returned, inclusive of the current page of results. This value may be specified as the ExclusiveStartBackupArn of a new ListBackups operation in order to fetch the next page of results. 
         public let exclusiveStartBackupArn: String?
         /// Maximum number of backups to return at once.
-        public let limit: Int32?
+        public let limit: Int?
         /// The backups from the table specified by TableName are listed. 
         public let tableName: String?
         /// Only backups created after this time are listed. TimeRangeLowerBound is inclusive.
@@ -2338,7 +2338,7 @@ extension DynamoDB {
         /// Only backups created before this time are listed. TimeRangeUpperBound is exclusive. 
         public let timeRangeUpperBound: TimeStamp?
 
-        public init(backupType: BackupTypeFilter? = nil, exclusiveStartBackupArn: String? = nil, limit: Int32? = nil, tableName: String? = nil, timeRangeLowerBound: TimeStamp? = nil, timeRangeUpperBound: TimeStamp? = nil) {
+        public init(backupType: BackupTypeFilter? = nil, exclusiveStartBackupArn: String? = nil, limit: Int? = nil, tableName: String? = nil, timeRangeLowerBound: TimeStamp? = nil, timeRangeUpperBound: TimeStamp? = nil) {
             self.backupType = backupType
             self.exclusiveStartBackupArn = exclusiveStartBackupArn
             self.limit = limit
@@ -2399,11 +2399,11 @@ extension DynamoDB {
         /// The first global table name that this operation will evaluate.
         public let exclusiveStartGlobalTableName: String?
         /// The maximum number of table names to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// Lists the global tables in a specific Region.
         public let regionName: String?
 
-        public init(exclusiveStartGlobalTableName: String? = nil, limit: Int32? = nil, regionName: String? = nil) {
+        public init(exclusiveStartGlobalTableName: String? = nil, limit: Int? = nil, regionName: String? = nil) {
             self.exclusiveStartGlobalTableName = exclusiveStartGlobalTableName
             self.limit = limit
             self.regionName = regionName
@@ -2454,9 +2454,9 @@ extension DynamoDB {
         /// The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
         public let exclusiveStartTableName: String?
         /// A maximum number of table names to return. If this parameter is not specified, the limit is 100.
-        public let limit: Int32?
+        public let limit: Int?
 
-        public init(exclusiveStartTableName: String? = nil, limit: Int32? = nil) {
+        public init(exclusiveStartTableName: String? = nil, limit: Int? = nil) {
             self.exclusiveStartTableName = exclusiveStartTableName
             self.limit = limit
         }
@@ -3038,7 +3038,7 @@ extension DynamoDB {
         /// This is a legacy parameter. Use KeyConditionExpression instead. For more information, see KeyConditions in the Amazon DynamoDB Developer Guide.
         public let keyConditions: [String: Condition]?
         /// The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed dataset size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Query and Scan in the Amazon DynamoDB Developer Guide.
-        public let limit: Int32?
+        public let limit: Int?
         /// A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.
         public let projectionExpression: String?
         /// This is a legacy parameter. Use FilterExpression instead. For more information, see QueryFilter in the Amazon DynamoDB Developer Guide.
@@ -3051,7 +3051,7 @@ extension DynamoDB {
         /// The name of the table containing the requested items.
         public let tableName: String
 
-        public init(attributesToGet: [String]? = nil, conditionalOperator: ConditionalOperator? = nil, consistentRead: Bool? = nil, exclusiveStartKey: [String: AttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, filterExpression: String? = nil, indexName: String? = nil, keyConditionExpression: String? = nil, keyConditions: [String: Condition]? = nil, limit: Int32? = nil, projectionExpression: String? = nil, queryFilter: [String: Condition]? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, scanIndexForward: Bool? = nil, select: Select? = nil, tableName: String) {
+        public init(attributesToGet: [String]? = nil, conditionalOperator: ConditionalOperator? = nil, consistentRead: Bool? = nil, exclusiveStartKey: [String: AttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, filterExpression: String? = nil, indexName: String? = nil, keyConditionExpression: String? = nil, keyConditions: [String: Condition]? = nil, limit: Int? = nil, projectionExpression: String? = nil, queryFilter: [String: Condition]? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, scanIndexForward: Bool? = nil, select: Select? = nil, tableName: String) {
             self.attributesToGet = attributesToGet
             self.conditionalOperator = conditionalOperator
             self.consistentRead = consistentRead
@@ -3136,15 +3136,15 @@ extension DynamoDB {
         /// The capacity units consumed by the Query operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
         /// The number of items in the response. If you used a QueryFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count and ScannedCount are the same.
-        public let count: Int32?
+        public let count: Int?
         /// An array of item attributes that match the query criteria. Each element in this array consists of an attribute name and the value for that attribute.
         public let items: [[String: AttributeValue]]?
         /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
         public let lastEvaluatedKey: [String: AttributeValue]?
         /// The number of items evaluated, before any QueryFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Query operation. For more information, see Count and ScannedCount in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
-        public let scannedCount: Int32?
+        public let scannedCount: Int?
 
-        public init(consumedCapacity: ConsumedCapacity? = nil, count: Int32? = nil, items: [[String: AttributeValue]]? = nil, lastEvaluatedKey: [String: AttributeValue]? = nil, scannedCount: Int32? = nil) {
+        public init(consumedCapacity: ConsumedCapacity? = nil, count: Int? = nil, items: [[String: AttributeValue]]? = nil, lastEvaluatedKey: [String: AttributeValue]? = nil, scannedCount: Int? = nil) {
             self.consumedCapacity = consumedCapacity
             self.count = count
             self.items = items
@@ -3674,22 +3674,22 @@ extension DynamoDB {
         /// The name of a secondary index to scan. This index can be any local secondary index or global secondary index. Note that if you use the IndexName parameter, you must also provide TableName.
         public let indexName: String?
         /// The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed dataset size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Working with Queries in the Amazon DynamoDB Developer Guide.
-        public let limit: Int32?
+        public let limit: Int?
         /// A string that identifies one or more attributes to retrieve from the specified table or index. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see Specifying Item Attributes in the Amazon DynamoDB Developer Guide.
         public let projectionExpression: String?
         public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// This is a legacy parameter. Use FilterExpression instead. For more information, see ScanFilter in the Amazon DynamoDB Developer Guide.
         public let scanFilter: [String: Condition]?
         /// For a parallel Scan request, Segment identifies an individual segment to be scanned by an application worker. Segment IDs are zero-based, so the first segment is always 0. For example, if you want to use four application threads to scan a table or an index, then the first thread specifies a Segment value of 0, the second thread specifies 1, and so on. The value of LastEvaluatedKey returned from a parallel Scan request must be used as ExclusiveStartKey with the same segment ID in a subsequent Scan operation. The value for Segment must be greater than or equal to 0, and less than the value provided for TotalSegments. If you provide Segment, you must also provide TotalSegments.
-        public let segment: Int32?
+        public let segment: Int?
         /// The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, the count of matching items, or in the case of an index, some or all of the attributes projected into the index.    ALL_ATTRIBUTES - Returns all of the item attributes from the specified table or index. If you query a local secondary index, then for each matching item in the index, DynamoDB fetches the entire item from the parent table. If the index is configured to project all item attributes, then all of the data can be obtained from the local secondary index, and no fetching is required.    ALL_PROJECTED_ATTRIBUTES - Allowed only when querying an index. Retrieves all attributes that have been projected into the index. If the index is configured to project all attributes, this return value is equivalent to specifying ALL_ATTRIBUTES.    COUNT - Returns the number of matching items, rather than the matching items themselves.    SPECIFIC_ATTRIBUTES - Returns only the attributes listed in AttributesToGet. This return value is equivalent to specifying AttributesToGet without specifying any value for Select. If you query or scan a local secondary index and request only attributes that are projected into that index, the operation reads only the index and not the table. If any of the requested attributes are not projected into the local secondary index, DynamoDB fetches each of these attributes from the parent table. This extra fetching incurs additional throughput cost and latency. If you query or scan a global secondary index, you can only request attributes that are projected into the index. Global secondary index queries cannot fetch attributes from the parent table.   If neither Select nor AttributesToGet are specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a table, and ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and AttributesToGet together in a single request, unless the value for Select is SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying AttributesToGet without any value for Select.)  If you use the ProjectionExpression parameter, then the value for Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error. 
         public let select: Select?
         /// The name of the table containing the requested items; or, if you provide IndexName, the name of the table to which that index belongs.
         public let tableName: String
         /// For a parallel Scan request, TotalSegments represents the total number of segments into which the Scan operation will be divided. The value of TotalSegments corresponds to the number of application workers that will perform the parallel scan. For example, if you want to use four application threads to scan a table or an index, specify a TotalSegments value of 4. The value for TotalSegments must be greater than or equal to 1, and less than or equal to 1000000. If you specify a TotalSegments value of 1, the Scan operation will be sequential rather than parallel. If you specify TotalSegments, you must also specify Segment.
-        public let totalSegments: Int32?
+        public let totalSegments: Int?
 
-        public init(attributesToGet: [String]? = nil, conditionalOperator: ConditionalOperator? = nil, consistentRead: Bool? = nil, exclusiveStartKey: [String: AttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, filterExpression: String? = nil, indexName: String? = nil, limit: Int32? = nil, projectionExpression: String? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, scanFilter: [String: Condition]? = nil, segment: Int32? = nil, select: Select? = nil, tableName: String, totalSegments: Int32? = nil) {
+        public init(attributesToGet: [String]? = nil, conditionalOperator: ConditionalOperator? = nil, consistentRead: Bool? = nil, exclusiveStartKey: [String: AttributeValue]? = nil, expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, filterExpression: String? = nil, indexName: String? = nil, limit: Int? = nil, projectionExpression: String? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, scanFilter: [String: Condition]? = nil, segment: Int? = nil, select: Select? = nil, tableName: String, totalSegments: Int? = nil) {
             self.attributesToGet = attributesToGet
             self.conditionalOperator = conditionalOperator
             self.consistentRead = consistentRead
@@ -3772,15 +3772,15 @@ extension DynamoDB {
         /// The capacity units consumed by the Scan operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
         /// The number of items in the response. If you set ScanFilter in the request, then Count is the number of items returned after the filter was applied, and ScannedCount is the number of matching items before the filter was applied. If you did not use a filter in the request, then Count is the same as ScannedCount.
-        public let count: Int32?
+        public let count: Int?
         /// An array of item attributes that match the scan criteria. Each element in this array consists of an attribute name and the value for that attribute.
         public let items: [[String: AttributeValue]]?
         /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
         public let lastEvaluatedKey: [String: AttributeValue]?
         /// The number of items evaluated, before any ScanFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Scan operation. For more information, see Count and ScannedCount in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
-        public let scannedCount: Int32?
+        public let scannedCount: Int?
 
-        public init(consumedCapacity: ConsumedCapacity? = nil, count: Int32? = nil, items: [[String: AttributeValue]]? = nil, lastEvaluatedKey: [String: AttributeValue]? = nil, scannedCount: Int32? = nil) {
+        public init(consumedCapacity: ConsumedCapacity? = nil, count: Int? = nil, items: [[String: AttributeValue]]? = nil, lastEvaluatedKey: [String: AttributeValue]? = nil, scannedCount: Int? = nil) {
             self.consumedCapacity = consumedCapacity
             self.count = count
             self.items = items

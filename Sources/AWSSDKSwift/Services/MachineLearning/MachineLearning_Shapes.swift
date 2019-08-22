@@ -1010,7 +1010,7 @@ extension MachineLearning {
         /// The less than or equal to operator. The BatchPrediction results will have FilterVariable values that are less than or equal to the value specified with LE.
         public let le: String?
         /// The number of pages of information to include in the result. The range of acceptable values is 1 through 100. The default value is 100.
-        public let limit: Int32?
+        public let limit: Int?
         /// The less than operator. The BatchPrediction results will have FilterVariable values that are less than the value specified with LT.
         public let lt: String?
         /// The not equal to operator. The BatchPrediction results will have FilterVariable values not equal to the value specified with NE.
@@ -1022,7 +1022,7 @@ extension MachineLearning {
         /// A two-value parameter that determines the sequence of the resulting list of MLModels.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
         public let sortOrder: SortOrder?
 
-        public init(eq: String? = nil, filterVariable: BatchPredictionFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int32? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
+        public init(eq: String? = nil, filterVariable: BatchPredictionFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
             self.eq = eq
             self.filterVariable = filterVariable
             self.ge = ge
@@ -1118,7 +1118,7 @@ extension MachineLearning {
         /// The less than or equal to operator. The DataSource results will have FilterVariable values that are less than or equal to the value specified with LE.
         public let le: String?
         ///  The maximum number of DataSource to include in the result.
-        public let limit: Int32?
+        public let limit: Int?
         /// The less than operator. The DataSource results will have FilterVariable values that are less than the value specified with LT.
         public let lt: String?
         /// The not equal to operator. The DataSource results will have FilterVariable values not equal to the value specified with NE.
@@ -1130,7 +1130,7 @@ extension MachineLearning {
         /// A two-value parameter that determines the sequence of the resulting list of DataSource.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
         public let sortOrder: SortOrder?
 
-        public init(eq: String? = nil, filterVariable: DataSourceFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int32? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
+        public init(eq: String? = nil, filterVariable: DataSourceFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
             self.eq = eq
             self.filterVariable = filterVariable
             self.ge = ge
@@ -1226,7 +1226,7 @@ extension MachineLearning {
         /// The less than or equal to operator. The Evaluation results will have FilterVariable values that are less than or equal to the value specified with LE.
         public let le: String?
         ///  The maximum number of Evaluation to include in the result.
-        public let limit: Int32?
+        public let limit: Int?
         /// The less than operator. The Evaluation results will have FilterVariable values that are less than the value specified with LT.
         public let lt: String?
         /// The not equal to operator. The Evaluation results will have FilterVariable values not equal to the value specified with NE.
@@ -1238,7 +1238,7 @@ extension MachineLearning {
         /// A two-value parameter that determines the sequence of the resulting list of Evaluation.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
         public let sortOrder: SortOrder?
 
-        public init(eq: String? = nil, filterVariable: EvaluationFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int32? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
+        public init(eq: String? = nil, filterVariable: EvaluationFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
             self.eq = eq
             self.filterVariable = filterVariable
             self.ge = ge
@@ -1334,7 +1334,7 @@ extension MachineLearning {
         /// The less than or equal to operator. The MLModel results will have FilterVariable values that are less than or equal to the value specified with LE.
         public let le: String?
         /// The number of pages of information to include in the result. The range of acceptable values is 1 through 100. The default value is 100.
-        public let limit: Int32?
+        public let limit: Int?
         /// The less than operator. The MLModel results will have FilterVariable values that are less than the value specified with LT.
         public let lt: String?
         /// The not equal to operator. The MLModel results will have FilterVariable values not equal to the value specified with NE.
@@ -1346,7 +1346,7 @@ extension MachineLearning {
         /// A two-value parameter that determines the sequence of the resulting list of MLModel.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
         public let sortOrder: SortOrder?
 
-        public init(eq: String? = nil, filterVariable: MLModelFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int32? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
+        public init(eq: String? = nil, filterVariable: MLModelFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
             self.eq = eq
             self.filterVariable = filterVariable
             self.ge = ge
@@ -2507,9 +2507,9 @@ extension MachineLearning {
         /// The URI that specifies where to send real-time prediction requests for the MLModel. Note The application must wait until the real-time endpoint is ready before using this URI. 
         public let endpointUrl: String?
         ///  The maximum processing rate for the real-time endpoint for MLModel, measured in incoming requests per second.
-        public let peakRequestsPerSecond: Int32?
+        public let peakRequestsPerSecond: Int?
 
-        public init(createdAt: TimeStamp? = nil, endpointStatus: RealtimeEndpointStatus? = nil, endpointUrl: String? = nil, peakRequestsPerSecond: Int32? = nil) {
+        public init(createdAt: TimeStamp? = nil, endpointStatus: RealtimeEndpointStatus? = nil, endpointUrl: String? = nil, peakRequestsPerSecond: Int? = nil) {
             self.createdAt = createdAt
             self.endpointStatus = endpointStatus
             self.endpointUrl = endpointUrl

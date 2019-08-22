@@ -282,11 +282,11 @@ extension Redshift {
         /// A boolean value indicating whether to override an exception if the retention period has passed. 
         public let force: Bool?
         /// The number of days that a manual snapshot is retained. If you specify the value -1, the manual snapshot is retained indefinitely. The number must be either -1 or an integer between 1 and 3,653. If you decrease the manual snapshot retention period from its current value, existing manual snapshots that fall outside of the new retention period will return an error. If you want to suppress the errors and delete the snapshots, use the force option. 
-        public let manualSnapshotRetentionPeriod: Int32?
+        public let manualSnapshotRetentionPeriod: Int?
         /// A list of snapshot identifiers you want to modify.
         public let snapshotIdentifierList: [String]
 
-        public init(force: Bool? = nil, manualSnapshotRetentionPeriod: Int32? = nil, snapshotIdentifierList: [String]) {
+        public init(force: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, snapshotIdentifierList: [String]) {
             self.force = force
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.snapshotIdentifierList = snapshotIdentifierList
@@ -388,7 +388,7 @@ extension Redshift {
         /// A boolean value that, if true, indicates that major version upgrades will be applied automatically to the cluster during the maintenance window. 
         public let allowVersionUpgrade: Bool?
         /// The number of days that automatic cluster snapshots are retained.
-        public let automatedSnapshotRetentionPeriod: Int32?
+        public let automatedSnapshotRetentionPeriod: Int?
         /// The name of the Availability Zone in which the cluster is located.
         public let availabilityZone: String?
         /// The availability status of the cluster for queries. Possible values are the following:   Available - The cluster is available for queries.    Unavailable - The cluster is not available for queries.   Maintenance - The cluster is intermittently available for queries due to maintenance activities.   Modifying - The cluster is intermittently available for queries due to changes that modify the cluster.   Failed - The cluster failed and is not available for queries.  
@@ -439,7 +439,7 @@ extension Redshift {
         /// The name of the maintenance track for the cluster.
         public let maintenanceTrackName: String?
         /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
-        public let manualSnapshotRetentionPeriod: Int32?
+        public let manualSnapshotRetentionPeriod: Int?
         /// The master user name for the cluster. This name is used to connect to the database that is specified in the DBName parameter. 
         public let masterUsername: String?
         /// The status of a modify operation, if any, initiated for the cluster.
@@ -447,7 +447,7 @@ extension Redshift {
         /// The node type for the nodes in the cluster.
         public let nodeType: String?
         /// The number of compute nodes in the cluster.
-        public let numberOfNodes: Int32?
+        public let numberOfNodes: Int?
         /// Cluster operations that are waiting to be started.
         public let pendingActions: [String]?
         /// A value that, if present, indicates that changes to the cluster are pending. Specific pending changes are identified by subelements.
@@ -471,7 +471,7 @@ extension Redshift {
         /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are associated with the cluster. This parameter is returned only if the cluster is in a VPC.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int32? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nodeType: String? = nil, numberOfNodes: Int32? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
@@ -958,13 +958,13 @@ extension Redshift {
         /// The destination region that snapshots are automatically copied to when cross-region snapshot copy is enabled.
         public let destinationRegion: String?
         /// The number of days that automated snapshots are retained in the destination region after they are copied from a source region. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653.
-        public let manualSnapshotRetentionPeriod: Int32?
+        public let manualSnapshotRetentionPeriod: Int?
         /// The number of days that automated snapshots are retained in the destination region after they are copied from a source region.
         public let retentionPeriod: Int64?
         /// The name of the snapshot copy grant.
         public let snapshotCopyGrantName: String?
 
-        public init(destinationRegion: String? = nil, manualSnapshotRetentionPeriod: Int32? = nil, retentionPeriod: Int64? = nil, snapshotCopyGrantName: String? = nil) {
+        public init(destinationRegion: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, retentionPeriod: Int64? = nil, snapshotCopyGrantName: String? = nil) {
             self.destinationRegion = destinationRegion
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.retentionPeriod = retentionPeriod
@@ -1123,7 +1123,7 @@ extension Redshift {
         ]
 
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
-        public let manualSnapshotRetentionPeriod: Int32?
+        public let manualSnapshotRetentionPeriod: Int?
         /// The identifier of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints:   Must be the identifier for a valid cluster.  
         public let sourceSnapshotClusterIdentifier: String?
         /// The identifier for the source snapshot. Constraints:   Must be the identifier for a valid automated snapshot whose state is available.  
@@ -1131,7 +1131,7 @@ extension Redshift {
         /// The identifier given to the new manual snapshot. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for the AWS account that is making the request.  
         public let targetSnapshotIdentifier: String
 
-        public init(manualSnapshotRetentionPeriod: Int32? = nil, sourceSnapshotClusterIdentifier: String? = nil, sourceSnapshotIdentifier: String, targetSnapshotIdentifier: String) {
+        public init(manualSnapshotRetentionPeriod: Int? = nil, sourceSnapshotClusterIdentifier: String? = nil, sourceSnapshotIdentifier: String, targetSnapshotIdentifier: String) {
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.sourceSnapshotClusterIdentifier = sourceSnapshotClusterIdentifier
             self.sourceSnapshotIdentifier = sourceSnapshotIdentifier
@@ -1201,7 +1201,7 @@ extension Redshift {
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true 
         public let allowVersionUpgrade: Bool?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  Default: 1  Constraints: Must be a value from 0 to 35.
-        public let automatedSnapshotRetentionPeriod: Int32?
+        public let automatedSnapshotRetentionPeriod: Int?
         /// The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. For example, if you have several EC2 instances running in a specific Availability Zone, then you might want the cluster to be provisioned in the same zone in order to decrease network latency. Default: A random, system-chosen Availability Zone in the region that is specified by the endpoint. Example: us-east-1d  Constraint: The specified Availability Zone must be in the same region as the current endpoint.
         public let availabilityZone: String?
         /// A unique identifier for the cluster. You use this identifier to refer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.   Example: myexamplecluster 
@@ -1235,7 +1235,7 @@ extension Redshift {
         /// An optional parameter for the name of the maintenance track for the cluster. If you don't provide a maintenance track name, the cluster is assigned to the current track.
         public let maintenanceTrackName: String?
         /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
-        public let manualSnapshotRetentionPeriod: Int32?
+        public let manualSnapshotRetentionPeriod: Int?
         /// The user name associated with the master user account for the cluster that is being created. Constraints:   Must be 1 - 128 alphanumeric characters. The user name can't be PUBLIC.   First character must be a letter.   Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.   
         public let masterUsername: String
         /// The password associated with the master user account for the cluster that is being created. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33 to 126) except ' (single quote), " (double quote), \, /, @, or space.  
@@ -1243,9 +1243,9 @@ extension Redshift {
         /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values: ds2.xlarge | ds2.8xlarge | ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge 
         public let nodeType: String
         /// The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node.  For information about determining how many nodes you need, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1  Constraints: Value must be at least 1 and no more than 100.
-        public let numberOfNodes: Int32?
+        public let numberOfNodes: Int?
         /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439  Valid Values: 1150-65535 
-        public let port: Int32?
+        public let port: Int?
         /// The weekly time range (in UTC) during which automated cluster maintenance can occur.  Format: ddd:hh24:mi-ddd:hh24:mi   Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         /// If true, the cluster can be accessed from a public network. 
@@ -1257,7 +1257,7 @@ extension Redshift {
         /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, availabilityZone: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int32? = nil, masterUsername: String, masterUserPassword: String, nodeType: String, numberOfNodes: Int32? = nil, port: Int32? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String, masterUserPassword: String, nodeType: String, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -1442,13 +1442,13 @@ extension Redshift {
         /// The cluster identifier for which you want a snapshot.
         public let clusterIdentifier: String
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
-        public let manualSnapshotRetentionPeriod: Int32?
+        public let manualSnapshotRetentionPeriod: Int?
         /// A unique identifier for the snapshot that you are requesting. This identifier must be unique for all snapshots within the AWS account. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
         public let snapshotIdentifier: String
         /// A list of tag instances.
         public let tags: [Tag]?
 
-        public init(clusterIdentifier: String, manualSnapshotRetentionPeriod: Int32? = nil, snapshotIdentifier: String, tags: [Tag]? = nil) {
+        public init(clusterIdentifier: String, manualSnapshotRetentionPeriod: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.snapshotIdentifier = snapshotIdentifier
@@ -1750,7 +1750,7 @@ extension Redshift {
         ]
 
         public let dryRun: Bool?
-        public let nextInvocations: Int32?
+        public let nextInvocations: Int?
         /// The definition of the snapshot schedule. The definition is made up of schedule expressions, for example "cron(30 12 *)" or "rate(12 hours)". 
         public let scheduleDefinitions: [String]?
         /// The description of the snapshot schedule.
@@ -1760,7 +1760,7 @@ extension Redshift {
         /// An optional set of tags you can use to search for the schedule.
         public let tags: [Tag]?
 
-        public init(dryRun: Bool? = nil, nextInvocations: Int32? = nil, scheduleDefinitions: [String]? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: [Tag]? = nil) {
+        public init(dryRun: Bool? = nil, nextInvocations: Int? = nil, scheduleDefinitions: [String]? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.dryRun = dryRun
             self.nextInvocations = nextInvocations
             self.scheduleDefinitions = scheduleDefinitions
@@ -1932,11 +1932,11 @@ extension Redshift {
         /// The identifier of the final snapshot that is to be created immediately before deleting the cluster. If this parameter is provided, SkipFinalClusterSnapshot must be false.  Constraints:   Must be 1 to 255 alphanumeric characters.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let finalClusterSnapshotIdentifier: String?
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
-        public let finalClusterSnapshotRetentionPeriod: Int32?
+        public let finalClusterSnapshotRetentionPeriod: Int?
         /// Determines whether a final snapshot of the cluster is created before Amazon Redshift deletes the cluster. If true, a final cluster snapshot is not created. If false, a final cluster snapshot is created before the cluster is deleted.   The FinalClusterSnapshotIdentifier parameter must be specified if SkipFinalClusterSnapshot is false.  Default: false 
         public let skipFinalClusterSnapshot: Bool?
 
-        public init(clusterIdentifier: String, finalClusterSnapshotIdentifier: String? = nil, finalClusterSnapshotRetentionPeriod: Int32? = nil, skipFinalClusterSnapshot: Bool? = nil) {
+        public init(clusterIdentifier: String, finalClusterSnapshotIdentifier: String? = nil, finalClusterSnapshotRetentionPeriod: Int? = nil, skipFinalClusterSnapshot: Bool? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.finalClusterSnapshotIdentifier = finalClusterSnapshotIdentifier
             self.finalClusterSnapshotRetentionPeriod = finalClusterSnapshotRetentionPeriod
@@ -2192,9 +2192,9 @@ extension Redshift {
         /// An optional parameter that specifies the starting point for returning a set of response records. When the results of a DescribeClusterDbRevisions request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request.  Constraints: You can specify either the ClusterIdentifier parameter, or the marker parameter, but not both.
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in the marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the marker parameter and retrying the request.  Default: 100 Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2219,7 +2219,7 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterParameterGroups request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The name of a specific parameter group for which to return details. By default, details about all parameter groups and the default parameter group are returned.
         public let parameterGroupName: String?
         /// A tag key or keys for which you want to return all matching cluster parameter groups that are associated with the specified key or keys. For example, suppose that you have parameter groups that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the parameter groups that have either or both of these tag keys associated with them.
@@ -2227,7 +2227,7 @@ extension Redshift {
         /// A tag value or values for which you want to return all matching cluster parameter groups that are associated with the specified tag value or values. For example, suppose that you have parameter groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the parameter groups that have either or both of these tag values associated with them.
         public let tagValues: [String]?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, parameterGroupName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, parameterGroupName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.parameterGroupName = parameterGroupName
@@ -2255,13 +2255,13 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterParameters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The name of a cluster parameter group for which to return details.
         public let parameterGroupName: String
         /// The parameter types to return. Specify user to show parameters that are different form the default. Similarly, specify engine-default to show parameters that are the same as the default parameter group.  Default: All parameter types returned. Valid Values: user | engine-default 
         public let source: String?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, parameterGroupName: String, source: String? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, parameterGroupName: String, source: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.parameterGroupName = parameterGroupName
@@ -2290,13 +2290,13 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSecurityGroups request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the ClusterSecurityGroupName parameter or the Marker parameter, but not both. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// A tag key or keys for which you want to return all matching cluster security groups that are associated with the specified key or keys. For example, suppose that you have security groups that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the security groups that have either or both of these tag keys associated with them.
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching cluster security groups that are associated with the specified tag value or values. For example, suppose that you have security groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the security groups that have either or both of these tag values associated with them.
         public let tagValues: [String]?
 
-        public init(clusterSecurityGroupName: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(clusterSecurityGroupName: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2338,7 +2338,7 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSnapshots request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The AWS customer account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a particular account. To describe snapshots you own, either specify your AWS customer account, or do not specify the parameter.
         public let ownerAccount: String?
         /// The snapshot identifier of the snapshot about which to return information.
@@ -2353,7 +2353,7 @@ extension Redshift {
         /// A tag value or values for which you want to return all matching cluster snapshots that are associated with the specified tag value or values. For example, suppose that you have snapshots that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the snapshots that have either or both of these tag values associated with them.
         public let tagValues: [String]?
 
-        public init(clusterExists: Bool? = nil, clusterIdentifier: String? = nil, endTime: TimeStamp? = nil, marker: String? = nil, maxRecords: Int32? = nil, ownerAccount: String? = nil, snapshotIdentifier: String? = nil, snapshotType: String? = nil, sortingEntities: [SnapshotSortingEntity]? = nil, startTime: TimeStamp? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(clusterExists: Bool? = nil, clusterIdentifier: String? = nil, endTime: TimeStamp? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotIdentifier: String? = nil, snapshotType: String? = nil, sortingEntities: [SnapshotSortingEntity]? = nil, startTime: TimeStamp? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterExists = clusterExists
             self.clusterIdentifier = clusterIdentifier
             self.endTime = endTime
@@ -2398,13 +2398,13 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSubnetGroups request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// A tag key or keys for which you want to return all matching cluster subnet groups that are associated with the specified key or keys. For example, suppose that you have subnet groups that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the subnet groups that have either or both of these tag keys associated with them.
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching cluster subnet groups that are associated with the specified tag value or values. For example, suppose that you have subnet groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the subnet groups that have either or both of these tag values associated with them.
         public let tagValues: [String]?
 
-        public init(clusterSubnetGroupName: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(clusterSubnetGroupName: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2433,9 +2433,9 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterTracks request exceed the value specified in MaxRecords, Amazon Redshift returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// An integer value for the maximum number of maintenance tracks to return.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(maintenanceTrackName: String? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(maintenanceTrackName: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.maintenanceTrackName = maintenanceTrackName
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2463,9 +2463,9 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterVersions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(clusterParameterGroupFamily: String? = nil, clusterVersion: String? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(clusterParameterGroupFamily: String? = nil, clusterVersion: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.clusterParameterGroupFamily = clusterParameterGroupFamily
             self.clusterVersion = clusterVersion
             self.marker = marker
@@ -2494,13 +2494,13 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the ClusterIdentifier parameter or the Marker parameter, but not both. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// A tag key or keys for which you want to return all matching clusters that are associated with the specified key or keys. For example, suppose that you have clusters that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the clusters that have either or both of these tag keys associated with them.
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching clusters that are associated with the specified tag value or values. For example, suppose that you have clusters that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the clusters that have either or both of these tag values associated with them.
         public let tagValues: [String]?
 
-        public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2527,11 +2527,11 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDefaultClusterParameters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The name of the cluster parameter group family.
         public let parameterGroupFamily: String
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, parameterGroupFamily: String) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, parameterGroupFamily: String) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.parameterGroupFamily = parameterGroupFamily
@@ -2589,7 +2589,7 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEventSubscriptions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The name of the Amazon Redshift event notification subscription to be described.
         public let subscriptionName: String?
         /// A tag key or keys for which you want to return all matching event notification subscriptions that are associated with the specified key or keys. For example, suppose that you have subscriptions that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the subscriptions that have either or both of these tag keys associated with them.
@@ -2597,7 +2597,7 @@ extension Redshift {
         /// A tag value or values for which you want to return all matching event notification subscriptions that are associated with the specified tag value or values. For example, suppose that you have subscriptions that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the subscriptions that have either or both of these tag values associated with them.
         public let tagValues: [String]?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, subscriptionName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, subscriptionName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.subscriptionName = subscriptionName
@@ -2626,13 +2626,13 @@ extension Redshift {
         ]
 
         /// The number of minutes prior to the time of the request for which to retrieve events. For example, if the request is sent at 18:00 and you specify a duration of 60, then only events which have occurred after 17:00 will be returned. Default: 60 
-        public let duration: Int32?
+        public let duration: Int?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z 
         public let endTime: TimeStamp?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEvents request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The identifier of the event source for which events will be returned. If this parameter is not specified, then all sources are included in the response. Constraints: If SourceIdentifier is supplied, SourceType must also be provided.   Specify a cluster identifier when SourceType is cluster.   Specify a cluster security group name when SourceType is cluster-security-group.   Specify a cluster parameter group name when SourceType is cluster-parameter-group.   Specify a cluster snapshot identifier when SourceType is cluster-snapshot.  
         public let sourceIdentifier: String?
         /// The event source to retrieve events for. If no value is specified, all events are returned. Constraints: If SourceType is supplied, SourceIdentifier must also be provided.   Specify cluster when SourceIdentifier is a cluster identifier.   Specify cluster-security-group when SourceIdentifier is a cluster security group name.   Specify cluster-parameter-group when SourceIdentifier is a cluster parameter group name.   Specify cluster-snapshot when SourceIdentifier is a cluster snapshot identifier.  
@@ -2640,7 +2640,7 @@ extension Redshift {
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z 
         public let startTime: TimeStamp?
 
-        public init(duration: Int32? = nil, endTime: TimeStamp? = nil, marker: String? = nil, maxRecords: Int32? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: TimeStamp? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.marker = marker
@@ -2675,13 +2675,13 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeHsmClientCertificates request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// A tag key or keys for which you want to return all matching HSM client certificates that are associated with the specified key or keys. For example, suppose that you have HSM client certificates that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the HSM client certificates that have either or both of these tag keys associated with them.
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching HSM client certificates that are associated with the specified tag value or values. For example, suppose that you have HSM client certificates that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the HSM client certificates that have either or both of these tag values associated with them.
         public let tagValues: [String]?
 
-        public init(hsmClientCertificateIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(hsmClientCertificateIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2712,13 +2712,13 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeHsmConfigurations request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// A tag key or keys for which you want to return all matching HSM configurations that are associated with the specified key or keys. For example, suppose that you have HSM configurations that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the HSM configurations that have either or both of these tag keys associated with them.
         public let tagKeys: [String]?
         /// A tag value or values for which you want to return all matching HSM configurations that are associated with the specified tag value or values. For example, suppose that you have HSM configurations that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the HSM configurations that have either or both of these tag values associated with them.
         public let tagValues: [String]?
 
-        public init(hsmConfigurationIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(hsmConfigurationIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2765,11 +2765,11 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeOrderableClusterOptions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The node type filter value. Specify this parameter to show only the available offerings matching the specified node type.
         public let nodeType: String?
 
-        public init(clusterVersion: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, nodeType: String? = nil) {
+        public init(clusterVersion: String? = nil, marker: String? = nil, maxRecords: Int? = nil, nodeType: String? = nil) {
             self.clusterVersion = clusterVersion
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2794,11 +2794,11 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeReservedNodeOfferings request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The unique identifier for the offering.
         public let reservedNodeOfferingId: String?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, reservedNodeOfferingId: String? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, reservedNodeOfferingId: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.reservedNodeOfferingId = reservedNodeOfferingId
@@ -2821,11 +2821,11 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeReservedNodes request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// Identifier for the node reservation.
         public let reservedNodeId: String?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, reservedNodeId: String? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, reservedNodeId: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.reservedNodeId = reservedNodeId
@@ -2867,7 +2867,7 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both. 
         public let marker: String?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The name of the snapshot copy grant.
         public let snapshotCopyGrantName: String?
         /// A tag key or keys for which you want to return all matching resources that are associated with the specified key or keys. For example, suppose that you have resources tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with all resources that have either or both of these tag keys associated with them.
@@ -2875,7 +2875,7 @@ extension Redshift {
         /// A tag value or values for which you want to return all matching resources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them.
         public let tagValues: [String]?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, snapshotCopyGrantName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, snapshotCopyGrantName: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.snapshotCopyGrantName = snapshotCopyGrantName
@@ -2907,7 +2907,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
         /// The maximum number or response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// A unique identifier for a snapshot schedule.
         public let scheduleIdentifier: String?
         /// The key value for a snapshot schedule tag.
@@ -2915,7 +2915,7 @@ extension Redshift {
         /// The value corresponding to the key of the snapshot schedule tag.
         public let tagValues: [String]?
 
-        public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, scheduleIdentifier: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, scheduleIdentifier: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2969,11 +2969,11 @@ extension Redshift {
         /// An optional pagination token provided by a previous DescribeTableRestoreStatus request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The identifier of the table restore request to return status for. If you don't specify a TableRestoreRequestId value, then DescribeTableRestoreStatus returns the status of all in-progress table restore requests.
         public let tableRestoreRequestId: String?
 
-        public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, tableRestoreRequestId: String? = nil) {
+        public init(clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, tableRestoreRequestId: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.marker = marker
             self.maxRecords = maxRecords
@@ -3001,7 +3001,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// The maximum number or response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. 
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The Amazon Resource Name (ARN) for which you want to describe the tag or tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1. 
         public let resourceName: String?
         /// The type of resource with which you want to view tags. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   Snapshot copy grant   For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide. 
@@ -3011,7 +3011,7 @@ extension Redshift {
         /// A tag value or values for which you want to return all matching resources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them.
         public let tagValues: [String]?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, resourceName: String? = nil, resourceType: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, resourceName: String? = nil, resourceType: String? = nil, tagKeys: [String]? = nil, tagValues: [String]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.resourceName = resourceName
@@ -3175,13 +3175,13 @@ extension Redshift {
         /// The destination AWS Region that you want to copy snapshots to. Constraints: Must be the name of a valid AWS Region. For more information, see Regions and Endpoints in the Amazon Web Services General Reference. 
         public let destinationRegion: String
         /// The number of days to retain newly copied snapshots in the destination AWS Region after they are copied from the source AWS Region. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653.
-        public let manualSnapshotRetentionPeriod: Int32?
+        public let manualSnapshotRetentionPeriod: Int?
         /// The number of days to retain automated snapshots in the destination region after they are copied from the source region. Default: 7. Constraints: Must be at least 1 and no more than 35.
-        public let retentionPeriod: Int32?
+        public let retentionPeriod: Int?
         /// The name of the snapshot copy grant to use when snapshots of an AWS KMS-encrypted cluster are copied to the destination region.
         public let snapshotCopyGrantName: String?
 
-        public init(clusterIdentifier: String, destinationRegion: String, manualSnapshotRetentionPeriod: Int32? = nil, retentionPeriod: Int32? = nil, snapshotCopyGrantName: String? = nil) {
+        public init(clusterIdentifier: String, destinationRegion: String, manualSnapshotRetentionPeriod: Int? = nil, retentionPeriod: Int? = nil, snapshotCopyGrantName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.destinationRegion = destinationRegion
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
@@ -3223,9 +3223,9 @@ extension Redshift {
         /// The DNS address of the Cluster.
         public let address: String?
         /// The port that the database engine is listening on.
-        public let port: Int32?
+        public let port: Int?
 
-        public init(address: String? = nil, port: Int32? = nil) {
+        public init(address: String? = nil, port: Int? = nil) {
             self.address = address
             self.port = port
         }
@@ -3486,9 +3486,9 @@ extension Redshift {
         /// The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same permissions as the existing user. If DbUser doesn't exist in the database and Autocreate is True, a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False, then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Database Developer Guide.  Constraints:   Must be 1 to 64 alphanumeric characters or hyphens. The user name can't be PUBLIC.   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.  
         public let dbUser: String
         /// The number of seconds until the returned temporary password expires. Constraint: minimum 900, maximum 3600. Default: 900
-        public let durationSeconds: Int32?
+        public let durationSeconds: Int?
 
-        public init(autoCreate: Bool? = nil, clusterIdentifier: String, dbGroups: [String]? = nil, dbName: String? = nil, dbUser: String, durationSeconds: Int32? = nil) {
+        public init(autoCreate: Bool? = nil, clusterIdentifier: String, dbGroups: [String]? = nil, dbName: String? = nil, dbUser: String, durationSeconds: Int? = nil) {
             self.autoCreate = autoCreate
             self.clusterIdentifier = clusterIdentifier
             self.dbGroups = dbGroups
@@ -3517,11 +3517,11 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of ReservedNodeOfferings.
         public let marker: String?
         /// An integer setting the maximum number of ReservedNodeOfferings to retrieve.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// A string representing the node identifier for the DC1 Reserved Node to be exchanged.
         public let reservedNodeId: String
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, reservedNodeId: String) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, reservedNodeId: String) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.reservedNodeId = reservedNodeId
@@ -3883,7 +3883,7 @@ extension Redshift {
         /// A boolean indicating whether to enable the deferred maintenance window. 
         public let deferMaintenance: Bool?
         /// An integer indicating the duration of the maintenance window in days. If you specify a duration, you can't specify an end time. The duration must be 45 days or less.
-        public let deferMaintenanceDuration: Int32?
+        public let deferMaintenanceDuration: Int?
         /// A timestamp indicating end time for the deferred maintenance window. If you specify an end time, you can't specify a duration.
         public let deferMaintenanceEndTime: TimeStamp?
         /// A unique identifier for the deferred maintenance window.
@@ -3891,7 +3891,7 @@ extension Redshift {
         /// A timestamp indicating the start time for the deferred maintenance window.
         public let deferMaintenanceStartTime: TimeStamp?
 
-        public init(clusterIdentifier: String, deferMaintenance: Bool? = nil, deferMaintenanceDuration: Int32? = nil, deferMaintenanceEndTime: TimeStamp? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: TimeStamp? = nil) {
+        public init(clusterIdentifier: String, deferMaintenance: Bool? = nil, deferMaintenanceDuration: Int? = nil, deferMaintenanceEndTime: TimeStamp? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: TimeStamp? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.deferMaintenance = deferMaintenance
             self.deferMaintenanceDuration = deferMaintenanceDuration
@@ -3955,7 +3955,7 @@ extension Redshift {
         /// If true, major version upgrades will be applied automatically to the cluster during the maintenance window.  Default: false 
         public let allowVersionUpgrade: Bool?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  If you decrease the automated snapshot retention period from its current value, existing automated snapshots that fall outside of the new retention period will be immediately deleted. Default: Uses existing setting. Constraints: Must be a value from 0 to 35.
-        public let automatedSnapshotRetentionPeriod: Int32?
+        public let automatedSnapshotRetentionPeriod: Int?
         /// The unique identifier of the cluster to be modified. Example: examplecluster 
         public let clusterIdentifier: String
         /// The name of the cluster parameter group to apply to this cluster. This change is applied only after the cluster is rebooted. To reboot a cluster use RebootCluster.  Default: Uses existing setting. Constraints: The cluster parameter group must be in the same parameter group family that matches the cluster version.
@@ -3981,7 +3981,7 @@ extension Redshift {
         /// The name for the maintenance track that you want to assign for the cluster. This name change is asynchronous. The new track name stays in the PendingModifiedValues for the cluster until the next maintenance window. When the maintenance track changes, the cluster is switched to the latest cluster release available for the maintenance track. At this point, the maintenance track name is applied.
         public let maintenanceTrackName: String?
         /// The default for number of days that a newly created manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. This value doesn't retroactively change the retention periods of existing manual snapshots. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
-        public let manualSnapshotRetentionPeriod: Int32?
+        public let manualSnapshotRetentionPeriod: Int?
         /// The new password for the cluster master user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.   Operations never return the password, so this operation provides a way to regain access to the master user account for a cluster if the password is lost.  Default: Uses existing setting. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33 to 126) except ' (single quote), " (double quote), \, /, @, or space.  
         public let masterUserPassword: String?
         /// The new identifier for the cluster. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.   Example: examplecluster 
@@ -3989,7 +3989,7 @@ extension Redshift {
         /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge 
         public let nodeType: String?
         /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values: Integer greater than 0.
-        public let numberOfNodes: Int32?
+        public let numberOfNodes: Int?
         /// The weekly time range (in UTC) during which system maintenance can occur, if necessary. If system maintenance is necessary during the window, it may result in an outage. This maintenance window change is made immediately. If the new maintenance window indicates the current time, there must be at least 120 minutes between the current time and end of the window in order to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi, for example wed:07:30-wed:08:00. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes.
         public let preferredMaintenanceWindow: String?
         /// If true, the cluster can be accessed from a public network. Only clusters in VPCs can be set to be publicly available.
@@ -3997,7 +3997,7 @@ extension Redshift {
         /// A list of virtual private cloud (VPC) security groups to be associated with the cluster. This change is asynchronously applied as soon as possible.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterType: String? = nil, clusterVersion: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int32? = nil, masterUserPassword: String? = nil, newClusterIdentifier: String? = nil, nodeType: String? = nil, numberOfNodes: Int32? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterType: String? = nil, clusterVersion: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUserPassword: String? = nil, newClusterIdentifier: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.clusterIdentifier = clusterIdentifier
@@ -4096,11 +4096,11 @@ extension Redshift {
         /// A Boolean option to override an exception if the retention period has already passed.
         public let force: Bool?
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. If the manual snapshot falls outside of the new retention period, you can specify the force option to immediately delete the snapshot. The value must be either -1 or an integer between 1 and 3,653.
-        public let manualSnapshotRetentionPeriod: Int32?
+        public let manualSnapshotRetentionPeriod: Int?
         /// The identifier of the snapshot whose setting you want to modify.
         public let snapshotIdentifier: String
 
-        public init(force: Bool? = nil, manualSnapshotRetentionPeriod: Int32? = nil, snapshotIdentifier: String) {
+        public init(force: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, snapshotIdentifier: String) {
             self.force = force
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.snapshotIdentifier = snapshotIdentifier
@@ -4274,9 +4274,9 @@ extension Redshift {
         /// Indicates whether to apply the snapshot retention period to newly copied manual snapshots instead of automated snapshots.
         public let manual: Bool?
         /// The number of days to retain automated snapshots in the destination AWS Region after they are copied from the source AWS Region. By default, this only changes the retention period of copied automated snapshots.  If you decrease the retention period for automated snapshots that are copied to a destination AWS Region, Amazon Redshift deletes any existing automated snapshots that were copied to the destination AWS Region and that fall outside of the new retention period. Constraints: Must be at least 1 and no more than 35 for automated snapshots.  If you specify the manual option, only newly copied manual snapshots will have the new retention period.  If you specify the value of -1 newly copied manual snapshots are retained indefinitely. Constraints: The number of days must be either -1 or an integer between 1 and 3,653 for manual snapshots.
-        public let retentionPeriod: Int32
+        public let retentionPeriod: Int
 
-        public init(clusterIdentifier: String, manual: Bool? = nil, retentionPeriod: Int32) {
+        public init(clusterIdentifier: String, manual: Bool? = nil, retentionPeriod: Int) {
             self.clusterIdentifier = clusterIdentifier
             self.manual = manual
             self.retentionPeriod = retentionPeriod
@@ -4460,7 +4460,7 @@ extension Redshift {
         ]
 
         /// The pending or in-progress change of the automated snapshot retention period.
-        public let automatedSnapshotRetentionPeriod: Int32?
+        public let automatedSnapshotRetentionPeriod: Int?
         /// The pending or in-progress change of the new identifier for the cluster.
         public let clusterIdentifier: String?
         /// The pending or in-progress change of the cluster type.
@@ -4478,11 +4478,11 @@ extension Redshift {
         /// The pending or in-progress change of the cluster's node type.
         public let nodeType: String?
         /// The pending or in-progress change of the number of nodes in the cluster.
-        public let numberOfNodes: Int32?
+        public let numberOfNodes: Int?
         /// The pending or in-progress change of the ability to connect to the cluster from the public network.
         public let publiclyAccessible: Bool?
 
-        public init(automatedSnapshotRetentionPeriod: Int32? = nil, clusterIdentifier: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, encryptionType: String? = nil, enhancedVpcRouting: Bool? = nil, maintenanceTrackName: String? = nil, masterUserPassword: String? = nil, nodeType: String? = nil, numberOfNodes: Int32? = nil, publiclyAccessible: Bool? = nil) {
+        public init(automatedSnapshotRetentionPeriod: Int? = nil, clusterIdentifier: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, encryptionType: String? = nil, enhancedVpcRouting: Bool? = nil, maintenanceTrackName: String? = nil, masterUserPassword: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, publiclyAccessible: Bool? = nil) {
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.clusterIdentifier = clusterIdentifier
             self.clusterType = clusterType
@@ -4518,11 +4518,11 @@ extension Redshift {
         ]
 
         /// The number of reserved nodes that you want to purchase. Default: 1 
-        public let nodeCount: Int32?
+        public let nodeCount: Int?
         /// The unique identifier of the reserved node offering you want to purchase.
         public let reservedNodeOfferingId: String
 
-        public init(nodeCount: Int32? = nil, reservedNodeOfferingId: String) {
+        public init(nodeCount: Int? = nil, reservedNodeOfferingId: String) {
             self.nodeCount = nodeCount
             self.reservedNodeOfferingId = reservedNodeOfferingId
         }
@@ -4624,11 +4624,11 @@ extension Redshift {
         /// The currency code for the reserved cluster.
         public let currencyCode: String?
         /// The duration of the node reservation in seconds.
-        public let duration: Int32?
+        public let duration: Int?
         /// The fixed cost Amazon Redshift charges you for this reserved node.
         public let fixedPrice: Double?
         /// The number of reserved compute nodes.
-        public let nodeCount: Int32?
+        public let nodeCount: Int?
         /// The node type of the reserved node.
         public let nodeType: String?
         /// The anticipated utilization of the reserved node, as defined in the reserved node offering.
@@ -4647,7 +4647,7 @@ extension Redshift {
         /// The hourly rate Amazon Redshift charges you for this reserved node.
         public let usagePrice: Double?
 
-        public init(currencyCode: String? = nil, duration: Int32? = nil, fixedPrice: Double? = nil, nodeCount: Int32? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedNodeId: String? = nil, reservedNodeOfferingId: String? = nil, reservedNodeOfferingType: ReservedNodeOfferingType? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
+        public init(currencyCode: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, nodeCount: Int? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedNodeId: String? = nil, reservedNodeOfferingId: String? = nil, reservedNodeOfferingType: ReservedNodeOfferingType? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.fixedPrice = fixedPrice
@@ -4696,7 +4696,7 @@ extension Redshift {
         /// The currency code for the compute nodes offering.
         public let currencyCode: String?
         /// The duration, in seconds, for which the offering will reserve the node.
-        public let duration: Int32?
+        public let duration: Int?
         /// The upfront fixed charge you will pay to purchase the specific reserved node offering.
         public let fixedPrice: Double?
         /// The node type offered by the reserved node offering.
@@ -4711,7 +4711,7 @@ extension Redshift {
         /// The rate you are charged for each hour the cluster that is using the offering is running.
         public let usagePrice: Double?
 
-        public init(currencyCode: String? = nil, duration: Int32? = nil, fixedPrice: Double? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedNodeOfferingId: String? = nil, reservedNodeOfferingType: ReservedNodeOfferingType? = nil, usagePrice: Double? = nil) {
+        public init(currencyCode: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedNodeOfferingId: String? = nil, reservedNodeOfferingType: ReservedNodeOfferingType? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.fixedPrice = fixedPrice
@@ -4831,9 +4831,9 @@ extension Redshift {
         /// The new node type for the nodes you are adding.
         public let nodeType: String?
         /// The new number of nodes for the cluster.
-        public let numberOfNodes: Int32
+        public let numberOfNodes: Int
 
-        public init(classic: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, nodeType: String? = nil, numberOfNodes: Int32) {
+        public init(classic: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, nodeType: String? = nil, numberOfNodes: Int) {
             self.classic = classic
             self.clusterIdentifier = clusterIdentifier
             self.clusterType = clusterType
@@ -4937,11 +4937,11 @@ extension Redshift {
         /// The node type that the cluster will have after the resize operation is complete.
         public let targetNodeType: String?
         /// The number of nodes that the cluster will have after the resize operation is complete.
-        public let targetNumberOfNodes: Int32?
+        public let targetNumberOfNodes: Int?
         /// The estimated total amount of data, in megabytes, on the cluster before the resize operation began.
         public let totalResizeDataInMegaBytes: Int64?
 
-        public init(avgResizeRateInMegaBytesPerSecond: Double? = nil, dataTransferProgressPercent: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedTimeToCompletionInSeconds: Int64? = nil, importTablesCompleted: [String]? = nil, importTablesInProgress: [String]? = nil, importTablesNotStarted: [String]? = nil, message: String? = nil, progressInMegaBytes: Int64? = nil, resizeType: String? = nil, status: String? = nil, targetClusterType: String? = nil, targetEncryptionType: String? = nil, targetNodeType: String? = nil, targetNumberOfNodes: Int32? = nil, totalResizeDataInMegaBytes: Int64? = nil) {
+        public init(avgResizeRateInMegaBytesPerSecond: Double? = nil, dataTransferProgressPercent: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedTimeToCompletionInSeconds: Int64? = nil, importTablesCompleted: [String]? = nil, importTablesInProgress: [String]? = nil, importTablesNotStarted: [String]? = nil, message: String? = nil, progressInMegaBytes: Int64? = nil, resizeType: String? = nil, status: String? = nil, targetClusterType: String? = nil, targetEncryptionType: String? = nil, targetNodeType: String? = nil, targetNumberOfNodes: Int? = nil, totalResizeDataInMegaBytes: Int64? = nil) {
             self.avgResizeRateInMegaBytesPerSecond = avgResizeRateInMegaBytesPerSecond
             self.dataTransferProgressPercent = dataTransferProgressPercent
             self.elapsedTimeInSeconds = elapsedTimeInSeconds
@@ -5014,7 +5014,7 @@ extension Redshift {
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster.  Default: true 
         public let allowVersionUpgrade: Bool?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
-        public let automatedSnapshotRetentionPeriod: Int32?
+        public let automatedSnapshotRetentionPeriod: Int?
         /// The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-1a 
         public let availabilityZone: String?
         /// The identifier of the cluster that will be created from restoring the snapshot. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.  
@@ -5040,13 +5040,13 @@ extension Redshift {
         /// The name of the maintenance track for the restored cluster. When you take a snapshot, the snapshot inherits the MaintenanceTrack value from the cluster. The snapshot might be on a different track than the cluster that was the source for the snapshot. For example, suppose that you take a snapshot of a cluster that is on the current track and then change the cluster to be on the trailing track. In this case, the snapshot and the source cluster are on different tracks.
         public let maintenanceTrackName: String?
         /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
-        public let manualSnapshotRetentionPeriod: Int32?
+        public let manualSnapshotRetentionPeriod: Int?
         /// The node type that the restored cluster will be provisioned with. Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds1.xlarge into ds2.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type or dc2.large instance type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlareg cluster, then resize to a dc2.8large cluster. For more information about node types, see  About Clusters and Nodes in the Amazon Redshift Cluster Management Guide. 
         public let nodeType: String?
         /// The AWS customer account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
         public let ownerAccount: String?
         /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Constraints: Must be between 1115 and 65535.
-        public let port: Int32?
+        public let port: Int?
         /// The weekly time range (in UTC) during which automated cluster maintenance can occur.  Format: ddd:hh24:mi-ddd:hh24:mi   Default: The value selected for the cluster from which the snapshot was taken. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide.  Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         /// If true, the cluster can be accessed from a public network. 
@@ -5060,7 +5060,7 @@ extension Redshift {
         /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster. VPC security groups only apply to clusters in VPCs.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, availabilityZone: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, elasticIp: String? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int32? = nil, nodeType: String? = nil, ownerAccount: String? = nil, port: Int32? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, elasticIp: String? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, nodeType: String? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -5471,19 +5471,19 @@ extension Redshift {
         /// The name of the maintenance track for the snapshot.
         public let maintenanceTrackName: String?
         /// The number of days until a manual snapshot will pass its retention period.
-        public let manualSnapshotRemainingDays: Int32?
+        public let manualSnapshotRemainingDays: Int?
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653.
-        public let manualSnapshotRetentionPeriod: Int32?
+        public let manualSnapshotRetentionPeriod: Int?
         /// The master user name for the cluster.
         public let masterUsername: String?
         /// The node type of the nodes in the cluster.
         public let nodeType: String?
         /// The number of nodes in the cluster.
-        public let numberOfNodes: Int32?
+        public let numberOfNodes: Int?
         /// For manual snapshots, the AWS customer account used to create or copy the snapshot. For automatic snapshots, the owner of the cluster. The owner can perform all snapshot actions, such as sharing a manual snapshot.
         public let ownerAccount: String?
         /// The port that the cluster is listening on.
-        public let port: Int32?
+        public let port: Int?
         /// The list of node types that this cluster snapshot is able to restore into.
         public let restorableNodeTypes: [String]?
         /// The time (in UTC format) when Amazon Redshift began the snapshot. A snapshot contains a copy of the cluster data as of this exact time.
@@ -5505,7 +5505,7 @@ extension Redshift {
         /// The VPC identifier of the cluster if the snapshot is from a cluster in a VPC. Otherwise, this field is not in the output.
         public let vpcId: String?
 
-        public init(accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, availabilityZone: String? = nil, backupProgressInMegaBytes: Double? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterVersion: String? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, dBName: String? = nil, elapsedTimeInSeconds: Int64? = nil, encrypted: Bool? = nil, encryptedWithHSM: Bool? = nil, enhancedVpcRouting: Bool? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRemainingDays: Int32? = nil, manualSnapshotRetentionPeriod: Int32? = nil, masterUsername: String? = nil, nodeType: String? = nil, numberOfNodes: Int32? = nil, ownerAccount: String? = nil, port: Int32? = nil, restorableNodeTypes: [String]? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotIdentifier: String? = nil, snapshotRetentionStartTime: TimeStamp? = nil, snapshotType: String? = nil, sourceRegion: String? = nil, status: String? = nil, tags: [Tag]? = nil, totalBackupSizeInMegaBytes: Double? = nil, vpcId: String? = nil) {
+        public init(accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, availabilityZone: String? = nil, backupProgressInMegaBytes: Double? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterVersion: String? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, dBName: String? = nil, elapsedTimeInSeconds: Int64? = nil, encrypted: Bool? = nil, encryptedWithHSM: Bool? = nil, enhancedVpcRouting: Bool? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRemainingDays: Int? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, restorableNodeTypes: [String]? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotIdentifier: String? = nil, snapshotRetentionStartTime: TimeStamp? = nil, snapshotType: String? = nil, sourceRegion: String? = nil, status: String? = nil, tags: [Tag]? = nil, totalBackupSizeInMegaBytes: Double? = nil, vpcId: String? = nil) {
             self.accountsWithRestoreAccess = accountsWithRestoreAccess
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
             self.availabilityZone = availabilityZone
@@ -5700,7 +5700,7 @@ extension Redshift {
         ]
 
         /// The number of clusters associated with the schedule.
-        public let associatedClusterCount: Int32?
+        public let associatedClusterCount: Int?
         /// A list of clusters associated with the schedule. A maximum of 100 clusters is returned.
         public let associatedClusters: [ClusterAssociatedToSchedule]?
         public let nextInvocations: [TimeStamp]?
@@ -5713,7 +5713,7 @@ extension Redshift {
         /// An optional set of tags describing the schedule.
         public let tags: [Tag]?
 
-        public init(associatedClusterCount: Int32? = nil, associatedClusters: [ClusterAssociatedToSchedule]? = nil, nextInvocations: [TimeStamp]? = nil, scheduleDefinitions: [String]? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: [Tag]? = nil) {
+        public init(associatedClusterCount: Int? = nil, associatedClusters: [ClusterAssociatedToSchedule]? = nil, nextInvocations: [TimeStamp]? = nil, scheduleDefinitions: [String]? = nil, scheduleDescription: String? = nil, scheduleIdentifier: String? = nil, tags: [Tag]? = nil) {
             self.associatedClusterCount = associatedClusterCount
             self.associatedClusters = associatedClusters
             self.nextInvocations = nextInvocations

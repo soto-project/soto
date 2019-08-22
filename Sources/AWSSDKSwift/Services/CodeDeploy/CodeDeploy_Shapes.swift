@@ -528,9 +528,9 @@ extension CodeDeploy {
         /// The action to take on instances in the original environment after a successful blue/green deployment.   TERMINATE: Instances are terminated after a specified wait time.   KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.  
         public let action: InstanceAction?
         /// The number of minutes to wait after a successful blue/green deployment before terminating instances from the original environment. The maximum setting is 2880 minutes (2 days).
-        public let terminationWaitTimeInMinutes: Int32?
+        public let terminationWaitTimeInMinutes: Int?
 
-        public init(action: InstanceAction? = nil, terminationWaitTimeInMinutes: Int32? = nil) {
+        public init(action: InstanceAction? = nil, terminationWaitTimeInMinutes: Int? = nil) {
             self.action = action
             self.terminationWaitTimeInMinutes = terminationWaitTimeInMinutes
         }
@@ -1393,9 +1393,9 @@ extension CodeDeploy {
         /// Information about when to reroute traffic from an original environment to a replacement environment in a blue/green deployment.   CONTINUE_DEPLOYMENT: Register new instances with the load balancer immediately after the new application revision is installed on the instances in the replacement environment.   STOP_DEPLOYMENT: Do not register new instances with a load balancer unless traffic rerouting is started using ContinueDeployment. If traffic rerouting is not started before the end of the specified wait period, the deployment status is changed to Stopped.  
         public let actionOnTimeout: DeploymentReadyAction?
         /// The number of minutes to wait before the status of a blue/green deployment is changed to Stopped if rerouting is not started manually. Applies only to the STOP_DEPLOYMENT option for actionOnTimeout
-        public let waitTimeInMinutes: Int32?
+        public let waitTimeInMinutes: Int?
 
-        public init(actionOnTimeout: DeploymentReadyAction? = nil, waitTimeInMinutes: Int32? = nil) {
+        public init(actionOnTimeout: DeploymentReadyAction? = nil, waitTimeInMinutes: Int? = nil) {
             self.actionOnTimeout = actionOnTimeout
             self.waitTimeInMinutes = waitTimeInMinutes
         }
@@ -3087,9 +3087,9 @@ extension CodeDeploy {
         /// The minimum healthy instance type:   HOST_COUNT: The minimum number of healthy instance as an absolute value.   FLEET_PERCENT: The minimum number of healthy instance as a percentage of the total number of instance in the deployment.   In an example of nine instance, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment is successful if six or more instances are deployed to successfully. Otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instance at a time. The deployment is successful if four or more instance are deployed to successfully. Otherwise, the deployment fails.  In a call to the GetDeploymentConfig, CodeDeployDefault.OneAtATime returns a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy attempts to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment is still successful.  For more information, see AWS CodeDeploy Instance Health in the AWS CodeDeploy User Guide.
         public let `type`: MinimumHealthyHostsType?
         /// The minimum healthy instance value.
-        public let value: Int32?
+        public let value: Int?
 
-        public init(type: MinimumHealthyHostsType? = nil, value: Int32? = nil) {
+        public init(type: MinimumHealthyHostsType? = nil, value: Int? = nil) {
             self.`type` = `type`
             self.value = value
         }
@@ -3672,11 +3672,11 @@ extension CodeDeploy {
         ]
 
         /// The number of minutes between the first and second traffic shifts of a TimeBasedCanary deployment.
-        public let canaryInterval: Int32?
+        public let canaryInterval: Int?
         /// The percentage of traffic to shift in the first increment of a TimeBasedCanary deployment.
-        public let canaryPercentage: Int32?
+        public let canaryPercentage: Int?
 
-        public init(canaryInterval: Int32? = nil, canaryPercentage: Int32? = nil) {
+        public init(canaryInterval: Int? = nil, canaryPercentage: Int? = nil) {
             self.canaryInterval = canaryInterval
             self.canaryPercentage = canaryPercentage
         }
@@ -3694,11 +3694,11 @@ extension CodeDeploy {
         ]
 
         /// The number of minutes between each incremental traffic shift of a TimeBasedLinear deployment.
-        public let linearInterval: Int32?
+        public let linearInterval: Int?
         /// The percentage of traffic that is shifted at the start of each increment of a TimeBasedLinear deployment.
-        public let linearPercentage: Int32?
+        public let linearPercentage: Int?
 
-        public init(linearInterval: Int32? = nil, linearPercentage: Int32? = nil) {
+        public init(linearInterval: Int? = nil, linearPercentage: Int? = nil) {
             self.linearInterval = linearInterval
             self.linearPercentage = linearPercentage
         }

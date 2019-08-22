@@ -9,7 +9,7 @@ AWS X-Ray provides APIs for managing debug traces and retrieving service maps an
 */
 public struct XRay {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

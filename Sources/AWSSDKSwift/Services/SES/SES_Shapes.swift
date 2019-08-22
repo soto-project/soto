@@ -1718,11 +1718,11 @@ extension SES {
         ]
 
         /// The number of configuration sets to return.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// A token returned from a previous call to ListConfigurationSets to indicate the position of the configuration set in the configuration set list.
         public let nextToken: String?
 
-        public init(maxItems: Int32? = nil, nextToken: String? = nil) {
+        public init(maxItems: Int? = nil, nextToken: String? = nil) {
             self.maxItems = maxItems
             self.nextToken = nextToken
         }
@@ -1762,11 +1762,11 @@ extension SES {
         ]
 
         /// The maximum number of custom verification email templates to return. This value must be at least 1 and less than or equal to 50. If you do not specify a value, or if you specify a value less than 1 or greater than 50, the operation will return up to 50 results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1814,11 +1814,11 @@ extension SES {
         /// The type of the identities to list. Possible values are "EmailAddress" and "Domain". If this parameter is omitted, then all identities will be listed.
         public let identityType: IdentityType?
         /// The maximum number of identities per page. Possible values are 1-1000 inclusive.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The token to use for pagination.
         public let nextToken: String?
 
-        public init(identityType: IdentityType? = nil, maxItems: Int32? = nil, nextToken: String? = nil) {
+        public init(identityType: IdentityType? = nil, maxItems: Int? = nil, nextToken: String? = nil) {
             self.identityType = identityType
             self.maxItems = maxItems
             self.nextToken = nextToken
@@ -1958,11 +1958,11 @@ extension SES {
         ]
 
         /// The maximum number of templates to return. This value must be at least 1 and less than or equal to 10. If you do not specify a value, or if you specify a value less than 1 or greater than 10, the operation will return up to 10 results.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// A token returned from a previous call to ListTemplates to indicate the position in the list of email templates.
         public let nextToken: String?
 
-        public init(maxItems: Int32? = nil, nextToken: String? = nil) {
+        public init(maxItems: Int? = nil, nextToken: String? = nil) {
             self.maxItems = maxItems
             self.nextToken = nextToken
         }

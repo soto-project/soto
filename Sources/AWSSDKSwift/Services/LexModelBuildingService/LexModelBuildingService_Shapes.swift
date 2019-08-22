@@ -326,7 +326,7 @@ extension LexModelBuildingService {
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
-        public let idleSessionTTLInSeconds: Int32?
+        public let idleSessionTTLInSeconds: Int?
         /// An array of Intent objects. For more information, see PutBot.
         public let intents: [Intent]?
         /// The date when the $LATEST version of this bot was updated. 
@@ -342,7 +342,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interactions with the user.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int32? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -1028,13 +1028,13 @@ extension LexModelBuildingService {
         /// The name of the bot.
         public let botName: String
         /// The maximum number of aliases to return in the response. The default is 50. . 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Substring to match in bot alias names. An alias will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let nameContains: String?
         /// A pagination token for fetching the next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(botName: String, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil) {
+        public init(botName: String, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.botName = botName
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -1192,13 +1192,13 @@ extension LexModelBuildingService {
         /// The name of the Amazon Lex bot in the association.
         public let botName: String
         /// The maximum number of associations to return in the response. The default is 50. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Substring to match in channel association names. An association will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To return all bot channel associations, use a hyphen ("-") as the nameContains parameter.
         public let nameContains: String?
         /// A pagination token for fetching the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(botAlias: String, botName: String, maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil) {
+        public init(botAlias: String, botName: String, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.botAlias = botAlias
             self.botName = botName
             self.maxResults = maxResults
@@ -1313,7 +1313,7 @@ extension LexModelBuildingService {
         /// If status is FAILED, Amazon Lex explains why it failed to build the bot.
         public let failureReason: String?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
-        public let idleSessionTTLInSeconds: Int32?
+        public let idleSessionTTLInSeconds: Int?
         /// An array of intent objects. For more information, see PutBot.
         public let intents: [Intent]?
         /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same. 
@@ -1329,7 +1329,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int32? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -1374,13 +1374,13 @@ extension LexModelBuildingService {
         ]
 
         /// The maximum number of bot versions to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of the bot for which versions should be returned.
         public let name: String
         /// A pagination token for fetching the next page of bot versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -1431,13 +1431,13 @@ extension LexModelBuildingService {
         ]
 
         /// The maximum number of bots to return in the response that the request will return. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Substring to match in bot names. A bot will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let nameContains: String?
         /// A pagination token that fetches the next page of bots. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of bots, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
@@ -1535,13 +1535,13 @@ extension LexModelBuildingService {
         /// A list of locales that the intent supports.
         public let locale: Locale?
         /// The maximum number of intents to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token that fetches the next page of intents. If this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, use the pagination token in the next request.
         public let nextToken: String?
         /// Substring to match in built-in intent signatures. An intent will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
         public let signatureContains: String?
 
-        public init(locale: Locale? = nil, maxResults: Int32? = nil, nextToken: String? = nil, signatureContains: String? = nil) {
+        public init(locale: Locale? = nil, maxResults: Int? = nil, nextToken: String? = nil, signatureContains: String? = nil) {
             self.locale = locale
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1594,13 +1594,13 @@ extension LexModelBuildingService {
         /// A list of locales that the slot type supports.
         public let locale: Locale?
         /// The maximum number of slot types to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of slot types, specify the pagination token in the next request.
         public let nextToken: String?
         /// Substring to match in built-in slot type signatures. A slot type will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let signatureContains: String?
 
-        public init(locale: Locale? = nil, maxResults: Int32? = nil, nextToken: String? = nil, signatureContains: String? = nil) {
+        public init(locale: Locale? = nil, maxResults: Int? = nil, nextToken: String? = nil, signatureContains: String? = nil) {
             self.locale = locale
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1920,13 +1920,13 @@ extension LexModelBuildingService {
         ]
 
         /// The maximum number of intent versions to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of the intent for which versions should be returned.
         public let name: String
         /// A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -1977,13 +1977,13 @@ extension LexModelBuildingService {
         ]
 
         /// The maximum number of intents to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Substring to match in intent names. An intent will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let nameContains: String?
         /// A pagination token that fetches the next page of intents. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
@@ -2117,13 +2117,13 @@ extension LexModelBuildingService {
         ]
 
         /// The maximum number of slot type versions to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of the slot type for which versions should be returned.
         public let name: String
         /// A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -2174,13 +2174,13 @@ extension LexModelBuildingService {
         ]
 
         /// The maximum number of slot types to return in the response. The default is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Substring to match in slot type names. A slot type will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let nameContains: String?
         /// A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch next page of slot types, specify the pagination token in the next request.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nameContains: String? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
@@ -2385,9 +2385,9 @@ extension LexModelBuildingService {
         /// The content type of the message string.
         public let contentType: ContentType
         /// Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
-        public let groupNumber: Int32?
+        public let groupNumber: Int?
 
-        public init(content: String, contentType: ContentType, groupNumber: Int32? = nil) {
+        public init(content: String, contentType: ContentType, groupNumber: Int? = nil) {
             self.content = content
             self.contentType = contentType
             self.groupNumber = groupNumber
@@ -2421,13 +2421,13 @@ extension LexModelBuildingService {
         ]
 
         /// The number of times to prompt the user for information.
-        public let maxAttempts: Int32
+        public let maxAttempts: Int
         /// An array of objects, each of which provides a message string and its type. You can specify the message string in plain text or in Speech Synthesis Markup Language (SSML).
         public let messages: [Message]
         /// A response card. Amazon Lex uses this prompt at runtime, in the PostText API response. It substitutes session attributes and slot values for placeholders in the response card. For more information, see ex-resp-card. 
         public let responseCard: String?
 
-        public init(maxAttempts: Int32, messages: [Message], responseCard: String? = nil) {
+        public init(maxAttempts: Int, messages: [Message], responseCard: String? = nil) {
             self.maxAttempts = maxAttempts
             self.messages = messages
             self.responseCard = responseCard
@@ -2578,7 +2578,7 @@ extension LexModelBuildingService {
         /// A description of the bot.
         public let description: String?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. A user interaction session remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. For example, suppose that a user chooses the OrderPizza intent, but gets sidetracked halfway through placing an order. If the user doesn't complete the order within the specified time, Amazon Lex discards the slot information that it gathered, and the user must start over. If you don't include the idleSessionTTLInSeconds element in a PutBot operation request, Amazon Lex uses the default value. This is also true if the request replaces an existing bot. The default is 300 seconds (5 minutes).
-        public let idleSessionTTLInSeconds: Int32?
+        public let idleSessionTTLInSeconds: Int?
         /// An array of Intent objects. Each intent represents a command that a user can express. For example, a pizza ordering bot might support an OrderPizza intent. For more information, see how-it-works.
         public let intents: [Intent]?
         ///  Specifies the target locale for the bot. Any intent used in the bot must be compatible with the locale of the bot.  The default is en-US.
@@ -2590,7 +2590,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Available Voices in the Amazon Polly Developer Guide.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool, clarificationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, intents: [Intent]? = nil, locale: Locale, name: String, processBehavior: ProcessBehavior? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool, clarificationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, locale: Locale, name: String, processBehavior: ProcessBehavior? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -2672,7 +2672,7 @@ extension LexModelBuildingService {
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
         /// The maximum length of time that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
-        public let idleSessionTTLInSeconds: Int32?
+        public let idleSessionTTLInSeconds: Int?
         /// An array of Intent objects. For more information, see PutBot.
         public let intents: [Intent]?
         /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same.
@@ -2688,7 +2688,7 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int32? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -3054,7 +3054,7 @@ extension LexModelBuildingService {
         /// The name of the slot.
         public let name: String
         ///  Directs Lex the order in which to elicit this slot value from the user. For example, if the intent has two slots with priorities 1 and 2, AWS Lex first elicits a value for the slot with priority 1. If multiple slots share the same priority, the order in which Lex elicits values is arbitrary.
-        public let priority: Int32?
+        public let priority: Int?
         ///  A set of possible responses for the slot type used by text-based clients. A user chooses an option from the response card, instead of using text to reply. 
         public let responseCard: String?
         ///  If you know a specific pattern with which users might respond to an Amazon Lex request for a slot value, you can provide those utterances to improve accuracy. This is optional. In most cases, Amazon Lex is capable of understanding user utterances. 
@@ -3068,7 +3068,7 @@ extension LexModelBuildingService {
         /// The prompt that Amazon Lex uses to elicit the slot value from the user.
         public let valueElicitationPrompt: Prompt?
 
-        public init(description: String? = nil, name: String, priority: Int32? = nil, responseCard: String? = nil, sampleUtterances: [String]? = nil, slotConstraint: SlotConstraint, slotType: String? = nil, slotTypeVersion: String? = nil, valueElicitationPrompt: Prompt? = nil) {
+        public init(description: String? = nil, name: String, priority: Int? = nil, responseCard: String? = nil, sampleUtterances: [String]? = nil, slotConstraint: SlotConstraint, slotType: String? = nil, slotTypeVersion: String? = nil, valueElicitationPrompt: Prompt? = nil) {
             self.description = description
             self.name = name
             self.priority = priority
@@ -3293,9 +3293,9 @@ extension LexModelBuildingService {
         ]
 
         /// The number of times that the utterance was processed.
-        public let count: Int32?
+        public let count: Int?
         /// The total number of individuals that used the utterance.
-        public let distinctUsers: Int32?
+        public let distinctUsers: Int?
         /// The date that the utterance was first recorded.
         public let firstUtteredDate: TimeStamp?
         /// The date that the utterance was last recorded.
@@ -3303,7 +3303,7 @@ extension LexModelBuildingService {
         /// The text that was entered by the user or the text representation of an audio clip.
         public let utteranceString: String?
 
-        public init(count: Int32? = nil, distinctUsers: Int32? = nil, firstUtteredDate: TimeStamp? = nil, lastUtteredDate: TimeStamp? = nil, utteranceString: String? = nil) {
+        public init(count: Int? = nil, distinctUsers: Int? = nil, firstUtteredDate: TimeStamp? = nil, lastUtteredDate: TimeStamp? = nil, utteranceString: String? = nil) {
             self.count = count
             self.distinctUsers = distinctUsers
             self.firstUtteredDate = firstUtteredDate

@@ -9,7 +9,7 @@ AWS Batch enables you to run batch computing workloads on the AWS Cloud. Batch c
 */
 public struct Batch {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

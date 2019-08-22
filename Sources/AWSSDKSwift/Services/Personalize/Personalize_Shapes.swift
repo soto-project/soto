@@ -160,7 +160,7 @@ extension Personalize {
         public let lastUpdatedDateTime: TimeStamp?
         public let latestCampaignUpdate: CampaignUpdateSummary?
         /// Specifies the requested minimum provisioned transactions (recommendations) per second.
-        public let minProvisionedTPS: Int32?
+        public let minProvisionedTPS: Int?
         /// The name of the campaign.
         public let name: String?
         /// The Amazon Resource Name (ARN) of a specific version of the solution.
@@ -168,7 +168,7 @@ extension Personalize {
         /// The status of the campaign. A campaign can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
-        public init(campaignArn: String? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, latestCampaignUpdate: CampaignUpdateSummary? = nil, minProvisionedTPS: Int32? = nil, name: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(campaignArn: String? = nil, creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, latestCampaignUpdate: CampaignUpdateSummary? = nil, minProvisionedTPS: Int? = nil, name: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.campaignArn = campaignArn
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
@@ -252,13 +252,13 @@ extension Personalize {
         /// The date and time (in Unix time) that the campaign update was last updated.
         public let lastUpdatedDateTime: TimeStamp?
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
-        public let minProvisionedTPS: Int32?
+        public let minProvisionedTPS: Int?
         /// The Amazon Resource Name (ARN) of the deployed solution version.
         public let solutionVersionArn: String?
         /// The status of the campaign update. A campaign update can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
-        public init(creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, minProvisionedTPS: Int32? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(creationDateTime: TimeStamp? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -348,13 +348,13 @@ extension Personalize {
         ]
 
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
-        public let minProvisionedTPS: Int32
+        public let minProvisionedTPS: Int
         /// A name for the new campaign. The campaign name must be unique within your account.
         public let name: String
         /// The Amazon Resource Name (ARN) of the solution version to deploy.
         public let solutionVersionArn: String
 
-        public init(minProvisionedTPS: Int32, name: String, solutionVersionArn: String) {
+        public init(minProvisionedTPS: Int, name: String, solutionVersionArn: String) {
             self.minProvisionedTPS = minProvisionedTPS
             self.name = name
             self.solutionVersionArn = solutionVersionArn
@@ -1252,13 +1252,13 @@ extension Personalize {
         /// Indicates whether the hyperparameter is tunable.
         public let isTunable: Bool?
         /// The maximum allowable value for the hyperparameter.
-        public let maxValue: Int32?
+        public let maxValue: Int?
         /// The minimum allowable value for the hyperparameter.
-        public let minValue: Int32?
+        public let minValue: Int?
         /// The name of the hyperparameter.
         public let name: String?
 
-        public init(isTunable: Bool? = nil, maxValue: Int32? = nil, minValue: Int32? = nil, name: String? = nil) {
+        public init(isTunable: Bool? = nil, maxValue: Int? = nil, minValue: Int? = nil, name: String? = nil) {
             self.isTunable = isTunable
             self.maxValue = maxValue
             self.minValue = minValue
@@ -2152,13 +2152,13 @@ extension Personalize {
         ]
 
         /// The maximum allowable value for the hyperparameter.
-        public let maxValue: Int32?
+        public let maxValue: Int?
         /// The minimum allowable value for the hyperparameter.
-        public let minValue: Int32?
+        public let minValue: Int?
         /// The name of the hyperparameter.
         public let name: String?
 
-        public init(maxValue: Int32? = nil, minValue: Int32? = nil, name: String? = nil) {
+        public init(maxValue: Int? = nil, minValue: Int? = nil, name: String? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
@@ -2185,13 +2185,13 @@ extension Personalize {
         ]
 
         /// The maximum number of campaigns to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token returned from the previous call to ListCampaigns for getting the next set of campaigns (if they exist).
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the solution to list the campaigns for. When a solution is not specified, all the campaigns associated with the account are listed.
         public let solutionArn: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, solutionArn: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, solutionArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.solutionArn = solutionArn
@@ -2241,11 +2241,11 @@ extension Personalize {
         ]
 
         /// The maximum number of dataset groups to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token returned from the previous call to ListDatasetGroups for getting the next set of dataset groups (if they exist).
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2294,11 +2294,11 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the dataset to list the dataset import jobs for.
         public let datasetArn: String?
         /// The maximum number of dataset import jobs to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token returned from the previous call to ListDatasetImportJobs for getting the next set of dataset import jobs (if they exist).
         public let nextToken: String?
 
-        public init(datasetArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(datasetArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetArn = datasetArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2351,11 +2351,11 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the dataset group that contains the datasets to list.
         public let datasetGroupArn: String?
         /// The maximum number of datasets to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token returned from the previous call to ListDatasetImportJobs for getting the next set of dataset import jobs (if they exist).
         public let nextToken: String?
 
-        public init(datasetGroupArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2408,11 +2408,11 @@ extension Personalize {
         /// The ARN of a dataset group used to filter the response.
         public let datasetGroupArn: String?
         /// The maximum number of event trackers to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token returned from the previous call to ListEventTrackers for getting the next set of event trackers (if they exist).
         public let nextToken: String?
 
-        public init(datasetGroupArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2463,13 +2463,13 @@ extension Personalize {
         ]
 
         /// The maximum number of recipes to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token returned from the previous call to ListRecipes for getting the next set of recipes (if they exist).
         public let nextToken: String?
         /// The default is SERVICE.
         public let recipeProvider: RecipeProvider?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, recipeProvider: RecipeProvider? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, recipeProvider: RecipeProvider? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.recipeProvider = recipeProvider
@@ -2517,11 +2517,11 @@ extension Personalize {
         ]
 
         /// The maximum number of schemas to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token returned from the previous call to ListSchemas for getting the next set of schemas (if they exist).
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2568,13 +2568,13 @@ extension Personalize {
         ]
 
         /// The maximum number of solution versions to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token returned from the previous call to ListSolutionVersions for getting the next set of solution versions (if they exist).
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the solution.
         public let solutionArn: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, solutionArn: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, solutionArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.solutionArn = solutionArn
@@ -2627,11 +2627,11 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String?
         /// The maximum number of solutions to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token returned from the previous call to ListSolutions for getting the next set of solutions (if they exist).
         public let nextToken: String?
 
-        public init(datasetGroupArn: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3057,11 +3057,11 @@ extension Personalize {
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
-        public let minProvisionedTPS: Int32?
+        public let minProvisionedTPS: Int?
         /// The ARN of a new solution version to deploy.
         public let solutionVersionArn: String?
 
-        public init(campaignArn: String, minProvisionedTPS: Int32? = nil, solutionVersionArn: String? = nil) {
+        public init(campaignArn: String, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil) {
             self.campaignArn = campaignArn
             self.minProvisionedTPS = minProvisionedTPS
             self.solutionVersionArn = solutionVersionArn

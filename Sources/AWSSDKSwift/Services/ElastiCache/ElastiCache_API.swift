@@ -9,7 +9,7 @@ Amazon ElastiCache Amazon ElastiCache is a web service that makes it easier to s
 */
 public struct ElastiCache {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

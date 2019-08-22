@@ -26,9 +26,9 @@ extension IAM {
         /// The namespace of the service in which access was attempted. To learn the service namespace of a service, go to Actions, Resources, and Condition Keys for AWS Services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS Service Namespaces in the AWS General Reference.
         public let serviceNamespace: String
         /// The number of accounts with authenticated principals (root users, IAM users, and IAM roles) that attempted to access the service in the reporting period.
-        public let totalAuthenticatedEntities: Int32?
+        public let totalAuthenticatedEntities: Int?
 
-        public init(entityPath: String? = nil, lastAuthenticatedTime: TimeStamp? = nil, region: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int32? = nil) {
+        public init(entityPath: String? = nil, lastAuthenticatedTime: TimeStamp? = nil, region: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int? = nil) {
             self.entityPath = entityPath
             self.lastAuthenticatedTime = lastAuthenticatedTime
             self.region = region
@@ -845,7 +845,7 @@ extension IAM {
         /// A description of the role.
         public let description: String?
         /// The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the AWS CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM Roles in the IAM User Guide.
-        public let maxSessionDuration: Int32?
+        public let maxSessionDuration: Int?
         ///  The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let path: String?
         /// The ARN of the policy that is used to set the permissions boundary for the role.
@@ -855,7 +855,7 @@ extension IAM {
         /// A list of tags that you want to attach to the newly created role. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags per role, then the entire request fails and the role is not created. 
         public let tags: [Tag]?
 
-        public init(assumeRolePolicyDocument: String, description: String? = nil, maxSessionDuration: Int32? = nil, path: String? = nil, permissionsBoundary: String? = nil, roleName: String, tags: [Tag]? = nil) {
+        public init(assumeRolePolicyDocument: String, description: String? = nil, maxSessionDuration: Int? = nil, path: String? = nil, permissionsBoundary: String? = nil, roleName: String, tags: [Tag]? = nil) {
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.description = description
             self.maxSessionDuration = maxSessionDuration
@@ -2257,9 +2257,9 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
 
-        public init(filter: [EntityType]? = nil, marker: String? = nil, maxItems: Int32? = nil) {
+        public init(filter: [EntityType]? = nil, marker: String? = nil, maxItems: Int? = nil) {
             self.filter = filter
             self.marker = marker
             self.maxItems = maxItems
@@ -2345,9 +2345,9 @@ extension IAM {
         ]
 
         /// A set of key–value pairs containing information about IAM entity usage and IAM quotas.
-        public let summaryMap: [SummaryKeyType: Int32]?
+        public let summaryMap: [SummaryKeyType: Int]?
 
-        public init(summaryMap: [SummaryKeyType: Int32]? = nil) {
+        public init(summaryMap: [SummaryKeyType: Int]? = nil) {
             self.summaryMap = summaryMap
         }
 
@@ -2527,9 +2527,9 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
 
-        public init(groupName: String, marker: String? = nil, maxItems: Int32? = nil) {
+        public init(groupName: String, marker: String? = nil, maxItems: Int? = nil) {
             self.groupName = groupName
             self.marker = marker
             self.maxItems = maxItems
@@ -2732,11 +2732,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The key that is used to sort the results. If you choose the namespace key, the results are returned in alphabetical order. If you choose the time key, the results are sorted numerically by the date and time.
         public let sortKey: SortKeyType?
 
-        public init(jobId: String, marker: String? = nil, maxItems: Int32? = nil, sortKey: SortKeyType? = nil) {
+        public init(jobId: String, marker: String? = nil, maxItems: Int? = nil, sortKey: SortKeyType? = nil) {
             self.jobId = jobId
             self.marker = marker
             self.maxItems = maxItems
@@ -2788,11 +2788,11 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
         /// The number of services that the applicable SCPs allow account principals to access.
-        public let numberOfServicesAccessible: Int32?
+        public let numberOfServicesAccessible: Int?
         /// The number of services that account principals are allowed but did not attempt to access.
-        public let numberOfServicesNotAccessed: Int32?
+        public let numberOfServicesNotAccessed: Int?
 
-        public init(accessDetails: [AccessDetail]? = nil, errorDetails: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: TimeStamp? = nil, jobCreationDate: TimeStamp, jobStatus: JobStatusType, marker: String? = nil, numberOfServicesAccessible: Int32? = nil, numberOfServicesNotAccessed: Int32? = nil) {
+        public init(accessDetails: [AccessDetail]? = nil, errorDetails: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: TimeStamp? = nil, jobCreationDate: TimeStamp, jobStatus: JobStatusType, marker: String? = nil, numberOfServicesAccessible: Int? = nil, numberOfServicesNotAccessed: Int? = nil) {
             self.accessDetails = accessDetails
             self.errorDetails = errorDetails
             self.isTruncated = isTruncated
@@ -3153,9 +3153,9 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
 
-        public init(jobId: String, marker: String? = nil, maxItems: Int32? = nil) {
+        public init(jobId: String, marker: String? = nil, maxItems: Int? = nil) {
             self.jobId = jobId
             self.marker = marker
             self.maxItems = maxItems
@@ -3238,11 +3238,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The service namespace for an AWS service. Provide the service namespace to learn when the IAM entity last attempted to access the specified service. To learn the service namespace for a service, go to Actions, Resources, and Condition Keys for AWS Services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS Service Namespaces in the AWS General Reference.
         public let serviceNamespace: String
 
-        public init(jobId: String, marker: String? = nil, maxItems: Int32? = nil, serviceNamespace: String) {
+        public init(jobId: String, marker: String? = nil, maxItems: Int? = nil, serviceNamespace: String) {
             self.jobId = jobId
             self.marker = marker
             self.maxItems = maxItems
@@ -3594,11 +3594,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The name of the user. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, userName: String? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil, userName: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.userName = userName
@@ -3658,9 +3658,9 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
         }
@@ -3719,11 +3719,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
-        public init(groupName: String, marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil) {
+        public init(groupName: String, marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil) {
             self.groupName = groupName
             self.marker = marker
             self.maxItems = maxItems
@@ -3790,13 +3790,13 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
         /// The name (friendly name, not ARN) of the role to list attached policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil, roleName: String) {
+        public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil, roleName: String) {
             self.marker = marker
             self.maxItems = maxItems
             self.pathPrefix = pathPrefix
@@ -3863,13 +3863,13 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
         /// The name (friendly name, not ARN) of the user to list attached policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil, userName: String) {
+        public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil, userName: String) {
             self.marker = marker
             self.maxItems = maxItems
             self.pathPrefix = pathPrefix
@@ -3940,7 +3940,7 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all entities. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
         /// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -3948,7 +3948,7 @@ extension IAM {
         /// The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned. 
         public let policyUsageFilter: PolicyUsageType?
 
-        public init(entityFilter: EntityType? = nil, marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil, policyArn: String, policyUsageFilter: PolicyUsageType? = nil) {
+        public init(entityFilter: EntityType? = nil, marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil, policyArn: String, policyUsageFilter: PolicyUsageType? = nil) {
             self.entityFilter = entityFilter
             self.marker = marker
             self.maxItems = maxItems
@@ -4029,9 +4029,9 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
 
-        public init(groupName: String, marker: String? = nil, maxItems: Int32? = nil) {
+        public init(groupName: String, marker: String? = nil, maxItems: Int? = nil) {
             self.groupName = groupName
             self.marker = marker
             self.maxItems = maxItems
@@ -4092,11 +4092,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The name of the user to list groups for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, userName: String) {
+        public init(marker: String? = nil, maxItems: Int? = nil, userName: String) {
             self.marker = marker
             self.maxItems = maxItems
             self.userName = userName
@@ -4157,11 +4157,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         ///  The path prefix for filtering the results. For example, the prefix /division_abc/subdivision_xyz/ gets all groups whose path starts with /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all groups. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.pathPrefix = pathPrefix
@@ -4222,11 +4222,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The name of the role to list instance profiles for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, roleName: String) {
+        public init(marker: String? = nil, maxItems: Int? = nil, roleName: String) {
             self.marker = marker
             self.maxItems = maxItems
             self.roleName = roleName
@@ -4287,11 +4287,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         ///  The path prefix for filtering the results. For example, the prefix /application_abc/component_xyz/ gets all instance profiles whose path starts with /application_abc/component_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all instance profiles. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.pathPrefix = pathPrefix
@@ -4352,11 +4352,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The name of the user whose MFA devices you want to list. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, userName: String? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil, userName: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.userName = userName
@@ -4536,7 +4536,7 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// A flag to filter the results to only the attached policies. When OnlyAttached is true, the returned list contains only the policies that are attached to an IAM user, group, or role. When OnlyAttached is false, or when the parameter is not included, all policies are returned.
         public let onlyAttached: Bool?
         /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
@@ -4546,7 +4546,7 @@ extension IAM {
         /// The scope to use for filtering the results. To list only AWS managed policies, set Scope to AWS. To list only the customer managed policies in your AWS account, set Scope to Local. This parameter is optional. If it is not included, or if it is set to All, all policies are returned.
         public let scope: PolicyScopeType?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, onlyAttached: Bool? = nil, pathPrefix: String? = nil, policyUsageFilter: PolicyUsageType? = nil, scope: PolicyScopeType? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil, onlyAttached: Bool? = nil, pathPrefix: String? = nil, policyUsageFilter: PolicyUsageType? = nil, scope: PolicyScopeType? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.onlyAttached = onlyAttached
@@ -4613,11 +4613,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, policyArn: String) {
+        public init(marker: String? = nil, maxItems: Int? = nil, policyArn: String) {
             self.marker = marker
             self.maxItems = maxItems
             self.policyArn = policyArn
@@ -4677,11 +4677,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The name of the role to list policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, roleName: String) {
+        public init(marker: String? = nil, maxItems: Int? = nil, roleName: String) {
             self.marker = marker
             self.maxItems = maxItems
             self.roleName = roleName
@@ -4742,11 +4742,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The name of the IAM role for which you want to see the list of tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, roleName: String) {
+        public init(marker: String? = nil, maxItems: Int? = nil, roleName: String) {
             self.marker = marker
             self.maxItems = maxItems
             self.roleName = roleName
@@ -4807,11 +4807,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         ///  The path prefix for filtering the results. For example, the prefix /application_abc/component_xyz/ gets all roles whose path starts with /application_abc/component_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all roles. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.pathPrefix = pathPrefix
@@ -4897,11 +4897,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The name of the IAM user to list SSH public keys for. If none is specified, the UserName field is determined implicitly based on the AWS access key used to sign the request. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, userName: String? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil, userName: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.userName = userName
@@ -4962,11 +4962,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         ///  The path prefix for filtering the results. For example: /company/servercerts would get all server certificates for which the path starts with /company/servercerts. This parameter is optional. If it is not included, it defaults to a slash (/), listing all server certificates. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.pathPrefix = pathPrefix
@@ -5072,11 +5072,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The name of the IAM user whose signing certificates you want to examine. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, userName: String? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil, userName: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.userName = userName
@@ -5137,11 +5137,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The name of the user to list policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, userName: String) {
+        public init(marker: String? = nil, maxItems: Int? = nil, userName: String) {
             self.marker = marker
             self.maxItems = maxItems
             self.userName = userName
@@ -5202,11 +5202,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// The name of the IAM user whose tags you want to see. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, userName: String) {
+        public init(marker: String? = nil, maxItems: Int? = nil, userName: String) {
             self.marker = marker
             self.maxItems = maxItems
             self.userName = userName
@@ -5267,11 +5267,11 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         ///  The path prefix for filtering the results. For example: /division_abc/subdivision_xyz/, which would get all user names whose path starts with /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all user names. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
-        public init(marker: String? = nil, maxItems: Int32? = nil, pathPrefix: String? = nil) {
+        public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
             self.pathPrefix = pathPrefix
@@ -5334,9 +5334,9 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
 
-        public init(assignmentStatus: AssignmentStatusType? = nil, marker: String? = nil, maxItems: Int32? = nil) {
+        public init(assignmentStatus: AssignmentStatusType? = nil, marker: String? = nil, maxItems: Int? = nil) {
             self.assignmentStatus = assignmentStatus
             self.marker = marker
             self.maxItems = maxItems
@@ -5456,7 +5456,7 @@ extension IAM {
 
         public let arn: String?
         /// The number of principal entities (users, groups, and roles) that the policy is attached to.
-        public let attachmentCount: Int32?
+        public let attachmentCount: Int?
         /// The date and time, in ISO 8601 date-time format, when the policy was created.
         public let createDate: TimeStamp?
         /// The identifier for the version of the policy that is set as the default (operative) version. For more information about policy versions, see Versioning for Managed Policies in the Using IAM guide. 
@@ -5468,7 +5468,7 @@ extension IAM {
         /// The path to the policy. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String?
         /// The number of entities (users and roles) for which the policy is used as the permissions boundary.  For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
-        public let permissionsBoundaryUsageCount: Int32?
+        public let permissionsBoundaryUsageCount: Int?
         /// The stable and unique string identifying the policy. For more information about IDs, see IAM Identifiers in the Using IAM guide.
         public let policyId: String?
         /// The friendly name (not ARN) identifying the policy.
@@ -5478,7 +5478,7 @@ extension IAM {
         /// The date and time, in ISO 8601 date-time format, when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
         public let updateDate: TimeStamp?
 
-        public init(arn: String? = nil, attachmentCount: Int32? = nil, createDate: TimeStamp? = nil, defaultVersionId: String? = nil, description: String? = nil, isAttachable: Bool? = nil, path: String? = nil, permissionsBoundaryUsageCount: Int32? = nil, policyId: String? = nil, policyName: String? = nil, policyVersionList: [PolicyVersion]? = nil, updateDate: TimeStamp? = nil) {
+        public init(arn: String? = nil, attachmentCount: Int? = nil, createDate: TimeStamp? = nil, defaultVersionId: String? = nil, description: String? = nil, isAttachable: Bool? = nil, path: String? = nil, permissionsBoundaryUsageCount: Int? = nil, policyId: String? = nil, policyName: String? = nil, policyVersionList: [PolicyVersion]? = nil, updateDate: TimeStamp? = nil) {
             self.arn = arn
             self.attachmentCount = attachmentCount
             self.createDate = createDate
@@ -5563,11 +5563,11 @@ extension IAM {
         /// Specifies whether IAM users are prevented from setting a new password after their password has expired.
         public let hardExpiry: Bool?
         /// The number of days that an IAM user password is valid.
-        public let maxPasswordAge: Int32?
+        public let maxPasswordAge: Int?
         /// Minimum length to require for IAM user passwords.
-        public let minimumPasswordLength: Int32?
+        public let minimumPasswordLength: Int?
         /// Specifies the number of previous passwords that IAM users are prevented from reusing.
-        public let passwordReusePrevention: Int32?
+        public let passwordReusePrevention: Int?
         /// Specifies whether to require lowercase characters for IAM user passwords.
         public let requireLowercaseCharacters: Bool?
         /// Specifies whether to require numbers for IAM user passwords.
@@ -5577,7 +5577,7 @@ extension IAM {
         /// Specifies whether to require uppercase characters for IAM user passwords.
         public let requireUppercaseCharacters: Bool?
 
-        public init(allowUsersToChangePassword: Bool? = nil, expirePasswords: Bool? = nil, hardExpiry: Bool? = nil, maxPasswordAge: Int32? = nil, minimumPasswordLength: Int32? = nil, passwordReusePrevention: Int32? = nil, requireLowercaseCharacters: Bool? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireUppercaseCharacters: Bool? = nil) {
+        public init(allowUsersToChangePassword: Bool? = nil, expirePasswords: Bool? = nil, hardExpiry: Bool? = nil, maxPasswordAge: Int? = nil, minimumPasswordLength: Int? = nil, passwordReusePrevention: Int? = nil, requireLowercaseCharacters: Bool? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireUppercaseCharacters: Bool? = nil) {
             self.allowUsersToChangePassword = allowUsersToChangePassword
             self.expirePasswords = expirePasswords
             self.hardExpiry = hardExpiry
@@ -5626,7 +5626,7 @@ extension IAM {
 
         public let arn: String?
         /// The number of entities (users, groups, and roles) that the policy is attached to.
-        public let attachmentCount: Int32?
+        public let attachmentCount: Int?
         /// The date and time, in ISO 8601 date-time format, when the policy was created.
         public let createDate: TimeStamp?
         /// The identifier for the version of the policy that is set as the default version.
@@ -5638,7 +5638,7 @@ extension IAM {
         /// The path to the policy. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String?
         /// The number of entities (users and roles) for which the policy is used to set the permissions boundary.  For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
-        public let permissionsBoundaryUsageCount: Int32?
+        public let permissionsBoundaryUsageCount: Int?
         /// The stable and unique string identifying the policy. For more information about IDs, see IAM Identifiers in the Using IAM guide.
         public let policyId: String?
         /// The friendly name (not ARN) identifying the policy.
@@ -5646,7 +5646,7 @@ extension IAM {
         /// The date and time, in ISO 8601 date-time format, when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
         public let updateDate: TimeStamp?
 
-        public init(arn: String? = nil, attachmentCount: Int32? = nil, createDate: TimeStamp? = nil, defaultVersionId: String? = nil, description: String? = nil, isAttachable: Bool? = nil, path: String? = nil, permissionsBoundaryUsageCount: Int32? = nil, policyId: String? = nil, policyName: String? = nil, updateDate: TimeStamp? = nil) {
+        public init(arn: String? = nil, attachmentCount: Int? = nil, createDate: TimeStamp? = nil, defaultVersionId: String? = nil, description: String? = nil, isAttachable: Bool? = nil, path: String? = nil, permissionsBoundaryUsageCount: Int? = nil, policyId: String? = nil, policyName: String? = nil, updateDate: TimeStamp? = nil) {
             self.arn = arn
             self.attachmentCount = attachmentCount
             self.createDate = createDate
@@ -5862,11 +5862,11 @@ extension IAM {
         ]
 
         /// The column in the line containing the specified position in the document.
-        public let column: Int32?
+        public let column: Int?
         /// The line containing the specified position in the document.
-        public let line: Int32?
+        public let line: Int?
 
-        public init(column: Int32? = nil, line: Int32? = nil) {
+        public init(column: Int? = nil, line: Int? = nil) {
             self.column = column
             self.line = line
         }
@@ -6312,7 +6312,7 @@ extension IAM {
         /// A description of the role that you provide.
         public let description: String?
         /// The maximum session duration (in seconds) for the specified role. Anyone who uses the AWS CLI, or API to assume the role can specify the duration using the optional DurationSeconds API parameter or duration-seconds CLI parameter.
-        public let maxSessionDuration: Int32?
+        public let maxSessionDuration: Int?
         ///  The path to the role. For more information about paths, see IAM Identifiers in the Using IAM guide. 
         public let path: String
         /// The ARN of the policy used to set the permissions boundary for the role. For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
@@ -6324,7 +6324,7 @@ extension IAM {
         /// A list of tags that are attached to the specified role. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
         public let tags: [Tag]?
 
-        public init(arn: String, assumeRolePolicyDocument: String? = nil, createDate: TimeStamp, description: String? = nil, maxSessionDuration: Int32? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String, roleName: String, tags: [Tag]? = nil) {
+        public init(arn: String, assumeRolePolicyDocument: String? = nil, createDate: TimeStamp, description: String? = nil, maxSessionDuration: Int? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String, roleName: String, tags: [Tag]? = nil) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.createDate = createDate
@@ -6627,9 +6627,9 @@ extension IAM {
         /// The namespace of the service in which access was attempted. To learn the service namespace of a service, go to Actions, Resources, and Condition Keys for AWS Services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS Service Namespaces in the AWS General Reference.
         public let serviceNamespace: String
         /// The total number of authenticated principals (root user, IAM users, or IAM roles) that have attempted to access the service. This field is null if no principals attempted to access the service within the reporting period.
-        public let totalAuthenticatedEntities: Int32?
+        public let totalAuthenticatedEntities: Int?
 
-        public init(lastAuthenticated: TimeStamp? = nil, lastAuthenticatedEntity: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int32? = nil) {
+        public init(lastAuthenticated: TimeStamp? = nil, lastAuthenticatedEntity: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int? = nil) {
             self.lastAuthenticated = lastAuthenticated
             self.lastAuthenticatedEntity = lastAuthenticatedEntity
             self.serviceName = serviceName
@@ -6840,7 +6840,7 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be "scope-down" policies, such as you could include in a call to GetFederationToken or one of the AssumeRole API operations. In other words, do not use policies designed to restrict what a user can do while using the temporary credentials. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
         public let policyInputList: [String]
         /// A list of ARNs of AWS resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. If you include a ResourcePolicy, then it must be applicable to all of the resources included in the simulation or you receive an invalid input error. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -6852,7 +6852,7 @@ extension IAM {
         /// A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
         public let resourcePolicy: String?
 
-        public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int32? = nil, policyInputList: [String], resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
+        public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, policyInputList: [String], resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
             self.actionNames = actionNames
             self.callerArn = callerArn
             self.contextEntries = contextEntries
@@ -6963,7 +6963,7 @@ extension IAM {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
         public let policyInputList: [String]?
         /// The Amazon Resource Name (ARN) of a user, group, or role whose policies you want to include in the simulation. If you specify a user, group, or role, the simulation includes all policies that are associated with that entity. If you specify a user, the simulation also includes all policies that are attached to any groups the user belongs to. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -6977,7 +6977,7 @@ extension IAM {
         /// A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)  
         public let resourcePolicy: String?
 
-        public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int32? = nil, policyInputList: [String]? = nil, policySourceArn: String, resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
+        public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, policyInputList: [String]? = nil, policySourceArn: String, resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
             self.actionNames = actionNames
             self.callerArn = callerArn
             self.contextEntries = contextEntries
@@ -7290,11 +7290,11 @@ extension IAM {
         /// Prevents IAM users from setting a new password after their password has expired. The IAM user cannot be accessed until an administrator resets the password. If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that IAM users can change their passwords after they expire and continue to sign in as the user.
         public let hardExpiry: Bool?
         /// The number of days that an IAM user password is valid. If you do not specify a value for this parameter, then the operation uses the default value of 0. The result is that IAM user passwords never expire.
-        public let maxPasswordAge: Int32?
+        public let maxPasswordAge: Int?
         /// The minimum number of characters allowed in an IAM user password. If you do not specify a value for this parameter, then the operation uses the default value of 6.
-        public let minimumPasswordLength: Int32?
+        public let minimumPasswordLength: Int?
         /// Specifies the number of previous passwords that IAM users are prevented from reusing. If you do not specify a value for this parameter, then the operation uses the default value of 0. The result is that IAM users are not prevented from reusing previous passwords.
-        public let passwordReusePrevention: Int32?
+        public let passwordReusePrevention: Int?
         /// Specifies whether IAM user passwords must contain at least one lowercase character from the ISO basic Latin alphabet (a to z). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one lowercase character.
         public let requireLowercaseCharacters: Bool?
         /// Specifies whether IAM user passwords must contain at least one numeric character (0 to 9). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one numeric character.
@@ -7304,7 +7304,7 @@ extension IAM {
         /// Specifies whether IAM user passwords must contain at least one uppercase character from the ISO basic Latin alphabet (A to Z). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one uppercase character.
         public let requireUppercaseCharacters: Bool?
 
-        public init(allowUsersToChangePassword: Bool? = nil, hardExpiry: Bool? = nil, maxPasswordAge: Int32? = nil, minimumPasswordLength: Int32? = nil, passwordReusePrevention: Int32? = nil, requireLowercaseCharacters: Bool? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireUppercaseCharacters: Bool? = nil) {
+        public init(allowUsersToChangePassword: Bool? = nil, hardExpiry: Bool? = nil, maxPasswordAge: Int? = nil, minimumPasswordLength: Int? = nil, passwordReusePrevention: Int? = nil, requireLowercaseCharacters: Bool? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireUppercaseCharacters: Bool? = nil) {
             self.allowUsersToChangePassword = allowUsersToChangePassword
             self.hardExpiry = hardExpiry
             self.maxPasswordAge = maxPasswordAge
@@ -7532,11 +7532,11 @@ extension IAM {
         /// The new description that you want to apply to the specified role.
         public let description: String?
         /// The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the AWS CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM Roles in the IAM User Guide.
-        public let maxSessionDuration: Int32?
+        public let maxSessionDuration: Int?
         /// The name of the role that you want to modify.
         public let roleName: String
 
-        public init(description: String? = nil, maxSessionDuration: Int32? = nil, roleName: String) {
+        public init(description: String? = nil, maxSessionDuration: Int? = nil, roleName: String) {
             self.description = description
             self.maxSessionDuration = maxSessionDuration
             self.roleName = roleName

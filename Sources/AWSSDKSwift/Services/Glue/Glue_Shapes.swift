@@ -26,9 +26,9 @@ extension Glue {
         /// The name of the SecurityConfiguration structure to be used with this action.
         public let securityConfiguration: String?
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
-        public let timeout: Int32?
+        public let timeout: Int?
 
-        public init(arguments: [String: String]? = nil, crawlerName: String? = nil, jobName: String? = nil, notificationProperty: NotificationProperty? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil) {
+        public init(arguments: [String: String]? = nil, crawlerName: String? = nil, jobName: String? = nil, notificationProperty: NotificationProperty? = nil, securityConfiguration: String? = nil, timeout: Int? = nil) {
             self.arguments = arguments
             self.crawlerName = crawlerName
             self.jobName = jobName
@@ -1007,11 +1007,11 @@ extension Glue {
         /// A node identifier that is unique within the node's graph.
         public let id: String
         /// The line number of the node.
-        public let lineNumber: Int32?
+        public let lineNumber: Int?
         /// The type of node that this is.
         public let nodeType: String
 
-        public init(args: [CodeGenNodeArg], id: String, lineNumber: Int32? = nil, nodeType: String) {
+        public init(args: [CodeGenNodeArg], id: String, lineNumber: Int? = nil, nodeType: String) {
             self.args = args
             self.id = id
             self.lineNumber = lineNumber
@@ -1501,15 +1501,15 @@ extension Glue {
         /// True if the crawler is still estimating how long it will take to complete this run.
         public let stillEstimating: Bool?
         /// The number of tables created by this crawler.
-        public let tablesCreated: Int32?
+        public let tablesCreated: Int?
         /// The number of tables deleted by this crawler.
-        public let tablesDeleted: Int32?
+        public let tablesDeleted: Int?
         /// The number of tables updated by this crawler.
-        public let tablesUpdated: Int32?
+        public let tablesUpdated: Int?
         /// The estimated time left to complete a running crawl.
         public let timeLeftSeconds: Double?
 
-        public init(crawlerName: String? = nil, lastRuntimeSeconds: Double? = nil, medianRuntimeSeconds: Double? = nil, stillEstimating: Bool? = nil, tablesCreated: Int32? = nil, tablesDeleted: Int32? = nil, tablesUpdated: Int32? = nil, timeLeftSeconds: Double? = nil) {
+        public init(crawlerName: String? = nil, lastRuntimeSeconds: Double? = nil, medianRuntimeSeconds: Double? = nil, stillEstimating: Bool? = nil, tablesCreated: Int? = nil, tablesDeleted: Int? = nil, tablesUpdated: Int? = nil, timeLeftSeconds: Double? = nil) {
             self.crawlerName = crawlerName
             self.lastRuntimeSeconds = lastRuntimeSeconds
             self.medianRuntimeSeconds = medianRuntimeSeconds
@@ -1909,7 +1909,7 @@ extension Glue {
         /// Path(s) to one or more Python libraries in an S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma. Please note that only pure Python libraries can currently be used on a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
         public let extraPythonLibsS3Path: String?
         /// The number of AWS Glue Data Processing Units (DPUs) to allocate to this DevEndpoint.
-        public let numberOfNodes: Int32?
+        public let numberOfNodes: Int?
         /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility, as the recommended attribute to use is public keys.
         public let publicKey: String?
         /// A list of public keys to be used by the DevEndpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys: call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. 
@@ -1925,7 +1925,7 @@ extension Glue {
         /// The tags to use with this DevEndpoint. You may use tags to limit access to the DevEndpoint. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
         public let tags: [String: String]?
 
-        public init(arguments: [String: String]? = nil, endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, numberOfNodes: Int32? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [String: String]? = nil) {
+        public init(arguments: [String: String]? = nil, endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, numberOfNodes: Int? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [String: String]? = nil) {
             self.arguments = arguments
             self.endpointName = endpointName
             self.extraJarsS3Path = extraJarsS3Path
@@ -2005,7 +2005,7 @@ extension Glue {
         /// The reason for a current failure in this DevEndpoint.
         public let failureReason: String?
         /// The number of AWS Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
-        public let numberOfNodes: Int32?
+        public let numberOfNodes: Int?
         /// The AWS ARN of the role assigned to the new DevEndpoint.
         public let roleArn: String?
         /// The name of the SecurityConfiguration structure being used with this DevEndpoint.
@@ -2021,9 +2021,9 @@ extension Glue {
         /// The address of the YARN endpoint used by this DevEndpoint.
         public let yarnEndpointAddress: String?
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
-        public let zeppelinRemoteSparkInterpreterPort: Int32?
+        public let zeppelinRemoteSparkInterpreterPort: Int?
 
-        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, numberOfNodes: Int32? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int32? = nil) {
+        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, numberOfNodes: Int? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
             self.createdTimestamp = createdTimestamp
@@ -2141,13 +2141,13 @@ extension Glue {
         /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
-        public let maxRetries: Int32?
+        public let maxRetries: Int?
         /// The name you assign to this job definition. It must be unique in your account.
         public let name: String
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
-        public let numberOfWorkers: Int32?
+        public let numberOfWorkers: Int?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job.
         public let role: String
         /// The name of the SecurityConfiguration structure to be used with this job.
@@ -2155,11 +2155,11 @@ extension Glue {
         /// The tags to use with this job. You may use tags to limit access to the job. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
         public let tags: [String: String]?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
-        public let timeout: Int32?
+        public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: String?
 
-        public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int32? = nil, workerType: String? = nil) {
+        public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: String? = nil) {
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -3500,7 +3500,7 @@ extension Glue {
         /// The status of the last update.
         public let lastUpdateStatus: String?
         /// The number of AWS Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
-        public let numberOfNodes: Int32?
+        public let numberOfNodes: Int?
         /// A private IP address to access the DevEndpoint within a VPC, if the DevEndpoint is created within one. The PrivateAddress field is present only when you create the DevEndpoint within your virtual private cloud (VPC).
         public let privateAddress: String?
         /// The public IP address used by this DevEndpoint. The PublicAddress field is present only when you create a non-VPC (virtual private cloud) DevEndpoint.
@@ -3524,9 +3524,9 @@ extension Glue {
         /// The YARN endpoint address used by this DevEndpoint.
         public let yarnEndpointAddress: String?
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
-        public let zeppelinRemoteSparkInterpreterPort: Int32?
+        public let zeppelinRemoteSparkInterpreterPort: Int?
 
-        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int32? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int32? = nil) {
+        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
             self.createdTimestamp = createdTimestamp
@@ -3729,9 +3729,9 @@ extension Glue {
         ]
 
         /// The maximum number of concurrent runs allowed for the job. The default is 1. An error is returned when this threshold is reached. The maximum value you can specify is controlled by a service limit.
-        public let maxConcurrentRuns: Int32?
+        public let maxConcurrentRuns: Int?
 
-        public init(maxConcurrentRuns: Int32? = nil) {
+        public init(maxConcurrentRuns: Int? = nil) {
             self.maxConcurrentRuns = maxConcurrentRuns
         }
 
@@ -3834,11 +3834,11 @@ extension Glue {
         ]
 
         /// The size of the list to return (optional).
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// An optional continuation token.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3977,11 +3977,11 @@ extension Glue {
         /// Allows you to retrieve the connection metadata without returning the password. For instance, the AWS Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the AWS KMS key to decrypt the password, but does have permission to access the rest of the connection properties.
         public let hidePassword: Bool?
         /// The maximum number of connections to return in one response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
-        public init(catalogId: String? = nil, filter: GetConnectionsFilter? = nil, hidePassword: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(catalogId: String? = nil, filter: GetConnectionsFilter? = nil, hidePassword: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.catalogId = catalogId
             self.filter = filter
             self.hidePassword = hidePassword
@@ -4039,11 +4039,11 @@ extension Glue {
         /// A list of the names of crawlers about which to retrieve metrics.
         public let crawlerNameList: [String]?
         /// The maximum size of a list to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
-        public init(crawlerNameList: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(crawlerNameList: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.crawlerNameList = crawlerNameList
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4137,11 +4137,11 @@ extension Glue {
         ]
 
         /// The number of crawlers to return on each call.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation request.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -4277,11 +4277,11 @@ extension Glue {
         /// The ID of the Data Catalog from which to retrieve Databases. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
         /// The maximum number of databases to return in one response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
-        public init(catalogId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.catalogId = catalogId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4404,11 +4404,11 @@ extension Glue {
         ]
 
         /// The maximum size of information to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -4549,11 +4549,11 @@ extension Glue {
         /// The name of the job definition for which to retrieve all job runs.
         public let jobName: String
         /// The maximum size of the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
-        public init(jobName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(jobName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobName = jobName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4603,11 +4603,11 @@ extension Glue {
         ]
 
         /// The maximum size of the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -4779,7 +4779,7 @@ extension Glue {
         /// An expression filtering the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression.   Operators: The following are the operators that you can use in the Expression API call:  =  Checks if the values of the two operands are equal or not; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20.  (a = b) is not true.  &lt; &gt;  Checks if the values of two operands are equal or not; if the values are not equal, then the condition becomes true. Example: (a &lt; &gt; b) is true.  &gt;  Checks if the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a &gt; b) is not true.  &lt;  Checks if the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a &lt; b) is true.  &gt;=  Checks if the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &gt;= b) is not true.  &lt;=  Checks if the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &lt;= b) is true.  AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key Types: The following are the the supported partition keys.    string     date     timestamp     int     bigint     long     tinyint     smallint     decimal    If an invalid type is encountered, an exception is thrown.  The following list shows the valid operators on each type. When you define a crawler, the partitionKey type is created as a STRING, to be compatible with the catalog partitions.   Sample API Call: 
         public let expression: String?
         /// The maximum number of partitions to return in a single response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is not the first call to retrieve these partitions.
         public let nextToken: String?
         /// The segment of the table's partitions to scan in this request.
@@ -4787,7 +4787,7 @@ extension Glue {
         /// The name of the partitions' table.
         public let tableName: String
 
-        public init(catalogId: String? = nil, databaseName: String, expression: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, segment: Segment? = nil, tableName: String) {
+        public init(catalogId: String? = nil, databaseName: String, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, segment: Segment? = nil, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.expression = expression
@@ -5002,11 +5002,11 @@ extension Glue {
         ]
 
         /// The maximum number of results to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5178,13 +5178,13 @@ extension Glue {
         /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
         /// The maximum number of table versions to return in one response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is not the first call.
         public let nextToken: String?
         /// The name of the table. For Hive compatibility, this name is entirely lowercase.
         public let tableName: String
 
-        public init(catalogId: String? = nil, databaseName: String, maxResults: Int32? = nil, nextToken: String? = nil, tableName: String) {
+        public init(catalogId: String? = nil, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.maxResults = maxResults
@@ -5253,11 +5253,11 @@ extension Glue {
         /// A regular expression pattern. If present, only those tables whose names match the pattern are returned.
         public let expression: String?
         /// The maximum number of tables to return in a single response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, included if this is a continuation call.
         public let nextToken: String?
 
-        public init(catalogId: String? = nil, databaseName: String, expression: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(catalogId: String? = nil, databaseName: String, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.expression = expression
@@ -5400,11 +5400,11 @@ extension Glue {
         /// The name of the job to retrieve triggers for. The trigger that can start this job is returned, and if there is no such trigger, all triggers are returned.
         public let dependentJobName: String?
         /// The maximum size of the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
 
-        public init(dependentJobName: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(dependentJobName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dependentJobName = dependentJobName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5517,13 +5517,13 @@ extension Glue {
         /// The name of the catalog database where the functions are located.
         public let databaseName: String
         /// The maximum number of functions to return in one response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
         /// An optional function-name pattern string that filters the function definitions returned.
         public let pattern: String
 
-        public init(catalogId: String? = nil, databaseName: String, maxResults: Int32? = nil, nextToken: String? = nil, pattern: String) {
+        public init(catalogId: String? = nil, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, pattern: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.maxResults = maxResults
@@ -5733,13 +5733,13 @@ extension Glue {
         /// Specifies whether to include the workflow graph in response or not.
         public let includeGraph: Bool?
         /// The maximum number of workflow runs to be included in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Name of the workflow whose metadata of runs should be returned.
         public let name: String
         /// The maximum size of the response.
         public let nextToken: String?
 
-        public init(includeGraph: Bool? = nil, maxResults: Int32? = nil, name: String, nextToken: String? = nil) {
+        public init(includeGraph: Bool? = nil, maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.includeGraph = includeGraph
             self.maxResults = maxResults
             self.name = name
@@ -5929,23 +5929,23 @@ extension Glue {
         /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job after a JobRun fails.
-        public let maxRetries: Int32?
+        public let maxRetries: Int?
         /// The name you assign to this job definition.
         public let name: String?
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
-        public let numberOfWorkers: Int32?
+        public let numberOfWorkers: Int?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job.
         public let role: String?
         /// The name of the SecurityConfiguration structure to be used with this job.
         public let securityConfiguration: String?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
-        public let timeout: Int32?
+        public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
 
-        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.createdOn = createdOn
@@ -5996,17 +5996,17 @@ extension Glue {
         ]
 
         /// The attempt ID number.
-        public let attempt: Int32?
+        public let attempt: Int?
         /// The bookmark itself.
         public let jobBookmark: String?
         /// Name of the job in question.
         public let jobName: String?
         /// The run ID number.
-        public let run: Int32?
+        public let run: Int?
         /// Version of the job.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(attempt: Int32? = nil, jobBookmark: String? = nil, jobName: String? = nil, run: Int32? = nil, version: Int32? = nil) {
+        public init(attempt: Int? = nil, jobBookmark: String? = nil, jobName: String? = nil, run: Int? = nil, version: Int? = nil) {
             self.attempt = attempt
             self.jobBookmark = jobBookmark
             self.jobName = jobName
@@ -6130,13 +6130,13 @@ extension Glue {
         /// The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
         /// The number of the attempt to run this job.
-        public let attempt: Int32?
+        public let attempt: Int?
         /// The date and time that this job run completed.
         public let completedOn: TimeStamp?
         /// An error message associated with this job run.
         public let errorMessage: String?
         /// The amount of time (in seconds) that the job run consumed resources.
-        public let executionTime: Int32?
+        public let executionTime: Int?
         /// The ID of this job run.
         public let id: String?
         /// The name of the job definition being used in this run.
@@ -6152,7 +6152,7 @@ extension Glue {
         /// Specifies configuration properties of a job run notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
-        public let numberOfWorkers: Int32?
+        public let numberOfWorkers: Int?
         /// A list of predecessors to this job run.
         public let predecessorRuns: [Predecessor]?
         /// The ID of the previous run of this job. For example, the JobRunId specified in the StartJobRun action.
@@ -6162,13 +6162,13 @@ extension Glue {
         /// The date and time at which this job run was started.
         public let startedOn: TimeStamp?
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
-        public let timeout: Int32?
+        public let timeout: Int?
         /// The name of the trigger that started this job run.
         public let triggerName: String?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
         public let workerType: WorkerType?
 
-        public init(arguments: [String: String]? = nil, attempt: Int32? = nil, completedOn: TimeStamp? = nil, errorMessage: String? = nil, executionTime: Int32? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: TimeStamp? = nil, timeout: Int32? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: TimeStamp? = nil, errorMessage: String? = nil, executionTime: Int? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: TimeStamp? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.arguments = arguments
             self.attempt = attempt
             self.completedOn = completedOn
@@ -6259,21 +6259,21 @@ extension Glue {
         /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
-        public let maxRetries: Int32?
+        public let maxRetries: Int?
         /// Specifies the configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
-        public let numberOfWorkers: Int32?
+        public let numberOfWorkers: Int?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job (required).
         public let role: String?
         /// The name of the SecurityConfiguration structure to be used with this job.
         public let securityConfiguration: String?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
-        public let timeout: Int32?
+        public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
 
-        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int32? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: WorkerType? = nil) {
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -6420,13 +6420,13 @@ extension Glue {
         ]
 
         /// The maximum size of a list to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation request.
         public let nextToken: String?
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.tags = tags
@@ -6480,13 +6480,13 @@ extension Glue {
         ]
 
         /// The maximum size of a list to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation request.
         public let nextToken: String?
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.tags = tags
@@ -6540,13 +6540,13 @@ extension Glue {
         ]
 
         /// The maximum size of a list to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation request.
         public let nextToken: String?
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.tags = tags
@@ -6603,13 +6603,13 @@ extension Glue {
         ///  The name of the job for which to retrieve triggers. The trigger that can start this job is returned. If there is no such trigger, all triggers are returned.
         public let dependentJobName: String?
         /// The maximum size of a list to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation request.
         public let nextToken: String?
         /// Specifies to return only these tagged resources.
         public let tags: [String: String]?
 
-        public init(dependentJobName: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
+        public init(dependentJobName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.dependentJobName = dependentJobName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6667,11 +6667,11 @@ extension Glue {
         ]
 
         /// The maximum size of a list to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A continuation token, if this is a continuation request.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -6853,9 +6853,9 @@ extension Glue {
         ]
 
         /// After a job run starts, the number of minutes to wait before sending a job run delay notification.
-        public let notifyDelayAfter: Int32?
+        public let notifyDelayAfter: Int?
 
-        public init(notifyDelayAfter: Int32? = nil) {
+        public init(notifyDelayAfter: Int? = nil) {
             self.notifyDelayAfter = notifyDelayAfter
         }
 
@@ -6877,9 +6877,9 @@ extension Glue {
         /// The name of the column.
         public let column: String
         /// Indicates that the column is sorted in ascending order (== 1), or in descending order (==0).
-        public let sortOrder: Int32
+        public let sortOrder: Int
 
-        public init(column: String, sortOrder: Int32) {
+        public init(column: String, sortOrder: Int) {
             self.column = column
             self.sortOrder = sortOrder
         }
@@ -7492,11 +7492,11 @@ extension Glue {
         ]
 
         /// The zero-based index number of the this segment. For example, if the total number of segments is 4, SegmentNumber values will range from zero through three.
-        public let segmentNumber: Int32
+        public let segmentNumber: Int
         /// The total numer of segments.
-        public let totalSegments: Int32
+        public let totalSegments: Int
 
-        public init(segmentNumber: Int32, totalSegments: Int32) {
+        public init(segmentNumber: Int, totalSegments: Int) {
             self.segmentNumber = segmentNumber
             self.totalSegments = totalSegments
         }
@@ -7676,15 +7676,15 @@ extension Glue {
         /// Specifies configuration properties of a job run notification.
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
-        public let numberOfWorkers: Int32?
+        public let numberOfWorkers: Int?
         /// The name of the SecurityConfiguration structure to be used with this job run.
         public let securityConfiguration: String?
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
-        public let timeout: Int32?
+        public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
         public let workerType: String?
 
-        public init(arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int32? = nil, securityConfiguration: String? = nil, timeout: Int32? = nil, workerType: String? = nil) {
+        public init(arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: String? = nil) {
             self.arguments = arguments
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -7952,7 +7952,7 @@ extension Glue {
         /// The physical location of the table. By default this takes the form of the warehouse location, followed by the database location in the warehouse, followed by the table name.
         public let location: String?
         /// Must be specified if the table contains any dimension columns.
-        public let numberOfBuckets: Int32?
+        public let numberOfBuckets: Int?
         /// The output format: SequenceFileOutputFormat (binary), or IgnoreKeyTextOutputFormat, or a custom format.
         public let outputFormat: String?
         /// User-supplied properties in key-value form.
@@ -7966,7 +7966,7 @@ extension Glue {
         /// True if the table data is stored in subdirectories, or False if not.
         public let storedAsSubDirectories: Bool?
 
-        public init(bucketColumns: [String]? = nil, columns: [Column]? = nil, compressed: Bool? = nil, inputFormat: String? = nil, location: String? = nil, numberOfBuckets: Int32? = nil, outputFormat: String? = nil, parameters: [String: String]? = nil, serdeInfo: SerDeInfo? = nil, skewedInfo: SkewedInfo? = nil, sortColumns: [Order]? = nil, storedAsSubDirectories: Bool? = nil) {
+        public init(bucketColumns: [String]? = nil, columns: [Column]? = nil, compressed: Bool? = nil, inputFormat: String? = nil, location: String? = nil, numberOfBuckets: Int? = nil, outputFormat: String? = nil, parameters: [String: String]? = nil, serdeInfo: SerDeInfo? = nil, skewedInfo: SkewedInfo? = nil, sortColumns: [Order]? = nil, storedAsSubDirectories: Bool? = nil) {
             self.bucketColumns = bucketColumns
             self.columns = columns
             self.compressed = compressed
@@ -8066,7 +8066,7 @@ extension Glue {
         /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When creating a table used by Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": [] 
         public let partitionKeys: [Column]?
         /// Retention time for this table.
-        public let retention: Int32?
+        public let retention: Int?
         /// A storage descriptor containing information about the physical storage of this table.
         public let storageDescriptor: StorageDescriptor?
         /// The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.).
@@ -8078,7 +8078,7 @@ extension Glue {
         /// If the table is a view, the original text of the view; otherwise null.
         public let viewOriginalText: String?
 
-        public init(createdBy: String? = nil, createTime: TimeStamp? = nil, databaseName: String? = nil, description: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int32? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, updateTime: TimeStamp? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(createdBy: String? = nil, createTime: TimeStamp? = nil, databaseName: String? = nil, description: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, updateTime: TimeStamp? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.createdBy = createdBy
             self.createTime = createTime
             self.databaseName = databaseName
@@ -8170,7 +8170,7 @@ extension Glue {
         /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When creating a table used by Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": [] 
         public let partitionKeys: [Column]?
         /// Retention time for this table.
-        public let retention: Int32?
+        public let retention: Int?
         /// A storage descriptor containing information about the physical storage of this table.
         public let storageDescriptor: StorageDescriptor?
         /// The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.).
@@ -8180,7 +8180,7 @@ extension Glue {
         /// If the table is a view, the original text of the view; otherwise null.
         public let viewOriginalText: String?
 
-        public init(description: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int32? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(description: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.description = description
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
@@ -9568,19 +9568,19 @@ extension Glue {
         ]
 
         /// Total number of Actions which have failed.
-        public let failedActions: Int32?
+        public let failedActions: Int?
         /// Total number Actions in running state.
-        public let runningActions: Int32?
+        public let runningActions: Int?
         /// Total number of Actions which have stopped.
-        public let stoppedActions: Int32?
+        public let stoppedActions: Int?
         /// Total number of Actions which have succeeded.
-        public let succeededActions: Int32?
+        public let succeededActions: Int?
         /// Total number of Actions which timed out.
-        public let timeoutActions: Int32?
+        public let timeoutActions: Int?
         /// Total number of Actions in the workflow run.
-        public let totalActions: Int32?
+        public let totalActions: Int?
 
-        public init(failedActions: Int32? = nil, runningActions: Int32? = nil, stoppedActions: Int32? = nil, succeededActions: Int32? = nil, timeoutActions: Int32? = nil, totalActions: Int32? = nil) {
+        public init(failedActions: Int? = nil, runningActions: Int? = nil, stoppedActions: Int? = nil, succeededActions: Int? = nil, timeoutActions: Int? = nil, totalActions: Int? = nil) {
             self.failedActions = failedActions
             self.runningActions = runningActions
             self.stoppedActions = stoppedActions

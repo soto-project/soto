@@ -9,7 +9,7 @@ Use the AWS Elemental MediaTailor SDK to configure scalable ad insertion for you
 */
 public struct MediaTailor {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

@@ -1048,13 +1048,13 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// A reference to the object that has indices attached.
         public let targetReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, targetReference: ObjectReference) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, targetReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.targetReference = targetReference
@@ -1107,13 +1107,13 @@ extension CloudDirectory {
         /// Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls.
         public let filterTypedLink: TypedLinkSchemaAndFacetName?
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
 
-        public init(filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.filterAttributeRanges = filterAttributeRanges
             self.filterTypedLink = filterTypedLink
             self.maxResults = maxResults
@@ -1171,13 +1171,13 @@ extension CloudDirectory {
         /// The reference to the index to list.
         public let indexReference: ObjectReference
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// Specifies the ranges of indexed values that you want to query.
         public let rangesOnIndexedValues: [ObjectAttributeRange]?
 
-        public init(indexReference: ObjectReference, maxResults: Int32? = nil, nextToken: String? = nil, rangesOnIndexedValues: [ObjectAttributeRange]? = nil) {
+        public init(indexReference: ObjectReference, maxResults: Int? = nil, nextToken: String? = nil, rangesOnIndexedValues: [ObjectAttributeRange]? = nil) {
             self.indexReference = indexReference
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1232,13 +1232,13 @@ extension CloudDirectory {
         /// Used to filter the list of object attributes that are associated with a certain facet.
         public let facetFilter: SchemaFacet?
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// Reference of the object whose attributes need to be listed.
         public let objectReference: ObjectReference
 
-        public init(facetFilter: SchemaFacet? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(facetFilter: SchemaFacet? = nil, maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.facetFilter = facetFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1288,13 +1288,13 @@ extension CloudDirectory {
         ]
 
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// Reference of the object for which child objects are being listed.
         public let objectReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
@@ -1341,13 +1341,13 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
@@ -1393,11 +1393,11 @@ extension CloudDirectory {
             AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         public let objectReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
@@ -1442,13 +1442,13 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
@@ -1501,13 +1501,13 @@ extension CloudDirectory {
         /// Filters are interpreted in the order of the attributes defined on the typed link facet, not the order they are supplied to any API calls.
         public let filterTypedLink: TypedLinkSchemaAndFacetName?
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
 
-        public init(filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.filterAttributeRanges = filterAttributeRanges
             self.filterTypedLink = filterTypedLink
             self.maxResults = maxResults
@@ -1562,13 +1562,13 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The reference that identifies the policy object.
         public let policyReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, policyReference: ObjectReference) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, policyReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.policyReference = policyReference
@@ -1615,13 +1615,13 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// Reference that identifies the object whose policies will be looked up.
         public let objectReference: ObjectReference
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
@@ -3676,13 +3676,13 @@ extension CloudDirectory {
         /// The ARN of the directory you are listing.
         public let directoryArn: String
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The response for ListAppliedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
         public let schemaArn: String?
 
-        public init(directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, schemaArn: String? = nil) {
+        public init(directoryArn: String, maxResults: Int? = nil, nextToken: String? = nil, schemaArn: String? = nil) {
             self.directoryArn = directoryArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3737,13 +3737,13 @@ extension CloudDirectory {
         /// The ARN of the directory.
         public let directoryArn: String
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// A reference to the object that has indices attached.
         public let targetReference: ObjectReference
 
-        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, targetReference: ObjectReference) {
+        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, maxResults: Int? = nil, nextToken: String? = nil, targetReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
             self.maxResults = maxResults
@@ -3793,11 +3793,11 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3842,13 +3842,13 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The state of the directories in the list. Can be either Enabled, Disabled, or Deleted.
         public let state: DirectoryState?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, state: DirectoryState? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, state: DirectoryState? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.state = state
@@ -3896,7 +3896,7 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The name of the facet whose attributes will be retrieved.
         public let name: String
         /// The pagination token.
@@ -3904,7 +3904,7 @@ extension CloudDirectory {
         /// The ARN of the schema where the facet resides.
         public let schemaArn: String
 
-        public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil, schemaArn: String) {
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil, schemaArn: String) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -3956,13 +3956,13 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) to retrieve facet names from.
         public let schemaArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, schemaArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, schemaArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.schemaArn = schemaArn
@@ -4021,13 +4021,13 @@ extension CloudDirectory {
         /// Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls.
         public let filterTypedLink: TypedLinkSchemaAndFacetName?
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// Reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
 
-        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
             self.filterAttributeRanges = filterAttributeRanges
@@ -4095,13 +4095,13 @@ extension CloudDirectory {
         /// The reference to the index to list.
         public let indexReference: ObjectReference
         /// The maximum number of objects in a single page to retrieve from the index during a request. For more information, see Amazon Cloud Directory Limits.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// Specifies the ranges of indexed values that you want to query.
         public let rangesOnIndexedValues: [ObjectAttributeRange]?
 
-        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, indexReference: ObjectReference, maxResults: Int32? = nil, nextToken: String? = nil, rangesOnIndexedValues: [ObjectAttributeRange]? = nil) {
+        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, indexReference: ObjectReference, maxResults: Int? = nil, nextToken: String? = nil, rangesOnIndexedValues: [ObjectAttributeRange]? = nil) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
             self.indexReference = indexReference
@@ -4157,13 +4157,13 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The response for ListManagedSchemaArns. When this parameter is used, all minor version ARNs for a major version are listed.
         public let schemaArn: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, schemaArn: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, schemaArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.schemaArn = schemaArn
@@ -4219,13 +4219,13 @@ extension CloudDirectory {
         /// Used to filter the list of object attributes that are associated with a certain facet.
         public let facetFilter: SchemaFacet?
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
 
-        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, facetFilter: SchemaFacet? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, facetFilter: SchemaFacet? = nil, maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
             self.facetFilter = facetFilter
@@ -4285,13 +4285,13 @@ extension CloudDirectory {
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
         public let directoryArn: String
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The reference that identifies the object for which child objects are being listed.
         public let objectReference: ObjectReference
 
-        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
             self.maxResults = maxResults
@@ -4345,13 +4345,13 @@ extension CloudDirectory {
         /// The ARN of the directory to which the parent path applies.
         public let directoryArn: String
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The reference that identifies the object whose parent paths are listed.
         public let objectReference: ObjectReference
 
-        public init(directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(directoryArn: String, maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.directoryArn = directoryArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4409,13 +4409,13 @@ extension CloudDirectory {
         /// When set to True, returns all ListObjectParentsResponse$ParentLinks. There could be multiple links between a parent-child pair.
         public let includeAllLinksToEachParent: Bool?
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The reference that identifies the object for which parent objects are being listed.
         public let objectReference: ObjectReference
 
-        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, includeAllLinksToEachParent: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, includeAllLinksToEachParent: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
             self.includeAllLinksToEachParent = includeAllLinksToEachParent
@@ -4479,13 +4479,13 @@ extension CloudDirectory {
         /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
         public let directoryArn: String
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// Reference that identifies the object for which policies will be listed.
         public let objectReference: ObjectReference
 
-        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
             self.maxResults = maxResults
@@ -4548,13 +4548,13 @@ extension CloudDirectory {
         /// Filters are interpreted in the order of the attributes defined on the typed link facet, not the order they are supplied to any API calls.
         public let filterTypedLink: TypedLinkSchemaAndFacetName?
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// A reference that identifies the object whose attributes will be listed.
         public let objectReference: ObjectReference
 
-        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, filterAttributeRanges: [TypedLinkAttributeRange]? = nil, filterTypedLink: TypedLinkSchemaAndFacetName? = nil, maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
             self.filterAttributeRanges = filterAttributeRanges
@@ -4619,13 +4619,13 @@ extension CloudDirectory {
         /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
         public let directoryArn: String
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The reference that identifies the policy object.
         public let policyReference: ObjectReference
 
-        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, policyReference: ObjectReference) {
+        public init(consistencyLevel: ConsistencyLevel? = nil, directoryArn: String, maxResults: Int? = nil, nextToken: String? = nil, policyReference: ObjectReference) {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
             self.maxResults = maxResults
@@ -4676,13 +4676,13 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The response for ListPublishedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
         public let schemaArn: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, schemaArn: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, schemaArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.schemaArn = schemaArn
@@ -4729,13 +4729,13 @@ extension CloudDirectory {
         ]
 
         /// The MaxResults parameter sets the maximum number of results returned in a single page. This is for future use and is not supported currently.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token. This is for future use. Currently pagination is not supported for tagging.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
         public let resourceArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -4783,7 +4783,7 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The unique name of the typed link facet.
         public let name: String
         /// The pagination token.
@@ -4791,7 +4791,7 @@ extension CloudDirectory {
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
         public let schemaArn: String
 
-        public init(maxResults: Int32? = nil, name: String, nextToken: String? = nil, schemaArn: String) {
+        public init(maxResults: Int? = nil, name: String, nextToken: String? = nil, schemaArn: String) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -4841,13 +4841,13 @@ extension CloudDirectory {
         ]
 
         /// The maximum number of results to retrieve.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
         public let schemaArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, schemaArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, schemaArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.schemaArn = schemaArn
@@ -4897,13 +4897,13 @@ extension CloudDirectory {
         /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
         public let directoryArn: String
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to request the next page of results.
         public let nextToken: String?
         /// Reference that identifies the object whose policies will be looked up.
         public let objectReference: ObjectReference
 
-        public init(directoryArn: String, maxResults: Int32? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
+        public init(directoryArn: String, maxResults: Int? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.directoryArn = directoryArn
             self.maxResults = maxResults
             self.nextToken = nextToken

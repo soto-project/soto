@@ -167,7 +167,7 @@ extension MediaLive {
         /// Dolby Digital coding mode. Determines number of channels.
         public let codingMode: Ac3CodingMode?
         /// Sets the dialnorm for the output. If excluded and input audio is Dolby Digital, dialnorm will be passed through.
-        public let dialnorm: Int32?
+        public let dialnorm: Int?
         /// If set to filmStandard, adds dynamic range compression signaling to the output bitstream as defined in the Dolby Digital specification.
         public let drcProfile: Ac3DrcProfile?
         /// When set to enabled, applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only valid in codingMode32Lfe mode.
@@ -175,7 +175,7 @@ extension MediaLive {
         /// When set to "followInput", encoder metadata will be sourced from the DD, DD+, or DolbyE decoder that supplied this audio data. If audio was not supplied from one of these streams, then the static metadata settings will be used.
         public let metadataControl: Ac3MetadataControl?
 
-        public init(bitrate: Double? = nil, bitstreamMode: Ac3BitstreamMode? = nil, codingMode: Ac3CodingMode? = nil, dialnorm: Int32? = nil, drcProfile: Ac3DrcProfile? = nil, lfeFilter: Ac3LfeFilter? = nil, metadataControl: Ac3MetadataControl? = nil) {
+        public init(bitrate: Double? = nil, bitstreamMode: Ac3BitstreamMode? = nil, codingMode: Ac3CodingMode? = nil, dialnorm: Int? = nil, drcProfile: Ac3DrcProfile? = nil, lfeFilter: Ac3LfeFilter? = nil, metadataControl: Ac3MetadataControl? = nil) {
             self.bitrate = bitrate
             self.bitstreamMode = bitstreamMode
             self.codingMode = codingMode
@@ -237,9 +237,9 @@ extension MediaLive {
         /// A directory and base filename where archive files should be written.
         public let destination: OutputLocationRef
         /// Number of seconds to write to archive file before closing and starting a new one.
-        public let rolloverInterval: Int32?
+        public let rolloverInterval: Int?
 
-        public init(destination: OutputLocationRef, rolloverInterval: Int32? = nil) {
+        public init(destination: OutputLocationRef, rolloverInterval: Int? = nil) {
             self.destination = destination
             self.rolloverInterval = rolloverInterval
         }
@@ -310,9 +310,9 @@ extension MediaLive {
         /// Indices and gain values for each input channel that should be remixed into this output channel.
         public let inputChannelLevels: [InputChannelLevel]
         /// The index of the output channel being produced.
-        public let outputChannel: Int32
+        public let outputChannel: Int
 
-        public init(inputChannelLevels: [InputChannelLevel], outputChannel: Int32) {
+        public init(inputChannelLevels: [InputChannelLevel], outputChannel: Int) {
             self.inputChannelLevels = inputChannelLevels
             self.outputChannel = outputChannel
         }
@@ -567,9 +567,9 @@ extension MediaLive {
         ]
 
         /// Selects a specific PID from within a source.
-        public let pid: Int32
+        public let pid: Int
 
-        public init(pid: Int32) {
+        public init(pid: Int) {
             self.pid = pid
         }
 
@@ -940,37 +940,37 @@ extension MediaLive {
         /// Specifies the color of the rectangle behind the captions.  All burn-in and DVB-Sub font settings must match.
         public let backgroundColor: BurnInBackgroundColor?
         /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter out is equivalent to setting it to 0 (transparent).  All burn-in and DVB-Sub font settings must match.
-        public let backgroundOpacity: Int32?
+        public let backgroundOpacity: Int?
         /// External font file used for caption burn-in. File extension must be 'ttf' or 'tte'.  Although the user can select output fonts for many different types of input captions,  embedded, STL and teletext sources use a strict grid system. Using external fonts with these caption sources could cause unexpected display of proportional fonts.  All burn-in and DVB-Sub font settings must match.
         public let font: InputLocation?
         /// Specifies the color of the burned-in captions.  This option is not valid for source captions that are STL, 608/embedded or teletext.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
         public let fontColor: BurnInFontColor?
         /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.  All burn-in and DVB-Sub font settings must match.
-        public let fontOpacity: Int32?
+        public let fontOpacity: Int?
         /// Font resolution in DPI (dots per inch); default is 96 dpi.  All burn-in and DVB-Sub font settings must match.
-        public let fontResolution: Int32?
+        public let fontResolution: Int?
         /// When set to 'auto' fontSize will scale depending on the size of the output.  Giving a positive integer will specify the exact font size in points.  All burn-in and DVB-Sub font settings must match.
         public let fontSize: String?
         /// Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let outlineColor: BurnInOutlineColor?
         /// Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
-        public let outlineSize: Int32?
+        public let outlineSize: Int?
         /// Specifies the color of the shadow cast by the captions.  All burn-in and DVB-Sub font settings must match.
         public let shadowColor: BurnInShadowColor?
         /// Specifies the opacity of the shadow. 255 is opaque; 0 is transparent. Leaving this parameter out is equivalent to setting it to 0 (transparent).  All burn-in and DVB-Sub font settings must match.
-        public let shadowOpacity: Int32?
+        public let shadowOpacity: Int?
         /// Specifies the horizontal offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left.  All burn-in and DVB-Sub font settings must match.
-        public let shadowXOffset: Int32?
+        public let shadowXOffset: Int?
         /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text.  All burn-in and DVB-Sub font settings must match.
-        public let shadowYOffset: Int32?
+        public let shadowYOffset: Int?
         /// Controls whether a fixed grid size will be used to generate the output subtitles bitmap. Only applicable for Teletext inputs and DVB-Sub/Burn-in outputs.
         public let teletextGridControl: BurnInTeletextGridControl?
         /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit xPosition is provided, the horizontal caption position will be determined by the alignment parameter.  All burn-in and DVB-Sub font settings must match.
-        public let xPosition: Int32?
+        public let xPosition: Int?
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit yPosition is provided, the caption will be positioned towards the bottom of the output.  All burn-in and DVB-Sub font settings must match.
-        public let yPosition: Int32?
+        public let yPosition: Int?
 
-        public init(alignment: BurnInAlignment? = nil, backgroundColor: BurnInBackgroundColor? = nil, backgroundOpacity: Int32? = nil, font: InputLocation? = nil, fontColor: BurnInFontColor? = nil, fontOpacity: Int32? = nil, fontResolution: Int32? = nil, fontSize: String? = nil, outlineColor: BurnInOutlineColor? = nil, outlineSize: Int32? = nil, shadowColor: BurnInShadowColor? = nil, shadowOpacity: Int32? = nil, shadowXOffset: Int32? = nil, shadowYOffset: Int32? = nil, teletextGridControl: BurnInTeletextGridControl? = nil, xPosition: Int32? = nil, yPosition: Int32? = nil) {
+        public init(alignment: BurnInAlignment? = nil, backgroundColor: BurnInBackgroundColor? = nil, backgroundOpacity: Int? = nil, font: InputLocation? = nil, fontColor: BurnInFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontSize: String? = nil, outlineColor: BurnInOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: BurnInShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, teletextGridControl: BurnInTeletextGridControl? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
             self.alignment = alignment
             self.backgroundColor = backgroundColor
             self.backgroundOpacity = backgroundOpacity
@@ -1173,13 +1173,13 @@ extension MediaLive {
         ]
 
         /// The closed caption channel being described by this CaptionLanguageMapping.  Each channel mapping must have a unique channel number (maximum of 4)
-        public let captionChannel: Int32
+        public let captionChannel: Int
         /// Three character ISO 639-2 language code (see http://www.loc.gov/standards/iso639-2)
         public let languageCode: String
         /// Textual description of language
         public let languageDescription: String
 
-        public init(captionChannel: Int32, languageCode: String, languageDescription: String) {
+        public init(captionChannel: Int, languageCode: String, languageDescription: String) {
             self.captionChannel = captionChannel
             self.languageCode = languageCode
             self.languageDescription = languageDescription
@@ -1314,14 +1314,14 @@ extension MediaLive {
         /// The name of the channel. (user-mutable)
         public let name: String?
         /// The number of currently healthy pipelines.
-        public let pipelinesRunningCount: Int32?
+        public let pipelinesRunningCount: Int?
         /// The Amazon Resource Name (ARN) of the role assumed when running the Channel.
         public let roleArn: String?
         public let state: ChannelState?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -1431,14 +1431,14 @@ extension MediaLive {
         /// The name of the channel. (user-mutable)
         public let name: String?
         /// The number of currently healthy pipelines.
-        public let pipelinesRunningCount: Int32?
+        public let pipelinesRunningCount: Int?
         /// The Amazon Resource Name (ARN) of the role assumed when running the Channel.
         public let roleArn: String?
         public let state: ChannelState?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -1717,12 +1717,12 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         public let logLevel: LogLevel?
         public let name: String?
-        public let pipelinesRunningCount: Int32?
+        public let pipelinesRunningCount: Int?
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -1844,9 +1844,9 @@ extension MediaLive {
         ]
 
         public let arn: String?
-        public let count: Int32?
+        public let count: Int?
         public let currencyCode: String?
-        public let duration: Int32?
+        public let duration: Int?
         public let durationUnits: OfferingDurationUnits?
         public let end: String?
         public let fixedPrice: Double?
@@ -1862,7 +1862,7 @@ extension MediaLive {
         public let tags: [String: String]?
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, count: Int32? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, count: Int? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.count = count
             self.currencyCode = currencyCode
@@ -1993,12 +1993,12 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         public let logLevel: LogLevel?
         public let name: String?
-        public let pipelinesRunningCount: Int32?
+        public let pipelinesRunningCount: Int?
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -2198,7 +2198,7 @@ extension MediaLive {
 
         public let arn: String?
         public let currencyCode: String?
-        public let duration: Int32?
+        public let duration: Int?
         public let durationUnits: OfferingDurationUnits?
         public let fixedPrice: Double?
         public let offeringDescription: String?
@@ -2208,7 +2208,7 @@ extension MediaLive {
         public let resourceSpecification: ReservationResourceSpecification?
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, fixedPrice: Double? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, fixedPrice: Double? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.currencyCode = currencyCode
             self.duration = duration
@@ -2276,9 +2276,9 @@ extension MediaLive {
         ]
 
         public let arn: String?
-        public let count: Int32?
+        public let count: Int?
         public let currencyCode: String?
-        public let duration: Int32?
+        public let duration: Int?
         public let durationUnits: OfferingDurationUnits?
         public let end: String?
         public let fixedPrice: Double?
@@ -2294,7 +2294,7 @@ extension MediaLive {
         public let tags: [String: String]?
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, count: Int32? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, count: Int? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.count = count
             self.currencyCode = currencyCode
@@ -2345,10 +2345,10 @@ extension MediaLive {
         ]
 
         public let channelId: String
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(channelId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(channelId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelId = channelId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2394,13 +2394,13 @@ extension MediaLive {
         ]
 
         /// The numeric value placed in the Network Information Table (NIT).
-        public let networkId: Int32
+        public let networkId: Int
         /// The network name text placed in the networkNameDescriptor inside the Network Information Table. Maximum length is 256 characters.
         public let networkName: String
         /// The number of milliseconds between instances of this table in the output transport stream.
-        public let repInterval: Int32?
+        public let repInterval: Int?
 
-        public init(networkId: Int32, networkName: String, repInterval: Int32? = nil) {
+        public init(networkId: Int, networkName: String, repInterval: Int? = nil) {
             self.networkId = networkId
             self.networkName = networkName
             self.repInterval = repInterval
@@ -2441,13 +2441,13 @@ extension MediaLive {
         /// Selects method of inserting SDT information into output stream. The sdtFollow setting copies SDT information from input stream to output stream. The sdtFollowIfPresent setting copies SDT information from input stream to output stream if SDT information is present in the input, otherwise it will fall back on the user-defined values. The sdtManual setting means user will enter the SDT information. The sdtNone setting means output stream will not contain SDT information.
         public let outputSdt: DvbSdtOutputSdt?
         /// The number of milliseconds between instances of this table in the output transport stream.
-        public let repInterval: Int32?
+        public let repInterval: Int?
         /// The service name placed in the serviceDescriptor in the Service Description Table. Maximum length is 256 characters.
         public let serviceName: String?
         /// The service provider name placed in the serviceDescriptor in the Service Description Table. Maximum length is 256 characters.
         public let serviceProviderName: String?
 
-        public init(outputSdt: DvbSdtOutputSdt? = nil, repInterval: Int32? = nil, serviceName: String? = nil, serviceProviderName: String? = nil) {
+        public init(outputSdt: DvbSdtOutputSdt? = nil, repInterval: Int? = nil, serviceName: String? = nil, serviceProviderName: String? = nil) {
             self.outputSdt = outputSdt
             self.repInterval = repInterval
             self.serviceName = serviceName
@@ -2531,37 +2531,37 @@ extension MediaLive {
         /// Specifies the color of the rectangle behind the captions.  All burn-in and DVB-Sub font settings must match.
         public let backgroundColor: DvbSubDestinationBackgroundColor?
         /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent).  All burn-in and DVB-Sub font settings must match.
-        public let backgroundOpacity: Int32?
+        public let backgroundOpacity: Int?
         /// External font file used for caption burn-in. File extension must be 'ttf' or 'tte'.  Although the user can select output fonts for many different types of input captions, embedded, STL and teletext sources use a strict grid system. Using external fonts with these caption sources could cause unexpected display of proportional fonts.  All burn-in and DVB-Sub font settings must match.
         public let font: InputLocation?
         /// Specifies the color of the burned-in captions.  This option is not valid for source captions that are STL, 608/embedded or teletext.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
         public let fontColor: DvbSubDestinationFontColor?
         /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.  All burn-in and DVB-Sub font settings must match.
-        public let fontOpacity: Int32?
+        public let fontOpacity: Int?
         /// Font resolution in DPI (dots per inch); default is 96 dpi.  All burn-in and DVB-Sub font settings must match.
-        public let fontResolution: Int32?
+        public let fontResolution: Int?
         /// When set to auto fontSize will scale depending on the size of the output.  Giving a positive integer will specify the exact font size in points.  All burn-in and DVB-Sub font settings must match.
         public let fontSize: String?
         /// Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let outlineColor: DvbSubDestinationOutlineColor?
         /// Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
-        public let outlineSize: Int32?
+        public let outlineSize: Int?
         /// Specifies the color of the shadow cast by the captions.  All burn-in and DVB-Sub font settings must match.
         public let shadowColor: DvbSubDestinationShadowColor?
         /// Specifies the opacity of the shadow. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent).  All burn-in and DVB-Sub font settings must match.
-        public let shadowOpacity: Int32?
+        public let shadowOpacity: Int?
         /// Specifies the horizontal offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels to the left.  All burn-in and DVB-Sub font settings must match.
-        public let shadowXOffset: Int32?
+        public let shadowXOffset: Int?
         /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text.  All burn-in and DVB-Sub font settings must match.
-        public let shadowYOffset: Int32?
+        public let shadowYOffset: Int?
         /// Controls whether a fixed grid size will be used to generate the output subtitles bitmap. Only applicable for Teletext inputs and DVB-Sub/Burn-in outputs.
         public let teletextGridControl: DvbSubDestinationTeletextGridControl?
         /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit xPosition is provided, the horizontal caption position will be determined by the alignment parameter.  This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
-        public let xPosition: Int32?
+        public let xPosition: Int?
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit yPosition is provided, the caption will be positioned towards the bottom of the output.  This option is not valid for source captions that are STL, 608/embedded or teletext.  These source settings are already pre-defined by the caption stream.  All burn-in and DVB-Sub font settings must match.
-        public let yPosition: Int32?
+        public let yPosition: Int?
 
-        public init(alignment: DvbSubDestinationAlignment? = nil, backgroundColor: DvbSubDestinationBackgroundColor? = nil, backgroundOpacity: Int32? = nil, font: InputLocation? = nil, fontColor: DvbSubDestinationFontColor? = nil, fontOpacity: Int32? = nil, fontResolution: Int32? = nil, fontSize: String? = nil, outlineColor: DvbSubDestinationOutlineColor? = nil, outlineSize: Int32? = nil, shadowColor: DvbSubDestinationShadowColor? = nil, shadowOpacity: Int32? = nil, shadowXOffset: Int32? = nil, shadowYOffset: Int32? = nil, teletextGridControl: DvbSubDestinationTeletextGridControl? = nil, xPosition: Int32? = nil, yPosition: Int32? = nil) {
+        public init(alignment: DvbSubDestinationAlignment? = nil, backgroundColor: DvbSubDestinationBackgroundColor? = nil, backgroundOpacity: Int? = nil, font: InputLocation? = nil, fontColor: DvbSubDestinationFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontSize: String? = nil, outlineColor: DvbSubDestinationOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: DvbSubDestinationShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, teletextGridControl: DvbSubDestinationTeletextGridControl? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
             self.alignment = alignment
             self.backgroundColor = backgroundColor
             self.backgroundOpacity = backgroundOpacity
@@ -2636,9 +2636,9 @@ extension MediaLive {
         ]
 
         /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
-        public let pid: Int32?
+        public let pid: Int?
 
-        public init(pid: Int32? = nil) {
+        public init(pid: Int? = nil) {
             self.pid = pid
         }
 
@@ -2657,9 +2657,9 @@ extension MediaLive {
         ]
 
         /// The number of milliseconds between instances of this table in the output transport stream.
-        public let repInterval: Int32?
+        public let repInterval: Int?
 
-        public init(repInterval: Int32? = nil) {
+        public init(repInterval: Int? = nil) {
             self.repInterval = repInterval
         }
 
@@ -2786,7 +2786,7 @@ extension MediaLive {
         /// When set to enabled, activates a DC highpass filter for all input channels.
         public let dcFilter: Eac3DcFilter?
         /// Sets the dialnorm for the output. If blank and input audio is Dolby Digital Plus, dialnorm will be passed through.
-        public let dialnorm: Int32?
+        public let dialnorm: Int?
         /// Sets the Dolby dynamic range compression profile.
         public let drcLine: Eac3DrcLine?
         /// Sets the profile for heavy Dolby dynamic range compression, ensures that the instantaneous signal peaks do not exceed specified levels.
@@ -2816,7 +2816,7 @@ extension MediaLive {
         /// When encoding 2/0 audio, sets whether Dolby Surround is matrix encoded into the two channels.
         public let surroundMode: Eac3SurroundMode?
 
-        public init(attenuationControl: Eac3AttenuationControl? = nil, bitrate: Double? = nil, bitstreamMode: Eac3BitstreamMode? = nil, codingMode: Eac3CodingMode? = nil, dcFilter: Eac3DcFilter? = nil, dialnorm: Int32? = nil, drcLine: Eac3DrcLine? = nil, drcRf: Eac3DrcRf? = nil, lfeControl: Eac3LfeControl? = nil, lfeFilter: Eac3LfeFilter? = nil, loRoCenterMixLevel: Double? = nil, loRoSurroundMixLevel: Double? = nil, ltRtCenterMixLevel: Double? = nil, ltRtSurroundMixLevel: Double? = nil, metadataControl: Eac3MetadataControl? = nil, passthroughControl: Eac3PassthroughControl? = nil, phaseControl: Eac3PhaseControl? = nil, stereoDownmix: Eac3StereoDownmix? = nil, surroundExMode: Eac3SurroundExMode? = nil, surroundMode: Eac3SurroundMode? = nil) {
+        public init(attenuationControl: Eac3AttenuationControl? = nil, bitrate: Double? = nil, bitstreamMode: Eac3BitstreamMode? = nil, codingMode: Eac3CodingMode? = nil, dcFilter: Eac3DcFilter? = nil, dialnorm: Int? = nil, drcLine: Eac3DrcLine? = nil, drcRf: Eac3DrcRf? = nil, lfeControl: Eac3LfeControl? = nil, lfeFilter: Eac3LfeFilter? = nil, loRoCenterMixLevel: Double? = nil, loRoSurroundMixLevel: Double? = nil, ltRtCenterMixLevel: Double? = nil, ltRtSurroundMixLevel: Double? = nil, metadataControl: Eac3MetadataControl? = nil, passthroughControl: Eac3PassthroughControl? = nil, phaseControl: Eac3PhaseControl? = nil, stereoDownmix: Eac3StereoDownmix? = nil, surroundExMode: Eac3SurroundExMode? = nil, surroundMode: Eac3SurroundMode? = nil) {
             self.attenuationControl = attenuationControl
             self.bitrate = bitrate
             self.bitstreamMode = bitstreamMode
@@ -2931,11 +2931,11 @@ extension MediaLive {
         /// Set to "auto" to handle streams with intermittent and/or non-aligned SCTE-20 and Embedded captions.
         public let scte20Detection: EmbeddedScte20Detection?
         /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
-        public let source608ChannelNumber: Int32?
+        public let source608ChannelNumber: Int?
         /// This field is unused and deprecated.
-        public let source608TrackNumber: Int32?
+        public let source608TrackNumber: Int?
 
-        public init(convert608To708: EmbeddedConvert608To708? = nil, scte20Detection: EmbeddedScte20Detection? = nil, source608ChannelNumber: Int32? = nil, source608TrackNumber: Int32? = nil) {
+        public init(convert608To708: EmbeddedConvert608To708? = nil, scte20Detection: EmbeddedScte20Detection? = nil, source608ChannelNumber: Int? = nil, source608TrackNumber: Int? = nil) {
             self.convert608To708 = convert608To708
             self.scte20Detection = scte20Detection
             self.source608ChannelNumber = source608ChannelNumber
@@ -3044,13 +3044,13 @@ extension MediaLive {
         ]
 
         /// Parameter D from SMPTE 2022-1. The height of the FEC protection matrix.  The number of transport stream packets per column error correction packet. Must be between 4 and 20, inclusive.
-        public let columnDepth: Int32?
+        public let columnDepth: Int?
         /// Enables column only or column and row based FEC
         public let includeFec: FecOutputIncludeFec?
         /// Parameter L from SMPTE 2022-1. The width of the FEC protection matrix.  Must be between 1 and 20, inclusive. If only Column FEC is used, then larger values increase robustness.  If Row FEC is used, then this is the number of transport stream packets per row error correction packet, and the value must be between 4 and 20, inclusive, if includeFec is columnAndRow. If includeFec is column, this value must be 1 to 20, inclusive.
-        public let rowLength: Int32?
+        public let rowLength: Int?
 
-        public init(columnDepth: Int32? = nil, includeFec: FecOutputIncludeFec? = nil, rowLength: Int32? = nil) {
+        public init(columnDepth: Int? = nil, includeFec: FecOutputIncludeFec? = nil, rowLength: Int? = nil) {
             self.columnDepth = columnDepth
             self.includeFec = includeFec
             self.rowLength = rowLength
@@ -3170,9 +3170,9 @@ extension MediaLive {
         ]
 
         /// The frequency, in seconds, for capturing frames for inclusion in the output.  For example, "10" means capture a frame every 10 seconds.
-        public let captureInterval: Int32
+        public let captureInterval: Int
 
-        public init(captureInterval: Int32) {
+        public init(captureInterval: Int) {
             self.captureInterval = captureInterval
         }
 
@@ -3197,7 +3197,7 @@ extension MediaLive {
         ]
 
         /// Value to set the initial audio gain for the Live Event.
-        public let initialAudioGain: Int32?
+        public let initialAudioGain: Int?
         /// Indicates the action to take when the current input completes (e.g. end-of-file). When switchAndLoopInputs is configured the encoder will restart at the beginning of the first input.  When "none" is configured the encoder will transcode either black, a solid color, or a user specified slate images per the "Input Loss Behavior" configuration until the next input switch occurs (which is controlled through the Channel Schedule API).
         public let inputEndAction: GlobalConfigurationInputEndAction?
         /// Settings for system actions when input is lost.
@@ -3211,7 +3211,7 @@ extension MediaLive {
         /// Adjusts video input buffer for streams with very low video framerates. This is commonly set to enabled for music channels with less than one video frame per second.
         public let supportLowFramerateInputs: GlobalConfigurationLowFramerateInputs?
 
-        public init(initialAudioGain: Int32? = nil, inputEndAction: GlobalConfigurationInputEndAction? = nil, inputLossBehavior: InputLossBehavior? = nil, outputLockingMode: GlobalConfigurationOutputLockingMode? = nil, outputTimingSource: GlobalConfigurationOutputTimingSource? = nil, supportLowFramerateInputs: GlobalConfigurationLowFramerateInputs? = nil) {
+        public init(initialAudioGain: Int? = nil, inputEndAction: GlobalConfigurationInputEndAction? = nil, inputLossBehavior: InputLossBehavior? = nil, outputLockingMode: GlobalConfigurationOutputLockingMode? = nil, outputTimingSource: GlobalConfigurationOutputTimingSource? = nil, supportLowFramerateInputs: GlobalConfigurationLowFramerateInputs? = nil) {
             self.initialAudioGain = initialAudioGain
             self.inputEndAction = inputEndAction
             self.inputLossBehavior = inputLossBehavior
@@ -3415,11 +3415,11 @@ extension MediaLive {
         /// Indicates that AFD values will be written into the output stream.  If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
         public let afdSignaling: AfdSignaling?
         /// Average bitrate in bits/second. Required when the rate control mode is VBR or CBR. Not used for QVBR. In an MS Smooth output group, each output must have a unique value when its bitrate is rounded down to the nearest multiple of 1000.
-        public let bitrate: Int32?
+        public let bitrate: Int?
         /// Percentage of the buffer that should initially be filled (HRD buffer model).
-        public let bufFillPct: Int32?
+        public let bufFillPct: Int?
         /// Size of buffer (HRD buffer model) in bits/second.
-        public let bufSize: Int32?
+        public let bufSize: Int?
         /// Includes colorspace metadata in the output.
         public let colorMetadata: H264ColorMetadata?
         /// Entropy encoding mode.  Use cabac (must be in Main or High profile) or cavlc.
@@ -3431,15 +3431,15 @@ extension MediaLive {
         /// This field indicates how the output video frame rate is specified.  If "specified" is selected then the output video frame rate is determined by framerateNumerator and framerateDenominator, else if "initializeFromSource" is selected then the output video frame rate will be set equal to the input video frame rate of the first input.
         public let framerateControl: H264FramerateControl?
         /// Framerate denominator.
-        public let framerateDenominator: Int32?
+        public let framerateDenominator: Int?
         /// Framerate numerator - framerate is a fraction, e.g. 24000 / 1001 = 23.976 fps.
-        public let framerateNumerator: Int32?
+        public let framerateNumerator: Int?
         /// If enabled, use reference B frames for GOP structures that have B frames > 1.
         public let gopBReference: H264GopBReference?
         /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
-        public let gopClosedCadence: Int32?
+        public let gopClosedCadence: Int?
         /// Number of B-frames between reference frames.
-        public let gopNumBFrames: Int32?
+        public let gopNumBFrames: Int?
         /// GOP size (keyframe interval) in units of either frames or seconds per gopSizeUnits. Must be greater than zero.
         public let gopSize: Double?
         /// Indicates if the gopSize is specified in frames or seconds. If seconds the system will convert the gopSize into a frame count at run time.
@@ -3450,24 +3450,24 @@ extension MediaLive {
         public let lookAheadRateControl: H264LookAheadRateControl?
         /// For QVBR: See the tooltip for Quality level 
         /// For VBR: Set the maximum bitrate in order to accommodate expected spikes in the complexity of the video.
-        public let maxBitrate: Int32?
+        public let maxBitrate: Int?
         /// Only meaningful if sceneChangeDetect is set to enabled.  Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
-        public let minIInterval: Int32?
+        public let minIInterval: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
-        public let numRefFrames: Int32?
+        public let numRefFrames: Int?
         /// This field indicates how the output pixel aspect ratio is specified.  If "specified" is selected then the output video pixel aspect ratio is determined by parNumerator and parDenominator, else if "initializeFromSource" is selected then the output pixsel aspect ratio will be set equal to the input video pixel aspect ratio of the first input.
         public let parControl: H264ParControl?
         /// Pixel Aspect Ratio denominator.
-        public let parDenominator: Int32?
+        public let parDenominator: Int?
         /// Pixel Aspect Ratio numerator.
-        public let parNumerator: Int32?
+        public let parNumerator: Int?
         /// H.264 Profile.
         public let profile: H264Profile?
         /// Controls the target quality for the video encode. Applies only when the rate control mode is QVBR. Set values for the QVBR quality level field and Max bitrate field that suit your most important viewing devices. Recommended values are:
         /// - Primary screen: Quality level: 8 to 10. Max bitrate: 4M
         /// - PC or tablet: Quality level: 7. Max bitrate: 1.5M to 3M
         /// - Smartphone: Quality level: 6. Max bitrate: 1M to 1.5M
-        public let qvbrQualityLevel: Int32?
+        public let qvbrQualityLevel: Int?
         /// Rate control mode. 
         /// QVBR: Quality will match the specified quality level except when it is constrained by the
         /// maximum bitrate.  Recommended if you or your viewers pay for bandwidth.
@@ -3484,9 +3484,9 @@ extension MediaLive {
         public let sceneChangeDetect: H264SceneChangeDetect?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         /// This field is optional; when no value is specified the encoder will choose the number of slices based on encode resolution.
-        public let slices: Int32?
+        public let slices: Int?
         /// Softness. Selects quantizer matrix, larger values reduce high-frequency content in the encoded image.
-        public let softness: Int32?
+        public let softness: Int?
         /// If set to enabled, adjust quantization within each frame based on spatial variation of content complexity.
         public let spatialAq: H264SpatialAq?
         /// If set to fixed, use gopNumBFrames B-frames per sub-GOP. If set to dynamic, optimize the number of B-frames used for each sub-GOP to improve visual quality.
@@ -3500,7 +3500,7 @@ extension MediaLive {
         /// - 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public let timecodeInsertion: H264TimecodeInsertionBehavior?
 
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int32? = nil, bufFillPct: Int32? = nil, bufSize: Int32? = nil, colorMetadata: H264ColorMetadata? = nil, entropyEncoding: H264EntropyEncoding? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int32? = nil, framerateNumerator: Int32? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int32? = nil, gopNumBFrames: Int32? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int32? = nil, minIInterval: Int32? = nil, numRefFrames: Int32? = nil, parControl: H264ParControl? = nil, parDenominator: Int32? = nil, parNumerator: Int32? = nil, profile: H264Profile? = nil, qvbrQualityLevel: Int32? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int32? = nil, softness: Int32? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, entropyEncoding: H264EntropyEncoding? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.bitrate = bitrate
@@ -3660,21 +3660,21 @@ extension MediaLive {
         ]
 
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
-        public let connectionRetryInterval: Int32?
+        public let connectionRetryInterval: Int?
         /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
+        public let filecacheDuration: Int?
         /// Specify whether or not to use chunked transfer encoding to Akamai. User should contact Akamai to enable this feature.
         public let httpTransferMode: HlsAkamaiHttpTransferMode?
         /// Number of retry attempts that will be made before the Live Event is put into an error state.
-        public let numRetries: Int32?
+        public let numRetries: Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
+        public let restartDelay: Int?
         /// Salt for authenticated Akamai.
         public let salt: String?
         /// Token parameter for authenticated akamai. If not specified, _gda_ is used.
         public let token: String?
 
-        public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, httpTransferMode: HlsAkamaiHttpTransferMode? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil, salt: String? = nil, token: String? = nil) {
+        public init(connectionRetryInterval: Int? = nil, filecacheDuration: Int? = nil, httpTransferMode: HlsAkamaiHttpTransferMode? = nil, numRetries: Int? = nil, restartDelay: Int? = nil, salt: String? = nil, token: String? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.filecacheDuration = filecacheDuration
             self.httpTransferMode = httpTransferMode
@@ -3713,15 +3713,15 @@ extension MediaLive {
         ]
 
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
-        public let connectionRetryInterval: Int32?
+        public let connectionRetryInterval: Int?
         /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
+        public let filecacheDuration: Int?
         /// Number of retry attempts that will be made before the Live Event is put into an error state.
-        public let numRetries: Int32?
+        public let numRetries: Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
+        public let restartDelay: Int?
 
-        public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
+        public init(connectionRetryInterval: Int? = nil, filecacheDuration: Int? = nil, numRetries: Int? = nil, restartDelay: Int? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.filecacheDuration = filecacheDuration
             self.numRetries = numRetries
@@ -3883,7 +3883,7 @@ extension MediaLive {
         /// STANDARD: Create an I-frame-only manifest for each output that contains video, as well as the other manifests (according to the Output Selection field). The I-frame manifest contains a #EXT-X-I-FRAMES-ONLY tag to indicate it is I-frame only, and one or more #EXT-X-BYTERANGE entries identifying the I-frame position. For example, #EXT-X-BYTERANGE:160364@1461888"
         public let iFrameOnlyPlaylists: IFrameOnlyPlaylistType?
         /// Applies only if Mode field is LIVE. Specifies the maximum number of segments in the media manifest file. After this maximum, older segments are removed from the media manifest. This number must be less than or equal to the Keep Segments field.
-        public let indexNSegments: Int32?
+        public let indexNSegments: Int?
         /// Parameter that control output group behavior on input loss.
         public let inputLossAction: InputLossActionForHlsOut?
         /// For use with encryptionType. The IV (Initialization Vector) is a 128-bit number used in conjunction with the key for encrypting blocks. If set to "include", IV is listed in the manifest, otherwise the IV is not in the manifest.
@@ -3891,7 +3891,7 @@ extension MediaLive {
         /// For use with encryptionType. The IV (Initialization Vector) is a 128-bit number used in conjunction with the key for encrypting blocks. If this setting is "followsSegmentNumber", it will cause the IV to change every segment (to match the segment number). If this is set to "explicit", you must enter a constantIv value.
         public let ivSource: HlsIvSource?
         /// Applies only if Mode field is LIVE. Specifies the number of media segments (.ts files) to retain in the destination directory.
-        public let keepSegments: Int32?
+        public let keepSegments: Int?
         /// The value specifies how the key is represented in the resource identified by the URI.  If parameter is absent, an implicit value of "identity" is used.  A reverse DNS string can also be given.
         public let keyFormat: String?
         /// Either a single positive integer version value or a slash delimited list of version values (1/2/3).
@@ -3903,7 +3903,7 @@ extension MediaLive {
         /// Indicates whether the output manifest should use floating point or integer values for segment duration.
         public let manifestDurationFormat: HlsManifestDurationFormat?
         /// When set, minimumSegmentLength is enforced by looking ahead and back within the specified range for a nearby avail and extending the segment size if needed.
-        public let minSegmentLength: Int32?
+        public let minSegmentLength: Int?
         /// If "vod", all segments are indexed and kept permanently in the destination and manifest. If "live", only the number segments specified in keepSegments and indexNSegments are kept; newer segments replace older segments, which may prevent players from rewinding all the way to the beginning of the event.
         /// VOD mode uses HLS EXT-X-PLAYLIST-TYPE of EVENT while the channel is running, converting it to a "VOD" type manifest on completion of the stream.
         public let mode: HlsMode?
@@ -3913,7 +3913,7 @@ extension MediaLive {
         /// Includes or excludes EXT-X-PROGRAM-DATE-TIME tag in .m3u8 manifest files. The value is calculated as follows: either the program date and time are initialized using the input timecode source, or the time is initialized using the input timecode source and the date is initialized using the timestampOffset.
         public let programDateTime: HlsProgramDateTime?
         /// Period of insertion of EXT-X-PROGRAM-DATE-TIME entry, in seconds.
-        public let programDateTimePeriod: Int32?
+        public let programDateTimePeriod: Int?
         /// ENABLED: The master manifest (.m3u8 file) for each pipeline includes information about both pipelines: first its own media files, then the media files of the other pipeline. This feature allows playout device that support stale manifest detection to switch from one manifest to the other, when the current manifest seems to be stale. There are still two destinations and two master manifests, but both master manifests reference the media files from both pipelines.
         /// DISABLED: The master manifest (.m3u8 file) for each pipeline includes information about its own pipeline only.
         /// For an HLS output group with MediaPackage as the destination, the DISABLED behavior is always followed. MediaPackage regenerates the manifests it serves to players so a redundant manifest from MediaLive is irrelevant.
@@ -3921,22 +3921,22 @@ extension MediaLive {
         /// useInputSegmentation has been deprecated. The configured segment size is always used.
         public let segmentationMode: HlsSegmentationMode?
         /// Length of MPEG-2 Transport Stream segments to create (in seconds). Note that segments will end on the next keyframe after this number of seconds, so actual segment length may be longer.
-        public let segmentLength: Int32?
+        public let segmentLength: Int?
         /// Number of segments to write to a subdirectory before starting a new one. directoryStructure must be subdirectoryPerStream for this setting to have an effect.
-        public let segmentsPerSubdirectory: Int32?
+        public let segmentsPerSubdirectory: Int?
         /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of variant manifest.
         public let streamInfResolution: HlsStreamInfResolution?
         /// Indicates ID3 frame that has the timecode.
         public let timedMetadataId3Frame: HlsTimedMetadataId3Frame?
         /// Timed Metadata interval in seconds.
-        public let timedMetadataId3Period: Int32?
+        public let timedMetadataId3Period: Int?
         /// Provides an extra millisecond delta offset to fine tune the timestamps.
-        public let timestampDeltaMilliseconds: Int32?
+        public let timestampDeltaMilliseconds: Int?
         /// SEGMENTEDFILES: Emit the program as segments - multiple .ts media files.
         /// SINGLEFILE: Applies only if Mode field is VOD. Emit the program as a single .ts media file. The media manifest includes #EXT-X-BYTERANGE tags to index segments for playback. A typical use for this value is when sending the output to AWS Elemental MediaConvert, which can accept only a single media file. Playback while the channel is running is not guaranteed due to HTTP server caching.
         public let tsFileMode: HlsTsFileMode?
 
-        public init(adMarkers: [HlsAdMarkers]? = nil, baseUrlContent: String? = nil, baseUrlManifest: String? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, constantIv: String? = nil, destination: OutputLocationRef, directoryStructure: HlsDirectoryStructure? = nil, encryptionType: HlsEncryptionType? = nil, hlsCdnSettings: HlsCdnSettings? = nil, iFrameOnlyPlaylists: IFrameOnlyPlaylistType? = nil, indexNSegments: Int32? = nil, inputLossAction: InputLossActionForHlsOut? = nil, ivInManifest: HlsIvInManifest? = nil, ivSource: HlsIvSource? = nil, keepSegments: Int32? = nil, keyFormat: String? = nil, keyFormatVersions: String? = nil, keyProviderSettings: KeyProviderSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minSegmentLength: Int32? = nil, mode: HlsMode? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int32? = nil, redundantManifest: HlsRedundantManifest? = nil, segmentationMode: HlsSegmentationMode? = nil, segmentLength: Int32? = nil, segmentsPerSubdirectory: Int32? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int32? = nil, timestampDeltaMilliseconds: Int32? = nil, tsFileMode: HlsTsFileMode? = nil) {
+        public init(adMarkers: [HlsAdMarkers]? = nil, baseUrlContent: String? = nil, baseUrlManifest: String? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, constantIv: String? = nil, destination: OutputLocationRef, directoryStructure: HlsDirectoryStructure? = nil, encryptionType: HlsEncryptionType? = nil, hlsCdnSettings: HlsCdnSettings? = nil, iFrameOnlyPlaylists: IFrameOnlyPlaylistType? = nil, indexNSegments: Int? = nil, inputLossAction: InputLossActionForHlsOut? = nil, ivInManifest: HlsIvInManifest? = nil, ivSource: HlsIvSource? = nil, keepSegments: Int? = nil, keyFormat: String? = nil, keyFormatVersions: String? = nil, keyProviderSettings: KeyProviderSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minSegmentLength: Int? = nil, mode: HlsMode? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, redundantManifest: HlsRedundantManifest? = nil, segmentationMode: HlsSegmentationMode? = nil, segmentLength: Int? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil, tsFileMode: HlsTsFileMode? = nil) {
             self.adMarkers = adMarkers
             self.baseUrlContent = baseUrlContent
             self.baseUrlManifest = baseUrlManifest
@@ -4045,15 +4045,15 @@ extension MediaLive {
         ]
 
         /// When specified the HLS stream with the m3u8 BANDWIDTH that most closely matches this value will be chosen, otherwise the highest bandwidth stream in the m3u8 will be chosen.  The bitrate is specified in bits per second, as in an HLS manifest.
-        public let bandwidth: Int32?
+        public let bandwidth: Int?
         /// When specified, reading of the HLS input will begin this many buffer segments from the end (most recently written segment).  When not specified, the HLS input will begin with the first segment specified in the m3u8.
-        public let bufferSegments: Int32?
+        public let bufferSegments: Int?
         /// The number of consecutive times that attempts to read a manifest or segment must fail before the input is considered unavailable.
-        public let retries: Int32?
+        public let retries: Int?
         /// The number of seconds between retries when an attempt to read a manifest or segment fails.
-        public let retryInterval: Int32?
+        public let retryInterval: Int?
 
-        public init(bandwidth: Int32? = nil, bufferSegments: Int32? = nil, retries: Int32? = nil, retryInterval: Int32? = nil) {
+        public init(bandwidth: Int? = nil, bufferSegments: Int? = nil, retries: Int? = nil, retryInterval: Int? = nil) {
             self.bandwidth = bandwidth
             self.bufferSegments = bufferSegments
             self.retries = retries
@@ -4109,17 +4109,17 @@ extension MediaLive {
         ]
 
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
-        public let connectionRetryInterval: Int32?
+        public let connectionRetryInterval: Int?
         /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
+        public let filecacheDuration: Int?
         /// When set to temporal, output files are stored in non-persistent memory for faster reading and writing.
         public let mediaStoreStorageClass: HlsMediaStoreStorageClass?
         /// Number of retry attempts that will be made before the Live Event is put into an error state.
-        public let numRetries: Int32?
+        public let numRetries: Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
+        public let restartDelay: Int?
 
-        public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, mediaStoreStorageClass: HlsMediaStoreStorageClass? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
+        public init(connectionRetryInterval: Int? = nil, filecacheDuration: Int? = nil, mediaStoreStorageClass: HlsMediaStoreStorageClass? = nil, numRetries: Int? = nil, restartDelay: Int? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.filecacheDuration = filecacheDuration
             self.mediaStoreStorageClass = mediaStoreStorageClass
@@ -4288,17 +4288,17 @@ extension MediaLive {
         ]
 
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
-        public let connectionRetryInterval: Int32?
+        public let connectionRetryInterval: Int?
         /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
+        public let filecacheDuration: Int?
         /// Specify whether or not to use chunked transfer encoding to WebDAV.
         public let httpTransferMode: HlsWebdavHttpTransferMode?
         /// Number of retry attempts that will be made before the Live Event is put into an error state.
-        public let numRetries: Int32?
+        public let numRetries: Int?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
+        public let restartDelay: Int?
 
-        public init(connectionRetryInterval: Int32? = nil, filecacheDuration: Int32? = nil, httpTransferMode: HlsWebdavHttpTransferMode? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil) {
+        public init(connectionRetryInterval: Int? = nil, filecacheDuration: Int? = nil, httpTransferMode: HlsWebdavHttpTransferMode? = nil, numRetries: Int? = nil, restartDelay: Int? = nil) {
             self.connectionRetryInterval = connectionRetryInterval
             self.filecacheDuration = filecacheDuration
             self.httpTransferMode = httpTransferMode
@@ -4444,11 +4444,11 @@ extension MediaLive {
         ]
 
         /// Remixing value. Units are in dB and acceptable values are within the range from -60 (mute) and 6 dB.
-        public let gain: Int32
+        public let gain: Int
         /// The index of the input channel used as a source.
-        public let inputChannel: Int32
+        public let inputChannel: Int
 
-        public init(gain: Int32, inputChannel: Int32) {
+        public init(gain: Int, inputChannel: Int) {
             self.gain = gain
             self.inputChannel = inputChannel
         }
@@ -4633,7 +4633,7 @@ extension MediaLive {
         ]
 
         /// On input loss, the number of milliseconds to substitute black into the output before switching to the frame specified by inputLossImageType.  A value x, where 0 <= x <= 1,000,000 and a value of 1,000,000 will be interpreted as infinite.
-        public let blackFrameMsec: Int32?
+        public let blackFrameMsec: Int?
         /// When input loss image type is "color" this field specifies the color to use. Value: 6 hex characters representing the values of RGB.
         public let inputLossImageColor: String?
         /// When input loss image type is "slate" these fields specify the parameters for accessing the slate.
@@ -4641,9 +4641,9 @@ extension MediaLive {
         /// Indicates whether to substitute a solid color or a slate into the output after input loss exceeds blackFrameMsec.
         public let inputLossImageType: InputLossImageType?
         /// On input loss, the number of milliseconds to repeat the previous picture before substituting black into the output.  A value x, where 0 <= x <= 1,000,000 and a value of 1,000,000 will be interpreted as infinite.
-        public let repeatFrameMsec: Int32?
+        public let repeatFrameMsec: Int?
 
-        public init(blackFrameMsec: Int32? = nil, inputLossImageColor: String? = nil, inputLossImageSlate: InputLocation? = nil, inputLossImageType: InputLossImageType? = nil, repeatFrameMsec: Int32? = nil) {
+        public init(blackFrameMsec: Int? = nil, inputLossImageColor: String? = nil, inputLossImageSlate: InputLocation? = nil, inputLossImageType: InputLossImageType? = nil, repeatFrameMsec: Int? = nil) {
             self.blackFrameMsec = blackFrameMsec
             self.inputLossImageColor = inputLossImageColor
             self.inputLossImageSlate = inputLossImageSlate
@@ -4761,7 +4761,7 @@ extension MediaLive {
         /// Enable or disable the denoise filter when filtering.
         public let denoiseFilter: InputDenoiseFilter?
         /// Adjusts the magnitude of filtering from 1 (minimal) to 5 (strongest).
-        public let filterStrength: Int32?
+        public let filterStrength: Int?
         /// Turns on the filter for this input. MPEG-2 inputs have the deblocking filter enabled by default.
         /// 1) auto - filtering will be applied depending on input type/quality
         /// 2) disabled - no filtering will be applied to the input
@@ -4774,7 +4774,7 @@ extension MediaLive {
         /// Informs which video elementary stream to decode for input types that have multiple available.
         public let videoSelector: VideoSelector?
 
-        public init(audioSelectors: [AudioSelector]? = nil, captionSelectors: [CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterStrength: Int32? = nil, inputFilter: InputFilter? = nil, networkInputSettings: NetworkInputSettings? = nil, sourceEndBehavior: InputSourceEndBehavior? = nil, videoSelector: VideoSelector? = nil) {
+        public init(audioSelectors: [AudioSelector]? = nil, captionSelectors: [CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterStrength: Int? = nil, inputFilter: InputFilter? = nil, networkInputSettings: NetworkInputSettings? = nil, sourceEndBehavior: InputSourceEndBehavior? = nil, videoSelector: VideoSelector? = nil) {
             self.audioSelectors = audioSelectors
             self.captionSelectors = captionSelectors
             self.deblockFilter = deblockFilter
@@ -5022,10 +5022,10 @@ extension MediaLive {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5067,10 +5067,10 @@ extension MediaLive {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5112,10 +5112,10 @@ extension MediaLive {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5171,14 +5171,14 @@ extension MediaLive {
         public let codec: String?
         public let maximumBitrate: String?
         public let maximumFramerate: String?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         public let resolution: String?
         public let resourceType: String?
         public let specialFeature: String?
         public let videoQuality: String?
 
-        public init(channelClass: String? = nil, channelConfiguration: String? = nil, codec: String? = nil, maximumBitrate: String? = nil, maximumFramerate: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resolution: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, videoQuality: String? = nil) {
+        public init(channelClass: String? = nil, channelConfiguration: String? = nil, codec: String? = nil, maximumBitrate: String? = nil, maximumFramerate: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resolution: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, videoQuality: String? = nil) {
             self.channelClass = channelClass
             self.channelConfiguration = channelConfiguration
             self.codec = codec
@@ -5250,14 +5250,14 @@ extension MediaLive {
         public let codec: String?
         public let maximumBitrate: String?
         public let maximumFramerate: String?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         public let resolution: String?
         public let resourceType: String?
         public let specialFeature: String?
         public let videoQuality: String?
 
-        public init(channelClass: String? = nil, codec: String? = nil, maximumBitrate: String? = nil, maximumFramerate: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resolution: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, videoQuality: String? = nil) {
+        public init(channelClass: String? = nil, codec: String? = nil, maximumBitrate: String? = nil, maximumFramerate: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resolution: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, videoQuality: String? = nil) {
             self.channelClass = channelClass
             self.codec = codec
             self.maximumBitrate = maximumBitrate
@@ -5517,13 +5517,13 @@ extension MediaLive {
         /// When set to dvb, uses DVB buffer model for Dolby Digital audio.  When set to atsc, the ATSC model is used.
         public let audioBufferModel: M2tsAudioBufferModel?
         /// The number of audio frames to insert for each PES packet.
-        public let audioFramesPerPes: Int32?
+        public let audioFramesPerPes: Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values. Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
         public let audioPids: String?
         /// When set to atsc, uses stream type = 0x81 for AC3 and stream type = 0x87 for EAC3. When set to dvb, uses stream type = 0x06.
         public let audioStreamType: M2tsAudioStreamType?
         /// The output bitrate of the transport stream in bits per second. Setting to 0 lets the muxer automatically determine the appropriate bitrate.
-        public let bitrate: Int32?
+        public let bitrate: Int?
         /// If set to multiplex, use multiplex buffer model for accurate interleaving.  Setting to bufferModel to none can lead to lower latency, but low-memory devices may not be able to play back the stream without interruptions.
         public let bufferModel: M2tsBufferModel?
         /// When set to enabled, generates captionServiceDescriptor in PMT.
@@ -5543,7 +5543,7 @@ extension MediaLive {
         /// When videoAndFixedIntervals is selected, audio EBP markers will be added to partitions 3 and 4. The interval between these additional markers will be fixed, and will be slightly shorter than the video EBP marker interval. Only available when EBP Cablelabs segmentation markers are selected.  Partitions 1 and 2 will always follow the video interval.
         public let ebpAudioInterval: M2tsAudioInterval?
         /// When set, enforces that Encoder Boundary Points do not come within the specified time interval of each other by looking ahead at input video. If another EBP is going to come in within the specified time interval, the current EBP is not emitted, and the segment is "stretched" to the next marker.  The lookahead value does not add latency to the system. The Live Event must be configured elsewhere to create sufficient latency to make the lookahead accurate.
-        public let ebpLookaheadMs: Int32?
+        public let ebpLookaheadMs: Int?
         /// Controls placement of EBP on Audio PIDs. If set to videoAndAudioPids, EBP markers will be placed on the video PID and all audio PIDs.  If set to videoPid, EBP markers will be placed on only the video PID.
         public let ebpPlacement: M2tsEbpPlacement?
         /// This field is unused and deprecated.
@@ -5563,19 +5563,19 @@ extension MediaLive {
         /// Value in bits per second of extra null packets to insert into the transport stream. This can be used if a downstream encryption system requires periodic null packets.
         public let nullPacketBitrate: Double?
         /// The number of milliseconds between instances of this table in the output transport stream.  Valid values are 0, 10..1000.
-        public let patInterval: Int32?
+        public let patInterval: Int?
         /// When set to pcrEveryPesPacket, a Program Clock Reference value is inserted for every Packetized Elementary Stream (PES) header. This parameter is effective only when the PCR PID is the same as the video or audio elementary stream.
         public let pcrControl: M2tsPcrControl?
         /// Maximum time in milliseconds between Program Clock Reference (PCRs) inserted into the transport stream.
-        public let pcrPeriod: Int32?
+        public let pcrPeriod: Int?
         /// Packet Identifier (PID) of the Program Clock Reference (PCR) in the transport stream. When no value is given, the encoder will assign the same value as the Video PID. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let pcrPid: String?
         /// The number of milliseconds between instances of this table in the output transport stream. Valid values are 0, 10..1000.
-        public let pmtInterval: Int32?
+        public let pmtInterval: Int?
         /// Packet Identifier (PID) for the Program Map Table (PMT) in the transport stream. Can be entered as a decimal or hexadecimal value. Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let pmtPid: String?
         /// The value of the program number field in the Program Map Table.
-        public let programNum: Int32?
+        public let programNum: Int?
         /// When vbr, does not insert null packets into transport stream to fill specified bitrate. The bitrate setting acts as the maximum bitrate when vbr is set.
         public let rateMode: M2tsRateMode?
         /// Packet Identifier (PID) for input source SCTE-27 data to this output. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.  Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
@@ -5597,11 +5597,11 @@ extension MediaLive {
         /// Packet Identifier (PID) of the timed metadata stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let timedMetadataPid: String?
         /// The value of the transport stream ID field in the Program Map Table.
-        public let transportStreamId: Int32?
+        public let transportStreamId: Int?
         /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let videoPid: String?
 
-        public init(absentInputAudioBehavior: M2tsAbsentInputAudioBehavior? = nil, arib: M2tsArib? = nil, aribCaptionsPid: String? = nil, aribCaptionsPidControl: M2tsAribCaptionsPidControl? = nil, audioBufferModel: M2tsAudioBufferModel? = nil, audioFramesPerPes: Int32? = nil, audioPids: String? = nil, audioStreamType: M2tsAudioStreamType? = nil, bitrate: Int32? = nil, bufferModel: M2tsBufferModel? = nil, ccDescriptor: M2tsCcDescriptor? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: String? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: String? = nil, ebif: M2tsEbifControl? = nil, ebpAudioInterval: M2tsAudioInterval? = nil, ebpLookaheadMs: Int32? = nil, ebpPlacement: M2tsEbpPlacement? = nil, ecmPid: String? = nil, esRateInPes: M2tsEsRateInPes? = nil, etvPlatformPid: String? = nil, etvSignalPid: String? = nil, fragmentTime: Double? = nil, klv: M2tsKlv? = nil, klvDataPids: String? = nil, nullPacketBitrate: Double? = nil, patInterval: Int32? = nil, pcrControl: M2tsPcrControl? = nil, pcrPeriod: Int32? = nil, pcrPid: String? = nil, pmtInterval: Int32? = nil, pmtPid: String? = nil, programNum: Int32? = nil, rateMode: M2tsRateMode? = nil, scte27Pids: String? = nil, scte35Control: M2tsScte35Control? = nil, scte35Pid: String? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataBehavior: M2tsTimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int32? = nil, videoPid: String? = nil) {
+        public init(absentInputAudioBehavior: M2tsAbsentInputAudioBehavior? = nil, arib: M2tsArib? = nil, aribCaptionsPid: String? = nil, aribCaptionsPidControl: M2tsAribCaptionsPidControl? = nil, audioBufferModel: M2tsAudioBufferModel? = nil, audioFramesPerPes: Int? = nil, audioPids: String? = nil, audioStreamType: M2tsAudioStreamType? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, ccDescriptor: M2tsCcDescriptor? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: String? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: String? = nil, ebif: M2tsEbifControl? = nil, ebpAudioInterval: M2tsAudioInterval? = nil, ebpLookaheadMs: Int? = nil, ebpPlacement: M2tsEbpPlacement? = nil, ecmPid: String? = nil, esRateInPes: M2tsEsRateInPes? = nil, etvPlatformPid: String? = nil, etvSignalPid: String? = nil, fragmentTime: Double? = nil, klv: M2tsKlv? = nil, klvDataPids: String? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPeriod: Int? = nil, pcrPid: String? = nil, pmtInterval: Int? = nil, pmtPid: String? = nil, programNum: Int? = nil, rateMode: M2tsRateMode? = nil, scte27Pids: String? = nil, scte35Control: M2tsScte35Control? = nil, scte35Pid: String? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataBehavior: M2tsTimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int? = nil, videoPid: String? = nil) {
             self.absentInputAudioBehavior = absentInputAudioBehavior
             self.arib = arib
             self.aribCaptionsPid = aribCaptionsPid
@@ -5759,25 +5759,25 @@ extension MediaLive {
         ]
 
         /// The number of audio frames to insert for each PES packet.
-        public let audioFramesPerPes: Int32?
+        public let audioFramesPerPes: Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.
         public let audioPids: String?
         /// This parameter is unused and deprecated.
         public let ecmPid: String?
         /// The number of milliseconds between instances of this table in the output transport stream. A value of \"0\" writes out the PMT once per segment file.
-        public let patInterval: Int32?
+        public let patInterval: Int?
         /// When set to pcrEveryPesPacket, a Program Clock Reference value is inserted for every Packetized Elementary Stream (PES) header. This parameter is effective only when the PCR PID is the same as the video or audio elementary stream.
         public let pcrControl: M3u8PcrControl?
         /// Maximum time in milliseconds between Program Clock References (PCRs) inserted into the transport stream.
-        public let pcrPeriod: Int32?
+        public let pcrPeriod: Int?
         /// Packet Identifier (PID) of the Program Clock Reference (PCR) in the transport stream. When no value is given, the encoder will assign the same value as the Video PID. Can be entered as a decimal or hexadecimal value.
         public let pcrPid: String?
         /// The number of milliseconds between instances of this table in the output transport stream. A value of \"0\" writes out the PMT once per segment file.
-        public let pmtInterval: Int32?
+        public let pmtInterval: Int?
         /// Packet Identifier (PID) for the Program Map Table (PMT) in the transport stream. Can be entered as a decimal or hexadecimal value.
         public let pmtPid: String?
         /// The value of the program number field in the Program Map Table.
-        public let programNum: Int32?
+        public let programNum: Int?
         /// If set to passthrough, passes any SCTE-35 signals from the input source to this output.
         public let scte35Behavior: M3u8Scte35Behavior?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream. Can be entered as a decimal or hexadecimal value.
@@ -5787,11 +5787,11 @@ extension MediaLive {
         /// Packet Identifier (PID) of the timed metadata stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let timedMetadataPid: String?
         /// The value of the transport stream ID field in the Program Map Table.
-        public let transportStreamId: Int32?
+        public let transportStreamId: Int?
         /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.
         public let videoPid: String?
 
-        public init(audioFramesPerPes: Int32? = nil, audioPids: String? = nil, ecmPid: String? = nil, patInterval: Int32? = nil, pcrControl: M3u8PcrControl? = nil, pcrPeriod: Int32? = nil, pcrPid: String? = nil, pmtInterval: Int32? = nil, pmtPid: String? = nil, programNum: Int32? = nil, scte35Behavior: M3u8Scte35Behavior? = nil, scte35Pid: String? = nil, timedMetadataBehavior: M3u8TimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int32? = nil, videoPid: String? = nil) {
+        public init(audioFramesPerPes: Int? = nil, audioPids: String? = nil, ecmPid: String? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPeriod: Int? = nil, pcrPid: String? = nil, pmtInterval: Int? = nil, pmtPid: String? = nil, programNum: Int? = nil, scte35Behavior: M3u8Scte35Behavior? = nil, scte35Pid: String? = nil, timedMetadataBehavior: M3u8TimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int? = nil, videoPid: String? = nil) {
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
             self.ecmPid = ecmPid
@@ -5993,7 +5993,7 @@ extension MediaLive {
         /// If set to verifyAuthenticity, verify the https certificate chain to a trusted Certificate Authority (CA).  This will cause https outputs to self-signed certificates to fail.
         public let certificateMode: SmoothGroupCertificateMode?
         /// Number of seconds to wait before retrying connection to the IIS server if the connection is lost. Content will be cached during this time and the cache will be be delivered to the IIS server once the connection is re-established.
-        public let connectionRetryInterval: Int32?
+        public let connectionRetryInterval: Int?
         /// Smooth Streaming publish point on an IIS server. Elemental Live acts as a "Push" encoder to IIS.
         public let destination: OutputLocationRef
         /// MS Smooth event ID to be sent to the IIS server.
@@ -6008,19 +6008,19 @@ extension MediaLive {
         /// When set to sendEos, send EOS signal to IIS server when stopping the event
         public let eventStopBehavior: SmoothGroupEventStopBehavior?
         /// Size in seconds of file cache for streaming outputs.
-        public let filecacheDuration: Int32?
+        public let filecacheDuration: Int?
         /// Length of mp4 fragments to generate (in seconds). Fragment length must be compatible with GOP size and framerate.
-        public let fragmentLength: Int32?
+        public let fragmentLength: Int?
         /// Parameter that control output group behavior on input loss.
         public let inputLossAction: InputLossActionForMsSmoothOut?
         /// Number of retry attempts.
-        public let numRetries: Int32?
+        public let numRetries: Int?
         /// Number of seconds before initiating a restart due to output failure, due to exhausting the numRetries on one segment, or exceeding filecacheDuration.
-        public let restartDelay: Int32?
+        public let restartDelay: Int?
         /// useInputSegmentation has been deprecated. The configured segment size is always used.
         public let segmentationMode: SmoothGroupSegmentationMode?
         /// Number of milliseconds to delay the output from the second pipeline.
-        public let sendDelayMs: Int32?
+        public let sendDelayMs: Int?
         /// If set to scte35, use incoming SCTE-35 messages to generate a sparse track in this group of MS-Smooth outputs.
         public let sparseTrackType: SmoothGroupSparseTrackType?
         /// When set to send, send stream manifest so publishing point doesn't start until all streams start.
@@ -6032,7 +6032,7 @@ extension MediaLive {
         /// - useConfiguredOffset: Use an explicitly configured date as the offset
         public let timestampOffsetMode: SmoothGroupTimestampOffsetMode?
 
-        public init(acquisitionPointId: String? = nil, audioOnlyTimecodeControl: SmoothGroupAudioOnlyTimecodeControl? = nil, certificateMode: SmoothGroupCertificateMode? = nil, connectionRetryInterval: Int32? = nil, destination: OutputLocationRef, eventId: String? = nil, eventIdMode: SmoothGroupEventIdMode? = nil, eventStopBehavior: SmoothGroupEventStopBehavior? = nil, filecacheDuration: Int32? = nil, fragmentLength: Int32? = nil, inputLossAction: InputLossActionForMsSmoothOut? = nil, numRetries: Int32? = nil, restartDelay: Int32? = nil, segmentationMode: SmoothGroupSegmentationMode? = nil, sendDelayMs: Int32? = nil, sparseTrackType: SmoothGroupSparseTrackType? = nil, streamManifestBehavior: SmoothGroupStreamManifestBehavior? = nil, timestampOffset: String? = nil, timestampOffsetMode: SmoothGroupTimestampOffsetMode? = nil) {
+        public init(acquisitionPointId: String? = nil, audioOnlyTimecodeControl: SmoothGroupAudioOnlyTimecodeControl? = nil, certificateMode: SmoothGroupCertificateMode? = nil, connectionRetryInterval: Int? = nil, destination: OutputLocationRef, eventId: String? = nil, eventIdMode: SmoothGroupEventIdMode? = nil, eventStopBehavior: SmoothGroupEventStopBehavior? = nil, filecacheDuration: Int? = nil, fragmentLength: Int? = nil, inputLossAction: InputLossActionForMsSmoothOut? = nil, numRetries: Int? = nil, restartDelay: Int? = nil, segmentationMode: SmoothGroupSegmentationMode? = nil, sendDelayMs: Int? = nil, sparseTrackType: SmoothGroupSparseTrackType? = nil, streamManifestBehavior: SmoothGroupStreamManifestBehavior? = nil, timestampOffset: String? = nil, timestampOffsetMode: SmoothGroupTimestampOffsetMode? = nil) {
             self.acquisitionPointId = acquisitionPointId
             self.audioOnlyTimecodeControl = audioOnlyTimecodeControl
             self.certificateMode = certificateMode
@@ -6156,7 +6156,7 @@ extension MediaLive {
         /// Currency code for usagePrice and fixedPrice in ISO-4217 format, e.g. 'USD'
         public let currencyCode: String?
         /// Lease duration, e.g. '12'
-        public let duration: Int32?
+        public let duration: Int?
         /// Units for duration, e.g. 'MONTHS'
         public let durationUnits: OfferingDurationUnits?
         /// One-time charge for each reserved resource, e.g. '0.0' for a NO_UPFRONT offering
@@ -6174,7 +6174,7 @@ extension MediaLive {
         /// Recurring usage charge for each reserved resource, e.g. '157.0'
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, fixedPrice: Double? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, fixedPrice: Double? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.currencyCode = currencyCode
             self.duration = duration
@@ -6523,14 +6523,14 @@ extension MediaLive {
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
-        public let count: Int32
+        public let count: Int
         public let name: String?
         public let offeringId: String
         public let requestId: String?
         public let start: String?
         public let tags: [String: String]?
 
-        public init(count: Int32, name: String? = nil, offeringId: String, requestId: String? = PurchaseOfferingRequest.idempotencyToken(), start: String? = nil, tags: [String: String]? = nil) {
+        public init(count: Int, name: String? = nil, offeringId: String, requestId: String? = PurchaseOfferingRequest.idempotencyToken(), start: String? = nil, tags: [String: String]? = nil) {
             self.count = count
             self.name = name
             self.offeringId = offeringId
@@ -6579,12 +6579,12 @@ extension MediaLive {
         /// Mapping of input channels to output channels, with appropriate gain adjustments.
         public let channelMappings: [AudioChannelMapping]
         /// Number of input channels to be used.
-        public let channelsIn: Int32?
+        public let channelsIn: Int?
         /// Number of output channels to be produced.
         /// Valid values: 1, 2, 4, 6, 8
-        public let channelsOut: Int32?
+        public let channelsOut: Int?
 
-        public init(channelMappings: [AudioChannelMapping], channelsIn: Int32? = nil, channelsOut: Int32? = nil) {
+        public init(channelMappings: [AudioChannelMapping], channelsIn: Int? = nil, channelsOut: Int? = nil) {
             self.channelMappings = channelMappings
             self.channelsIn = channelsIn
             self.channelsOut = channelsOut
@@ -6632,11 +6632,11 @@ extension MediaLive {
         /// Unique reservation ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:reservation:1234567'
         public let arn: String?
         /// Number of reserved resources
-        public let count: Int32?
+        public let count: Int?
         /// Currency code for usagePrice and fixedPrice in ISO-4217 format, e.g. 'USD'
         public let currencyCode: String?
         /// Lease duration, e.g. '12'
-        public let duration: Int32?
+        public let duration: Int?
         /// Units for duration, e.g. 'MONTHS'
         public let durationUnits: OfferingDurationUnits?
         /// Reservation UTC end date and time in ISO-8601 format, e.g. '2019-03-01T00:00:00'
@@ -6666,7 +6666,7 @@ extension MediaLive {
         /// Recurring usage charge for each reserved resource, e.g. '157.0'
         public let usagePrice: Double?
 
-        public init(arn: String? = nil, count: Int32? = nil, currencyCode: String? = nil, duration: Int32? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
+        public init(arn: String? = nil, count: Int? = nil, currencyCode: String? = nil, duration: Int? = nil, durationUnits: OfferingDurationUnits? = nil, end: String? = nil, fixedPrice: Double? = nil, name: String? = nil, offeringDescription: String? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, region: String? = nil, reservationId: String? = nil, resourceSpecification: ReservationResourceSpecification? = nil, start: String? = nil, state: ReservationState? = nil, tags: [String: String]? = nil, usagePrice: Double? = nil) {
             self.arn = arn
             self.count = count
             self.currencyCode = currencyCode
@@ -6853,7 +6853,7 @@ extension MediaLive {
         /// Controls behavior when content cache fills up. If remote origin server stalls the RTMP connection and does not accept content fast enough the 'Media Cache' will fill up. When the cache reaches the duration specified by cacheLength the cache will stop accepting new content. If set to disconnectImmediately, the RTMP output will force a disconnect. Clear the media cache, and reconnect after restartDelay seconds. If set to waitForServer, the RTMP output will wait up to 5 minutes to allow the origin server to begin accepting data again.
         public let cacheFullBehavior: RtmpCacheFullBehavior?
         /// Cache length, in seconds, is used to calculate buffer size.
-        public let cacheLength: Int32?
+        public let cacheLength: Int?
         /// Controls the types of data that passes to onCaptionInfo outputs.  If set to 'all' then 608 and 708 carried DTVCC data will be passed.  If set to 'field1AndField2608' then DTVCC data will be stripped out, but 608 data from both fields will be passed. If set to 'field1608' then only the data carried in 608 from field 1 video will be passed.
         public let captionData: RtmpCaptionData?
         /// Controls the behavior of this RTMP group if input becomes unavailable.
@@ -6861,9 +6861,9 @@ extension MediaLive {
         /// - pauseOutput: Stop transmitting data until input returns. This does not close the underlying RTMP connection.
         public let inputLossAction: InputLossActionForRtmpOut?
         /// If a streaming output fails, number of seconds to wait until a restart is initiated. A value of 0 means never restart.
-        public let restartDelay: Int32?
+        public let restartDelay: Int?
 
-        public init(authenticationScheme: AuthenticationScheme? = nil, cacheFullBehavior: RtmpCacheFullBehavior? = nil, cacheLength: Int32? = nil, captionData: RtmpCaptionData? = nil, inputLossAction: InputLossActionForRtmpOut? = nil, restartDelay: Int32? = nil) {
+        public init(authenticationScheme: AuthenticationScheme? = nil, cacheFullBehavior: RtmpCacheFullBehavior? = nil, cacheLength: Int? = nil, captionData: RtmpCaptionData? = nil, inputLossAction: InputLossActionForRtmpOut? = nil, restartDelay: Int? = nil) {
             self.authenticationScheme = authenticationScheme
             self.cacheFullBehavior = cacheFullBehavior
             self.cacheLength = cacheLength
@@ -6904,13 +6904,13 @@ extension MediaLive {
         /// If set to verifyAuthenticity, verify the tls certificate chain to a trusted Certificate Authority (CA).  This will cause rtmps outputs with self-signed certificates to fail.
         public let certificateMode: RtmpOutputCertificateMode?
         /// Number of seconds to wait before retrying a connection to the Flash Media server if the connection is lost.
-        public let connectionRetryInterval: Int32?
+        public let connectionRetryInterval: Int?
         /// The RTMP endpoint excluding the stream name (eg. rtmp://host/appname). For connection to Akamai, a username and password must be supplied. URI fields accept format identifiers.
         public let destination: OutputLocationRef
         /// Number of retry attempts.
-        public let numRetries: Int32?
+        public let numRetries: Int?
 
-        public init(certificateMode: RtmpOutputCertificateMode? = nil, connectionRetryInterval: Int32? = nil, destination: OutputLocationRef, numRetries: Int32? = nil) {
+        public init(certificateMode: RtmpOutputCertificateMode? = nil, connectionRetryInterval: Int? = nil, destination: OutputLocationRef, numRetries: Int? = nil) {
             self.certificateMode = certificateMode
             self.connectionRetryInterval = connectionRetryInterval
             self.destination = destination
@@ -7066,9 +7066,9 @@ extension MediaLive {
         /// If upconvert, 608 data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
         public let convert608To708: Scte20Convert608To708?
         /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
-        public let source608ChannelNumber: Int32?
+        public let source608ChannelNumber: Int?
 
-        public init(convert608To708: Scte20Convert608To708? = nil, source608ChannelNumber: Int32? = nil) {
+        public init(convert608To708: Scte20Convert608To708? = nil, source608ChannelNumber: Int? = nil) {
             self.convert608To708 = convert608To708
             self.source608ChannelNumber = source608ChannelNumber
         }
@@ -7102,9 +7102,9 @@ extension MediaLive {
         ///   - Specify PID and omit Language: Extracts the specified PID.
         ///   - Omit PID and specify Language: Extracts the specified language, whichever PID that happens to be.
         ///   - Omit PID and omit Language: Valid only if source is DVB-Sub that is being passed through; all languages will be passed through.
-        public let pid: Int32?
+        public let pid: Int?
 
-        public init(pid: Int32? = nil) {
+        public init(pid: Int? = nil) {
             self.pid = pid
         }
 
@@ -7275,21 +7275,21 @@ extension MediaLive {
         /// Corresponds to SCTE-35 segmentation_event_id. 
         public let segmentationEventId: Int64
         /// Corresponds to SCTE-35 segmentation_type_id. One of the segmentation_type_id values listed in the SCTE-35 specification. On the console, enter the ID in decimal (for example, "52"). In the CLI, API, or an SDK, enter the ID in hex (for example, "0x34") or decimal (for example, "52").
-        public let segmentationTypeId: Int32?
+        public let segmentationTypeId: Int?
         /// Corresponds to SCTE-35 segmentation_upid. Enter a string containing the hexadecimal representation of the characters that make up the SCTE-35 segmentation_upid value. Must contain an even number of hex characters. Do not include spaces between each hex pair. For example, the ASCII "ADS Information" becomes hex "41445320496e666f726d6174696f6e.
         public let segmentationUpid: String?
         /// Corresponds to SCTE-35 segmentation_upid_type. On the console, enter one of the types listed in the SCTE-35 specification, converted to a decimal. For example, "0x0C" hex from the specification is "12" in decimal. In the CLI, API, or an SDK, enter one of the types listed in the SCTE-35 specification, in either hex (for example, "0x0C" ) or in decimal (for example, "12").
-        public let segmentationUpidType: Int32?
+        public let segmentationUpidType: Int?
         /// Corresponds to SCTE-35 segment_num. A value that is valid for the specified segmentation_type_id.
-        public let segmentNum: Int32?
+        public let segmentNum: Int?
         /// Corresponds to SCTE-35 segments_expected. A value that is valid for the specified segmentation_type_id.
-        public let segmentsExpected: Int32?
+        public let segmentsExpected: Int?
         /// Corresponds to SCTE-35 sub_segment_num. A value that is valid for the specified segmentation_type_id.
-        public let subSegmentNum: Int32?
+        public let subSegmentNum: Int?
         /// Corresponds to SCTE-35 sub_segments_expected. A value that is valid for the specified segmentation_type_id.
-        public let subSegmentsExpected: Int32?
+        public let subSegmentsExpected: Int?
 
-        public init(deliveryRestrictions: Scte35DeliveryRestrictions? = nil, segmentationCancelIndicator: Scte35SegmentationCancelIndicator, segmentationDuration: Int64? = nil, segmentationEventId: Int64, segmentationTypeId: Int32? = nil, segmentationUpid: String? = nil, segmentationUpidType: Int32? = nil, segmentNum: Int32? = nil, segmentsExpected: Int32? = nil, subSegmentNum: Int32? = nil, subSegmentsExpected: Int32? = nil) {
+        public init(deliveryRestrictions: Scte35DeliveryRestrictions? = nil, segmentationCancelIndicator: Scte35SegmentationCancelIndicator, segmentationDuration: Int64? = nil, segmentationEventId: Int64, segmentationTypeId: Int? = nil, segmentationUpid: String? = nil, segmentationUpidType: Int? = nil, segmentNum: Int? = nil, segmentsExpected: Int? = nil, subSegmentNum: Int? = nil, subSegmentsExpected: Int? = nil) {
             self.deliveryRestrictions = deliveryRestrictions
             self.segmentationCancelIndicator = segmentationCancelIndicator
             self.segmentationDuration = segmentationDuration
@@ -7345,13 +7345,13 @@ extension MediaLive {
         ]
 
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
-        public let adAvailOffset: Int32?
+        public let adAvailOffset: Int?
         /// When set to ignore, Segment Descriptors with noRegionalBlackoutFlag set to 0 will no longer trigger blackouts or Ad Avail slates
         public let noRegionalBlackoutFlag: Scte35SpliceInsertNoRegionalBlackoutBehavior?
         /// When set to ignore, Segment Descriptors with webDeliveryAllowedFlag set to 0 will no longer trigger blackouts or Ad Avail slates
         public let webDeliveryAllowedFlag: Scte35SpliceInsertWebDeliveryAllowedBehavior?
 
-        public init(adAvailOffset: Int32? = nil, noRegionalBlackoutFlag: Scte35SpliceInsertNoRegionalBlackoutBehavior? = nil, webDeliveryAllowedFlag: Scte35SpliceInsertWebDeliveryAllowedBehavior? = nil) {
+        public init(adAvailOffset: Int? = nil, noRegionalBlackoutFlag: Scte35SpliceInsertNoRegionalBlackoutBehavior? = nil, webDeliveryAllowedFlag: Scte35SpliceInsertWebDeliveryAllowedBehavior? = nil) {
             self.adAvailOffset = adAvailOffset
             self.noRegionalBlackoutFlag = noRegionalBlackoutFlag
             self.webDeliveryAllowedFlag = webDeliveryAllowedFlag
@@ -7418,13 +7418,13 @@ extension MediaLive {
         ]
 
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
-        public let adAvailOffset: Int32?
+        public let adAvailOffset: Int?
         /// When set to ignore, Segment Descriptors with noRegionalBlackoutFlag set to 0 will no longer trigger blackouts or Ad Avail slates
         public let noRegionalBlackoutFlag: Scte35AposNoRegionalBlackoutBehavior?
         /// When set to ignore, Segment Descriptors with webDeliveryAllowedFlag set to 0 will no longer trigger blackouts or Ad Avail slates
         public let webDeliveryAllowedFlag: Scte35AposWebDeliveryAllowedBehavior?
 
-        public init(adAvailOffset: Int32? = nil, noRegionalBlackoutFlag: Scte35AposNoRegionalBlackoutBehavior? = nil, webDeliveryAllowedFlag: Scte35AposWebDeliveryAllowedBehavior? = nil) {
+        public init(adAvailOffset: Int? = nil, noRegionalBlackoutFlag: Scte35AposNoRegionalBlackoutBehavior? = nil, webDeliveryAllowedFlag: Scte35AposWebDeliveryAllowedBehavior? = nil) {
             self.adAvailOffset = adAvailOffset
             self.noRegionalBlackoutFlag = noRegionalBlackoutFlag
             self.webDeliveryAllowedFlag = webDeliveryAllowedFlag
@@ -7597,12 +7597,12 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         public let logLevel: LogLevel?
         public let name: String?
-        public let pipelinesRunningCount: Int32?
+        public let pipelinesRunningCount: Int?
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -7652,27 +7652,27 @@ extension MediaLive {
         ]
 
         /// The duration in milliseconds for the image to remain on the video. If omitted or set to 0 the duration is unlimited and the image will remain until it is explicitly deactivated.
-        public let duration: Int32?
+        public let duration: Int?
         /// The time in milliseconds for the image to fade in. The fade-in starts at the start time of the overlay. Default is 0 (no fade-in).
-        public let fadeIn: Int32?
+        public let fadeIn: Int?
         /// Applies only if a duration is specified. The time in milliseconds for the image to fade out. The fade-out starts when the duration time is hit, so it effectively extends the duration. Default is 0 (no fade-out).
-        public let fadeOut: Int32?
+        public let fadeOut: Int?
         /// The height of the image when inserted into the video, in pixels. The overlay will be scaled up or down to the specified height. Leave blank to use the native height of the overlay.
-        public let height: Int32?
+        public let height: Int?
         /// The location and filename of the image file to overlay on the video. The file must be a 32-bit BMP, PNG, or TGA file, and must not be larger (in pixels) than the input video.
         public let image: InputLocation
         /// Placement of the left edge of the overlay relative to the left edge of the video frame, in pixels. 0 (the default) is the left edge of the frame. If the placement causes the overlay to extend beyond the right edge of the underlying video, then the overlay is cropped on the right.
-        public let imageX: Int32?
+        public let imageX: Int?
         /// Placement of the top edge of the overlay relative to the top edge of the video frame, in pixels. 0 (the default) is the top edge of the frame. If the placement causes the overlay to extend beyond the bottom edge of the underlying video, then the overlay is cropped on the bottom.
-        public let imageY: Int32?
+        public let imageY: Int?
         /// The number of the layer, 0 to 7. There are 8 layers that can be overlaid on the video, each layer with a different image. The layers are in Z order, which means that overlays with higher values of layer are inserted on top of overlays with lower values of layer. Default is 0.
-        public let layer: Int32?
+        public let layer: Int?
         /// Opacity of image where 0 is transparent and 100 is fully opaque. Default is 100.
-        public let opacity: Int32?
+        public let opacity: Int?
         /// The width of the image when inserted into the video, in pixels. The overlay will be scaled up or down to the specified width. Leave blank to use the native width of the overlay.
-        public let width: Int32?
+        public let width: Int?
 
-        public init(duration: Int32? = nil, fadeIn: Int32? = nil, fadeOut: Int32? = nil, height: Int32? = nil, image: InputLocation, imageX: Int32? = nil, imageY: Int32? = nil, layer: Int32? = nil, opacity: Int32? = nil, width: Int32? = nil) {
+        public init(duration: Int? = nil, fadeIn: Int? = nil, fadeOut: Int? = nil, height: Int? = nil, image: InputLocation, imageX: Int? = nil, imageY: Int? = nil, layer: Int? = nil, opacity: Int? = nil, width: Int? = nil) {
             self.duration = duration
             self.fadeIn = fadeIn
             self.fadeOut = fadeOut
@@ -7720,11 +7720,11 @@ extension MediaLive {
         ]
 
         /// The time in milliseconds for the image to fade out. Default is 0 (no fade-out).
-        public let fadeOut: Int32?
+        public let fadeOut: Int?
         /// The image overlay layer to deactivate, 0 to 7. Default is 0.
-        public let layer: Int32?
+        public let layer: Int?
 
-        public init(fadeOut: Int32? = nil, layer: Int32? = nil) {
+        public init(fadeOut: Int? = nil, layer: Int? = nil) {
             self.fadeOut = fadeOut
             self.layer = layer
         }
@@ -7812,12 +7812,12 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         public let logLevel: LogLevel?
         public let name: String?
-        public let pipelinesRunningCount: Int32?
+        public let pipelinesRunningCount: Int?
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int32? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -7889,9 +7889,9 @@ extension MediaLive {
         /// -Start at 0 (zerobased): The time of the first frame of the event will be 00:00:00:00.
         public let source: TimecodeConfigSource
         /// Threshold in frames beyond which output timecode is resynchronized to the input timecode. Discrepancies below this threshold are permitted to avoid unnecessary discontinuities in the output timecode. No timecode sync when this is not specified.
-        public let syncThreshold: Int32?
+        public let syncThreshold: Int?
 
-        public init(source: TimecodeConfigSource, syncThreshold: Int32? = nil) {
+        public init(source: TimecodeConfigSource, syncThreshold: Int? = nil) {
             self.source = source
             self.syncThreshold = syncThreshold
         }
@@ -7969,9 +7969,9 @@ extension MediaLive {
         /// Indicates ID3 frame that has the timecode.
         public let timedMetadataId3Frame: UdpTimedMetadataId3Frame?
         /// Timed Metadata interval in seconds.
-        public let timedMetadataId3Period: Int32?
+        public let timedMetadataId3Period: Int?
 
-        public init(inputLossAction: InputLossActionForUdpOut? = nil, timedMetadataId3Frame: UdpTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int32? = nil) {
+        public init(inputLossAction: InputLossActionForUdpOut? = nil, timedMetadataId3Frame: UdpTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil) {
             self.inputLossAction = inputLossAction
             self.timedMetadataId3Frame = timedMetadataId3Frame
             self.timedMetadataId3Period = timedMetadataId3Period
@@ -7997,14 +7997,14 @@ extension MediaLive {
         ]
 
         /// UDP output buffering in milliseconds. Larger values increase latency through the transcoder but simultaneously assist the transcoder in maintaining a constant, low-jitter UDP/RTP output while accommodating clock recovery, input switching, input disruptions, picture reordering, etc.
-        public let bufferMsec: Int32?
+        public let bufferMsec: Int?
         public let containerSettings: UdpContainerSettings
         /// Destination address and port number for RTP or UDP packets. Can be unicast or multicast RTP or UDP (eg. rtp://239.10.10.10:5001 or udp://10.100.100.100:5002).
         public let destination: OutputLocationRef
         /// Settings for enabling and adjusting Forward Error Correction on UDP outputs.
         public let fecOutputSettings: FecOutputSettings?
 
-        public init(bufferMsec: Int32? = nil, containerSettings: UdpContainerSettings, destination: OutputLocationRef, fecOutputSettings: FecOutputSettings? = nil) {
+        public init(bufferMsec: Int? = nil, containerSettings: UdpContainerSettings, destination: OutputLocationRef, fecOutputSettings: FecOutputSettings? = nil) {
             self.bufferMsec = bufferMsec
             self.containerSettings = containerSettings
             self.destination = destination
@@ -8320,7 +8320,7 @@ extension MediaLive {
         /// Video codec settings.
         public let codecSettings: VideoCodecSettings?
         /// Output video height, in pixels. Must be an even number. For most codecs, you can leave this field and width blank in order to use the height and width (resolution) from the source. Note, however, that leaving blank is not recommended. For the Frame Capture codec, height and width are required.
-        public let height: Int32?
+        public let height: Int?
         /// The name of this VideoDescription. Outputs will use this name to uniquely identify this Description.  Description names should be unique within this Live Event.
         public let name: String
         /// Indicates how to respond to the AFD values in the input stream. RESPOND causes input video to be clipped, depending on the AFD value, input display aspect ratio, and output display aspect ratio, and (except for FRAMECAPTURE codec) includes the values in the output. PASSTHROUGH (does not apply to FRAMECAPTURE codec) ignores the AFD values and includes the values in the output, so input video is not clipped. NONE ignores the AFD values and does not include the values through to the output, so input video is not clipped.
@@ -8328,11 +8328,11 @@ extension MediaLive {
         /// STRETCHTOOUTPUT configures the output position to stretch the video to the specified output resolution (height and width). This option will override any position value. DEFAULT may insert black boxes (pillar boxes or letter boxes) around the video to provide the specified output resolution.
         public let scalingBehavior: VideoDescriptionScalingBehavior?
         /// Changes the strength of the anti-alias filter used for scaling. 0 is the softest setting, 100 is the sharpest. A setting of 50 is recommended for most content.
-        public let sharpness: Int32?
+        public let sharpness: Int?
         /// Output video width, in pixels. Must be an even number. For most codecs, you can leave this field and height blank in order to use the height and width (resolution) from the source. Note, however, that leaving blank is not recommended. For the Frame Capture codec, height and width are required.
-        public let width: Int32?
+        public let width: Int?
 
-        public init(codecSettings: VideoCodecSettings? = nil, height: Int32? = nil, name: String, respondToAfd: VideoDescriptionRespondToAfd? = nil, scalingBehavior: VideoDescriptionScalingBehavior? = nil, sharpness: Int32? = nil, width: Int32? = nil) {
+        public init(codecSettings: VideoCodecSettings? = nil, height: Int? = nil, name: String, respondToAfd: VideoDescriptionRespondToAfd? = nil, scalingBehavior: VideoDescriptionScalingBehavior? = nil, sharpness: Int? = nil, width: Int? = nil) {
             self.codecSettings = codecSettings
             self.height = height
             self.name = name
@@ -8422,9 +8422,9 @@ extension MediaLive {
         ]
 
         /// Selects a specific PID from within a video source.
-        public let pid: Int32?
+        public let pid: Int?
 
-        public init(pid: Int32? = nil) {
+        public init(pid: Int? = nil) {
             self.pid = pid
         }
 
@@ -8444,9 +8444,9 @@ extension MediaLive {
         ]
 
         /// Selects a specific program from within a multi-program transport stream. If the program doesn't exist, the first program within the transport stream will be selected by default.
-        public let programId: Int32?
+        public let programId: Int?
 
-        public init(programId: Int32? = nil) {
+        public init(programId: Int? = nil) {
             self.programId = programId
         }
 

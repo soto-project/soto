@@ -14,7 +14,7 @@ extension ELB {
         ]
 
         /// The interval for publishing the access logs. You can specify an interval of either 5 minutes or 60 minutes. Default: 60 minutes
-        public let emitInterval: Int32?
+        public let emitInterval: Int?
         /// Specifies whether access logs are enabled for the load balancer.
         public let enabled: Bool
         /// The name of the Amazon S3 bucket where the access logs are stored.
@@ -22,7 +22,7 @@ extension ELB {
         /// The logical hierarchy you created for your Amazon S3 bucket, for example my-bucket-prefix/prod. If the prefix is not provided, the log is placed at the root level of the bucket.
         public let s3BucketPrefix: String?
 
-        public init(emitInterval: Int32? = nil, enabled: Bool, s3BucketName: String? = nil, s3BucketPrefix: String? = nil) {
+        public init(emitInterval: Int? = nil, enabled: Bool, s3BucketName: String? = nil, s3BucketPrefix: String? = nil) {
             self.emitInterval = emitInterval
             self.enabled = enabled
             self.s3BucketName = s3BucketName
@@ -249,11 +249,11 @@ extension ELB {
         ]
 
         /// The port on which the EC2 instance is listening.
-        public let instancePort: Int32?
+        public let instancePort: Int?
         /// The names of the policies enabled for the EC2 instance.
         public let policyNames: [String]?
 
-        public init(instancePort: Int32? = nil, policyNames: [String]? = nil) {
+        public init(instancePort: Int? = nil, policyNames: [String]? = nil) {
             self.instancePort = instancePort
             self.policyNames = policyNames
         }
@@ -316,9 +316,9 @@ extension ELB {
         /// Specifies whether connection draining is enabled for the load balancer.
         public let enabled: Bool
         /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
-        public let timeout: Int32?
+        public let timeout: Int?
 
-        public init(enabled: Bool, timeout: Int32? = nil) {
+        public init(enabled: Bool, timeout: Int? = nil) {
             self.enabled = enabled
             self.timeout = timeout
         }
@@ -335,9 +335,9 @@ extension ELB {
         ]
 
         /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
-        public let idleTimeout: Int32
+        public let idleTimeout: Int
 
-        public init(idleTimeout: Int32) {
+        public init(idleTimeout: Int) {
             self.idleTimeout = idleTimeout
         }
 
@@ -622,9 +622,9 @@ extension ELB {
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The client port numbers of the listeners.
-        public let loadBalancerPorts: [Int32]
+        public let loadBalancerPorts: [Int]
 
-        public init(loadBalancerName: String, loadBalancerPorts: [Int32]) {
+        public init(loadBalancerName: String, loadBalancerPorts: [Int]) {
             self.loadBalancerName = loadBalancerName
             self.loadBalancerPorts = loadBalancerPorts
         }
@@ -724,9 +724,9 @@ extension ELB {
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The maximum number of results to return with this call (a number from 1 to 400). The default is 400.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(loadBalancerNames: [String]? = nil, marker: String? = nil, pageSize: Int32? = nil) {
+        public init(loadBalancerNames: [String]? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.loadBalancerNames = loadBalancerNames
             self.marker = marker
             self.pageSize = pageSize
@@ -775,9 +775,9 @@ extension ELB {
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(marker: String? = nil, pageSize: Int32? = nil) {
+        public init(marker: String? = nil, pageSize: Int? = nil) {
             self.marker = marker
             self.pageSize = pageSize
         }
@@ -1049,17 +1049,17 @@ extension ELB {
         ]
 
         /// The number of consecutive health checks successes required before moving the instance to the Healthy state.
-        public let healthyThreshold: Int32
+        public let healthyThreshold: Int
         /// The approximate interval, in seconds, between health checks of an individual instance.
-        public let interval: Int32
+        public let interval: Int
         /// The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL. The range of valid ports is one (1) through 65535. TCP is the default, specified as a TCP: port pair, for example "TCP:5000". In this case, a health check simply attempts to open a TCP connection to the instance on the specified port. Failure to connect within the configured timeout is considered unhealthy. SSL is also specified as SSL: port pair, for example, SSL:5000. For HTTP/HTTPS, you must include a ping path in the string. HTTP is specified as a HTTP:port;/;PathToPing; grouping, for example "HTTP:80/weather/us/wa/seattle". In this case, a HTTP GET request is issued to the instance on the given port and path. Any answer other than "200 OK" within the timeout period is considered unhealthy. The total length of the HTTP ping target must be 1024 16-bit Unicode characters or less.
         public let target: String
         /// The amount of time, in seconds, during which no response means a failed health check. This value must be less than the Interval value.
-        public let timeout: Int32
+        public let timeout: Int
         /// The number of consecutive health check failures required before moving the instance to the Unhealthy state.
-        public let unhealthyThreshold: Int32
+        public let unhealthyThreshold: Int
 
-        public init(healthyThreshold: Int32, interval: Int32, target: String, timeout: Int32, unhealthyThreshold: Int32) {
+        public init(healthyThreshold: Int, interval: Int, target: String, timeout: Int, unhealthyThreshold: Int) {
             self.healthyThreshold = healthyThreshold
             self.interval = interval
             self.target = target
@@ -1190,17 +1190,17 @@ extension ELB {
         ]
 
         /// The port on which the instance is listening.
-        public let instancePort: Int32
+        public let instancePort: Int
         /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or SSL. If the front-end protocol is HTTP, HTTPS, TCP, or SSL, InstanceProtocol must be at the same protocol. If there is another listener with the same InstancePort whose InstanceProtocol is secure, (HTTPS or SSL), the listener's InstanceProtocol must also be secure. If there is another listener with the same InstancePort whose InstanceProtocol is HTTP or TCP, the listener's InstanceProtocol must be HTTP or TCP.
         public let instanceProtocol: String?
         /// The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Classic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535.
-        public let loadBalancerPort: Int32
+        public let loadBalancerPort: Int
         /// The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP, or SSL.
         public let `protocol`: String
         /// The Amazon Resource Name (ARN) of the server certificate.
         public let sSLCertificateId: String?
 
-        public init(instancePort: Int32, instanceProtocol: String? = nil, loadBalancerPort: Int32, protocol: String, sSLCertificateId: String? = nil) {
+        public init(instancePort: Int, instanceProtocol: String? = nil, loadBalancerPort: Int, protocol: String, sSLCertificateId: String? = nil) {
             self.instancePort = instancePort
             self.instanceProtocol = instanceProtocol
             self.loadBalancerPort = loadBalancerPort
@@ -1716,11 +1716,11 @@ extension ELB {
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The port that uses the specified SSL certificate.
-        public let loadBalancerPort: Int32
+        public let loadBalancerPort: Int
         /// The Amazon Resource Name (ARN) of the SSL certificate.
         public let sSLCertificateId: String
 
-        public init(loadBalancerName: String, loadBalancerPort: Int32, sSLCertificateId: String) {
+        public init(loadBalancerName: String, loadBalancerPort: Int, sSLCertificateId: String) {
             self.loadBalancerName = loadBalancerName
             self.loadBalancerPort = loadBalancerPort
             self.sSLCertificateId = sSLCertificateId
@@ -1749,13 +1749,13 @@ extension ELB {
         ]
 
         /// The port number associated with the EC2 instance.
-        public let instancePort: Int32
+        public let instancePort: Int
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The names of the policies. If the list is empty, then all current polices are removed from the EC2 instance.
         public let policyNames: [String]
 
-        public init(instancePort: Int32, loadBalancerName: String, policyNames: [String]) {
+        public init(instancePort: Int, loadBalancerName: String, policyNames: [String]) {
             self.instancePort = instancePort
             self.loadBalancerName = loadBalancerName
             self.policyNames = policyNames
@@ -1786,11 +1786,11 @@ extension ELB {
         /// The name of the load balancer.
         public let loadBalancerName: String
         /// The external port of the load balancer.
-        public let loadBalancerPort: Int32
+        public let loadBalancerPort: Int
         /// The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is disabled. If the list is empty, all current policies are disabled.
         public let policyNames: [String]
 
-        public init(loadBalancerName: String, loadBalancerPort: Int32, policyNames: [String]) {
+        public init(loadBalancerName: String, loadBalancerPort: Int, policyNames: [String]) {
             self.loadBalancerName = loadBalancerName
             self.loadBalancerPort = loadBalancerPort
             self.policyNames = policyNames
@@ -1820,9 +1820,9 @@ extension ELB {
         /// The name of the security group.
         public let groupName: String?
         /// The owner of the security group.
-        public let ownerAlias: Int32?
+        public let ownerAlias: Int?
 
-        public init(groupName: String? = nil, ownerAlias: Int32? = nil) {
+        public init(groupName: String? = nil, ownerAlias: Int? = nil) {
             self.groupName = groupName
             self.ownerAlias = ownerAlias
         }

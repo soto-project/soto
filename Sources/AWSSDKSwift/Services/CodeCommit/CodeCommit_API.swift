@@ -9,7 +9,7 @@ AWS CodeCommit This is the AWS CodeCommit API Reference. This reference provides
 */
 public struct CodeCommit {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

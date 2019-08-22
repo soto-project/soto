@@ -423,11 +423,11 @@ extension Support {
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
         /// The maximum number of results to return before paginating.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A resumption point for pagination.
         public let nextToken: String?
 
-        public init(afterTime: String? = nil, beforeTime: String? = nil, caseIdList: [String]? = nil, displayId: String? = nil, includeCommunications: Bool? = nil, includeResolvedCases: Bool? = nil, language: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(afterTime: String? = nil, beforeTime: String? = nil, caseIdList: [String]? = nil, displayId: String? = nil, includeCommunications: Bool? = nil, includeResolvedCases: Bool? = nil, language: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.afterTime = afterTime
             self.beforeTime = beforeTime
             self.caseIdList = caseIdList
@@ -497,11 +497,11 @@ extension Support {
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String
         /// The maximum number of results to return before paginating.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A resumption point for pagination.
         public let nextToken: String?
 
-        public init(afterTime: String? = nil, beforeTime: String? = nil, caseId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(afterTime: String? = nil, beforeTime: String? = nil, caseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.afterTime = afterTime
             self.beforeTime = beforeTime
             self.caseId = caseId

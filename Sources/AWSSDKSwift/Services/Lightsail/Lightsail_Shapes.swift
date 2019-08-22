@@ -282,7 +282,7 @@ extension Lightsail {
         /// The end-user license agreement URL for the image or blueprint.
         public let licenseUrl: String?
         /// The minimum bundle power required to run this blueprint. For example, you need a bundle with a power value of 500 or more to create an instance that uses a blueprint with a minimum power value of 500. 0 indicates that the blueprint runs on all instance sizes. 
-        public let minPower: Int32?
+        public let minPower: Int?
         /// The friendly name of the blueprint (e.g., Amazon Linux).
         public let name: String?
         /// The operating system platform (either Linux/Unix-based or Windows Server-based) of the blueprint.
@@ -296,7 +296,7 @@ extension Lightsail {
         /// The version code.
         public let versionCode: String?
 
-        public init(blueprintId: String? = nil, description: String? = nil, group: String? = nil, isActive: Bool? = nil, licenseUrl: String? = nil, minPower: Int32? = nil, name: String? = nil, platform: InstancePlatform? = nil, productUrl: String? = nil, type: BlueprintType? = nil, version: String? = nil, versionCode: String? = nil) {
+        public init(blueprintId: String? = nil, description: String? = nil, group: String? = nil, isActive: Bool? = nil, licenseUrl: String? = nil, minPower: Int? = nil, name: String? = nil, platform: InstancePlatform? = nil, productUrl: String? = nil, type: BlueprintType? = nil, version: String? = nil, versionCode: String? = nil) {
             self.blueprintId = blueprintId
             self.description = description
             self.group = group
@@ -351,9 +351,9 @@ extension Lightsail {
         /// The bundle ID (e.g., micro_1_0).
         public let bundleId: String?
         /// The number of vCPUs included in the bundle (e.g., 2).
-        public let cpuCount: Int32?
+        public let cpuCount: Int?
         /// The size of the SSD (e.g., 30).
-        public let diskSizeInGb: Int32?
+        public let diskSizeInGb: Int?
         /// The Amazon EC2 instance type (e.g., t2.micro).
         public let instanceType: String?
         /// A Boolean value indicating whether the bundle is active.
@@ -361,7 +361,7 @@ extension Lightsail {
         /// A friendly name for the bundle (e.g., Micro).
         public let name: String?
         /// A numeric value that represents the power of the bundle (e.g., 500). You can use the bundle's power value in conjunction with a blueprint's minimum power value to determine whether the blueprint will run on the bundle. For example, you need a bundle with a power value of 500 or more to create an instance that uses a blueprint with a minimum power value of 500.
-        public let power: Int32?
+        public let power: Int?
         /// The price in US dollars (e.g., 5.0).
         public let price: Float?
         /// The amount of RAM in GB (e.g., 2.0).
@@ -369,9 +369,9 @@ extension Lightsail {
         /// The operating system platform (Linux/Unix-based or Windows Server-based) that the bundle supports. You can only launch a WINDOWS bundle on a blueprint that supports the WINDOWS platform. LINUX_UNIX blueprints require a LINUX_UNIX bundle.
         public let supportedPlatforms: [InstancePlatform]?
         /// The data transfer rate per month in GB (e.g., 2000).
-        public let transferPerMonthInGb: Int32?
+        public let transferPerMonthInGb: Int?
 
-        public init(bundleId: String? = nil, cpuCount: Int32? = nil, diskSizeInGb: Int32? = nil, instanceType: String? = nil, isActive: Bool? = nil, name: String? = nil, power: Int32? = nil, price: Float? = nil, ramSizeInGb: Float? = nil, supportedPlatforms: [InstancePlatform]? = nil, transferPerMonthInGb: Int32? = nil) {
+        public init(bundleId: String? = nil, cpuCount: Int? = nil, diskSizeInGb: Int? = nil, instanceType: String? = nil, isActive: Bool? = nil, name: String? = nil, power: Int? = nil, price: Float? = nil, ramSizeInGb: Float? = nil, supportedPlatforms: [InstancePlatform]? = nil, transferPerMonthInGb: Int? = nil) {
             self.bundleId = bundleId
             self.cpuCount = cpuCount
             self.diskSizeInGb = diskSizeInGb
@@ -633,11 +633,11 @@ extension Lightsail {
         /// The name of the disk snapshot (e.g., my-snapshot) from which to create the new storage disk.
         public let diskSnapshotName: String
         /// The size of the disk in GB (e.g., 32).
-        public let sizeInGb: Int32
+        public let sizeInGb: Int
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
 
-        public init(availabilityZone: String, diskName: String, diskSnapshotName: String, sizeInGb: Int32, tags: [Tag]? = nil) {
+        public init(availabilityZone: String, diskName: String, diskSnapshotName: String, sizeInGb: Int, tags: [Tag]? = nil) {
             self.availabilityZone = availabilityZone
             self.diskName = diskName
             self.diskSnapshotName = diskSnapshotName
@@ -690,11 +690,11 @@ extension Lightsail {
         /// The unique Lightsail disk name (e.g., my-disk).
         public let diskName: String
         /// The size of the disk in GB (e.g., 32).
-        public let sizeInGb: Int32
+        public let sizeInGb: Int
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
 
-        public init(availabilityZone: String, diskName: String, sizeInGb: Int32, tags: [Tag]? = nil) {
+        public init(availabilityZone: String, diskName: String, sizeInGb: Int, tags: [Tag]? = nil) {
             self.availabilityZone = availabilityZone
             self.diskName = diskName
             self.sizeInGb = sizeInGb
@@ -1143,13 +1143,13 @@ extension Lightsail {
         /// The path you provided to perform the load balancer health check. If you didn't specify a health check path, Lightsail uses the root path of your website (e.g., "/"). You may want to specify a custom health check path other than the root of your application if your home page loads slowly or has a lot of media or scripting on it.
         public let healthCheckPath: String?
         /// The instance port where you're creating your load balancer.
-        public let instancePort: Int32
+        public let instancePort: Int
         /// The name of your load balancer.
         public let loadBalancerName: String
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
 
-        public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String? = nil, certificateName: String? = nil, healthCheckPath: String? = nil, instancePort: Int32, loadBalancerName: String, tags: [Tag]? = nil) {
+        public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String? = nil, certificateName: String? = nil, healthCheckPath: String? = nil, instancePort: Int, loadBalancerName: String, tags: [Tag]? = nil) {
             self.certificateAlternativeNames = certificateAlternativeNames
             self.certificateDomainName = certificateDomainName
             self.certificateName = certificateName
@@ -2118,7 +2118,7 @@ extension Lightsail {
         /// The date when the disk was created.
         public let createdAt: TimeStamp?
         /// The input/output operations per second (IOPS) of the disk.
-        public let iops: Int32?
+        public let iops: Int?
         /// A Boolean value indicating whether the disk is attached.
         public let isAttached: Bool?
         /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
@@ -2132,7 +2132,7 @@ extension Lightsail {
         /// The Lightsail resource type (e.g., Disk).
         public let resourceType: ResourceType?
         /// The size of the disk in GB.
-        public let sizeInGb: Int32?
+        public let sizeInGb: Int?
         /// Describes the status of the disk.
         public let state: DiskState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
@@ -2140,7 +2140,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, attachedTo: String? = nil, createdAt: TimeStamp? = nil, iops: Int32? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, attachedTo: String? = nil, createdAt: TimeStamp? = nil, iops: Int? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.attachedTo = attachedTo
             self.createdAt = createdAt
@@ -2190,9 +2190,9 @@ extension Lightsail {
         /// The disk path.
         public let path: String?
         /// The size of the disk in GB (e.g., 32).
-        public let sizeInGb: Int32?
+        public let sizeInGb: Int?
 
-        public init(isSystemDisk: Bool? = nil, name: String? = nil, path: String? = nil, sizeInGb: Int32? = nil) {
+        public init(isSystemDisk: Bool? = nil, name: String? = nil, path: String? = nil, sizeInGb: Int? = nil) {
             self.isSystemDisk = isSystemDisk
             self.name = name
             self.path = path
@@ -2273,7 +2273,7 @@ extension Lightsail {
         /// The Lightsail resource type (e.g., DiskSnapshot).
         public let resourceType: ResourceType?
         /// The size of the disk in GB.
-        public let sizeInGb: Int32?
+        public let sizeInGb: Int?
         /// The status of the disk snapshot operation.
         public let state: DiskSnapshotState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
@@ -2281,7 +2281,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromDiskArn: String? = nil, fromDiskName: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, state: DiskSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromDiskArn: String? = nil, fromDiskName: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.fromDiskArn = fromDiskArn
@@ -2322,9 +2322,9 @@ extension Lightsail {
         ]
 
         /// The size of the disk in GB (e.g., 32).
-        public let sizeInGb: Int32?
+        public let sizeInGb: Int?
 
-        public init(sizeInGb: Int32? = nil) {
+        public init(sizeInGb: Int? = nil) {
             self.sizeInGb = sizeInGb
         }
 
@@ -3114,7 +3114,7 @@ extension Lightsail {
         /// The metric name to get data about. 
         public let metricName: InstanceMetricName
         /// The granularity, in seconds, of the returned data points.
-        public let period: Int32
+        public let period: Int
         /// The start time of the time period.
         public let startTime: TimeStamp
         /// The instance statistics. 
@@ -3122,7 +3122,7 @@ extension Lightsail {
         /// The unit. The list of valid values is below.
         public let unit: MetricUnit
 
-        public init(endTime: TimeStamp, instanceName: String, metricName: InstanceMetricName, period: Int32, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(endTime: TimeStamp, instanceName: String, metricName: InstanceMetricName, period: Int, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.instanceName = instanceName
             self.metricName = metricName
@@ -3496,7 +3496,7 @@ extension Lightsail {
         /// The metric about which you want to return information. Valid values are listed below, along with the most useful statistics to include in your request.     ClientTLSNegotiationErrorCount  - The number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics: The most useful statistic is Sum.     HealthyHostCount  - The number of target instances that are considered healthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     UnhealthyHostCount  - The number of target instances that are considered unhealthy.  Statistics: The most useful statistic are Average, Minimum, and Maximum.     HTTPCode_LB_4XX_Count  - The number of HTTP 4XX client error codes that originate from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests have not been received by the target instance. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_LB_5XX_Count  - The number of HTTP 5XX server error codes that originate from the load balancer. This count does not include any response codes generated by the target instances.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_2XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_3XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.   Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_4XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     HTTPCode_Instance_5XX_Count  - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.     InstanceResponseTime  - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics: The most useful statistic is Average.     RejectedConnectionCount  - The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics: The most useful statistic is Sum.     RequestCount  - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics: The most useful statistic is Sum. Note that Minimum, Maximum, and Average all return 1.  
         public let metricName: LoadBalancerMetricName
         /// The granularity, in seconds, of the returned data points.
-        public let period: Int32
+        public let period: Int
         /// The start time of the period.
         public let startTime: TimeStamp
         /// An array of statistics that you want to request metrics for. Valid values are listed below.     SampleCount  - The count (number) of data points used for the statistical calculation.     Average  - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum. This comparison helps you to know when to increase or decrease your resources as needed.     Sum  - All values submitted for the matching metric added together. This statistic can be useful for determining the total volume of a metric.     Minimum  - The lowest value observed during the specified period. You can use this value to determine low volumes of activity for your application.     Maximum  - The highest value observed during the specified period. You can use this value to determine high volumes of activity for your application.  
@@ -3504,7 +3504,7 @@ extension Lightsail {
         /// The unit for the time period request. Valid values are listed below.
         public let unit: MetricUnit
 
-        public init(endTime: TimeStamp, loadBalancerName: String, metricName: LoadBalancerMetricName, period: Int32, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(endTime: TimeStamp, loadBalancerName: String, metricName: LoadBalancerMetricName, period: Int, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.loadBalancerName = loadBalancerName
             self.metricName = metricName
@@ -3918,13 +3918,13 @@ extension Lightsail {
         ]
 
         /// The number of minutes in the past from which to retrieve events. For example, to get all events from the past 2 hours, enter 120. Default: 60  The minimum is 1 and the maximum is 14 days (20160 minutes).
-        public let durationInMinutes: Int32?
+        public let durationInMinutes: Int?
         /// A token used for advancing to a specific page of results from for get relational database events request.
         public let pageToken: String?
         /// The name of the database from which to get events.
         public let relationalDatabaseName: String
 
-        public init(durationInMinutes: Int32? = nil, pageToken: String? = nil, relationalDatabaseName: String) {
+        public init(durationInMinutes: Int? = nil, pageToken: String? = nil, relationalDatabaseName: String) {
             self.durationInMinutes = durationInMinutes
             self.pageToken = pageToken
             self.relationalDatabaseName = relationalDatabaseName
@@ -4138,7 +4138,7 @@ extension Lightsail {
         /// The name of the metric data to return.
         public let metricName: RelationalDatabaseMetricName
         /// The granularity, in seconds, of the returned data points.
-        public let period: Int32
+        public let period: Int
         /// The name of your database from which to get metric data.
         public let relationalDatabaseName: String
         /// The start of the time interval from which to get metric data. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.  
@@ -4148,7 +4148,7 @@ extension Lightsail {
         /// The unit for the metric data request.
         public let unit: MetricUnit
 
-        public init(endTime: TimeStamp, metricName: RelationalDatabaseMetricName, period: Int32, relationalDatabaseName: String, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
+        public init(endTime: TimeStamp, metricName: RelationalDatabaseMetricName, period: Int, relationalDatabaseName: String, startTime: TimeStamp, statistics: [MetricStatistic], unit: MetricUnit) {
             self.endTime = endTime
             self.metricName = metricName
             self.period = period
@@ -4791,13 +4791,13 @@ extension Lightsail {
         ]
 
         /// The number of vCPUs the instance has.
-        public let cpuCount: Int32?
+        public let cpuCount: Int?
         /// The disks attached to the instance.
         public let disks: [Disk]?
         /// The amount of RAM in GB on the instance (e.g., 1.0).
         public let ramSizeInGb: Float?
 
-        public init(cpuCount: Int32? = nil, disks: [Disk]? = nil, ramSizeInGb: Float? = nil) {
+        public init(cpuCount: Int? = nil, disks: [Disk]? = nil, ramSizeInGb: Float? = nil) {
             self.cpuCount = cpuCount
             self.disks = disks
             self.ramSizeInGb = ramSizeInGb
@@ -4920,13 +4920,13 @@ extension Lightsail {
         /// The common name.
         public let commonName: String?
         /// The first port in the range.
-        public let fromPort: Int32?
+        public let fromPort: Int?
         /// The protocol being used. Can be one of the following.    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.  
         public let `protocol`: NetworkProtocol?
         /// The last port in the range.
-        public let toPort: Int32?
+        public let toPort: Int?
 
-        public init(accessDirection: AccessDirection? = nil, accessFrom: String? = nil, accessType: PortAccessType? = nil, commonName: String? = nil, fromPort: Int32? = nil, protocol: NetworkProtocol? = nil, toPort: Int32? = nil) {
+        public init(accessDirection: AccessDirection? = nil, accessFrom: String? = nil, accessType: PortAccessType? = nil, commonName: String? = nil, fromPort: Int? = nil, protocol: NetworkProtocol? = nil, toPort: Int? = nil) {
             self.accessDirection = accessDirection
             self.accessFrom = accessFrom
             self.accessType = accessType
@@ -4956,15 +4956,15 @@ extension Lightsail {
         ]
 
         /// The first port in the range.
-        public let fromPort: Int32?
+        public let fromPort: Int?
         /// The protocol being used. Can be one of the following.    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.  
         public let `protocol`: NetworkProtocol?
         /// Specifies whether the instance port is open or closed.
         public let state: PortState?
         /// The last port in the range.
-        public let toPort: Int32?
+        public let toPort: Int?
 
-        public init(fromPort: Int32? = nil, protocol: NetworkProtocol? = nil, state: PortState? = nil, toPort: Int32? = nil) {
+        public init(fromPort: Int? = nil, protocol: NetworkProtocol? = nil, state: PortState? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.`protocol` = `protocol`
             self.state = state
@@ -5021,7 +5021,7 @@ extension Lightsail {
         /// The type of resource (usually InstanceSnapshot).
         public let resourceType: ResourceType?
         /// The size in GB of the SSD.
-        public let sizeInGb: Int32?
+        public let sizeInGb: Int?
         /// The state the snapshot is in.
         public let state: InstanceSnapshotState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
@@ -5029,7 +5029,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromAttachedDisks: [Disk]? = nil, fromBlueprintId: String? = nil, fromBundleId: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, state: InstanceSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromAttachedDisks: [Disk]? = nil, fromBlueprintId: String? = nil, fromBundleId: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: InstanceSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.fromAttachedDisks = fromAttachedDisks
@@ -5107,11 +5107,11 @@ extension Lightsail {
         ]
 
         /// The status code for the instance.
-        public let code: Int32?
+        public let code: Int?
         /// The state of the instance (e.g., running or pending).
         public let name: String?
 
-        public init(code: Int32? = nil, name: String? = nil) {
+        public init(code: Int? = nil, name: String? = nil) {
             self.code = code
             self.name = name
         }
@@ -5232,7 +5232,7 @@ extension Lightsail {
         /// An array of InstanceHealthSummary objects describing the health of the load balancer.
         public let instanceHealthSummary: [InstanceHealthSummary]?
         /// The port where the load balancer will direct traffic to your Lightsail instances. For HTTP traffic, it's port 80. For HTTPS traffic, it's port 443.
-        public let instancePort: Int32?
+        public let instancePort: Int?
         /// The AWS Region where your load balancer was created (e.g., us-east-2a). Lightsail automatically creates your load balancer across Availability Zones.
         public let location: ResourceLocation?
         /// The name of the load balancer (e.g., my-load-balancer).
@@ -5240,7 +5240,7 @@ extension Lightsail {
         /// The protocol you have enabled for your load balancer. Valid values are below. You can't just have HTTP_HTTPS, but you can have just HTTP.
         public let `protocol`: LoadBalancerProtocol?
         /// An array of public port settings for your load balancer. For HTTP, use port 80. For HTTPS, use port 443.
-        public let publicPorts: [Int32]?
+        public let publicPorts: [Int]?
         /// The resource type (e.g., LoadBalancer.
         public let resourceType: ResourceType?
         /// The status of your load balancer. Valid values are below.
@@ -5252,7 +5252,7 @@ extension Lightsail {
         /// An array of LoadBalancerTlsCertificateSummary objects that provide additional information about the SSL/TLS certificates. For example, if true, the certificate is attached to the load balancer.
         public let tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]?
 
-        public init(arn: String? = nil, configurationOptions: [LoadBalancerAttributeName: String]? = nil, createdAt: TimeStamp? = nil, dnsName: String? = nil, healthCheckPath: String? = nil, instanceHealthSummary: [InstanceHealthSummary]? = nil, instancePort: Int32? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: LoadBalancerProtocol? = nil, publicPorts: [Int32]? = nil, resourceType: ResourceType? = nil, state: LoadBalancerState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]? = nil) {
+        public init(arn: String? = nil, configurationOptions: [LoadBalancerAttributeName: String]? = nil, createdAt: TimeStamp? = nil, dnsName: String? = nil, healthCheckPath: String? = nil, instanceHealthSummary: [InstanceHealthSummary]? = nil, instancePort: Int? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: LoadBalancerProtocol? = nil, publicPorts: [Int]? = nil, resourceType: ResourceType? = nil, state: LoadBalancerState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]? = nil) {
             self.arn = arn
             self.configurationOptions = configurationOptions
             self.createdAt = createdAt
@@ -5734,9 +5734,9 @@ extension Lightsail {
         ]
 
         /// The amount allocated per month (in GB).
-        public let gbPerMonthAllocated: Int32?
+        public let gbPerMonthAllocated: Int?
 
-        public init(gbPerMonthAllocated: Int32? = nil) {
+        public init(gbPerMonthAllocated: Int? = nil) {
             self.gbPerMonthAllocated = gbPerMonthAllocated
         }
 
@@ -6041,13 +6041,13 @@ extension Lightsail {
         ]
 
         /// The first port in the range.
-        public let fromPort: Int32?
+        public let fromPort: Int?
         /// The protocol. 
         public let `protocol`: NetworkProtocol?
         /// The last port in the range.
-        public let toPort: Int32?
+        public let toPort: Int?
 
-        public init(fromPort: Int32? = nil, protocol: NetworkProtocol? = nil, toPort: Int32? = nil) {
+        public init(fromPort: Int? = nil, protocol: NetworkProtocol? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.`protocol` = `protocol`
             self.toPort = toPort
@@ -6465,9 +6465,9 @@ extension Lightsail {
         /// The ID for the database bundle.
         public let bundleId: String?
         /// The number of virtual CPUs (vCPUs) for the database bundle.
-        public let cpuCount: Int32?
+        public let cpuCount: Int?
         /// The size of the disk for the database bundle.
-        public let diskSizeInGb: Int32?
+        public let diskSizeInGb: Int?
         /// A Boolean value indicating whether the database bundle is active.
         public let isActive: Bool?
         /// A Boolean value indicating whether the database bundle is encrypted.
@@ -6479,9 +6479,9 @@ extension Lightsail {
         /// The amount of RAM in GB (for example, 2.0) for the database bundle.
         public let ramSizeInGb: Float?
         /// The data transfer rate per month in GB for the database bundle.
-        public let transferPerMonthInGb: Int32?
+        public let transferPerMonthInGb: Int?
 
-        public init(bundleId: String? = nil, cpuCount: Int32? = nil, diskSizeInGb: Int32? = nil, isActive: Bool? = nil, isEncrypted: Bool? = nil, name: String? = nil, price: Float? = nil, ramSizeInGb: Float? = nil, transferPerMonthInGb: Int32? = nil) {
+        public init(bundleId: String? = nil, cpuCount: Int? = nil, diskSizeInGb: Int? = nil, isActive: Bool? = nil, isEncrypted: Bool? = nil, name: String? = nil, price: Float? = nil, ramSizeInGb: Float? = nil, transferPerMonthInGb: Int? = nil) {
             self.bundleId = bundleId
             self.cpuCount = cpuCount
             self.diskSizeInGb = diskSizeInGb
@@ -6515,9 +6515,9 @@ extension Lightsail {
         /// Specifies the DNS address of the database.
         public let address: String?
         /// Specifies the port that the database is listening on.
-        public let port: Int32?
+        public let port: Int?
 
-        public init(address: String? = nil, port: Int32? = nil) {
+        public init(address: String? = nil, port: Int? = nil) {
             self.address = address
             self.port = port
         }
@@ -6573,13 +6573,13 @@ extension Lightsail {
         ]
 
         /// The number of vCPUs for the database.
-        public let cpuCount: Int32?
+        public let cpuCount: Int?
         /// The size of the disk for the database.
-        public let diskSizeInGb: Int32?
+        public let diskSizeInGb: Int?
         /// The amount of RAM in GB for the database.
         public let ramSizeInGb: Float?
 
-        public init(cpuCount: Int32? = nil, diskSizeInGb: Int32? = nil, ramSizeInGb: Float? = nil) {
+        public init(cpuCount: Int? = nil, diskSizeInGb: Int? = nil, ramSizeInGb: Float? = nil) {
             self.cpuCount = cpuCount
             self.diskSizeInGb = diskSizeInGb
             self.ramSizeInGb = ramSizeInGb
@@ -6703,7 +6703,7 @@ extension Lightsail {
         /// The Lightsail resource type.
         public let resourceType: ResourceType?
         /// The size of the disk in GB (for example, 32) for the database snapshot.
-        public let sizeInGb: Int32?
+        public let sizeInGb: Int?
         /// The state of the database snapshot.
         public let state: String?
         /// The support code for the database snapshot. Include this code in your email to support when you have questions about a database snapshot in Lightsail. This code enables our support team to look up your Lightsail information more easily.
@@ -6711,7 +6711,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, engine: String? = nil, engineVersion: String? = nil, fromRelationalDatabaseArn: String? = nil, fromRelationalDatabaseBlueprintId: String? = nil, fromRelationalDatabaseBundleId: String? = nil, fromRelationalDatabaseName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int32? = nil, state: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, engine: String? = nil, engineVersion: String? = nil, fromRelationalDatabaseArn: String? = nil, fromRelationalDatabaseBlueprintId: String? = nil, fromRelationalDatabaseBundleId: String? = nil, fromRelationalDatabaseName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.engine = engine

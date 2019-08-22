@@ -11,7 +11,7 @@ Describes all of the AWS IoT 1-Click device-related API operations for the servi
 */
 public struct IoT1ClickDevicesService {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

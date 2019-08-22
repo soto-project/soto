@@ -662,7 +662,7 @@ extension Shield {
         /// The end of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed. 
         public let endTime: TimeRange?
         /// The maximum number of AttackSummary objects to be returned. If this is left blank, the first 20 results will be returned. This is a maximum value; it is possible that AWS WAF will return the results in smaller batches. That is, the number of AttackSummary objects returned could be less than MaxResults, even if there are still more AttackSummary objects yet to return. If there are more AttackSummary objects to return, AWS WAF will always also return a NextToken.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The ListAttacksRequest.NextMarker value from a previous call to ListAttacksRequest. Pass null if this is the first call.
         public let nextToken: String?
         /// The ARN (Amazon Resource Name) of the resource that was attacked. If this is left blank, all applicable resources for this account will be included.
@@ -670,7 +670,7 @@ extension Shield {
         /// The start of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed. 
         public let startTime: TimeRange?
 
-        public init(endTime: TimeRange? = nil, maxResults: Int32? = nil, nextToken: String? = nil, resourceArns: [String]? = nil, startTime: TimeRange? = nil) {
+        public init(endTime: TimeRange? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceArns: [String]? = nil, startTime: TimeRange? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -729,11 +729,11 @@ extension Shield {
         ]
 
         /// The maximum number of Protection objects to be returned. If this is left blank the first 20 results will be returned. This is a maximum value; it is possible that AWS WAF will return the results in smaller batches. That is, the number of Protection objects returned could be less than MaxResults, even if there are still more Protection objects yet to return. If there are more Protection objects to return, AWS WAF will always also return a NextToken.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -936,7 +936,7 @@ extension Shield {
         /// The maximum value of the counter for a specified time period.
         public let max: Double?
         /// The number of counters for a specified time period.
-        public let n: Int32?
+        public let n: Int?
         /// The counter name.
         public let name: String?
         /// The total of counter values for a specified time period.
@@ -944,7 +944,7 @@ extension Shield {
         /// The unit of the counters.
         public let unit: String?
 
-        public init(average: Double? = nil, max: Double? = nil, n: Int32? = nil, name: String? = nil, sum: Double? = nil, unit: String? = nil) {
+        public init(average: Double? = nil, max: Double? = nil, n: Int? = nil, name: String? = nil, sum: Double? = nil, unit: String? = nil) {
             self.average = average
             self.max = max
             self.n = n

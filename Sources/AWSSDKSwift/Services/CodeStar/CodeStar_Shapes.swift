@@ -712,11 +712,11 @@ extension CodeStar {
         ]
 
         /// The maximum amount of data that can be contained in a single set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The continuation token to be used to return the next set of results, if the results cannot be returned in one response.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -765,13 +765,13 @@ extension CodeStar {
         ]
 
         /// The maximum amount of data that can be contained in a single set of results.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The continuation token for the next set of results, if the results cannot be returned in one response.
         public let nextToken: String?
         /// The ID of the project.
         public let projectId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, projectId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, projectId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.projectId = projectId
@@ -827,11 +827,11 @@ extension CodeStar {
         /// The ID of the project to get tags for.
         public let id: String
         /// Reserved for future use.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Reserved for future use.
         public let nextToken: String?
 
-        public init(id: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(id: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.id = id
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -885,13 +885,13 @@ extension CodeStar {
         ]
 
         /// The maximum number of team members you want returned in a response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The continuation token for the next set of results, if the results cannot be returned in one response.
         public let nextToken: String?
         /// The ID of the project for which you want to list team members.
         public let projectId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, projectId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, projectId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.projectId = projectId
@@ -944,11 +944,11 @@ extension CodeStar {
         ]
 
         /// The maximum number of results to return in a response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The continuation token for the next set of results, if the results cannot be returned in one response.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

@@ -82,9 +82,9 @@ extension MediaPackageVod {
         public let hlsManifests: [HlsManifest]
         /// Duration (in seconds) of each fragment. Actual fragments will be
         /// rounded to the nearest multiple of the source fragment duration.
-        public let segmentDurationSeconds: Int32?
+        public let segmentDurationSeconds: Int?
 
-        public init(encryption: CmafEncryption? = nil, hlsManifests: [HlsManifest], segmentDurationSeconds: Int32? = nil) {
+        public init(encryption: CmafEncryption? = nil, hlsManifests: [HlsManifest], segmentDurationSeconds: Int? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
             self.segmentDurationSeconds = segmentDurationSeconds
@@ -308,12 +308,12 @@ extension MediaPackageVod {
         /// An optional string to include in the name of the manifest.
         public let manifestName: String?
         /// Minimum duration (in seconds) that a player will buffer media before starting the presentation.
-        public let minBufferTimeSeconds: Int32?
+        public let minBufferTimeSeconds: Int?
         /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
         public let profile: Profile?
         public let streamSelection: StreamSelection?
 
-        public init(manifestName: String? = nil, minBufferTimeSeconds: Int32? = nil, profile: Profile? = nil, streamSelection: StreamSelection? = nil) {
+        public init(manifestName: String? = nil, minBufferTimeSeconds: Int? = nil, profile: Profile? = nil, streamSelection: StreamSelection? = nil) {
             self.manifestName = manifestName
             self.minBufferTimeSeconds = minBufferTimeSeconds
             self.profile = profile
@@ -340,9 +340,9 @@ extension MediaPackageVod {
         public let encryption: DashEncryption?
         /// Duration (in seconds) of each segment. Actual segments will be
         /// rounded to the nearest multiple of the source segment duration.
-        public let segmentDurationSeconds: Int32?
+        public let segmentDurationSeconds: Int?
 
-        public init(dashManifests: [DashManifest], encryption: DashEncryption? = nil, segmentDurationSeconds: Int32? = nil) {
+        public init(dashManifests: [DashManifest], encryption: DashEncryption? = nil, segmentDurationSeconds: Int? = nil) {
             self.dashManifests = dashManifests
             self.encryption = encryption
             self.segmentDurationSeconds = segmentDurationSeconds
@@ -654,12 +654,12 @@ extension MediaPackageVod {
         /// ID3Timed Metadata messages will be generated. Note that irrespective
         /// of this parameter, if any ID3 Timed Metadata is found in HTTP Live Streaming (HLS) input,
         /// it will be passed through to HLS output.
-        public let programDateTimeIntervalSeconds: Int32?
+        public let programDateTimeIntervalSeconds: Int?
         /// When enabled, the EXT-X-KEY tag will be repeated in output manifests.
         public let repeatExtXKey: Bool?
         public let streamSelection: StreamSelection?
 
-        public init(adMarkers: AdMarkers? = nil, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, programDateTimeIntervalSeconds: Int32? = nil, repeatExtXKey: Bool? = nil, streamSelection: StreamSelection? = nil) {
+        public init(adMarkers: AdMarkers? = nil, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, programDateTimeIntervalSeconds: Int? = nil, repeatExtXKey: Bool? = nil, streamSelection: StreamSelection? = nil) {
             self.adMarkers = adMarkers
             self.includeIframeOnlyStream = includeIframeOnlyStream
             self.manifestName = manifestName
@@ -691,11 +691,11 @@ extension MediaPackageVod {
         public let hlsManifests: [HlsManifest]
         /// Duration (in seconds) of each fragment. Actual fragments will be
         /// rounded to the nearest multiple of the source fragment duration.
-        public let segmentDurationSeconds: Int32?
+        public let segmentDurationSeconds: Int?
         /// When enabled, audio streams will be placed in rendition groups in the output.
         public let useAudioRenditionGroup: Bool?
 
-        public init(encryption: HlsEncryption? = nil, hlsManifests: [HlsManifest], segmentDurationSeconds: Int32? = nil, useAudioRenditionGroup: Bool? = nil) {
+        public init(encryption: HlsEncryption? = nil, hlsManifests: [HlsManifest], segmentDurationSeconds: Int? = nil, useAudioRenditionGroup: Bool? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
             self.segmentDurationSeconds = segmentDurationSeconds
@@ -717,11 +717,11 @@ extension MediaPackageVod {
             AWSShapeMember(label: "PackagingGroupId", location: .querystring(locationName: "packagingGroupId"), required: false, type: .string)
         ]
 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         public let packagingGroupId: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, packagingGroupId: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, packagingGroupId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.packagingGroupId = packagingGroupId
@@ -766,11 +766,11 @@ extension MediaPackageVod {
             AWSShapeMember(label: "PackagingGroupId", location: .querystring(locationName: "packagingGroupId"), required: false, type: .string)
         ]
 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         public let packagingGroupId: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, packagingGroupId: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, packagingGroupId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.packagingGroupId = packagingGroupId
@@ -814,10 +814,10 @@ extension MediaPackageVod {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -901,9 +901,9 @@ extension MediaPackageVod {
         /// A list of MSS manifest configurations.
         public let mssManifests: [MssManifest]
         /// The duration (in seconds) of each segment.
-        public let segmentDurationSeconds: Int32?
+        public let segmentDurationSeconds: Int?
 
-        public init(encryption: MssEncryption? = nil, mssManifests: [MssManifest], segmentDurationSeconds: Int32? = nil) {
+        public init(encryption: MssEncryption? = nil, mssManifests: [MssManifest], segmentDurationSeconds: Int? = nil) {
             self.encryption = encryption
             self.mssManifests = mssManifests
             self.segmentDurationSeconds = segmentDurationSeconds
@@ -1030,13 +1030,13 @@ extension MediaPackageVod {
         ]
 
         /// The maximum video bitrate (bps) to include in output.
-        public let maxVideoBitsPerSecond: Int32?
+        public let maxVideoBitsPerSecond: Int?
         /// The minimum video bitrate (bps) to include in output.
-        public let minVideoBitsPerSecond: Int32?
+        public let minVideoBitsPerSecond: Int?
         /// A directive that determines the order of streams in the output.
         public let streamOrder: StreamOrder?
 
-        public init(maxVideoBitsPerSecond: Int32? = nil, minVideoBitsPerSecond: Int32? = nil, streamOrder: StreamOrder? = nil) {
+        public init(maxVideoBitsPerSecond: Int? = nil, minVideoBitsPerSecond: Int? = nil, streamOrder: StreamOrder? = nil) {
             self.maxVideoBitsPerSecond = maxVideoBitsPerSecond
             self.minVideoBitsPerSecond = minVideoBitsPerSecond
             self.streamOrder = streamOrder

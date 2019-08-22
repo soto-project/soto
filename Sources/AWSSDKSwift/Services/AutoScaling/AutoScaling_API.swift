@@ -9,7 +9,7 @@ Amazon EC2 Auto Scaling Amazon EC2 Auto Scaling is designed to automatically lau
 */
 public struct AutoScaling {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

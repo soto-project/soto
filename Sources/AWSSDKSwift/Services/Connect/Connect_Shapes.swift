@@ -488,11 +488,11 @@ extension Connect {
         /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
         public let instanceId: String
         ///  MaxResults indicates the maximum number of results to return per page in the response, between 1 and 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the NextToken must use the same request parameters as the request that generated the token.
         public let nextToken: String?
 
-        public init(currentMetrics: [CurrentMetric], filters: Filters, groupings: [Grouping]? = nil, instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(currentMetrics: [CurrentMetric], filters: Filters, groupings: [Grouping]? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.currentMetrics = currentMetrics
             self.filters = filters
             self.groupings = groupings
@@ -609,13 +609,13 @@ extension Connect {
         /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
         public let instanceId: String
         /// Indicates the maximum number of results to return per page in the response, between 1-100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be specified using a multiple of 5 minutes, such as 10:05, 10:10, 10:15.  StartTime cannot be earlier than 24 hours before the time of the request. Historical metrics are available in Amazon Connect only for 24 hours.
         public let startTime: TimeStamp
 
-        public init(endTime: TimeStamp, filters: Filters, groupings: [Grouping]? = nil, historicalMetrics: [HistoricalMetric], instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil, startTime: TimeStamp) {
+        public init(endTime: TimeStamp, filters: Filters, groupings: [Grouping]? = nil, historicalMetrics: [HistoricalMetric], instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp) {
             self.endTime = endTime
             self.filters = filters
             self.groupings = groupings
@@ -955,11 +955,11 @@ extension Connect {
         /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
         public let instanceId: String
         /// The maximum number of routing profiles to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1011,11 +1011,11 @@ extension Connect {
         /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
         public let instanceId: String
         /// The maximum number of security profiles to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1067,11 +1067,11 @@ extension Connect {
         /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
         public let instanceId: String
         /// The maximum number of hierarchy groups to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1123,11 +1123,11 @@ extension Connect {
         /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
         public let instanceId: String
         /// The maximum number of results to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(instanceId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1713,7 +1713,7 @@ extension Connect {
         ]
 
         /// The After Call Work (ACW) timeout setting, in seconds, for the user.
-        public let afterContactWorkTimeLimit: Int32?
+        public let afterContactWorkTimeLimit: Int?
         /// The Auto accept setting for the user, Yes or No.
         public let autoAccept: Bool?
         /// The phone number for the user's desk phone.
@@ -1721,7 +1721,7 @@ extension Connect {
         /// The phone type selected for the user, either Soft phone or Desk phone.
         public let phoneType: PhoneType
 
-        public init(afterContactWorkTimeLimit: Int32? = nil, autoAccept: Bool? = nil, deskPhoneNumber: String? = nil, phoneType: PhoneType) {
+        public init(afterContactWorkTimeLimit: Int? = nil, autoAccept: Bool? = nil, deskPhoneNumber: String? = nil, phoneType: PhoneType) {
             self.afterContactWorkTimeLimit = afterContactWorkTimeLimit
             self.autoAccept = autoAccept
             self.deskPhoneNumber = deskPhoneNumber

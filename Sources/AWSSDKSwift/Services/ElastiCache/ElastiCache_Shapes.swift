@@ -232,7 +232,7 @@ extension ElastiCache {
         /// Describes a notification topic and its status. Notification topics are used for publishing ElastiCache events to subscribers using Amazon Simple Notification Service (SNS). 
         public let notificationConfiguration: NotificationConfiguration?
         /// The number of cache nodes in the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
-        public let numCacheNodes: Int32?
+        public let numCacheNodes: Int?
         public let pendingModifiedValues: PendingModifiedValues?
         /// The name of the Availability Zone in which the cluster is located or "Multiple" if the cache nodes are located in different Availability Zones.
         public let preferredAvailabilityZone: String?
@@ -243,13 +243,13 @@ extension ElastiCache {
         /// A list of VPC Security Groups associated with the cluster.
         public let securityGroups: [SecurityGroupMembership]?
         /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
-        public let snapshotRetentionLimit: Int32?
+        public let snapshotRetentionLimit: Int?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster. Example: 05:00-09:00 
         public let snapshotWindow: String?
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false 
         public let transitEncryptionEnabled: Bool?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheClusterStatus: String? = nil, cacheNodes: [CacheNode]? = nil, cacheNodeType: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: [CacheSecurityGroupMembership]? = nil, cacheSubnetGroupName: String? = nil, clientDownloadLandingPage: String? = nil, configurationEndpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, numCacheNodes: Int32? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, snapshotRetentionLimit: Int32? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheClusterStatus: String? = nil, cacheNodes: [CacheNode]? = nil, cacheNodeType: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: [CacheSecurityGroupMembership]? = nil, cacheSubnetGroupName: String? = nil, clientDownloadLandingPage: String? = nil, configurationEndpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, numCacheNodes: Int? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -777,13 +777,13 @@ extension ElastiCache {
         ]
 
         /// The number of replicas you want in this node group at the end of this operation. The maximum value for NewReplicaCount is 5. The minimum value depends upon the type of Redis replication group you are working with. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ with Automatic Failover is enabled: 1   If Multi-AZ with Automatic Failover is not enable: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)  
-        public let newReplicaCount: Int32
+        public let newReplicaCount: Int
         /// The 4-digit id for the node group you are configuring. For Redis (cluster mode disabled) replication groups, the node group id is always 0001. To find a Redis (cluster mode enabled)'s node group's (shard's) id, see Finding a Shard's Id.
         public let nodeGroupId: String
         /// A list of PreferredAvailabilityZone strings that specify which availability zones the replication group's nodes are to be in. The nummber of PreferredAvailabilityZone values must equal the value of NewReplicaCount plus 1 to account for the primary node. If this member of ReplicaConfiguration is omitted, ElastiCache for Redis selects the availability zone for each of the replicas.
         public let preferredAvailabilityZones: [String]?
 
-        public init(newReplicaCount: Int32, nodeGroupId: String, preferredAvailabilityZones: [String]? = nil) {
+        public init(newReplicaCount: Int, nodeGroupId: String, preferredAvailabilityZones: [String]? = nil) {
             self.newReplicaCount = newReplicaCount
             self.nodeGroupId = nodeGroupId
             self.preferredAvailabilityZones = preferredAvailabilityZones
@@ -895,9 +895,9 @@ extension ElastiCache {
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner. 
         public let notificationTopicArn: String?
         /// The initial number of cache nodes that the cluster has. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20. If you need more than 20 nodes for your Memcached cluster, please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
-        public let numCacheNodes: Int32?
+        public let numCacheNodes: Int?
         /// The port number on which each of the cache nodes accepts connections.
-        public let port: Int32?
+        public let port: Int?
         /// The EC2 Availability Zone in which the cluster is created. All nodes belonging to this Memcached cluster are placed in the preferred Availability Zone. If you want to create your nodes across multiple Availability Zones, use PreferredAvailabilityZones. Default: System chosen Availability Zone.
         public let preferredAvailabilityZone: String?
         /// A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important. This option is only supported on Memcached.  If you are creating your cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheNodes.  If you want all the nodes in the same Availability Zone, use PreferredAvailabilityZone instead, or repeat the Availability Zone multiple times in the list. Default: System chosen Availability Zones.
@@ -913,13 +913,13 @@ extension ElastiCache {
         /// The name of a Redis snapshot from which to restore data into the new node group (shard). The snapshot status changes to restoring while the new node group (shard) is being created.  This parameter is only valid if the Engine parameter is redis. 
         public let snapshotName: String?
         /// The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot taken today is retained for 5 days before being deleted.  This parameter is only valid if the Engine parameter is redis.  Default: 0 (i.e., automatic backups are disabled for this cache cluster).
-        public let snapshotRetentionLimit: Int32?
+        public let snapshotRetentionLimit: Int?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis. 
         public let snapshotWindow: String?
         /// A list of cost allocation tags to be added to this resource.
         public let tags: [Tag]?
 
-        public init(authToken: String? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, notificationTopicArn: String? = nil, numCacheNodes: Int32? = nil, port: Int32? = nil, preferredAvailabilityZone: String? = nil, preferredAvailabilityZones: [String]? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int32? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil) {
+        public init(authToken: String? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, notificationTopicArn: String? = nil, numCacheNodes: Int? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredAvailabilityZones: [String]? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil) {
             self.authToken = authToken
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.aZMode = aZMode
@@ -1169,11 +1169,11 @@ extension ElastiCache {
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner. 
         public let notificationTopicArn: String?
         /// The number of clusters this replication group initially has. This parameter is not used if there is more than one node group (shard). You should use ReplicasPerNodeGroup instead. If AutomaticFailoverEnabled is true, the value of this parameter must be at least 2. If AutomaticFailoverEnabled is false you can omit this parameter (it will default to 1), or you can explicitly set it to a value between 2 and 6. The maximum permitted value for NumCacheClusters is 6 (1 primary plus 5 replicas).
-        public let numCacheClusters: Int32?
+        public let numCacheClusters: Int?
         /// An optional parameter that specifies the number of node groups (shards) for this Redis (cluster mode enabled) replication group. For Redis (cluster mode disabled) either omit this parameter or set it to 1. Default: 1
-        public let numNodeGroups: Int32?
+        public let numNodeGroups: Int?
         /// The port number on which each member of the replication group accepts connections.
-        public let port: Int32?
+        public let port: Int?
         /// A list of EC2 Availability Zones in which the replication group's clusters are created. The order of the Availability Zones in the list is the order in which clusters are allocated. The primary cluster is created in the first AZ in the list. This parameter is not used if there is more than one node group (shard). You should use NodeGroupConfiguration instead.  If you are creating your replication group in an Amazon VPC (recommended), you can only locate clusters in Availability Zones associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheClusters.  Default: system chosen Availability Zones.
         public let preferredCacheClusterAZs: [String]?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
@@ -1181,7 +1181,7 @@ extension ElastiCache {
         /// The identifier of the cluster that serves as the primary for this replication group. This cluster must already exist and have a status of available. This parameter is not required if NumCacheClusters, NumNodeGroups, or ReplicasPerNodeGroup is specified.
         public let primaryClusterId: String?
         /// An optional parameter that specifies the number of replica nodes in each node group (shard). Valid values are 0 to 5.
-        public let replicasPerNodeGroup: Int32?
+        public let replicasPerNodeGroup: Int?
         /// A user-created description for the replication group.
         public let replicationGroupDescription: String
         /// The replication group identifier. This parameter is stored as a lowercase string. Constraints:   A name must contain from 1 to 20 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.  
@@ -1193,7 +1193,7 @@ extension ElastiCache {
         /// The name of a snapshot from which to restore data into the new replication group. The snapshot status changes to restoring while the new replication group is being created.
         public let snapshotName: String?
         /// The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted. Default: 0 (i.e., automatic backups are disabled for this cluster).
-        public let snapshotRetentionLimit: Int32?
+        public let snapshotRetentionLimit: Int?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
         public let snapshotWindow: String?
         /// A list of cost allocation tags to be added to this resource. Tags are comma-separated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue.
@@ -1201,7 +1201,7 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6 or 4.x, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup. 
         public let transitEncryptionEnabled: Bool?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int32? = nil, numNodeGroups: Int32? = nil, port: Int32? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int32? = nil, replicationGroupDescription: String, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int32? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authToken = authToken
             self.automaticFailoverEnabled = automaticFailoverEnabled
@@ -1341,7 +1341,7 @@ extension ElastiCache {
         /// If True, the number of replica nodes is decreased immediately. ApplyImmediately=False is not currently supported.
         public let applyImmediately: Bool
         /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:   Redis (cluster mode disabled)   If Multi-AZ with Automatic Failover is enabled: 1   If Multi-AZ with Automatic Failover is not enabled: 0     Redis (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)  
-        public let newReplicaCount: Int32?
+        public let newReplicaCount: Int?
         /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
         public let replicaConfiguration: [ConfigureShard]?
         /// A list of the node ids to remove from the replication group or node group (shard).
@@ -1349,7 +1349,7 @@ extension ElastiCache {
         /// The id of the replication group from which you want to remove replica nodes.
         public let replicationGroupId: String
 
-        public init(applyImmediately: Bool, newReplicaCount: Int32? = nil, replicaConfiguration: [ConfigureShard]? = nil, replicasToRemove: [String]? = nil, replicationGroupId: String) {
+        public init(applyImmediately: Bool, newReplicaCount: Int? = nil, replicaConfiguration: [ConfigureShard]? = nil, replicasToRemove: [String]? = nil, replicationGroupId: String) {
             self.applyImmediately = applyImmediately
             self.newReplicaCount = newReplicaCount
             self.replicaConfiguration = replicaConfiguration
@@ -1567,13 +1567,13 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this mean Memcached and single node Redis clusters.
         public let showCacheClustersNotInReplicationGroups: Bool?
         /// An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
         public let showCacheNodeInfo: Bool?
 
-        public init(cacheClusterId: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, showCacheClustersNotInReplicationGroups: Bool? = nil, showCacheNodeInfo: Bool? = nil) {
+        public init(cacheClusterId: String? = nil, marker: String? = nil, maxRecords: Int? = nil, showCacheClustersNotInReplicationGroups: Bool? = nil, showCacheNodeInfo: Bool? = nil) {
             self.cacheClusterId = cacheClusterId
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1611,9 +1611,9 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(cacheParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(cacheParameterGroupFamily: String? = nil, defaultOnly: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.cacheParameterGroupFamily = cacheParameterGroupFamily
             self.defaultOnly = defaultOnly
             self.engine = engine
@@ -1644,9 +1644,9 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(cacheParameterGroupName: String? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(cacheParameterGroupName: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1672,11 +1672,11 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The parameter types to return. Valid values: user | system | engine-default 
         public let source: String?
 
-        public init(cacheParameterGroupName: String, marker: String? = nil, maxRecords: Int32? = nil, source: String? = nil) {
+        public init(cacheParameterGroupName: String, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1703,9 +1703,9 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(cacheSecurityGroupName: String? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(cacheSecurityGroupName: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.cacheSecurityGroupName = cacheSecurityGroupName
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1730,9 +1730,9 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(cacheSubnetGroupName: String? = nil, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(cacheSubnetGroupName: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
             self.cacheSubnetGroupName = cacheSubnetGroupName
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1757,9 +1757,9 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
 
-        public init(cacheParameterGroupFamily: String, marker: String? = nil, maxRecords: Int32? = nil) {
+        public init(cacheParameterGroupFamily: String, marker: String? = nil, maxRecords: Int? = nil) {
             self.cacheParameterGroupFamily = cacheParameterGroupFamily
             self.marker = marker
             self.maxRecords = maxRecords
@@ -1800,13 +1800,13 @@ extension ElastiCache {
         ]
 
         /// The number of minutes worth of events to retrieve.
-        public let duration: Int32?
+        public let duration: Int?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
         public let endTime: TimeStamp?
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The identifier of the event source for which events are returned. If not specified, all sources are included in the response.
         public let sourceIdentifier: String?
         /// The event source to retrieve events for. If no value is specified, all events are returned.
@@ -1814,7 +1814,7 @@ extension ElastiCache {
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
         public let startTime: TimeStamp?
 
-        public init(duration: Int32? = nil, endTime: TimeStamp? = nil, marker: String? = nil, maxRecords: Int32? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
+        public init(duration: Int? = nil, endTime: TimeStamp? = nil, marker: String? = nil, maxRecords: Int? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil, startTime: TimeStamp? = nil) {
             self.duration = duration
             self.endTime = endTime
             self.marker = marker
@@ -1845,11 +1845,11 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The identifier for the replication group to be described. This parameter is not case sensitive. If you do not specify this parameter, information about all replication groups is returned.
         public let replicationGroupId: String?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, replicationGroupId: String? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, replicationGroupId: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.replicationGroupId = replicationGroupId
@@ -1881,7 +1881,7 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" 
         public let offeringType: String?
         /// The product description filter value. Use this parameter to show only those reservations matching the specified product description.
@@ -1891,7 +1891,7 @@ extension ElastiCache {
         /// The offering identifier filter value. Use this parameter to show only purchased reservations matching the specified offering identifier.
         public let reservedCacheNodesOfferingId: String?
 
-        public init(cacheNodeType: String? = nil, duration: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, offeringType: String? = nil, productDescription: String? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String? = nil) {
+        public init(cacheNodeType: String? = nil, duration: String? = nil, marker: String? = nil, maxRecords: Int? = nil, offeringType: String? = nil, productDescription: String? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String? = nil) {
             self.cacheNodeType = cacheNodeType
             self.duration = duration
             self.marker = marker
@@ -1932,7 +1932,7 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid Values: "Light Utilization"|"Medium Utilization"|"Heavy Utilization" 
         public let offeringType: String?
         /// The product description filter value. Use this parameter to show only the available offerings matching the specified product description.
@@ -1940,7 +1940,7 @@ extension ElastiCache {
         /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
         public let reservedCacheNodesOfferingId: String?
 
-        public init(cacheNodeType: String? = nil, duration: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, offeringType: String? = nil, productDescription: String? = nil, reservedCacheNodesOfferingId: String? = nil) {
+        public init(cacheNodeType: String? = nil, duration: String? = nil, marker: String? = nil, maxRecords: Int? = nil, offeringType: String? = nil, productDescription: String? = nil, reservedCacheNodesOfferingId: String? = nil) {
             self.cacheNodeType = cacheNodeType
             self.duration = duration
             self.marker = marker
@@ -1972,13 +1972,13 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The unique ID of the service update
         public let serviceUpdateName: String?
         /// The status of the service update
         public let serviceUpdateStatus: [ServiceUpdateStatus]?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.serviceUpdateName = serviceUpdateName
@@ -2035,7 +2035,7 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 50 Constraints: minimum 20; maximum 50.
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// A user-supplied replication group identifier. If this parameter is specified, only snapshots associated with that specific replication group are described.
         public let replicationGroupId: String?
         /// A Boolean value which if true, the node group (shard) configuration is included in the snapshot description.
@@ -2045,7 +2045,7 @@ extension ElastiCache {
         /// If set to system, the output shows snapshots that were automatically created by ElastiCache. If set to user the output shows snapshots that were manually created. If omitted, the output shows both automatically and manually created snapshots.
         public let snapshotSource: String?
 
-        public init(cacheClusterId: String? = nil, marker: String? = nil, maxRecords: Int32? = nil, replicationGroupId: String? = nil, showNodeGroupConfig: Bool? = nil, snapshotName: String? = nil, snapshotSource: String? = nil) {
+        public init(cacheClusterId: String? = nil, marker: String? = nil, maxRecords: Int? = nil, replicationGroupId: String? = nil, showNodeGroupConfig: Bool? = nil, snapshotName: String? = nil, snapshotSource: String? = nil) {
             self.cacheClusterId = cacheClusterId
             self.marker = marker
             self.maxRecords = maxRecords
@@ -2081,7 +2081,7 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response
-        public let maxRecords: Int32?
+        public let maxRecords: Int?
         /// The replication group IDs
         public let replicationGroupIds: [String]?
         /// The unique ID of the service update
@@ -2095,7 +2095,7 @@ extension ElastiCache {
         /// The status of the update action.
         public let updateActionStatus: [UpdateActionStatus]?
 
-        public init(marker: String? = nil, maxRecords: Int32? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil, serviceUpdateTimeRange: TimeRangeFilter? = nil, showNodeLevelUpdateStatus: Bool? = nil, updateActionStatus: [UpdateActionStatus]? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil, serviceUpdateTimeRange: TimeRangeFilter? = nil, showNodeLevelUpdateStatus: Bool? = nil, updateActionStatus: [UpdateActionStatus]? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.replicationGroupIds = replicationGroupIds
@@ -2160,9 +2160,9 @@ extension ElastiCache {
         /// The DNS hostname of the cache node.
         public let address: String?
         /// The port number that the cache engine is listening on.
-        public let port: Int32?
+        public let port: Int?
 
-        public init(address: String? = nil, port: Int32? = nil) {
+        public init(address: String? = nil, port: Int? = nil) {
             self.address = address
             self.port = port
         }
@@ -2270,13 +2270,13 @@ extension ElastiCache {
         /// If True, the number of replica nodes is increased immediately. ApplyImmediately=False is not currently supported.
         public let applyImmediately: Bool
         /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups.
-        public let newReplicaCount: Int32?
+        public let newReplicaCount: Int?
         /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
         public let replicaConfiguration: [ConfigureShard]?
         /// The id of the replication group to which you want to add replica nodes.
         public let replicationGroupId: String
 
-        public init(applyImmediately: Bool, newReplicaCount: Int32? = nil, replicaConfiguration: [ConfigureShard]? = nil, replicationGroupId: String) {
+        public init(applyImmediately: Bool, newReplicaCount: Int? = nil, replicaConfiguration: [ConfigureShard]? = nil, replicationGroupId: String) {
             self.applyImmediately = applyImmediately
             self.newReplicaCount = newReplicaCount
             self.replicaConfiguration = replicaConfiguration
@@ -2398,17 +2398,17 @@ extension ElastiCache {
         /// The status of the Amazon SNS notification topic. Notifications are sent only if the status is active. Valid values: active | inactive 
         public let notificationTopicStatus: String?
         /// The number of cache nodes that the cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or remove requests are canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter to provide the IDs of the specific cache nodes to remove. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.  Adding or removing Memcached cache nodes can be applied immediately or as a pending operation (see ApplyImmediately). A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or removing nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the number of cache nodes in the cluster. For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes currently in the cluster. 
-        public let numCacheNodes: Int32?
+        public let numCacheNodes: Int?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
         public let preferredMaintenanceWindow: String?
         /// Specifies the VPC Security Groups associated with the cluster. This parameter can be used only with clusters that are created in an Amazon Virtual Private Cloud (Amazon VPC).
         public let securityGroupIds: [String]?
         /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
-        public let snapshotRetentionLimit: Int32?
+        public let snapshotRetentionLimit: Int?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster. 
         public let snapshotWindow: String?
 
-        public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, newAvailabilityZones: [String]? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, numCacheNodes: Int32? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int32? = nil, snapshotWindow: String? = nil) {
+        public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, newAvailabilityZones: [String]? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, numCacheNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil) {
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.aZMode = aZMode
@@ -2580,13 +2580,13 @@ extension ElastiCache {
         /// Specifies the VPC Security Groups associated with the clusters in the replication group. This parameter can be used only with replication group containing clusters running in an Amazon Virtual Private Cloud (Amazon VPC).
         public let securityGroupIds: [String]?
         /// The number of days for which ElastiCache retains automatic node group (shard) snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
-        public let snapshotRetentionLimit: Int32?
+        public let snapshotRetentionLimit: Int?
         /// The cluster ID that is used as the daily snapshot source for the replication group. This parameter cannot be set for Redis (cluster mode enabled) replication groups.
         public let snapshottingClusterId: String?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of the node group (shard) specified by SnapshottingClusterId. Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
         public let snapshotWindow: String?
 
-        public init(applyImmediately: Bool? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int32? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil) {
+        public init(applyImmediately: Bool? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil) {
             self.applyImmediately = applyImmediately
             self.automaticFailoverEnabled = automaticFailoverEnabled
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -2656,7 +2656,7 @@ extension ElastiCache {
         /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true. Value: true
         public let applyImmediately: Bool
         /// The number of node groups (shards) that results from the modification of the shard configuration.
-        public let nodeGroupCount: Int32
+        public let nodeGroupCount: Int
         /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
         public let nodeGroupsToRemove: [String]?
         /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRetain is a list of NodeGroupIds to retain in the cluster. ElastiCache for Redis will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster.
@@ -2666,7 +2666,7 @@ extension ElastiCache {
         /// Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the current number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards).
         public let reshardingConfiguration: [ReshardingConfiguration]?
 
-        public init(applyImmediately: Bool, nodeGroupCount: Int32, nodeGroupsToRemove: [String]? = nil, nodeGroupsToRetain: [String]? = nil, replicationGroupId: String, reshardingConfiguration: [ReshardingConfiguration]? = nil) {
+        public init(applyImmediately: Bool, nodeGroupCount: Int, nodeGroupsToRemove: [String]? = nil, nodeGroupsToRetain: [String]? = nil, replicationGroupId: String, reshardingConfiguration: [ReshardingConfiguration]? = nil) {
             self.applyImmediately = applyImmediately
             self.nodeGroupCount = nodeGroupCount
             self.nodeGroupsToRemove = nodeGroupsToRemove
@@ -2775,11 +2775,11 @@ extension ElastiCache {
         /// A list of Availability Zones to be used for the read replicas. The number of Availability Zones in this list must match the value of ReplicaCount or ReplicasPerNodeGroup if not specified.
         public let replicaAvailabilityZones: [String]?
         /// The number of read replica nodes in this node group (shard).
-        public let replicaCount: Int32?
+        public let replicaCount: Int?
         /// A string that specifies the keyspace for a particular node group. Keyspaces range from 0 to 16,383. The string is in the format startkey-endkey. Example: "0-3999" 
         public let slots: String?
 
-        public init(nodeGroupId: String? = nil, primaryAvailabilityZone: String? = nil, replicaAvailabilityZones: [String]? = nil, replicaCount: Int32? = nil, slots: String? = nil) {
+        public init(nodeGroupId: String? = nil, primaryAvailabilityZone: String? = nil, replicaAvailabilityZones: [String]? = nil, replicaCount: Int? = nil, slots: String? = nil) {
             self.nodeGroupId = nodeGroupId
             self.primaryAvailabilityZone = primaryAvailabilityZone
             self.replicaAvailabilityZones = replicaAvailabilityZones
@@ -3103,9 +3103,9 @@ extension ElastiCache {
         /// The new cache engine version that the cluster runs.
         public let engineVersion: String?
         /// The new number of cache nodes for the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
-        public let numCacheNodes: Int32?
+        public let numCacheNodes: Int?
 
-        public init(cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, engineVersion: String? = nil, numCacheNodes: Int32? = nil) {
+        public init(cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, engineVersion: String? = nil, numCacheNodes: Int? = nil) {
             self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
             self.cacheNodeType = cacheNodeType
             self.engineVersion = engineVersion
@@ -3155,13 +3155,13 @@ extension ElastiCache {
         ]
 
         /// The number of cache node instances to reserve. Default: 1 
-        public let cacheNodeCount: Int32?
+        public let cacheNodeCount: Int?
         /// A customer-specified identifier to track this reservation.  The Reserved Cache Node ID is an unique customer-specified identifier to track this reservation. If this parameter is not specified, ElastiCache automatically generates an identifier for the reservation.  Example: myreservationID
         public let reservedCacheNodeId: String?
         /// The ID of the reserved cache node offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
         public let reservedCacheNodesOfferingId: String
 
-        public init(cacheNodeCount: Int32? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String) {
+        public init(cacheNodeCount: Int? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String) {
             self.cacheNodeCount = cacheNodeCount
             self.reservedCacheNodeId = reservedCacheNodeId
             self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
@@ -3315,7 +3315,7 @@ extension ElastiCache {
         /// The identifier for the replication group.
         public let replicationGroupId: String?
         /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
-        public let snapshotRetentionLimit: Int32?
+        public let snapshotRetentionLimit: Int?
         /// The cluster ID that is used as the daily snapshot source for the replication group.
         public let snapshottingClusterId: String?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis. 
@@ -3325,7 +3325,7 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6 or 4.x. Default: false 
         public let transitEncryptionEnabled: Bool?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, memberClusters: [String]? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int32? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, memberClusters: [String]? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
             self.automaticFailover = automaticFailover
@@ -3431,11 +3431,11 @@ extension ElastiCache {
         ]
 
         /// The number of cache nodes that have been reserved.
-        public let cacheNodeCount: Int32?
+        public let cacheNodeCount: Int?
         /// The cache node type for the reserved cache nodes. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
         public let cacheNodeType: String?
         /// The duration of the reservation in seconds.
-        public let duration: Int32?
+        public let duration: Int?
         /// The fixed price charged for this reserved cache node.
         public let fixedPrice: Double?
         /// The offering type of this reserved cache node.
@@ -3457,7 +3457,7 @@ extension ElastiCache {
         /// The hourly price charged for this reserved cache node.
         public let usagePrice: Double?
 
-        public init(cacheNodeCount: Int32? = nil, cacheNodeType: String? = nil, duration: Int32? = nil, fixedPrice: Double? = nil, offeringType: String? = nil, productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservationARN: String? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
+        public init(cacheNodeCount: Int? = nil, cacheNodeType: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, offeringType: String? = nil, productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservationARN: String? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.cacheNodeCount = cacheNodeCount
             self.cacheNodeType = cacheNodeType
             self.duration = duration
@@ -3527,7 +3527,7 @@ extension ElastiCache {
         /// The cache node type for the reserved cache node. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
         public let cacheNodeType: String?
         /// The duration of the offering. in seconds.
-        public let duration: Int32?
+        public let duration: Int?
         /// The fixed price charged for this offering.
         public let fixedPrice: Double?
         /// The offering type.
@@ -3541,7 +3541,7 @@ extension ElastiCache {
         /// The hourly price charged for this offering.
         public let usagePrice: Double?
 
-        public init(cacheNodeType: String? = nil, duration: Int32? = nil, fixedPrice: Double? = nil, offeringType: String? = nil, productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedCacheNodesOfferingId: String? = nil, usagePrice: Double? = nil) {
+        public init(cacheNodeType: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, offeringType: String? = nil, productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedCacheNodesOfferingId: String? = nil, usagePrice: Double? = nil) {
             self.cacheNodeType = cacheNodeType
             self.duration = duration
             self.fixedPrice = fixedPrice
@@ -3910,11 +3910,11 @@ extension ElastiCache {
         /// A list of the cache nodes in the source cluster.
         public let nodeSnapshots: [NodeSnapshot]?
         /// The number of cache nodes in the source cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
-        public let numCacheNodes: Int32?
+        public let numCacheNodes: Int?
         /// The number of node groups (shards) in this snapshot. When restoring from a snapshot, the number of node groups (shards) in the snapshot and in the restored replication group must be the same.
-        public let numNodeGroups: Int32?
+        public let numNodeGroups: Int?
         /// The port number used by each cache nodes in the source cluster.
-        public let port: Int32?
+        public let port: Int?
         /// The name of the Availability Zone in which the source cluster is located.
         public let preferredAvailabilityZone: String?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
@@ -3926,7 +3926,7 @@ extension ElastiCache {
         /// The name of a snapshot. For an automatic snapshot, the name is system-generated. For a manual snapshot, this is the user-provided name.
         public let snapshotName: String?
         /// For an automatic snapshot, the number of days for which ElastiCache retains the snapshot before deleting it. For manual snapshots, this field reflects the SnapshotRetentionLimit for the source cluster when the snapshot was created. This field is otherwise ignored: Manual snapshots do not expire, and can only be deleted using the DeleteSnapshot operation.   Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
-        public let snapshotRetentionLimit: Int32?
+        public let snapshotRetentionLimit: Int?
         /// Indicates whether the snapshot is from an automatic backup (automated) or was created manually (manual).
         public let snapshotSource: String?
         /// The status of the snapshot. Valid values: creating | available | restoring | copying | deleting.
@@ -3938,7 +3938,7 @@ extension ElastiCache {
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group for the source cluster.
         public let vpcId: String?
 
-        public init(automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, nodeSnapshots: [NodeSnapshot]? = nil, numCacheNodes: Int32? = nil, numNodeGroups: Int32? = nil, port: Int32? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int32? = nil, snapshotSource: String? = nil, snapshotStatus: String? = nil, snapshotWindow: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
+        public init(automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, nodeSnapshots: [NodeSnapshot]? = nil, numCacheNodes: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotSource: String? = nil, snapshotStatus: String? = nil, snapshotWindow: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
             self.automaticFailover = automaticFailover
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.cacheClusterCreateTime = cacheClusterCreateTime

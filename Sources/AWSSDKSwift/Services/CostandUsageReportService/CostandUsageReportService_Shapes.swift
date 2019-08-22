@@ -76,10 +76,10 @@ extension CostandUsageReportService {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }

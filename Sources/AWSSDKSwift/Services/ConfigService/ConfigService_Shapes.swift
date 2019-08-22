@@ -548,9 +548,9 @@ extension ConfigService {
         /// Indicates whether the maximum count is reached.
         public let capExceeded: Bool?
         /// The number of AWS resources or AWS Config rules responsible for the current compliance of the item.
-        public let cappedCount: Int32?
+        public let cappedCount: Int?
 
-        public init(capExceeded: Bool? = nil, cappedCount: Int32? = nil) {
+        public init(capExceeded: Bool? = nil, cappedCount: Int? = nil) {
             self.capExceeded = capExceeded
             self.cappedCount = cappedCount
         }
@@ -1557,11 +1557,11 @@ extension ConfigService {
         /// Filters the results by ConfigRuleComplianceFilters object. 
         public let filters: ConfigRuleComplianceFilters?
         /// The maximum number of evaluation results returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceFilters? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.limit = limit
@@ -1614,11 +1614,11 @@ extension ConfigService {
         ]
 
         /// The maximum number of AggregationAuthorizations returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(limit: Int32? = nil, nextToken: String? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
         }
@@ -1728,7 +1728,7 @@ extension ConfigService {
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
         public let complianceTypes: [ComplianceType]?
         /// The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The ID of the AWS resource for which you want compliance information. You can specify only one resource ID. If you specify a resource ID, you must also specify a type for ResourceType.
@@ -1736,7 +1736,7 @@ extension ConfigService {
         /// The types of AWS resources for which you want compliance information (for example, AWS::EC2::Instance). For this action, you can specify that the resource type is an AWS account by specifying AWS::::Account.
         public let resourceType: String?
 
-        public init(complianceTypes: [ComplianceType]? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+        public init(complianceTypes: [ComplianceType]? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.complianceTypes = complianceTypes
             self.limit = limit
             self.nextToken = nextToken
@@ -1796,11 +1796,11 @@ extension ConfigService {
         /// The name of the AWS managed Config rules for which you want status information. If you do not specify any names, AWS Config returns status information for all AWS managed Config rules that you use.
         public let configRuleNames: [String]?
         /// The number of rule evaluation results that you want returned. This parameter is required if the rule limit for your account is more than the default of 150 rules. For information about requesting a rule limit increase, see AWS Config Limits in the AWS General Reference Guide.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configRuleNames: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(configRuleNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configRuleNames = configRuleNames
             self.limit = limit
             self.nextToken = nextToken
@@ -1910,13 +1910,13 @@ extension ConfigService {
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
         /// The maximum number of AggregatorSourceStatus returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// Filters the status type.   Valid value FAILED indicates errors while moving data.   Valid value SUCCEEDED indicates the data was successfully moved.   Valid value OUTDATED indicates the data is not the most recent.  
         public let updateStatus: [AggregatedSourceStatusType]?
 
-        public init(configurationAggregatorName: String, limit: Int32? = nil, nextToken: String? = nil, updateStatus: [AggregatedSourceStatusType]? = nil) {
+        public init(configurationAggregatorName: String, limit: Int? = nil, nextToken: String? = nil, updateStatus: [AggregatedSourceStatusType]? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.limit = limit
             self.nextToken = nextToken
@@ -1972,11 +1972,11 @@ extension ConfigService {
         /// The name of the configuration aggregators.
         public let configurationAggregatorNames: [String]?
         /// The maximum number of configuration aggregators returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorNames: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(configurationAggregatorNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorNames = configurationAggregatorNames
             self.limit = limit
             self.nextToken = nextToken
@@ -2194,11 +2194,11 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRuleNames", required: false, type: .list)
         ]
 
-        public let limit: Int32?
+        public let limit: Int?
         public let nextToken: String?
         public let organizationConfigRuleNames: [String]?
 
-        public init(limit: Int32? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.organizationConfigRuleNames = organizationConfigRuleNames
@@ -2249,11 +2249,11 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRuleNames", required: false, type: .list)
         ]
 
-        public let limit: Int32?
+        public let limit: Int?
         public let nextToken: String?
         public let organizationConfigRuleNames: [String]?
 
-        public init(limit: Int32? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.organizationConfigRuleNames = organizationConfigRuleNames
@@ -2304,11 +2304,11 @@ extension ConfigService {
         ]
 
         /// The maximum number of evaluation results returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(limit: Int32? = nil, nextToken: String? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
         }
@@ -2400,13 +2400,13 @@ extension ConfigService {
         /// A list of AWS Config rule names.
         public let configRuleName: String
         /// The maximum number of RemediationExecutionStatuses returned on each page. The default is maximum. If you specify 0, AWS Config uses the default. 
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID. 
         public let resourceKeys: [ResourceKey]?
 
-        public init(configRuleName: String, limit: Int32? = nil, nextToken: String? = nil, resourceKeys: [ResourceKey]? = nil) {
+        public init(configRuleName: String, limit: Int? = nil, nextToken: String? = nil, resourceKeys: [ResourceKey]? = nil) {
             self.configRuleName = configRuleName
             self.limit = limit
             self.nextToken = nextToken
@@ -2714,11 +2714,11 @@ extension ConfigService {
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
         /// The maximum number of evaluation results returned on each page. The default is 50. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(accountId: String, awsRegion: String, complianceType: ComplianceType? = nil, configRuleName: String, configurationAggregatorName: String, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(accountId: String, awsRegion: String, complianceType: ComplianceType? = nil, configRuleName: String, configurationAggregatorName: String, limit: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
             self.complianceType = complianceType
@@ -2790,11 +2790,11 @@ extension ConfigService {
         /// Groups the result based on ACCOUNT_ID or AWS_REGION.
         public let groupByKey: ConfigRuleComplianceSummaryGroupKey?
         /// The maximum number of evaluation results returned on each page. The default is 1000. You cannot specify a number greater than 1000. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceSummaryFilters? = nil, groupByKey: ConfigRuleComplianceSummaryGroupKey? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: ConfigRuleComplianceSummaryFilters? = nil, groupByKey: ConfigRuleComplianceSummaryGroupKey? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.groupByKey = groupByKey
@@ -2863,11 +2863,11 @@ extension ConfigService {
         /// The key to group the resource counts.
         public let groupByKey: ResourceCountGroupKey?
         /// The maximum number of GroupedResourceCount objects returned on each page. The default is 1000. You cannot specify a number greater than 1000. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
 
-        public init(configurationAggregatorName: String, filters: ResourceCountFilters? = nil, groupByKey: ResourceCountGroupKey? = nil, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(configurationAggregatorName: String, filters: ResourceCountFilters? = nil, groupByKey: ResourceCountGroupKey? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.groupByKey = groupByKey
@@ -2984,11 +2984,11 @@ extension ConfigService {
         /// The name of the AWS Config rule for which you want compliance information.
         public let configRuleName: String
         /// The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
 
-        public init(complianceTypes: [ComplianceType]? = nil, configRuleName: String, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(complianceTypes: [ComplianceType]? = nil, configRuleName: String, limit: Int? = nil, nextToken: String? = nil) {
             self.complianceTypes = complianceTypes
             self.configRuleName = configRuleName
             self.limit = limit
@@ -3165,13 +3165,13 @@ extension ConfigService {
         ]
 
         /// The maximum number of ResourceCount objects returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The comma-separated list that specifies the resource types that you want AWS Config to return (for example, "AWS::EC2::Instance", "AWS::IAM::User"). If a value for resourceTypes is not specified, AWS Config returns all resource types that AWS Config is recording in the region for your account.  If the configuration recorder is turned off, AWS Config returns an empty list of ResourceCount objects. If the configuration recorder is not recording a specific resource type (for example, S3 buckets), that resource type is not returned in the list of ResourceCount objects. 
         public let resourceTypes: [String]?
 
-        public init(limit: Int32? = nil, nextToken: String? = nil, resourceTypes: [String]? = nil) {
+        public init(limit: Int? = nil, nextToken: String? = nil, resourceTypes: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
             self.resourceTypes = resourceTypes
@@ -3231,11 +3231,11 @@ extension ConfigService {
         ]
 
         public let filters: StatusDetailFilters?
-        public let limit: Int32?
+        public let limit: Int?
         public let nextToken: String?
         public let organizationConfigRuleName: String
 
-        public init(filters: StatusDetailFilters? = nil, limit: Int32? = nil, nextToken: String? = nil, organizationConfigRuleName: String) {
+        public init(filters: StatusDetailFilters? = nil, limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleName: String) {
             self.filters = filters
             self.limit = limit
             self.nextToken = nextToken
@@ -3296,7 +3296,7 @@ extension ConfigService {
         /// The time stamp that indicates a later time. If not specified, current time is taken.
         public let laterTime: TimeStamp?
         /// The maximum number of configuration items returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The ID of the resource (for example., sg-xxxxxx).
@@ -3304,7 +3304,7 @@ extension ConfigService {
         /// The resource type.
         public let resourceType: ResourceType
 
-        public init(chronologicalOrder: ChronologicalOrder? = nil, earlierTime: TimeStamp? = nil, laterTime: TimeStamp? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceId: String, resourceType: ResourceType) {
+        public init(chronologicalOrder: ChronologicalOrder? = nil, earlierTime: TimeStamp? = nil, laterTime: TimeStamp? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String, resourceType: ResourceType) {
             self.chronologicalOrder = chronologicalOrder
             self.earlierTime = earlierTime
             self.laterTime = laterTime
@@ -3390,13 +3390,13 @@ extension ConfigService {
         /// Filters the results based on the ResourceFilters object.
         public let filters: ResourceFilters?
         /// The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The type of resources that you want AWS Config to list in the response.
         public let resourceType: ResourceType
 
-        public init(configurationAggregatorName: String, filters: ResourceFilters? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceType: ResourceType) {
+        public init(configurationAggregatorName: String, filters: ResourceFilters? = nil, limit: Int? = nil, nextToken: String? = nil, resourceType: ResourceType) {
             self.configurationAggregatorName = configurationAggregatorName
             self.filters = filters
             self.limit = limit
@@ -3457,7 +3457,7 @@ extension ConfigService {
         /// Specifies whether AWS Config includes deleted resources in the results. By default, deleted resources are not included.
         public let includeDeletedResources: Bool?
         /// The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The IDs of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
@@ -3467,7 +3467,7 @@ extension ConfigService {
         /// The type of resources that you want AWS Config to list in the response.
         public let resourceType: ResourceType
 
-        public init(includeDeletedResources: Bool? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, resourceName: String? = nil, resourceType: ResourceType) {
+        public init(includeDeletedResources: Bool? = nil, limit: Int? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, resourceName: String? = nil, resourceType: ResourceType) {
             self.includeDeletedResources = includeDeletedResources
             self.limit = limit
             self.nextToken = nextToken
@@ -3525,13 +3525,13 @@ extension ConfigService {
         ]
 
         /// The maximum number of tags returned on each page. The limit maximum is 50. You cannot specify a number greater than 50. If you specify 0, AWS Config uses the default. 
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
         public let resourceArn: String
 
-        public init(limit: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(limit: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.limit = limit
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -4261,9 +4261,9 @@ extension ConfigService {
         ]
 
         /// Number of days AWS Config stores your historical information.  Currently, only applicable to the configuration item history. 
-        public let retentionPeriodInDays: Int32
+        public let retentionPeriodInDays: Int
 
-        public init(retentionPeriodInDays: Int32) {
+        public init(retentionPeriodInDays: Int) {
             self.retentionPeriodInDays = retentionPeriodInDays
         }
 
@@ -4810,9 +4810,9 @@ extension ConfigService {
         /// The name of the retention configuration object.
         public let name: String
         /// Number of days AWS Config stores your historical information.  Currently, only applicable to the configuration item history. 
-        public let retentionPeriodInDays: Int32
+        public let retentionPeriodInDays: Int
 
-        public init(name: String, retentionPeriodInDays: Int32) {
+        public init(name: String, retentionPeriodInDays: Int) {
             self.name = name
             self.retentionPeriodInDays = retentionPeriodInDays
         }
@@ -4880,11 +4880,11 @@ extension ConfigService {
         /// The SQL query SELECT command.
         public let expression: String
         /// The maximum number of query results returned on each page. 
-        public let limit: Int32?
+        public let limit: Int?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response. 
         public let nextToken: String?
 
-        public init(expression: String, limit: Int32? = nil, nextToken: String? = nil) {
+        public init(expression: String, limit: Int? = nil, nextToken: String? = nil) {
             self.expression = expression
             self.limit = limit
             self.nextToken = nextToken

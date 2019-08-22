@@ -220,7 +220,7 @@ extension ApplicationAutoScaling {
         ]
 
         /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.  
@@ -230,7 +230,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceIds = resourceIds
@@ -288,7 +288,7 @@ extension ApplicationAutoScaling {
         ]
 
         /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.  
@@ -298,7 +298,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceId = resourceId
@@ -355,7 +355,7 @@ extension ApplicationAutoScaling {
         ]
 
         /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The names of the scaling policies to describe.
@@ -367,7 +367,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, policyNames: [String]? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, policyNames: [String]? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.policyNames = policyNames
@@ -431,7 +431,7 @@ extension ApplicationAutoScaling {
         ]
 
         /// The maximum number of scheduled action results. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.  
@@ -443,7 +443,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, scheduledActionNames: [String]? = nil, serviceNamespace: ServiceNamespace) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, scheduledActionNames: [String]? = nil, serviceNamespace: ServiceNamespace) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceId = resourceId
@@ -744,9 +744,9 @@ extension ApplicationAutoScaling {
         ]
 
         /// The maximum value to scale to in response to a scale-out event. This parameter is required to register a scalable target.
-        public let maxCapacity: Int32?
+        public let maxCapacity: Int?
         /// The minimum value to scale to in response to a scale-in event. This parameter is required to register a scalable target.
-        public let minCapacity: Int32?
+        public let minCapacity: Int?
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.  
         public let resourceId: String
         /// Application Auto Scaling creates a service-linked role that grants it permissions to modify the scalable target on your behalf. For more information, see Service-Linked Roles for Application Auto Scaling. For resources that are not supported using a service-linked role, this parameter is required and must specify the ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
@@ -756,7 +756,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
 
-        public init(maxCapacity: Int32? = nil, minCapacity: Int32? = nil, resourceId: String, roleARN: String? = nil, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
+        public init(maxCapacity: Int? = nil, minCapacity: Int? = nil, resourceId: String, roleARN: String? = nil, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
             self.resourceId = resourceId
@@ -821,9 +821,9 @@ extension ApplicationAutoScaling {
         /// The Unix timestamp for when the scalable target was created.
         public let creationTime: TimeStamp
         /// The maximum value to scale to in response to a scale-out event.
-        public let maxCapacity: Int32
+        public let maxCapacity: Int
         /// The minimum value to scale to in response to a scale-in event.
-        public let minCapacity: Int32
+        public let minCapacity: Int
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.   Amazon SageMaker endpoint variants - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.   Custom resources are not supported with a resource type. This parameter must specify the OutputValue from the CloudFormation template stack used to access the resources. The unique identifier is defined by the service provider. More information is available in our GitHub repository.  
         public let resourceId: String
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
@@ -833,7 +833,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the AWS service that provides the resource or custom-resource for a resource provided by your own application or service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
 
-        public init(creationTime: TimeStamp, maxCapacity: Int32, minCapacity: Int32, resourceId: String, roleARN: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
+        public init(creationTime: TimeStamp, maxCapacity: Int, minCapacity: Int, resourceId: String, roleARN: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
             self.creationTime = creationTime
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
@@ -861,11 +861,11 @@ extension ApplicationAutoScaling {
         ]
 
         /// The maximum capacity.
-        public let maxCapacity: Int32?
+        public let maxCapacity: Int?
         /// The minimum capacity.
-        public let minCapacity: Int32?
+        public let minCapacity: Int?
 
-        public init(maxCapacity: Int32? = nil, minCapacity: Int32? = nil) {
+        public init(maxCapacity: Int? = nil, minCapacity: Int? = nil) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
         }
@@ -1101,9 +1101,9 @@ extension ApplicationAutoScaling {
         /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
         public let metricIntervalUpperBound: Double?
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current scalable dimension while a negative number removes from the current scalable dimension.
-        public let scalingAdjustment: Int32
+        public let scalingAdjustment: Int
 
-        public init(metricIntervalLowerBound: Double? = nil, metricIntervalUpperBound: Double? = nil, scalingAdjustment: Int32) {
+        public init(metricIntervalLowerBound: Double? = nil, metricIntervalUpperBound: Double? = nil, scalingAdjustment: Int) {
             self.metricIntervalLowerBound = metricIntervalLowerBound
             self.metricIntervalUpperBound = metricIntervalUpperBound
             self.scalingAdjustment = scalingAdjustment
@@ -1128,15 +1128,15 @@ extension ApplicationAutoScaling {
         /// The adjustment type, which specifies how the ScalingAdjustment parameter in a StepAdjustment is interpreted.
         public let adjustmentType: AdjustmentType?
         /// The amount of time, in seconds, after a scaling activity completes where previous trigger-related scaling activities can influence future scaling events. For scale-out policies, while the cooldown period is in effect, the capacity that has been added by the previous scale-out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out. For example, an alarm triggers a step scaling policy to scale out an Amazon ECS service by 2 tasks, the scaling activity completes successfully, and a cooldown period of 5 minutes starts. During the cooldown period, if the alarm triggers the same policy again but at a more aggressive step adjustment to scale out the service by 3 tasks, the 2 tasks that were added in the previous scale-out event are considered part of that capacity and only 1 additional task is added to the desired count. For scale-in policies, the cooldown period is used to block subsequent scale-in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale-out policy during the cooldown period after a scale-in, Application Auto Scaling scales out your scalable target immediately.
-        public let cooldown: Int32?
+        public let cooldown: Int?
         /// The aggregation type for the CloudWatch metrics. Valid values are Minimum, Maximum, and Average. If the aggregation type is null, the value is treated as Average.
         public let metricAggregationType: MetricAggregationType?
         /// The minimum number to adjust your scalable dimension as a result of a scaling activity. If the adjustment type is PercentChangeInCapacity, the scaling policy changes the scalable dimension of the scalable target by this amount. For example, suppose that you create a step scaling policy to scale out an Amazon ECS service by 25 percent and you specify a MinAdjustmentMagnitude of 2. If the service has 4 tasks and the scaling policy is performed, 25 percent of 4 is 1. However, because you specified a MinAdjustmentMagnitude of 2, Application Auto Scaling scales out the service by 2 tasks.
-        public let minAdjustmentMagnitude: Int32?
+        public let minAdjustmentMagnitude: Int?
         /// A set of adjustments that enable you to scale based on the size of the alarm breach.
         public let stepAdjustments: [StepAdjustment]?
 
-        public init(adjustmentType: AdjustmentType? = nil, cooldown: Int32? = nil, metricAggregationType: MetricAggregationType? = nil, minAdjustmentMagnitude: Int32? = nil, stepAdjustments: [StepAdjustment]? = nil) {
+        public init(adjustmentType: AdjustmentType? = nil, cooldown: Int? = nil, metricAggregationType: MetricAggregationType? = nil, minAdjustmentMagnitude: Int? = nil, stepAdjustments: [StepAdjustment]? = nil) {
             self.adjustmentType = adjustmentType
             self.cooldown = cooldown
             self.metricAggregationType = metricAggregationType
@@ -1170,13 +1170,13 @@ extension ApplicationAutoScaling {
         /// A predefined metric. You can specify either a predefined metric or a customized metric.
         public let predefinedMetricSpecification: PredefinedMetricSpecification?
         /// The amount of time, in seconds, after a scale-in activity completes before another scale in activity can start. The cooldown period is used to block subsequent scale-in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale-out policy during the cooldown period after a scale-in, Application Auto Scaling scales out your scalable target immediately.
-        public let scaleInCooldown: Int32?
+        public let scaleInCooldown: Int?
         /// The amount of time, in seconds, after a scale-out activity completes before another scale-out activity can start. While the cooldown period is in effect, the capacity that has been added by the previous scale-out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out.
-        public let scaleOutCooldown: Int32?
+        public let scaleOutCooldown: Int?
         /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
         public let targetValue: Double
 
-        public init(customizedMetricSpecification: CustomizedMetricSpecification? = nil, disableScaleIn: Bool? = nil, predefinedMetricSpecification: PredefinedMetricSpecification? = nil, scaleInCooldown: Int32? = nil, scaleOutCooldown: Int32? = nil, targetValue: Double) {
+        public init(customizedMetricSpecification: CustomizedMetricSpecification? = nil, disableScaleIn: Bool? = nil, predefinedMetricSpecification: PredefinedMetricSpecification? = nil, scaleInCooldown: Int? = nil, scaleOutCooldown: Int? = nil, targetValue: Double) {
             self.customizedMetricSpecification = customizedMetricSpecification
             self.disableScaleIn = disableScaleIn
             self.predefinedMetricSpecification = predefinedMetricSpecification

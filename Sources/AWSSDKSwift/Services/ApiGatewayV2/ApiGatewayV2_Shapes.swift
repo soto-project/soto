@@ -166,7 +166,7 @@ extension ApiGatewayV2 {
         ///  authorization caching is disabled. If it is greater than 0, API Gateway will cache
         ///  authorizer responses. If this field is not set, the default value is 300. The maximum
         ///  value is 3600, or 1 hour.
-        public let authorizerResultTtlInSeconds: Int32?
+        public let authorizerResultTtlInSeconds: Int?
         /// The authorizer type. Currently the only valid value is REQUEST, for a
         ///  Lambda function using incoming request parameters.
         public let authorizerType: AuthorizerType?
@@ -207,7 +207,7 @@ extension ApiGatewayV2 {
         ///  defined.
         public let providerArns: [String]?
 
-        public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String, providerArns: [String]? = nil) {
+        public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String, providerArns: [String]? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -416,7 +416,7 @@ extension ApiGatewayV2 {
 
         public let apiId: String
         public let authorizerCredentialsArn: String?
-        public let authorizerResultTtlInSeconds: Int32?
+        public let authorizerResultTtlInSeconds: Int?
         public let authorizerType: AuthorizerType
         public let authorizerUri: String
         public let identitySource: [String]
@@ -424,7 +424,7 @@ extension ApiGatewayV2 {
         public let name: String
         public let providerArns: [String]?
 
-        public init(apiId: String, authorizerCredentialsArn: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType, authorizerUri: String, identitySource: [String], identityValidationExpression: String? = nil, name: String, providerArns: [String]? = nil) {
+        public init(apiId: String, authorizerCredentialsArn: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType, authorizerUri: String, identitySource: [String], identityValidationExpression: String? = nil, name: String, providerArns: [String]? = nil) {
             self.apiId = apiId
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -469,7 +469,7 @@ extension ApiGatewayV2 {
 
         public let authorizerCredentialsArn: String?
         public let authorizerId: String?
-        public let authorizerResultTtlInSeconds: Int32?
+        public let authorizerResultTtlInSeconds: Int?
         public let authorizerType: AuthorizerType?
         public let authorizerUri: String?
         public let identitySource: [String]?
@@ -477,7 +477,7 @@ extension ApiGatewayV2 {
         public let name: String?
         public let providerArns: [String]?
 
-        public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
+        public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -641,9 +641,9 @@ extension ApiGatewayV2 {
         public let requestParameters: [String: String]?
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
-        public let timeoutInMillis: Int32?
+        public let timeoutInMillis: Int?
 
-        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationMethod: String? = nil, integrationType: IntegrationType, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
+        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationMethod: String? = nil, integrationType: IntegrationType, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil) {
             self.apiId = apiId
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -792,9 +792,9 @@ extension ApiGatewayV2 {
         public let requestParameters: [String: String]?
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
-        public let timeoutInMillis: Int32?
+        public let timeoutInMillis: Int?
 
-        public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
+        public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil) {
             self.connectionId = connectionId
             self.connectionType = connectionType
             self.contentHandlingStrategy = contentHandlingStrategy
@@ -1803,7 +1803,7 @@ extension ApiGatewayV2 {
 
         public let authorizerCredentialsArn: String?
         public let authorizerId: String?
-        public let authorizerResultTtlInSeconds: Int32?
+        public let authorizerResultTtlInSeconds: Int?
         public let authorizerType: AuthorizerType?
         public let authorizerUri: String?
         public let identitySource: [String]?
@@ -1811,7 +1811,7 @@ extension ApiGatewayV2 {
         public let name: String?
         public let providerArns: [String]?
 
-        public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
+        public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -2221,9 +2221,9 @@ extension ApiGatewayV2 {
         public let requestParameters: [String: String]?
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
-        public let timeoutInMillis: Int32?
+        public let timeoutInMillis: Int?
 
-        public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
+        public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil) {
             self.connectionId = connectionId
             self.connectionType = connectionType
             self.contentHandlingStrategy = contentHandlingStrategy
@@ -2921,9 +2921,9 @@ extension ApiGatewayV2 {
         public let templateSelectionExpression: String?
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000
         ///  milliseconds or 29 seconds.
-        public let timeoutInMillis: Int32?
+        public let timeoutInMillis: Int?
 
-        public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
+        public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil) {
             self.connectionId = connectionId
             self.connectionType = connectionType
             self.contentHandlingStrategy = contentHandlingStrategy
@@ -3244,11 +3244,11 @@ extension ApiGatewayV2 {
         ///  CloudWatch Logs.
         public let loggingLevel: LoggingLevel?
         /// Specifies the throttling burst limit.
-        public let throttlingBurstLimit: Int32?
+        public let throttlingBurstLimit: Int?
         /// Specifies the throttling rate limit.
         public let throttlingRateLimit: Double?
 
-        public init(dataTraceEnabled: Bool? = nil, detailedMetricsEnabled: Bool? = nil, loggingLevel: LoggingLevel? = nil, throttlingBurstLimit: Int32? = nil, throttlingRateLimit: Double? = nil) {
+        public init(dataTraceEnabled: Bool? = nil, detailedMetricsEnabled: Bool? = nil, loggingLevel: LoggingLevel? = nil, throttlingBurstLimit: Int? = nil, throttlingRateLimit: Double? = nil) {
             self.dataTraceEnabled = dataTraceEnabled
             self.detailedMetricsEnabled = detailedMetricsEnabled
             self.loggingLevel = loggingLevel
@@ -3562,7 +3562,7 @@ extension ApiGatewayV2 {
         public let apiId: String
         public let authorizerCredentialsArn: String?
         public let authorizerId: String
-        public let authorizerResultTtlInSeconds: Int32?
+        public let authorizerResultTtlInSeconds: Int?
         public let authorizerType: AuthorizerType?
         public let authorizerUri: String?
         public let identitySource: [String]?
@@ -3570,7 +3570,7 @@ extension ApiGatewayV2 {
         public let name: String?
         public let providerArns: [String]?
 
-        public init(apiId: String, authorizerCredentialsArn: String? = nil, authorizerId: String, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
+        public init(apiId: String, authorizerCredentialsArn: String? = nil, authorizerId: String, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
             self.apiId = apiId
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
@@ -3617,7 +3617,7 @@ extension ApiGatewayV2 {
 
         public let authorizerCredentialsArn: String?
         public let authorizerId: String?
-        public let authorizerResultTtlInSeconds: Int32?
+        public let authorizerResultTtlInSeconds: Int?
         public let authorizerType: AuthorizerType?
         public let authorizerUri: String?
         public let identitySource: [String]?
@@ -3625,7 +3625,7 @@ extension ApiGatewayV2 {
         public let name: String?
         public let providerArns: [String]?
 
-        public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
+        public init(authorizerCredentialsArn: String? = nil, authorizerId: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerType: AuthorizerType? = nil, authorizerUri: String? = nil, identitySource: [String]? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerArns: [String]? = nil) {
             self.authorizerCredentialsArn = authorizerCredentialsArn
             self.authorizerId = authorizerId
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -3783,9 +3783,9 @@ extension ApiGatewayV2 {
         public let requestParameters: [String: String]?
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
-        public let timeoutInMillis: Int32?
+        public let timeoutInMillis: Int?
 
-        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String, integrationMethod: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
+        public init(apiId: String, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String, integrationMethod: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil) {
             self.apiId = apiId
             self.connectionId = connectionId
             self.connectionType = connectionType
@@ -3940,9 +3940,9 @@ extension ApiGatewayV2 {
         public let requestParameters: [String: String]?
         public let requestTemplates: [String: String]?
         public let templateSelectionExpression: String?
-        public let timeoutInMillis: Int32?
+        public let timeoutInMillis: Int?
 
-        public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int32? = nil) {
+        public init(connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandlingStrategy: ContentHandlingStrategy? = nil, credentialsArn: String? = nil, description: String? = nil, integrationId: String? = nil, integrationMethod: String? = nil, integrationResponseSelectionExpression: String? = nil, integrationType: IntegrationType? = nil, integrationUri: String? = nil, passthroughBehavior: PassthroughBehavior? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, templateSelectionExpression: String? = nil, timeoutInMillis: Int? = nil) {
             self.connectionId = connectionId
             self.connectionType = connectionType
             self.contentHandlingStrategy = contentHandlingStrategy

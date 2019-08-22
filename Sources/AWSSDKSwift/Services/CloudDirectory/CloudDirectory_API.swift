@@ -9,7 +9,7 @@ Amazon Cloud Directory Amazon Cloud Directory is a component of the AWS Director
 */
 public struct CloudDirectory {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

@@ -9,7 +9,7 @@ Amazon Elastic Kubernetes Service (Amazon EKS) is a managed service that makes i
 */
 public struct EKS {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

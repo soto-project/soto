@@ -9,7 +9,7 @@ AWS Service Catalog  AWS Service Catalog enables organizations to create and man
 */
 public struct ServiceCatalog {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

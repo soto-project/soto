@@ -86,14 +86,14 @@ extension XRay {
             AWSShapeMember(label: "UnknownHostCount", required: false, type: .integer)
         ]
 
-        public let connectionRefusedCount: Int32?
-        public let hTTPCode4XXCount: Int32?
-        public let hTTPCode5XXCount: Int32?
-        public let otherCount: Int32?
-        public let timeoutCount: Int32?
-        public let unknownHostCount: Int32?
+        public let connectionRefusedCount: Int?
+        public let hTTPCode4XXCount: Int?
+        public let hTTPCode5XXCount: Int?
+        public let otherCount: Int?
+        public let timeoutCount: Int?
+        public let unknownHostCount: Int?
 
-        public init(connectionRefusedCount: Int32? = nil, hTTPCode4XXCount: Int32? = nil, hTTPCode5XXCount: Int32? = nil, otherCount: Int32? = nil, timeoutCount: Int32? = nil, unknownHostCount: Int32? = nil) {
+        public init(connectionRefusedCount: Int? = nil, hTTPCode4XXCount: Int? = nil, hTTPCode5XXCount: Int? = nil, otherCount: Int? = nil, timeoutCount: Int? = nil, unknownHostCount: Int? = nil) {
             self.connectionRefusedCount = connectionRefusedCount
             self.hTTPCode4XXCount = hTTPCode4XXCount
             self.hTTPCode5XXCount = hTTPCode5XXCount
@@ -341,7 +341,7 @@ extension XRay {
         /// The end time of the last segment on the edge.
         public let endTime: TimeStamp?
         /// Identifier of the edge. Unique within a service map.
-        public let referenceId: Int32?
+        public let referenceId: Int?
         /// A histogram that maps the spread of client response times on an edge.
         public let responseTimeHistogram: [HistogramEntry]?
         /// The start time of the first segment on the edge.
@@ -349,7 +349,7 @@ extension XRay {
         /// Response statistics for segments on the edge.
         public let summaryStatistics: EdgeStatistics?
 
-        public init(aliases: [Alias]? = nil, endTime: TimeStamp? = nil, referenceId: Int32? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: TimeStamp? = nil, summaryStatistics: EdgeStatistics? = nil) {
+        public init(aliases: [Alias]? = nil, endTime: TimeStamp? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: TimeStamp? = nil, summaryStatistics: EdgeStatistics? = nil) {
             self.aliases = aliases
             self.endTime = endTime
             self.referenceId = referenceId
@@ -1012,11 +1012,11 @@ extension XRay {
         /// Pagination token. Not used.
         public let nextToken: String?
         /// Aggregation period in seconds.
-        public let period: Int32?
+        public let period: Int?
         /// The start of the time frame for which to aggregate statistics.
         public let startTime: TimeStamp
 
-        public init(endTime: TimeStamp, entitySelectorExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, period: Int32? = nil, startTime: TimeStamp) {
+        public init(endTime: TimeStamp, entitySelectorExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, period: Int? = nil, startTime: TimeStamp) {
             self.endTime = endTime
             self.entitySelectorExpression = entitySelectorExpression
             self.groupARN = groupARN
@@ -1264,11 +1264,11 @@ extension XRay {
         ]
 
         /// The prevalence of the entry.
-        public let count: Int32?
+        public let count: Int?
         /// The value of the entry.
         public let value: Double?
 
-        public init(count: Int32? = nil, value: Double? = nil) {
+        public init(count: Int? = nil, value: Double? = nil) {
             self.count = count
             self.value = value
         }
@@ -1293,13 +1293,13 @@ extension XRay {
         /// The request method.
         public let httpMethod: String?
         /// The response status.
-        public let httpStatus: Int32?
+        public let httpStatus: Int?
         /// The request URL.
         public let httpURL: String?
         /// The request's user agent string.
         public let userAgent: String?
 
-        public init(clientIp: String? = nil, httpMethod: String? = nil, httpStatus: Int32? = nil, httpURL: String? = nil, userAgent: String? = nil) {
+        public init(clientIp: String? = nil, httpMethod: String? = nil, httpStatus: Int? = nil, httpURL: String? = nil, userAgent: String? = nil) {
             self.clientIp = clientIp
             self.httpMethod = httpMethod
             self.httpStatus = httpStatus
@@ -1604,9 +1604,9 @@ extension XRay {
         /// Matches the HTTP method of a request.
         public let hTTPMethod: String
         /// The priority of the sampling rule.
-        public let priority: Int32
+        public let priority: Int
         /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
-        public let reservoirSize: Int32
+        public let reservoirSize: Int
         /// Matches the ARN of the AWS resource on which the service runs.
         public let resourceARN: String
         /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
@@ -1620,9 +1620,9 @@ extension XRay {
         /// Matches the path from a request URL.
         public let uRLPath: String
         /// The version of the sampling rule format (1).
-        public let version: Int32
+        public let version: Int
 
-        public init(attributes: [String: String]? = nil, fixedRate: Double, host: String, hTTPMethod: String, priority: Int32, reservoirSize: Int32, resourceARN: String, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String, serviceType: String, uRLPath: String, version: Int32) {
+        public init(attributes: [String: String]? = nil, fixedRate: Double, host: String, hTTPMethod: String, priority: Int, reservoirSize: Int, resourceARN: String, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String, serviceType: String, uRLPath: String, version: Int) {
             self.attributes = attributes
             self.fixedRate = fixedRate
             self.host = host
@@ -1730,9 +1730,9 @@ extension XRay {
         /// Matches the HTTP method of a request.
         public let hTTPMethod: String?
         /// The priority of the sampling rule.
-        public let priority: Int32?
+        public let priority: Int?
         /// A fixed number of matching requests to instrument per second, prior to applying the fixed rate. The reservoir is not used directly by services, but applies to all services using the rule collectively.
-        public let reservoirSize: Int32?
+        public let reservoirSize: Int?
         /// Matches the ARN of the AWS resource on which the service runs.
         public let resourceARN: String?
         /// The ARN of the sampling rule. Specify a rule by either name or ARN, but not both.
@@ -1746,7 +1746,7 @@ extension XRay {
         /// Matches the path from a request URL.
         public let uRLPath: String?
 
-        public init(attributes: [String: String]? = nil, fixedRate: Double? = nil, host: String? = nil, hTTPMethod: String? = nil, priority: Int32? = nil, reservoirSize: Int32? = nil, resourceARN: String? = nil, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String? = nil, serviceType: String? = nil, uRLPath: String? = nil) {
+        public init(attributes: [String: String]? = nil, fixedRate: Double? = nil, host: String? = nil, hTTPMethod: String? = nil, priority: Int? = nil, reservoirSize: Int? = nil, resourceARN: String? = nil, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String? = nil, serviceType: String? = nil, uRLPath: String? = nil) {
             self.attributes = attributes
             self.fixedRate = fixedRate
             self.host = host
@@ -1804,17 +1804,17 @@ extension XRay {
         ]
 
         /// The number of requests recorded with borrowed reservoir quota.
-        public let borrowCount: Int32?
+        public let borrowCount: Int?
         /// The number of requests that matched the rule.
-        public let requestCount: Int32?
+        public let requestCount: Int?
         /// The name of the sampling rule.
         public let ruleName: String?
         /// The number of requests recorded.
-        public let sampledCount: Int32?
+        public let sampledCount: Int?
         /// The start time of the reporting window.
         public let timestamp: TimeStamp?
 
-        public init(borrowCount: Int32? = nil, requestCount: Int32? = nil, ruleName: String? = nil, sampledCount: Int32? = nil, timestamp: TimeStamp? = nil) {
+        public init(borrowCount: Int? = nil, requestCount: Int? = nil, ruleName: String? = nil, sampledCount: Int? = nil, timestamp: TimeStamp? = nil) {
             self.borrowCount = borrowCount
             self.requestCount = requestCount
             self.ruleName = ruleName
@@ -1842,19 +1842,19 @@ extension XRay {
         ]
 
         /// The number of requests recorded with borrowed reservoir quota.
-        public let borrowCount: Int32?
+        public let borrowCount: Int?
         /// A unique identifier for the service in hexadecimal.
         public let clientID: String
         /// The number of requests that matched the rule.
-        public let requestCount: Int32
+        public let requestCount: Int
         /// The name of the sampling rule.
         public let ruleName: String
         /// The number of requests recorded.
-        public let sampledCount: Int32
+        public let sampledCount: Int
         /// The current time.
         public let timestamp: TimeStamp
 
-        public init(borrowCount: Int32? = nil, clientID: String, requestCount: Int32, ruleName: String, sampledCount: Int32, timestamp: TimeStamp) {
+        public init(borrowCount: Int? = nil, clientID: String, requestCount: Int, ruleName: String, sampledCount: Int, timestamp: TimeStamp) {
             self.borrowCount = borrowCount
             self.clientID = clientID
             self.requestCount = requestCount
@@ -1923,15 +1923,15 @@ extension XRay {
         /// The percentage of matching requests to instrument, after the reservoir is exhausted.
         public let fixedRate: Double?
         /// The number of seconds for the service to wait before getting sampling targets again.
-        public let interval: Int32?
+        public let interval: Int?
         /// The number of requests per second that X-Ray allocated this service.
-        public let reservoirQuota: Int32?
+        public let reservoirQuota: Int?
         /// When the reservoir quota expires.
         public let reservoirQuotaTTL: TimeStamp?
         /// The name of the sampling rule.
         public let ruleName: String?
 
-        public init(fixedRate: Double? = nil, interval: Int32? = nil, reservoirQuota: Int32? = nil, reservoirQuotaTTL: TimeStamp? = nil, ruleName: String? = nil) {
+        public init(fixedRate: Double? = nil, interval: Int? = nil, reservoirQuota: Int? = nil, reservoirQuotaTTL: TimeStamp? = nil, ruleName: String? = nil) {
             self.fixedRate = fixedRate
             self.interval = interval
             self.reservoirQuota = reservoirQuota
@@ -2000,7 +2000,7 @@ extension XRay {
         /// A list of names for the service, including the canonical name.
         public let names: [String]?
         /// Identifier for the service. Unique within the service map.
-        public let referenceId: Int32?
+        public let referenceId: Int?
         /// A histogram that maps the spread of service response times.
         public let responseTimeHistogram: [HistogramEntry]?
         /// Indicates that the service was the first service to process a request.
@@ -2014,7 +2014,7 @@ extension XRay {
         /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
         public let `type`: String?
 
-        public init(accountId: String? = nil, durationHistogram: [HistogramEntry]? = nil, edges: [Edge]? = nil, endTime: TimeStamp? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int32? = nil, responseTimeHistogram: [HistogramEntry]? = nil, root: Bool? = nil, startTime: TimeStamp? = nil, state: String? = nil, summaryStatistics: ServiceStatistics? = nil, type: String? = nil) {
+        public init(accountId: String? = nil, durationHistogram: [HistogramEntry]? = nil, edges: [Edge]? = nil, endTime: TimeStamp? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, root: Bool? = nil, startTime: TimeStamp? = nil, state: String? = nil, summaryStatistics: ServiceStatistics? = nil, type: String? = nil) {
             self.accountId = accountId
             self.durationHistogram = durationHistogram
             self.edges = edges
@@ -2123,13 +2123,13 @@ extension XRay {
         ]
 
         public let backendConnectionErrors: BackendConnectionErrors?
-        public let segmentsReceivedCount: Int32?
-        public let segmentsRejectedCount: Int32?
-        public let segmentsSentCount: Int32?
-        public let segmentsSpilloverCount: Int32?
+        public let segmentsReceivedCount: Int?
+        public let segmentsRejectedCount: Int?
+        public let segmentsSentCount: Int?
+        public let segmentsSpilloverCount: Int?
         public let timestamp: TimeStamp
 
-        public init(backendConnectionErrors: BackendConnectionErrors? = nil, segmentsReceivedCount: Int32? = nil, segmentsRejectedCount: Int32? = nil, segmentsSentCount: Int32? = nil, segmentsSpilloverCount: Int32? = nil, timestamp: TimeStamp) {
+        public init(backendConnectionErrors: BackendConnectionErrors? = nil, segmentsReceivedCount: Int? = nil, segmentsRejectedCount: Int? = nil, segmentsSentCount: Int? = nil, segmentsSpilloverCount: Int? = nil, timestamp: TimeStamp) {
             self.backendConnectionErrors = backendConnectionErrors
             self.segmentsReceivedCount = segmentsReceivedCount
             self.segmentsRejectedCount = segmentsRejectedCount
@@ -2270,13 +2270,13 @@ extension XRay {
         /// A collection of ResponseTimeRootCause structures corresponding to the trace segments.
         public let responseTimeRootCauses: [ResponseTimeRootCause]?
         /// The revision number of a trace.
-        public let revision: Int32?
+        public let revision: Int?
         /// Service IDs from the trace's segment documents.
         public let serviceIds: [ServiceId]?
         /// Users from the trace's segment documents.
         public let users: [TraceUser]?
 
-        public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: TimeStamp? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int32? = nil, serviceIds: [ServiceId]? = nil, users: [TraceUser]? = nil) {
+        public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: TimeStamp? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int? = nil, serviceIds: [ServiceId]? = nil, users: [TraceUser]? = nil) {
             self.annotations = annotations
             self.availabilityZones = availabilityZones
             self.duration = duration

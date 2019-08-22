@@ -9,7 +9,7 @@ Amazon Kinesis Data Firehose API Reference Amazon Kinesis Data Firehose is a ful
 */
 public struct Firehose {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(

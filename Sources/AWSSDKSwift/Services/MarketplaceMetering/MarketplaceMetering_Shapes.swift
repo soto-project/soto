@@ -77,9 +77,9 @@ extension MarketplaceMetering {
         /// It will be one of the fcp dimension name provided during the publishing of the product.
         public let usageDimension: String
         /// Consumption value for the hour. Defaults to 0 if not specified.
-        public let usageQuantity: Int32?
+        public let usageQuantity: Int?
 
-        public init(dryRun: Bool? = nil, productCode: String, timestamp: TimeStamp, usageDimension: String, usageQuantity: Int32? = nil) {
+        public init(dryRun: Bool? = nil, productCode: String, timestamp: TimeStamp, usageDimension: String, usageQuantity: Int? = nil) {
             self.dryRun = dryRun
             self.productCode = productCode
             self.timestamp = timestamp
@@ -134,9 +134,9 @@ extension MarketplaceMetering {
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
         /// Public Key Version provided by AWS Marketplace
-        public let publicKeyVersion: Int32
+        public let publicKeyVersion: Int
 
-        public init(nonce: String? = nil, productCode: String, publicKeyVersion: Int32) {
+        public init(nonce: String? = nil, productCode: String, publicKeyVersion: Int) {
             self.nonce = nonce
             self.productCode = productCode
             self.publicKeyVersion = publicKeyVersion
@@ -234,11 +234,11 @@ extension MarketplaceMetering {
         /// During the process of registering a product on AWS Marketplace, up to eight dimensions are specified. These represent different units of value in your application.
         public let dimension: String
         /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
-        public let quantity: Int32?
+        public let quantity: Int?
         /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
         public let timestamp: TimeStamp
 
-        public init(customerIdentifier: String, dimension: String, quantity: Int32? = nil, timestamp: TimeStamp) {
+        public init(customerIdentifier: String, dimension: String, quantity: Int? = nil, timestamp: TimeStamp) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.quantity = quantity
