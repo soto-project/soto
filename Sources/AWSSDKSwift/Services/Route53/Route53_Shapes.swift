@@ -53,8 +53,8 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -510,7 +510,7 @@ extension Route53 {
             try validate(callerReference, name:"callerReference", parent: name, min: 1)
             try validate(delegationSetId, name:"delegationSetId", parent: name, max: 32)
             try hostedZoneConfig?.validate(name: "\(name).hostedZoneConfig")
-            try validate(name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, max: 1024)
             try vpc?.validate(name: "\(name).vpc")
         }
 
@@ -688,7 +688,7 @@ extension Route53 {
 
         public func validate(name: String) throws {
             try validate(hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
-            try validate(name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, max: 1024)
             try validate(trafficPolicyId, name:"trafficPolicyId", parent: name, max: 36)
             try validate(trafficPolicyId, name:"trafficPolicyId", parent: name, min: 1)
             try validate(trafficPolicyVersion, name:"trafficPolicyVersion", parent: name, max: 1000)
@@ -751,7 +751,7 @@ extension Route53 {
         public func validate(name: String) throws {
             try validate(comment, name:"comment", parent: name, max: 1024)
             try validate(document, name:"document", parent: name, max: 102400)
-            try validate(name, name:"name", parent: name, max: 512)
+            try validate(self.name, name:"name", parent: name, max: 512)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3431,7 +3431,7 @@ extension Route53 {
             try aliasTarget?.validate(name: "\(name).aliasTarget")
             try geoLocation?.validate(name: "\(name).geoLocation")
             try validate(healthCheckId, name:"healthCheckId", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, max: 1024)
             try resourceRecords?.forEach {
                 try $0.validate(name: "\(name).resourceRecords[]")
             }

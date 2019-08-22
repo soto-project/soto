@@ -181,8 +181,8 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 80)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 80)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -243,8 +243,8 @@ extension SFN {
         public func validate(name: String) throws {
             try validate(definition, name:"definition", parent: name, max: 1048576)
             try validate(definition, name:"definition", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 80)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 80)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(roleArn, name:"roleArn", parent: name, max: 256)
             try validate(roleArn, name:"roleArn", parent: name, min: 1)
             try tags?.forEach {
@@ -1525,8 +1525,8 @@ extension SFN {
 
         public func validate(name: String) throws {
             try validate(input, name:"input", parent: name, max: 32768)
-            try validate(name, name:"name", parent: name, max: 80)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 80)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(stateMachineArn, name:"stateMachineArn", parent: name, max: 256)
             try validate(stateMachineArn, name:"stateMachineArn", parent: name, min: 1)
         }

@@ -178,9 +178,9 @@ extension WorkMail {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\u00FF]+")
             try validate(organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -228,9 +228,9 @@ extension WorkMail {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 20)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9]{2,})?")
+            try validate(self.name, name:"name", parent: name, max: 20)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9]{2,})?")
             try validate(organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -284,9 +284,9 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try validate(displayName, name:"displayName", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9]{2,})?")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9]{2,})?")
             try validate(organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try validate(password, name:"password", parent: name, max: 256)
             try validate(password, name:"password", parent: name, pattern: "[\\u0020-\\u00FF]+")
@@ -1946,9 +1946,9 @@ extension WorkMail {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 20)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9]{2,})?")
+            try validate(self.name, name:"name", parent: name, max: 20)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9]{2,})?")
             try validate(organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try validate(resourceId, name:"resourceId", parent: name, pattern: "^r-[0-9a-f]{32}$")
         }

@@ -315,9 +315,9 @@ extension CloudDirectory {
             try validate(facetName, name:"facetName", parent: name, max: 64)
             try validate(facetName, name:"facetName", parent: name, min: 1)
             try validate(facetName, name:"facetName", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
-            try validate(name, name:"name", parent: name, max: 230)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
+            try validate(self.name, name:"name", parent: name, max: 230)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2320,9 +2320,9 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2395,9 +2395,9 @@ extension CloudDirectory {
             try attributes?.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2559,9 +2559,9 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 32)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, max: 32)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2671,9 +2671,9 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2771,7 +2771,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3104,9 +3104,9 @@ extension CloudDirectory {
         public func validate(name: String) throws {
             try attributeDefinition?.validate(name: "\(name).attributeDefinition")
             try attributeReference?.validate(name: "\(name).attributeReference")
-            try validate(name, name:"name", parent: name, max: 230)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
+            try validate(self.name, name:"name", parent: name, max: 230)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3315,9 +3315,9 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3569,7 +3569,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3913,9 +3913,9 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4800,7 +4800,7 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5164,9 +5164,9 @@ extension CloudDirectory {
             try validate(minorVersion, name:"minorVersion", parent: name, max: 10)
             try validate(minorVersion, name:"minorVersion", parent: name, min: 1)
             try validate(minorVersion, name:"minorVersion", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
-            try validate(name, name:"name", parent: name, max: 32)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, max: 32)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
             try validate(version, name:"version", parent: name, max: 10)
             try validate(version, name:"version", parent: name, min: 1)
             try validate(version, name:"version", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
@@ -5502,9 +5502,9 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 230)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
+            try validate(self.name, name:"name", parent: name, max: 230)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
             try rules?.forEach {
                 try validate($0.key, name:"rules.key", parent: name, max: 64)
                 try validate($0.key, name:"rules.key", parent: name, min: 1)
@@ -5579,7 +5579,7 @@ extension CloudDirectory {
                 try validate($0, name: "identityAttributeOrder[]", parent: name, min: 1)
                 try validate($0, name: "identityAttributeOrder[]", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
             }
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5744,9 +5744,9 @@ extension CloudDirectory {
             try attributeUpdates?.forEach {
                 try $0.validate(name: "\(name).attributeUpdates[]")
             }
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5874,9 +5874,9 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 32)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, max: 32)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5935,7 +5935,7 @@ extension CloudDirectory {
                 try validate($0, name: "identityAttributeOrder[]", parent: name, min: 1)
                 try validate($0, name: "identityAttributeOrder[]", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
             }
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {

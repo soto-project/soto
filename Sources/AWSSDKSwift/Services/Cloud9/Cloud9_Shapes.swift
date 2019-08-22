@@ -48,8 +48,8 @@ extension Cloud9 {
             try validate(instanceType, name:"instanceType", parent: name, max: 20)
             try validate(instanceType, name:"instanceType", parent: name, min: 5)
             try validate(instanceType, name:"instanceType", parent: name, pattern: "^[a-z][1-9][.][a-z0-9]+$")
-            try validate(name, name:"name", parent: name, max: 60)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 60)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(ownerArn, name:"ownerArn", parent: name, pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
             try validate(subnetId, name:"subnetId", parent: name, max: 30)
             try validate(subnetId, name:"subnetId", parent: name, min: 5)
@@ -616,8 +616,8 @@ extension Cloud9 {
         public func validate(name: String) throws {
             try validate(description, name:"description", parent: name, max: 200)
             try validate(environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(name, name:"name", parent: name, max: 60)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 60)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

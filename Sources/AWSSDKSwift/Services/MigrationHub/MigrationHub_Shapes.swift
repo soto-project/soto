@@ -167,9 +167,9 @@ extension MigrationHub {
         public func validate(name: String) throws {
             try validate(description, name:"description", parent: name, max: 500)
             try validate(description, name:"description", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 1600)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*")
+            try validate(self.name, name:"name", parent: name, max: 1600)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*")
         }
 
         private enum CodingKeys: String, CodingKey {

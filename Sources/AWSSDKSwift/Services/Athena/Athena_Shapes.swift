@@ -201,8 +201,8 @@ extension Athena {
             try validate(database, name:"database", parent: name, min: 1)
             try validate(description, name:"description", parent: name, max: 1024)
             try validate(description, name:"description", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(queryString, name:"queryString", parent: name, max: 262144)
             try validate(queryString, name:"queryString", parent: name, min: 1)
             try validate(workGroup, name:"workGroup", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
@@ -263,7 +263,7 @@ extension Athena {
             try configuration?.validate(name: "\(name).configuration")
             try validate(description, name:"description", parent: name, max: 1024)
             try validate(description, name:"description", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-z0-9._-]{1,128}")
             try tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }

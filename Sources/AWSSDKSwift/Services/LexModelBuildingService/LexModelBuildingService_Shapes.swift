@@ -281,9 +281,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 50)
-            try validate(name, name:"name", parent: name, min: 2)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 2)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -396,9 +396,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -511,9 +511,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -594,9 +594,9 @@ extension LexModelBuildingService {
             try validate(botName, name:"botName", parent: name, max: 50)
             try validate(botName, name:"botName", parent: name, min: 2)
             try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -632,9 +632,9 @@ extension LexModelBuildingService {
             try validate(botName, name:"botName", parent: name, max: 50)
             try validate(botName, name:"botName", parent: name, min: 2)
             try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -657,9 +657,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 50)
-            try validate(name, name:"name", parent: name, min: 2)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 2)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -684,9 +684,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 50)
-            try validate(name, name:"name", parent: name, min: 2)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 2)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
             try validate(version, name:"version", parent: name, max: 64)
             try validate(version, name:"version", parent: name, min: 1)
             try validate(version, name:"version", parent: name, pattern: "[0-9]+")
@@ -711,9 +711,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -738,9 +738,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
             try validate(version, name:"version", parent: name, max: 64)
             try validate(version, name:"version", parent: name, min: 1)
             try validate(version, name:"version", parent: name, pattern: "[0-9]+")
@@ -765,9 +765,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -792,9 +792,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
             try validate(version, name:"version", parent: name, max: 64)
             try validate(version, name:"version", parent: name, min: 1)
             try validate(version, name:"version", parent: name, pattern: "[0-9]+")
@@ -959,9 +959,9 @@ extension LexModelBuildingService {
             try validate(botName, name:"botName", parent: name, max: 50)
             try validate(botName, name:"botName", parent: name, min: 2)
             try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1109,9 +1109,9 @@ extension LexModelBuildingService {
             try validate(botName, name:"botName", parent: name, max: 50)
             try validate(botName, name:"botName", parent: name, min: 2)
             try validate(botName, name:"botName", parent: name, pattern: "^([A-Za-z]_?)+$")
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1268,9 +1268,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 50)
-            try validate(name, name:"name", parent: name, min: 2)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 2)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1389,9 +1389,9 @@ extension LexModelBuildingService {
         public func validate(name: String) throws {
             try validate(maxResults, name:"maxResults", parent: name, max: 50)
             try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 50)
-            try validate(name, name:"name", parent: name, min: 2)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 2)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1667,9 +1667,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z_]+")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z_]+")
             try validate(version, name:"version", parent: name, max: 64)
             try validate(version, name:"version", parent: name, min: 1)
             try validate(version, name:"version", parent: name, pattern: "[0-9]+")
@@ -1811,9 +1811,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
             try validate(version, name:"version", parent: name, max: 64)
             try validate(version, name:"version", parent: name, min: 1)
             try validate(version, name:"version", parent: name, pattern: "\\$LATEST|[0-9]+")
@@ -1935,9 +1935,9 @@ extension LexModelBuildingService {
         public func validate(name: String) throws {
             try validate(maxResults, name:"maxResults", parent: name, max: 50)
             try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2043,9 +2043,9 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
             try validate(version, name:"version", parent: name, max: 64)
             try validate(version, name:"version", parent: name, min: 1)
             try validate(version, name:"version", parent: name, pattern: "\\$LATEST|[0-9]+")
@@ -2132,9 +2132,9 @@ extension LexModelBuildingService {
         public func validate(name: String) throws {
             try validate(maxResults, name:"maxResults", parent: name, max: 50)
             try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2489,9 +2489,9 @@ extension LexModelBuildingService {
             try validate(botVersion, name:"botVersion", parent: name, pattern: "\\$LATEST|[0-9]+")
             try validate(description, name:"description", parent: name, max: 200)
             try validate(description, name:"description", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2615,9 +2615,9 @@ extension LexModelBuildingService {
             try intents?.forEach {
                 try $0.validate(name: "\(name).intents[]")
             }
-            try validate(name, name:"name", parent: name, max: 50)
-            try validate(name, name:"name", parent: name, min: 2)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 2)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2794,9 +2794,9 @@ extension LexModelBuildingService {
             try dialogCodeHook?.validate(name: "\(name).dialogCodeHook")
             try followUpPrompt?.validate(name: "\(name).followUpPrompt")
             try fulfillmentActivity?.validate(name: "\(name).fulfillmentActivity")
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
             try rejectionStatement?.validate(name: "\(name).rejectionStatement")
             try sampleUtterances?.forEach {
                 try validate($0, name: "sampleUtterances[]", parent: name, max: 200)
@@ -2958,9 +2958,9 @@ extension LexModelBuildingService {
             }
             try validate(enumerationValues, name:"enumerationValues", parent: name, max: 10000)
             try validate(enumerationValues, name:"enumerationValues", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3083,9 +3083,9 @@ extension LexModelBuildingService {
         public func validate(name: String) throws {
             try validate(description, name:"description", parent: name, max: 200)
             try validate(description, name:"description", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z](-|_|.)?)+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z](-|_|.)?)+$")
             try validate(priority, name:"priority", parent: name, max: 100)
             try validate(priority, name:"priority", parent: name, min: 0)
             try validate(responseCard, name:"responseCard", parent: name, max: 50000)

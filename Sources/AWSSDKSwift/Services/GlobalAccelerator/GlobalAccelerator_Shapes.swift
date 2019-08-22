@@ -122,7 +122,7 @@ extension GlobalAccelerator {
 
         public func validate(name: String) throws {
             try validate(idempotencyToken, name:"idempotencyToken", parent: name, max: 255)
-            try validate(name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -996,7 +996,7 @@ extension GlobalAccelerator {
 
         public func validate(name: String) throws {
             try validate(acceleratorArn, name:"acceleratorArn", parent: name, max: 255)
-            try validate(name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {

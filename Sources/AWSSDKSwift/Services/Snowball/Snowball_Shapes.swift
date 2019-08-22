@@ -77,7 +77,7 @@ extension Snowball {
             try validate(company, name:"company", parent: name, min: 1)
             try validate(country, name:"country", parent: name, min: 1)
             try validate(landmark, name:"landmark", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(phoneNumber, name:"phoneNumber", parent: name, min: 1)
             try validate(postalCode, name:"postalCode", parent: name, min: 1)
             try validate(prefectureOrDistrict, name:"prefectureOrDistrict", parent: name, min: 1)

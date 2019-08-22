@@ -1678,9 +1678,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 32)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
+            try validate(self.name, name:"name", parent: name, max: 32)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
             try validate(value, name:"value", parent: name, max: 2048)
         }
 
@@ -2372,9 +2372,9 @@ extension CognitoIdentityProvider {
             try validate(identifier, name:"identifier", parent: name, max: 256)
             try validate(identifier, name:"identifier", parent: name, min: 1)
             try validate(identifier, name:"identifier", parent: name, pattern: "[\\x21\\x23-\\x5B\\x5D-\\x7E]+")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\w\\s+=,.@-]+")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\w\\s+=,.@-]+")
             try scopes?.forEach {
                 try $0.validate(name: "\(name).scopes[]")
             }
@@ -5862,9 +5862,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 20)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
+            try validate(self.name, name:"name", parent: name, max: 20)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6862,9 +6862,9 @@ extension CognitoIdentityProvider {
             try validate(identifier, name:"identifier", parent: name, max: 256)
             try validate(identifier, name:"identifier", parent: name, min: 1)
             try validate(identifier, name:"identifier", parent: name, pattern: "[\\x21\\x23-\\x5B\\x5D-\\x7E]+")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\w\\s+=,.@-]+")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\w\\s+=,.@-]+")
             try scopes?.forEach {
                 try $0.validate(name: "\(name).scopes[]")
             }

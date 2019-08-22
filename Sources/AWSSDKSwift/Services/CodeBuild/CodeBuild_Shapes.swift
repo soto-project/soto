@@ -568,9 +568,9 @@ extension CodeBuild {
             try validate(description, name:"description", parent: name, min: 0)
             try validate(encryptionKey, name:"encryptionKey", parent: name, min: 1)
             try environment.validate(name: "\(name).environment")
-            try validate(name, name:"name", parent: name, max: 255)
-            try validate(name, name:"name", parent: name, min: 2)
-            try validate(name, name:"name", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 2)
+            try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", parent: name, max: 480)
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", parent: name, min: 5)
             try validate(secondaryArtifacts, name:"secondaryArtifacts", parent: name, max: 12)
@@ -701,7 +701,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -884,7 +884,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2208,7 +2208,7 @@ extension CodeBuild {
             try validate(description, name:"description", parent: name, min: 0)
             try validate(encryptionKey, name:"encryptionKey", parent: name, min: 1)
             try environment?.validate(name: "\(name).environment")
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", parent: name, max: 480)
             try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", parent: name, min: 5)
             try validate(secondaryArtifacts, name:"secondaryArtifacts", parent: name, max: 12)

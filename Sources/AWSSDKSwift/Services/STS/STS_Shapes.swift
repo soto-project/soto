@@ -510,9 +510,9 @@ extension STS {
         public func validate(name: String) throws {
             try validate(durationSeconds, name:"durationSeconds", parent: name, max: 129600)
             try validate(durationSeconds, name:"durationSeconds", parent: name, min: 900)
-            try validate(name, name:"name", parent: name, max: 32)
-            try validate(name, name:"name", parent: name, min: 2)
-            try validate(name, name:"name", parent: name, pattern: "[\\w+=,.@-]*")
+            try validate(self.name, name:"name", parent: name, max: 32)
+            try validate(self.name, name:"name", parent: name, min: 2)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\w+=,.@-]*")
             try validate(policy, name:"policy", parent: name, max: 2048)
             try validate(policy, name:"policy", parent: name, min: 1)
             try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")

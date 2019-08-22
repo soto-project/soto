@@ -139,7 +139,7 @@ extension AWSDirectoryService {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -278,7 +278,7 @@ extension AWSDirectoryService {
             try validate(description, name:"description", parent: name, max: 128)
             try validate(description, name:"description", parent: name, min: 0)
             try validate(description, name:"description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
-            try validate(name, name:"name", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
             try validate(password, name:"password", parent: name, max: 128)
             try validate(password, name:"password", parent: name, min: 1)
             try validate(shortName, name:"shortName", parent: name, pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
@@ -517,7 +517,7 @@ extension AWSDirectoryService {
             try validate(description, name:"description", parent: name, max: 128)
             try validate(description, name:"description", parent: name, min: 0)
             try validate(description, name:"description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
-            try validate(name, name:"name", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
             try validate(password, name:"password", parent: name, pattern: "(?=^.{8,64}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9\\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\\s]))^.*")
             try validate(shortName, name:"shortName", parent: name, pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
             try tags?.forEach {
@@ -631,7 +631,7 @@ extension AWSDirectoryService {
             try validate(description, name:"description", parent: name, max: 128)
             try validate(description, name:"description", parent: name, min: 0)
             try validate(description, name:"description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
-            try validate(name, name:"name", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
             try validate(password, name:"password", parent: name, pattern: "(?=^.{8,64}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9\\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\\s]))^.*")
             try validate(shortName, name:"shortName", parent: name, pattern: "^[^\\\\/:*?\\\"\\<\\>|.]+[^\\\\/:*?\\\"<>|]*$")
             try tags?.forEach {
@@ -686,9 +686,9 @@ extension AWSDirectoryService {
 
         public func validate(name: String) throws {
             try validate(directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {

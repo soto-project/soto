@@ -145,9 +145,9 @@ extension ManagedBlockchain {
             try validate(frameworkVersion, name:"frameworkVersion", parent: name, max: 8)
             try validate(frameworkVersion, name:"frameworkVersion", parent: name, min: 1)
             try memberConfiguration.validate(name: "\(name).memberConfiguration")
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
             try votingPolicy.validate(name: "\(name).votingPolicy")
         }
 
@@ -1093,9 +1093,9 @@ extension ManagedBlockchain {
         public func validate(name: String) throws {
             try validate(description, name:"description", parent: name, max: 128)
             try frameworkConfiguration.validate(name: "\(name).frameworkConfiguration")
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^(?!-)^[^0-9](?!.*--)[A-Za-z0-9-]+[^- ]$")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^(?!-)^[^0-9](?!.*--)[A-Za-z0-9-]+[^- ]$")
         }
 
         private enum CodingKeys: String, CodingKey {

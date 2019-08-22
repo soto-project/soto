@@ -71,8 +71,8 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
             try validate(resolverRuleId, name:"resolverRuleId", parent: name, max: 64)
             try validate(resolverRuleId, name:"resolverRuleId", parent: name, min: 1)
             try validate(vPCId, name:"vPCId", parent: name, max: 64)
@@ -143,8 +143,8 @@ extension Route53Resolver {
             }
             try validate(ipAddresses, name:"ipAddresses", parent: name, max: 10)
             try validate(ipAddresses, name:"ipAddresses", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
             try securityGroupIds.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 64)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
@@ -219,8 +219,8 @@ extension Route53Resolver {
             try validate(creatorRequestId, name:"creatorRequestId", parent: name, min: 1)
             try validate(domainName, name:"domainName", parent: name, max: 256)
             try validate(domainName, name:"domainName", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
             try validate(resolverEndpointId, name:"resolverEndpointId", parent: name, max: 64)
             try validate(resolverEndpointId, name:"resolverEndpointId", parent: name, min: 1)
             try targetIps?.forEach {
@@ -443,8 +443,8 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 64)
                 try validate($0, name: "values[]", parent: name, min: 1)
@@ -1319,8 +1319,8 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
             try validate(resolverEndpointId, name:"resolverEndpointId", parent: name, max: 64)
             try validate(resolverEndpointId, name:"resolverEndpointId", parent: name, min: 1)
             try targetIps?.forEach {
@@ -1496,8 +1496,8 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_' ']+)")
             try validate(resolverEndpointId, name:"resolverEndpointId", parent: name, max: 64)
             try validate(resolverEndpointId, name:"resolverEndpointId", parent: name, min: 1)
         }

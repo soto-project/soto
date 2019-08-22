@@ -1277,7 +1277,7 @@ extension SecurityHub {
             try validate(imageId, name:"imageId", parent: name, pattern: ".*\\S.*")
             try validate(imageName, name:"imageName", parent: name, pattern: ".*\\S.*")
             try validate(launchedAt, name:"launchedAt", parent: name, pattern: ".*\\S.*")
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1311,7 +1311,7 @@ extension SecurityHub {
         public func validate(name: String) throws {
             try validate(description, name:"description", parent: name, pattern: ".*\\S.*")
             try validate(id, name:"id", parent: name, pattern: ".*\\S.*")
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1361,7 +1361,7 @@ extension SecurityHub {
         public func validate(name: String) throws {
             try filters.validate(name: "\(name).filters")
             try validate(groupByAttribute, name:"groupByAttribute", parent: name, pattern: ".*\\S.*")
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2745,7 +2745,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
             try validate(path, name:"path", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3074,7 +3074,7 @@ extension SecurityHub {
 
         public func validate(name: String) throws {
             try validate(launchedAt, name:"launchedAt", parent: name, pattern: ".*\\S.*")
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
             try validate(path, name:"path", parent: name, pattern: ".*\\S.*")
             try validate(terminatedAt, name:"terminatedAt", parent: name, pattern: ".*\\S.*")
         }
@@ -3680,7 +3680,7 @@ extension SecurityHub {
         public func validate(name: String) throws {
             try validate(actionTargetArn, name:"actionTargetArn", parent: name, pattern: ".*\\S.*")
             try validate(description, name:"description", parent: name, pattern: ".*\\S.*")
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3766,7 +3766,7 @@ extension SecurityHub {
             try filters?.validate(name: "\(name).filters")
             try validate(groupByAttribute, name:"groupByAttribute", parent: name, pattern: ".*\\S.*")
             try validate(insightArn, name:"insightArn", parent: name, pattern: ".*\\S.*")
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {

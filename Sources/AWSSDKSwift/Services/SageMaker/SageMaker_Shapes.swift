@@ -325,8 +325,8 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, pattern: ".*")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, pattern: ".*")
             try values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, pattern: ".*")
@@ -458,9 +458,9 @@ extension SageMaker {
         public func validate(name: String) throws {
             try validate(description, name:"description", parent: name, max: 1024)
             try validate(description, name:"description", parent: name, pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[A-Za-z0-9\\.\\-_]+")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9\\.\\-_]+")
             try supportedContentTypes.forEach {
                 try validate($0, name: "supportedContentTypes[]", parent: name, max: 256)
                 try validate($0, name: "supportedContentTypes[]", parent: name, pattern: ".*")
@@ -725,8 +725,8 @@ extension SageMaker {
             try validate(maxValue, name:"maxValue", parent: name, pattern: ".*")
             try validate(minValue, name:"minValue", parent: name, max: 256)
             try validate(minValue, name:"minValue", parent: name, pattern: ".*")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, pattern: ".*")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3763,9 +3763,9 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 255)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: ".+")
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".+")
             try validate(value, name:"value", parent: name, max: 1024)
             try validate(value, name:"value", parent: name, min: 1)
             try validate(value, name:"value", parent: name, pattern: ".+")
@@ -4114,8 +4114,8 @@ extension SageMaker {
             try validate(defaultValue, name:"defaultValue", parent: name, pattern: ".*")
             try validate(description, name:"description", parent: name, max: 1024)
             try validate(description, name:"description", parent: name, pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
             try range?.validate(name: "\(name).range")
         }
 
@@ -4638,8 +4638,8 @@ extension SageMaker {
             try validate(maxValue, name:"maxValue", parent: name, pattern: ".*")
             try validate(minValue, name:"minValue", parent: name, max: 256)
             try validate(minValue, name:"minValue", parent: name, pattern: ".*")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, pattern: ".*")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6688,9 +6688,9 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 255)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: ".+")
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".+")
             try validate(regex, name:"regex", parent: name, max: 500)
             try validate(regex, name:"regex", parent: name, min: 1)
             try validate(regex, name:"regex", parent: name, pattern: ".+")

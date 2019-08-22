@@ -18,7 +18,7 @@ extension Polly {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
+            try validate(self.name, name:"name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -107,7 +107,7 @@ extension Polly {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
+            try validate(self.name, name:"name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -419,7 +419,7 @@ extension Polly {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
+            try validate(self.name, name:"name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
         }
 
         private enum CodingKeys: String, CodingKey {

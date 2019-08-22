@@ -32,8 +32,8 @@ extension IoTAnalytics {
                 try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(next, name:"next", parent: name, max: 128)
             try validate(next, name:"next", parent: name, min: 1)
         }
@@ -227,8 +227,8 @@ extension IoTAnalytics {
             try validate(channelName, name:"channelName", parent: name, max: 128)
             try validate(channelName, name:"channelName", parent: name, min: 1)
             try validate(channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(next, name:"next", parent: name, max: 128)
             try validate(next, name:"next", parent: name, min: 1)
         }
@@ -1306,8 +1306,8 @@ extension IoTAnalytics {
             try validate(datastoreName, name:"datastoreName", parent: name, max: 128)
             try validate(datastoreName, name:"datastoreName", parent: name, min: 1)
             try validate(datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1805,8 +1805,8 @@ extension IoTAnalytics {
         public func validate(name: String) throws {
             try validate(attribute, name:"attribute", parent: name, max: 256)
             try validate(attribute, name:"attribute", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(next, name:"next", parent: name, max: 128)
             try validate(next, name:"next", parent: name, min: 1)
             try validate(roleArn, name:"roleArn", parent: name, max: 2048)
@@ -1855,8 +1855,8 @@ extension IoTAnalytics {
         public func validate(name: String) throws {
             try validate(attribute, name:"attribute", parent: name, max: 256)
             try validate(attribute, name:"attribute", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(next, name:"next", parent: name, max: 128)
             try validate(next, name:"next", parent: name, min: 1)
             try validate(roleArn, name:"roleArn", parent: name, max: 2048)
@@ -1919,8 +1919,8 @@ extension IoTAnalytics {
         public func validate(name: String) throws {
             try validate(filter, name:"filter", parent: name, max: 256)
             try validate(filter, name:"filter", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(next, name:"next", parent: name, max: 128)
             try validate(next, name:"next", parent: name, min: 1)
         }
@@ -2080,8 +2080,8 @@ extension IoTAnalytics {
             try validate(lambdaName, name:"lambdaName", parent: name, max: 64)
             try validate(lambdaName, name:"lambdaName", parent: name, min: 1)
             try validate(lambdaName, name:"lambdaName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(next, name:"next", parent: name, max: 128)
             try validate(next, name:"next", parent: name, min: 1)
         }
@@ -2462,8 +2462,8 @@ extension IoTAnalytics {
             try validate(attribute, name:"attribute", parent: name, min: 1)
             try validate(math, name:"math", parent: name, max: 256)
             try validate(math, name:"math", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(next, name:"next", parent: name, max: 128)
             try validate(next, name:"next", parent: name, min: 1)
         }
@@ -2738,8 +2738,8 @@ extension IoTAnalytics {
             }
             try validate(attributes, name:"attributes", parent: name, max: 50)
             try validate(attributes, name:"attributes", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(next, name:"next", parent: name, max: 128)
             try validate(next, name:"next", parent: name, min: 1)
         }
@@ -3034,8 +3034,8 @@ extension IoTAnalytics {
             }
             try validate(attributes, name:"attributes", parent: name, max: 50)
             try validate(attributes, name:"attributes", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(next, name:"next", parent: name, max: 128)
             try validate(next, name:"next", parent: name, min: 1)
         }
@@ -3238,9 +3238,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3487,8 +3487,8 @@ extension IoTAnalytics {
 
         public func validate(name: String) throws {
             try datasetContentVersionValue?.validate(name: "\(name).datasetContentVersionValue")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try outputFileUriValue?.validate(name: "\(name).outputFileUriValue")
             try validate(stringValue, name:"stringValue", parent: name, max: 1024)
             try validate(stringValue, name:"stringValue", parent: name, min: 0)

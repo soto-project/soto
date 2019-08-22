@@ -1230,8 +1230,8 @@ extension Route53Domains {
             try glueIps?.forEach {
                 try validate($0, name: "glueIps[]", parent: name, max: 45)
             }
-            try validate(name, name:"name", parent: name, max: 255)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-.]*")
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-.]*")
         }
 
         private enum CodingKeys: String, CodingKey {

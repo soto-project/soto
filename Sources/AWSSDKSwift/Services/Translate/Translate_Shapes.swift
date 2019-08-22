@@ -40,9 +40,9 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -100,9 +100,9 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -165,9 +165,9 @@ extension Translate {
             try validate(description, name:"description", parent: name, max: 256)
             try validate(description, name:"description", parent: name, pattern: "[\\P{M}\\p{M}]{0,256}")
             try encryptionKey?.validate(name: "\(name).encryptionKey")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
             try terminologyData.validate(name: "\(name).terminologyData")
         }
 

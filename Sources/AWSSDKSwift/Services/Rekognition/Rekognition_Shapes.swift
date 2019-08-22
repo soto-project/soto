@@ -454,9 +454,9 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try input.validate(name: "\(name).input")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
             try output.validate(name: "\(name).output")
             try validate(roleArn, name:"roleArn", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try settings.validate(name: "\(name).settings")
@@ -591,9 +591,9 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -677,9 +677,9 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2645,8 +2645,8 @@ extension Rekognition {
             try validate(bucket, name:"bucket", parent: name, max: 255)
             try validate(bucket, name:"bucket", parent: name, min: 3)
             try validate(bucket, name:"bucket", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(version, name:"version", parent: name, max: 1024)
             try validate(version, name:"version", parent: name, min: 1)
         }
@@ -3232,9 +3232,9 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3263,9 +3263,9 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {

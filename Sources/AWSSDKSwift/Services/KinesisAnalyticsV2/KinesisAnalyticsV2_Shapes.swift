@@ -2933,8 +2933,8 @@ extension KinesisAnalyticsV2 {
             try kinesisFirehoseOutput?.validate(name: "\(name).kinesisFirehoseOutput")
             try kinesisStreamsOutput?.validate(name: "\(name).kinesisStreamsOutput")
             try lambdaOutput?.validate(name: "\(name).lambdaOutput")
-            try validate(name, name:"name", parent: name, max: 32)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 32)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

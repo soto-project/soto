@@ -600,7 +600,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try selectorSettings?.validate(name: "\(name).selectorSettings")
         }
 
@@ -1221,7 +1221,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try selectorSettings?.validate(name: "\(name).selectorSettings")
         }
 
@@ -6341,7 +6341,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 32)
+            try validate(self.name, name:"name", parent: name, max: 32)
             try outputGroupSettings.validate(name: "\(name).outputGroupSettings")
             try outputs.forEach {
                 try $0.validate(name: "\(name).outputs[]")

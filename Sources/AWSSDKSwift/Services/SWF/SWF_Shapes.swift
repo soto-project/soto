@@ -323,8 +323,8 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(version, name:"version", parent: name, max: 64)
             try validate(version, name:"version", parent: name, min: 1)
         }
@@ -1432,8 +1432,8 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1510,8 +1510,8 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2405,8 +2405,8 @@ extension SWF {
             try validate(domain, name:"domain", parent: name, min: 1)
             try validate(maximumPageSize, name:"maximumPageSize", parent: name, max: 1000)
             try validate(maximumPageSize, name:"maximumPageSize", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(nextPageToken, name:"nextPageToken", parent: name, max: 2048)
         }
 
@@ -2670,8 +2670,8 @@ extension SWF {
             try validate(domain, name:"domain", parent: name, min: 1)
             try validate(maximumPageSize, name:"maximumPageSize", parent: name, max: 1000)
             try validate(maximumPageSize, name:"maximumPageSize", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(nextPageToken, name:"nextPageToken", parent: name, max: 2048)
         }
 
@@ -2965,8 +2965,8 @@ extension SWF {
             try validate(description, name:"description", parent: name, max: 1024)
             try validate(domain, name:"domain", parent: name, max: 256)
             try validate(domain, name:"domain", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(version, name:"version", parent: name, max: 64)
             try validate(version, name:"version", parent: name, min: 1)
         }
@@ -3011,8 +3011,8 @@ extension SWF {
 
         public func validate(name: String) throws {
             try validate(description, name:"description", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -3085,8 +3085,8 @@ extension SWF {
             try validate(description, name:"description", parent: name, max: 1024)
             try validate(domain, name:"domain", parent: name, max: 256)
             try validate(domain, name:"domain", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(version, name:"version", parent: name, max: 64)
             try validate(version, name:"version", parent: name, min: 1)
         }
@@ -3643,8 +3643,8 @@ extension SWF {
             try validate(id, name:"id", parent: name, min: 1)
             try validate(input, name:"input", parent: name, max: 32768)
             try validate(input, name:"input", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(startToCloseTimeout, name:"startToCloseTimeout", parent: name, max: 8)
         }
 
@@ -4350,8 +4350,8 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4533,8 +4533,8 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5226,8 +5226,8 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(version, name:"version", parent: name, max: 64)
             try validate(version, name:"version", parent: name, min: 1)
         }
@@ -5319,8 +5319,8 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(version, name:"version", parent: name, max: 64)
         }
 

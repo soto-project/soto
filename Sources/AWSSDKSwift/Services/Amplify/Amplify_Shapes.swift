@@ -394,8 +394,8 @@ extension Amplify {
             }
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", parent: name, max: 1000)
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 255)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(oauthToken, name:"oauthToken", parent: name, max: 100)
             try validate(repository, name:"repository", parent: name, max: 1000)
             try tags?.forEach {
@@ -2211,8 +2211,8 @@ extension Amplify {
             }
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", parent: name, max: 1000)
             try validate(iamServiceRoleArn, name:"iamServiceRoleArn", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 255)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

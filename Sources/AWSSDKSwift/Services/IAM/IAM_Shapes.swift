@@ -932,9 +932,9 @@ extension IAM {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\w._-]+")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\w._-]+")
             try validate(sAMLMetadataDocument, name:"sAMLMetadataDocument", parent: name, max: 10000000)
             try validate(sAMLMetadataDocument, name:"sAMLMetadataDocument", parent: name, min: 1000)
         }

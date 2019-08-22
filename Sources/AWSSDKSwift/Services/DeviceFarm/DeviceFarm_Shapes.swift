@@ -244,8 +244,8 @@ extension DeviceFarm {
         public func validate(name: String) throws {
             try validate(description, name:"description", parent: name, max: 16384)
             try validate(description, name:"description", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
             try validate(projectArn, name:"projectArn", parent: name, max: 1011)
             try validate(projectArn, name:"projectArn", parent: name, min: 32)
         }
@@ -307,8 +307,8 @@ extension DeviceFarm {
         public func validate(name: String) throws {
             try validate(description, name:"description", parent: name, max: 16384)
             try validate(description, name:"description", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -398,8 +398,8 @@ extension DeviceFarm {
             try validate(description, name:"description", parent: name, min: 0)
             try validate(downlinkLossPercent, name:"downlinkLossPercent", parent: name, max: 100)
             try validate(downlinkLossPercent, name:"downlinkLossPercent", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
             try validate(projectArn, name:"projectArn", parent: name, max: 1011)
             try validate(projectArn, name:"projectArn", parent: name, min: 32)
             try validate(uplinkLossPercent, name:"uplinkLossPercent", parent: name, max: 100)
@@ -456,8 +456,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -576,8 +576,8 @@ extension DeviceFarm {
             try validate(deviceArn, name:"deviceArn", parent: name, min: 32)
             try validate(instanceArn, name:"instanceArn", parent: name, max: 1011)
             try validate(instanceArn, name:"instanceArn", parent: name, min: 32)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
             try validate(projectArn, name:"projectArn", parent: name, max: 1011)
             try validate(projectArn, name:"projectArn", parent: name, min: 32)
             try validate(remoteRecordAppArn, name:"remoteRecordAppArn", parent: name, max: 1011)
@@ -646,8 +646,8 @@ extension DeviceFarm {
         public func validate(name: String) throws {
             try validate(contentType, name:"contentType", parent: name, max: 64)
             try validate(contentType, name:"contentType", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
             try validate(projectArn, name:"projectArn", parent: name, max: 1011)
             try validate(projectArn, name:"projectArn", parent: name, min: 32)
         }
@@ -4358,8 +4358,8 @@ extension DeviceFarm {
             try configuration?.validate(name: "\(name).configuration")
             try validate(devicePoolArn, name:"devicePoolArn", parent: name, max: 1011)
             try validate(devicePoolArn, name:"devicePoolArn", parent: name, min: 32)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
             try validate(projectArn, name:"projectArn", parent: name, max: 1011)
             try validate(projectArn, name:"projectArn", parent: name, min: 32)
             try test.validate(name: "\(name).test")
@@ -4956,8 +4956,8 @@ extension DeviceFarm {
             try validate(arn, name:"arn", parent: name, min: 32)
             try validate(description, name:"description", parent: name, max: 16384)
             try validate(description, name:"description", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5024,8 +5024,8 @@ extension DeviceFarm {
             try validate(arn, name:"arn", parent: name, min: 32)
             try validate(description, name:"description", parent: name, max: 16384)
             try validate(description, name:"description", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5118,8 +5118,8 @@ extension DeviceFarm {
             try validate(description, name:"description", parent: name, min: 0)
             try validate(downlinkLossPercent, name:"downlinkLossPercent", parent: name, max: 100)
             try validate(downlinkLossPercent, name:"downlinkLossPercent", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
             try validate(uplinkLossPercent, name:"uplinkLossPercent", parent: name, max: 100)
             try validate(uplinkLossPercent, name:"uplinkLossPercent", parent: name, min: 0)
         }
@@ -5180,8 +5180,8 @@ extension DeviceFarm {
         public func validate(name: String) throws {
             try validate(arn, name:"arn", parent: name, max: 1011)
             try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5237,8 +5237,8 @@ extension DeviceFarm {
             try validate(arn, name:"arn", parent: name, min: 32)
             try validate(contentType, name:"contentType", parent: name, max: 64)
             try validate(contentType, name:"contentType", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

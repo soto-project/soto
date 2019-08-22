@@ -32,9 +32,9 @@ extension ResourceGroups {
         public func validate(name: String) throws {
             try validate(description, name:"description", parent: name, max: 512)
             try validate(description, name:"description", parent: name, pattern: "[\\sa-zA-Z0-9_\\.-]*")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\.-]+")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\.-]+")
             try resourceQuery.validate(name: "\(name).resourceQuery")
             try tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)

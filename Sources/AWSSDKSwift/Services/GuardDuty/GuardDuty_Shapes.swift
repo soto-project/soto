@@ -407,8 +407,8 @@ extension GuardDuty {
             try validate(description, name:"description", parent: name, min: 0)
             try validate(detectorId, name:"detectorId", parent: name, max: 300)
             try validate(detectorId, name:"detectorId", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 3)
             try validate(rank, name:"rank", parent: name, max: 100)
             try validate(rank, name:"rank", parent: name, min: 1)
             try tags?.forEach {
@@ -491,8 +491,8 @@ extension GuardDuty {
             try validate(detectorId, name:"detectorId", parent: name, min: 1)
             try validate(location, name:"location", parent: name, max: 300)
             try validate(location, name:"location", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 300)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 300)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
@@ -662,8 +662,8 @@ extension GuardDuty {
             try validate(detectorId, name:"detectorId", parent: name, min: 1)
             try validate(location, name:"location", parent: name, max: 300)
             try validate(location, name:"location", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 300)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 300)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
@@ -3378,8 +3378,8 @@ extension GuardDuty {
             try validate(detectorId, name:"detectorId", parent: name, min: 1)
             try validate(location, name:"location", parent: name, max: 300)
             try validate(location, name:"location", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 300)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 300)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3432,8 +3432,8 @@ extension GuardDuty {
             try validate(detectorId, name:"detectorId", parent: name, min: 1)
             try validate(location, name:"location", parent: name, max: 300)
             try validate(location, name:"location", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 300)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 300)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

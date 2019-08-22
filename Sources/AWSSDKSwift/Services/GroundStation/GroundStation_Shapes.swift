@@ -348,9 +348,9 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try configData.validate(name: "\(name).configData")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -436,9 +436,9 @@ extension GroundStation {
             }
             try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", parent: name, max: 21600)
             try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -480,9 +480,9 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1843,9 +1843,9 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try configData.validate(name: "\(name).configData")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1904,9 +1904,9 @@ extension GroundStation {
             }
             try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", parent: name, max: 21600)
             try validate(minimumViableContactDurationSeconds, name:"minimumViableContactDurationSeconds", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[ a-zA-Z0-9_:-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

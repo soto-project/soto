@@ -1591,8 +1591,8 @@ extension ApplicationDiscoveryService {
             try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
             try validate(importUrl, name:"importUrl", parent: name, max: 4000)
             try validate(importUrl, name:"importUrl", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -636,8 +636,8 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 255)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(value, name:"value", parent: name, max: 255)
             try validate(value, name:"value", parent: name, min: 1)
         }
@@ -665,8 +665,8 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 255)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(value, name:"value", parent: name, max: 255)
             try validate(value, name:"value", parent: name, min: 1)
         }

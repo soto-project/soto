@@ -367,9 +367,9 @@ extension DataSync {
             }
             try validate(excludes, name:"excludes", parent: name, max: 1)
             try validate(excludes, name:"excludes", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
             try options?.validate(name: "\(name).options")
             try validate(sourceLocationArn, name:"sourceLocationArn", parent: name, max: 128)
             try validate(sourceLocationArn, name:"sourceLocationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
@@ -1803,9 +1803,9 @@ extension DataSync {
         public func validate(name: String) throws {
             try validate(agentArn, name:"agentArn", parent: name, max: 128)
             try validate(agentArn, name:"agentArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1857,9 +1857,9 @@ extension DataSync {
             }
             try validate(excludes, name:"excludes", parent: name, max: 1)
             try validate(excludes, name:"excludes", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
             try options?.validate(name: "\(name).options")
             try validate(taskArn, name:"taskArn", parent: name, max: 128)
             try validate(taskArn, name:"taskArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")

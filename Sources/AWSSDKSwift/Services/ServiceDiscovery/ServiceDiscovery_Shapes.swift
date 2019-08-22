@@ -28,7 +28,7 @@ extension ServiceDiscovery {
         public func validate(name: String) throws {
             try validate(creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
             try validate(description, name:"description", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -82,7 +82,7 @@ extension ServiceDiscovery {
         public func validate(name: String) throws {
             try validate(creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
             try validate(description, name:"description", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, max: 1024)
             try validate(vpc, name:"vpc", parent: name, max: 64)
         }
 
@@ -134,7 +134,7 @@ extension ServiceDiscovery {
         public func validate(name: String) throws {
             try validate(creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
             try validate(description, name:"description", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -203,7 +203,7 @@ extension ServiceDiscovery {
             try dnsConfig?.validate(name: "\(name).dnsConfig")
             try healthCheckConfig?.validate(name: "\(name).healthCheckConfig")
             try healthCheckCustomConfig?.validate(name: "\(name).healthCheckCustomConfig")
-            try validate(name, name:"name", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
+            try validate(self.name, name:"name", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
             try validate(namespaceId, name:"namespaceId", parent: name, max: 64)
         }
 

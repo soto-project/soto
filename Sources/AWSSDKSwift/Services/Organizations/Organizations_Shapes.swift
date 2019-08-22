@@ -440,8 +440,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -496,8 +496,8 @@ extension Organizations {
             try validate(content, name:"content", parent: name, max: 1000000)
             try validate(content, name:"content", parent: name, min: 1)
             try validate(description, name:"description", parent: name, max: 512)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2421,8 +2421,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(organizationalUnitId, name:"organizationalUnitId", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
         }
 
@@ -2477,8 +2477,8 @@ extension Organizations {
             try validate(content, name:"content", parent: name, max: 1000000)
             try validate(content, name:"content", parent: name, min: 1)
             try validate(description, name:"description", parent: name, max: 512)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
         }
 

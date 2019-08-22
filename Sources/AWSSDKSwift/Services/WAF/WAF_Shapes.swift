@@ -199,8 +199,8 @@ extension WAF {
 
         public func validate(name: String) throws {
             try validate(changeToken, name:"changeToken", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -249,8 +249,8 @@ extension WAF {
 
         public func validate(name: String) throws {
             try validate(changeToken, name:"changeToken", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -299,8 +299,8 @@ extension WAF {
 
         public func validate(name: String) throws {
             try validate(changeToken, name:"changeToken", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -364,8 +364,8 @@ extension WAF {
 
         public func validate(name: String) throws {
             try validate(changeToken, name:"changeToken", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(rateLimit, name:"rateLimit", parent: name, max: 2000000000)
             try validate(rateLimit, name:"rateLimit", parent: name, min: 2000)
             try tags?.forEach {
@@ -424,8 +424,8 @@ extension WAF {
 
         public func validate(name: String) throws {
             try validate(changeToken, name:"changeToken", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -474,8 +474,8 @@ extension WAF {
 
         public func validate(name: String) throws {
             try validate(changeToken, name:"changeToken", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -531,8 +531,8 @@ extension WAF {
 
         public func validate(name: String) throws {
             try validate(changeToken, name:"changeToken", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -594,8 +594,8 @@ extension WAF {
 
         public func validate(name: String) throws {
             try validate(changeToken, name:"changeToken", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -650,8 +650,8 @@ extension WAF {
 
         public func validate(name: String) throws {
             try validate(changeToken, name:"changeToken", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -700,8 +700,8 @@ extension WAF {
 
         public func validate(name: String) throws {
             try validate(changeToken, name:"changeToken", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -761,8 +761,8 @@ extension WAF {
 
         public func validate(name: String) throws {
             try validate(changeToken, name:"changeToken", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -818,8 +818,8 @@ extension WAF {
 
         public func validate(name: String) throws {
             try validate(changeToken, name:"changeToken", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

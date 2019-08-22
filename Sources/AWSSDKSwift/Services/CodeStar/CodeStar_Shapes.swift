@@ -112,9 +112,9 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^\\S[\\w.-]*$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^\\S[\\w.-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -215,9 +215,9 @@ extension CodeStar {
             try validate(id, name:"id", parent: name, max: 15)
             try validate(id, name:"id", parent: name, min: 2)
             try validate(id, name:"id", parent: name, pattern: "^[a-z][a-z0-9-]+$")
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^\\S(.*\\S)?$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^\\S(.*\\S)?$")
             try sourceCode?.forEach {
                 try $0.validate(name: "\(name).sourceCode[]")
             }
@@ -684,9 +684,9 @@ extension CodeStar {
             try validate(description, name:"description", parent: name, max: 1000)
             try validate(description, name:"description", parent: name, min: 1)
             try validate(description, name:"description", parent: name, pattern: "^\\S(.*\\S)?$")
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^\\S[\\w.-]*$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^\\S[\\w.-]*$")
             try validate(owner, name:"owner", parent: name, max: 100)
             try validate(owner, name:"owner", parent: name, min: 1)
             try validate(owner, name:"owner", parent: name, pattern: "^\\S(.*\\S)?$")
@@ -1285,9 +1285,9 @@ extension CodeStar {
             try validate(id, name:"id", parent: name, max: 15)
             try validate(id, name:"id", parent: name, min: 2)
             try validate(id, name:"id", parent: name, pattern: "^[a-z][a-z0-9-]+$")
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^\\S(.*\\S)?$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^\\S(.*\\S)?$")
         }
 
         private enum CodingKeys: String, CodingKey {

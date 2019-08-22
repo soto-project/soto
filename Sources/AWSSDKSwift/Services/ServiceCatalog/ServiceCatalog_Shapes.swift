@@ -883,7 +883,7 @@ extension ServiceCatalog {
             try validate(idempotencyToken, name:"idempotencyToken", parent: name, max: 128)
             try validate(idempotencyToken, name:"idempotencyToken", parent: name, min: 1)
             try validate(idempotencyToken, name:"idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try validate(name, name:"name", parent: name, max: 8191)
+            try validate(self.name, name:"name", parent: name, max: 8191)
             try validate(owner, name:"owner", parent: name, max: 8191)
             try validate(supportDescription, name:"supportDescription", parent: name, max: 8191)
             try validate(supportEmail, name:"supportEmail", parent: name, max: 254)
@@ -1184,9 +1184,9 @@ extension ServiceCatalog {
             try validate(idempotencyToken, name:"idempotencyToken", parent: name, max: 128)
             try validate(idempotencyToken, name:"idempotencyToken", parent: name, min: 1)
             try validate(idempotencyToken, name:"idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6394,7 +6394,7 @@ extension ServiceCatalog {
             try validate(id, name:"id", parent: name, max: 100)
             try validate(id, name:"id", parent: name, min: 1)
             try validate(id, name:"id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
-            try validate(name, name:"name", parent: name, max: 8191)
+            try validate(self.name, name:"name", parent: name, max: 8191)
             try validate(owner, name:"owner", parent: name, max: 8191)
             try removeTags?.forEach {
                 try validate($0, name: "removeTags[]", parent: name, max: 128)
@@ -6844,9 +6844,9 @@ extension ServiceCatalog {
             try validate(id, name:"id", parent: name, max: 100)
             try validate(id, name:"id", parent: name, min: 1)
             try validate(id, name:"id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*")
         }
 
         private enum CodingKeys: String, CodingKey {

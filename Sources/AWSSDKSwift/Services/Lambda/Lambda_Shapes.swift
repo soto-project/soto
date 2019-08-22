@@ -361,9 +361,9 @@ extension Lambda {
             try validate(functionVersion, name:"functionVersion", parent: name, max: 1024)
             try validate(functionVersion, name:"functionVersion", parent: name, min: 1)
             try validate(functionVersion, name:"functionVersion", parent: name, pattern: "(\\$LATEST|[0-9]+)")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
             try routingConfig?.validate(name: "\(name).routingConfig")
         }
 
@@ -584,9 +584,9 @@ extension Lambda {
             try validate(functionName, name:"functionName", parent: name, max: 140)
             try validate(functionName, name:"functionName", parent: name, min: 1)
             try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1051,9 +1051,9 @@ extension Lambda {
             try validate(functionName, name:"functionName", parent: name, max: 140)
             try validate(functionName, name:"functionName", parent: name, min: 1)
             try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2497,9 +2497,9 @@ extension Lambda {
             try validate(functionVersion, name:"functionVersion", parent: name, max: 1024)
             try validate(functionVersion, name:"functionVersion", parent: name, min: 1)
             try validate(functionVersion, name:"functionVersion", parent: name, pattern: "(\\$LATEST|[0-9]+)")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
             try routingConfig?.validate(name: "\(name).routingConfig")
         }
 

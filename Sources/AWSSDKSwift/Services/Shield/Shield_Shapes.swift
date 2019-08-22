@@ -271,9 +271,9 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[ a-zA-Z0-9_\\\\.\\\\-]*")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[ a-zA-Z0-9_\\\\.\\\\-]*")
             try validate(resourceArn, name:"resourceArn", parent: name, max: 2048)
             try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
             try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws.*")

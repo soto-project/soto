@@ -1970,7 +1970,7 @@ extension SSM {
             try validate(maxErrors, name:"maxErrors", parent: name, max: 7)
             try validate(maxErrors, name:"maxErrors", parent: name, min: 1)
             try validate(maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
             try outputLocation?.validate(name: "\(name).outputLocation")
             try validate(scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
             try validate(scheduleExpression, name:"scheduleExpression", parent: name, min: 1)
@@ -2087,7 +2087,7 @@ extension SSM {
             try validate(maxErrors, name:"maxErrors", parent: name, max: 7)
             try validate(maxErrors, name:"maxErrors", parent: name, min: 1)
             try validate(maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
             try outputLocation?.validate(name: "\(name).outputLocation")
             try validate(scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
             try validate(scheduleExpression, name:"scheduleExpression", parent: name, min: 1)
@@ -2178,7 +2178,7 @@ extension SSM {
             try validate(attachments, name:"attachments", parent: name, max: 1)
             try validate(attachments, name:"attachments", parent: name, min: 0)
             try validate(content, name:"content", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2278,9 +2278,9 @@ extension SSM {
             try validate(description, name:"description", parent: name, min: 1)
             try validate(duration, name:"duration", parent: name, max: 24)
             try validate(duration, name:"duration", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try validate(schedule, name:"schedule", parent: name, max: 256)
             try validate(schedule, name:"schedule", parent: name, min: 1)
             try tags?.forEach {
@@ -2482,9 +2482,9 @@ extension SSM {
             try validate(description, name:"description", parent: name, max: 1024)
             try validate(description, name:"description", parent: name, min: 1)
             try globalFilters?.validate(name: "\(name).globalFilters")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try rejectedPatches?.forEach {
                 try validate($0, name: "rejectedPatches[]", parent: name, max: 100)
                 try validate($0, name: "rejectedPatches[]", parent: name, min: 1)
@@ -2624,7 +2624,7 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
             try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2664,7 +2664,7 @@ extension SSM {
 
         public func validate(name: String) throws {
             try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try validate(versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
@@ -2803,8 +2803,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 2048)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3376,7 +3376,7 @@ extension SSM {
             try validate(associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
             try validate(associationVersion, name:"associationVersion", parent: name, pattern: "([$]LATEST)|([1-9][0-9]*)")
             try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3610,7 +3610,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3658,7 +3658,7 @@ extension SSM {
 
         public func validate(name: String) throws {
             try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
             try validate(versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
@@ -5976,7 +5976,7 @@ extension SSM {
 
         public func validate(name: String) throws {
             try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
             try validate(versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
@@ -6826,8 +6826,8 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(maxResults, name:"maxResults", parent: name, max: 50)
             try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 2048)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6877,8 +6877,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 2048)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7924,8 +7924,8 @@ extension SSM {
             }
             try validate(filters, name:"filters", parent: name, max: 5)
             try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 200)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 200)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8149,8 +8149,8 @@ extension SSM {
             }
             try validate(labels, name:"labels", parent: name, max: 10)
             try validate(labels, name:"labels", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 2048)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8603,7 +8603,7 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(maxResults, name:"maxResults", parent: name, max: 50)
             try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9431,8 +9431,8 @@ extension SSM {
 
         public func validate(name: String) throws {
             try validate(input, name:"input", parent: name, max: 4096)
-            try validate(name, name:"name", parent: name, max: 80)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 80)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9669,7 +9669,7 @@ extension SSM {
                 try validate($0, name: "accountIdsToRemove[]", parent: name, pattern: "(?i)all|[0-9]{12}")
             }
             try validate(accountIdsToRemove, name:"accountIdsToRemove", parent: name, max: 20)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10909,7 +10909,7 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(configuration, name:"configuration", parent: name, max: 512)
             try validate(configuration, name:"configuration", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,50}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,50}$")
             try products.forEach {
                 try validate($0, name: "products[]", parent: name, max: 128)
                 try validate($0, name: "products[]", parent: name, min: 1)
@@ -11173,8 +11173,8 @@ extension SSM {
             try validate(keyId, name:"keyId", parent: name, max: 256)
             try validate(keyId, name:"keyId", parent: name, min: 1)
             try validate(keyId, name:"keyId", parent: name, pattern: "^([a-zA-Z0-9:/_-]+)$")
-            try validate(name, name:"name", parent: name, max: 2048)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
             try validate(policies, name:"policies", parent: name, max: 4096)
             try validate(policies, name:"policies", parent: name, min: 1)
             try tags?.forEach {
@@ -11348,9 +11348,9 @@ extension SSM {
             try validate(clientToken, name:"clientToken", parent: name, min: 1)
             try validate(description, name:"description", parent: name, max: 128)
             try validate(description, name:"description", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try validate(ownerInformation, name:"ownerInformation", parent: name, max: 128)
             try validate(ownerInformation, name:"ownerInformation", parent: name, min: 1)
             try targets.forEach {
@@ -11467,9 +11467,9 @@ extension SSM {
             try validate(maxErrors, name:"maxErrors", parent: name, max: 7)
             try validate(maxErrors, name:"maxErrors", parent: name, min: 1)
             try validate(maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try validate(priority, name:"priority", parent: name, min: 0)
             try targets.forEach {
                 try $0.validate(name: "\(name).targets[]")
@@ -13025,7 +13025,7 @@ extension SSM {
             try validate(maxErrors, name:"maxErrors", parent: name, max: 7)
             try validate(maxErrors, name:"maxErrors", parent: name, min: 1)
             try validate(maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
             try outputLocation?.validate(name: "\(name).outputLocation")
             try validate(scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
             try validate(scheduleExpression, name:"scheduleExpression", parent: name, min: 1)
@@ -13093,7 +13093,7 @@ extension SSM {
         public func validate(name: String) throws {
             try associationStatus.validate(name: "\(name).associationStatus")
             try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13138,7 +13138,7 @@ extension SSM {
 
         public func validate(name: String) throws {
             try validate(documentVersion, name:"documentVersion", parent: name, pattern: "(^[1-9][0-9]*$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13208,7 +13208,7 @@ extension SSM {
             try validate(attachments, name:"attachments", parent: name, min: 0)
             try validate(content, name:"content", parent: name, min: 1)
             try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try validate(targetType, name:"targetType", parent: name, max: 200)
             try validate(targetType, name:"targetType", parent: name, pattern: "^\\/[\\w\\.\\-\\:\\/]*$")
             try validate(versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
@@ -13305,9 +13305,9 @@ extension SSM {
             try validate(description, name:"description", parent: name, min: 1)
             try validate(duration, name:"duration", parent: name, max: 24)
             try validate(duration, name:"duration", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try validate(schedule, name:"schedule", parent: name, max: 256)
             try validate(schedule, name:"schedule", parent: name, min: 1)
             try validate(windowId, name:"windowId", parent: name, max: 20)
@@ -13437,9 +13437,9 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(description, name:"description", parent: name, max: 128)
             try validate(description, name:"description", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try validate(ownerInformation, name:"ownerInformation", parent: name, max: 128)
             try validate(ownerInformation, name:"ownerInformation", parent: name, min: 1)
             try targets?.forEach {
@@ -13582,9 +13582,9 @@ extension SSM {
             try validate(maxErrors, name:"maxErrors", parent: name, max: 7)
             try validate(maxErrors, name:"maxErrors", parent: name, min: 1)
             try validate(maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try validate(priority, name:"priority", parent: name, min: 0)
             try targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
@@ -13886,9 +13886,9 @@ extension SSM {
             try validate(description, name:"description", parent: name, max: 1024)
             try validate(description, name:"description", parent: name, min: 1)
             try globalFilters?.validate(name: "\(name).globalFilters")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try rejectedPatches?.forEach {
                 try validate($0, name: "rejectedPatches[]", parent: name, max: 100)
                 try validate($0, name: "rejectedPatches[]", parent: name, min: 1)

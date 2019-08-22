@@ -436,8 +436,8 @@ extension DLM {
 
         public func validate(name: String) throws {
             try createRule?.validate(name: "\(name).createRule")
-            try validate(name, name:"name", parent: name, max: 500)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 500)
+            try validate(self.name, name:"name", parent: name, min: 0)
             try retainRule?.validate(name: "\(name).retainRule")
             try validate(tagsToAdd, name:"tagsToAdd", parent: name, max: 50)
             try validate(tagsToAdd, name:"tagsToAdd", parent: name, min: 0)
