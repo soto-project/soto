@@ -113,7 +113,7 @@ public extension S3 {
         var completedParts: [S3.CompletedPart] = []
         
         // function uploading part of a file and queueing up upload of the next part
-        func multipartUploadPart(partNumber: Int32, uploadId: String, body: Data? = nil) throws -> Future<[S3.CompletedPart]> {
+        func multipartUploadPart(partNumber: Int, uploadId: String, body: Data? = nil) throws -> Future<[S3.CompletedPart]> {
             // create upload data future, if there is no data to load because this is the first time this is called create a succeeded future
             let uploadResult : Future<[S3.CompletedPart]>
             if let body = body {
