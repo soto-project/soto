@@ -60,7 +60,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             break
         }
 
-        if let data = try request.body.asData() {
+        if let data = request.body.asData() {
             let encoded = Data(md5(data)).base64EncodedString()
             request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
         }
