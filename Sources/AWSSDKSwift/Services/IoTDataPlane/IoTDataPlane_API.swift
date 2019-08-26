@@ -17,6 +17,7 @@ public struct IoTDataPlane {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "data.iot",
+            signingName: "iotdata",
             serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2015-05-28",
             endpoint: endpoint,

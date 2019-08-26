@@ -17,6 +17,7 @@ public struct SES {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "email",
+            signingName: "ses",
             serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2010-12-01",
             endpoint: endpoint,

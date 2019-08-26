@@ -18,6 +18,7 @@ public struct ECR {
             region: region,
             amzTarget: "AmazonEC2ContainerRegistry_V20150921",
             service: "api.ecr",
+            signingName: "ecr",
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-09-21",
             endpoint: endpoint,

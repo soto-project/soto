@@ -17,6 +17,7 @@ public struct MediaTailor {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "api.mediatailor",
+            signingName: "mediatailor",
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2018-04-23",
             endpoint: endpoint,

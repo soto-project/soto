@@ -26,6 +26,9 @@ public struct {{ name }} {
             amzTarget: "{{amzTarget}}",
 {% endif %}
             service: "{{endpointPrefix}}",
+{% if signingName %}
+            signingName: "{{signingName}}",
+{% endif %}
             serviceProtocol: {{protocol}},
             apiVersion: "{{apiVersion}}",
             endpoint: endpoint,

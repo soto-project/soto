@@ -18,6 +18,7 @@ public struct SageMaker {
             region: region,
             amzTarget: "SageMaker",
             service: "api.sagemaker",
+            signingName: "sagemaker",
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-07-24",
             endpoint: endpoint,

@@ -18,6 +18,7 @@ public struct DynamoDBStreams {
             region: region,
             amzTarget: "DynamoDBStreams_20120810",
             service: "streams.dynamodb",
+            signingName: "dynamodb",
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 0)),
             apiVersion: "2012-08-10",
             endpoint: endpoint,

@@ -14,6 +14,7 @@ public struct PersonalizeRuntime {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "personalize-runtime",
+            signingName: "personalize",
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2018-05-22",
             endpoint: endpoint,

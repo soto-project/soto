@@ -17,6 +17,7 @@ public struct SageMakerRuntime {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "runtime.sagemaker",
+            signingName: "sagemaker",
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-05-13",
             endpoint: endpoint,

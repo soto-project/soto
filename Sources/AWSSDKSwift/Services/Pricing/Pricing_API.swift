@@ -18,6 +18,7 @@ public struct Pricing {
             region: region,
             amzTarget: "AWSPriceListService",
             service: "api.pricing",
+            signingName: "pricing",
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-10-15",
             endpoint: endpoint,
