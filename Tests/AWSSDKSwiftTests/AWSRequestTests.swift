@@ -23,7 +23,7 @@ class AWSRequestTests: XCTestCase {
     /// test awsRequest body is expected string
     func testRequestedBody(expected: String, result: AWSRequest) throws {
         // get body
-        let bodyData = try result.body.asData()
+        let bodyData = result.body.asData()
         XCTAssertNotNil(bodyData)
         if let body = String(data:bodyData!, encoding: .utf8) {
             XCTAssertEqual(expected, body)
@@ -144,7 +144,7 @@ class AWSRequestTests: XCTestCase {
     
     func testIAMAttachGroupPolicyValidate() {
         // regular expression fail
-        let request = IAM.AttachGroupPolicyRequest(groupName: "MY:GROUP", policyArn: "arn://3948574985/unvalidated")
+        let request = IAM.AttachGroupPolicyRequest(groupName: ":MY:GROUP", policyArn: "arn://3948574985/unvalidated")
         testAWSValidationFail(client: IAM().client, operation: "AttachGroupPolicy", input: request)
         // string length
         let request2 = IAM.AttachGroupPolicyRequest(groupName: "MYGROUP", policyArn: "arn:tooshort")
@@ -168,7 +168,7 @@ class AWSRequestTests: XCTestCase {
     
     func testACMAddTagsToCertificateValidate() {
         // test validating array members
-        let request = ACM.AddTagsToCertificateRequest(certificateArn: "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012", tags: [ACM.Tag(key:"hello", value:"1"), ACM.Tag(key:"hello?", value:"1")])
+        let request = ACM.AddTagsToCertificateRequest(certificateArn: "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012", tags: [ACM.Tag(key:"hello", value:"1"), ACM.Tag(key:"?hello?", value:"1")])
         testAWSValidationFail(client: ACM().client, operation: "AddTagsToCertificate", input: request)
     }
     

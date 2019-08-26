@@ -18,7 +18,7 @@ public struct GlacierRequestMiddleware: AWSServiceMiddleware {
         let treeHashHeader = "x-amz-sha256-tree-hash"
 
         if request.httpHeaders[treeHashHeader] == nil {
-            if let data = try request.body.asData() {
+            if let data = request.body.asData() {
                 let treeHash = computeTreeHash(data).hexdigest()
                 request.addValue(treeHash, forHTTPHeaderField: treeHashHeader)
             }
