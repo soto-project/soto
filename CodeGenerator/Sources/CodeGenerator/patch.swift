@@ -29,6 +29,11 @@ let servicePatches : [String: [Patch]] = [
     "ELB" : [
         Patch(.replace, entry:["shapes", "SecurityGroupOwnerAlias", "type"], value:"integer", originalValue:"string")
     ],
+    "Route53": [
+        Patch(.remove, entry:["shapes", "ListHealthChecksResponse", "required"], value:"Marker"),
+        Patch(.remove, entry:["shapes", "ListHostedZonesResponse", "required"], value:"Marker"),
+        Patch(.remove, entry:["shapes", "ListReusableDelegationSetsResponse", "required"], value:"Marker")
+    ],
     "S3": [
         Patch(.replace, entry:["shapes","ReplicationStatus","enum",0], value:"COMPLETED", originalValue:"COMPLETE"),
         Patch(.replace, entry:["shapes","Size","type"], value:"long", originalValue:"integer"),
