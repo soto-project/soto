@@ -44,6 +44,14 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             }
         }
 
+        // add metadata to request
+        if let metadata = request.httpHeaders["x-amz-meta-"] as? [String: String] {
+            for (key,value) in metadata {
+                request.httpHeaders["x-amz-meta-\(key)"] = value
+            }
+            request.httpHeaders["x-amz-meta-"] = nil
+        }
+        
         switch request.operation {
         case "CreateBucket":
             var xml = ""
@@ -69,17 +77,19 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
     }
     
     
-    public func chain(responseBody: Body) throws -> Body {
-        switch responseBody {
+    public func chain(response: AWSResponse) throws -> AWSResponse {
+        var response = response
+        
+        switch response.body {
         case .xml(let element):
             if element.name == "LocationConstraint" {
                 let parentElement = XML.Element(name: "BucketLocation")
                 parentElement.addChild(element)
-                return .xml(parentElement)
+                response.body = .xml(parentElement)
             }
         default:
             break
         }
-        return responseBody
+        return response
     }
 }
