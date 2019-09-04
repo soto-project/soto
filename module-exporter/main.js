@@ -7,8 +7,8 @@ const _ = require('lodash');
 _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 
 var currentAWSDKVersion = {
-  major: "1",
-  minor: "0",
+  major: "3",
+  minor: "1",
   patch: "0"
 };
 
@@ -73,7 +73,21 @@ fs.exists = function(path){
 co(function *() {
   const servicePath = __dirname + "/../Sources/AWSSDKSwift/Services";
   const middlewarePath = __dirname + "/../Sources/AWSSDKSwift/Middlewares";
-  const entries = yield fs.readdir(servicePath);
+  //const entries = yield fs.readdir(servicePath);
+  const entries = [
+      "Kinesis",
+      "SES",
+      "S3",
+      "EC2",
+      "APIGateway",
+      "Lambda",
+      "ECS",
+      "DynamoDB",
+      "ECR",
+      "CloudFront",
+      "IAM",
+      "SNS"
+  ]
   for(var index in entries){
     var path = entries[index];
     var src = servicePath+"/"+path;
