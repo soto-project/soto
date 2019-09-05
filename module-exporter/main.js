@@ -123,7 +123,7 @@ co(function *() {
     yield fs.writeFile(repoPath+"/LICENSE", Template.render("license"));
 
     yield fs.writeFile(repoPath+"/README.md", Template.render("readme", {
-      repositoryName: path,
+      repositoryName: moduleNamefy(path),
       version: version
     }));
 
