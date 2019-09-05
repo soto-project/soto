@@ -70,8 +70,8 @@ for D in $(find $SOURCE_PATH -depth 1 -type d); do
 
     git add .
     git commit -am "$COMMENT"
-    #git push origin master
-    #git tag $TAG
-    #git push origin $TAG
+    git push origin master
+    git tag $TAG
+    git push origin $TAG
     popd
 done
