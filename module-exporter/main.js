@@ -6,17 +6,13 @@ const _ = require('lodash');
 
 _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 
-var currentAWSDKVersion = {
-  major: "3",
-  minor: "1",
-  patch: "0"
-};
-
 const Template = {
   _tpls: {
     license: require('fs').readFileSync(__dirname+"/templates/LICENSE"),
 
     packageSwift: require('fs').readFileSync(__dirname+"/templates/Package.swift"),
+
+    packageWithMiddlewareSwift: require('fs').readFileSync(__dirname+"/templates/packageWithMiddleware.swift"),
 
     readme: require('fs').readFileSync(__dirname+"/templates/README.md")
   },
@@ -39,9 +35,15 @@ function copydir(from, to) {
 }
 
 const dest = process.argv[2];
+const version = process.argv[3];
 
 if(_.isEmpty(dest)) {
   console.error("Please specify destination<directory> as a first argument");
+  process.exit(1);
+}
+
+if(_.isEmpty(version)) {
+  console.error("Please specify AWSSDK version as second argument");
   process.exit(1);
 }
 
@@ -55,7 +57,11 @@ function toClassCase(str) {
 }
 
 function moduleNamefy(name) {
-  return `SwiftAWS${toClassCase(name)}`;
+  return `${toClassCase(name)}`;
+}
+
+function middlewareNamefy(name) {
+  return `${toClassCase(name)}Middleware`;
 }
 
 fs.exists = function(path){
@@ -76,7 +82,6 @@ co(function *() {
   //const entries = yield fs.readdir(servicePath);
   const entries = [
       "Kinesis",
-      "SES",
       "S3",
       "EC2",
       "APIGateway",
@@ -86,27 +91,40 @@ co(function *() {
       "ECR",
       "CloudFront",
       "IAM",
-      "SNS"
   ]
   for(var index in entries){
     var path = entries[index];
     var src = servicePath+"/"+path;
     var repoPath = dest+"/"+path;
+    var middlewareExists = yield fs.exists(`${middlewarePath}/${path}`)
     var sourceDestPath = repoPath+"/Sources/"+moduleNamefy(path);
+    var middlewareDestPath = repoPath+"/Sources/"+middlewareNamefy(path);
 
     yield mkdirp(repoPath);
     yield mkdirp(sourceDestPath);
 
-    // create files
-    yield fs.writeFile(repoPath+"/Package.swift", Template.render("packageSwift", {
-      name: moduleNamefy(path)
-    }));
+    if (middlewareExists) {
+        yield mkdirp(middlewareDestPath);
+    }
 
+    // create files
+    if (middlewareExists) {
+        yield fs.writeFile(repoPath+"/Package.swift", Template.render("packageWithMiddlewareSwift", {
+          name: moduleNamefy(path),
+          middleware: middlewareNamefy(path),
+          version: version
+        }));
+    } else {
+        yield fs.writeFile(repoPath+"/Package.swift", Template.render("packageSwift", {
+          name: moduleNamefy(path),
+          version: version
+        }));
+    }
     yield fs.writeFile(repoPath+"/LICENSE", Template.render("license"));
 
     yield fs.writeFile(repoPath+"/README.md", Template.render("readme", {
       repositoryName: path,
-      version: currentAWSDKVersion
+      version: version
     }));
 
     yield fs.writeFile(repoPath+"/.gitignore", [
@@ -118,8 +136,8 @@ co(function *() {
 
     yield copydir(src, sourceDestPath);
 
-    if (yield fs.exists(`${middlewarePath}/${path}`)) {
-      yield copydir(`${middlewarePath}/${path}`, sourceDestPath);
+    if (middlewareExists) {
+      yield copydir(`${middlewarePath}/${path}`, middlewareDestPath);
     }
   }
 })
