@@ -51,3 +51,32 @@ extension InspectorErrorType {
         }
     }
 }
+
+extension InspectorErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .agentsAlreadyRunningAssessmentException(let message):
+            return "AgentsAlreadyRunningAssessmentException: \(message ?? "")"
+        case .assessmentRunInProgressException(let message):
+            return "AssessmentRunInProgressException: \(message ?? "")"
+        case .internalException(let message):
+            return "InternalException: \(message ?? "")"
+        case .invalidCrossAccountRoleException(let message):
+            return "InvalidCrossAccountRoleException: \(message ?? "")"
+        case .invalidInputException(let message):
+            return "InvalidInputException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .noSuchEntityException(let message):
+            return "NoSuchEntityException: \(message ?? "")"
+        case .previewGenerationInProgressException(let message):
+            return "PreviewGenerationInProgressException: \(message ?? "")"
+        case .serviceTemporarilyUnavailableException(let message):
+            return "ServiceTemporarilyUnavailableException: \(message ?? "")"
+        case .unsupportedFeatureException(let message):
+            return "UnsupportedFeatureException: \(message ?? "")"
+        }
+    }
+}

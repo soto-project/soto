@@ -30,3 +30,18 @@ extension MediaStoreDataErrorType {
         }
     }
 }
+
+extension MediaStoreDataErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .containerNotFoundException(let message):
+            return "ContainerNotFoundException: \(message ?? "")"
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        case .objectNotFoundException(let message):
+            return "ObjectNotFoundException: \(message ?? "")"
+        case .requestedRangeNotSatisfiableException(let message):
+            return "RequestedRangeNotSatisfiableException: \(message ?? "")"
+        }
+    }
+}

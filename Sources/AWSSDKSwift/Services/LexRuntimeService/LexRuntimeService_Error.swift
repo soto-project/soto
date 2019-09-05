@@ -51,3 +51,32 @@ extension LexRuntimeServiceErrorType {
         }
     }
 }
+
+extension LexRuntimeServiceErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badGatewayException(let message):
+            return "BadGatewayException: \(message ?? "")"
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
+        case .dependencyFailedException(let message):
+            return "DependencyFailedException: \(message ?? "")"
+        case .internalFailureException(let message):
+            return "InternalFailureException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .loopDetectedException(let message):
+            return "LoopDetectedException: \(message ?? "")"
+        case .notAcceptableException(let message):
+            return "NotAcceptableException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .requestTimeoutException(let message):
+            return "RequestTimeoutException: \(message ?? "")"
+        case .unsupportedMediaTypeException(let message):
+            return "UnsupportedMediaTypeException: \(message ?? "")"
+        }
+    }
+}

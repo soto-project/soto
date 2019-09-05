@@ -81,3 +81,52 @@ extension SFNErrorType {
         }
     }
 }
+
+extension SFNErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .activityDoesNotExist(let message):
+            return "ActivityDoesNotExist: \(message ?? "")"
+        case .activityLimitExceeded(let message):
+            return "ActivityLimitExceeded: \(message ?? "")"
+        case .activityWorkerLimitExceeded(let message):
+            return "ActivityWorkerLimitExceeded: \(message ?? "")"
+        case .executionAlreadyExists(let message):
+            return "ExecutionAlreadyExists: \(message ?? "")"
+        case .executionDoesNotExist(let message):
+            return "ExecutionDoesNotExist: \(message ?? "")"
+        case .executionLimitExceeded(let message):
+            return "ExecutionLimitExceeded: \(message ?? "")"
+        case .invalidArn(let message):
+            return "InvalidArn: \(message ?? "")"
+        case .invalidDefinition(let message):
+            return "InvalidDefinition: \(message ?? "")"
+        case .invalidExecutionInput(let message):
+            return "InvalidExecutionInput: \(message ?? "")"
+        case .invalidName(let message):
+            return "InvalidName: \(message ?? "")"
+        case .invalidOutput(let message):
+            return "InvalidOutput: \(message ?? "")"
+        case .invalidToken(let message):
+            return "InvalidToken: \(message ?? "")"
+        case .missingRequiredParameter(let message):
+            return "MissingRequiredParameter: \(message ?? "")"
+        case .resourceNotFound(let message):
+            return "ResourceNotFound: \(message ?? "")"
+        case .stateMachineAlreadyExists(let message):
+            return "StateMachineAlreadyExists: \(message ?? "")"
+        case .stateMachineDeleting(let message):
+            return "StateMachineDeleting: \(message ?? "")"
+        case .stateMachineDoesNotExist(let message):
+            return "StateMachineDoesNotExist: \(message ?? "")"
+        case .stateMachineLimitExceeded(let message):
+            return "StateMachineLimitExceeded: \(message ?? "")"
+        case .taskDoesNotExist(let message):
+            return "TaskDoesNotExist: \(message ?? "")"
+        case .taskTimedOut(let message):
+            return "TaskTimedOut: \(message ?? "")"
+        case .tooManyTags(let message):
+            return "TooManyTags: \(message ?? "")"
+        }
+    }
+}

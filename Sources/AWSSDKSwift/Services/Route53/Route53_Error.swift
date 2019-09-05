@@ -171,3 +171,112 @@ extension Route53ErrorType {
         }
     }
 }
+
+extension Route53ErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .concurrentModification(let message):
+            return "ConcurrentModification: \(message ?? "")"
+        case .conflictingDomainExists(let message):
+            return "ConflictingDomainExists: \(message ?? "")"
+        case .conflictingTypes(let message):
+            return "ConflictingTypes: \(message ?? "")"
+        case .delegationSetAlreadyCreated(let message):
+            return "DelegationSetAlreadyCreated: \(message ?? "")"
+        case .delegationSetAlreadyReusable(let message):
+            return "DelegationSetAlreadyReusable: \(message ?? "")"
+        case .delegationSetInUse(let message):
+            return "DelegationSetInUse: \(message ?? "")"
+        case .delegationSetNotAvailable(let message):
+            return "DelegationSetNotAvailable: \(message ?? "")"
+        case .delegationSetNotReusable(let message):
+            return "DelegationSetNotReusable: \(message ?? "")"
+        case .healthCheckAlreadyExists(let message):
+            return "HealthCheckAlreadyExists: \(message ?? "")"
+        case .healthCheckInUse(let message):
+            return "HealthCheckInUse: \(message ?? "")"
+        case .healthCheckVersionMismatch(let message):
+            return "HealthCheckVersionMismatch: \(message ?? "")"
+        case .hostedZoneAlreadyExists(let message):
+            return "HostedZoneAlreadyExists: \(message ?? "")"
+        case .hostedZoneNotEmpty(let message):
+            return "HostedZoneNotEmpty: \(message ?? "")"
+        case .hostedZoneNotFound(let message):
+            return "HostedZoneNotFound: \(message ?? "")"
+        case .hostedZoneNotPrivate(let message):
+            return "HostedZoneNotPrivate: \(message ?? "")"
+        case .incompatibleVersion(let message):
+            return "IncompatibleVersion: \(message ?? "")"
+        case .insufficientCloudWatchLogsResourcePolicy(let message):
+            return "InsufficientCloudWatchLogsResourcePolicy: \(message ?? "")"
+        case .invalidArgument(let message):
+            return "InvalidArgument: \(message ?? "")"
+        case .invalidChangeBatch(let message):
+            return "InvalidChangeBatch: \(message ?? "")"
+        case .invalidDomainName(let message):
+            return "InvalidDomainName: \(message ?? "")"
+        case .invalidInput(let message):
+            return "InvalidInput: \(message ?? "")"
+        case .invalidPaginationToken(let message):
+            return "InvalidPaginationToken: \(message ?? "")"
+        case .invalidTrafficPolicyDocument(let message):
+            return "InvalidTrafficPolicyDocument: \(message ?? "")"
+        case .invalidVPCId(let message):
+            return "InvalidVPCId: \(message ?? "")"
+        case .lastVPCAssociation(let message):
+            return "LastVPCAssociation: \(message ?? "")"
+        case .limitsExceeded(let message):
+            return "LimitsExceeded: \(message ?? "")"
+        case .noSuchChange(let message):
+            return "NoSuchChange: \(message ?? "")"
+        case .noSuchCloudWatchLogsLogGroup(let message):
+            return "NoSuchCloudWatchLogsLogGroup: \(message ?? "")"
+        case .noSuchDelegationSet(let message):
+            return "NoSuchDelegationSet: \(message ?? "")"
+        case .noSuchGeoLocation(let message):
+            return "NoSuchGeoLocation: \(message ?? "")"
+        case .noSuchHealthCheck(let message):
+            return "NoSuchHealthCheck: \(message ?? "")"
+        case .noSuchHostedZone(let message):
+            return "NoSuchHostedZone: \(message ?? "")"
+        case .noSuchQueryLoggingConfig(let message):
+            return "NoSuchQueryLoggingConfig: \(message ?? "")"
+        case .noSuchTrafficPolicy(let message):
+            return "NoSuchTrafficPolicy: \(message ?? "")"
+        case .noSuchTrafficPolicyInstance(let message):
+            return "NoSuchTrafficPolicyInstance: \(message ?? "")"
+        case .notAuthorizedException(let message):
+            return "NotAuthorizedException: \(message ?? "")"
+        case .priorRequestNotComplete(let message):
+            return "PriorRequestNotComplete: \(message ?? "")"
+        case .publicZoneVPCAssociation(let message):
+            return "PublicZoneVPCAssociation: \(message ?? "")"
+        case .queryLoggingConfigAlreadyExists(let message):
+            return "QueryLoggingConfigAlreadyExists: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        case .tooManyHealthChecks(let message):
+            return "TooManyHealthChecks: \(message ?? "")"
+        case .tooManyHostedZones(let message):
+            return "TooManyHostedZones: \(message ?? "")"
+        case .tooManyTrafficPolicies(let message):
+            return "TooManyTrafficPolicies: \(message ?? "")"
+        case .tooManyTrafficPolicyInstances(let message):
+            return "TooManyTrafficPolicyInstances: \(message ?? "")"
+        case .tooManyTrafficPolicyVersionsForCurrentPolicy(let message):
+            return "TooManyTrafficPolicyVersionsForCurrentPolicy: \(message ?? "")"
+        case .tooManyVPCAssociationAuthorizations(let message):
+            return "TooManyVPCAssociationAuthorizations: \(message ?? "")"
+        case .trafficPolicyAlreadyExists(let message):
+            return "TrafficPolicyAlreadyExists: \(message ?? "")"
+        case .trafficPolicyInUse(let message):
+            return "TrafficPolicyInUse: \(message ?? "")"
+        case .trafficPolicyInstanceAlreadyExists(let message):
+            return "TrafficPolicyInstanceAlreadyExists: \(message ?? "")"
+        case .vPCAssociationAuthorizationNotFound(let message):
+            return "VPCAssociationAuthorizationNotFound: \(message ?? "")"
+        case .vPCAssociationNotFound(let message):
+            return "VPCAssociationNotFound: \(message ?? "")"
+        }
+    }
+}

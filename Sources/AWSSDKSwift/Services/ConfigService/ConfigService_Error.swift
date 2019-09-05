@@ -144,3 +144,94 @@ extension ConfigServiceErrorType {
         }
     }
 }
+
+extension ConfigServiceErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .insufficientDeliveryPolicyException(let message):
+            return "InsufficientDeliveryPolicyException: \(message ?? "")"
+        case .insufficientPermissionsException(let message):
+            return "InsufficientPermissionsException: \(message ?? "")"
+        case .invalidConfigurationRecorderNameException(let message):
+            return "InvalidConfigurationRecorderNameException: \(message ?? "")"
+        case .invalidDeliveryChannelNameException(let message):
+            return "InvalidDeliveryChannelNameException: \(message ?? "")"
+        case .invalidExpressionException(let message):
+            return "InvalidExpressionException: \(message ?? "")"
+        case .invalidLimitException(let message):
+            return "InvalidLimitException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidParameterValueException(let message):
+            return "InvalidParameterValueException: \(message ?? "")"
+        case .invalidRecordingGroupException(let message):
+            return "InvalidRecordingGroupException: \(message ?? "")"
+        case .invalidResultTokenException(let message):
+            return "InvalidResultTokenException: \(message ?? "")"
+        case .invalidRoleException(let message):
+            return "InvalidRoleException: \(message ?? "")"
+        case .invalidS3KeyPrefixException(let message):
+            return "InvalidS3KeyPrefixException: \(message ?? "")"
+        case .invalidSNSTopicARNException(let message):
+            return "InvalidSNSTopicARNException: \(message ?? "")"
+        case .invalidTimeRangeException(let message):
+            return "InvalidTimeRangeException: \(message ?? "")"
+        case .lastDeliveryChannelDeleteFailedException(let message):
+            return "LastDeliveryChannelDeleteFailedException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .maxNumberOfConfigRulesExceededException(let message):
+            return "MaxNumberOfConfigRulesExceededException: \(message ?? "")"
+        case .maxNumberOfConfigurationRecordersExceededException(let message):
+            return "MaxNumberOfConfigurationRecordersExceededException: \(message ?? "")"
+        case .maxNumberOfDeliveryChannelsExceededException(let message):
+            return "MaxNumberOfDeliveryChannelsExceededException: \(message ?? "")"
+        case .maxNumberOfOrganizationConfigRulesExceededException(let message):
+            return "MaxNumberOfOrganizationConfigRulesExceededException: \(message ?? "")"
+        case .maxNumberOfRetentionConfigurationsExceededException(let message):
+            return "MaxNumberOfRetentionConfigurationsExceededException: \(message ?? "")"
+        case .noAvailableConfigurationRecorderException(let message):
+            return "NoAvailableConfigurationRecorderException: \(message ?? "")"
+        case .noAvailableDeliveryChannelException(let message):
+            return "NoAvailableDeliveryChannelException: \(message ?? "")"
+        case .noAvailableOrganizationException(let message):
+            return "NoAvailableOrganizationException: \(message ?? "")"
+        case .noRunningConfigurationRecorderException(let message):
+            return "NoRunningConfigurationRecorderException: \(message ?? "")"
+        case .noSuchBucketException(let message):
+            return "NoSuchBucketException: \(message ?? "")"
+        case .noSuchConfigRuleException(let message):
+            return "NoSuchConfigRuleException: \(message ?? "")"
+        case .noSuchConfigurationAggregatorException(let message):
+            return "NoSuchConfigurationAggregatorException: \(message ?? "")"
+        case .noSuchConfigurationRecorderException(let message):
+            return "NoSuchConfigurationRecorderException: \(message ?? "")"
+        case .noSuchDeliveryChannelException(let message):
+            return "NoSuchDeliveryChannelException: \(message ?? "")"
+        case .noSuchOrganizationConfigRuleException(let message):
+            return "NoSuchOrganizationConfigRuleException: \(message ?? "")"
+        case .noSuchRemediationConfigurationException(let message):
+            return "NoSuchRemediationConfigurationException: \(message ?? "")"
+        case .noSuchRetentionConfigurationException(let message):
+            return "NoSuchRetentionConfigurationException: \(message ?? "")"
+        case .organizationAccessDeniedException(let message):
+            return "OrganizationAccessDeniedException: \(message ?? "")"
+        case .organizationAllFeaturesNotEnabledException(let message):
+            return "OrganizationAllFeaturesNotEnabledException: \(message ?? "")"
+        case .oversizedConfigurationItemException(let message):
+            return "OversizedConfigurationItemException: \(message ?? "")"
+        case .remediationInProgressException(let message):
+            return "RemediationInProgressException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotDiscoveredException(let message):
+            return "ResourceNotDiscoveredException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
+        }
+    }
+}

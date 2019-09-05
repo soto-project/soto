@@ -75,3 +75,48 @@ extension WAFRegionalErrorType {
         }
     }
 }
+
+extension WAFRegionalErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .wAFBadRequestException(let message):
+            return "WAFBadRequestException: \(message ?? "")"
+        case .wAFDisallowedNameException(let message):
+            return "WAFDisallowedNameException: \(message ?? "")"
+        case .wAFInternalErrorException(let message):
+            return "WAFInternalErrorException: \(message ?? "")"
+        case .wAFInvalidAccountException(let message):
+            return "WAFInvalidAccountException: \(message ?? "")"
+        case .wAFInvalidOperationException(let message):
+            return "WAFInvalidOperationException: \(message ?? "")"
+        case .wAFInvalidParameterException(let message):
+            return "WAFInvalidParameterException: \(message ?? "")"
+        case .wAFInvalidPermissionPolicyException(let message):
+            return "WAFInvalidPermissionPolicyException: \(message ?? "")"
+        case .wAFInvalidRegexPatternException(let message):
+            return "WAFInvalidRegexPatternException: \(message ?? "")"
+        case .wAFLimitsExceededException(let message):
+            return "WAFLimitsExceededException: \(message ?? "")"
+        case .wAFNonEmptyEntityException(let message):
+            return "WAFNonEmptyEntityException: \(message ?? "")"
+        case .wAFNonexistentContainerException(let message):
+            return "WAFNonexistentContainerException: \(message ?? "")"
+        case .wAFNonexistentItemException(let message):
+            return "WAFNonexistentItemException: \(message ?? "")"
+        case .wAFReferencedItemException(let message):
+            return "WAFReferencedItemException: \(message ?? "")"
+        case .wAFServiceLinkedRoleErrorException(let message):
+            return "WAFServiceLinkedRoleErrorException: \(message ?? "")"
+        case .wAFStaleDataException(let message):
+            return "WAFStaleDataException: \(message ?? "")"
+        case .wAFSubscriptionNotFoundException(let message):
+            return "WAFSubscriptionNotFoundException: \(message ?? "")"
+        case .wAFTagOperationException(let message):
+            return "WAFTagOperationException: \(message ?? "")"
+        case .wAFTagOperationInternalErrorException(let message):
+            return "WAFTagOperationInternalErrorException: \(message ?? "")"
+        case .wAFUnavailableEntityException(let message):
+            return "WAFUnavailableEntityException: \(message ?? "")"
+        }
+    }
+}

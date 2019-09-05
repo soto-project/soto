@@ -36,3 +36,22 @@ extension RDSDataServiceErrorType {
         }
     }
 }
+
+extension RDSDataServiceErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .forbiddenException(let message):
+            return "ForbiddenException: \(message ?? "")"
+        case .internalServerErrorException(let message):
+            return "InternalServerErrorException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .serviceUnavailableError(let message):
+            return "ServiceUnavailableError: \(message ?? "")"
+        case .statementTimeoutException(let message):
+            return "StatementTimeoutException: \(message ?? "")"
+        }
+    }
+}

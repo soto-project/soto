@@ -135,3 +135,88 @@ extension CloudTrailErrorType {
         }
     }
 }
+
+extension CloudTrailErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .cloudTrailARNInvalidException(let message):
+            return "CloudTrailARNInvalidException: \(message ?? "")"
+        case .cloudTrailAccessNotEnabledException(let message):
+            return "CloudTrailAccessNotEnabledException: \(message ?? "")"
+        case .cloudWatchLogsDeliveryUnavailableException(let message):
+            return "CloudWatchLogsDeliveryUnavailableException: \(message ?? "")"
+        case .insufficientDependencyServiceAccessPermissionException(let message):
+            return "InsufficientDependencyServiceAccessPermissionException: \(message ?? "")"
+        case .insufficientEncryptionPolicyException(let message):
+            return "InsufficientEncryptionPolicyException: \(message ?? "")"
+        case .insufficientS3BucketPolicyException(let message):
+            return "InsufficientS3BucketPolicyException: \(message ?? "")"
+        case .insufficientSnsTopicPolicyException(let message):
+            return "InsufficientSnsTopicPolicyException: \(message ?? "")"
+        case .invalidCloudWatchLogsLogGroupArnException(let message):
+            return "InvalidCloudWatchLogsLogGroupArnException: \(message ?? "")"
+        case .invalidCloudWatchLogsRoleArnException(let message):
+            return "InvalidCloudWatchLogsRoleArnException: \(message ?? "")"
+        case .invalidEventSelectorsException(let message):
+            return "InvalidEventSelectorsException: \(message ?? "")"
+        case .invalidHomeRegionException(let message):
+            return "InvalidHomeRegionException: \(message ?? "")"
+        case .invalidKmsKeyIdException(let message):
+            return "InvalidKmsKeyIdException: \(message ?? "")"
+        case .invalidLookupAttributesException(let message):
+            return "InvalidLookupAttributesException: \(message ?? "")"
+        case .invalidMaxResultsException(let message):
+            return "InvalidMaxResultsException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidParameterCombinationException(let message):
+            return "InvalidParameterCombinationException: \(message ?? "")"
+        case .invalidS3BucketNameException(let message):
+            return "InvalidS3BucketNameException: \(message ?? "")"
+        case .invalidS3PrefixException(let message):
+            return "InvalidS3PrefixException: \(message ?? "")"
+        case .invalidSnsTopicNameException(let message):
+            return "InvalidSnsTopicNameException: \(message ?? "")"
+        case .invalidTagParameterException(let message):
+            return "InvalidTagParameterException: \(message ?? "")"
+        case .invalidTimeRangeException(let message):
+            return "InvalidTimeRangeException: \(message ?? "")"
+        case .invalidTokenException(let message):
+            return "InvalidTokenException: \(message ?? "")"
+        case .invalidTrailNameException(let message):
+            return "InvalidTrailNameException: \(message ?? "")"
+        case .kmsException(let message):
+            return "KmsException: \(message ?? "")"
+        case .kmsKeyDisabledException(let message):
+            return "KmsKeyDisabledException: \(message ?? "")"
+        case .kmsKeyNotFoundException(let message):
+            return "KmsKeyNotFoundException: \(message ?? "")"
+        case .maximumNumberOfTrailsExceededException(let message):
+            return "MaximumNumberOfTrailsExceededException: \(message ?? "")"
+        case .notOrganizationMasterAccountException(let message):
+            return "NotOrganizationMasterAccountException: \(message ?? "")"
+        case .operationNotPermittedException(let message):
+            return "OperationNotPermittedException: \(message ?? "")"
+        case .organizationNotInAllFeaturesModeException(let message):
+            return "OrganizationNotInAllFeaturesModeException: \(message ?? "")"
+        case .organizationsNotInUseException(let message):
+            return "OrganizationsNotInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .resourceTypeNotSupportedException(let message):
+            return "ResourceTypeNotSupportedException: \(message ?? "")"
+        case .s3BucketDoesNotExistException(let message):
+            return "S3BucketDoesNotExistException: \(message ?? "")"
+        case .tagsLimitExceededException(let message):
+            return "TagsLimitExceededException: \(message ?? "")"
+        case .trailAlreadyExistsException(let message):
+            return "TrailAlreadyExistsException: \(message ?? "")"
+        case .trailNotFoundException(let message):
+            return "TrailNotFoundException: \(message ?? "")"
+        case .trailNotProvidedException(let message):
+            return "TrailNotProvidedException: \(message ?? "")"
+        case .unsupportedOperationException(let message):
+            return "UnsupportedOperationException: \(message ?? "")"
+        }
+    }
+}

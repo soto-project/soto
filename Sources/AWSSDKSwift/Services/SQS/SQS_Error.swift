@@ -66,3 +66,42 @@ extension SQSErrorType {
         }
     }
 }
+
+extension SQSErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .batchEntryIdsNotDistinct(let message):
+            return "BatchEntryIdsNotDistinct: \(message ?? "")"
+        case .batchRequestTooLong(let message):
+            return "BatchRequestTooLong: \(message ?? "")"
+        case .emptyBatchRequest(let message):
+            return "EmptyBatchRequest: \(message ?? "")"
+        case .invalidAttributeName(let message):
+            return "InvalidAttributeName: \(message ?? "")"
+        case .invalidBatchEntryId(let message):
+            return "InvalidBatchEntryId: \(message ?? "")"
+        case .invalidIdFormat(let message):
+            return "InvalidIdFormat: \(message ?? "")"
+        case .invalidMessageContents(let message):
+            return "InvalidMessageContents: \(message ?? "")"
+        case .messageNotInflight(let message):
+            return "MessageNotInflight: \(message ?? "")"
+        case .overLimit(let message):
+            return "OverLimit: \(message ?? "")"
+        case .purgeQueueInProgress(let message):
+            return "PurgeQueueInProgress: \(message ?? "")"
+        case .queueDeletedRecently(let message):
+            return "QueueDeletedRecently: \(message ?? "")"
+        case .queueDoesNotExist(let message):
+            return "QueueDoesNotExist: \(message ?? "")"
+        case .queueNameExists(let message):
+            return "QueueNameExists: \(message ?? "")"
+        case .receiptHandleIsInvalid(let message):
+            return "ReceiptHandleIsInvalid: \(message ?? "")"
+        case .tooManyEntriesInBatchRequest(let message):
+            return "TooManyEntriesInBatchRequest: \(message ?? "")"
+        case .unsupportedOperation(let message):
+            return "UnsupportedOperation: \(message ?? "")"
+        }
+    }
+}

@@ -39,3 +39,24 @@ extension APIGatewayErrorType {
         }
     }
 }
+
+extension APIGatewayErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        case .unauthorizedException(let message):
+            return "UnauthorizedException: \(message ?? "")"
+        }
+    }
+}

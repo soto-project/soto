@@ -33,3 +33,20 @@ extension EC2InstanceConnectErrorType {
         }
     }
 }
+
+extension EC2InstanceConnectErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .authException(let message):
+            return "AuthException: \(message ?? "")"
+        case .eC2InstanceNotFoundException(let message):
+            return "EC2InstanceNotFoundException: \(message ?? "")"
+        case .invalidArgsException(let message):
+            return "InvalidArgsException: \(message ?? "")"
+        case .serviceException(let message):
+            return "ServiceException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        }
+    }
+}

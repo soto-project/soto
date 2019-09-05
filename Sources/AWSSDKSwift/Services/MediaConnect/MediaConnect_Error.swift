@@ -45,3 +45,28 @@ extension MediaConnectErrorType {
         }
     }
 }
+
+extension MediaConnectErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .addFlowOutputs420Exception(let message):
+            return "AddFlowOutputs420Exception: \(message ?? "")"
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .createFlow420Exception(let message):
+            return "CreateFlow420Exception: \(message ?? "")"
+        case .forbiddenException(let message):
+            return "ForbiddenException: \(message ?? "")"
+        case .grantFlowEntitlements420Exception(let message):
+            return "GrantFlowEntitlements420Exception: \(message ?? "")"
+        case .internalServerErrorException(let message):
+            return "InternalServerErrorException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        }
+    }
+}

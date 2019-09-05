@@ -93,3 +93,60 @@ extension LambdaErrorType {
         }
     }
 }
+
+extension LambdaErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .codeStorageExceededException(let message):
+            return "CodeStorageExceededException: \(message ?? "")"
+        case .eC2AccessDeniedException(let message):
+            return "EC2AccessDeniedException: \(message ?? "")"
+        case .eC2ThrottledException(let message):
+            return "EC2ThrottledException: \(message ?? "")"
+        case .eC2UnexpectedException(let message):
+            return "EC2UnexpectedException: \(message ?? "")"
+        case .eNILimitReachedException(let message):
+            return "ENILimitReachedException: \(message ?? "")"
+        case .invalidParameterValueException(let message):
+            return "InvalidParameterValueException: \(message ?? "")"
+        case .invalidRequestContentException(let message):
+            return "InvalidRequestContentException: \(message ?? "")"
+        case .invalidRuntimeException(let message):
+            return "InvalidRuntimeException: \(message ?? "")"
+        case .invalidSecurityGroupIDException(let message):
+            return "InvalidSecurityGroupIDException: \(message ?? "")"
+        case .invalidSubnetIDException(let message):
+            return "InvalidSubnetIDException: \(message ?? "")"
+        case .invalidZipFileException(let message):
+            return "InvalidZipFileException: \(message ?? "")"
+        case .kMSAccessDeniedException(let message):
+            return "KMSAccessDeniedException: \(message ?? "")"
+        case .kMSDisabledException(let message):
+            return "KMSDisabledException: \(message ?? "")"
+        case .kMSInvalidStateException(let message):
+            return "KMSInvalidStateException: \(message ?? "")"
+        case .kMSNotFoundException(let message):
+            return "KMSNotFoundException: \(message ?? "")"
+        case .policyLengthExceededException(let message):
+            return "PolicyLengthExceededException: \(message ?? "")"
+        case .preconditionFailedException(let message):
+            return "PreconditionFailedException: \(message ?? "")"
+        case .requestTooLargeException(let message):
+            return "RequestTooLargeException: \(message ?? "")"
+        case .resourceConflictException(let message):
+            return "ResourceConflictException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceException(let message):
+            return "ServiceException: \(message ?? "")"
+        case .subnetIPAddressLimitReachedException(let message):
+            return "SubnetIPAddressLimitReachedException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        case .unsupportedMediaTypeException(let message):
+            return "UnsupportedMediaTypeException: \(message ?? "")"
+        }
+    }
+}

@@ -27,3 +27,16 @@ extension StorageGatewayErrorType {
         }
     }
 }
+
+extension StorageGatewayErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        case .invalidGatewayRequestException(let message):
+            return "InvalidGatewayRequestException: \(message ?? "")"
+        case .serviceUnavailableError(let message):
+            return "ServiceUnavailableError: \(message ?? "")"
+        }
+    }
+}

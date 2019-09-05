@@ -42,3 +42,26 @@ extension AWSBackupErrorType {
         }
     }
 }
+
+extension AWSBackupErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .alreadyExistsException(let message):
+            return "AlreadyExistsException: \(message ?? "")"
+        case .dependencyFailureException(let message):
+            return "DependencyFailureException: \(message ?? "")"
+        case .invalidParameterValueException(let message):
+            return "InvalidParameterValueException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .missingParameterValueException(let message):
+            return "MissingParameterValueException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        }
+    }
+}

@@ -24,3 +24,14 @@ extension HealthErrorType {
         }
     }
 }
+
+extension HealthErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .invalidPaginationToken(let message):
+            return "InvalidPaginationToken: \(message ?? "")"
+        case .unsupportedLocale(let message):
+            return "UnsupportedLocale: \(message ?? "")"
+        }
+    }
+}
