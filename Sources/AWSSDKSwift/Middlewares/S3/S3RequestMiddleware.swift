@@ -2,13 +2,32 @@ import Foundation
 import AWSSDKSwiftCore
 
 public struct S3RequestMiddleware: AWSServiceMiddleware {
-
+    
     public init () {}
     
     /// edit request before sending to S3
     public func chain(request: AWSRequest) throws -> AWSRequest {
         var request = request
+        
+        virutalAddressFixup(request: &request)
+        metadataFixup(request: &request)
+        createBucketFixup(request: &request)
+        calculateMD5(request: &request)
+        
+        return request
+    }
+    
+    /// Edit responses coming back from S3
+    public func chain(response: AWSResponse) throws -> AWSResponse {
+        var response = response
+        
+        fixupMetadata(response: &response)
+        fixupGetLocationResponse(response: &response)
 
+        return response
+    }
+    
+    func virutalAddressFixup(request: inout AWSRequest) {
         /// process URL into form ${bucket}.s3.amazon.com
         var paths = request.url.path.components(separatedBy: "/").filter({ $0 != "" })
         if paths.count > 0 {
@@ -43,7 +62,9 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
                 }
             }
         }
-        
+    }
+    
+    func metadataFixup(request: inout AWSRequest) {
         // add metadata to request
         if let metadata = request.httpHeaders["x-amz-meta-"] as? [String: String] {
             for (key,value) in metadata {
@@ -52,7 +73,9 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             }
             request.httpHeaders["x-amz-meta-"] = nil
         }
-        
+    }
+    
+    func createBucketFixup(request: inout AWSRequest) {
         switch request.operation {
         // fixup CreateBucket to include location
         case "CreateBucket":
@@ -65,34 +88,35 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
                 xml += "</CreateBucketConfiguration>"
             }
             request.body = .text(xml)
-
+            
         default:
             break
         }
-
+    }
+    
+    func calculateMD5(request: inout AWSRequest) {
         // if request has a body, calculate the MD5 for that body
         if let data = request.body.asData() {
             let encoded = Data(md5(data)).base64EncodedString()
             request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
         }
-
-        return request
     }
     
-    /// Edit responses coming back from S3
-    public func chain(response: AWSResponse) throws -> AWSResponse {
-        var response = response
-        
-        switch response.body {
-        case .xml(let element):
+    func fixupGetLocationResponse(response: inout AWSResponse) {
+        if case .xml(let element) = response.body {
             // GetBucketLocation comes back without a containing xml element
             if element.name == "LocationConstraint" {
                 let parentElement = XML.Element(name: "BucketLocation")
                 parentElement.addChild(element)
                 response.body = .xml(parentElement)
             }
-        default:
-            // convert x-amz-meta-* header values into a dictionary, which we add as a "x-amz-meta-" header. This is processed by AWSClient to fill metadata values in GetObject and HeadObject
+        }
+    }
+    
+    func fixupMetadata(response: inout AWSResponse) {
+        // convert x-amz-meta-* header values into a dictionary, which we add as a "x-amz-meta-" header. This is processed by AWSClient to fill metadata values in GetObject and HeadObject
+        switch response.body {
+        case .buffer(_), .empty:
             var metadata : [String: String] = [:]
             for (key, value) in response.headers {
                 if key.hasPrefix("x-amz-meta-"), let value = value as? String {
@@ -103,7 +127,8 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             if !metadata.isEmpty {
                 response.headers["x-amz-meta-"] = metadata
             }
+        default:
+            break
         }
-        return response
     }
 }
