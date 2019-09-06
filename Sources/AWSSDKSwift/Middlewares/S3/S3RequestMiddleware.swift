@@ -69,17 +69,20 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
     }
     
     
-    public func chain(responseBody: Body) throws -> Body {
-        switch responseBody {
+    public func chain(response: AWSResponse) throws -> AWSResponse {
+        switch response.body {
         case .xml(let element):
             if element.name == "LocationConstraint" {
                 let parentElement = XML.Element(name: "BucketLocation")
                 parentElement.addChild(element)
-                return .xml(parentElement)
+                
+                var newResponse = response
+                newResponse.body = .xml(parentElement)
+                return newResponse
             }
         default:
             break
         }
-        return responseBody
+        return response
     }
 }
