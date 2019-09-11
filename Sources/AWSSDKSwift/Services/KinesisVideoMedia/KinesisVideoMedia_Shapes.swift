@@ -26,13 +26,13 @@ extension KinesisVideoMedia {
         }
 
         public func validate(name: String) throws {
-            try startSelector.validate(name: "\(name).startSelector")
-            try validate(streamARN, name:"streamARN", parent: name, max: 1024)
-            try validate(streamARN, name:"streamARN", parent: name, min: 1)
-            try validate(streamARN, name:"streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
-            try validate(streamName, name:"streamName", parent: name, max: 256)
-            try validate(streamName, name:"streamName", parent: name, min: 1)
-            try validate(streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.startSelector.validate(name: "\(name).startSelector")
+            try validate(self.streamARN, name:"streamARN", parent: name, max: 1024)
+            try validate(self.streamARN, name:"streamARN", parent: name, min: 1)
+            try validate(self.streamARN, name:"streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try validate(self.streamName, name:"streamName", parent: name, max: 256)
+            try validate(self.streamName, name:"streamName", parent: name, min: 1)
+            try validate(self.streamName, name:"streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -91,12 +91,12 @@ extension KinesisVideoMedia {
         }
 
         public func validate(name: String) throws {
-            try validate(afterFragmentNumber, name:"afterFragmentNumber", parent: name, max: 128)
-            try validate(afterFragmentNumber, name:"afterFragmentNumber", parent: name, min: 1)
-            try validate(afterFragmentNumber, name:"afterFragmentNumber", parent: name, pattern: "^[0-9]+$")
-            try validate(continuationToken, name:"continuationToken", parent: name, max: 128)
-            try validate(continuationToken, name:"continuationToken", parent: name, min: 1)
-            try validate(continuationToken, name:"continuationToken", parent: name, pattern: "^[a-zA-Z0-9_\\.\\-]+$")
+            try validate(self.afterFragmentNumber, name:"afterFragmentNumber", parent: name, max: 128)
+            try validate(self.afterFragmentNumber, name:"afterFragmentNumber", parent: name, min: 1)
+            try validate(self.afterFragmentNumber, name:"afterFragmentNumber", parent: name, pattern: "^[0-9]+$")
+            try validate(self.continuationToken, name:"continuationToken", parent: name, max: 128)
+            try validate(self.continuationToken, name:"continuationToken", parent: name, min: 1)
+            try validate(self.continuationToken, name:"continuationToken", parent: name, pattern: "^[a-zA-Z0-9_\\.\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

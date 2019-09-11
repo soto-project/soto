@@ -18,9 +18,9 @@ extension MediaStoreData {
         }
 
         public func validate(name: String) throws {
-            try validate(path, name:"path", parent: name, max: 900)
-            try validate(path, name:"path", parent: name, min: 1)
-            try validate(path, name:"path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
+            try validate(self.path, name:"path", parent: name, max: 900)
+            try validate(self.path, name:"path", parent: name, min: 1)
+            try validate(self.path, name:"path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -49,9 +49,9 @@ extension MediaStoreData {
         }
 
         public func validate(name: String) throws {
-            try validate(path, name:"path", parent: name, max: 900)
-            try validate(path, name:"path", parent: name, min: 1)
-            try validate(path, name:"path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
+            try validate(self.path, name:"path", parent: name, max: 900)
+            try validate(self.path, name:"path", parent: name, min: 1)
+            try validate(self.path, name:"path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -113,10 +113,10 @@ extension MediaStoreData {
         }
 
         public func validate(name: String) throws {
-            try validate(path, name:"path", parent: name, max: 900)
-            try validate(path, name:"path", parent: name, min: 1)
-            try validate(path, name:"path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
-            try validate(range, name:"range", parent: name, pattern: "^bytes=(?:\\d+\\-\\d*|\\d*\\-\\d+)$")
+            try validate(self.path, name:"path", parent: name, max: 900)
+            try validate(self.path, name:"path", parent: name, min: 1)
+            try validate(self.path, name:"path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
+            try validate(self.range, name:"range", parent: name, pattern: "^bytes=(?:\\d+\\-\\d*|\\d*\\-\\d+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -248,11 +248,11 @@ extension MediaStoreData {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(path, name:"path", parent: name, max: 900)
-            try validate(path, name:"path", parent: name, min: 0)
-            try validate(path, name:"path", parent: name, pattern: "/?(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}(?:[A-Za-z0-9_\\.\\-\\~]+)?/?")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.path, name:"path", parent: name, max: 900)
+            try validate(self.path, name:"path", parent: name, min: 0)
+            try validate(self.path, name:"path", parent: name, pattern: "/?(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}(?:[A-Za-z0-9_\\.\\-\\~]+)?/?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -319,10 +319,10 @@ extension MediaStoreData {
         }
 
         public func validate(name: String) throws {
-            try validate(contentType, name:"contentType", parent: name, pattern: "^[\\w\\-\\/\\.\\+]{1,255}$")
-            try validate(path, name:"path", parent: name, max: 900)
-            try validate(path, name:"path", parent: name, min: 1)
-            try validate(path, name:"path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
+            try validate(self.contentType, name:"contentType", parent: name, pattern: "^[\\w\\-\\/\\.\\+]{1,255}$")
+            try validate(self.path, name:"path", parent: name, max: 900)
+            try validate(self.path, name:"path", parent: name, min: 1)
+            try validate(self.path, name:"path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
         }
 
         private enum CodingKeys: String, CodingKey {

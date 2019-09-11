@@ -103,12 +103,12 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try filter.validate(name: "\(name).filter")
-            try validate(locale, name:"locale", parent: name, max: 256)
-            try validate(locale, name:"locale", parent: name, min: 2)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
+            try self.filter.validate(name: "\(name).filter")
+            try validate(self.locale, name:"locale", parent: name, max: 256)
+            try validate(self.locale, name:"locale", parent: name, min: 2)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -154,12 +154,12 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try eventArns?.forEach {
+            try self.eventArns?.forEach {
                 try validate($0, name: "eventArns[]", parent: name, max: 1600)
                 try validate($0, name: "eventArns[]", parent: name, pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
             }
-            try validate(eventArns, name:"eventArns", parent: name, max: 50)
-            try validate(eventArns, name:"eventArns", parent: name, min: 1)
+            try validate(self.eventArns, name:"eventArns", parent: name, max: 50)
+            try validate(self.eventArns, name:"eventArns", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -209,10 +209,10 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try filter?.validate(name: "\(name).filter")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -262,14 +262,14 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try eventArns.forEach {
+            try self.eventArns.forEach {
                 try validate($0, name: "eventArns[]", parent: name, max: 1600)
                 try validate($0, name: "eventArns[]", parent: name, pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
             }
-            try validate(eventArns, name:"eventArns", parent: name, max: 10)
-            try validate(eventArns, name:"eventArns", parent: name, min: 1)
-            try validate(locale, name:"locale", parent: name, max: 256)
-            try validate(locale, name:"locale", parent: name, min: 2)
+            try validate(self.eventArns, name:"eventArns", parent: name, max: 10)
+            try validate(self.eventArns, name:"eventArns", parent: name, min: 1)
+            try validate(self.locale, name:"locale", parent: name, max: 256)
+            try validate(self.locale, name:"locale", parent: name, min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -325,12 +325,12 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try filter?.validate(name: "\(name).filter")
-            try validate(locale, name:"locale", parent: name, max: 256)
-            try validate(locale, name:"locale", parent: name, min: 2)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.locale, name:"locale", parent: name, max: 256)
+            try validate(self.locale, name:"locale", parent: name, min: 2)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -388,12 +388,12 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try filter?.validate(name: "\(name).filter")
-            try validate(locale, name:"locale", parent: name, max: 256)
-            try validate(locale, name:"locale", parent: name, min: 2)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.locale, name:"locale", parent: name, max: 256)
+            try validate(self.locale, name:"locale", parent: name, min: 2)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,512}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -481,27 +481,27 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try entityArns?.forEach {
+            try self.entityArns?.forEach {
                 try validate($0, name: "entityArns[]", parent: name, max: 1600)
             }
-            try validate(entityArns, name:"entityArns", parent: name, max: 100)
-            try validate(entityArns, name:"entityArns", parent: name, min: 1)
-            try entityValues?.forEach {
+            try validate(self.entityArns, name:"entityArns", parent: name, max: 100)
+            try validate(self.entityArns, name:"entityArns", parent: name, min: 1)
+            try self.entityValues?.forEach {
                 try validate($0, name: "entityValues[]", parent: name, max: 256)
             }
-            try validate(entityValues, name:"entityValues", parent: name, max: 100)
-            try validate(entityValues, name:"entityValues", parent: name, min: 1)
-            try eventArns.forEach {
+            try validate(self.entityValues, name:"entityValues", parent: name, max: 100)
+            try validate(self.entityValues, name:"entityValues", parent: name, min: 1)
+            try self.eventArns.forEach {
                 try validate($0, name: "eventArns[]", parent: name, max: 1600)
                 try validate($0, name: "eventArns[]", parent: name, pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
             }
-            try validate(eventArns, name:"eventArns", parent: name, max: 10)
-            try validate(eventArns, name:"eventArns", parent: name, min: 1)
-            try validate(lastUpdatedTimes, name:"lastUpdatedTimes", parent: name, max: 10)
-            try validate(lastUpdatedTimes, name:"lastUpdatedTimes", parent: name, min: 1)
-            try validate(statusCodes, name:"statusCodes", parent: name, max: 3)
-            try validate(statusCodes, name:"statusCodes", parent: name, min: 1)
-            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(self.eventArns, name:"eventArns", parent: name, max: 10)
+            try validate(self.eventArns, name:"eventArns", parent: name, min: 1)
+            try validate(self.lastUpdatedTimes, name:"lastUpdatedTimes", parent: name, max: 10)
+            try validate(self.lastUpdatedTimes, name:"lastUpdatedTimes", parent: name, min: 1)
+            try validate(self.statusCodes, name:"statusCodes", parent: name, max: 3)
+            try validate(self.statusCodes, name:"statusCodes", parent: name, min: 1)
+            try validate(self.tags, name:"tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -730,53 +730,53 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try availabilityZones?.forEach {
+            try self.availabilityZones?.forEach {
                 try validate($0, name: "availabilityZones[]", parent: name, pattern: "[a-z]{2}\\-[0-9a-z\\-]{4,16}")
             }
-            try validate(endTimes, name:"endTimes", parent: name, max: 10)
-            try validate(endTimes, name:"endTimes", parent: name, min: 1)
-            try entityArns?.forEach {
+            try validate(self.endTimes, name:"endTimes", parent: name, max: 10)
+            try validate(self.endTimes, name:"endTimes", parent: name, min: 1)
+            try self.entityArns?.forEach {
                 try validate($0, name: "entityArns[]", parent: name, max: 1600)
             }
-            try validate(entityArns, name:"entityArns", parent: name, max: 100)
-            try validate(entityArns, name:"entityArns", parent: name, min: 1)
-            try entityValues?.forEach {
+            try validate(self.entityArns, name:"entityArns", parent: name, max: 100)
+            try validate(self.entityArns, name:"entityArns", parent: name, min: 1)
+            try self.entityValues?.forEach {
                 try validate($0, name: "entityValues[]", parent: name, max: 256)
             }
-            try validate(entityValues, name:"entityValues", parent: name, max: 100)
-            try validate(entityValues, name:"entityValues", parent: name, min: 1)
-            try eventArns?.forEach {
+            try validate(self.entityValues, name:"entityValues", parent: name, max: 100)
+            try validate(self.entityValues, name:"entityValues", parent: name, min: 1)
+            try self.eventArns?.forEach {
                 try validate($0, name: "eventArns[]", parent: name, max: 1600)
                 try validate($0, name: "eventArns[]", parent: name, pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
             }
-            try validate(eventArns, name:"eventArns", parent: name, max: 10)
-            try validate(eventArns, name:"eventArns", parent: name, min: 1)
-            try validate(eventStatusCodes, name:"eventStatusCodes", parent: name, max: 6)
-            try validate(eventStatusCodes, name:"eventStatusCodes", parent: name, min: 1)
-            try validate(eventTypeCategories, name:"eventTypeCategories", parent: name, max: 10)
-            try validate(eventTypeCategories, name:"eventTypeCategories", parent: name, min: 1)
-            try eventTypeCodes?.forEach {
+            try validate(self.eventArns, name:"eventArns", parent: name, max: 10)
+            try validate(self.eventArns, name:"eventArns", parent: name, min: 1)
+            try validate(self.eventStatusCodes, name:"eventStatusCodes", parent: name, max: 6)
+            try validate(self.eventStatusCodes, name:"eventStatusCodes", parent: name, min: 1)
+            try validate(self.eventTypeCategories, name:"eventTypeCategories", parent: name, max: 10)
+            try validate(self.eventTypeCategories, name:"eventTypeCategories", parent: name, min: 1)
+            try self.eventTypeCodes?.forEach {
                 try validate($0, name: "eventTypeCodes[]", parent: name, max: 100)
                 try validate($0, name: "eventTypeCodes[]", parent: name, min: 3)
             }
-            try validate(eventTypeCodes, name:"eventTypeCodes", parent: name, max: 10)
-            try validate(eventTypeCodes, name:"eventTypeCodes", parent: name, min: 1)
-            try validate(lastUpdatedTimes, name:"lastUpdatedTimes", parent: name, max: 10)
-            try validate(lastUpdatedTimes, name:"lastUpdatedTimes", parent: name, min: 1)
-            try regions?.forEach {
+            try validate(self.eventTypeCodes, name:"eventTypeCodes", parent: name, max: 10)
+            try validate(self.eventTypeCodes, name:"eventTypeCodes", parent: name, min: 1)
+            try validate(self.lastUpdatedTimes, name:"lastUpdatedTimes", parent: name, max: 10)
+            try validate(self.lastUpdatedTimes, name:"lastUpdatedTimes", parent: name, min: 1)
+            try self.regions?.forEach {
                 try validate($0, name: "regions[]", parent: name, pattern: "[^:/]{2,25}")
             }
-            try validate(regions, name:"regions", parent: name, max: 10)
-            try validate(regions, name:"regions", parent: name, min: 1)
-            try services?.forEach {
+            try validate(self.regions, name:"regions", parent: name, max: 10)
+            try validate(self.regions, name:"regions", parent: name, min: 1)
+            try self.services?.forEach {
                 try validate($0, name: "services[]", parent: name, max: 30)
                 try validate($0, name: "services[]", parent: name, min: 2)
             }
-            try validate(services, name:"services", parent: name, max: 10)
-            try validate(services, name:"services", parent: name, min: 1)
-            try validate(startTimes, name:"startTimes", parent: name, max: 10)
-            try validate(startTimes, name:"startTimes", parent: name, min: 1)
-            try validate(tags, name:"tags", parent: name, max: 50)
+            try validate(self.services, name:"services", parent: name, max: 10)
+            try validate(self.services, name:"services", parent: name, min: 1)
+            try validate(self.startTimes, name:"startTimes", parent: name, max: 10)
+            try validate(self.startTimes, name:"startTimes", parent: name, min: 1)
+            try validate(self.tags, name:"tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -844,20 +844,20 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try validate(eventTypeCategories, name:"eventTypeCategories", parent: name, max: 10)
-            try validate(eventTypeCategories, name:"eventTypeCategories", parent: name, min: 1)
-            try eventTypeCodes?.forEach {
+            try validate(self.eventTypeCategories, name:"eventTypeCategories", parent: name, max: 10)
+            try validate(self.eventTypeCategories, name:"eventTypeCategories", parent: name, min: 1)
+            try self.eventTypeCodes?.forEach {
                 try validate($0, name: "eventTypeCodes[]", parent: name, max: 100)
                 try validate($0, name: "eventTypeCodes[]", parent: name, min: 3)
             }
-            try validate(eventTypeCodes, name:"eventTypeCodes", parent: name, max: 10)
-            try validate(eventTypeCodes, name:"eventTypeCodes", parent: name, min: 1)
-            try services?.forEach {
+            try validate(self.eventTypeCodes, name:"eventTypeCodes", parent: name, max: 10)
+            try validate(self.eventTypeCodes, name:"eventTypeCodes", parent: name, min: 1)
+            try self.services?.forEach {
                 try validate($0, name: "services[]", parent: name, max: 30)
                 try validate($0, name: "services[]", parent: name, min: 2)
             }
-            try validate(services, name:"services", parent: name, max: 10)
-            try validate(services, name:"services", parent: name, min: 1)
+            try validate(self.services, name:"services", parent: name, max: 10)
+            try validate(self.services, name:"services", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

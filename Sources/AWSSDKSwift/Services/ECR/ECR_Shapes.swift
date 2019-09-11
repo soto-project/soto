@@ -53,16 +53,16 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try layerDigests.forEach {
+            try self.layerDigests.forEach {
                 try validate($0, name: "layerDigests[]", parent: name, max: 1000)
                 try validate($0, name: "layerDigests[]", parent: name, min: 0)
             }
-            try validate(layerDigests, name:"layerDigests", parent: name, max: 100)
-            try validate(layerDigests, name:"layerDigests", parent: name, min: 1)
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.layerDigests, name:"layerDigests", parent: name, max: 100)
+            try validate(self.layerDigests, name:"layerDigests", parent: name, min: 1)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -115,12 +115,12 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(imageIds, name:"imageIds", parent: name, max: 100)
-            try validate(imageIds, name:"imageIds", parent: name, min: 1)
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.imageIds, name:"imageIds", parent: name, max: 100)
+            try validate(self.imageIds, name:"imageIds", parent: name, min: 1)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -177,14 +177,14 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(acceptedMediaTypes, name:"acceptedMediaTypes", parent: name, max: 100)
-            try validate(acceptedMediaTypes, name:"acceptedMediaTypes", parent: name, min: 1)
-            try validate(imageIds, name:"imageIds", parent: name, max: 100)
-            try validate(imageIds, name:"imageIds", parent: name, min: 1)
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.acceptedMediaTypes, name:"acceptedMediaTypes", parent: name, max: 100)
+            try validate(self.acceptedMediaTypes, name:"acceptedMediaTypes", parent: name, min: 1)
+            try validate(self.imageIds, name:"imageIds", parent: name, max: 100)
+            try validate(self.imageIds, name:"imageIds", parent: name, min: 1)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -242,16 +242,16 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try layerDigests.forEach {
+            try self.layerDigests.forEach {
                 try validate($0, name: "layerDigests[]", parent: name, pattern: "[a-zA-Z0-9-_+.]+:[a-fA-F0-9]+")
             }
-            try validate(layerDigests, name:"layerDigests", parent: name, max: 100)
-            try validate(layerDigests, name:"layerDigests", parent: name, min: 1)
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
-            try validate(uploadId, name:"uploadId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try validate(self.layerDigests, name:"layerDigests", parent: name, max: 100)
+            try validate(self.layerDigests, name:"layerDigests", parent: name, min: 1)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.uploadId, name:"uploadId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -310,9 +310,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -355,10 +355,10 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -416,10 +416,10 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -476,10 +476,10 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -556,14 +556,14 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(imageIds, name:"imageIds", parent: name, max: 100)
-            try validate(imageIds, name:"imageIds", parent: name, min: 1)
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.imageIds, name:"imageIds", parent: name, max: 100)
+            try validate(self.imageIds, name:"imageIds", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -623,16 +623,16 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try repositoryNames?.forEach {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryNames?.forEach {
                 try validate($0, name: "repositoryNames[]", parent: name, max: 256)
                 try validate($0, name: "repositoryNames[]", parent: name, min: 2)
                 try validate($0, name: "repositoryNames[]", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
             }
-            try validate(repositoryNames, name:"repositoryNames", parent: name, max: 100)
-            try validate(repositoryNames, name:"repositoryNames", parent: name, min: 1)
+            try validate(self.repositoryNames, name:"repositoryNames", parent: name, max: 100)
+            try validate(self.repositoryNames, name:"repositoryNames", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -678,11 +678,11 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try registryIds?.forEach {
+            try self.registryIds?.forEach {
                 try validate($0, name: "registryIds[]", parent: name, pattern: "[0-9]{12}")
             }
-            try validate(registryIds, name:"registryIds", parent: name, max: 10)
-            try validate(registryIds, name:"registryIds", parent: name, min: 1)
+            try validate(self.registryIds, name:"registryIds", parent: name, max: 10)
+            try validate(self.registryIds, name:"registryIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -728,11 +728,11 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(layerDigest, name:"layerDigest", parent: name, pattern: "[a-zA-Z0-9-_+.]+:[a-fA-F0-9]+")
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.layerDigest, name:"layerDigest", parent: name, pattern: "[a-zA-Z0-9-_+.]+:[a-fA-F0-9]+")
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -797,14 +797,14 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(imageIds, name:"imageIds", parent: name, max: 100)
-            try validate(imageIds, name:"imageIds", parent: name, min: 1)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.imageIds, name:"imageIds", parent: name, max: 100)
+            try validate(self.imageIds, name:"imageIds", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -881,10 +881,10 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -942,10 +942,10 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1135,10 +1135,10 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1382,12 +1382,12 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1480,10 +1480,10 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1532,12 +1532,12 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(lifecyclePolicyText, name:"lifecyclePolicyText", parent: name, max: 30720)
-            try validate(lifecyclePolicyText, name:"lifecyclePolicyText", parent: name, min: 100)
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.lifecyclePolicyText, name:"lifecyclePolicyText", parent: name, max: 30720)
+            try validate(self.lifecyclePolicyText, name:"lifecyclePolicyText", parent: name, min: 100)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1636,12 +1636,12 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(policyText, name:"policyText", parent: name, max: 10240)
-            try validate(policyText, name:"policyText", parent: name, min: 0)
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.policyText, name:"policyText", parent: name, max: 10240)
+            try validate(self.policyText, name:"policyText", parent: name, min: 0)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1700,12 +1700,12 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(lifecyclePolicyText, name:"lifecyclePolicyText", parent: name, max: 30720)
-            try validate(lifecyclePolicyText, name:"lifecyclePolicyText", parent: name, min: 100)
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.lifecyclePolicyText, name:"lifecyclePolicyText", parent: name, max: 30720)
+            try validate(self.lifecyclePolicyText, name:"lifecyclePolicyText", parent: name, min: 100)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1869,13 +1869,13 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
-            try validate(partFirstByte, name:"partFirstByte", parent: name, min: 0)
-            try validate(partLastByte, name:"partLastByte", parent: name, min: 0)
-            try validate(registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
-            try validate(repositoryName, name:"repositoryName", parent: name, max: 256)
-            try validate(repositoryName, name:"repositoryName", parent: name, min: 2)
-            try validate(repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
-            try validate(uploadId, name:"uploadId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try validate(self.partFirstByte, name:"partFirstByte", parent: name, min: 0)
+            try validate(self.partLastByte, name:"partLastByte", parent: name, min: 0)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try validate(self.uploadId, name:"uploadId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {

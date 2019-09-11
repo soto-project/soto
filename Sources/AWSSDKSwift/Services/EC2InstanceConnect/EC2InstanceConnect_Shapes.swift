@@ -30,17 +30,17 @@ extension EC2InstanceConnect {
         }
 
         public func validate(name: String) throws {
-            try validate(availabilityZone, name:"availabilityZone", parent: name, max: 32)
-            try validate(availabilityZone, name:"availabilityZone", parent: name, min: 6)
-            try validate(availabilityZone, name:"availabilityZone", parent: name, pattern: "^(\\w+-){2,3}\\d+\\w+$")
-            try validate(instanceId, name:"instanceId", parent: name, max: 32)
-            try validate(instanceId, name:"instanceId", parent: name, min: 10)
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "^i-[a-f0-9]+$")
-            try validate(instanceOSUser, name:"instanceOSUser", parent: name, max: 32)
-            try validate(instanceOSUser, name:"instanceOSUser", parent: name, min: 1)
-            try validate(instanceOSUser, name:"instanceOSUser", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9\\@\\._-]{0,30}[A-Za-z0-9\\$_-]?$")
-            try validate(sSHPublicKey, name:"sSHPublicKey", parent: name, max: 4096)
-            try validate(sSHPublicKey, name:"sSHPublicKey", parent: name, min: 256)
+            try validate(self.availabilityZone, name:"availabilityZone", parent: name, max: 32)
+            try validate(self.availabilityZone, name:"availabilityZone", parent: name, min: 6)
+            try validate(self.availabilityZone, name:"availabilityZone", parent: name, pattern: "^(\\w+-){2,3}\\d+\\w+$")
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 32)
+            try validate(self.instanceId, name:"instanceId", parent: name, min: 10)
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "^i-[a-f0-9]+$")
+            try validate(self.instanceOSUser, name:"instanceOSUser", parent: name, max: 32)
+            try validate(self.instanceOSUser, name:"instanceOSUser", parent: name, min: 1)
+            try validate(self.instanceOSUser, name:"instanceOSUser", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9\\@\\._-]{0,30}[A-Za-z0-9\\$_-]?$")
+            try validate(self.sSHPublicKey, name:"sSHPublicKey", parent: name, max: 4096)
+            try validate(self.sSHPublicKey, name:"sSHPublicKey", parent: name, min: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
