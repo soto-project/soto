@@ -17,9 +17,9 @@ extension CloudFront {
         /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type.
         public let items: [Signer]?
         /// The number of trusted signers specified in the TrustedSigners complex type.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(enabled: Bool, items: [Signer]? = nil, quantity: Int32) {
+        public init(enabled: Bool, items: [Signer]? = nil, quantity: Int) {
             self.enabled = enabled
             self.items = items
             self.quantity = quantity
@@ -63,9 +63,9 @@ extension CloudFront {
         /// A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution.
         public let items: [String]?
         /// The number of CNAME aliases, if any, that you want to associate with this distribution.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -87,9 +87,9 @@ extension CloudFront {
         /// A complex type that contains the HTTP methods that you want CloudFront to process and forward to your origin.
         public let items: [Method]
         /// The number of HTTP methods that you want CloudFront to forward to your origin. Valid values are 2 (for GET and HEAD requests), 3 (for GET, HEAD, and OPTIONS requests) and 7 (for GET, HEAD, OPTIONS, PUT, PATCH, POST, and DELETE requests).
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(cachedMethods: CachedMethods? = nil, items: [Method], quantity: Int32) {
+        public init(cachedMethods: CachedMethods? = nil, items: [Method], quantity: Int) {
             self.cachedMethods = cachedMethods
             self.items = items
             self.quantity = quantity
@@ -187,9 +187,9 @@ extension CloudFront {
         /// Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0, you can omit Items.
         public let items: [CacheBehavior]?
         /// The number of cache behaviors for this distribution. 
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [CacheBehavior]? = nil, quantity: Int32) {
+        public init(items: [CacheBehavior]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -209,9 +209,9 @@ extension CloudFront {
         /// A complex type that contains the HTTP methods that you want CloudFront to cache responses to.
         public let items: [Method]
         /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values are 2 (for caching responses to GET and HEAD requests) and 3 (for caching responses to GET, HEAD, and OPTIONS requests).
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [Method], quantity: Int32) {
+        public init(items: [Method], quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -288,13 +288,13 @@ extension CloudFront {
         /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page). 
         public let marker: String
         /// The maximum number of origin access identities you want in the response body. 
-        public let maxItems: Int32
+        public let maxItems: Int
         /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your origin access identities where they left off. 
         public let nextMarker: String?
         /// The number of CloudFront origin access identities that were created by the current AWS account. 
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(isTruncated: Bool, items: [CloudFrontOriginAccessIdentitySummary]? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(isTruncated: Bool, items: [CloudFrontOriginAccessIdentitySummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -398,9 +398,9 @@ extension CloudFront {
         /// Items in a field-level encryption content type-profile mapping. 
         public let items: [ContentTypeProfile]?
         /// The number of field-level encryption content type-profile mappings. 
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [ContentTypeProfile]? = nil, quantity: Int32) {
+        public init(items: [ContentTypeProfile]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -420,9 +420,9 @@ extension CloudFront {
         /// A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
         public let items: [String]?
         /// The number of different cookies that you want CloudFront to forward to the origin for this cache behavior.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -919,13 +919,13 @@ extension CloudFront {
         /// The minimum amount of time, in seconds, that you want CloudFront to cache the HTTP status code specified in ErrorCode. When this time period has elapsed, CloudFront queries your origin to see whether the problem that caused the error has been resolved and the requested object is now available. If you don't want to specify a value, include an empty element, &lt;ErrorCachingMinTTL&gt;, in the XML document. For more information, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
         public let errorCachingMinTTL: Int64?
         /// The HTTP status code for which you want to specify a custom error page and/or a caching duration.
-        public let errorCode: Int32
+        public let errorCode: Int
         /// The HTTP status code that you want CloudFront to return to the viewer along with the custom error page. There are a variety of reasons that you might want CloudFront to return a status code different from the status code that your origin returned to CloudFront, for example:   Some Internet devices (some firewalls and corporate proxies, for example) intercept HTTP 4xx and 5xx and prevent the response from being returned to the viewer. If you substitute 200, the response typically won't be intercepted.   If you don't care about distinguishing among different client errors or server errors, you can specify 400 or 500 as the ResponseCode for all 4xx or 5xx errors.   You might want to return a 200 status code (OK) and static website so your customers don't know that your website is down.   If you specify a value for ResponseCode, you must also specify a value for ResponsePagePath. If you don't want to specify a value, include an empty element, &lt;ResponseCode&gt;, in the XML document.
         public let responseCode: String?
         /// The path to the custom error page that you want CloudFront to return to a viewer when your origin returns the HTTP status code specified by ErrorCode, for example, /4xx-errors/403-forbidden.html. If you want to store your objects and your custom error pages in different locations, your distribution must include a cache behavior for which the following is true:   The value of PathPattern matches the path to your custom error messages. For example, suppose you saved custom error pages for 4xx errors in an Amazon S3 bucket in a directory named /4xx-errors. Your distribution must include a cache behavior for which the path pattern routes requests for your custom error pages to that location, for example, /4xx-errors/*.    The value of TargetOriginId specifies the value of the ID element for the origin that contains your custom error pages.   If you specify a value for ResponsePagePath, you must also specify a value for ResponseCode. If you don't want to specify a value, include an empty element, &lt;ResponsePagePath&gt;, in the XML document. We recommend that you store custom error pages in an Amazon S3 bucket. If you store custom error pages on an HTTP server and the server starts to return 5xx errors, CloudFront can't get the files that you want to return to viewers because the origin server is unavailable.
         public let responsePagePath: String?
 
-        public init(errorCachingMinTTL: Int64? = nil, errorCode: Int32, responseCode: String? = nil, responsePagePath: String? = nil) {
+        public init(errorCachingMinTTL: Int64? = nil, errorCode: Int, responseCode: String? = nil, responsePagePath: String? = nil) {
             self.errorCachingMinTTL = errorCachingMinTTL
             self.errorCode = errorCode
             self.responseCode = responseCode
@@ -949,9 +949,9 @@ extension CloudFront {
         /// A complex type that contains a CustomErrorResponse element for each HTTP status code for which you want to specify a custom error page and/or a caching duration. 
         public let items: [CustomErrorResponse]?
         /// The number of HTTP status codes for which you want to specify a custom error page and/or a caching duration. If Quantity is 0, you can omit Items.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [CustomErrorResponse]? = nil, quantity: Int32) {
+        public init(items: [CustomErrorResponse]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -971,9 +971,9 @@ extension CloudFront {
         ///  Optional: A list that contains one OriginCustomHeader element for each custom header that you want CloudFront to forward to the origin. If Quantity is 0, omit Items.
         public let items: [OriginCustomHeader]?
         /// The number of custom headers, if any, for this distribution.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [OriginCustomHeader]? = nil, quantity: Int32) {
+        public init(items: [OriginCustomHeader]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -995,19 +995,19 @@ extension CloudFront {
         ]
 
         /// The HTTP port the custom origin listens on.
-        public let hTTPPort: Int32
+        public let hTTPPort: Int
         /// The HTTPS port the custom origin listens on.
-        public let hTTPSPort: Int32
+        public let hTTPSPort: Int
         /// You can create a custom keep-alive timeout. All timeout units are in seconds. The default keep-alive timeout is 5 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 1 second; the maximum is 60 seconds. If you need to increase the maximum time limit, contact the AWS Support Center.
-        public let originKeepaliveTimeout: Int32?
+        public let originKeepaliveTimeout: Int?
         /// The origin protocol policy to apply to your origin.
         public let originProtocolPolicy: OriginProtocolPolicy
         /// You can create a custom origin read timeout. All timeout units are in seconds. The default origin read timeout is 30 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 4 seconds; the maximum is 60 seconds. If you need to increase the maximum time limit, contact the AWS Support Center.
-        public let originReadTimeout: Int32?
+        public let originReadTimeout: Int?
         /// The SSL/TLS protocols that you want CloudFront to use when communicating with your origin over HTTPS.
         public let originSslProtocols: OriginSslProtocols?
 
-        public init(hTTPPort: Int32, hTTPSPort: Int32, originKeepaliveTimeout: Int32? = nil, originProtocolPolicy: OriginProtocolPolicy, originReadTimeout: Int32? = nil, originSslProtocols: OriginSslProtocols? = nil) {
+        public init(hTTPPort: Int, hTTPSPort: Int, originKeepaliveTimeout: Int? = nil, originProtocolPolicy: OriginProtocolPolicy, originReadTimeout: Int? = nil, originSslProtocols: OriginSslProtocols? = nil) {
             self.hTTPPort = hTTPPort
             self.hTTPSPort = hTTPSPort
             self.originKeepaliveTimeout = originKeepaliveTimeout
@@ -1255,13 +1255,13 @@ extension CloudFront {
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5. 
         public let id: String
         /// The number of invalidation batches currently in progress. 
-        public let inProgressInvalidationBatches: Int32
+        public let inProgressInvalidationBatches: Int
         /// The date and time the distribution was last modified. 
         public let lastModifiedTime: TimeStamp
         /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations. 
         public let status: String
 
-        public init(activeTrustedSigners: ActiveTrustedSigners, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, distributionConfig: DistributionConfig, domainName: String, id: String, inProgressInvalidationBatches: Int32, lastModifiedTime: TimeStamp, status: String) {
+        public init(activeTrustedSigners: ActiveTrustedSigners, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, distributionConfig: DistributionConfig, domainName: String, id: String, inProgressInvalidationBatches: Int, lastModifiedTime: TimeStamp, status: String) {
             self.activeTrustedSigners = activeTrustedSigners
             self.aliasICPRecordals = aliasICPRecordals
             self.arn = arn
@@ -1432,13 +1432,13 @@ extension CloudFront {
         /// The value you provided for the Marker request parameter.
         public let marker: String
         /// The value you provided for the MaxItems request parameter.
-        public let maxItems: Int32
+        public let maxItems: Int
         /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your distributions where they left off. 
         public let nextMarker: String?
         /// The number of distributions that were created by the current AWS account. 
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(isTruncated: Bool, items: [DistributionSummary]? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(isTruncated: Bool, items: [DistributionSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -1578,9 +1578,9 @@ extension CloudFront {
         /// An array of field patterns in a field-level encryption content type-profile mapping. 
         public let items: [EncryptionEntity]?
         /// Number of field pattern items in a field-level encryption content type-profile mapping. 
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [EncryptionEntity]? = nil, quantity: Int32) {
+        public init(items: [EncryptionEntity]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -1696,13 +1696,13 @@ extension CloudFront {
         /// An array of field-level encryption items.
         public let items: [FieldLevelEncryptionSummary]?
         /// The maximum number of elements you want in the response body. 
-        public let maxItems: Int32
+        public let maxItems: Int
         /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your configurations where you left off.
         public let nextMarker: String?
         /// The number of field-level encryption items.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [FieldLevelEncryptionSummary]? = nil, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(items: [FieldLevelEncryptionSummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -1787,13 +1787,13 @@ extension CloudFront {
         /// The field-level encryption profile items.
         public let items: [FieldLevelEncryptionProfileSummary]?
         /// The maximum number of field-level encryption profiles you want in the response body. 
-        public let maxItems: Int32
+        public let maxItems: Int
         /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your profiles where you left off.
         public let nextMarker: String?
         /// The number of field-level encryption profiles.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [FieldLevelEncryptionProfileSummary]? = nil, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(items: [FieldLevelEncryptionProfileSummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -1891,9 +1891,9 @@ extension CloudFront {
         /// An array of the field-level encryption field patterns.
         public let items: [String]?
         /// The number of field-level encryption field patterns.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -1951,11 +1951,11 @@ extension CloudFront {
         ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list on the CloudFront console, which includes both country names and codes.
         public let items: [String]?
         /// When geo restriction is enabled, this is the number of countries in your whitelist or blacklist. Otherwise, when it is not enabled, Quantity is 0, and you can omit Items.
-        public let quantity: Int32
+        public let quantity: Int
         /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you don't want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.  
         public let restrictionType: GeoRestrictionType
 
-        public init(items: [String]? = nil, quantity: Int32, restrictionType: GeoRestrictionType) {
+        public init(items: [String]? = nil, quantity: Int, restrictionType: GeoRestrictionType) {
             self.items = items
             self.quantity = quantity
             self.restrictionType = restrictionType
@@ -2517,9 +2517,9 @@ extension CloudFront {
         /// A list that contains one Name element for each header that you want CloudFront to use for caching in this cache behavior. If Quantity is 0, omit Items.
         public let items: [String]?
         /// The number of different headers that you want CloudFront to base caching on for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:    Forward all headers to your origin: Specify 1 for Quantity and * for Name.  CloudFront doesn't cache the objects that are associated with this cache behavior. Instead, CloudFront sends every request to the origin.      Forward a whitelist of headers you specify: Specify the number of headers that you want CloudFront to base caching on. Then specify the header names in Name elements. CloudFront caches your objects based on the values in the specified headers.    Forward only the default headers: Specify 0 for Quantity and omit Items. In this configuration, CloudFront doesn't cache based on the values in the request headers.   Regardless of which option you choose, CloudFront forwards headers to your origin based on whether the origin is an S3 bucket or a custom origin. See the following documentation:    S3 bucket: See HTTP Request Headers That CloudFront Removes or Updates     Custom origin: See HTTP Request Headers and CloudFront Behavior   
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -2614,13 +2614,13 @@ extension CloudFront {
         /// The value that you provided for the Marker request parameter.
         public let marker: String
         /// The value that you provided for the MaxItems request parameter.
-        public let maxItems: Int32
+        public let maxItems: Int
         /// If IsTruncated is true, this element is present and contains the value that you can use for the Marker request parameter to continue listing your invalidation batches where they left off.
         public let nextMarker: String?
         /// The number of invalidation batches that were created by the current AWS account. 
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(isTruncated: Bool, items: [InvalidationSummary]? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(isTruncated: Bool, items: [InvalidationSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -2682,9 +2682,9 @@ extension CloudFront {
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber. For more information, see ActiveTrustedSigners.
         public let items: [String]?
         /// The number of active CloudFront key pairs for AwsAccountNumber. For more information, see ActiveTrustedSigners.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -2731,9 +2731,9 @@ extension CloudFront {
         ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
         public let items: [LambdaFunctionAssociation]?
         /// The number of Lambda function associations for this cache behavior.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [LambdaFunctionAssociation]? = nil, quantity: Int32) {
+        public init(items: [LambdaFunctionAssociation]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -3317,9 +3317,9 @@ extension CloudFront {
         /// Items (origins) in an origin group.
         public let items: [OriginGroupMember]
         /// The number of origins in an origin group.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [OriginGroupMember], quantity: Int32) {
+        public init(items: [OriginGroupMember], quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -3344,9 +3344,9 @@ extension CloudFront {
         /// The items (origin groups) in a distribution.
         public let items: [OriginGroup]?
         /// The number of origin groups.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [OriginGroup]? = nil, quantity: Int32) {
+        public init(items: [OriginGroup]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -3379,9 +3379,9 @@ extension CloudFront {
         /// A list that contains allowed SSL/TLS protocols for this distribution.
         public let items: [SslProtocol]
         /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin. 
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [SslProtocol], quantity: Int32) {
+        public init(items: [SslProtocol], quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -3401,9 +3401,9 @@ extension CloudFront {
         /// A complex type that contains origins or origin groups for this distribution.
         public let items: [Origin]
         /// The number of origins or origin groups for this distribution.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [Origin], quantity: Int32) {
+        public init(items: [Origin], quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -3427,9 +3427,9 @@ extension CloudFront {
         /// A complex type that contains a list of the paths that you want to invalidate.
         public let items: [String]?
         /// The number of invalidation paths specified for the objects that you want to invalidate.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -3517,13 +3517,13 @@ extension CloudFront {
         /// An array of information about a public key you add to CloudFront to use with features like field-level encryption.
         public let items: [PublicKeySummary]?
         /// The maximum number of public keys you want in the response body. 
-        public let maxItems: Int32
+        public let maxItems: Int
         /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your public keys where you left off.
         public let nextMarker: String?
         /// The number of public keys you added to CloudFront to use with features like field-level encryption.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [PublicKeySummary]? = nil, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(items: [PublicKeySummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -3628,9 +3628,9 @@ extension CloudFront {
         /// Number of items for query argument-profile mapping for field-level encryption.
         public let items: [QueryArgProfile]?
         /// Number of profiles for query argument-profile mapping for field-level encryption.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [QueryArgProfile]? = nil, quantity: Int32) {
+        public init(items: [QueryArgProfile]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -3650,9 +3650,9 @@ extension CloudFront {
         /// A list that contains the query string parameters that you want CloudFront to use as a basis for caching for a cache behavior. If Quantity is 0, you can omit Items. 
         public let items: [String]?
         /// The number of whitelisted query string parameters for a cache behavior.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -3762,11 +3762,11 @@ extension CloudFront {
         ]
 
         /// The items (status codes) for an origin group.
-        public let items: [Int32]
+        public let items: [Int]
         /// The number of status codes.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(items: [Int32], quantity: Int32) {
+        public init(items: [Int], quantity: Int) {
             self.items = items
             self.quantity = quantity
         }
@@ -3923,13 +3923,13 @@ extension CloudFront {
         /// The value you provided for the Marker request parameter. 
         public let marker: String
         /// The value you provided for the MaxItems request parameter. 
-        public let maxItems: Int32
+        public let maxItems: Int
         /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your RTMP distributions where they left off. 
         public let nextMarker: String?
         /// The number of streaming distributions that were created by the current AWS account. 
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(isTruncated: Bool, items: [StreamingDistributionSummary]? = nil, marker: String, maxItems: Int32, nextMarker: String? = nil, quantity: Int32) {
+        public init(isTruncated: Bool, items: [StreamingDistributionSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -4163,9 +4163,9 @@ extension CloudFront {
         ///  Optional: A complex type that contains trusted signers for this cache behavior. If Quantity is 0, you can omit Items.
         public let items: [String]?
         /// The number of trusted signers for this cache behavior.
-        public let quantity: Int32
+        public let quantity: Int
 
-        public init(enabled: Bool, items: [String]? = nil, quantity: Int32) {
+        public init(enabled: Bool, items: [String]? = nil, quantity: Int) {
             self.enabled = enabled
             self.items = items
             self.quantity = quantity

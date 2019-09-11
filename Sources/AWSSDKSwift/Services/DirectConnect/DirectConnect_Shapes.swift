@@ -77,9 +77,9 @@ extension DirectConnect {
         /// The ID of the AWS account of the customer for whom the connection will be provisioned.
         public let ownerAccount: String
         /// The dedicated VLAN provisioned to the connection.
-        public let vlan: Int32
+        public let vlan: Int
 
-        public init(bandwidth: String, connectionName: String, interconnectId: String, ownerAccount: String, vlan: Int32) {
+        public init(bandwidth: String, connectionName: String, interconnectId: String, ownerAccount: String, vlan: Int) {
             self.bandwidth = bandwidth
             self.connectionName = connectionName
             self.interconnectId = interconnectId
@@ -117,9 +117,9 @@ extension DirectConnect {
         /// The tags to assign to the hosted connection.
         public let tags: [Tag]?
         /// The dedicated VLAN provisioned to the hosted connection.
-        public let vlan: Int32
+        public let vlan: Int
 
-        public init(bandwidth: String, connectionId: String, connectionName: String, ownerAccount: String, tags: [Tag]? = nil, vlan: Int32) {
+        public init(bandwidth: String, connectionId: String, connectionName: String, ownerAccount: String, tags: [Tag]? = nil, vlan: Int) {
             self.bandwidth = bandwidth
             self.connectionId = connectionId
             self.connectionName = connectionName
@@ -370,7 +370,7 @@ extension DirectConnect {
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32?
+        public let asn: Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The Direct Connect endpoint on which the BGP peer terminates.
@@ -384,7 +384,7 @@ extension DirectConnect {
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, bgpPeerId: String? = nil, bgpPeerState: BGPPeerState? = nil, bgpStatus: BGPStatus? = nil, customerAddress: String? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, bgpPeerId: String? = nil, bgpPeerState: BGPPeerState? = nil, bgpStatus: BGPStatus? = nil, customerAddress: String? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -627,9 +627,9 @@ extension DirectConnect {
         /// Any tags assigned to the connection.
         public let tags: [Tag]?
         /// The ID of the VLAN.
-        public let vlan: Int32?
+        public let vlan: Int?
 
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, ownerAccount: String? = nil, partnerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int32? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, ownerAccount: String? = nil, partnerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.bandwidth = bandwidth
@@ -989,11 +989,11 @@ extension DirectConnect {
         /// The location for the LAG.
         public let location: String
         /// The number of physical connections initially provisioned and bundled by the LAG.
-        public let numberOfConnections: Int32
+        public let numberOfConnections: Int
         /// The tags to assign to the link aggregation group (LAG).
         public let tags: [Tag]?
 
-        public init(childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int32, tags: [Tag]? = nil) {
+        public init(childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int, tags: [Tag]? = nil) {
             self.childConnectionTags = childConnectionTags
             self.connectionId = connectionId
             self.connectionsBandwidth = connectionsBandwidth
@@ -1128,7 +1128,7 @@ extension DirectConnect {
         ]
 
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32?
+        public let asn: Int?
         /// The ID of the BGP peer.
         public let bgpPeerId: String?
         /// The IP address assigned to the customer interface.
@@ -1136,7 +1136,7 @@ extension DirectConnect {
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String?
 
-        public init(asn: Int32? = nil, bgpPeerId: String? = nil, customerAddress: String? = nil, virtualInterfaceId: String? = nil) {
+        public init(asn: Int? = nil, bgpPeerId: String? = nil, customerAddress: String? = nil, virtualInterfaceId: String? = nil) {
             self.asn = asn
             self.bgpPeerId = bgpPeerId
             self.customerAddress = customerAddress
@@ -1474,13 +1474,13 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
         /// The ID of the proposal.
         public let proposalId: String?
 
-        public init(associatedGatewayId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, proposalId: String? = nil) {
+        public init(associatedGatewayId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, proposalId: String? = nil) {
             self.associatedGatewayId = associatedGatewayId
             self.directConnectGatewayId = directConnectGatewayId
             self.maxResults = maxResults
@@ -1536,13 +1536,13 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
         /// The ID of the virtual private gateway.
         public let virtualGatewayId: String?
 
-        public init(associatedGatewayId: String? = nil, associationId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, virtualGatewayId: String? = nil) {
+        public init(associatedGatewayId: String? = nil, associationId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, virtualGatewayId: String? = nil) {
             self.associatedGatewayId = associatedGatewayId
             self.associationId = associationId
             self.directConnectGatewayId = directConnectGatewayId
@@ -1594,13 +1594,13 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String?
 
-        public init(directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, virtualInterfaceId: String? = nil) {
+        public init(directConnectGatewayId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, virtualInterfaceId: String? = nil) {
             self.directConnectGatewayId = directConnectGatewayId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1647,11 +1647,11 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
 
-        public init(directConnectGatewayId: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(directConnectGatewayId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.directConnectGatewayId = directConnectGatewayId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2283,9 +2283,9 @@ extension DirectConnect {
         /// The location of the LAG.
         public let location: String?
         /// The minimum number of physical connections that must be operational for the LAG itself to be operational.
-        public let minimumLinks: Int32?
+        public let minimumLinks: Int?
         /// The number of physical connections bundled by the LAG, up to a maximum of 10.
-        public let numberOfConnections: Int32?
+        public let numberOfConnections: Int?
         /// The ID of the AWS account that owns the LAG.
         public let ownerAccount: String?
         /// The AWS Region where the connection is located.
@@ -2293,7 +2293,7 @@ extension DirectConnect {
         /// Any tags assigned to link aggregation group (LAG).
         public let tags: [Tag]?
 
-        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, minimumLinks: Int32? = nil, numberOfConnections: Int32? = nil, ownerAccount: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
+        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, minimumLinks: Int? = nil, numberOfConnections: Int? = nil, ownerAccount: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.allowsHostedConnections = allowsHostedConnections
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
@@ -2450,13 +2450,13 @@ extension DirectConnect {
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32?
+        public let asn: Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, customerAddress: String? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, customerAddress: String? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2493,7 +2493,7 @@ extension DirectConnect {
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32
+        public let asn: Int
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2501,7 +2501,7 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
-        public let mtu: Int32?
+        public let mtu: Int?
         /// Any tags assigned to the private virtual interface.
         public let tags: [Tag]?
         /// The ID of the virtual private gateway.
@@ -2509,9 +2509,9 @@ extension DirectConnect {
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
-        public let vlan: Int32
+        public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int32? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int32) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2565,21 +2565,21 @@ extension DirectConnect {
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32
+        public let asn: Int
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
-        public let mtu: Int32?
+        public let mtu: Int?
         /// Any tags assigned to the private virtual interface to be provisioned on a connection.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
-        public let vlan: Int32
+        public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32, authKey: String? = nil, customerAddress: String? = nil, mtu: Int32? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int32) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2629,7 +2629,7 @@ extension DirectConnect {
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32
+        public let asn: Int
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2641,9 +2641,9 @@ extension DirectConnect {
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
-        public let vlan: Int32
+        public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int32) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2693,7 +2693,7 @@ extension DirectConnect {
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32
+        public let asn: Int
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2705,9 +2705,9 @@ extension DirectConnect {
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String
         /// The ID of the VLAN.
-        public let vlan: Int32
+        public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int32) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2758,7 +2758,7 @@ extension DirectConnect {
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32?
+        public let asn: Int?
         /// The authentication key for BGP configuration.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
@@ -2766,15 +2766,15 @@ extension DirectConnect {
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500. 
-        public let mtu: Int32?
+        public let mtu: Int?
         /// Any tags assigned to the transit virtual interface.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String?
         /// The ID of the VLAN.
-        public let vlan: Int32?
+        public let vlan: Int?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int32? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int32? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2826,21 +2826,21 @@ extension DirectConnect {
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32?
+        public let asn: Int?
         /// The authentication key for BGP configuration.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500. 
-        public let mtu: Int32?
+        public let mtu: Int?
         /// Any tags assigned to the transit virtual interface.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String?
         /// The ID of the VLAN.
-        public let vlan: Int32?
+        public let vlan: Int?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int32? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int32? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int32? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -3072,9 +3072,9 @@ extension DirectConnect {
         /// The name of the LAG.
         public let lagName: String?
         /// The minimum number of physical connections that must be operational for the LAG itself to be operational.
-        public let minimumLinks: Int32?
+        public let minimumLinks: Int?
 
-        public init(lagId: String, lagName: String? = nil, minimumLinks: Int32? = nil) {
+        public init(lagId: String, lagName: String? = nil, minimumLinks: Int? = nil) {
             self.lagId = lagId
             self.lagName = lagName
             self.minimumLinks = minimumLinks
@@ -3094,11 +3094,11 @@ extension DirectConnect {
         ]
 
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
-        public let mtu: Int32?
+        public let mtu: Int?
         /// The ID of the virtual private interface.
         public let virtualInterfaceId: String
 
-        public init(mtu: Int32? = nil, virtualInterfaceId: String) {
+        public init(mtu: Int? = nil, virtualInterfaceId: String) {
             self.mtu = mtu
             self.virtualInterfaceId = virtualInterfaceId
         }
@@ -3183,7 +3183,7 @@ extension DirectConnect {
         /// The autonomous system number (ASN) for the Amazon side of the connection.
         public let amazonSideAsn: Int64?
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
-        public let asn: Int32?
+        public let asn: Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The Direct Connect endpoint on which the virtual interface terminates.
@@ -3203,7 +3203,7 @@ extension DirectConnect {
         /// The location of the connection.
         public let location: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
-        public let mtu: Int32?
+        public let mtu: Int?
         /// The ID of the AWS account that owns the virtual interface.
         public let ownerAccount: String?
         /// The AWS Region where the virtual interface is located.
@@ -3223,9 +3223,9 @@ extension DirectConnect {
         /// The type of virtual interface. The possible values are private and public.
         public let virtualInterfaceType: String?
         /// The ID of the VLAN.
-        public let vlan: Int32?
+        public let vlan: Int?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int32? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int32? = nil, ownerAccount: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int32? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int? = nil, ownerAccount: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.amazonSideAsn = amazonSideAsn

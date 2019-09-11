@@ -9,7 +9,7 @@ Amazon AppStream 2.0 This is the Amazon AppStream 2.0 API Reference. This docume
 */
 public struct AppStream {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(

@@ -8,7 +8,7 @@ import S3Middleware
 
 public struct S3 {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         let middlewares = [S3RequestMiddleware()] + middlewares

@@ -270,11 +270,11 @@ extension SecurityHub {
         /// This data type is exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard (for example, CIS AWS Foundations). Contains compliance-related finding details.
         public let compliance: Compliance?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
-        public let confidence: Int32?
+        public let confidence: Int?
         /// An ISO8601-formatted timestamp that indicates when the security-findings provider created the potential security issue that a finding captured.
         public let createdAt: String
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
-        public let criticality: Int32?
+        public let criticality: Int?
         /// A finding's description.  In this release, Description is a required property. 
         public let description: String
         /// An ISO8601-formatted timestamp that indicates when the security-findings provider first observed the potential security issue that a finding captured.
@@ -326,7 +326,7 @@ extension SecurityHub {
         /// The workflow state of a finding. 
         public let workflowState: WorkflowState?
 
-        public init(awsAccountId: String, compliance: Compliance? = nil, confidence: Int32? = nil, createdAt: String, criticality: Int32? = nil, description: String, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, note: Note? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, recordState: RecordState? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], schemaVersion: String, severity: Severity, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, title: String, types: [String], updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, workflowState: WorkflowState? = nil) {
+        public init(awsAccountId: String, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String, criticality: Int? = nil, description: String, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, note: Note? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, recordState: RecordState? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], schemaVersion: String, severity: Severity, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, title: String, types: [String], updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, workflowState: WorkflowState? = nil) {
             self.awsAccountId = awsAccountId
             self.compliance = compliance
             self.confidence = confidence
@@ -1205,13 +1205,13 @@ extension SecurityHub {
         ]
 
         /// The number of findings that failed to import.
-        public let failedCount: Int32
+        public let failedCount: Int
         /// The list of the findings that failed to import.
         public let failedFindings: [ImportFindingsError]?
         /// The number of findings that were successfully imported.
-        public let successCount: Int32
+        public let successCount: Int
 
-        public init(failedCount: Int32, failedFindings: [ImportFindingsError]? = nil, successCount: Int32) {
+        public init(failedCount: Int, failedFindings: [ImportFindingsError]? = nil, successCount: Int) {
             self.failedCount = failedCount
             self.failedFindings = failedFindings
             self.successCount = successCount
@@ -1469,9 +1469,9 @@ extension SecurityHub {
         /// A date range unit for the date filter.
         public let unit: DateRangeUnit?
         /// A date range value for the date filter.
-        public let value: Int32?
+        public let value: Int?
 
-        public init(unit: DateRangeUnit? = nil, value: Int32? = nil) {
+        public init(unit: DateRangeUnit? = nil, value: Int? = nil) {
             self.unit = unit
             self.value = value
         }
@@ -1693,11 +1693,11 @@ extension SecurityHub {
         /// A list of custom action target ARNs for the custom action targets to retrieve.
         public let actionTargetArns: [String]?
         /// The maximum number of results to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token that is required for pagination.
         public let nextToken: String?
 
-        public init(actionTargetArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(actionTargetArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.actionTargetArns = actionTargetArns
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1790,11 +1790,11 @@ extension SecurityHub {
         ]
 
         /// The maximum number of results to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token that is required for pagination.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2004,13 +2004,13 @@ extension SecurityHub {
         ]
 
         /// The maximum number of results to return in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Paginates results. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
         public let nextToken: String?
         /// A list of the standards subscription ARNs for the standards to retrieve.
         public let standardsSubscriptionArns: [String]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, standardsSubscriptionArns: [String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, standardsSubscriptionArns: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.standardsSubscriptionArns = standardsSubscriptionArns
@@ -2066,13 +2066,13 @@ extension SecurityHub {
         /// The findings attributes used to define a condition to filter the findings returned.
         public let filters: AwsSecurityFindingFilters?
         /// The maximum number of findings to return.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Paginates results. On your first call to the GetFindings operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
         public let nextToken: String?
         /// Findings attributes used to sort the list of findings returned.
         public let sortCriteria: [SortCriterion]?
 
-        public init(filters: AwsSecurityFindingFilters? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortCriteria: [SortCriterion]? = nil) {
+        public init(filters: AwsSecurityFindingFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [SortCriterion]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2166,11 +2166,11 @@ extension SecurityHub {
         /// The ARNs of the insights that you want to describe.
         public let insightArns: [String]?
         /// The maximum number of items that you want in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Paginates results. On your first call to the GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(insightArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(insightArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.insightArns = insightArns
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2227,9 +2227,9 @@ extension SecurityHub {
         ]
 
         /// The number of all membership invitations sent to this Security Hub member account, not including the currently accepted invitation. 
-        public let invitationsCount: Int32?
+        public let invitationsCount: Int?
 
-        public init(invitationsCount: Int32? = nil) {
+        public init(invitationsCount: Int? = nil) {
             self.invitationsCount = invitationsCount
         }
 
@@ -2374,11 +2374,11 @@ extension SecurityHub {
         ]
 
         /// The number of findings returned for each GroupByAttributeValue.
-        public let count: Int32
+        public let count: Int
         /// The value of the attribute that the findings are grouped by for the insight whose results are returned by the GetInsightResults operation.
         public let groupByAttributeValue: String
 
-        public init(count: Int32, groupByAttributeValue: String) {
+        public init(count: Int, groupByAttributeValue: String) {
             self.count = count
             self.groupByAttributeValue = groupByAttributeValue
         }
@@ -2537,11 +2537,11 @@ extension SecurityHub {
         ]
 
         /// The maximum number of items that you want in the response.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Paginates results. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2586,11 +2586,11 @@ extension SecurityHub {
         ]
 
         /// The maximum number of items that you want in the response. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Paginates results. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. 
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2636,13 +2636,13 @@ extension SecurityHub {
         ]
 
         /// The maximum number of items that you want in the response. 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Paginates results. Set the value of this parameter to NULL on your first call to the ListMembers operation. For subsequent calls to the operation, fill nextToken in the request with the value of nextToken from the previous response to continue listing data. 
         public let nextToken: String?
         /// Specifies which member accounts the response includes based on their relationship status with the master account. The default value is TRUE. If onlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED or DISABLED. If onlyAssociated is set to FALSE, the response includes all existing member accounts. 
         public let onlyAssociated: Bool?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, onlyAssociated: Bool? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: Bool? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.onlyAssociated = onlyAssociated
@@ -2884,7 +2884,7 @@ extension SecurityHub {
         /// The destination IPv6 address of network-related information about a finding.
         public let destinationIpV6: String?
         /// The destination port of network-related information about a finding.
-        public let destinationPort: Int32?
+        public let destinationPort: Int?
         /// The direction of network traffic associated with a finding.
         public let direction: NetworkDirection?
         /// The protocol of network-related information about a finding.
@@ -2898,9 +2898,9 @@ extension SecurityHub {
         /// The source media access control (MAC) address of network-related information about a finding.
         public let sourceMac: String?
         /// The source port of network-related information about a finding.
-        public let sourcePort: Int32?
+        public let sourcePort: Int?
 
-        public init(destinationDomain: String? = nil, destinationIpV4: String? = nil, destinationIpV6: String? = nil, destinationPort: Int32? = nil, direction: NetworkDirection? = nil, protocol: String? = nil, sourceDomain: String? = nil, sourceIpV4: String? = nil, sourceIpV6: String? = nil, sourceMac: String? = nil, sourcePort: Int32? = nil) {
+        public init(destinationDomain: String? = nil, destinationIpV4: String? = nil, destinationIpV6: String? = nil, destinationPort: Int? = nil, direction: NetworkDirection? = nil, protocol: String? = nil, sourceDomain: String? = nil, sourceIpV4: String? = nil, sourceIpV6: String? = nil, sourceMac: String? = nil, sourcePort: Int? = nil) {
             self.destinationDomain = destinationDomain
             self.destinationIpV4 = destinationIpV4
             self.destinationIpV6 = destinationIpV6
@@ -3055,15 +3055,15 @@ extension SecurityHub {
         /// The name of the process.
         public let name: String?
         /// The parent process ID.
-        public let parentPid: Int32?
+        public let parentPid: Int?
         /// The path to the process executable.
         public let path: String?
         /// The process ID.
-        public let pid: Int32?
+        public let pid: Int?
         /// The date and time when the process was terminated.
         public let terminatedAt: String?
 
-        public init(launchedAt: String? = nil, name: String? = nil, parentPid: Int32? = nil, path: String? = nil, pid: Int32? = nil, terminatedAt: String? = nil) {
+        public init(launchedAt: String? = nil, name: String? = nil, parentPid: Int? = nil, path: String? = nil, pid: Int? = nil, terminatedAt: String? = nil) {
             self.launchedAt = launchedAt
             self.name = name
             self.parentPid = parentPid
@@ -3352,11 +3352,11 @@ extension SecurityHub {
         ]
 
         /// The normalized severity of a finding.
-        public let normalized: Int32
+        public let normalized: Int
         /// The native severity as defined by the AWS service or integrated partner product that generated the finding.
         public let product: Double?
 
-        public init(normalized: Int32, product: Double? = nil) {
+        public init(normalized: Int, product: Double? = nil) {
             self.normalized = normalized
             self.product = product
         }

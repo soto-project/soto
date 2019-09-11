@@ -1130,7 +1130,7 @@ extension WorkDocs {
         /// Includes indirect activities. An indirect activity results from a direct activity performed on a parent resource. For example, sharing a parent folder (the direct activity) shares all of the subfolders and documents within the parent folder (the indirect activity).
         public let includeIndirectActivities: Bool?
         /// The maximum number of items to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// The marker for the next set of results.
         public let marker: String?
         /// The ID of the organization. This is a mandatory parameter when using administrative API (SigV4) requests.
@@ -1142,7 +1142,7 @@ extension WorkDocs {
         /// The ID of the user who performed the action. The response includes activities pertaining to this user. This is an optional parameter and is only applicable for administrative API (SigV4) requests.
         public let userId: String?
 
-        public init(activityTypes: String? = nil, authenticationToken: String? = nil, endTime: TimeStamp? = nil, includeIndirectActivities: Bool? = nil, limit: Int32? = nil, marker: String? = nil, organizationId: String? = nil, resourceId: String? = nil, startTime: TimeStamp? = nil, userId: String? = nil) {
+        public init(activityTypes: String? = nil, authenticationToken: String? = nil, endTime: TimeStamp? = nil, includeIndirectActivities: Bool? = nil, limit: Int? = nil, marker: String? = nil, organizationId: String? = nil, resourceId: String? = nil, startTime: TimeStamp? = nil, userId: String? = nil) {
             self.activityTypes = activityTypes
             self.authenticationToken = authenticationToken
             self.endTime = endTime
@@ -1227,13 +1227,13 @@ extension WorkDocs {
         /// The ID of the document.
         public let documentId: String
         /// The maximum number of items to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// The marker for the next set of results. This marker was received from a previous call.
         public let marker: String?
         /// The ID of the document version.
         public let versionId: String
 
-        public init(authenticationToken: String? = nil, documentId: String, limit: Int32? = nil, marker: String? = nil, versionId: String) {
+        public init(authenticationToken: String? = nil, documentId: String, limit: Int? = nil, marker: String? = nil, versionId: String) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
             self.limit = limit
@@ -1307,11 +1307,11 @@ extension WorkDocs {
         /// A comma-separated list of values. Specify "INITIALIZED" to include incomplete versions.
         public let include: String?
         /// The maximum number of versions to return with this call.
-        public let limit: Int32?
+        public let limit: Int?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
 
-        public init(authenticationToken: String? = nil, documentId: String, fields: String? = nil, include: String? = nil, limit: Int32? = nil, marker: String? = nil) {
+        public init(authenticationToken: String? = nil, documentId: String, fields: String? = nil, include: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
             self.fields = fields
@@ -1389,7 +1389,7 @@ extension WorkDocs {
         /// The contents to include. Specify "INITIALIZED" to include initialized documents.
         public let include: String?
         /// The maximum number of items to return with this call.
-        public let limit: Int32?
+        public let limit: Int?
         /// The marker for the next set of results. This marker was received from a previous call.
         public let marker: String?
         /// The order for the contents of the folder.
@@ -1399,7 +1399,7 @@ extension WorkDocs {
         /// The type of items.
         public let `type`: FolderContentType?
 
-        public init(authenticationToken: String? = nil, folderId: String, include: String? = nil, limit: Int32? = nil, marker: String? = nil, order: OrderType? = nil, sort: ResourceSortType? = nil, type: FolderContentType? = nil) {
+        public init(authenticationToken: String? = nil, folderId: String, include: String? = nil, limit: Int? = nil, marker: String? = nil, order: OrderType? = nil, sort: ResourceSortType? = nil, type: FolderContentType? = nil) {
             self.authenticationToken = authenticationToken
             self.folderId = folderId
             self.include = include
@@ -1476,7 +1476,7 @@ extension WorkDocs {
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The maximum number of items to return with this call.
-        public let limit: Int32?
+        public let limit: Int?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The ID of the organization.
@@ -1484,7 +1484,7 @@ extension WorkDocs {
         /// A query to describe groups by group name.
         public let searchQuery: String
 
-        public init(authenticationToken: String? = nil, limit: Int32? = nil, marker: String? = nil, organizationId: String? = nil, searchQuery: String) {
+        public init(authenticationToken: String? = nil, limit: Int? = nil, marker: String? = nil, organizationId: String? = nil, searchQuery: String) {
             self.authenticationToken = authenticationToken
             self.limit = limit
             self.marker = marker
@@ -1546,13 +1546,13 @@ extension WorkDocs {
         ]
 
         /// The maximum number of items to return with this call.
-        public let limit: Int32?
+        public let limit: Int?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The ID of the organization.
         public let organizationId: String
 
-        public init(limit: Int32? = nil, marker: String? = nil, organizationId: String) {
+        public init(limit: Int? = nil, marker: String? = nil, organizationId: String) {
             self.limit = limit
             self.marker = marker
             self.organizationId = organizationId
@@ -1609,7 +1609,7 @@ extension WorkDocs {
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String?
         /// The maximum number of items to return with this call.
-        public let limit: Int32?
+        public let limit: Int?
         /// The marker for the next set of results. (You received this marker from a previous call)
         public let marker: String?
         /// The ID of the principal to filter permissions by.
@@ -1617,7 +1617,7 @@ extension WorkDocs {
         /// The ID of the resource.
         public let resourceId: String
 
-        public init(authenticationToken: String? = nil, limit: Int32? = nil, marker: String? = nil, principalId: String? = nil, resourceId: String) {
+        public init(authenticationToken: String? = nil, limit: Int? = nil, marker: String? = nil, principalId: String? = nil, resourceId: String) {
             self.authenticationToken = authenticationToken
             self.limit = limit
             self.marker = marker
@@ -1681,11 +1681,11 @@ extension WorkDocs {
         /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
         public let authenticationToken: String
         /// The maximum number of items to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
 
-        public init(authenticationToken: String, limit: Int32? = nil, marker: String? = nil) {
+        public init(authenticationToken: String, limit: Int? = nil, marker: String? = nil) {
             self.authenticationToken = authenticationToken
             self.limit = limit
             self.marker = marker
@@ -1750,7 +1750,7 @@ extension WorkDocs {
         /// The state of the users. Specify "ALL" to include inactive users.
         public let include: UserFilterType?
         /// The maximum number of items to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The order for the results.
@@ -1764,7 +1764,7 @@ extension WorkDocs {
         /// The IDs of the users.
         public let userIds: String?
 
-        public init(authenticationToken: String? = nil, fields: String? = nil, include: UserFilterType? = nil, limit: Int32? = nil, marker: String? = nil, order: OrderType? = nil, organizationId: String? = nil, query: String? = nil, sort: UserSortType? = nil, userIds: String? = nil) {
+        public init(authenticationToken: String? = nil, fields: String? = nil, include: UserFilterType? = nil, limit: Int? = nil, marker: String? = nil, order: OrderType? = nil, organizationId: String? = nil, query: String? = nil, sort: UserSortType? = nil, userIds: String? = nil) {
             self.authenticationToken = authenticationToken
             self.fields = fields
             self.include = include
@@ -2116,11 +2116,11 @@ extension WorkDocs {
         /// A comma-separated list of values. Specify NAME to include the names of the parent folders.
         public let fields: String?
         /// The maximum number of levels in the hierarchy to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// This value is not supported.
         public let marker: String?
 
-        public init(authenticationToken: String? = nil, documentId: String, fields: String? = nil, limit: Int32? = nil, marker: String? = nil) {
+        public init(authenticationToken: String? = nil, documentId: String, fields: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.authenticationToken = authenticationToken
             self.documentId = documentId
             self.fields = fields
@@ -2315,11 +2315,11 @@ extension WorkDocs {
         /// The ID of the folder.
         public let folderId: String
         /// The maximum number of levels in the hierarchy to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// This value is not supported.
         public let marker: String?
 
-        public init(authenticationToken: String? = nil, fields: String? = nil, folderId: String, limit: Int32? = nil, marker: String? = nil) {
+        public init(authenticationToken: String? = nil, fields: String? = nil, folderId: String, limit: Int? = nil, marker: String? = nil) {
             self.authenticationToken = authenticationToken
             self.fields = fields
             self.folderId = folderId
@@ -2439,13 +2439,13 @@ extension WorkDocs {
         /// The collection type.
         public let collectionType: ResourceCollectionType?
         /// The maximum number of resources to return.
-        public let limit: Int32?
+        public let limit: Int?
         /// The marker for the next set of results. This marker was received from a previous call.
         public let marker: String?
         /// The user ID for the resource collection. This is a required field for accessing the API operation using IAM credentials.
         public let userId: String?
 
-        public init(authenticationToken: String? = nil, collectionType: ResourceCollectionType? = nil, limit: Int32? = nil, marker: String? = nil, userId: String? = nil) {
+        public init(authenticationToken: String? = nil, collectionType: ResourceCollectionType? = nil, limit: Int? = nil, marker: String? = nil, userId: String? = nil) {
             self.authenticationToken = authenticationToken
             self.collectionType = collectionType
             self.limit = limit

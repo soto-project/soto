@@ -527,7 +527,7 @@ extension CognitoSync {
         ]
 
         /// Number of datasets for the identity.
-        public let datasetCount: Int32?
+        public let datasetCount: Int?
         /// Total data storage for this identity.
         public let dataStorage: Int64?
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -537,7 +537,7 @@ extension CognitoSync {
         /// Date on which the identity was last modified.
         public let lastModifiedDate: TimeStamp?
 
-        public init(datasetCount: Int32? = nil, dataStorage: Int64? = nil, identityId: String? = nil, identityPoolId: String? = nil, lastModifiedDate: TimeStamp? = nil) {
+        public init(datasetCount: Int? = nil, dataStorage: Int64? = nil, identityId: String? = nil, identityPoolId: String? = nil, lastModifiedDate: TimeStamp? = nil) {
             self.datasetCount = datasetCount
             self.dataStorage = dataStorage
             self.identityId = identityId
@@ -567,11 +567,11 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String
         /// The maximum number of results to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token for obtaining the next page of results.
         public let nextToken: String?
 
-        public init(identityId: String, identityPoolId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(identityId: String, identityPoolId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.identityId = identityId
             self.identityPoolId = identityPoolId
             self.maxResults = maxResults
@@ -603,13 +603,13 @@ extension CognitoSync {
         ]
 
         /// Number of datasets returned.
-        public let count: Int32?
+        public let count: Int?
         /// A set of datasets.
         public let datasets: [Dataset]?
         /// A pagination token for obtaining the next page of results.
         public let nextToken: String?
 
-        public init(count: Int32? = nil, datasets: [Dataset]? = nil, nextToken: String? = nil) {
+        public init(count: Int? = nil, datasets: [Dataset]? = nil, nextToken: String? = nil) {
             self.count = count
             self.datasets = datasets
             self.nextToken = nextToken
@@ -629,11 +629,11 @@ extension CognitoSync {
         ]
 
         /// The maximum number of results to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token for obtaining the next page of results.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -653,15 +653,15 @@ extension CognitoSync {
         ]
 
         /// Total number of identities for the identity pool.
-        public let count: Int32?
+        public let count: Int?
         /// Usage information for the identity pools.
         public let identityPoolUsages: [IdentityPoolUsage]?
         /// The maximum number of results to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token for obtaining the next page of results.
         public let nextToken: String?
 
-        public init(count: Int32? = nil, identityPoolUsages: [IdentityPoolUsage]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(count: Int? = nil, identityPoolUsages: [IdentityPoolUsage]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.count = count
             self.identityPoolUsages = identityPoolUsages
             self.maxResults = maxResults
@@ -696,13 +696,13 @@ extension CognitoSync {
         /// The last server sync count for this record.
         public let lastSyncCount: Int64?
         /// The maximum number of results to be returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A pagination token for obtaining the next page of results.
         public let nextToken: String?
         /// A token containing a session ID, identity ID, and expiration.
         public let syncSessionToken: String?
 
-        public init(datasetName: String, identityId: String, identityPoolId: String, lastSyncCount: Int64? = nil, maxResults: Int32? = nil, nextToken: String? = nil, syncSessionToken: String? = nil) {
+        public init(datasetName: String, identityId: String, identityPoolId: String, lastSyncCount: Int64? = nil, maxResults: Int? = nil, nextToken: String? = nil, syncSessionToken: String? = nil) {
             self.datasetName = datasetName
             self.identityId = identityId
             self.identityPoolId = identityPoolId
@@ -749,7 +749,7 @@ extension CognitoSync {
         ]
 
         /// Total number of records.
-        public let count: Int32?
+        public let count: Int?
         /// A boolean value specifying whether to delete the dataset locally.
         public let datasetDeletedAfterRequestedSyncCount: Bool?
         /// Indicates whether the dataset exists.
@@ -767,7 +767,7 @@ extension CognitoSync {
         /// A token containing a session ID, identity ID, and expiration.
         public let syncSessionToken: String?
 
-        public init(count: Int32? = nil, datasetDeletedAfterRequestedSyncCount: Bool? = nil, datasetExists: Bool? = nil, datasetSyncCount: Int64? = nil, lastModifiedBy: String? = nil, mergedDatasetNames: [String]? = nil, nextToken: String? = nil, records: [Record]? = nil, syncSessionToken: String? = nil) {
+        public init(count: Int? = nil, datasetDeletedAfterRequestedSyncCount: Bool? = nil, datasetExists: Bool? = nil, datasetSyncCount: Int64? = nil, lastModifiedBy: String? = nil, mergedDatasetNames: [String]? = nil, nextToken: String? = nil, records: [Record]? = nil, syncSessionToken: String? = nil) {
             self.count = count
             self.datasetDeletedAfterRequestedSyncCount = datasetDeletedAfterRequestedSyncCount
             self.datasetExists = datasetExists

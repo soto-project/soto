@@ -9,7 +9,7 @@ Amazon DynamoDB Amazon DynamoDB is a fully managed NoSQL database service that p
 */
 public struct DynamoDB {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(

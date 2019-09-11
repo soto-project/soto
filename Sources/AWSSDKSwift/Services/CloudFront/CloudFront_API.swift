@@ -9,7 +9,7 @@ Amazon CloudFront This is the Amazon CloudFront API Reference. This guide is for
 */
 public struct CloudFront {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(

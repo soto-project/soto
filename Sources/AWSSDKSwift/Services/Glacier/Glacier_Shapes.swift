@@ -668,9 +668,9 @@ extension Glacier {
         /// The Content-Type depends on whether the job output is an archive or a vault inventory. For archive data, the Content-Type is application/octet-stream. For vault inventory, if you requested CSV format when you initiated the job, the Content-Type is text/csv. Otherwise, by default, vault inventory is returned as JSON, and the Content-Type is application/json.
         public let contentType: String?
         /// The HTTP response code for a job output request. The value depends on whether a range was specified in the request.
-        public let status: Int32?
+        public let status: Int?
 
-        public init(acceptRanges: String? = nil, archiveDescription: String? = nil, body: Data? = nil, checksum: String? = nil, contentRange: String? = nil, contentType: String? = nil, status: Int32? = nil) {
+        public init(acceptRanges: String? = nil, archiveDescription: String? = nil, body: Data? = nil, checksum: String? = nil, contentRange: String? = nil, contentType: String? = nil, status: Int? = nil) {
             self.acceptRanges = acceptRanges
             self.archiveDescription = archiveDescription
             self.body = body

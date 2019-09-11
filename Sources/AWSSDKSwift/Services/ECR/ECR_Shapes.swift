@@ -538,7 +538,7 @@ extension ECR {
         /// The list of image IDs for the requested repository.
         public let imageIds: [ImageIdentifier]?
         /// The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify images with imageIds.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify images with imageIds.
         public let nextToken: String?
         /// The AWS account ID associated with the registry that contains the repository in which to describe images. If you do not specify a registry, the default registry is assumed.
@@ -546,7 +546,7 @@ extension ECR {
         /// A list of repositories to describe.
         public let repositoryName: String
 
-        public init(filter: DescribeImagesFilter? = nil, imageIds: [ImageIdentifier]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
+        public init(filter: DescribeImagesFilter? = nil, imageIds: [ImageIdentifier]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.filter = filter
             self.imageIds = imageIds
             self.maxResults = maxResults
@@ -607,7 +607,7 @@ extension ECR {
         ]
 
         /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify repositories with repositoryNames.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default registry is assumed.
@@ -615,7 +615,7 @@ extension ECR {
         /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
         public let repositoryNames: [String]?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryNames: [String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryNames: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.registryId = registryId
@@ -779,7 +779,7 @@ extension ECR {
         /// The list of imageIDs to be included.
         public let imageIds: [ImageIdentifier]?
         /// The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in&#x2028; paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns&#x2028; maxResults results in a single page along with a nextToken&#x2028; response element. The remaining results of the initial request can be seen by sending&#x2028; another GetLifecyclePolicyPreviewRequest request with the returned nextToken&#x2028; value. This value can be between 1 and 1000. If this&#x2028; parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to&#x2028; 100 results and a nextToken value, if&#x2028; applicable. This option cannot be used when you specify images with imageIds.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated&#x2028; GetLifecyclePolicyPreviewRequest request where maxResults was used and the&#x2028; results exceeded the value of that parameter. Pagination continues from the end of the&#x2028; previous results that returned the nextToken value. This value is&#x2028; null when there are no more results to return. This option cannot be used when you specify images with imageIds.
         public let nextToken: String?
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
@@ -787,7 +787,7 @@ extension ECR {
         /// The name of the repository.
         public let repositoryName: String
 
-        public init(filter: LifecyclePolicyPreviewFilter? = nil, imageIds: [ImageIdentifier]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
+        public init(filter: LifecyclePolicyPreviewFilter? = nil, imageIds: [ImageIdentifier]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.filter = filter
             self.imageIds = imageIds
             self.maxResults = maxResults
@@ -1269,7 +1269,7 @@ extension ECR {
         /// The type of action to be taken.
         public let action: LifecyclePolicyRuleAction?
         /// The priority of the applied rule.
-        public let appliedRulePriority: Int32?
+        public let appliedRulePriority: Int?
         /// The sha256 digest of the image manifest.
         public let imageDigest: String?
         /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository.
@@ -1277,7 +1277,7 @@ extension ECR {
         /// The list of tags associated with this image.
         public let imageTags: [String]?
 
-        public init(action: LifecyclePolicyRuleAction? = nil, appliedRulePriority: Int32? = nil, imageDigest: String? = nil, imagePushedAt: TimeStamp? = nil, imageTags: [String]? = nil) {
+        public init(action: LifecyclePolicyRuleAction? = nil, appliedRulePriority: Int? = nil, imageDigest: String? = nil, imagePushedAt: TimeStamp? = nil, imageTags: [String]? = nil) {
             self.action = action
             self.appliedRulePriority = appliedRulePriority
             self.imageDigest = imageDigest
@@ -1308,9 +1308,9 @@ extension ECR {
         ]
 
         /// The number of expiring images.
-        public let expiringImageTotalCount: Int32?
+        public let expiringImageTotalCount: Int?
 
-        public init(expiringImageTotalCount: Int32? = nil) {
+        public init(expiringImageTotalCount: Int? = nil) {
             self.expiringImageTotalCount = expiringImageTotalCount
         }
 
@@ -1365,7 +1365,7 @@ extension ECR {
         /// The filter key and value with which to filter your ListImages results.
         public let filter: ListImagesFilter?
         /// The maximum number of image results returned by ListImages in paginated output. When this parameter is used, ListImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImages request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListImages returns up to 100 results and a nextToken value, if applicable.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
         /// The AWS account ID associated with the registry that contains the repository in which to list images. If you do not specify a registry, the default registry is assumed.
@@ -1373,7 +1373,7 @@ extension ECR {
         /// The repository with image IDs to be listed.
         public let repositoryName: String
 
-        public init(filter: ListImagesFilter? = nil, maxResults: Int32? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
+        public init(filter: ListImagesFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken

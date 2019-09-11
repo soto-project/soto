@@ -253,7 +253,7 @@ extension ImportExport {
         public let carrier: String?
         public let creationDate: TimeStamp?
         public let currentManifest: String?
-        public let errorCount: Int32?
+        public let errorCount: Int?
         public let jobId: String?
         public let jobType: JobType?
         public let locationCode: String?
@@ -266,7 +266,7 @@ extension ImportExport {
         public let signatureFileContents: String?
         public let trackingNumber: String?
 
-        public init(artifactList: [Artifact]? = nil, carrier: String? = nil, creationDate: TimeStamp? = nil, currentManifest: String? = nil, errorCount: Int32? = nil, jobId: String? = nil, jobType: JobType? = nil, locationCode: String? = nil, locationMessage: String? = nil, logBucket: String? = nil, logKey: String? = nil, progressCode: String? = nil, progressMessage: String? = nil, signature: String? = nil, signatureFileContents: String? = nil, trackingNumber: String? = nil) {
+        public init(artifactList: [Artifact]? = nil, carrier: String? = nil, creationDate: TimeStamp? = nil, currentManifest: String? = nil, errorCount: Int? = nil, jobId: String? = nil, jobType: JobType? = nil, locationCode: String? = nil, locationMessage: String? = nil, logBucket: String? = nil, logKey: String? = nil, progressCode: String? = nil, progressMessage: String? = nil, signature: String? = nil, signatureFileContents: String? = nil, trackingNumber: String? = nil) {
             self.artifactList = artifactList
             self.carrier = carrier
             self.creationDate = creationDate
@@ -348,9 +348,9 @@ extension ImportExport {
 
         public let aPIVersion: String?
         public let marker: String?
-        public let maxJobs: Int32?
+        public let maxJobs: Int?
 
-        public init(aPIVersion: String? = nil, marker: String? = nil, maxJobs: Int32? = nil) {
+        public init(aPIVersion: String? = nil, marker: String? = nil, maxJobs: Int? = nil) {
             self.aPIVersion = aPIVersion
             self.marker = marker
             self.maxJobs = maxJobs

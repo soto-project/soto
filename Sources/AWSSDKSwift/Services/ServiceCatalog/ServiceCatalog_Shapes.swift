@@ -2055,13 +2055,13 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The plan identifier.
         public let planId: String
 
-        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, planId: String) {
+        public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, planId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -2278,11 +2278,11 @@ extension ServiceCatalog {
         /// The record identifier of the provisioned product. This identifier is returned by the request operation.
         public let id: String
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
-        public init(acceptLanguage: String? = nil, id: String, pageSize: Int32? = nil, pageToken: String? = nil) {
+        public init(acceptLanguage: String? = nil, id: String, pageSize: Int? = nil, pageToken: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
             self.pageSize = pageSize
@@ -2894,13 +2894,13 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the master account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios  
         public let portfolioShareType: PortfolioShareType?
 
-        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, portfolioShareType: PortfolioShareType? = nil) {
+        public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioShareType: PortfolioShareType? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -2956,13 +2956,13 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The resource identifier.
         public let resourceId: String
 
-        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, resourceId: String) {
+        public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, resourceId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -3022,7 +3022,7 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The portfolio identifier.
@@ -3030,7 +3030,7 @@ extension ServiceCatalog {
         /// The product identifier.
         public let productId: String?
 
-        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, portfolioId: String, productId: String? = nil) {
+        public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioId: String, productId: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -3094,13 +3094,13 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The product identifier.
         public let productId: String
 
-        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, productId: String) {
+        public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -3162,13 +3162,13 @@ extension ServiceCatalog {
         /// The organization node type that will be returned in the output.    ORGANIZATION - Organization that has access to the portfolio.     ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization.    ACCOUNT - Account that has access to the portfolio within your organization.  
         public let organizationNodeType: OrganizationNodeType
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The portfolio identifier. For example, port-2abcdext3y5fk.
         public let portfolioId: String
 
-        public init(acceptLanguage: String? = nil, organizationNodeType: OrganizationNodeType, pageSize: Int32? = nil, pageToken: String? = nil, portfolioId: String) {
+        public init(acceptLanguage: String? = nil, organizationNodeType: OrganizationNodeType, pageSize: Int? = nil, pageToken: String? = nil, portfolioId: String) {
             self.acceptLanguage = acceptLanguage
             self.organizationNodeType = organizationNodeType
             self.pageSize = pageSize
@@ -3280,13 +3280,13 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The product identifier.
         public let productId: String
 
-        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, productId: String) {
+        public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -3344,11 +3344,11 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
-        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil) {
+        public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -3402,13 +3402,13 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The portfolio identifier.
         public let portfolioId: String
 
-        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, portfolioId: String) {
+        public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -3470,13 +3470,13 @@ extension ServiceCatalog {
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The product identifier.
         public let provisionProductId: String?
 
-        public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int32? = nil, pageToken: String? = nil, provisionProductId: String? = nil) {
+        public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int? = nil, pageToken: String? = nil, provisionProductId: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accessLevelFilter = accessLevelFilter
             self.pageSize = pageSize
@@ -3537,13 +3537,13 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
 
-        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, serviceActionId: String) {
+        public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, serviceActionId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -3656,13 +3656,13 @@ extension ServiceCatalog {
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The search filter to scope the results.
         public let searchFilter: ListRecordHistorySearchFilter?
 
-        public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int32? = nil, pageToken: String? = nil, searchFilter: ListRecordHistorySearchFilter? = nil) {
+        public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int? = nil, pageToken: String? = nil, searchFilter: ListRecordHistorySearchFilter? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accessLevelFilter = accessLevelFilter
             self.pageSize = pageSize
@@ -3740,7 +3740,7 @@ extension ServiceCatalog {
         ]
 
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The resource type.    Portfolio     Product   
@@ -3748,7 +3748,7 @@ extension ServiceCatalog {
         /// The TagOption identifier.
         public let tagOptionId: String
 
-        public init(pageSize: Int32? = nil, pageToken: String? = nil, resourceType: String? = nil, tagOptionId: String) {
+        public init(pageSize: Int? = nil, pageToken: String? = nil, resourceType: String? = nil, tagOptionId: String) {
             self.pageSize = pageSize
             self.pageToken = pageToken
             self.resourceType = resourceType
@@ -3806,7 +3806,7 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The product identifier. For example, prod-abcdzk7xy33qa.
@@ -3814,7 +3814,7 @@ extension ServiceCatalog {
         /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
         public let provisioningArtifactId: String
 
-        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, productId: String, provisioningArtifactId: String) {
+        public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, productId: String, provisioningArtifactId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -3877,11 +3877,11 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
-        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil) {
+        public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -3935,13 +3935,13 @@ extension ServiceCatalog {
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
 
-        public init(acceptLanguage: String? = nil, pageSize: Int32? = nil, pageToken: String? = nil, provisionedProductId: String) {
+        public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, provisionedProductId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -4035,11 +4035,11 @@ extension ServiceCatalog {
         /// The search filters. If no search filters are specified, the output includes all TagOptions.
         public let filters: ListTagOptionsFilters?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
-        public init(filters: ListTagOptionsFilters? = nil, pageSize: Int32? = nil, pageToken: String? = nil) {
+        public init(filters: ListTagOptionsFilters? = nil, pageSize: Int? = nil, pageToken: String? = nil) {
             self.filters = filters
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -4226,11 +4226,11 @@ extension ServiceCatalog {
         ]
 
         /// An approximate count of the products that match the value.
-        public let approximateCount: Int32?
+        public let approximateCount: Int?
         /// The value of the product view aggregation.
         public let value: String?
 
-        public init(approximateCount: Int32? = nil, value: String? = nil) {
+        public init(approximateCount: Int? = nil, value: String? = nil) {
             self.approximateCount = approximateCount
             self.value = value
         }
@@ -5087,17 +5087,17 @@ extension ServiceCatalog {
         /// One or more AWS accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The AWS accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
         public let stackSetAccounts: [String]?
         /// The number of accounts, per region, for which this operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
-        public let stackSetFailureToleranceCount: Int32?
+        public let stackSetFailureToleranceCount: Int?
         /// The percentage of accounts, per region, for which this stack operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both.
-        public let stackSetFailureTolerancePercentage: Int32?
+        public let stackSetFailureTolerancePercentage: Int?
         /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of StackSetFailureToleranceCount. StackSetMaxConcurrentCount is at most one more than the StackSetFailureToleranceCount. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
-        public let stackSetMaxConcurrencyCount: Int32?
+        public let stackSetMaxConcurrencyCount: Int?
         /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, AWS Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
-        public let stackSetMaxConcurrencyPercentage: Int32?
+        public let stackSetMaxConcurrencyPercentage: Int?
         /// One or more AWS Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified regions should be within the list of regions from the STACKSET constraint. To get the list of regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all regions from the STACKSET constraint.
         public let stackSetRegions: [String]?
 
-        public init(stackSetAccounts: [String]? = nil, stackSetFailureToleranceCount: Int32? = nil, stackSetFailureTolerancePercentage: Int32? = nil, stackSetMaxConcurrencyCount: Int32? = nil, stackSetMaxConcurrencyPercentage: Int32? = nil, stackSetRegions: [String]? = nil) {
+        public init(stackSetAccounts: [String]? = nil, stackSetFailureToleranceCount: Int? = nil, stackSetFailureTolerancePercentage: Int? = nil, stackSetMaxConcurrencyCount: Int? = nil, stackSetMaxConcurrencyPercentage: Int? = nil, stackSetRegions: [String]? = nil) {
             self.stackSetAccounts = stackSetAccounts
             self.stackSetFailureToleranceCount = stackSetFailureToleranceCount
             self.stackSetFailureTolerancePercentage = stackSetFailureTolerancePercentage
@@ -5502,11 +5502,11 @@ extension ServiceCatalog {
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
-        public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int32? = nil, pageToken: String? = nil) {
+        public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int? = nil, pageToken: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accessLevelFilter = accessLevelFilter
             self.pageSize = pageSize
@@ -5568,7 +5568,7 @@ extension ServiceCatalog {
         /// The search filters. If no search filters are specified, the output includes all products to which the administrator has access.
         public let filters: [ProductViewFilterBy: [String]]?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The portfolio identifier.
@@ -5580,7 +5580,7 @@ extension ServiceCatalog {
         /// The sort order. If no value is specified, the results are not sorted.
         public let sortOrder: SortOrder?
 
-        public init(acceptLanguage: String? = nil, filters: [ProductViewFilterBy: [String]]? = nil, pageSize: Int32? = nil, pageToken: String? = nil, portfolioId: String? = nil, productSource: ProductSource? = nil, sortBy: ProductViewSortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(acceptLanguage: String? = nil, filters: [ProductViewFilterBy: [String]]? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioId: String? = nil, productSource: ProductSource? = nil, sortBy: ProductViewSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.acceptLanguage = acceptLanguage
             self.filters = filters
             self.pageSize = pageSize
@@ -5651,7 +5651,7 @@ extension ServiceCatalog {
         /// The search filters. If no search filters are specified, the output includes all products to which the caller has access.
         public let filters: [ProductViewFilterBy: [String]]?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The sort field. If no value is specified, the results are not sorted.
@@ -5659,7 +5659,7 @@ extension ServiceCatalog {
         /// The sort order. If no value is specified, the results are not sorted.
         public let sortOrder: SortOrder?
 
-        public init(acceptLanguage: String? = nil, filters: [ProductViewFilterBy: [String]]? = nil, pageSize: Int32? = nil, pageToken: String? = nil, sortBy: ProductViewSortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(acceptLanguage: String? = nil, filters: [ProductViewFilterBy: [String]]? = nil, pageSize: Int? = nil, pageToken: String? = nil, sortBy: ProductViewSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.acceptLanguage = acceptLanguage
             self.filters = filters
             self.pageSize = pageSize
@@ -5731,7 +5731,7 @@ extension ServiceCatalog {
         /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifact, type, status, tags, userArn, and userArnSession. Example: "SearchQuery":["status:AVAILABLE"] 
         public let filters: [ProvisionedProductViewFilterBy: [String]]?
         /// The maximum number of items to return with this call.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// The sort field. If no value is specified, the results are not sorted. The valid values are arn, id, name, and lastRecordId.
@@ -5739,7 +5739,7 @@ extension ServiceCatalog {
         /// The sort order. If no value is specified, the results are not sorted.
         public let sortOrder: SortOrder?
 
-        public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, filters: [ProvisionedProductViewFilterBy: [String]]? = nil, pageSize: Int32? = nil, pageToken: String? = nil, sortBy: String? = nil, sortOrder: SortOrder? = nil) {
+        public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, filters: [ProvisionedProductViewFilterBy: [String]]? = nil, pageSize: Int? = nil, pageToken: String? = nil, sortBy: String? = nil, sortOrder: SortOrder? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accessLevelFilter = accessLevelFilter
             self.filters = filters
@@ -5780,9 +5780,9 @@ extension ServiceCatalog {
         /// Information about the provisioned products.
         public let provisionedProducts: [ProvisionedProductAttribute]?
         /// The number of provisioned products found.
-        public let totalResultsCount: Int32?
+        public let totalResultsCount: Int?
 
-        public init(nextPageToken: String? = nil, provisionedProducts: [ProvisionedProductAttribute]? = nil, totalResultsCount: Int32? = nil) {
+        public init(nextPageToken: String? = nil, provisionedProducts: [ProvisionedProductAttribute]? = nil, totalResultsCount: Int? = nil) {
             self.nextPageToken = nextPageToken
             self.provisionedProducts = provisionedProducts
             self.totalResultsCount = totalResultsCount
@@ -6761,19 +6761,19 @@ extension ServiceCatalog {
         /// One or more AWS accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The AWS accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
         public let stackSetAccounts: [String]?
         /// The number of accounts, per region, for which this operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
-        public let stackSetFailureToleranceCount: Int32?
+        public let stackSetFailureToleranceCount: Int?
         /// The percentage of accounts, per region, for which this stack operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both.
-        public let stackSetFailureTolerancePercentage: Int32?
+        public let stackSetFailureTolerancePercentage: Int?
         /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of StackSetFailureToleranceCount. StackSetMaxConcurrentCount is at most one more than the StackSetFailureToleranceCount. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
-        public let stackSetMaxConcurrencyCount: Int32?
+        public let stackSetMaxConcurrencyCount: Int?
         /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, AWS Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
-        public let stackSetMaxConcurrencyPercentage: Int32?
+        public let stackSetMaxConcurrencyPercentage: Int?
         /// Determines what action AWS Service Catalog performs to a stack set or a stack instance represented by the provisioned product. The default value is UPDATE if nothing is specified. Applicable only to a CFN_STACKSET provisioned product type.  CREATE  Creates a new stack instance in the stack set represented by the provisioned product. In this case, only new stack instances are created based on accounts and regions; if new ProductId or ProvisioningArtifactID are passed, they will be ignored.  UPDATE  Updates the stack set represented by the provisioned product and also its stack instances.  DELETE  Deletes a stack instance in the stack set represented by the provisioned product.  
         public let stackSetOperationType: StackSetOperationType?
         /// One or more AWS Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified regions should be within the list of regions from the STACKSET constraint. To get the list of regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all regions from the STACKSET constraint.
         public let stackSetRegions: [String]?
 
-        public init(stackSetAccounts: [String]? = nil, stackSetFailureToleranceCount: Int32? = nil, stackSetFailureTolerancePercentage: Int32? = nil, stackSetMaxConcurrencyCount: Int32? = nil, stackSetMaxConcurrencyPercentage: Int32? = nil, stackSetOperationType: StackSetOperationType? = nil, stackSetRegions: [String]? = nil) {
+        public init(stackSetAccounts: [String]? = nil, stackSetFailureToleranceCount: Int? = nil, stackSetFailureTolerancePercentage: Int? = nil, stackSetMaxConcurrencyCount: Int? = nil, stackSetMaxConcurrencyPercentage: Int? = nil, stackSetOperationType: StackSetOperationType? = nil, stackSetRegions: [String]? = nil) {
             self.stackSetAccounts = stackSetAccounts
             self.stackSetFailureToleranceCount = stackSetFailureToleranceCount
             self.stackSetFailureTolerancePercentage = stackSetFailureTolerancePercentage

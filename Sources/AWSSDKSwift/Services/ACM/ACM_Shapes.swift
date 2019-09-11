@@ -688,11 +688,11 @@ extension ACM {
         /// Filter the certificate list. For more information, see the Filters structure.
         public let includes: Filters?
         /// Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
-        public let maxItems: Int32?
+        public let maxItems: Int?
         /// Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
         public let nextToken: String?
 
-        public init(certificateStatuses: [CertificateStatus]? = nil, includes: Filters? = nil, maxItems: Int32? = nil, nextToken: String? = nil) {
+        public init(certificateStatuses: [CertificateStatus]? = nil, includes: Filters? = nil, maxItems: Int? = nil, nextToken: String? = nil) {
             self.certificateStatuses = certificateStatuses
             self.includes = includes
             self.maxItems = maxItems

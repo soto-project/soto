@@ -384,11 +384,11 @@ extension PinpointEmail {
         /// The name of the dedicated IP pool that the IP address is associated with.
         public let poolName: String?
         /// Indicates how complete the dedicated IP warm-up process is. When this value equals 1, the address has completed the warm-up process and is ready for use.
-        public let warmupPercentage: Int32
+        public let warmupPercentage: Int
         /// The warm-up status of a dedicated IP address. The status can have one of the following values:    IN_PROGRESS – The IP address isn't ready to use because the dedicated IP warm-up process is ongoing.    DONE – The dedicated IP warm-up process is complete, and the IP address is ready to use.  
         public let warmupStatus: WarmupStatus
 
-        public init(ip: String, poolName: String? = nil, warmupPercentage: Int32, warmupStatus: WarmupStatus) {
+        public init(ip: String, poolName: String? = nil, warmupPercentage: Int, warmupStatus: WarmupStatus) {
             self.ip = ip
             self.poolName = poolName
             self.warmupPercentage = warmupPercentage
@@ -1140,11 +1140,11 @@ extension PinpointEmail {
         /// A token returned from a previous call to GetDedicatedIps to indicate the position of the dedicated IP pool in the list of IP pools.
         public let nextToken: String?
         /// The number of results to show in a single call to GetDedicatedIpsRequest. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The name of the IP pool that the dedicated IP address is associated with.
         public let poolName: String?
 
-        public init(nextToken: String? = nil, pageSize: Int32? = nil, poolName: String? = nil) {
+        public init(nextToken: String? = nil, pageSize: Int? = nil, poolName: String? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
             self.poolName = poolName
@@ -1529,9 +1529,9 @@ extension PinpointEmail {
         /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
         public let nextToken: String?
         /// The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(nextToken: String? = nil, pageSize: Int32? = nil) {
+        public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
         }
@@ -1573,9 +1573,9 @@ extension PinpointEmail {
         /// A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
         public let nextToken: String?
         /// The number of results to show in a single call to ListDedicatedIpPools. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(nextToken: String? = nil, pageSize: Int32? = nil) {
+        public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
         }
@@ -1617,9 +1617,9 @@ extension PinpointEmail {
         /// A token returned from a previous call to ListDeliverabilityTestReports to indicate the position in the list of predictive inbox placement tests.
         public let nextToken: String?
         /// The number of results to show in a single call to ListDeliverabilityTestReports. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(nextToken: String? = nil, pageSize: Int32? = nil) {
+        public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
         }
@@ -1666,13 +1666,13 @@ extension PinpointEmail {
         /// A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of a campaign in the list of campaigns.
         public let nextToken: String?
         /// The maximum number of results to include in response to a single call to the ListDomainDeliverabilityCampaigns operation. If the number of results is larger than the number that you specify in this parameter, the response includes a NextToken element, which you can use to obtain additional results.
-        public let pageSize: Int32?
+        public let pageSize: Int?
         /// The first day, in Unix time format, that you want to obtain deliverability data for.
         public let startDate: TimeStamp
         /// The domain to obtain deliverability data for.
         public let subscribedDomain: String
 
-        public init(endDate: TimeStamp, nextToken: String? = nil, pageSize: Int32? = nil, startDate: TimeStamp, subscribedDomain: String) {
+        public init(endDate: TimeStamp, nextToken: String? = nil, pageSize: Int? = nil, startDate: TimeStamp, subscribedDomain: String) {
             self.endDate = endDate
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -1720,9 +1720,9 @@ extension PinpointEmail {
         /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
         public let nextToken: String?
         /// The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
-        public let pageSize: Int32?
+        public let pageSize: Int?
 
-        public init(nextToken: String? = nil, pageSize: Int32? = nil) {
+        public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
         }
@@ -2163,9 +2163,9 @@ extension PinpointEmail {
         /// The dedicated IP address that you want to update the warm-up attributes for.
         public let ip: String
         /// The warm-up percentage that you want to associate with the dedicated IP address.
-        public let warmupPercentage: Int32
+        public let warmupPercentage: Int
 
-        public init(ip: String, warmupPercentage: Int32) {
+        public init(ip: String, warmupPercentage: Int) {
             self.ip = ip
             self.warmupPercentage = warmupPercentage
         }

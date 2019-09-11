@@ -360,19 +360,19 @@ extension Route53 {
         /// For the metric that the CloudWatch alarm is associated with, a complex type that contains information about the dimensions for the metric. For information, see Amazon CloudWatch Namespaces, Dimensions, and Metrics Reference in the Amazon CloudWatch User Guide.
         public let dimensions: [Dimension]?
         /// For the metric that the CloudWatch alarm is associated with, the number of periods that the metric is compared to the threshold.
-        public let evaluationPeriods: Int32
+        public let evaluationPeriods: Int
         /// The name of the CloudWatch metric that the alarm is associated with.
         public let metricName: String
         /// The namespace of the metric that the alarm is associated with. For more information, see Amazon CloudWatch Namespaces, Dimensions, and Metrics Reference in the Amazon CloudWatch User Guide.
         public let namespace: String
         /// For the metric that the CloudWatch alarm is associated with, the duration of one evaluation period in seconds.
-        public let period: Int32
+        public let period: Int
         /// For the metric that the CloudWatch alarm is associated with, the statistic that is applied to the metric.
         public let statistic: Statistic
         /// For the metric that the CloudWatch alarm is associated with, the value the metric is compared with.
         public let threshold: Double
 
-        public init(comparisonOperator: ComparisonOperator, dimensions: [Dimension]? = nil, evaluationPeriods: Int32, metricName: String, namespace: String, period: Int32, statistic: Statistic, threshold: Double) {
+        public init(comparisonOperator: ComparisonOperator, dimensions: [Dimension]? = nil, evaluationPeriods: Int, metricName: String, namespace: String, period: Int, statistic: Statistic, threshold: Double) {
             self.comparisonOperator = comparisonOperator
             self.dimensions = dimensions
             self.evaluationPeriods = evaluationPeriods
@@ -674,11 +674,11 @@ extension Route53 {
         /// The ID of the traffic policy that you want to use to create resource record sets in the specified hosted zone.
         public let trafficPolicyId: String
         /// The version of the traffic policy that you want to use to create resource record sets in the specified hosted zone.
-        public let trafficPolicyVersion: Int32
+        public let trafficPolicyVersion: Int
         /// (Optional) The TTL that you want Amazon Route 53 to assign to all of the resource record sets that it creates in the specified hosted zone.
         public let ttl: Int64
 
-        public init(hostedZoneId: String, name: String, trafficPolicyId: String, trafficPolicyVersion: Int32, ttl: Int64) {
+        public init(hostedZoneId: String, name: String, trafficPolicyId: String, trafficPolicyVersion: Int, ttl: Int64) {
             self.hostedZoneId = hostedZoneId
             self.name = name
             self.trafficPolicyId = trafficPolicyId
@@ -1080,9 +1080,9 @@ extension Route53 {
         /// The ID of the traffic policy that you want to delete.
         public let id: String
         /// The version number of the traffic policy that you want to delete.
-        public let version: Int32
+        public let version: Int
 
-        public init(id: String, version: Int32) {
+        public init(id: String, version: Int) {
             self.id = id
             self.version = version
         }
@@ -1846,9 +1846,9 @@ extension Route53 {
         ]
 
         /// The number of traffic policy instances that are associated with the current AWS account.
-        public let trafficPolicyInstanceCount: Int32
+        public let trafficPolicyInstanceCount: Int
 
-        public init(trafficPolicyInstanceCount: Int32) {
+        public init(trafficPolicyInstanceCount: Int) {
             self.trafficPolicyInstanceCount = trafficPolicyInstanceCount
         }
 
@@ -1905,9 +1905,9 @@ extension Route53 {
         /// The ID of the traffic policy that you want to get information about.
         public let id: String
         /// The version number of the traffic policy that you want to get information about.
-        public let version: Int32
+        public let version: Int
 
-        public init(id: String, version: Int32) {
+        public init(id: String, version: Int) {
             self.id = id
             self.version = version
         }
@@ -2014,11 +2014,11 @@ extension Route53 {
         /// Specify whether you want Amazon Route 53 to send the value of FullyQualifiedDomainName to the endpoint in the client_hello message during TLS negotiation. This allows the endpoint to respond to HTTPS health check requests with the applicable SSL/TLS certificate. Some endpoints require that HTTPS requests include the host name in the client_hello message. If you don't enable SNI, the status of the health check will be SSL alert handshake_failure. A health check can also have that status for other reasons. If SNI is enabled and you're still getting the error, check the SSL/TLS configuration on your endpoint and confirm that your certificate is valid. The SSL/TLS certificate on your endpoint includes a domain name in the Common Name field and possibly several more in the Subject Alternative Names field. One of the domain names in the certificate should match the value that you specify for FullyQualifiedDomainName. If the endpoint responds to the client_hello message with a certificate that does not include the domain name that you specified in FullyQualifiedDomainName, a health checker will retry the handshake. In the second attempt, the health checker will omit FullyQualifiedDomainName from the client_hello message.
         public let enableSNI: Bool?
         /// The number of consecutive health checks that an endpoint must pass or fail for Amazon Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see How Amazon Route 53 Determines Whether an Endpoint Is Healthy in the Amazon Route 53 Developer Guide. If you don't specify a value for FailureThreshold, the default value is three health checks.
-        public let failureThreshold: Int32?
+        public let failureThreshold: Int?
         /// Amazon Route 53 behavior depends on whether you specify a value for IPAddress.  If you specify a value for IPAddress: Amazon Route 53 sends health check requests to the specified IPv4 or IPv6 address and passes the value of FullyQualifiedDomainName in the Host header for all health checks except TCP health checks. This is typically the fully qualified DNS name of the endpoint on which you want Route 53 to perform health checks. When Route 53 checks the health of an endpoint, here is how it constructs the Host header:   If you specify a value of 80 for Port and HTTP or HTTP_STR_MATCH for Type, Route 53 passes the value of FullyQualifiedDomainName to the endpoint in the Host header.    If you specify a value of 443 for Port and HTTPS or HTTPS_STR_MATCH for Type, Route 53 passes the value of FullyQualifiedDomainName to the endpoint in the Host header.   If you specify another value for Port and any value except TCP for Type, Route 53 passes FullyQualifiedDomainName:Port to the endpoint in the Host header.   If you don't specify a value for FullyQualifiedDomainName, Route 53 substitutes the value of IPAddress in the Host header in each of the preceding cases.  If you don't specify a value for IPAddress : Route 53 sends a DNS request to the domain that you specify for FullyQualifiedDomainName at the interval that you specify for RequestInterval. Using an IPv4 address that DNS returns, Route 53 then checks the health of the endpoint.  If you don't specify a value for IPAddress, Route 53 uses only IPv4 to send health checks to the endpoint. If there's no resource record set with a type of A for the name that you specify for FullyQualifiedDomainName, the health check fails with a "DNS resolution failed" error.  If you want to check the health of weighted, latency, or failover resource record sets and you choose to specify the endpoint only by FullyQualifiedDomainName, we recommend that you create a separate health check for each endpoint. For example, create a health check for each HTTP server that is serving content for www.example.com. For the value of FullyQualifiedDomainName, specify the domain name of the server (such as us-east-2-www.example.com), not the name of the resource record sets (www.example.com).  In this configuration, if you create a health check for which the value of FullyQualifiedDomainName matches the name of the resource record sets and you then associate the health check with those resource record sets, health check results will be unpredictable.  In addition, if the value that you specify for Type is HTTP, HTTPS, HTTP_STR_MATCH, or HTTPS_STR_MATCH, Route 53 passes the value of FullyQualifiedDomainName in the Host header, as it does when you specify a value for IPAddress. If the value of Type is TCP, Route 53 doesn't pass a Host header.
         public let fullyQualifiedDomainName: String?
         /// The number of child health checks that are associated with a CALCULATED health check that Amazon Route 53 must consider healthy for the CALCULATED health check to be considered healthy. To specify the child health checks that you want to associate with a CALCULATED health check, use the ChildHealthChecks element. Note the following:   If you specify a number greater than the number of child health checks, Route 53 always considers this health check to be unhealthy.   If you specify 0, Route 53 always considers this health check to be healthy.  
-        public let healthThreshold: Int32?
+        public let healthThreshold: Int?
         /// When CloudWatch has insufficient data about the metric to determine the alarm state, the status that you want Amazon Route 53 to assign to the health check:    Healthy: Route 53 considers the health check to be healthy.    Unhealthy: Route 53 considers the health check to be unhealthy.    LastKnownStatus: Route 53 uses the status of the health check from the last time that CloudWatch had sufficient data to determine the alarm state. For new health checks that have no last known status, the default status for the health check is healthy.  
         public let insufficientDataHealthStatus: InsufficientDataHealthStatus?
         /// Specify whether you want Amazon Route 53 to invert the status of a health check, for example, to consider a health check unhealthy when it otherwise would be considered healthy.
@@ -2028,11 +2028,11 @@ extension Route53 {
         /// Specify whether you want Amazon Route 53 to measure the latency between health checkers in multiple AWS regions and your endpoint, and to display CloudWatch latency graphs on the Health Checks page in the Route 53 console.  You can't change the value of MeasureLatency after you create a health check. 
         public let measureLatency: Bool?
         /// The port on the endpoint on which you want Amazon Route 53 to perform health checks. Specify a value for Port only when you specify a value for IPAddress.
-        public let port: Int32?
+        public let port: Int?
         /// A complex type that contains one Region element for each region from which you want Amazon Route 53 health checkers to check the specified endpoint. If you don't specify any regions, Route 53 health checkers automatically performs checks from all of the regions that are listed under Valid Values. If you update a health check to remove a region that has been performing health checks, Route 53 will briefly continue to perform checks from that region to ensure that some health checkers are always checking the endpoint (for example, if you replace three regions with four different regions). 
         public let regions: [HealthCheckRegion]?
         /// The number of seconds between the time that Amazon Route 53 gets a response from your endpoint and the time that it sends the next health check request. Each Route 53 health checker makes requests at this interval.  You can't change the value of RequestInterval after you create a health check.  If you don't specify a value for RequestInterval, the default value is 30 seconds.
-        public let requestInterval: Int32?
+        public let requestInterval: Int?
         /// The path, if any, that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example, the file /docs/route53-health-check.html. You can also include query string parameters, for example, /welcome.html?language=jp&amp;login=y. 
         public let resourcePath: String?
         /// If the value of Type is HTTP_STR_MATCH or HTTP_STR_MATCH, the string that you want Amazon Route 53 to search for in the response body from the specified resource. If the string appears in the response body, Route 53 considers the resource healthy. Route 53 considers case when searching for SearchString in the response body. 
@@ -2040,7 +2040,7 @@ extension Route53 {
         /// The type of health check that you want to create, which indicates how Amazon Route 53 determines whether an endpoint is healthy.  You can't change the value of Type after you create a health check.  You can create the following types of health checks:    HTTP: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400.    HTTPS: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400.  If you specify HTTPS for the value of Type, the endpoint must support TLS v1.0 or later.     HTTP_STR_MATCH: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and searches the first 5,120 bytes of the response body for the string that you specify in SearchString.    HTTPS_STR_MATCH: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and searches the first 5,120 bytes of the response body for the string that you specify in SearchString.    TCP: Route 53 tries to establish a TCP connection.    CLOUDWATCH_METRIC: The health check is associated with a CloudWatch alarm. If the state of the alarm is OK, the health check is considered healthy. If the state is ALARM, the health check is considered unhealthy. If CloudWatch doesn't have sufficient data to determine whether the state is OK or ALARM, the health check status depends on the setting for InsufficientDataHealthStatus: Healthy, Unhealthy, or LastKnownStatus.     CALCULATED: For health checks that monitor the status of other health checks, Route 53 adds up the number of health checks that Route 53 health checkers consider to be healthy and compares that number with the value of HealthThreshold.    For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Amazon Route 53 Developer Guide.
         public let `type`: HealthCheckType
 
-        public init(alarmIdentifier: AlarmIdentifier? = nil, childHealthChecks: [String]? = nil, disabled: Bool? = nil, enableSNI: Bool? = nil, failureThreshold: Int32? = nil, fullyQualifiedDomainName: String? = nil, healthThreshold: Int32? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, iPAddress: String? = nil, measureLatency: Bool? = nil, port: Int32? = nil, regions: [HealthCheckRegion]? = nil, requestInterval: Int32? = nil, resourcePath: String? = nil, searchString: String? = nil, type: HealthCheckType) {
+        public init(alarmIdentifier: AlarmIdentifier? = nil, childHealthChecks: [String]? = nil, disabled: Bool? = nil, enableSNI: Bool? = nil, failureThreshold: Int? = nil, fullyQualifiedDomainName: String? = nil, healthThreshold: Int? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, iPAddress: String? = nil, measureLatency: Bool? = nil, port: Int? = nil, regions: [HealthCheckRegion]? = nil, requestInterval: Int? = nil, resourcePath: String? = nil, searchString: String? = nil, type: HealthCheckType) {
             self.alarmIdentifier = alarmIdentifier
             self.childHealthChecks = childHealthChecks
             self.disabled = disabled
@@ -2392,7 +2392,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthChecks", required: true, type: .list, encoding: .list(member:"HealthCheck")), 
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: true, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -2402,13 +2402,13 @@ extension Route53 {
         /// A flag that indicates whether there are more health checks to be listed. If the response was truncated, you can get the next group of health checks by submitting another ListHealthChecks request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
         /// For the second and subsequent calls to ListHealthChecks, Marker is the value that you specified for the marker parameter in the previous request.
-        public let marker: String
+        public let marker: String?
         /// The value that you specified for the maxitems parameter in the call to ListHealthChecks that produced the current response.
         public let maxItems: String
         /// If IsTruncated is true, the value of NextMarker identifies the first health check that Amazon Route 53 returns if you submit another ListHealthChecks request and specify the value of NextMarker in the marker parameter.
         public let nextMarker: String?
 
-        public init(healthChecks: [HealthCheck], isTruncated: Bool, marker: String, maxItems: String, nextMarker: String? = nil) {
+        public init(healthChecks: [HealthCheck], isTruncated: Bool, marker: String? = nil, maxItems: String, nextMarker: String? = nil) {
             self.healthChecks = healthChecks
             self.isTruncated = isTruncated
             self.marker = marker
@@ -2540,7 +2540,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HostedZones", required: true, type: .list, encoding: .list(member:"HostedZone")), 
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: true, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -2550,13 +2550,13 @@ extension Route53 {
         /// A flag indicating whether there are more hosted zones to be listed. If the response was truncated, you can get more hosted zones by submitting another ListHostedZones request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
         /// For the second and subsequent calls to ListHostedZones, Marker is the value that you specified for the marker parameter in the request that produced the current response.
-        public let marker: String
+        public let marker: String?
         /// The value that you specified for the maxitems parameter in the call to ListHostedZones that produced the current response.
         public let maxItems: String
         /// If IsTruncated is true, the value of NextMarker identifies the first hosted zone in the next group of hosted zones. Submit another ListHostedZones request, and specify the value of NextMarker from the response in the marker parameter. This element is present only if IsTruncated is true.
         public let nextMarker: String?
 
-        public init(hostedZones: [HostedZone], isTruncated: Bool, marker: String, maxItems: String, nextMarker: String? = nil) {
+        public init(hostedZones: [HostedZone], isTruncated: Bool, marker: String? = nil, maxItems: String, nextMarker: String? = nil) {
             self.hostedZones = hostedZones
             self.isTruncated = isTruncated
             self.marker = marker
@@ -2743,7 +2743,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DelegationSets", required: true, type: .list, encoding: .list(member:"DelegationSet")), 
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: true, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -2753,13 +2753,13 @@ extension Route53 {
         /// A flag that indicates whether there are more reusable delegation sets to be listed.
         public let isTruncated: Bool
         /// For the second and subsequent calls to ListReusableDelegationSets, Marker is the value that you specified for the marker parameter in the request that produced the current response.
-        public let marker: String
+        public let marker: String?
         /// The value that you specified for the maxitems parameter in the call to ListReusableDelegationSets that produced the current response.
         public let maxItems: String
         /// If IsTruncated is true, the value of NextMarker identifies the next reusable delegation set that Amazon Route 53 will return if you submit another ListReusableDelegationSets request and specify the value of NextMarker in the marker parameter.
         public let nextMarker: String?
 
-        public init(delegationSets: [DelegationSet], isTruncated: Bool, marker: String, maxItems: String, nextMarker: String? = nil) {
+        public init(delegationSets: [DelegationSet], isTruncated: Bool, marker: String? = nil, maxItems: String, nextMarker: String? = nil) {
             self.delegationSets = delegationSets
             self.isTruncated = isTruncated
             self.marker = marker
@@ -3020,9 +3020,9 @@ extension Route53 {
         /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of trafficpolicyinstancetype, specify the value of TrafficPolicyInstanceTypeMarker from the previous response, which is the name of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let trafficPolicyInstanceTypeMarker: RRType?
         /// The version of the traffic policy for which you want to list traffic policy instances. The version must be associated with the traffic policy that is specified by TrafficPolicyId.
-        public let trafficPolicyVersion: Int32
+        public let trafficPolicyVersion: Int
 
-        public init(hostedZoneIdMarker: String? = nil, maxItems: String? = nil, trafficPolicyId: String, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil, trafficPolicyVersion: Int32) {
+        public init(hostedZoneIdMarker: String? = nil, maxItems: String? = nil, trafficPolicyId: String, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil, trafficPolicyVersion: Int) {
             self.hostedZoneIdMarker = hostedZoneIdMarker
             self.maxItems = maxItems
             self.trafficPolicyId = trafficPolicyId
@@ -3727,9 +3727,9 @@ extension Route53 {
         /// The DNS type of the resource record sets that Amazon Route 53 creates when you use a traffic policy to create a traffic policy instance.
         public let `type`: RRType
         /// The version number that Amazon Route 53 assigns to a traffic policy. For a new traffic policy, the value of Version is always 1.
-        public let version: Int32
+        public let version: Int
 
-        public init(comment: String? = nil, document: String, id: String, name: String, type: RRType, version: Int32) {
+        public init(comment: String? = nil, document: String, id: String, name: String, type: RRType, version: Int) {
             self.comment = comment
             self.document = document
             self.id = id
@@ -3776,11 +3776,11 @@ extension Route53 {
         /// The DNS type that Amazon Route 53 assigned to all of the resource record sets that it created for this traffic policy instance. 
         public let trafficPolicyType: RRType
         /// The version of the traffic policy that Amazon Route 53 used to create resource record sets in the specified hosted zone.
-        public let trafficPolicyVersion: Int32
+        public let trafficPolicyVersion: Int
         /// The TTL that Amazon Route 53 assigned to all of the resource record sets that it created in the specified hosted zone.
         public let ttl: Int64
 
-        public init(hostedZoneId: String, id: String, message: String, name: String, state: String, trafficPolicyId: String, trafficPolicyType: RRType, trafficPolicyVersion: Int32, ttl: Int64) {
+        public init(hostedZoneId: String, id: String, message: String, name: String, state: String, trafficPolicyId: String, trafficPolicyType: RRType, trafficPolicyVersion: Int, ttl: Int64) {
             self.hostedZoneId = hostedZoneId
             self.id = id
             self.message = message
@@ -3817,15 +3817,15 @@ extension Route53 {
         /// The ID that Amazon Route 53 assigned to the traffic policy when you created it.
         public let id: String
         /// The version number of the latest version of the traffic policy.
-        public let latestVersion: Int32
+        public let latestVersion: Int
         /// The name that you specified for the traffic policy when you created it.
         public let name: String
         /// The number of traffic policies that are associated with the current AWS account.
-        public let trafficPolicyCount: Int32
+        public let trafficPolicyCount: Int
         /// The DNS type of the resource record sets that Amazon Route 53 creates when you use a traffic policy to create a traffic policy instance.
         public let `type`: RRType
 
-        public init(id: String, latestVersion: Int32, name: String, trafficPolicyCount: Int32, type: RRType) {
+        public init(id: String, latestVersion: Int, name: String, trafficPolicyCount: Int, type: RRType) {
             self.id = id
             self.latestVersion = latestVersion
             self.name = name
@@ -3872,7 +3872,7 @@ extension Route53 {
         /// Specify whether you want Amazon Route 53 to send the value of FullyQualifiedDomainName to the endpoint in the client_hello message during TLS negotiation. This allows the endpoint to respond to HTTPS health check requests with the applicable SSL/TLS certificate. Some endpoints require that HTTPS requests include the host name in the client_hello message. If you don't enable SNI, the status of the health check will be SSL alert handshake_failure. A health check can also have that status for other reasons. If SNI is enabled and you're still getting the error, check the SSL/TLS configuration on your endpoint and confirm that your certificate is valid. The SSL/TLS certificate on your endpoint includes a domain name in the Common Name field and possibly several more in the Subject Alternative Names field. One of the domain names in the certificate should match the value that you specify for FullyQualifiedDomainName. If the endpoint responds to the client_hello message with a certificate that does not include the domain name that you specified in FullyQualifiedDomainName, a health checker will retry the handshake. In the second attempt, the health checker will omit FullyQualifiedDomainName from the client_hello message.
         public let enableSNI: Bool?
         /// The number of consecutive health checks that an endpoint must pass or fail for Amazon Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see How Amazon Route 53 Determines Whether an Endpoint Is Healthy in the Amazon Route 53 Developer Guide. If you don't specify a value for FailureThreshold, the default value is three health checks.
-        public let failureThreshold: Int32?
+        public let failureThreshold: Int?
         /// Amazon Route 53 behavior depends on whether you specify a value for IPAddress.  If a health check already has a value for IPAddress, you can change the value. However, you can't update an existing health check to add or remove the value of IPAddress.    If you specify a value for IPAddress: Route 53 sends health check requests to the specified IPv4 or IPv6 address and passes the value of FullyQualifiedDomainName in the Host header for all health checks except TCP health checks. This is typically the fully qualified DNS name of the endpoint on which you want Route 53 to perform health checks. When Route 53 checks the health of an endpoint, here is how it constructs the Host header:   If you specify a value of 80 for Port and HTTP or HTTP_STR_MATCH for Type, Route 53 passes the value of FullyQualifiedDomainName to the endpoint in the Host header.   If you specify a value of 443 for Port and HTTPS or HTTPS_STR_MATCH for Type, Route 53 passes the value of FullyQualifiedDomainName to the endpoint in the Host header.   If you specify another value for Port and any value except TCP for Type, Route 53 passes  FullyQualifiedDomainName:Port  to the endpoint in the Host header.   If you don't specify a value for FullyQualifiedDomainName, Route 53 substitutes the value of IPAddress in the Host header in each of the above cases.  If you don't specify a value for IPAddress: If you don't specify a value for IPAddress, Route 53 sends a DNS request to the domain that you specify in FullyQualifiedDomainName at the interval you specify in RequestInterval. Using an IPv4 address that is returned by DNS, Route 53 then checks the health of the endpoint.  If you don't specify a value for IPAddress, Route 53 uses only IPv4 to send health checks to the endpoint. If there's no resource record set with a type of A for the name that you specify for FullyQualifiedDomainName, the health check fails with a "DNS resolution failed" error.  If you want to check the health of weighted, latency, or failover resource record sets and you choose to specify the endpoint only by FullyQualifiedDomainName, we recommend that you create a separate health check for each endpoint. For example, create a health check for each HTTP server that is serving content for www.example.com. For the value of FullyQualifiedDomainName, specify the domain name of the server (such as us-east-2-www.example.com), not the name of the resource record sets (www.example.com).  In this configuration, if the value of FullyQualifiedDomainName matches the name of the resource record sets and you then associate the health check with those resource record sets, health check results will be unpredictable.  In addition, if the value of Type is HTTP, HTTPS, HTTP_STR_MATCH, or HTTPS_STR_MATCH, Route 53 passes the value of FullyQualifiedDomainName in the Host header, as it does when you specify a value for IPAddress. If the value of Type is TCP, Route 53 doesn't pass a Host header.
         public let fullyQualifiedDomainName: String?
         /// The ID for the health check for which you want detailed information. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.
@@ -3880,7 +3880,7 @@ extension Route53 {
         /// A sequential counter that Amazon Route 53 sets to 1 when you create a health check and increments by 1 each time you update settings for the health check. We recommend that you use GetHealthCheck or ListHealthChecks to get the current value of HealthCheckVersion for the health check that you want to update, and that you include that value in your UpdateHealthCheck request. This prevents Route 53 from overwriting an intervening update:   If the value in the UpdateHealthCheck request matches the value of HealthCheckVersion in the health check, Route 53 updates the health check with the new settings.   If the value of HealthCheckVersion in the health check is greater, the health check was changed after you got the version number. Route 53 does not update the health check, and it returns a HealthCheckVersionMismatch error.  
         public let healthCheckVersion: Int64?
         /// The number of child health checks that are associated with a CALCULATED health that Amazon Route 53 must consider healthy for the CALCULATED health check to be considered healthy. To specify the child health checks that you want to associate with a CALCULATED health check, use the ChildHealthChecks and ChildHealthCheck elements. Note the following:   If you specify a number greater than the number of child health checks, Route 53 always considers this health check to be unhealthy.   If you specify 0, Route 53 always considers this health check to be healthy.  
-        public let healthThreshold: Int32?
+        public let healthThreshold: Int?
         /// When CloudWatch has insufficient data about the metric to determine the alarm state, the status that you want Amazon Route 53 to assign to the health check:    Healthy: Route 53 considers the health check to be healthy.    Unhealthy: Route 53 considers the health check to be unhealthy.    LastKnownStatus: Route 53 uses the status of the health check from the last time CloudWatch had sufficient data to determine the alarm state. For new health checks that have no last known status, the default status for the health check is healthy.  
         public let insufficientDataHealthStatus: InsufficientDataHealthStatus?
         /// Specify whether you want Amazon Route 53 to invert the status of a health check, for example, to consider a health check unhealthy when it otherwise would be considered healthy.
@@ -3888,7 +3888,7 @@ extension Route53 {
         /// The IPv4 or IPv6 IP address for the endpoint that you want Amazon Route 53 to perform health checks on. If you don't specify a value for IPAddress, Route 53 sends a DNS request to resolve the domain name that you specify in FullyQualifiedDomainName at the interval that you specify in RequestInterval. Using an IP address that is returned by DNS, Route 53 then checks the health of the endpoint. Use one of the following formats for the value of IPAddress:     IPv4 address: four values between 0 and 255, separated by periods (.), for example, 192.0.2.44.    IPv6 address: eight groups of four hexadecimal values, separated by colons (:), for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. You can also shorten IPv6 addresses as described in RFC 5952, for example, 2001:db8:85a3::abcd:1:2345.   If the endpoint is an EC2 instance, we recommend that you create an Elastic IP address, associate it with your EC2 instance, and specify the Elastic IP address for IPAddress. This ensures that the IP address of your instance never changes. For more information, see the applicable documentation:   Linux: Elastic IP Addresses (EIP) in the Amazon EC2 User Guide for Linux Instances    Windows: Elastic IP Addresses (EIP) in the Amazon EC2 User Guide for Windows Instances     If a health check already has a value for IPAddress, you can change the value. However, you can't update an existing health check to add or remove the value of IPAddress.   For more information, see FullyQualifiedDomainName.  Constraints: Route 53 can't check the health of endpoints for which the IP address is in local, private, non-routable, or multicast ranges. For more information about IP addresses for which you can't create health checks, see the following documents:    RFC 5735, Special Use IPv4 Addresses     RFC 6598, IANA-Reserved IPv4 Prefix for Shared Address Space     RFC 5156, Special-Use IPv6 Addresses   
         public let iPAddress: String?
         /// The port on the endpoint on which you want Amazon Route 53 to perform health checks.
-        public let port: Int32?
+        public let port: Int?
         /// A complex type that contains one Region element for each region that you want Amazon Route 53 health checkers to check the specified endpoint from.
         public let regions: [HealthCheckRegion]?
         /// A complex type that contains one ResettableElementName element for each element that you want to reset to the default value. Valid values for ResettableElementName include the following:    ChildHealthChecks: Amazon Route 53 resets ChildHealthChecks to null.    FullyQualifiedDomainName: Route 53 resets FullyQualifiedDomainName. to null.    Regions: Route 53 resets the Regions list to the default set of regions.     ResourcePath: Route 53 resets ResourcePath to null.  
@@ -3898,7 +3898,7 @@ extension Route53 {
         /// If the value of Type is HTTP_STR_MATCH or HTTP_STR_MATCH, the string that you want Amazon Route 53 to search for in the response body from the specified resource. If the string appears in the response body, Route 53 considers the resource healthy. (You can't change the value of Type when you update a health check.)
         public let searchString: String?
 
-        public init(alarmIdentifier: AlarmIdentifier? = nil, childHealthChecks: [String]? = nil, disabled: Bool? = nil, enableSNI: Bool? = nil, failureThreshold: Int32? = nil, fullyQualifiedDomainName: String? = nil, healthCheckId: String, healthCheckVersion: Int64? = nil, healthThreshold: Int32? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, iPAddress: String? = nil, port: Int32? = nil, regions: [HealthCheckRegion]? = nil, resetElements: [ResettableElementName]? = nil, resourcePath: String? = nil, searchString: String? = nil) {
+        public init(alarmIdentifier: AlarmIdentifier? = nil, childHealthChecks: [String]? = nil, disabled: Bool? = nil, enableSNI: Bool? = nil, failureThreshold: Int? = nil, fullyQualifiedDomainName: String? = nil, healthCheckId: String, healthCheckVersion: Int64? = nil, healthThreshold: Int? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, iPAddress: String? = nil, port: Int? = nil, regions: [HealthCheckRegion]? = nil, resetElements: [ResettableElementName]? = nil, resourcePath: String? = nil, searchString: String? = nil) {
             self.alarmIdentifier = alarmIdentifier
             self.childHealthChecks = childHealthChecks
             self.disabled = disabled
@@ -4036,9 +4036,9 @@ extension Route53 {
         /// The value of Id for the traffic policy that you want to update the comment for.
         public let id: String
         /// The value of Version for the traffic policy that you want to update the comment for.
-        public let version: Int32
+        public let version: Int
 
-        public init(comment: String, id: String, version: Int32) {
+        public init(comment: String, id: String, version: Int) {
             self.comment = comment
             self.id = id
             self.version = version
@@ -4089,11 +4089,11 @@ extension Route53 {
         /// The ID of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance.
         public let trafficPolicyId: String
         /// The version of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance.
-        public let trafficPolicyVersion: Int32
+        public let trafficPolicyVersion: Int
         /// The TTL that you want Amazon Route 53 to assign to all of the updated resource record sets.
         public let ttl: Int64
 
-        public init(id: String, trafficPolicyId: String, trafficPolicyVersion: Int32, ttl: Int64) {
+        public init(id: String, trafficPolicyId: String, trafficPolicyVersion: Int, ttl: Int64) {
             self.id = id
             self.trafficPolicyId = trafficPolicyId
             self.trafficPolicyVersion = trafficPolicyVersion

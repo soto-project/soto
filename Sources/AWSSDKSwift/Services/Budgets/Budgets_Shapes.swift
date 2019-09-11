@@ -559,12 +559,12 @@ extension Budgets {
 
         public let accountId: String
         public let budgetName: String
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
         /// Retrieves how often the budget went into an ALARM state for the specified time period.
         public let timePeriod: TimePeriod?
 
-        public init(accountId: String, budgetName: String, maxResults: Int32? = nil, nextToken: String? = nil, timePeriod: TimePeriod? = nil) {
+        public init(accountId: String, budgetName: String, maxResults: Int? = nil, nextToken: String? = nil, timePeriod: TimePeriod? = nil) {
             self.accountId = accountId
             self.budgetName = budgetName
             self.maxResults = maxResults
@@ -674,11 +674,11 @@ extension Budgets {
         /// The accountId that is associated with the budgets that you want descriptions of.
         public let accountId: String
         /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
         public let nextToken: String?
 
-        public init(accountId: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -737,11 +737,11 @@ extension Budgets {
         /// The name of the budget whose notifications you want descriptions of.
         public let budgetName: String
         /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
         public let nextToken: String?
 
-        public init(accountId: String, budgetName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(accountId: String, budgetName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.budgetName = budgetName
             self.maxResults = maxResults
@@ -806,13 +806,13 @@ extension Budgets {
         /// The name of the budget whose subscribers you want descriptions of.
         public let budgetName: String
         /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
         public let nextToken: String?
         /// The notification whose subscribers you want to list.
         public let notification: Notification
 
-        public init(accountId: String, budgetName: String, maxResults: Int32? = nil, nextToken: String? = nil, notification: Notification) {
+        public init(accountId: String, budgetName: String, maxResults: Int? = nil, nextToken: String? = nil, notification: Notification) {
             self.accountId = accountId
             self.budgetName = budgetName
             self.maxResults = maxResults

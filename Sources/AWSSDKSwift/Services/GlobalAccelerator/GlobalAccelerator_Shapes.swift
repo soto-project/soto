@@ -169,11 +169,11 @@ extension GlobalAccelerator {
         /// The name of the AWS Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region.
         public let endpointGroupRegion: String
         /// The time—10 seconds or 30 seconds—between each health check for an endpoint. The default value is 30.
-        public let healthCheckIntervalSeconds: Int32?
+        public let healthCheckIntervalSeconds: Int?
         /// If the protocol is HTTP/S, then this specifies the path that is the destination for health check targets. The default value is slash (/).
         public let healthCheckPath: String?
         /// The port that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default port is the listener port that this endpoint group is associated with. If listener port is a list of ports, Global Accelerator uses the first port in the list.
-        public let healthCheckPort: Int32?
+        public let healthCheckPort: Int?
         /// The protocol that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default value is TCP.
         public let healthCheckProtocol: HealthCheckProtocol?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
@@ -181,11 +181,11 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
         /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
-        public let thresholdCount: Int32?
+        public let thresholdCount: Int?
         /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
         public let trafficDialPercentage: Float?
 
-        public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupRegion: String, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: Int32? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, idempotencyToken: String, listenerArn: String, thresholdCount: Int32? = nil, trafficDialPercentage: Float? = nil) {
+        public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupRegion: String, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, idempotencyToken: String, listenerArn: String, thresholdCount: Int? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointConfigurations = endpointConfigurations
             self.endpointGroupRegion = endpointGroupRegion
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
@@ -537,9 +537,9 @@ extension GlobalAccelerator {
         /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID.
         public let endpointId: String?
         /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the AWS Global Accelerator Developer Guide.
-        public let weight: Int32?
+        public let weight: Int?
 
-        public init(endpointId: String? = nil, weight: Int32? = nil) {
+        public init(endpointId: String? = nil, weight: Int? = nil) {
             self.endpointId = endpointId
             self.weight = weight
         }
@@ -571,9 +571,9 @@ extension GlobalAccelerator {
         /// The health status of the endpoint.
         public let healthState: HealthState?
         /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the AWS Global Accelerator Developer Guide. 
-        public let weight: Int32?
+        public let weight: Int?
 
-        public init(endpointId: String? = nil, healthReason: String? = nil, healthState: HealthState? = nil, weight: Int32? = nil) {
+        public init(endpointId: String? = nil, healthReason: String? = nil, healthState: HealthState? = nil, weight: Int? = nil) {
             self.endpointId = endpointId
             self.healthReason = healthReason
             self.healthState = healthState
@@ -608,19 +608,19 @@ extension GlobalAccelerator {
         /// The AWS Region that this endpoint group belongs.
         public let endpointGroupRegion: String?
         /// The time—10 seconds or 30 seconds—between health checks for each endpoint. The default value is 30.
-        public let healthCheckIntervalSeconds: Int32?
+        public let healthCheckIntervalSeconds: Int?
         /// If the protocol is HTTP/S, then this value provides the ping path that Global Accelerator uses for the destination on the endpoints for health checks. The default is slash (/).
         public let healthCheckPath: String?
         /// The port that Global Accelerator uses to perform health checks on endpoints that are part of this endpoint group.  The default port is the port for the listener that this endpoint group is associated with. If the listener port is a list, Global Accelerator uses the first specified port in the list of ports.
-        public let healthCheckPort: Int32?
+        public let healthCheckPort: Int?
         /// The protocol that Global Accelerator uses to perform health checks on endpoints that are part of this endpoint group. The default value is TCP.
         public let healthCheckProtocol: HealthCheckProtocol?
         /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
-        public let thresholdCount: Int32?
+        public let thresholdCount: Int?
         /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
         public let trafficDialPercentage: Float?
 
-        public init(endpointDescriptions: [EndpointDescription]? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: Int32? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, thresholdCount: Int32? = nil, trafficDialPercentage: Float? = nil) {
+        public init(endpointDescriptions: [EndpointDescription]? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, thresholdCount: Int? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointDescriptions = endpointDescriptions
             self.endpointGroupArn = endpointGroupArn
             self.endpointGroupRegion = endpointGroupRegion
@@ -693,11 +693,11 @@ extension GlobalAccelerator {
         ]
 
         /// The number of Global Accelerator objects that you want to return with this call. The default value is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -746,11 +746,11 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
         /// The number of endpoint group objects that you want to return with this call. The default value is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
-        public init(listenerArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(listenerArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.listenerArn = listenerArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -802,11 +802,11 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the accelerator for which you want to list listener objects.
         public let acceleratorArn: String
         /// The number of listener objects that you want to return with this call. The default value is 10.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
-        public init(acceleratorArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(acceleratorArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -887,11 +887,11 @@ extension GlobalAccelerator {
         ]
 
         /// The first port in the range of ports, inclusive.
-        public let fromPort: Int32?
+        public let fromPort: Int?
         /// The last port in the range of ports, inclusive.
-        public let toPort: Int32?
+        public let toPort: Int?
 
-        public init(fromPort: Int32? = nil, toPort: Int32? = nil) {
+        public init(fromPort: Int? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.toPort = toPort
         }
@@ -1041,19 +1041,19 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the endpoint group.
         public let endpointGroupArn: String
         /// The time—10 seconds or 30 seconds—between each health check for an endpoint. The default value is 30.
-        public let healthCheckIntervalSeconds: Int32?
+        public let healthCheckIntervalSeconds: Int?
         /// If the protocol is HTTP/S, then this specifies the path that is the destination for health check targets. The default value is slash (/).
         public let healthCheckPath: String?
         /// The port that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default port is the listener port that this endpoint group is associated with. If the listener port is a list of ports, Global Accelerator uses the first port in the list.
-        public let healthCheckPort: Int32?
+        public let healthCheckPort: Int?
         /// The protocol that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default value is TCP.
         public let healthCheckProtocol: HealthCheckProtocol?
         /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
-        public let thresholdCount: Int32?
+        public let thresholdCount: Int?
         /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
         public let trafficDialPercentage: Float?
 
-        public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupArn: String, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: Int32? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, thresholdCount: Int32? = nil, trafficDialPercentage: Float? = nil) {
+        public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupArn: String, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, thresholdCount: Int? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointConfigurations = endpointConfigurations
             self.endpointGroupArn = endpointGroupArn
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds

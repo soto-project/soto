@@ -9,7 +9,7 @@ You can use Code Signing for Amazon FreeRTOS (AWS Signer) to sign code that you 
 */
 public struct Signer {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(

@@ -504,11 +504,11 @@ extension LicenseManager {
         /// ARN of a LicenseConfiguration object.
         public let licenseConfigurationArn: String
         /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Token for the next set of results.
         public let nextToken: String?
 
-        public init(licenseConfigurationArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(licenseConfigurationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -556,11 +556,11 @@ extension LicenseManager {
         /// An array of ARNs for the calling account’s license configurations.
         public let licenseConfigurationArns: [String]?
         /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Token for the next set of results.
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, licenseConfigurationArns: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, licenseConfigurationArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.licenseConfigurationArns = licenseConfigurationArns
             self.maxResults = maxResults
@@ -605,13 +605,13 @@ extension LicenseManager {
         ]
 
         /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Token for the next set of results.
         public let nextToken: String?
         /// ARN of an AMI or Amazon EC2 instance that has an associated license configuration.
         public let resourceArn: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -656,11 +656,11 @@ extension LicenseManager {
         /// One or more filters.
         public let filters: [InventoryFilter]?
         /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Token for the next set of results.
         public let nextToken: String?
 
-        public init(filters: [InventoryFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [InventoryFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -742,11 +742,11 @@ extension LicenseManager {
         /// ARN of the targeted LicenseConfiguration object.
         public let licenseConfigurationArn: String
         /// Maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Token for the next set of results.
         public let nextToken: String?
 
-        public init(filters: [Filter]? = nil, licenseConfigurationArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [Filter]? = nil, licenseConfigurationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.licenseConfigurationArn = licenseConfigurationArn
             self.maxResults = maxResults

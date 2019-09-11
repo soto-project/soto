@@ -418,21 +418,21 @@ extension ApplicationDiscoveryService {
         ]
 
         /// Number of active discovery agents.
-        public let activeAgents: Int32
+        public let activeAgents: Int
         /// Number of blacklisted discovery agents.
-        public let blackListedAgents: Int32
+        public let blackListedAgents: Int
         /// Number of healthy discovery agents
-        public let healthyAgents: Int32
+        public let healthyAgents: Int
         /// Number of discovery agents with status SHUTDOWN.
-        public let shutdownAgents: Int32
+        public let shutdownAgents: Int
         /// Total number of discovery agents.
-        public let totalAgents: Int32
+        public let totalAgents: Int
         /// Number of unhealthy discovery agents.
-        public let unhealthyAgents: Int32
+        public let unhealthyAgents: Int
         /// Number of unknown discovery agents.
-        public let unknownAgents: Int32
+        public let unknownAgents: Int
 
-        public init(activeAgents: Int32, blackListedAgents: Int32, healthyAgents: Int32, shutdownAgents: Int32, totalAgents: Int32, unhealthyAgents: Int32, unknownAgents: Int32) {
+        public init(activeAgents: Int, blackListedAgents: Int, healthyAgents: Int, shutdownAgents: Int, totalAgents: Int, unhealthyAgents: Int, unknownAgents: Int) {
             self.activeAgents = activeAgents
             self.blackListedAgents = blackListedAgents
             self.healthyAgents = healthyAgents
@@ -465,21 +465,21 @@ extension ApplicationDiscoveryService {
         ]
 
         /// Number of active discovery connectors.
-        public let activeConnectors: Int32
+        public let activeConnectors: Int
         /// Number of blacklisted discovery connectors.
-        public let blackListedConnectors: Int32
+        public let blackListedConnectors: Int
         /// Number of healthy discovery connectors.
-        public let healthyConnectors: Int32
+        public let healthyConnectors: Int
         /// Number of discovery connectors with status SHUTDOWN,
-        public let shutdownConnectors: Int32
+        public let shutdownConnectors: Int
         /// Total number of discovery connectors.
-        public let totalConnectors: Int32
+        public let totalConnectors: Int
         /// Number of unhealthy discovery connectors.
-        public let unhealthyConnectors: Int32
+        public let unhealthyConnectors: Int
         /// Number of unknown discovery connectors.
-        public let unknownConnectors: Int32
+        public let unknownConnectors: Int
 
-        public init(activeConnectors: Int32, blackListedConnectors: Int32, healthyConnectors: Int32, shutdownConnectors: Int32, totalConnectors: Int32, unhealthyConnectors: Int32, unknownConnectors: Int32) {
+        public init(activeConnectors: Int, blackListedConnectors: Int, healthyConnectors: Int, shutdownConnectors: Int, totalConnectors: Int, unhealthyConnectors: Int, unknownConnectors: Int) {
             self.activeConnectors = activeConnectors
             self.blackListedConnectors = blackListedConnectors
             self.healthyConnectors = healthyConnectors
@@ -573,11 +573,11 @@ extension ApplicationDiscoveryService {
         /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "collectionStatus", "value": "STARTED"} 
         public let filters: [Filter]?
         /// The total number of agents/Connectors to return in a single page of output. The maximum value is 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
         public let nextToken: String?
 
-        public init(agentIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(agentIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.agentIds = agentIds
             self.filters = filters
             self.maxResults = maxResults
@@ -658,11 +658,11 @@ extension ApplicationDiscoveryService {
         /// The unique IDs assigned to the exports.
         public let exportIds: [String]?
         /// A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token from the previous call to DescribeExportTasks.
         public let nextToken: String?
 
-        public init(exportIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(exportIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.exportIds = exportIds
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -712,11 +712,11 @@ extension ApplicationDiscoveryService {
         /// A list of continuous export ids to search for.
         public let exportIds: [String]?
         /// A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token from the previous call to describe-export-tasks.
         public let nextToken: String?
 
-        public init(exportIds: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(exportIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.exportIds = exportIds
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -763,11 +763,11 @@ extension ApplicationDiscoveryService {
         /// One or more filters.    AgentId - ID of the agent whose collected data will be exported  
         public let filters: [ExportFilter]?
         /// The maximum number of volume results returned by DescribeExportTasks in paginated output. When this parameter is used, DescribeExportTasks only returns maxResults results in a single page along with a nextToken response element.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The nextToken value returned from a previous paginated DescribeExportTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
         public let nextToken: String?
 
-        public init(exportIds: [String]? = nil, filters: [ExportFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(exportIds: [String]? = nil, filters: [ExportFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.exportIds = exportIds
             self.filters = filters
             self.maxResults = maxResults
@@ -814,11 +814,11 @@ extension ApplicationDiscoveryService {
         /// An array of name-value pairs that you provide to filter the results for the DescribeImportTask request to a specific subset of results. Currently, wildcard values aren't supported for filters.
         public let filters: [ImportTaskFilter]?
         /// The maximum number of results that you want this request to return, up to 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The token to request a specific page of results.
         public let nextToken: String?
 
-        public init(filters: [ImportTaskFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [ImportTaskFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -871,11 +871,11 @@ extension ApplicationDiscoveryService {
         /// You can filter the list using a key-value format. You can separate these items by using logical operators. Allowed filters include tagKey, tagValue, and configurationId. 
         public let filters: [TagFilter]?
         /// The total number of items to return in a single page of output. The maximum value is 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
 
-        public init(filters: [TagFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [TagFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1159,9 +1159,9 @@ extension ApplicationDiscoveryService {
         ]
 
         /// The total number of application records in the import file that failed to be imported.
-        public let applicationImportFailure: Int32?
+        public let applicationImportFailure: Int?
         /// The total number of application records in the import file that were successfully imported.
-        public let applicationImportSuccess: Int32?
+        public let applicationImportSuccess: Int?
         /// A unique token used to prevent the same import request from occurring more than once. If you didn't provide a token, a token was automatically generated when the import task request was sent.
         public let clientRequestToken: String?
         /// A link to a compressed archive folder (in the ZIP format) that contains an error log and a file of failed records. You can use these two files to quickly identify records that failed, why they failed, and correct those records. Afterward, you can upload the corrected file to your Amazon S3 bucket and create another import task request. This field also includes authorization information so you can confirm the authenticity of the compressed archive before you download it. If some records failed to be imported we recommend that you correct the records in the failed entries file and then imports that failed entries file. This prevents you from having to correct and update the larger original file and attempt importing it again.
@@ -1179,13 +1179,13 @@ extension ApplicationDiscoveryService {
         /// A descriptive name for an import task. You can use this name to filter future requests related to this import task, such as identifying applications and servers that were included in this import task. We recommend that you use a meaningful name for each import task.
         public let name: String?
         /// The total number of server records in the import file that failed to be imported.
-        public let serverImportFailure: Int32?
+        public let serverImportFailure: Int?
         /// The total number of server records in the import file that were successfully imported.
-        public let serverImportSuccess: Int32?
+        public let serverImportSuccess: Int?
         /// The status of the import task. An import can have the status of IMPORT_COMPLETE and still have some records fail to import from the overall request. More information can be found in the downloadable archive defined in the errorsAndFailedEntriesZip field, or in the Migration Hub management console.
         public let status: ImportStatus?
 
-        public init(applicationImportFailure: Int32? = nil, applicationImportSuccess: Int32? = nil, clientRequestToken: String? = nil, errorsAndFailedEntriesZip: String? = nil, importCompletionTime: TimeStamp? = nil, importDeletedTime: TimeStamp? = nil, importRequestTime: TimeStamp? = nil, importTaskId: String? = nil, importUrl: String? = nil, name: String? = nil, serverImportFailure: Int32? = nil, serverImportSuccess: Int32? = nil, status: ImportStatus? = nil) {
+        public init(applicationImportFailure: Int? = nil, applicationImportSuccess: Int? = nil, clientRequestToken: String? = nil, errorsAndFailedEntriesZip: String? = nil, importCompletionTime: TimeStamp? = nil, importDeletedTime: TimeStamp? = nil, importRequestTime: TimeStamp? = nil, importTaskId: String? = nil, importUrl: String? = nil, name: String? = nil, serverImportFailure: Int? = nil, serverImportSuccess: Int? = nil, status: ImportStatus? = nil) {
             self.applicationImportFailure = applicationImportFailure
             self.applicationImportSuccess = applicationImportSuccess
             self.clientRequestToken = clientRequestToken
@@ -1270,13 +1270,13 @@ extension ApplicationDiscoveryService {
         /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "serverType", "value": "webServer"}  For a complete list of filter options and guidance about using them with this action, see Querying Discovered Configuration Items. 
         public let filters: [Filter]?
         /// The total number of items to return. The maximum value is 100.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// Token to retrieve the next set of results. For example, if a previous call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
         public let nextToken: String?
         /// Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Using the ListConfigurations Action.
         public let orderBy: [OrderByElement]?
 
-        public init(configurationType: ConfigurationItemType, filters: [Filter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, orderBy: [OrderByElement]? = nil) {
+        public init(configurationType: ConfigurationItemType, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderBy: [OrderByElement]? = nil) {
             self.configurationType = configurationType
             self.filters = filters
             self.maxResults = maxResults
@@ -1327,7 +1327,7 @@ extension ApplicationDiscoveryService {
         /// Configuration ID of the server for which neighbors are being listed.
         public let configurationId: String
         /// Maximum number of results to return in a single page of output.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// List of configuration IDs to test for one-hop-away.
         public let neighborConfigurationIds: [String]?
         /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for ListServerNeighborsRequest$neighborConfigurationIds but set ListServerNeighborsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
@@ -1335,7 +1335,7 @@ extension ApplicationDiscoveryService {
         /// Flag to indicate if port and protocol information is needed as part of the response.
         public let portInformationNeeded: Bool?
 
-        public init(configurationId: String, maxResults: Int32? = nil, neighborConfigurationIds: [String]? = nil, nextToken: String? = nil, portInformationNeeded: Bool? = nil) {
+        public init(configurationId: String, maxResults: Int? = nil, neighborConfigurationIds: [String]? = nil, nextToken: String? = nil, portInformationNeeded: Bool? = nil) {
             self.configurationId = configurationId
             self.maxResults = maxResults
             self.neighborConfigurationIds = neighborConfigurationIds
@@ -1391,7 +1391,7 @@ extension ApplicationDiscoveryService {
         /// The number of open network connections with the neighboring server.
         public let connectionsCount: Int64
         /// The destination network port for the connection.
-        public let destinationPort: Int32?
+        public let destinationPort: Int?
         /// The ID of the server that accepted the network connection.
         public let destinationServerId: String
         /// The ID of the server that opened the network connection.
@@ -1399,7 +1399,7 @@ extension ApplicationDiscoveryService {
         /// The network protocol used for the connection.
         public let transportProtocol: String?
 
-        public init(connectionsCount: Int64, destinationPort: Int32? = nil, destinationServerId: String, sourceServerId: String, transportProtocol: String? = nil) {
+        public init(connectionsCount: Int64, destinationPort: Int? = nil, destinationServerId: String, sourceServerId: String, transportProtocol: String? = nil) {
             self.connectionsCount = connectionsCount
             self.destinationPort = destinationPort
             self.destinationServerId = destinationServerId

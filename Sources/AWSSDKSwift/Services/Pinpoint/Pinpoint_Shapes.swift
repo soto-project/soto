@@ -65,9 +65,9 @@ extension Pinpoint {
         /// The type of messaging or notification platform for the channel. For the ADM channel, this value is ADM.
         public let platform: String
         /// The current version of the ADM channel.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -277,9 +277,9 @@ extension Pinpoint {
         ///  The type of messaging or notification platform for the channel. For the APNs channel, this value is APNS.
         public let platform: String
         /// The current version of the APNs channel.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -334,7 +334,7 @@ extension Pinpoint {
         /// The action to occur if the recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This setting uses the deep-linking features of the iOS platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The key that indicates whether and how to modify the badge of your app's icon when the recipient receives the push notification. If this key isn't included in the dictionary, the badge doesn't change. To remove the badge, set this value to 0.
-        public let badge: Int32?
+        public let badge: Int?
         /// The body of the notification message.
         public let body: String?
         /// The key that indicates the notification type for the push notification. This key is a value that's defined by the identifier property of one of your app's registered categories.
@@ -360,13 +360,13 @@ extension Pinpoint {
         /// The key that represents your app-specific identifier for grouping notifications. If you provide a Notification Content app extension, you can use this value to group your notifications together.
         public let threadId: String?
         /// The amount of time, in seconds, that APNs should store and attempt to deliver the push notification, if the service is unable to deliver the notification the first time. If this value is 0, APNs treats the notification as if it expires immediately and the service doesn't store or try to deliver the notification again. Amazon Pinpoint specifies this value in the apns-expiration request header when it sends the notification message to APNs.
-        public let timeToLive: Int32?
+        public let timeToLive: Int?
         /// The title to display above the notification message on the recipient's device.
         public let title: String?
         /// The URL to open in the recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
 
-        public init(action: Action? = nil, badge: Int32? = nil, body: String? = nil, category: String? = nil, collapseId: String? = nil, data: [String: String]? = nil, mediaUrl: String? = nil, preferredAuthenticationMethod: String? = nil, priority: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, threadId: String? = nil, timeToLive: Int32? = nil, title: String? = nil, url: String? = nil) {
+        public init(action: Action? = nil, badge: Int? = nil, body: String? = nil, category: String? = nil, collapseId: String? = nil, data: [String: String]? = nil, mediaUrl: String? = nil, preferredAuthenticationMethod: String? = nil, priority: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, threadId: String? = nil, timeToLive: Int? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.badge = badge
             self.body = body
@@ -498,9 +498,9 @@ extension Pinpoint {
         /// The type of messaging or notification platform for the channel. For the APNs sandbox channel, this value is APNS_SANDBOX.
         public let platform: String
         /// The current version of the APNs sandbox channel.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -622,9 +622,9 @@ extension Pinpoint {
         /// The type of messaging or notification platform for the channel. For the APNs VoIP channel, this value is APNS_VOIP.
         public let platform: String
         /// The current version of the APNs VoIP channel.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -746,9 +746,9 @@ extension Pinpoint {
         /// The type of messaging or notification platform for the channel. For the APNs VoIP sandbox channel, this value is APNS_VOIP_SANDBOX.
         public let platform: String
         /// The current version of the APNs VoIP sandbox channel.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, defaultAuthenticationMethod: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, hasTokenKey: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -842,17 +842,17 @@ extension Pinpoint {
         /// The state of the activity. Possible values are: PENDING, INITIALIZING, RUNNING, PAUSED, CANCELLED, and COMPLETED.
         public let state: String?
         /// The total number of endpoints that the campaign successfully delivered messages to.
-        public let successfulEndpointCount: Int32?
+        public let successfulEndpointCount: Int?
         /// The total number of time zones that were completed.
-        public let timezonesCompletedCount: Int32?
+        public let timezonesCompletedCount: Int?
         /// The total number of unique time zones that are in the segment for the campaign.
-        public let timezonesTotalCount: Int32?
+        public let timezonesTotalCount: Int?
         /// The total number of endpoints that the campaign attempted to deliver messages to.
-        public let totalEndpointCount: Int32?
+        public let totalEndpointCount: Int?
         /// The unique identifier for the campaign treatment that the activity applies to. A treatment is a variation of a campaign that's used for A/B testing of a campaign.
         public let treatmentId: String?
 
-        public init(applicationId: String, campaignId: String, end: String? = nil, id: String, result: String? = nil, scheduledStart: String? = nil, start: String? = nil, state: String? = nil, successfulEndpointCount: Int32? = nil, timezonesCompletedCount: Int32? = nil, timezonesTotalCount: Int32? = nil, totalEndpointCount: Int32? = nil, treatmentId: String? = nil) {
+        public init(applicationId: String, campaignId: String, end: String? = nil, id: String, result: String? = nil, scheduledStart: String? = nil, start: String? = nil, state: String? = nil, successfulEndpointCount: Int? = nil, timezonesCompletedCount: Int? = nil, timezonesTotalCount: Int? = nil, totalEndpointCount: Int? = nil, treatmentId: String? = nil) {
             self.applicationId = applicationId
             self.campaignId = campaignId
             self.end = end
@@ -1136,9 +1136,9 @@ extension Pinpoint {
         /// The type of messaging or notification platform for the channel. For the Baidu channel, this value is BAIDU.
         public let platform: String
         /// The current version of the Baidu channel.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, credential: String, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, credential: String, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.credential = credential
@@ -1208,13 +1208,13 @@ extension Pinpoint {
         /// The default message variables to use in the notification message. You can override the default variables with individual address variables.
         public let substitutions: [String: [String]]?
         /// The amount of time, in seconds, that the Baidu Cloud Push service should store the message if the recipient's device is offline. The default value and maximum supported time is 604,800 seconds (7 days).
-        public let timeToLive: Int32?
+        public let timeToLive: Int?
         /// The title to display above the notification message on the recipient's device.
         public let title: String?
         /// The URL to open in the recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
 
-        public init(action: Action? = nil, body: String? = nil, data: [String: String]? = nil, iconReference: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, timeToLive: Int32? = nil, title: String? = nil, url: String? = nil) {
+        public init(action: Action? = nil, body: String? = nil, data: [String: String]? = nil, iconReference: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, timeToLive: Int? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.body = body
             self.data = data
@@ -1339,15 +1339,15 @@ extension Pinpoint {
         ]
 
         /// The maximum number of messages that a campaign can send to a single endpoint during a 24-hour period. The maximum value is 100.
-        public let daily: Int32?
+        public let daily: Int?
         /// The maximum amount of time, in seconds, that a campaign can attempt to deliver a message after the scheduled start time for the campaign. The minimum value is 60 seconds.
-        public let maximumDuration: Int32?
+        public let maximumDuration: Int?
         /// The maximum number of messages that a campaign can send each second. The minimum value is 50. The maximum value is 20,000.
-        public let messagesPerSecond: Int32?
+        public let messagesPerSecond: Int?
         /// The maximum number of messages that a campaign can send to a single endpoint during the course of the campaign. The maximum value is 100.
-        public let total: Int32?
+        public let total: Int?
 
-        public init(daily: Int32? = nil, maximumDuration: Int32? = nil, messagesPerSecond: Int32? = nil, total: Int32? = nil) {
+        public init(daily: Int? = nil, maximumDuration: Int? = nil, messagesPerSecond: Int? = nil, total: Int? = nil) {
             self.daily = daily
             self.maximumDuration = maximumDuration
             self.messagesPerSecond = messagesPerSecond
@@ -1401,7 +1401,7 @@ extension Pinpoint {
         /// The custom description of the campaign.
         public let description: String?
         /// The allocated percentage of users (segment members) who shouldn't receive messages from the campaign.
-        public let holdoutPercent: Int32?
+        public let holdoutPercent: Int?
         /// The settings for the AWS Lambda function to use as a code hook for the campaign.
         public let hook: CampaignHook?
         /// The unique identifier for the campaign.
@@ -1421,7 +1421,7 @@ extension Pinpoint {
         /// The unique identifier for the segment that's associated with the campaign.
         public let segmentId: String
         /// The version number of the segment that's associated with the campaign.
-        public let segmentVersion: Int32
+        public let segmentVersion: Int
         /// The current status of the campaign.
         public let state: CampaignState?
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the campaign. Each tag consists of a required tag key and an associated tag value.
@@ -1431,9 +1431,9 @@ extension Pinpoint {
         /// The custom name of a variation of the campaign that's used for A/B testing.
         public let treatmentName: String?
         /// The version number of the campaign.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(additionalTreatments: [TreatmentResource]? = nil, applicationId: String, arn: String, creationDate: String, defaultState: CampaignState? = nil, description: String? = nil, holdoutPercent: Int32? = nil, hook: CampaignHook? = nil, id: String, isPaused: Bool? = nil, lastModifiedDate: String, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String, segmentVersion: Int32, state: CampaignState? = nil, tags: [String: String]? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil, version: Int32? = nil) {
+        public init(additionalTreatments: [TreatmentResource]? = nil, applicationId: String, arn: String, creationDate: String, defaultState: CampaignState? = nil, description: String? = nil, holdoutPercent: Int? = nil, hook: CampaignHook? = nil, id: String, isPaused: Bool? = nil, lastModifiedDate: String, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String, segmentVersion: Int, state: CampaignState? = nil, tags: [String: String]? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil, version: Int? = nil) {
             self.additionalTreatments = additionalTreatments
             self.applicationId = applicationId
             self.arn = arn
@@ -1590,9 +1590,9 @@ extension Pinpoint {
         /// The date and time, in ISO 8601 format, when the channel was last modified.
         public let lastModifiedDate: String?
         /// The current version of the channel.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, version: Int32? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -2657,15 +2657,15 @@ extension Pinpoint {
         /// The date and time, in ISO 8601 format, when the email channel was last modified.
         public let lastModifiedDate: String?
         /// The maximum number of emails that you can send through the channel each second.
-        public let messagesPerSecond: Int32?
+        public let messagesPerSecond: Int?
         /// The type of messaging or notification platform for the channel. For the email channel, this value is EMAIL.
         public let platform: String
         ///  The ARN of the AWS Identity and Access Management (IAM) role that Amazon Pinpoint uses to submit email-related event data for the channel.
         public let roleArn: String?
         /// The current version of the email channel.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(applicationId: String? = nil, configurationSet: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, fromAddress: String? = nil, hasCredential: Bool? = nil, id: String? = nil, identity: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, messagesPerSecond: Int32? = nil, platform: String, roleArn: String? = nil, version: Int32? = nil) {
+        public init(applicationId: String? = nil, configurationSet: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, fromAddress: String? = nil, hasCredential: Bool? = nil, id: String? = nil, identity: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, messagesPerSecond: Int? = nil, platform: String, roleArn: String? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.configurationSet = configurationSet
             self.creationDate = creationDate
@@ -2899,9 +2899,9 @@ extension Pinpoint {
         /// The custom message that's returned in the response as a result of processing the endpoint data.
         public let message: String?
         /// The status code that's returned in the response as a result of processing the endpoint data.
-        public let statusCode: Int32?
+        public let statusCode: Int?
 
-        public init(message: String? = nil, statusCode: Int32? = nil) {
+        public init(message: String? = nil, statusCode: Int? = nil) {
             self.message = message
             self.statusCode = statusCode
         }
@@ -2971,13 +2971,13 @@ extension Pinpoint {
         /// The unique identifier for the message that was sent.
         public let messageId: String?
         /// The downstream service status code for delivering the message.
-        public let statusCode: Int32
+        public let statusCode: Int
         /// The status message for delivering the message.
         public let statusMessage: String?
         /// For push notifications that are sent through the GCM channel, specifies whether the token was updated as part of delivering the message.
         public let updatedToken: String?
 
-        public init(address: String? = nil, deliveryStatus: DeliveryStatus, messageId: String? = nil, statusCode: Int32, statusMessage: String? = nil, updatedToken: String? = nil) {
+        public init(address: String? = nil, deliveryStatus: DeliveryStatus, messageId: String? = nil, statusCode: Int, statusMessage: String? = nil, updatedToken: String? = nil) {
             self.address = address
             self.deliveryStatus = deliveryStatus
             self.messageId = messageId
@@ -3324,9 +3324,9 @@ extension Pinpoint {
         /// A custom message that's returned in the response as a result of processing the event.
         public let message: String?
         /// The status code that's returned in the response as a result of processing the event. Possible values are: 202, for events that were accepted; and, 400, for events that weren't valid.
-        public let statusCode: Int32?
+        public let statusCode: Int?
 
-        public init(message: String? = nil, statusCode: Int32? = nil) {
+        public init(message: String? = nil, statusCode: Int? = nil) {
             self.message = message
             self.statusCode = statusCode
         }
@@ -3452,9 +3452,9 @@ extension Pinpoint {
         /// The identifier for the segment to export endpoint definitions from. If you don't specify this value, Amazon Pinpoint exports definitions for all the endpoints that are associated with the application.
         public let segmentId: String?
         /// The version of the segment to export endpoint definitions from, if specified.
-        public let segmentVersion: Int32?
+        public let segmentVersion: Int?
 
-        public init(roleArn: String, s3UrlPrefix: String, segmentId: String? = nil, segmentVersion: Int32? = nil) {
+        public init(roleArn: String, s3UrlPrefix: String, segmentId: String? = nil, segmentVersion: Int? = nil) {
             self.roleArn = roleArn
             self.s3UrlPrefix = s3UrlPrefix
             self.segmentId = segmentId
@@ -3484,9 +3484,9 @@ extension Pinpoint {
         /// The identifier for the segment that the endpoint definitions were exported from. If this value isn't present, Amazon Pinpoint exported definitions for all the endpoints that are associated with the application.
         public let segmentId: String?
         /// The version of the segment that the endpoint definitions were exported from.
-        public let segmentVersion: Int32?
+        public let segmentVersion: Int?
 
-        public init(roleArn: String, s3UrlPrefix: String, segmentId: String? = nil, segmentVersion: Int32? = nil) {
+        public init(roleArn: String, s3UrlPrefix: String, segmentId: String? = nil, segmentVersion: Int? = nil) {
             self.roleArn = roleArn
             self.s3UrlPrefix = s3UrlPrefix
             self.segmentId = segmentId
@@ -3521,7 +3521,7 @@ extension Pinpoint {
         /// The unique identifier for the application that's associated with the export job.
         public let applicationId: String
         /// The number of pieces that were processed successfully (completed) by the export job, as of the time of the request.
-        public let completedPieces: Int32?
+        public let completedPieces: Int?
         /// The date, in ISO 8601 format, when the export job was completed.
         public let completionDate: String?
         /// The date, in ISO 8601 format, when the export job was created.
@@ -3529,7 +3529,7 @@ extension Pinpoint {
         /// The resource settings that apply to the export job.
         public let definition: ExportJobResource
         /// The number of pieces that weren't processed successfully (failed) by the export job, as of the time of the request.
-        public let failedPieces: Int32?
+        public let failedPieces: Int?
         /// An array of entries, one for each of the first 100 entries that weren't processed successfully (failed) by the export job, if any.
         public let failures: [String]?
         /// The unique identifier for the export job.
@@ -3537,15 +3537,15 @@ extension Pinpoint {
         /// The status of the export job. The job status is FAILED if Amazon Pinpoint wasn't able to process one or more pieces in the job.
         public let jobStatus: JobStatus
         /// The total number of endpoint definitions that weren't processed successfully (failed) by the export job, typically because an error, such as a syntax error, occurred.
-        public let totalFailures: Int32?
+        public let totalFailures: Int?
         /// The total number of pieces that must be processed to complete the export job. Each piece consists of an approximately equal portion of the endpoint definitions that are part of the export job.
-        public let totalPieces: Int32?
+        public let totalPieces: Int?
         /// The total number of endpoint definitions that were processed by the export job.
-        public let totalProcessed: Int32?
+        public let totalProcessed: Int?
         /// The job type. This value is EXPORT for export jobs.
         public let `type`: String
 
-        public init(applicationId: String, completedPieces: Int32? = nil, completionDate: String? = nil, creationDate: String, definition: ExportJobResource, failedPieces: Int32? = nil, failures: [String]? = nil, id: String, jobStatus: JobStatus, totalFailures: Int32? = nil, totalPieces: Int32? = nil, totalProcessed: Int32? = nil, type: String) {
+        public init(applicationId: String, completedPieces: Int? = nil, completionDate: String? = nil, creationDate: String, definition: ExportJobResource, failedPieces: Int? = nil, failures: [String]? = nil, id: String, jobStatus: JobStatus, totalFailures: Int? = nil, totalPieces: Int? = nil, totalProcessed: Int? = nil, type: String) {
             self.applicationId = applicationId
             self.completedPieces = completedPieces
             self.completionDate = completionDate
@@ -3680,9 +3680,9 @@ extension Pinpoint {
         /// The type of messaging or notification platform for the channel. For the GCM channel, this value is GCM.
         public let platform: String
         /// The current version of the GCM channel.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, credential: String, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, credential: String, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.credential = credential
@@ -3761,13 +3761,13 @@ extension Pinpoint {
         /// The default message variables to use in the notification message. You can override the default variables with individual address variables.
         public let substitutions: [String: [String]]?
         /// The amount of time, in seconds, that FCM should store and attempt to deliver the push notification, if the service is unable to deliver the notification the first time. If you don't specify this value, FCM defaults to the maximum value, which is 2,419,200 seconds (28 days). Amazon Pinpoint specifies this value in the FCM time_to_live parameter when it sends the notification message to FCM.
-        public let timeToLive: Int32?
+        public let timeToLive: Int?
         /// The title to display above the notification message on the recipient's device.
         public let title: String?
         /// The URL to open in the recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
 
-        public init(action: Action? = nil, body: String? = nil, collapseKey: String? = nil, data: [String: String]? = nil, iconReference: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, priority: String? = nil, rawContent: String? = nil, restrictedPackageName: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, timeToLive: Int32? = nil, title: String? = nil, url: String? = nil) {
+        public init(action: Action? = nil, body: String? = nil, collapseKey: String? = nil, data: [String: String]? = nil, iconReference: String? = nil, imageIconUrl: String? = nil, imageUrl: String? = nil, priority: String? = nil, rawContent: String? = nil, restrictedPackageName: String? = nil, silentPush: Bool? = nil, smallImageIconUrl: String? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, timeToLive: Int? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.body = body
             self.collapseKey = collapseKey
@@ -5200,7 +5200,7 @@ extension Pinpoint {
         /// The unique identifier for the application that's associated with the import job.
         public let applicationId: String
         /// The number of pieces that were processed successfully (completed) by the import job, as of the time of the request.
-        public let completedPieces: Int32?
+        public let completedPieces: Int?
         /// The date, in ISO 8601 format, when the import job was completed.
         public let completionDate: String?
         /// The date, in ISO 8601 format, when the import job was created.
@@ -5208,7 +5208,7 @@ extension Pinpoint {
         /// The resource settings that apply to the import job.
         public let definition: ImportJobResource
         /// The number of pieces that weren't processed successfully (failed) by the import job, as of the time of the request.
-        public let failedPieces: Int32?
+        public let failedPieces: Int?
         /// An array of entries, one for each of the first 100 entries that weren't processed successfully (failed) by the import job, if any.
         public let failures: [String]?
         /// The unique identifier for the import job.
@@ -5216,15 +5216,15 @@ extension Pinpoint {
         /// The status of the import job. The job status is FAILED if Amazon Pinpoint wasn't able to process one or more pieces in the job.
         public let jobStatus: JobStatus
         /// The total number of endpoint definitions that weren't processed successfully (failed) by the import job, typically because an error, such as a syntax error, occurred.
-        public let totalFailures: Int32?
+        public let totalFailures: Int?
         /// The total number of pieces that must be processed to complete the import job. Each piece consists of an approximately equal portion of the endpoint definitions that are part of the import job.
-        public let totalPieces: Int32?
+        public let totalPieces: Int?
         /// The total number of endpoint definitions that were processed by the import job.
-        public let totalProcessed: Int32?
+        public let totalProcessed: Int?
         /// The job type. This value is IMPORT for import jobs.
         public let `type`: String
 
-        public init(applicationId: String, completedPieces: Int32? = nil, completionDate: String? = nil, creationDate: String, definition: ImportJobResource, failedPieces: Int32? = nil, failures: [String]? = nil, id: String, jobStatus: JobStatus, totalFailures: Int32? = nil, totalPieces: Int32? = nil, totalProcessed: Int32? = nil, type: String) {
+        public init(applicationId: String, completedPieces: Int? = nil, completionDate: String? = nil, creationDate: String, definition: ImportJobResource, failedPieces: Int? = nil, failures: [String]? = nil, id: String, jobStatus: JobStatus, totalFailures: Int? = nil, totalPieces: Int? = nil, totalProcessed: Int? = nil, type: String) {
             self.applicationId = applicationId
             self.completedPieces = completedPieces
             self.completionDate = completionDate
@@ -5388,13 +5388,13 @@ extension Pinpoint {
         /// Specifies whether the notification is a silent push notification, which is a push notification that doesn't display on a recipient's device. Silent push notifications can be used for cases such as updating an app's configuration, displaying messages in an in-app message center, or supporting phone home functionality.
         public let silentPush: Bool?
         /// The number of seconds that the push-notification service should keep the message, if the service is unable to deliver the notification the first time. This value is converted to an expiration value when it's sent to a push-notification service. If this value is 0, the service treats the notification as if it expires immediately and the service doesn't store or try to deliver the notification again. This value doesn't apply to messages that are sent through the Amazon Device Messaging (ADM) service.
-        public let timeToLive: Int32?
+        public let timeToLive: Int?
         /// The title to display above the notification message on a recipient's device.
         public let title: String?
         /// The URL to open in a recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
 
-        public init(action: Action? = nil, body: String? = nil, imageIconUrl: String? = nil, imageSmallIconUrl: String? = nil, imageUrl: String? = nil, jsonBody: String? = nil, mediaUrl: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, timeToLive: Int32? = nil, title: String? = nil, url: String? = nil) {
+        public init(action: Action? = nil, body: String? = nil, imageIconUrl: String? = nil, imageSmallIconUrl: String? = nil, imageUrl: String? = nil, jsonBody: String? = nil, mediaUrl: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, timeToLive: Int? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
             self.body = body
             self.imageIconUrl = imageIconUrl
@@ -5577,13 +5577,13 @@ extension Pinpoint {
         /// The unique identifier for the message that was sent.
         public let messageId: String?
         /// The downstream service status code for delivering the message.
-        public let statusCode: Int32
+        public let statusCode: Int
         /// The status message for delivering the message.
         public let statusMessage: String?
         /// For push notifications that are sent through the GCM channel, specifies whether the token was updated as part of delivering the message.
         public let updatedToken: String?
 
-        public init(deliveryStatus: DeliveryStatus, messageId: String? = nil, statusCode: Int32, statusMessage: String? = nil, updatedToken: String? = nil) {
+        public init(deliveryStatus: DeliveryStatus, messageId: String? = nil, statusCode: Int, statusMessage: String? = nil, updatedToken: String? = nil) {
             self.deliveryStatus = deliveryStatus
             self.messageId = messageId
             self.statusCode = statusCode
@@ -5698,13 +5698,13 @@ extension Pinpoint {
         ///                   INVALID, PREPAID, and OTHER.
         public let phoneType: String?
         /// The phone type, represented by an integer. Valid values are: 0 (mobile), 1 (landline), 2 (VoIP), 3 (invalid), 4 (other), and 5 (prepaid).
-        public let phoneTypeCode: Int32?
+        public let phoneTypeCode: Int?
         /// The time zone for the location where the phone number was originally registered.
         public let timezone: String?
         /// The postal or ZIP code for the location where the phone number was originally registered.
         public let zipCode: String?
 
-        public init(carrier: String? = nil, city: String? = nil, cleansedPhoneNumberE164: String? = nil, cleansedPhoneNumberNational: String? = nil, country: String? = nil, countryCodeIso2: String? = nil, countryCodeNumeric: String? = nil, county: String? = nil, originalCountryCodeIso2: String? = nil, originalPhoneNumber: String? = nil, phoneType: String? = nil, phoneTypeCode: Int32? = nil, timezone: String? = nil, zipCode: String? = nil) {
+        public init(carrier: String? = nil, city: String? = nil, cleansedPhoneNumberE164: String? = nil, cleansedPhoneNumberNational: String? = nil, country: String? = nil, countryCodeIso2: String? = nil, countryCodeNumeric: String? = nil, county: String? = nil, originalCountryCodeIso2: String? = nil, originalPhoneNumber: String? = nil, phoneType: String? = nil, phoneTypeCode: Int? = nil, timezone: String? = nil, zipCode: String? = nil) {
             self.carrier = carrier
             self.city = city
             self.cleansedPhoneNumberE164 = cleansedPhoneNumberE164
@@ -6097,17 +6097,17 @@ extension Pinpoint {
         /// The type of messaging or notification platform for the channel. For the SMS channel, this value is SMS.
         public let platform: String
         /// The maximum number of promotional messages that you can send through the SMS channel each second.
-        public let promotionalMessagesPerSecond: Int32?
+        public let promotionalMessagesPerSecond: Int?
         /// The identity that displays on recipients' devices when they receive messages from the SMS channel.
         public let senderId: String?
         /// The registered short code to use when you send messages through the SMS channel.
         public let shortCode: String?
         /// The maximum number of transactional messages that you can send through the SMS channel each second.
-        public let transactionalMessagesPerSecond: Int32?
+        public let transactionalMessagesPerSecond: Int?
         /// The current version of the SMS channel.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, promotionalMessagesPerSecond: Int32? = nil, senderId: String? = nil, shortCode: String? = nil, transactionalMessagesPerSecond: Int32? = nil, version: Int32? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, promotionalMessagesPerSecond: Int? = nil, senderId: String? = nil, shortCode: String? = nil, transactionalMessagesPerSecond: Int? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -6400,7 +6400,7 @@ extension Pinpoint {
         ]
 
         /// The number of channel types in the endpoint definitions that were imported to create the segment.
-        public let channelCounts: [String: Int32]?
+        public let channelCounts: [String: Int]?
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
         public let externalId: String
         /// The format of the files that were imported to create the segment. Valid values are: CSV, for comma-separated values format; and, JSON, for newline-delimited JSON format.
@@ -6410,9 +6410,9 @@ extension Pinpoint {
         /// The URL of the Amazon Simple Storage Service (Amazon S3) bucket that the endpoint definitions were imported from to create the segment.
         public let s3Url: String
         /// The number of endpoint definitions that were imported successfully to create the segment.
-        public let size: Int32
+        public let size: Int
 
-        public init(channelCounts: [String: Int32]? = nil, externalId: String, format: Format, roleArn: String, s3Url: String, size: Int32) {
+        public init(channelCounts: [String: Int]? = nil, externalId: String, format: Format, roleArn: String, s3Url: String, size: Int) {
             self.channelCounts = channelCounts
             self.externalId = externalId
             self.format = format
@@ -6462,9 +6462,9 @@ extension Pinpoint {
         /// The unique identifier for the segment.
         public let id: String
         /// The version number of the segment.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(id: String, version: Int32? = nil) {
+        public init(id: String, version: Int? = nil) {
             self.id = id
             self.version = version
         }
@@ -6514,9 +6514,9 @@ extension Pinpoint {
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the segment. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
         /// The version number of the segment.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(applicationId: String, arn: String, creationDate: String, dimensions: SegmentDimensions? = nil, id: String, importDefinition: SegmentImportResource? = nil, lastModifiedDate: String? = nil, name: String? = nil, segmentGroups: SegmentGroupList? = nil, segmentType: SegmentType, tags: [String: String]? = nil, version: Int32? = nil) {
+        public init(applicationId: String, arn: String, creationDate: String, dimensions: SegmentDimensions? = nil, id: String, importDefinition: SegmentImportResource? = nil, lastModifiedDate: String? = nil, name: String? = nil, segmentGroups: SegmentGroupList? = nil, segmentType: SegmentType, tags: [String: String]? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.arn = arn
             self.creationDate = creationDate
@@ -6723,7 +6723,7 @@ extension Pinpoint {
         ]
 
         /// The duration of the session, in milliseconds.
-        public let duration: Int32?
+        public let duration: Int?
         /// The unique identifier for the session.
         public let id: String
         /// The date and time when the session began.
@@ -6731,7 +6731,7 @@ extension Pinpoint {
         /// The date and time when the session ended.
         public let stopTimestamp: String?
 
-        public init(duration: Int32? = nil, id: String, startTimestamp: String, stopTimestamp: String? = nil) {
+        public init(duration: Int? = nil, id: String, startTimestamp: String, stopTimestamp: String? = nil) {
             self.duration = duration
             self.id = id
             self.startTimestamp = startTimestamp
@@ -6881,7 +6881,7 @@ extension Pinpoint {
         /// The schedule settings for the treatment.
         public let schedule: Schedule?
         /// The allocated percentage of users (segment members) that the treatment is sent to.
-        public let sizePercent: Int32
+        public let sizePercent: Int
         /// The status of the treatment.
         public let state: CampaignState?
         /// The custom description of the treatment.
@@ -6889,7 +6889,7 @@ extension Pinpoint {
         /// The custom name of the treatment. A treatment is a variation of a campaign that's used for A/B testing of a campaign.
         public let treatmentName: String?
 
-        public init(id: String, messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int32, state: CampaignState? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+        public init(id: String, messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int, state: CampaignState? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.id = id
             self.messageConfiguration = messageConfiguration
             self.schedule = schedule
@@ -7616,9 +7616,9 @@ extension Pinpoint {
         /// The type of messaging or notification platform for the channel. For the voice channel, this value is VOICE.
         public let platform: String
         /// The current version of the voice channel.
-        public let version: Int32?
+        public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int32? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -7737,7 +7737,7 @@ extension Pinpoint {
         /// The custom description of the campaign.
         public let description: String?
         /// The allocated percentage of users (segment members) who shouldn't receive messages from the campaign.
-        public let holdoutPercent: Int32?
+        public let holdoutPercent: Int?
         /// The settings for the AWS Lambda function to use as a code hook for the campaign.
         public let hook: CampaignHook?
         /// Specifies whether to pause the campaign. A paused campaign doesn't run unless you resume it by setting this value to false.
@@ -7753,7 +7753,7 @@ extension Pinpoint {
         /// The unique identifier for the segment to associate with the campaign.
         public let segmentId: String?
         /// The version of the segment to associate with the campaign.
-        public let segmentVersion: Int32?
+        public let segmentVersion: Int?
         /// A string-to-string map of key-value pairs that defines the tags to associate with the campaign. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
         /// The custom description of a variation of the campaign to use for A/B testing.
@@ -7761,7 +7761,7 @@ extension Pinpoint {
         /// The custom name of a variation of the campaign to use for A/B testing.
         public let treatmentName: String?
 
-        public init(additionalTreatments: [WriteTreatmentResource]? = nil, description: String? = nil, holdoutPercent: Int32? = nil, hook: CampaignHook? = nil, isPaused: Bool? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int32? = nil, tags: [String: String]? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+        public init(additionalTreatments: [WriteTreatmentResource]? = nil, description: String? = nil, holdoutPercent: Int? = nil, hook: CampaignHook? = nil, isPaused: Bool? = nil, limits: CampaignLimits? = nil, messageConfiguration: MessageConfiguration? = nil, name: String? = nil, schedule: Schedule? = nil, segmentId: String? = nil, segmentVersion: Int? = nil, tags: [String: String]? = nil, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.additionalTreatments = additionalTreatments
             self.description = description
             self.holdoutPercent = holdoutPercent
@@ -7866,13 +7866,13 @@ extension Pinpoint {
         /// The schedule settings for the treatment.
         public let schedule: Schedule?
         /// The allocated percentage of users (segment members) to send the treatment to.
-        public let sizePercent: Int32
+        public let sizePercent: Int
         /// The custom description of the treatment.
         public let treatmentDescription: String?
         /// The custom name of the treatment. A treatment is a variation of a campaign that's used for A/B testing of a campaign.
         public let treatmentName: String?
 
-        public init(messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int32, treatmentDescription: String? = nil, treatmentName: String? = nil) {
+        public init(messageConfiguration: MessageConfiguration? = nil, schedule: Schedule? = nil, sizePercent: Int, treatmentDescription: String? = nil, treatmentName: String? = nil) {
             self.messageConfiguration = messageConfiguration
             self.schedule = schedule
             self.sizePercent = sizePercent

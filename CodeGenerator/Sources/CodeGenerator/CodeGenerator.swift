@@ -103,7 +103,7 @@ extension Shape {
         case .string(_):
             return "String"
         case .integer(_):
-            return "Int32"
+            return "Int"
         case .structure(_):
             return name.toSwiftClassCase()
         case .boolean:

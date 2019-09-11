@@ -9,7 +9,7 @@ AWS CloudFormation AWS CloudFormation allows you to create and manage AWS infras
 */
 public struct CloudFormation {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(

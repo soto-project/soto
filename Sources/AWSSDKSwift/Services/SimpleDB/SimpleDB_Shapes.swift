@@ -216,21 +216,21 @@ extension SimpleDB {
         ]
 
         /// The number of unique attribute names in the domain.
-        public let attributeNameCount: Int32?
+        public let attributeNameCount: Int?
         /// The total size of all unique attribute names in the domain, in bytes.
         public let attributeNamesSizeBytes: Int64?
         /// The number of all attribute name/value pairs in the domain.
-        public let attributeValueCount: Int32?
+        public let attributeValueCount: Int?
         /// The total size of all attribute values in the domain, in bytes.
         public let attributeValuesSizeBytes: Int64?
         /// The number of all items in the domain.
-        public let itemCount: Int32?
+        public let itemCount: Int?
         /// The total size of all item names in the domain, in bytes.
         public let itemNamesSizeBytes: Int64?
         /// The data and time when metadata was calculated, in Epoch (UNIX) seconds.
-        public let timestamp: Int32?
+        public let timestamp: Int?
 
-        public init(attributeNameCount: Int32? = nil, attributeNamesSizeBytes: Int64? = nil, attributeValueCount: Int32? = nil, attributeValuesSizeBytes: Int64? = nil, itemCount: Int32? = nil, itemNamesSizeBytes: Int64? = nil, timestamp: Int32? = nil) {
+        public init(attributeNameCount: Int? = nil, attributeNamesSizeBytes: Int64? = nil, attributeValueCount: Int? = nil, attributeValuesSizeBytes: Int64? = nil, itemCount: Int? = nil, itemNamesSizeBytes: Int64? = nil, timestamp: Int? = nil) {
             self.attributeNameCount = attributeNameCount
             self.attributeNamesSizeBytes = attributeNamesSizeBytes
             self.attributeValueCount = attributeValueCount
@@ -333,11 +333,11 @@ extension SimpleDB {
         ]
 
         /// The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100.
-        public let maxNumberOfDomains: Int32?
+        public let maxNumberOfDomains: Int?
         /// A string informing Amazon SimpleDB where to start the next list of domain names.
         public let nextToken: String?
 
-        public init(maxNumberOfDomains: Int32? = nil, nextToken: String? = nil) {
+        public init(maxNumberOfDomains: Int? = nil, nextToken: String? = nil) {
             self.maxNumberOfDomains = maxNumberOfDomains
             self.nextToken = nextToken
         }

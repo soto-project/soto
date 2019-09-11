@@ -956,11 +956,11 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
         /// The maximum number of results to be included in the next page.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
-        public init(fleetArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(fleetArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1014,11 +1014,11 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
         /// The maximum number of results to be included in the next page.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
-        public init(fleetArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(fleetArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1069,11 +1069,11 @@ extension WorkLink {
         ]
 
         /// The maximum number of results to be included in the next page.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1123,11 +1123,11 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
         /// The maximum number of results to be included in the next page.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
-        public init(fleetArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(fleetArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1181,11 +1181,11 @@ extension WorkLink {
         /// The ARN of the fleet.
         public let fleetArn: String
         /// The maximum number of results to be included in the next page.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
-        public init(fleetArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(fleetArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.maxResults = maxResults
             self.nextToken = nextToken

@@ -363,9 +363,9 @@ extension Transfer {
         /// This property contains the key-value pairs that you can use to search for and group servers that were assigned to the server that was described.
         public let tags: [Tag]?
         /// The number of users that are assigned to the SFTP server you specified with the ServerId.
-        public let userCount: Int32?
+        public let userCount: Int?
 
-        public init(arn: String, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int32? = nil) {
+        public init(arn: String, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil) {
             self.arn = arn
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
@@ -568,11 +568,11 @@ extension Transfer {
         ]
 
         /// Specifies the number of servers to return as a response to the ListServers query.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// When additional results are obtained from the ListServers command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional servers.
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -622,11 +622,11 @@ extension Transfer {
         /// Requests the tags associated with a particular Amazon Resource Name (ARN). An ARN is an identifier for a specific AWS resource, such as a server, user, or role.
         public let arn: String
         /// Specifies the number of tags to return as a response to the ListTagsForResource request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// When you request additional results from the ListTagsForResource call, a NextToken parameter is returned in the input. You can then pass in a subsequent command the NextToken parameter to continue listing additional tags.
         public let nextToken: String?
 
-        public init(arn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(arn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -683,13 +683,13 @@ extension Transfer {
         ]
 
         /// Specifies the number of users to return as a response to the ListUsers request.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// When you can get additional results from the ListUsers call, a NextToken parameter is returned in the output. You can then pass in a subsequent command the NextToken parameter to continue listing additional users.
         public let nextToken: String?
         /// A system-assigned unique identifier for a Secure File Transfer Protocol (SFTP) server that has users are assigned to it.
         public let serverId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, serverId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serverId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serverId = serverId
@@ -761,9 +761,9 @@ extension Transfer {
         /// This property describes the condition of the SFTP server for the server that was described. A value of ONLINE&gt; indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations. The states of STARTING and STOPPING indicated that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of START_FAILED or STOP_FAILED can indicate an error condition.
         public let state: State?
         /// This property is a numeric value that indicates the number of users that are assigned to the SFTP server you specified with the ServerId.
-        public let userCount: Int32?
+        public let userCount: Int?
 
-        public init(arn: String, endpointType: EndpointType? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, serverId: String? = nil, state: State? = nil, userCount: Int32? = nil) {
+        public init(arn: String, endpointType: EndpointType? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, serverId: String? = nil, state: State? = nil, userCount: Int? = nil) {
             self.arn = arn
             self.endpointType = endpointType
             self.identityProviderType = identityProviderType
@@ -800,11 +800,11 @@ extension Transfer {
         /// The role in use by this user. A role is an AWS Identity and Access Management (IAM) entity that in this case allows the SFTP server to act on a user's behalf. It allows the server to inherit the trust relationship that enables that user to perform file operations to their Amazon S3 bucket.
         public let role: String?
         /// This value is the number of SSH public keys stored for the user you specified.
-        public let sshPublicKeyCount: Int32?
+        public let sshPublicKeyCount: Int?
         /// The name of the user whose ARN was specified. User names are used for authentication purposes.
         public let userName: String?
 
-        public init(arn: String, homeDirectory: String? = nil, role: String? = nil, sshPublicKeyCount: Int32? = nil, userName: String? = nil) {
+        public init(arn: String, homeDirectory: String? = nil, role: String? = nil, sshPublicKeyCount: Int? = nil, userName: String? = nil) {
             self.arn = arn
             self.homeDirectory = homeDirectory
             self.role = role
@@ -993,11 +993,11 @@ extension Transfer {
         /// The result of the authorization test as a message. 
         public let message: String?
         /// The HTTP status code that is the response from your API Gateway.
-        public let statusCode: Int32
+        public let statusCode: Int
         /// The endpoint of the service used to authenticate a user.
         public let url: String
 
-        public init(message: String? = nil, statusCode: Int32, url: String) {
+        public init(message: String? = nil, statusCode: Int, url: String) {
             self.message = message
             self.statusCode = statusCode
             self.url = url

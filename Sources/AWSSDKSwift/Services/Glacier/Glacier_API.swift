@@ -11,7 +11,7 @@ Amazon Glacier is a storage solution for "cold data." Amazon Glacier is an extre
 */
 public struct Glacier {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         let middlewares = [GlacierRequestMiddleware(apiVersion: "2012-06-01")] + middlewares

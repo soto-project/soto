@@ -489,12 +489,12 @@ extension CloudHSMV2 {
         /// One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the sourceBackupIds filter to return only the backups created from a source backup. The sourceBackupID of a source backup is returned by the CopyBackupToRegion operation. Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state.
         public let filters: [String: [String]]?
         /// The maximum number of backups to return in the response. When there are more backups than the number you specify, the response contains a NextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The NextToken value that you received in the previous response. Use this value to get more backups.
         public let nextToken: String?
         public let sortAscending: Bool?
 
-        public init(filters: [String: [String]]? = nil, maxResults: Int32? = nil, nextToken: String? = nil, sortAscending: Bool? = nil) {
+        public init(filters: [String: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortAscending: Bool? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -551,11 +551,11 @@ extension CloudHSMV2 {
         /// One or more filters to limit the items returned in the response. Use the clusterIds filter to return only the specified clusters. Specify clusters by their cluster identifier (ID). Use the vpcIds filter to return only the clusters in the specified virtual private clouds (VPCs). Specify VPCs by their VPC identifier (ID). Use the states filter to return only clusters that match the specified state.
         public let filters: [String: [String]]?
         /// The maximum number of clusters to return in the response. When there are more clusters than the number you specify, the response contains a NextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The NextToken value that you received in the previous response. Use this value to get more clusters.
         public let nextToken: String?
 
-        public init(filters: [String: [String]]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(filters: [String: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -754,13 +754,13 @@ extension CloudHSMV2 {
         ]
 
         /// The maximum number of tags to return in the response. When there are more tags than the number you specify, the response contains a NextToken value.
-        public let maxResults: Int32?
+        public let maxResults: Int?
         /// The NextToken value that you received in the previous response. Use this value to get more tags.
         public let nextToken: String?
         /// The cluster identifier (ID) for the cluster whose tags you are getting. To find the cluster ID, use DescribeClusters.
         public let resourceId: String
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil, resourceId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceId = resourceId

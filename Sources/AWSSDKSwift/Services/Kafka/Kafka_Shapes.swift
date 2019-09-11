@@ -21,9 +21,9 @@ extension Kafka {
         public let kafkaBrokerNodeId: String
         ///             Size of the EBS volume to update.
         ///          
-        public let volumeSizeGB: Int32
+        public let volumeSizeGB: Int
 
-        public init(kafkaBrokerNodeId: String, volumeSizeGB: Int32) {
+        public init(kafkaBrokerNodeId: String, volumeSizeGB: Int) {
             self.kafkaBrokerNodeId = kafkaBrokerNodeId
             self.volumeSizeGB = volumeSizeGB
         }
@@ -235,7 +235,7 @@ extension Kafka {
         public let enhancedMonitoring: EnhancedMonitoring?
         ///             The number of broker nodes in the cluster.
         ///          
-        public let numberOfBrokerNodes: Int32?
+        public let numberOfBrokerNodes: Int?
         ///             The state of the cluster. The possible states are CREATING, ACTIVE, and FAILED.
         ///          
         public let state: ClusterState?
@@ -246,7 +246,7 @@ extension Kafka {
         ///          
         public let zookeeperConnectString: String?
 
-        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: TimeStamp? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, numberOfBrokerNodes: Int32? = nil, state: ClusterState? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil) {
+        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: TimeStamp? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, numberOfBrokerNodes: Int? = nil, state: ClusterState? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil) {
             self.activeOperationArn = activeOperationArn
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
@@ -493,13 +493,14 @@ extension Kafka {
         ///             The version of Apache Kafka.
         ///          
         public let kafkaVersion: String
-        /// The number of Kafka broker nodes in the Amazon MSK cluster.
-        public let numberOfBrokerNodes: Int32
+        ///             The number of broker nodes in the cluster.
+        ///          
+        public let numberOfBrokerNodes: Int
         ///             Create tags when creating the cluster.
         ///          
         public let tags: [String: String]?
 
-        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, clusterName: String, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, numberOfBrokerNodes: Int32, tags: [String: String]? = nil) {
+        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, clusterName: String, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, numberOfBrokerNodes: Int, tags: [String: String]? = nil) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
             self.clusterName = clusterName
@@ -874,9 +875,9 @@ extension Kafka {
 
         ///             The size in GiB of the EBS volume for the data drive on each broker node.
         ///          
-        public let volumeSize: Int32?
+        public let volumeSize: Int?
 
-        public init(volumeSize: Int32? = nil) {
+        public init(volumeSize: Int? = nil) {
             self.volumeSize = volumeSize
         }
 
@@ -1043,10 +1044,10 @@ extension Kafka {
         ]
 
         public let clusterArn: String
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(clusterArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(clusterArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1096,10 +1097,10 @@ extension Kafka {
         ]
 
         public let clusterNameFilter: String?
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(clusterNameFilter: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(clusterNameFilter: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterNameFilter = clusterNameFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1150,10 +1151,10 @@ extension Kafka {
         ]
 
         public let arn: String
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(arn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(arn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1201,10 +1202,10 @@ extension Kafka {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1253,10 +1254,10 @@ extension Kafka {
         ]
 
         public let clusterArn: String
-        public let maxResults: Int32?
+        public let maxResults: Int?
         public let nextToken: String?
 
-        public init(clusterArn: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+        public init(clusterArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1348,9 +1349,9 @@ extension Kafka {
         public let configurationInfo: ConfigurationInfo?
         ///             The number of broker nodes in the cluster.
         ///          
-        public let numberOfBrokerNodes: Int32?
+        public let numberOfBrokerNodes: Int?
 
-        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, numberOfBrokerNodes: Int32? = nil) {
+        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, numberOfBrokerNodes: Int? = nil) {
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.configurationInfo = configurationInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes

@@ -9,7 +9,7 @@ Resource Groups Tagging API This guide describes the API operations for the reso
 */
 public struct ResourceGroupsTaggingAPI {
 
-    let client: AWSClient
+    public let client: AWSClient
 
     public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
