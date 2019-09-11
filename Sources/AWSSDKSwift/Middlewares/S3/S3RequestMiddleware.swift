@@ -15,15 +15,9 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
 
         switch request.httpMethod.lowercased() {
         case "get":
+            guard let host = request.url.host, host.contains("amazonaws.com") else { break }
             let query = request.url.query != nil ? "?\(request.url.query!)" : ""
-            let domain: String
-            if let host = request.url.host, host.contains("amazonaws.com") {
-                domain = host
-            } else {
-                let port = request.url.port == nil ? "" : ":\(request.url.port!)"
-                domain = request.url.host!+port
-            }
-            request.url = URL(string: "\(request.url.scheme ?? "https")://\(paths.removeFirst()).\(domain)/\(paths.joined(separator: "/"))\(query)")!
+            request.url = URL(string: "\(request.url.scheme ?? "https")://\(paths.removeFirst()).\(host)/\(paths.joined(separator: "/"))\(query)")!
         default:
             guard let host = request.url.host, host.contains("amazonaws.com") else { break }
             var pathes = request.url.path.components(separatedBy: "/")
