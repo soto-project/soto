@@ -18,6 +18,7 @@ public struct CloudHSMV2 {
             region: region,
             amzTarget: "BaldrApiService",
             service: "cloudhsmv2",
+            signingName: "cloudhsm",
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-04-28",
             endpoint: endpoint,

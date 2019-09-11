@@ -17,6 +17,7 @@ public struct MediaStoreData {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "data.mediastore",
+            signingName: "mediastore",
             serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2017-09-01",
             endpoint: endpoint,

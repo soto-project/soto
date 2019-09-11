@@ -17,6 +17,7 @@ public struct PinpointSMSVoice {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "sms-voice.pinpoint",
+            signingName: "sms-voice",
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2018-09-05",
             endpoint: endpoint,

@@ -17,6 +17,7 @@ public struct IoTEventsData {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "data.iotevents",
+            signingName: "ioteventsdata",
             serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2018-10-23",
             endpoint: endpoint,

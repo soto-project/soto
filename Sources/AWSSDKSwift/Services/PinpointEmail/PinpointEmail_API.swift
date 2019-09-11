@@ -17,6 +17,7 @@ public struct PinpointEmail {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "email",
+            signingName: "ses",
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2018-07-26",
             endpoint: endpoint,

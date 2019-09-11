@@ -17,6 +17,7 @@ public struct LexModelBuildingService {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "models.lex",
+            signingName: "lex",
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-04-19",
             endpoint: endpoint,

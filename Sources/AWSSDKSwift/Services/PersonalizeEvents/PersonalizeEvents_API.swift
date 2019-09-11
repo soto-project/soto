@@ -14,6 +14,7 @@ public struct PersonalizeEvents {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "personalize-events",
+            signingName: "personalize",
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2018-03-22",
             endpoint: endpoint,

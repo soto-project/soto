@@ -17,6 +17,7 @@ public struct IoTJobsDataPlane {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "data.jobs.iot",
+            signingName: "iot-jobs-data",
             serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2017-09-29",
             endpoint: endpoint,

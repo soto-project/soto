@@ -18,6 +18,7 @@ public struct ApplicationAutoScaling {
             region: region,
             amzTarget: "AnyScaleFrontendService",
             service: "autoscaling",
+            signingName: "application-autoscaling",
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-02-06",
             endpoint: endpoint,

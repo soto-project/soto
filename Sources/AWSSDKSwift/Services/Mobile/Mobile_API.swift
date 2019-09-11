@@ -17,6 +17,7 @@ public struct Mobile {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "mobile",
+            signingName: "AWSMobileHubService",
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-07-01",
             endpoint: endpoint,

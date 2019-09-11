@@ -17,6 +17,7 @@ public struct S3Control {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "s3-control",
+            signingName: "s3",
             serviceProtocol: ServiceProtocol(type: .restxml),
             apiVersion: "2018-08-20",
             endpoint: endpoint,
