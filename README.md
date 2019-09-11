@@ -17,7 +17,7 @@ This library doesn't depend on Objective-C Runtime, So you can use this with Lin
 
 ## Documentation
 
-Visit the `aws-sdk-swift` [documentation](http://htmlpreview.github.io/?https://github.com/swift-aws/aws-sdk-swift/gh-pages/index.html) for instructions and browsing api references.
+Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) for instructions and browsing api references.
 
 ## Installation
 
@@ -110,11 +110,11 @@ let ec2 = EC2(
 )
 ```
 
-## Using the `aws-sdk-swift`
+## Using `aws-sdk-swift`
 
 AWS Swift Modules can be imported into any swift project. Each module provides a struct that can be initialized, with instance methods to call aws services. See documentation for details on specific services.
 
-The underlying aws-sdk-swift httpclient returns a [swift-nio EventLoopFuture object](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html). An EvenLoopFuture _is not_ the response, but rather a container object that will be populated with the response sometime later. In this manner calls to aws do not block the main thread.
+The underlying aws-sdk-swift httpclient returns a [swift-nio EventLoopFuture object](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html). An EventLoopFuture _is not_ the response, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread.
 
 However, operations that require inspection or use of the response require code to be written in a slightly different manner that equivalent synchronous logic. There are numerous references available online to aid in understanding this concept.
 
@@ -200,7 +200,7 @@ The simplest way to upgrade from an existing 1.0 or 2.0 implementation is to cal
 
 However it is recommend to rewrite your synchronous code to work with the returned future objects. It is no longer necessary to use a DispatchQueue.
 
-## Using the `aws-sdk-swift` with Vapor
+## Using `aws-sdk-swift` with Vapor
 
 Integration with vapor is pretty straight forward.
 
@@ -243,7 +243,7 @@ final class MyController {
 }
 ```
 
-## Using the `aws-sdk-swift` with the swift REPL (os X)
+## Using the `aws-sdk-swift` with the swift REPL (OS X)
 
 
 ```swift

@@ -57,3 +57,36 @@ extension ShieldErrorType {
         }
     }
 }
+
+extension ShieldErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .accessDeniedForDependencyException(let message):
+            return "AccessDeniedForDependencyException: \(message ?? "")"
+        case .internalErrorException(let message):
+            return "InternalErrorException: \(message ?? "")"
+        case .invalidOperationException(let message):
+            return "InvalidOperationException: \(message ?? "")"
+        case .invalidPaginationTokenException(let message):
+            return "InvalidPaginationTokenException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidResourceException(let message):
+            return "InvalidResourceException: \(message ?? "")"
+        case .limitsExceededException(let message):
+            return "LimitsExceededException: \(message ?? "")"
+        case .lockedSubscriptionException(let message):
+            return "LockedSubscriptionException: \(message ?? "")"
+        case .noAssociatedRoleException(let message):
+            return "NoAssociatedRoleException: \(message ?? "")"
+        case .optimisticLockException(let message):
+            return "OptimisticLockException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

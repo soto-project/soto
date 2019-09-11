@@ -46,24 +46,24 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(activationKey, name:"activationKey", parent: name, max: 50)
-            try validate(activationKey, name:"activationKey", parent: name, min: 1)
-            try validate(gatewayName, name:"gatewayName", parent: name, max: 255)
-            try validate(gatewayName, name:"gatewayName", parent: name, min: 2)
-            try validate(gatewayName, name:"gatewayName", parent: name, pattern: "^[ -\\.0-\\[\\]-~]*[!-\\.0-\\[\\]-~][ -\\.0-\\[\\]-~]*$")
-            try validate(gatewayRegion, name:"gatewayRegion", parent: name, max: 25)
-            try validate(gatewayRegion, name:"gatewayRegion", parent: name, min: 1)
-            try validate(gatewayTimezone, name:"gatewayTimezone", parent: name, max: 10)
-            try validate(gatewayTimezone, name:"gatewayTimezone", parent: name, min: 3)
-            try validate(gatewayType, name:"gatewayType", parent: name, max: 20)
-            try validate(gatewayType, name:"gatewayType", parent: name, min: 2)
-            try validate(mediumChangerType, name:"mediumChangerType", parent: name, max: 50)
-            try validate(mediumChangerType, name:"mediumChangerType", parent: name, min: 2)
-            try tags?.forEach {
+            try validate(self.activationKey, name:"activationKey", parent: name, max: 50)
+            try validate(self.activationKey, name:"activationKey", parent: name, min: 1)
+            try validate(self.gatewayName, name:"gatewayName", parent: name, max: 255)
+            try validate(self.gatewayName, name:"gatewayName", parent: name, min: 2)
+            try validate(self.gatewayName, name:"gatewayName", parent: name, pattern: "^[ -\\.0-\\[\\]-~]*[!-\\.0-\\[\\]-~][ -\\.0-\\[\\]-~]*$")
+            try validate(self.gatewayRegion, name:"gatewayRegion", parent: name, max: 25)
+            try validate(self.gatewayRegion, name:"gatewayRegion", parent: name, min: 1)
+            try validate(self.gatewayTimezone, name:"gatewayTimezone", parent: name, max: 10)
+            try validate(self.gatewayTimezone, name:"gatewayTimezone", parent: name, min: 3)
+            try validate(self.gatewayType, name:"gatewayType", parent: name, max: 20)
+            try validate(self.gatewayType, name:"gatewayType", parent: name, min: 2)
+            try validate(self.mediumChangerType, name:"mediumChangerType", parent: name, max: 50)
+            try validate(self.mediumChangerType, name:"mediumChangerType", parent: name, min: 2)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tapeDriveType, name:"tapeDriveType", parent: name, max: 50)
-            try validate(tapeDriveType, name:"tapeDriveType", parent: name, min: 2)
+            try validate(self.tapeDriveType, name:"tapeDriveType", parent: name, max: 50)
+            try validate(self.tapeDriveType, name:"tapeDriveType", parent: name, min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -110,12 +110,12 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try diskIds.forEach {
+            try self.diskIds.forEach {
                 try validate($0, name: "diskIds[]", parent: name, max: 300)
                 try validate($0, name: "diskIds[]", parent: name, min: 1)
             }
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -157,9 +157,9 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceARN, name:"resourceARN", parent: name, max: 500)
-            try validate(resourceARN, name:"resourceARN", parent: name, min: 50)
-            try tags.forEach {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 500)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 50)
+            try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -203,12 +203,12 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try diskIds.forEach {
+            try self.diskIds.forEach {
                 try validate($0, name: "diskIds[]", parent: name, max: 300)
                 try validate($0, name: "diskIds[]", parent: name, min: 1)
             }
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -249,12 +249,12 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try diskIds.forEach {
+            try self.diskIds.forEach {
                 try validate($0, name: "diskIds[]", parent: name, max: 300)
                 try validate($0, name: "diskIds[]", parent: name, min: 1)
             }
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -296,11 +296,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(poolId, name:"poolId", parent: name, max: 100)
-            try validate(poolId, name:"poolId", parent: name, min: 1)
-            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
-            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
-            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try validate(self.poolId, name:"poolId", parent: name, max: 100)
+            try validate(self.poolId, name:"poolId", parent: name, min: 1)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -355,16 +355,16 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(diskId, name:"diskId", parent: name, max: 300)
-            try validate(diskId, name:"diskId", parent: name, min: 1)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(networkInterfaceId, name:"networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
-            try validate(targetName, name:"targetName", parent: name, max: 200)
-            try validate(targetName, name:"targetName", parent: name, min: 1)
-            try validate(targetName, name:"targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
-            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
-            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
+            try validate(self.diskId, name:"diskId", parent: name, max: 300)
+            try validate(self.diskId, name:"diskId", parent: name, min: 1)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.networkInterfaceId, name:"networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
+            try validate(self.targetName, name:"targetName", parent: name, max: 200)
+            try validate(self.targetName, name:"targetName", parent: name, min: 1)
+            try validate(self.targetName, name:"targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
+            try validate(self.volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -490,11 +490,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
-            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
-            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -536,11 +536,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
-            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
-            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -646,22 +646,22 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(clientToken, name:"clientToken", parent: name, max: 100)
-            try validate(clientToken, name:"clientToken", parent: name, min: 5)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
-            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
-            try validate(networkInterfaceId, name:"networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
-            try validate(snapshotId, name:"snapshotId", parent: name, pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
-            try validate(sourceVolumeARN, name:"sourceVolumeARN", parent: name, max: 500)
-            try validate(sourceVolumeARN, name:"sourceVolumeARN", parent: name, min: 50)
-            try tags?.forEach {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 100)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 5)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validate(self.networkInterfaceId, name:"networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
+            try validate(self.snapshotId, name:"snapshotId", parent: name, pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
+            try validate(self.sourceVolumeARN, name:"sourceVolumeARN", parent: name, max: 500)
+            try validate(self.sourceVolumeARN, name:"sourceVolumeARN", parent: name, min: 50)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(targetName, name:"targetName", parent: name, max: 200)
-            try validate(targetName, name:"targetName", parent: name, min: 1)
-            try validate(targetName, name:"targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
+            try validate(self.targetName, name:"targetName", parent: name, max: 200)
+            try validate(self.targetName, name:"targetName", parent: name, min: 1)
+            try validate(self.targetName, name:"targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -769,27 +769,27 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try clientList?.forEach {
+            try self.clientList?.forEach {
                 try validate($0, name: "clientList[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))?$")
             }
-            try validate(clientList, name:"clientList", parent: name, max: 100)
-            try validate(clientList, name:"clientList", parent: name, min: 1)
-            try validate(clientToken, name:"clientToken", parent: name, max: 100)
-            try validate(clientToken, name:"clientToken", parent: name, min: 5)
-            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, max: 20)
-            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, min: 5)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
-            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
-            try validate(locationARN, name:"locationARN", parent: name, max: 310)
-            try validate(locationARN, name:"locationARN", parent: name, min: 16)
-            try nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
-            try validate(role, name:"role", parent: name, max: 2048)
-            try validate(role, name:"role", parent: name, min: 20)
-            try validate(squash, name:"squash", parent: name, max: 15)
-            try validate(squash, name:"squash", parent: name, min: 5)
-            try tags?.forEach {
+            try validate(self.clientList, name:"clientList", parent: name, max: 100)
+            try validate(self.clientList, name:"clientList", parent: name, min: 1)
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 100)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 5)
+            try validate(self.defaultStorageClass, name:"defaultStorageClass", parent: name, max: 20)
+            try validate(self.defaultStorageClass, name:"defaultStorageClass", parent: name, min: 5)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validate(self.locationARN, name:"locationARN", parent: name, max: 310)
+            try validate(self.locationARN, name:"locationARN", parent: name, min: 16)
+            try self.nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
+            try validate(self.role, name:"role", parent: name, max: 2048)
+            try validate(self.role, name:"role", parent: name, min: 20)
+            try validate(self.squash, name:"squash", parent: name, max: 15)
+            try validate(self.squash, name:"squash", parent: name, min: 5)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -907,41 +907,41 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try adminUserList?.forEach {
+            try self.adminUserList?.forEach {
                 try validate($0, name: "adminUserList[]", parent: name, max: 64)
                 try validate($0, name: "adminUserList[]", parent: name, min: 1)
             }
-            try validate(adminUserList, name:"adminUserList", parent: name, max: 100)
-            try validate(adminUserList, name:"adminUserList", parent: name, min: 0)
-            try validate(authentication, name:"authentication", parent: name, max: 15)
-            try validate(authentication, name:"authentication", parent: name, min: 5)
-            try validate(clientToken, name:"clientToken", parent: name, max: 100)
-            try validate(clientToken, name:"clientToken", parent: name, min: 5)
-            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, max: 20)
-            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, min: 5)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try invalidUserList?.forEach {
+            try validate(self.adminUserList, name:"adminUserList", parent: name, max: 100)
+            try validate(self.adminUserList, name:"adminUserList", parent: name, min: 0)
+            try validate(self.authentication, name:"authentication", parent: name, max: 15)
+            try validate(self.authentication, name:"authentication", parent: name, min: 5)
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 100)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 5)
+            try validate(self.defaultStorageClass, name:"defaultStorageClass", parent: name, max: 20)
+            try validate(self.defaultStorageClass, name:"defaultStorageClass", parent: name, min: 5)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try self.invalidUserList?.forEach {
                 try validate($0, name: "invalidUserList[]", parent: name, max: 64)
                 try validate($0, name: "invalidUserList[]", parent: name, min: 1)
             }
-            try validate(invalidUserList, name:"invalidUserList", parent: name, max: 100)
-            try validate(invalidUserList, name:"invalidUserList", parent: name, min: 0)
-            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
-            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
-            try validate(locationARN, name:"locationARN", parent: name, max: 310)
-            try validate(locationARN, name:"locationARN", parent: name, min: 16)
-            try validate(role, name:"role", parent: name, max: 2048)
-            try validate(role, name:"role", parent: name, min: 20)
-            try tags?.forEach {
+            try validate(self.invalidUserList, name:"invalidUserList", parent: name, max: 100)
+            try validate(self.invalidUserList, name:"invalidUserList", parent: name, min: 0)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validate(self.locationARN, name:"locationARN", parent: name, max: 310)
+            try validate(self.locationARN, name:"locationARN", parent: name, min: 16)
+            try validate(self.role, name:"role", parent: name, max: 2048)
+            try validate(self.role, name:"role", parent: name, min: 20)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validUserList?.forEach {
+            try self.validUserList?.forEach {
                 try validate($0, name: "validUserList[]", parent: name, max: 64)
                 try validate($0, name: "validUserList[]", parent: name, min: 1)
             }
-            try validate(validUserList, name:"validUserList", parent: name, max: 100)
-            try validate(validUserList, name:"validUserList", parent: name, min: 0)
+            try validate(self.validUserList, name:"validUserList", parent: name, max: 100)
+            try validate(self.validUserList, name:"validUserList", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -999,10 +999,10 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(snapshotDescription, name:"snapshotDescription", parent: name, max: 255)
-            try validate(snapshotDescription, name:"snapshotDescription", parent: name, min: 1)
-            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
-            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
+            try validate(self.snapshotDescription, name:"snapshotDescription", parent: name, max: 255)
+            try validate(self.snapshotDescription, name:"snapshotDescription", parent: name, min: 1)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1059,13 +1059,13 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(snapshotDescription, name:"snapshotDescription", parent: name, max: 255)
-            try validate(snapshotDescription, name:"snapshotDescription", parent: name, min: 1)
-            try tags?.forEach {
+            try validate(self.snapshotDescription, name:"snapshotDescription", parent: name, max: 255)
+            try validate(self.snapshotDescription, name:"snapshotDescription", parent: name, min: 1)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
-            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1141,20 +1141,20 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(diskId, name:"diskId", parent: name, max: 300)
-            try validate(diskId, name:"diskId", parent: name, min: 1)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
-            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
-            try validate(networkInterfaceId, name:"networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
-            try validate(snapshotId, name:"snapshotId", parent: name, pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
-            try tags?.forEach {
+            try validate(self.diskId, name:"diskId", parent: name, max: 300)
+            try validate(self.diskId, name:"diskId", parent: name, min: 1)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validate(self.networkInterfaceId, name:"networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
+            try validate(self.snapshotId, name:"snapshotId", parent: name, pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(targetName, name:"targetName", parent: name, max: 200)
-            try validate(targetName, name:"targetName", parent: name, min: 1)
-            try validate(targetName, name:"targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
+            try validate(self.targetName, name:"targetName", parent: name, max: 200)
+            try validate(self.targetName, name:"targetName", parent: name, min: 1)
+            try validate(self.targetName, name:"targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1234,18 +1234,18 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
-            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
-            try validate(poolId, name:"poolId", parent: name, max: 100)
-            try validate(poolId, name:"poolId", parent: name, min: 1)
-            try tags?.forEach {
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validate(self.poolId, name:"poolId", parent: name, max: 100)
+            try validate(self.poolId, name:"poolId", parent: name, min: 1)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tapeBarcode, name:"tapeBarcode", parent: name, max: 16)
-            try validate(tapeBarcode, name:"tapeBarcode", parent: name, min: 7)
-            try validate(tapeBarcode, name:"tapeBarcode", parent: name, pattern: "^[A-Z0-9]*$")
+            try validate(self.tapeBarcode, name:"tapeBarcode", parent: name, max: 16)
+            try validate(self.tapeBarcode, name:"tapeBarcode", parent: name, min: 7)
+            try validate(self.tapeBarcode, name:"tapeBarcode", parent: name, pattern: "^[A-Z0-9]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1321,22 +1321,22 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(clientToken, name:"clientToken", parent: name, max: 100)
-            try validate(clientToken, name:"clientToken", parent: name, min: 5)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
-            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
-            try validate(numTapesToCreate, name:"numTapesToCreate", parent: name, max: 10)
-            try validate(numTapesToCreate, name:"numTapesToCreate", parent: name, min: 1)
-            try validate(poolId, name:"poolId", parent: name, max: 100)
-            try validate(poolId, name:"poolId", parent: name, min: 1)
-            try tags?.forEach {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 100)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 5)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, min: 7)
+            try validate(self.numTapesToCreate, name:"numTapesToCreate", parent: name, max: 10)
+            try validate(self.numTapesToCreate, name:"numTapesToCreate", parent: name, min: 1)
+            try validate(self.poolId, name:"poolId", parent: name, max: 100)
+            try validate(self.poolId, name:"poolId", parent: name, min: 1)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tapeBarcodePrefix, name:"tapeBarcodePrefix", parent: name, max: 4)
-            try validate(tapeBarcodePrefix, name:"tapeBarcodePrefix", parent: name, min: 1)
-            try validate(tapeBarcodePrefix, name:"tapeBarcodePrefix", parent: name, pattern: "^[A-Z]*$")
+            try validate(self.tapeBarcodePrefix, name:"tapeBarcodePrefix", parent: name, max: 4)
+            try validate(self.tapeBarcodePrefix, name:"tapeBarcodePrefix", parent: name, min: 1)
+            try validate(self.tapeBarcodePrefix, name:"tapeBarcodePrefix", parent: name, pattern: "^[A-Z]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1385,10 +1385,10 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(bandwidthType, name:"bandwidthType", parent: name, max: 25)
-            try validate(bandwidthType, name:"bandwidthType", parent: name, min: 3)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.bandwidthType, name:"bandwidthType", parent: name, max: 25)
+            try validate(self.bandwidthType, name:"bandwidthType", parent: name, min: 3)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1430,11 +1430,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(initiatorName, name:"initiatorName", parent: name, max: 255)
-            try validate(initiatorName, name:"initiatorName", parent: name, min: 1)
-            try validate(initiatorName, name:"initiatorName", parent: name, pattern: "[0-9a-z:.-]+")
-            try validate(targetARN, name:"targetARN", parent: name, max: 800)
-            try validate(targetARN, name:"targetARN", parent: name, min: 50)
+            try validate(self.initiatorName, name:"initiatorName", parent: name, max: 255)
+            try validate(self.initiatorName, name:"initiatorName", parent: name, min: 1)
+            try validate(self.initiatorName, name:"initiatorName", parent: name, pattern: "[0-9a-z:.-]+")
+            try validate(self.targetARN, name:"targetARN", parent: name, max: 800)
+            try validate(self.targetARN, name:"targetARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1482,8 +1482,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(fileShareARN, name:"fileShareARN", parent: name, max: 500)
-            try validate(fileShareARN, name:"fileShareARN", parent: name, min: 50)
+            try validate(self.fileShareARN, name:"fileShareARN", parent: name, max: 500)
+            try validate(self.fileShareARN, name:"fileShareARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1521,8 +1521,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1559,8 +1559,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
-            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1598,9 +1598,9 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
-            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
-            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try validate(self.tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1642,11 +1642,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
-            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
-            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1685,8 +1685,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
-            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1723,8 +1723,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1770,8 +1770,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1838,7 +1838,7 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try volumeARNs.forEach {
+            try self.volumeARNs.forEach {
                 try validate($0, name: "volumeARNs[]", parent: name, max: 500)
                 try validate($0, name: "volumeARNs[]", parent: name, min: 50)
             }
@@ -1879,8 +1879,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(targetARN, name:"targetARN", parent: name, max: 800)
-            try validate(targetARN, name:"targetARN", parent: name, min: 50)
+            try validate(self.targetARN, name:"targetARN", parent: name, max: 800)
+            try validate(self.targetARN, name:"targetARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1917,8 +1917,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2014,8 +2014,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2077,12 +2077,12 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try fileShareARNList.forEach {
+            try self.fileShareARNList.forEach {
                 try validate($0, name: "fileShareARNList[]", parent: name, max: 500)
                 try validate($0, name: "fileShareARNList[]", parent: name, min: 50)
             }
-            try validate(fileShareARNList, name:"fileShareARNList", parent: name, max: 10)
-            try validate(fileShareARNList, name:"fileShareARNList", parent: name, min: 1)
+            try validate(self.fileShareARNList, name:"fileShareARNList", parent: name, max: 10)
+            try validate(self.fileShareARNList, name:"fileShareARNList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2120,12 +2120,12 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try fileShareARNList.forEach {
+            try self.fileShareARNList.forEach {
                 try validate($0, name: "fileShareARNList[]", parent: name, max: 500)
                 try validate($0, name: "fileShareARNList[]", parent: name, min: 50)
             }
-            try validate(fileShareARNList, name:"fileShareARNList", parent: name, max: 10)
-            try validate(fileShareARNList, name:"fileShareARNList", parent: name, min: 1)
+            try validate(self.fileShareARNList, name:"fileShareARNList", parent: name, max: 10)
+            try validate(self.fileShareARNList, name:"fileShareARNList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2162,8 +2162,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2215,8 +2215,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
-            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2274,7 +2274,7 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try volumeARNs.forEach {
+            try self.volumeARNs.forEach {
                 try validate($0, name: "volumeARNs[]", parent: name, max: 500)
                 try validate($0, name: "volumeARNs[]", parent: name, min: 50)
             }
@@ -2323,10 +2323,10 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1000)
-            try validate(marker, name:"marker", parent: name, min: 1)
-            try tapeARNs?.forEach {
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1000)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
+            try self.tapeARNs?.forEach {
                 try validate($0, name: "tapeARNs[]", parent: name, max: 500)
                 try validate($0, name: "tapeARNs[]", parent: name, min: 50)
                 try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
@@ -2382,11 +2382,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1000)
-            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1000)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2446,12 +2446,12 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1000)
-            try validate(marker, name:"marker", parent: name, min: 1)
-            try tapeARNs?.forEach {
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1000)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
+            try self.tapeARNs?.forEach {
                 try validate($0, name: "tapeARNs[]", parent: name, max: 500)
                 try validate($0, name: "tapeARNs[]", parent: name, min: 50)
                 try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
@@ -2500,8 +2500,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2564,12 +2564,12 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1000)
-            try validate(marker, name:"marker", parent: name, min: 1)
-            try vTLDeviceARNs?.forEach {
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1000)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
+            try self.vTLDeviceARNs?.forEach {
                 try validate($0, name: "vTLDeviceARNs[]", parent: name, max: 500)
                 try validate($0, name: "vTLDeviceARNs[]", parent: name, min: 50)
             }
@@ -2621,8 +2621,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2678,8 +2678,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
-            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2749,8 +2749,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2943,22 +2943,22 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try domainControllers?.forEach {
+            try self.domainControllers?.forEach {
                 try validate($0, name: "domainControllers[]", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])(:(\\d+))?$")
             }
-            try validate(domainName, name:"domainName", parent: name, max: 1024)
-            try validate(domainName, name:"domainName", parent: name, min: 1)
-            try validate(domainName, name:"domainName", parent: name, pattern: "^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z]{2,}$")
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(organizationalUnit, name:"organizationalUnit", parent: name, max: 1024)
-            try validate(organizationalUnit, name:"organizationalUnit", parent: name, min: 1)
-            try validate(password, name:"password", parent: name, max: 1024)
-            try validate(password, name:"password", parent: name, min: 1)
-            try validate(password, name:"password", parent: name, pattern: "^[ -~]+$")
-            try validate(userName, name:"userName", parent: name, max: 1024)
-            try validate(userName, name:"userName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "^\\w[\\w\\.\\- ]*$")
+            try validate(self.domainName, name:"domainName", parent: name, max: 1024)
+            try validate(self.domainName, name:"domainName", parent: name, min: 1)
+            try validate(self.domainName, name:"domainName", parent: name, pattern: "^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z]{2,}$")
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.organizationalUnit, name:"organizationalUnit", parent: name, max: 1024)
+            try validate(self.organizationalUnit, name:"organizationalUnit", parent: name, min: 1)
+            try validate(self.password, name:"password", parent: name, max: 1024)
+            try validate(self.password, name:"password", parent: name, min: 1)
+            try validate(self.password, name:"password", parent: name, pattern: "^[ -~]+$")
+            try validate(self.userName, name:"userName", parent: name, max: 1024)
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "^\\w[\\w\\.\\- ]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3009,11 +3009,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1000)
-            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1000)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3067,9 +3067,9 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1000)
-            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1000)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3112,8 +3112,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3163,11 +3163,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1000)
-            try validate(marker, name:"marker", parent: name, min: 1)
-            try validate(resourceARN, name:"resourceARN", parent: name, max: 500)
-            try validate(resourceARN, name:"resourceARN", parent: name, min: 50)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1000)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 500)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3224,10 +3224,10 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1000)
-            try validate(marker, name:"marker", parent: name, min: 1)
-            try tapeARNs?.forEach {
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1000)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
+            try self.tapeARNs?.forEach {
                 try validate($0, name: "tapeARNs[]", parent: name, max: 500)
                 try validate($0, name: "tapeARNs[]", parent: name, min: 50)
                 try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
@@ -3275,8 +3275,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
-            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3313,8 +3313,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3363,11 +3363,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1000)
-            try validate(marker, name:"marker", parent: name, min: 1)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1000)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3428,16 +3428,16 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(directoryMode, name:"directoryMode", parent: name, max: 4)
-            try validate(directoryMode, name:"directoryMode", parent: name, min: 1)
-            try validate(directoryMode, name:"directoryMode", parent: name, pattern: "^[0-7]{4}$")
-            try validate(fileMode, name:"fileMode", parent: name, max: 4)
-            try validate(fileMode, name:"fileMode", parent: name, min: 1)
-            try validate(fileMode, name:"fileMode", parent: name, pattern: "^[0-7]{4}$")
-            try validate(groupId, name:"groupId", parent: name, max: 4294967294)
-            try validate(groupId, name:"groupId", parent: name, min: 0)
-            try validate(ownerId, name:"ownerId", parent: name, max: 4294967294)
-            try validate(ownerId, name:"ownerId", parent: name, min: 0)
+            try validate(self.directoryMode, name:"directoryMode", parent: name, max: 4)
+            try validate(self.directoryMode, name:"directoryMode", parent: name, min: 1)
+            try validate(self.directoryMode, name:"directoryMode", parent: name, pattern: "^[0-7]{4}$")
+            try validate(self.fileMode, name:"fileMode", parent: name, max: 4)
+            try validate(self.fileMode, name:"fileMode", parent: name, min: 1)
+            try validate(self.fileMode, name:"fileMode", parent: name, pattern: "^[0-7]{4}$")
+            try validate(self.groupId, name:"groupId", parent: name, max: 4294967294)
+            try validate(self.groupId, name:"groupId", parent: name, min: 0)
+            try validate(self.ownerId, name:"ownerId", parent: name, max: 4294967294)
+            try validate(self.ownerId, name:"ownerId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3577,8 +3577,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(fileShareARN, name:"fileShareARN", parent: name, max: 500)
-            try validate(fileShareARN, name:"fileShareARN", parent: name, min: 50)
+            try validate(self.fileShareARN, name:"fileShareARN", parent: name, max: 500)
+            try validate(self.fileShareARN, name:"fileShareARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3638,14 +3638,14 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(fileShareARN, name:"fileShareARN", parent: name, max: 500)
-            try validate(fileShareARN, name:"fileShareARN", parent: name, min: 50)
-            try folderList?.forEach {
+            try validate(self.fileShareARN, name:"fileShareARN", parent: name, max: 500)
+            try validate(self.fileShareARN, name:"fileShareARN", parent: name, min: 50)
+            try self.folderList?.forEach {
                 try validate($0, name: "folderList[]", parent: name, max: 1024)
                 try validate($0, name: "folderList[]", parent: name, min: 1)
             }
-            try validate(folderList, name:"folderList", parent: name, max: 50)
-            try validate(folderList, name:"folderList", parent: name, min: 1)
+            try validate(self.folderList, name:"folderList", parent: name, max: 50)
+            try validate(self.folderList, name:"folderList", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3692,9 +3692,9 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceARN, name:"resourceARN", parent: name, max: 500)
-            try validate(resourceARN, name:"resourceARN", parent: name, min: 50)
-            try tagKeys.forEach {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 500)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 50)
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -3736,8 +3736,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3778,11 +3778,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
-            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
-            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3824,11 +3824,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(tapeARN, name:"tapeARN", parent: name, max: 500)
-            try validate(tapeARN, name:"tapeARN", parent: name, min: 50)
-            try validate(tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, max: 500)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, min: 50)
+            try validate(self.tapeARN, name:"tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3980,11 +3980,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(localConsolePassword, name:"localConsolePassword", parent: name, max: 512)
-            try validate(localConsolePassword, name:"localConsolePassword", parent: name, min: 6)
-            try validate(localConsolePassword, name:"localConsolePassword", parent: name, pattern: "^[ -~]+$")
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.localConsolePassword, name:"localConsolePassword", parent: name, max: 512)
+            try validate(self.localConsolePassword, name:"localConsolePassword", parent: name, min: 6)
+            try validate(self.localConsolePassword, name:"localConsolePassword", parent: name, pattern: "^[ -~]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4026,11 +4026,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(password, name:"password", parent: name, max: 512)
-            try validate(password, name:"password", parent: name, min: 6)
-            try validate(password, name:"password", parent: name, pattern: "^[ -~]+$")
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.password, name:"password", parent: name, max: 512)
+            try validate(self.password, name:"password", parent: name, min: 6)
+            try validate(self.password, name:"password", parent: name, pattern: "^[ -~]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4067,8 +4067,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4104,8 +4104,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4232,10 +4232,10 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(value, name:"value", parent: name, max: 256)
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.value, name:"value", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4460,10 +4460,10 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(averageDownloadRateLimitInBitsPerSec, name:"averageDownloadRateLimitInBitsPerSec", parent: name, min: 102400)
-            try validate(averageUploadRateLimitInBitsPerSec, name:"averageUploadRateLimitInBitsPerSec", parent: name, min: 51200)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.averageDownloadRateLimitInBitsPerSec, name:"averageDownloadRateLimitInBitsPerSec", parent: name, min: 102400)
+            try validate(self.averageUploadRateLimitInBitsPerSec, name:"averageUploadRateLimitInBitsPerSec", parent: name, min: 51200)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4514,15 +4514,15 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(initiatorName, name:"initiatorName", parent: name, max: 255)
-            try validate(initiatorName, name:"initiatorName", parent: name, min: 1)
-            try validate(initiatorName, name:"initiatorName", parent: name, pattern: "[0-9a-z:.-]+")
-            try validate(secretToAuthenticateInitiator, name:"secretToAuthenticateInitiator", parent: name, max: 100)
-            try validate(secretToAuthenticateInitiator, name:"secretToAuthenticateInitiator", parent: name, min: 1)
-            try validate(secretToAuthenticateTarget, name:"secretToAuthenticateTarget", parent: name, max: 100)
-            try validate(secretToAuthenticateTarget, name:"secretToAuthenticateTarget", parent: name, min: 1)
-            try validate(targetARN, name:"targetARN", parent: name, max: 800)
-            try validate(targetARN, name:"targetARN", parent: name, min: 50)
+            try validate(self.initiatorName, name:"initiatorName", parent: name, max: 255)
+            try validate(self.initiatorName, name:"initiatorName", parent: name, min: 1)
+            try validate(self.initiatorName, name:"initiatorName", parent: name, pattern: "[0-9a-z:.-]+")
+            try validate(self.secretToAuthenticateInitiator, name:"secretToAuthenticateInitiator", parent: name, max: 100)
+            try validate(self.secretToAuthenticateInitiator, name:"secretToAuthenticateInitiator", parent: name, min: 1)
+            try validate(self.secretToAuthenticateTarget, name:"secretToAuthenticateTarget", parent: name, max: 100)
+            try validate(self.secretToAuthenticateTarget, name:"secretToAuthenticateTarget", parent: name, min: 1)
+            try validate(self.targetARN, name:"targetARN", parent: name, max: 800)
+            try validate(self.targetARN, name:"targetARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4574,13 +4574,13 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(gatewayName, name:"gatewayName", parent: name, max: 255)
-            try validate(gatewayName, name:"gatewayName", parent: name, min: 2)
-            try validate(gatewayName, name:"gatewayName", parent: name, pattern: "^[ -\\.0-\\[\\]-~]*[!-\\.0-\\[\\]-~][ -\\.0-\\[\\]-~]*$")
-            try validate(gatewayTimezone, name:"gatewayTimezone", parent: name, max: 10)
-            try validate(gatewayTimezone, name:"gatewayTimezone", parent: name, min: 3)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayName, name:"gatewayName", parent: name, max: 255)
+            try validate(self.gatewayName, name:"gatewayName", parent: name, min: 2)
+            try validate(self.gatewayName, name:"gatewayName", parent: name, pattern: "^[ -\\.0-\\[\\]-~]*[!-\\.0-\\[\\]-~][ -\\.0-\\[\\]-~]*$")
+            try validate(self.gatewayTimezone, name:"gatewayTimezone", parent: name, max: 10)
+            try validate(self.gatewayTimezone, name:"gatewayTimezone", parent: name, min: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4623,8 +4623,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4676,16 +4676,16 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(dayOfMonth, name:"dayOfMonth", parent: name, max: 28)
-            try validate(dayOfMonth, name:"dayOfMonth", parent: name, min: 1)
-            try validate(dayOfWeek, name:"dayOfWeek", parent: name, max: 6)
-            try validate(dayOfWeek, name:"dayOfWeek", parent: name, min: 0)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
-            try validate(hourOfDay, name:"hourOfDay", parent: name, max: 23)
-            try validate(hourOfDay, name:"hourOfDay", parent: name, min: 0)
-            try validate(minuteOfHour, name:"minuteOfHour", parent: name, max: 59)
-            try validate(minuteOfHour, name:"minuteOfHour", parent: name, min: 0)
+            try validate(self.dayOfMonth, name:"dayOfMonth", parent: name, max: 28)
+            try validate(self.dayOfMonth, name:"dayOfMonth", parent: name, min: 1)
+            try validate(self.dayOfWeek, name:"dayOfWeek", parent: name, max: 6)
+            try validate(self.dayOfWeek, name:"dayOfWeek", parent: name, min: 0)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.hourOfDay, name:"hourOfDay", parent: name, max: 23)
+            try validate(self.hourOfDay, name:"hourOfDay", parent: name, min: 0)
+            try validate(self.minuteOfHour, name:"minuteOfHour", parent: name, max: 59)
+            try validate(self.minuteOfHour, name:"minuteOfHour", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4766,20 +4766,20 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try clientList?.forEach {
+            try self.clientList?.forEach {
                 try validate($0, name: "clientList[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))?$")
             }
-            try validate(clientList, name:"clientList", parent: name, max: 100)
-            try validate(clientList, name:"clientList", parent: name, min: 1)
-            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, max: 20)
-            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, min: 5)
-            try validate(fileShareARN, name:"fileShareARN", parent: name, max: 500)
-            try validate(fileShareARN, name:"fileShareARN", parent: name, min: 50)
-            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
-            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
-            try nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
-            try validate(squash, name:"squash", parent: name, max: 15)
-            try validate(squash, name:"squash", parent: name, min: 5)
+            try validate(self.clientList, name:"clientList", parent: name, max: 100)
+            try validate(self.clientList, name:"clientList", parent: name, min: 1)
+            try validate(self.defaultStorageClass, name:"defaultStorageClass", parent: name, max: 20)
+            try validate(self.defaultStorageClass, name:"defaultStorageClass", parent: name, min: 5)
+            try validate(self.fileShareARN, name:"fileShareARN", parent: name, max: 500)
+            try validate(self.fileShareARN, name:"fileShareARN", parent: name, min: 50)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, min: 7)
+            try self.nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
+            try validate(self.squash, name:"squash", parent: name, max: 15)
+            try validate(self.squash, name:"squash", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4871,30 +4871,30 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try adminUserList?.forEach {
+            try self.adminUserList?.forEach {
                 try validate($0, name: "adminUserList[]", parent: name, max: 64)
                 try validate($0, name: "adminUserList[]", parent: name, min: 1)
             }
-            try validate(adminUserList, name:"adminUserList", parent: name, max: 100)
-            try validate(adminUserList, name:"adminUserList", parent: name, min: 0)
-            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, max: 20)
-            try validate(defaultStorageClass, name:"defaultStorageClass", parent: name, min: 5)
-            try validate(fileShareARN, name:"fileShareARN", parent: name, max: 500)
-            try validate(fileShareARN, name:"fileShareARN", parent: name, min: 50)
-            try invalidUserList?.forEach {
+            try validate(self.adminUserList, name:"adminUserList", parent: name, max: 100)
+            try validate(self.adminUserList, name:"adminUserList", parent: name, min: 0)
+            try validate(self.defaultStorageClass, name:"defaultStorageClass", parent: name, max: 20)
+            try validate(self.defaultStorageClass, name:"defaultStorageClass", parent: name, min: 5)
+            try validate(self.fileShareARN, name:"fileShareARN", parent: name, max: 500)
+            try validate(self.fileShareARN, name:"fileShareARN", parent: name, min: 50)
+            try self.invalidUserList?.forEach {
                 try validate($0, name: "invalidUserList[]", parent: name, max: 64)
                 try validate($0, name: "invalidUserList[]", parent: name, min: 1)
             }
-            try validate(invalidUserList, name:"invalidUserList", parent: name, max: 100)
-            try validate(invalidUserList, name:"invalidUserList", parent: name, min: 0)
-            try validate(kMSKey, name:"kMSKey", parent: name, max: 2048)
-            try validate(kMSKey, name:"kMSKey", parent: name, min: 7)
-            try validUserList?.forEach {
+            try validate(self.invalidUserList, name:"invalidUserList", parent: name, max: 100)
+            try validate(self.invalidUserList, name:"invalidUserList", parent: name, min: 0)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, min: 7)
+            try self.validUserList?.forEach {
                 try validate($0, name: "validUserList[]", parent: name, max: 64)
                 try validate($0, name: "validUserList[]", parent: name, min: 1)
             }
-            try validate(validUserList, name:"validUserList", parent: name, max: 100)
-            try validate(validUserList, name:"validUserList", parent: name, min: 0)
+            try validate(self.validUserList, name:"validUserList", parent: name, max: 100)
+            try validate(self.validUserList, name:"validUserList", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4946,8 +4946,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(gatewayARN, name:"gatewayARN", parent: name, max: 500)
-            try validate(gatewayARN, name:"gatewayARN", parent: name, min: 50)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5001,17 +5001,17 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 255)
-            try validate(description, name:"description", parent: name, min: 1)
-            try validate(recurrenceInHours, name:"recurrenceInHours", parent: name, max: 24)
-            try validate(recurrenceInHours, name:"recurrenceInHours", parent: name, min: 1)
-            try validate(startAt, name:"startAt", parent: name, max: 23)
-            try validate(startAt, name:"startAt", parent: name, min: 0)
-            try tags?.forEach {
+            try validate(self.description, name:"description", parent: name, max: 255)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.recurrenceInHours, name:"recurrenceInHours", parent: name, max: 24)
+            try validate(self.recurrenceInHours, name:"recurrenceInHours", parent: name, min: 1)
+            try validate(self.startAt, name:"startAt", parent: name, max: 23)
+            try validate(self.startAt, name:"startAt", parent: name, min: 0)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(volumeARN, name:"volumeARN", parent: name, max: 500)
-            try validate(volumeARN, name:"volumeARN", parent: name, min: 50)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, max: 500)
+            try validate(self.volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5057,10 +5057,10 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try validate(deviceType, name:"deviceType", parent: name, max: 50)
-            try validate(deviceType, name:"deviceType", parent: name, min: 2)
-            try validate(vTLDeviceARN, name:"vTLDeviceARN", parent: name, max: 500)
-            try validate(vTLDeviceARN, name:"vTLDeviceARN", parent: name, min: 50)
+            try validate(self.deviceType, name:"deviceType", parent: name, max: 50)
+            try validate(self.deviceType, name:"deviceType", parent: name, min: 2)
+            try validate(self.vTLDeviceARN, name:"vTLDeviceARN", parent: name, max: 500)
+            try validate(self.vTLDeviceARN, name:"vTLDeviceARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {

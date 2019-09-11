@@ -36,3 +36,22 @@ extension PersonalizeErrorType {
         }
     }
 }
+
+extension PersonalizeErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .invalidInputException(let message):
+            return "InvalidInputException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

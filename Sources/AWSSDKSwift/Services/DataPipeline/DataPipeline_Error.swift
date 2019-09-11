@@ -33,3 +33,20 @@ extension DataPipelineErrorType {
         }
     }
 }
+
+extension DataPipelineErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalServiceError(let message):
+            return "InternalServiceError: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .pipelineDeletedException(let message):
+            return "PipelineDeletedException: \(message ?? "")"
+        case .pipelineNotFoundException(let message):
+            return "PipelineNotFoundException: \(message ?? "")"
+        case .taskNotFoundException(let message):
+            return "TaskNotFoundException: \(message ?? "")"
+        }
+    }
+}

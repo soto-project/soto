@@ -39,3 +39,24 @@ extension S3ErrorType {
         }
     }
 }
+
+extension S3ErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .bucketAlreadyExists(let message):
+            return "BucketAlreadyExists: \(message ?? "")"
+        case .bucketAlreadyOwnedByYou(let message):
+            return "BucketAlreadyOwnedByYou: \(message ?? "")"
+        case .noSuchBucket(let message):
+            return "NoSuchBucket: \(message ?? "")"
+        case .noSuchKey(let message):
+            return "NoSuchKey: \(message ?? "")"
+        case .noSuchUpload(let message):
+            return "NoSuchUpload: \(message ?? "")"
+        case .objectAlreadyInActiveTierError(let message):
+            return "ObjectAlreadyInActiveTierError: \(message ?? "")"
+        case .objectNotInActiveTierError(let message):
+            return "ObjectNotInActiveTierError: \(message ?? "")"
+        }
+    }
+}

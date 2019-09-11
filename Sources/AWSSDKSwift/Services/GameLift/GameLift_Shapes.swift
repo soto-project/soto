@@ -26,12 +26,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try playerIds.forEach {
+            try self.playerIds.forEach {
                 try validate($0, name: "playerIds[]", parent: name, max: 1024)
                 try validate($0, name: "playerIds[]", parent: name, min: 1)
             }
-            try validate(ticketId, name:"ticketId", parent: name, max: 128)
-            try validate(ticketId, name:"ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.ticketId, name:"ticketId", parent: name, max: 128)
+            try validate(self.ticketId, name:"ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -127,13 +127,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(s, name:"s", parent: name, max: 1024)
-            try validate(s, name:"s", parent: name, min: 1)
-            try sdm?.forEach {
+            try validate(self.s, name:"s", parent: name, max: 1024)
+            try validate(self.s, name:"s", parent: name, min: 1)
+            try self.sdm?.forEach {
                 try validate($0.key, name:"sdm.key", parent: name, max: 1024)
                 try validate($0.key, name:"sdm.key", parent: name, min: 1)
             }
-            try sl?.forEach {
+            try self.sl?.forEach {
                 try validate($0, name: "sl[]", parent: name, max: 1024)
                 try validate($0, name: "sl[]", parent: name, min: 1)
             }
@@ -263,12 +263,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(description, name:"description", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
-            try routingStrategy.validate(name: "\(name).routingStrategy")
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+            try self.routingStrategy.validate(name: "\(name).routingStrategy")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -320,11 +320,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
-            try storageLocation?.validate(name: "\(name).storageLocation")
-            try validate(version, name:"version", parent: name, max: 1024)
-            try validate(version, name:"version", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try self.storageLocation?.validate(name: "\(name).storageLocation")
+            try validate(self.version, name:"version", parent: name, max: 1024)
+            try validate(self.version, name:"version", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -439,36 +439,36 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(buildId, name:"buildId", parent: name, pattern: "^build-\\S+")
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(description, name:"description", parent: name, min: 1)
-            try eC2InboundPermissions?.forEach {
+            try validate(self.buildId, name:"buildId", parent: name, pattern: "^build-\\S+")
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try self.eC2InboundPermissions?.forEach {
                 try $0.validate(name: "\(name).eC2InboundPermissions[]")
             }
-            try validate(eC2InboundPermissions, name:"eC2InboundPermissions", parent: name, max: 50)
-            try validate(instanceRoleArn, name:"instanceRoleArn", parent: name, min: 1)
-            try logPaths?.forEach {
+            try validate(self.eC2InboundPermissions, name:"eC2InboundPermissions", parent: name, max: 50)
+            try validate(self.instanceRoleArn, name:"instanceRoleArn", parent: name, min: 1)
+            try self.logPaths?.forEach {
                 try validate($0, name: "logPaths[]", parent: name, max: 1024)
                 try validate($0, name: "logPaths[]", parent: name, min: 1)
             }
-            try metricGroups?.forEach {
+            try self.metricGroups?.forEach {
                 try validate($0, name: "metricGroups[]", parent: name, max: 255)
                 try validate($0, name: "metricGroups[]", parent: name, min: 1)
             }
-            try validate(metricGroups, name:"metricGroups", parent: name, max: 1)
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(peerVpcAwsAccountId, name:"peerVpcAwsAccountId", parent: name, max: 1024)
-            try validate(peerVpcAwsAccountId, name:"peerVpcAwsAccountId", parent: name, min: 1)
-            try validate(peerVpcId, name:"peerVpcId", parent: name, max: 1024)
-            try validate(peerVpcId, name:"peerVpcId", parent: name, min: 1)
-            try resourceCreationLimitPolicy?.validate(name: "\(name).resourceCreationLimitPolicy")
-            try runtimeConfiguration?.validate(name: "\(name).runtimeConfiguration")
-            try validate(scriptId, name:"scriptId", parent: name, pattern: "^script-\\S+|^arn:.*script-\\S+")
-            try validate(serverLaunchParameters, name:"serverLaunchParameters", parent: name, max: 1024)
-            try validate(serverLaunchParameters, name:"serverLaunchParameters", parent: name, min: 1)
-            try validate(serverLaunchPath, name:"serverLaunchPath", parent: name, max: 1024)
-            try validate(serverLaunchPath, name:"serverLaunchPath", parent: name, min: 1)
+            try validate(self.metricGroups, name:"metricGroups", parent: name, max: 1)
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.peerVpcAwsAccountId, name:"peerVpcAwsAccountId", parent: name, max: 1024)
+            try validate(self.peerVpcAwsAccountId, name:"peerVpcAwsAccountId", parent: name, min: 1)
+            try validate(self.peerVpcId, name:"peerVpcId", parent: name, max: 1024)
+            try validate(self.peerVpcId, name:"peerVpcId", parent: name, min: 1)
+            try self.resourceCreationLimitPolicy?.validate(name: "\(name).resourceCreationLimitPolicy")
+            try self.runtimeConfiguration?.validate(name: "\(name).runtimeConfiguration")
+            try validate(self.scriptId, name:"scriptId", parent: name, pattern: "^script-\\S+|^arn:.*script-\\S+")
+            try validate(self.serverLaunchParameters, name:"serverLaunchParameters", parent: name, max: 1024)
+            try validate(self.serverLaunchParameters, name:"serverLaunchParameters", parent: name, min: 1)
+            try validate(self.serverLaunchPath, name:"serverLaunchPath", parent: name, max: 1024)
+            try validate(self.serverLaunchPath, name:"serverLaunchPath", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -554,25 +554,25 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
-            try validate(creatorId, name:"creatorId", parent: name, max: 1024)
-            try validate(creatorId, name:"creatorId", parent: name, min: 1)
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try gameProperties?.forEach {
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
+            try validate(self.creatorId, name:"creatorId", parent: name, max: 1024)
+            try validate(self.creatorId, name:"creatorId", parent: name, min: 1)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
-            try validate(gameProperties, name:"gameProperties", parent: name, max: 16)
-            try validate(gameSessionData, name:"gameSessionData", parent: name, max: 4096)
-            try validate(gameSessionData, name:"gameSessionData", parent: name, min: 1)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, max: 48)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, min: 1)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9-]+")
-            try validate(idempotencyToken, name:"idempotencyToken", parent: name, max: 48)
-            try validate(idempotencyToken, name:"idempotencyToken", parent: name, min: 1)
-            try validate(idempotencyToken, name:"idempotencyToken", parent: name, pattern: "[a-zA-Z0-9-]+")
-            try validate(maximumPlayerSessionCount, name:"maximumPlayerSessionCount", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.gameProperties, name:"gameProperties", parent: name, max: 16)
+            try validate(self.gameSessionData, name:"gameSessionData", parent: name, max: 4096)
+            try validate(self.gameSessionData, name:"gameSessionData", parent: name, min: 1)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, max: 48)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, min: 1)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try validate(self.idempotencyToken, name:"idempotencyToken", parent: name, max: 48)
+            try validate(self.idempotencyToken, name:"idempotencyToken", parent: name, min: 1)
+            try validate(self.idempotencyToken, name:"idempotencyToken", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try validate(self.maximumPlayerSessionCount, name:"maximumPlayerSessionCount", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -630,16 +630,16 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try destinations?.forEach {
+            try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9-]+")
-            try playerLatencyPolicies?.forEach {
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try self.playerLatencyPolicies?.forEach {
                 try $0.validate(name: "\(name).playerLatencyPolicies[]")
             }
-            try validate(timeoutInSeconds, name:"timeoutInSeconds", parent: name, min: 0)
+            try validate(self.timeoutInSeconds, name:"timeoutInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -728,33 +728,33 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(acceptanceTimeoutSeconds, name:"acceptanceTimeoutSeconds", parent: name, max: 600)
-            try validate(acceptanceTimeoutSeconds, name:"acceptanceTimeoutSeconds", parent: name, min: 1)
-            try validate(additionalPlayerCount, name:"additionalPlayerCount", parent: name, min: 0)
-            try validate(customEventData, name:"customEventData", parent: name, max: 256)
-            try validate(customEventData, name:"customEventData", parent: name, min: 0)
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(description, name:"description", parent: name, min: 1)
-            try gameProperties?.forEach {
+            try validate(self.acceptanceTimeoutSeconds, name:"acceptanceTimeoutSeconds", parent: name, max: 600)
+            try validate(self.acceptanceTimeoutSeconds, name:"acceptanceTimeoutSeconds", parent: name, min: 1)
+            try validate(self.additionalPlayerCount, name:"additionalPlayerCount", parent: name, min: 0)
+            try validate(self.customEventData, name:"customEventData", parent: name, max: 256)
+            try validate(self.customEventData, name:"customEventData", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
-            try validate(gameProperties, name:"gameProperties", parent: name, max: 16)
-            try validate(gameSessionData, name:"gameSessionData", parent: name, max: 4096)
-            try validate(gameSessionData, name:"gameSessionData", parent: name, min: 1)
-            try gameSessionQueueArns.forEach {
+            try validate(self.gameProperties, name:"gameProperties", parent: name, max: 16)
+            try validate(self.gameSessionData, name:"gameSessionData", parent: name, max: 4096)
+            try validate(self.gameSessionData, name:"gameSessionData", parent: name, min: 1)
+            try self.gameSessionQueueArns.forEach {
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, max: 256)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, min: 1)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, pattern: "[a-zA-Z0-9:/-]+")
             }
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
-            try validate(notificationTarget, name:"notificationTarget", parent: name, max: 300)
-            try validate(notificationTarget, name:"notificationTarget", parent: name, min: 0)
-            try validate(notificationTarget, name:"notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_/-]*")
-            try validate(requestTimeoutSeconds, name:"requestTimeoutSeconds", parent: name, max: 43200)
-            try validate(requestTimeoutSeconds, name:"requestTimeoutSeconds", parent: name, min: 1)
-            try validate(ruleSetName, name:"ruleSetName", parent: name, max: 128)
-            try validate(ruleSetName, name:"ruleSetName", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.notificationTarget, name:"notificationTarget", parent: name, max: 300)
+            try validate(self.notificationTarget, name:"notificationTarget", parent: name, min: 0)
+            try validate(self.notificationTarget, name:"notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_/-]*")
+            try validate(self.requestTimeoutSeconds, name:"requestTimeoutSeconds", parent: name, max: 43200)
+            try validate(self.requestTimeoutSeconds, name:"requestTimeoutSeconds", parent: name, min: 1)
+            try validate(self.ruleSetName, name:"ruleSetName", parent: name, max: 128)
+            try validate(self.ruleSetName, name:"ruleSetName", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -808,10 +808,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
-            try validate(ruleSetBody, name:"ruleSetBody", parent: name, max: 65535)
-            try validate(ruleSetBody, name:"ruleSetBody", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.ruleSetBody, name:"ruleSetBody", parent: name, max: 65535)
+            try validate(self.ruleSetBody, name:"ruleSetBody", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -858,13 +858,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(gameSessionId, name:"gameSessionId", parent: name, max: 256)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, min: 1)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
-            try validate(playerData, name:"playerData", parent: name, max: 2048)
-            try validate(playerData, name:"playerData", parent: name, min: 1)
-            try validate(playerId, name:"playerId", parent: name, max: 1024)
-            try validate(playerId, name:"playerId", parent: name, min: 1)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, max: 256)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, min: 1)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try validate(self.playerData, name:"playerData", parent: name, max: 2048)
+            try validate(self.playerData, name:"playerData", parent: name, min: 1)
+            try validate(self.playerId, name:"playerId", parent: name, max: 1024)
+            try validate(self.playerId, name:"playerId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -912,21 +912,21 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(gameSessionId, name:"gameSessionId", parent: name, max: 256)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, min: 1)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
-            try playerDataMap?.forEach {
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, max: 256)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, min: 1)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try self.playerDataMap?.forEach {
                 try validate($0.key, name:"playerDataMap.key", parent: name, max: 1024)
                 try validate($0.key, name:"playerDataMap.key", parent: name, min: 1)
                 try validate($0.value, name:"playerDataMap[\"\($0.key)\"]", parent: name, max: 2048)
                 try validate($0.value, name:"playerDataMap[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try playerIds.forEach {
+            try self.playerIds.forEach {
                 try validate($0, name: "playerIds[]", parent: name, max: 1024)
                 try validate($0, name: "playerIds[]", parent: name, min: 1)
             }
-            try validate(playerIds, name:"playerIds", parent: name, max: 25)
-            try validate(playerIds, name:"playerIds", parent: name, min: 1)
+            try validate(self.playerIds, name:"playerIds", parent: name, max: 25)
+            try validate(self.playerIds, name:"playerIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -978,12 +978,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
-            try storageLocation?.validate(name: "\(name).storageLocation")
-            try validate(version, name:"version", parent: name, max: 1024)
-            try validate(version, name:"version", parent: name, min: 1)
-            try validate(zipFile, name:"zipFile", parent: name, max: 5000000)
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try self.storageLocation?.validate(name: "\(name).storageLocation")
+            try validate(self.version, name:"version", parent: name, max: 1024)
+            try validate(self.version, name:"version", parent: name, min: 1)
+            try validate(self.zipFile, name:"zipFile", parent: name, max: 5000000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1028,10 +1028,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(gameLiftAwsAccountId, name:"gameLiftAwsAccountId", parent: name, max: 1024)
-            try validate(gameLiftAwsAccountId, name:"gameLiftAwsAccountId", parent: name, min: 1)
-            try validate(peerVpcId, name:"peerVpcId", parent: name, max: 1024)
-            try validate(peerVpcId, name:"peerVpcId", parent: name, min: 1)
+            try validate(self.gameLiftAwsAccountId, name:"gameLiftAwsAccountId", parent: name, max: 1024)
+            try validate(self.gameLiftAwsAccountId, name:"gameLiftAwsAccountId", parent: name, min: 1)
+            try validate(self.peerVpcId, name:"peerVpcId", parent: name, max: 1024)
+            try validate(self.peerVpcId, name:"peerVpcId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1078,11 +1078,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try validate(peerVpcAwsAccountId, name:"peerVpcAwsAccountId", parent: name, max: 1024)
-            try validate(peerVpcAwsAccountId, name:"peerVpcAwsAccountId", parent: name, min: 1)
-            try validate(peerVpcId, name:"peerVpcId", parent: name, max: 1024)
-            try validate(peerVpcId, name:"peerVpcId", parent: name, min: 1)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.peerVpcAwsAccountId, name:"peerVpcAwsAccountId", parent: name, max: 1024)
+            try validate(self.peerVpcAwsAccountId, name:"peerVpcAwsAccountId", parent: name, min: 1)
+            try validate(self.peerVpcId, name:"peerVpcId", parent: name, max: 1024)
+            try validate(self.peerVpcId, name:"peerVpcId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1113,7 +1113,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1134,7 +1134,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(buildId, name:"buildId", parent: name, pattern: "^build-\\S+")
+            try validate(self.buildId, name:"buildId", parent: name, pattern: "^build-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1155,7 +1155,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1176,9 +1176,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1207,8 +1207,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1237,8 +1237,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1271,9 +1271,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1295,7 +1295,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(scriptId, name:"scriptId", parent: name, pattern: "^script-\\S+|^arn:.*script-\\S+")
+            try validate(self.scriptId, name:"scriptId", parent: name, pattern: "^script-\\S+|^arn:.*script-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1320,10 +1320,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(gameLiftAwsAccountId, name:"gameLiftAwsAccountId", parent: name, max: 1024)
-            try validate(gameLiftAwsAccountId, name:"gameLiftAwsAccountId", parent: name, min: 1)
-            try validate(peerVpcId, name:"peerVpcId", parent: name, max: 1024)
-            try validate(peerVpcId, name:"peerVpcId", parent: name, min: 1)
+            try validate(self.gameLiftAwsAccountId, name:"gameLiftAwsAccountId", parent: name, max: 1024)
+            try validate(self.gameLiftAwsAccountId, name:"gameLiftAwsAccountId", parent: name, min: 1)
+            try validate(self.peerVpcId, name:"peerVpcId", parent: name, max: 1024)
+            try validate(self.peerVpcId, name:"peerVpcId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1357,9 +1357,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try validate(vpcPeeringConnectionId, name:"vpcPeeringConnectionId", parent: name, max: 1024)
-            try validate(vpcPeeringConnectionId, name:"vpcPeeringConnectionId", parent: name, min: 1)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.vpcPeeringConnectionId, name:"vpcPeeringConnectionId", parent: name, max: 1024)
+            try validate(self.vpcPeeringConnectionId, name:"vpcPeeringConnectionId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1389,7 +1389,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1427,7 +1427,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(buildId, name:"buildId", parent: name, pattern: "^build-\\S+")
+            try validate(self.buildId, name:"buildId", parent: name, pattern: "^build-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1507,13 +1507,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try fleetIds?.forEach {
+            try self.fleetIds?.forEach {
                 try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-\\S+")
             }
-            try validate(fleetIds, name:"fleetIds", parent: name, min: 1)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.fleetIds, name:"fleetIds", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1566,13 +1566,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try fleetIds?.forEach {
+            try self.fleetIds?.forEach {
                 try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-\\S+")
             }
-            try validate(fleetIds, name:"fleetIds", parent: name, min: 1)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.fleetIds, name:"fleetIds", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1633,10 +1633,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1683,7 +1683,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1729,13 +1729,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try fleetIds?.forEach {
+            try self.fleetIds?.forEach {
                 try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-\\S+")
             }
-            try validate(fleetIds, name:"fleetIds", parent: name, min: 1)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.fleetIds, name:"fleetIds", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1800,16 +1800,16 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try validate(gameSessionId, name:"gameSessionId", parent: name, max: 256)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, min: 1)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(statusFilter, name:"statusFilter", parent: name, max: 1024)
-            try validate(statusFilter, name:"statusFilter", parent: name, min: 1)
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, max: 256)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, min: 1)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.statusFilter, name:"statusFilter", parent: name, max: 1024)
+            try validate(self.statusFilter, name:"statusFilter", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1857,9 +1857,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(placementId, name:"placementId", parent: name, max: 48)
-            try validate(placementId, name:"placementId", parent: name, min: 1)
-            try validate(placementId, name:"placementId", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try validate(self.placementId, name:"placementId", parent: name, max: 48)
+            try validate(self.placementId, name:"placementId", parent: name, min: 1)
+            try validate(self.placementId, name:"placementId", parent: name, pattern: "[a-zA-Z0-9-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1905,14 +1905,14 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try names?.forEach {
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, max: 128)
                 try validate($0, name: "names[]", parent: name, min: 1)
                 try validate($0, name: "names[]", parent: name, pattern: "[a-zA-Z0-9-]+")
             }
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1977,16 +1977,16 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try validate(gameSessionId, name:"gameSessionId", parent: name, max: 256)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, min: 1)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(statusFilter, name:"statusFilter", parent: name, max: 1024)
-            try validate(statusFilter, name:"statusFilter", parent: name, min: 1)
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, max: 256)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, min: 1)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.statusFilter, name:"statusFilter", parent: name, max: 1024)
+            try validate(self.statusFilter, name:"statusFilter", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2046,11 +2046,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "[a-zA-Z0-9\\.-]+")
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "[a-zA-Z0-9\\.-]+")
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2108,15 +2108,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try names?.forEach {
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, max: 128)
                 try validate($0, name: "names[]", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
             }
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(ruleSetName, name:"ruleSetName", parent: name, max: 128)
-            try validate(ruleSetName, name:"ruleSetName", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.ruleSetName, name:"ruleSetName", parent: name, max: 128)
+            try validate(self.ruleSetName, name:"ruleSetName", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2162,7 +2162,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try ticketIds.forEach {
+            try self.ticketIds.forEach {
                 try validate($0, name: "ticketIds[]", parent: name, max: 128)
                 try validate($0, name: "ticketIds[]", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
             }
@@ -2211,16 +2211,16 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, max: 10)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try names?.forEach {
+            try validate(self.limit, name:"limit", parent: name, max: 10)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, max: 128)
                 try validate($0, name: "names[]", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
             }
-            try validate(names, name:"names", parent: name, max: 10)
-            try validate(names, name:"names", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.names, name:"names", parent: name, max: 10)
+            try validate(self.names, name:"names", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2285,17 +2285,17 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(gameSessionId, name:"gameSessionId", parent: name, max: 256)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, min: 1)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(playerId, name:"playerId", parent: name, max: 1024)
-            try validate(playerId, name:"playerId", parent: name, min: 1)
-            try validate(playerSessionId, name:"playerSessionId", parent: name, pattern: "^psess-\\S+")
-            try validate(playerSessionStatusFilter, name:"playerSessionStatusFilter", parent: name, max: 1024)
-            try validate(playerSessionStatusFilter, name:"playerSessionStatusFilter", parent: name, min: 1)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, max: 256)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, min: 1)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.playerId, name:"playerId", parent: name, max: 1024)
+            try validate(self.playerId, name:"playerId", parent: name, min: 1)
+            try validate(self.playerSessionId, name:"playerSessionId", parent: name, pattern: "^psess-\\S+")
+            try validate(self.playerSessionStatusFilter, name:"playerSessionStatusFilter", parent: name, max: 1024)
+            try validate(self.playerSessionStatusFilter, name:"playerSessionStatusFilter", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2343,7 +2343,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2393,10 +2393,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2442,7 +2442,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(scriptId, name:"scriptId", parent: name, pattern: "^script-\\S+|^arn:.*script-\\S+")
+            try validate(self.scriptId, name:"scriptId", parent: name, pattern: "^script-\\S+|^arn:.*script-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2505,7 +2505,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2547,10 +2547,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(playerData, name:"playerData", parent: name, max: 2048)
-            try validate(playerData, name:"playerData", parent: name, min: 1)
-            try validate(playerId, name:"playerId", parent: name, max: 1024)
-            try validate(playerId, name:"playerId", parent: name, min: 1)
+            try validate(self.playerData, name:"playerData", parent: name, max: 2048)
+            try validate(self.playerData, name:"playerData", parent: name, min: 1)
+            try validate(self.playerId, name:"playerId", parent: name, max: 1024)
+            try validate(self.playerId, name:"playerId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2967,8 +2967,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 32)
-            try validate(value, name:"value", parent: name, max: 96)
+            try validate(self.key, name:"key", parent: name, max: 32)
+            try validate(self.value, name:"value", parent: name, max: 96)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3278,9 +3278,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(destinationArn, name:"destinationArn", parent: name, max: 256)
-            try validate(destinationArn, name:"destinationArn", parent: name, min: 1)
-            try validate(destinationArn, name:"destinationArn", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try validate(self.destinationArn, name:"destinationArn", parent: name, max: 256)
+            try validate(self.destinationArn, name:"destinationArn", parent: name, min: 1)
+            try validate(self.destinationArn, name:"destinationArn", parent: name, pattern: "[a-zA-Z0-9:/-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3315,9 +3315,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(gameSessionId, name:"gameSessionId", parent: name, max: 256)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, min: 1)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, max: 256)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, min: 1)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3359,8 +3359,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "[a-zA-Z0-9\\.-]+")
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "[a-zA-Z0-9\\.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3524,11 +3524,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fromPort, name:"fromPort", parent: name, max: 60000)
-            try validate(fromPort, name:"fromPort", parent: name, min: 1)
-            try validate(ipRange, name:"ipRange", parent: name, pattern: "[^\\s]+")
-            try validate(toPort, name:"toPort", parent: name, max: 60000)
-            try validate(toPort, name:"toPort", parent: name, min: 1)
+            try validate(self.fromPort, name:"fromPort", parent: name, max: 60000)
+            try validate(self.fromPort, name:"fromPort", parent: name, min: 1)
+            try validate(self.ipRange, name:"ipRange", parent: name, pattern: "[^\\s]+")
+            try validate(self.toPort, name:"toPort", parent: name, max: 60000)
+            try validate(self.toPort, name:"toPort", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3570,9 +3570,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3626,8 +3626,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3684,11 +3684,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(buildId, name:"buildId", parent: name, pattern: "^build-\\S+")
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(scriptId, name:"scriptId", parent: name, pattern: "^script-\\S+|^arn:.*script-\\S+")
+            try validate(self.buildId, name:"buildId", parent: name, pattern: "^build-\\S+")
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.scriptId, name:"scriptId", parent: name, pattern: "^script-\\S+|^arn:.*script-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3738,8 +3738,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4043,19 +4043,19 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try latencyInMs?.forEach {
+            try self.latencyInMs?.forEach {
                 try validate($0.key, name:"latencyInMs.key", parent: name, min: 1)
                 try validate($0.value, name:"latencyInMs[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try playerAttributes?.forEach {
+            try self.playerAttributes?.forEach {
                 try validate($0.key, name:"playerAttributes.key", parent: name, max: 1024)
                 try validate($0.key, name:"playerAttributes.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).playerAttributes[\"\($0.key)\"]")
             }
-            try validate(playerId, name:"playerId", parent: name, max: 1024)
-            try validate(playerId, name:"playerId", parent: name, min: 1)
-            try validate(team, name:"team", parent: name, max: 1024)
-            try validate(team, name:"team", parent: name, min: 1)
+            try validate(self.playerId, name:"playerId", parent: name, max: 1024)
+            try validate(self.playerId, name:"playerId", parent: name, min: 1)
+            try validate(self.team, name:"team", parent: name, max: 1024)
+            try validate(self.team, name:"team", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4087,10 +4087,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(playerId, name:"playerId", parent: name, max: 1024)
-            try validate(playerId, name:"playerId", parent: name, min: 1)
-            try validate(regionIdentifier, name:"regionIdentifier", parent: name, max: 1024)
-            try validate(regionIdentifier, name:"regionIdentifier", parent: name, min: 1)
+            try validate(self.playerId, name:"playerId", parent: name, max: 1024)
+            try validate(self.playerId, name:"playerId", parent: name, min: 1)
+            try validate(self.regionIdentifier, name:"regionIdentifier", parent: name, max: 1024)
+            try validate(self.regionIdentifier, name:"regionIdentifier", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4117,8 +4117,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(maximumIndividualPlayerLatencyMilliseconds, name:"maximumIndividualPlayerLatencyMilliseconds", parent: name, min: 0)
-            try validate(policyDurationSeconds, name:"policyDurationSeconds", parent: name, min: 0)
+            try validate(self.maximumIndividualPlayerLatencyMilliseconds, name:"maximumIndividualPlayerLatencyMilliseconds", parent: name, min: 0)
+            try validate(self.policyDurationSeconds, name:"policyDurationSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4264,10 +4264,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(evaluationPeriods, name:"evaluationPeriods", parent: name, min: 1)
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.evaluationPeriods, name:"evaluationPeriods", parent: name, min: 1)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4314,7 +4314,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(buildId, name:"buildId", parent: name, pattern: "^build-\\S+")
+            try validate(self.buildId, name:"buildId", parent: name, pattern: "^build-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4357,7 +4357,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4399,8 +4399,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(newGameSessionsPerCreator, name:"newGameSessionsPerCreator", parent: name, min: 0)
-            try validate(policyPeriodInMinutes, name:"policyPeriodInMinutes", parent: name, min: 0)
+            try validate(self.newGameSessionsPerCreator, name:"newGameSessionsPerCreator", parent: name, min: 0)
+            try validate(self.policyPeriodInMinutes, name:"policyPeriodInMinutes", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4430,7 +4430,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4467,15 +4467,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(gameSessionActivationTimeoutSeconds, name:"gameSessionActivationTimeoutSeconds", parent: name, max: 600)
-            try validate(gameSessionActivationTimeoutSeconds, name:"gameSessionActivationTimeoutSeconds", parent: name, min: 1)
-            try validate(maxConcurrentGameSessionActivations, name:"maxConcurrentGameSessionActivations", parent: name, max: 2147483647)
-            try validate(maxConcurrentGameSessionActivations, name:"maxConcurrentGameSessionActivations", parent: name, min: 1)
-            try serverProcesses?.forEach {
+            try validate(self.gameSessionActivationTimeoutSeconds, name:"gameSessionActivationTimeoutSeconds", parent: name, max: 600)
+            try validate(self.gameSessionActivationTimeoutSeconds, name:"gameSessionActivationTimeoutSeconds", parent: name, min: 1)
+            try validate(self.maxConcurrentGameSessionActivations, name:"maxConcurrentGameSessionActivations", parent: name, max: 2147483647)
+            try validate(self.maxConcurrentGameSessionActivations, name:"maxConcurrentGameSessionActivations", parent: name, min: 1)
+            try self.serverProcesses?.forEach {
                 try $0.validate(name: "\(name).serverProcesses[]")
             }
-            try validate(serverProcesses, name:"serverProcesses", parent: name, max: 50)
-            try validate(serverProcesses, name:"serverProcesses", parent: name, min: 1)
+            try validate(self.serverProcesses, name:"serverProcesses", parent: name, max: 50)
+            try validate(self.serverProcesses, name:"serverProcesses", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4510,10 +4510,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(bucket, name:"bucket", parent: name, min: 1)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(objectVersion, name:"objectVersion", parent: name, min: 1)
-            try validate(roleArn, name:"roleArn", parent: name, min: 1)
+            try validate(self.bucket, name:"bucket", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.objectVersion, name:"objectVersion", parent: name, min: 1)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4683,15 +4683,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
-            try validate(filterExpression, name:"filterExpression", parent: name, max: 1024)
-            try validate(filterExpression, name:"filterExpression", parent: name, min: 1)
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(sortExpression, name:"sortExpression", parent: name, max: 1024)
-            try validate(sortExpression, name:"sortExpression", parent: name, min: 1)
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
+            try validate(self.filterExpression, name:"filterExpression", parent: name, max: 1024)
+            try validate(self.filterExpression, name:"filterExpression", parent: name, min: 1)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.sortExpression, name:"sortExpression", parent: name, max: 1024)
+            try validate(self.sortExpression, name:"sortExpression", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4747,11 +4747,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(concurrentExecutions, name:"concurrentExecutions", parent: name, min: 1)
-            try validate(launchPath, name:"launchPath", parent: name, max: 1024)
-            try validate(launchPath, name:"launchPath", parent: name, min: 1)
-            try validate(parameters, name:"parameters", parent: name, max: 1024)
-            try validate(parameters, name:"parameters", parent: name, min: 1)
+            try validate(self.concurrentExecutions, name:"concurrentExecutions", parent: name, min: 1)
+            try validate(self.launchPath, name:"launchPath", parent: name, max: 1024)
+            try validate(self.launchPath, name:"launchPath", parent: name, min: 1)
+            try validate(self.parameters, name:"parameters", parent: name, max: 1024)
+            try validate(self.parameters, name:"parameters", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4778,9 +4778,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(actions, name:"actions", parent: name, max: 1)
-            try validate(actions, name:"actions", parent: name, min: 1)
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.actions, name:"actions", parent: name, max: 1)
+            try validate(self.actions, name:"actions", parent: name, min: 1)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4838,25 +4838,25 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try desiredPlayerSessions?.forEach {
+            try self.desiredPlayerSessions?.forEach {
                 try $0.validate(name: "\(name).desiredPlayerSessions[]")
             }
-            try gameProperties?.forEach {
+            try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
-            try validate(gameProperties, name:"gameProperties", parent: name, max: 16)
-            try validate(gameSessionData, name:"gameSessionData", parent: name, max: 4096)
-            try validate(gameSessionData, name:"gameSessionData", parent: name, min: 1)
-            try validate(gameSessionName, name:"gameSessionName", parent: name, max: 1024)
-            try validate(gameSessionName, name:"gameSessionName", parent: name, min: 1)
-            try validate(gameSessionQueueName, name:"gameSessionQueueName", parent: name, max: 128)
-            try validate(gameSessionQueueName, name:"gameSessionQueueName", parent: name, min: 1)
-            try validate(gameSessionQueueName, name:"gameSessionQueueName", parent: name, pattern: "[a-zA-Z0-9-]+")
-            try validate(maximumPlayerSessionCount, name:"maximumPlayerSessionCount", parent: name, min: 0)
-            try validate(placementId, name:"placementId", parent: name, max: 48)
-            try validate(placementId, name:"placementId", parent: name, min: 1)
-            try validate(placementId, name:"placementId", parent: name, pattern: "[a-zA-Z0-9-]+")
-            try playerLatencies?.forEach {
+            try validate(self.gameProperties, name:"gameProperties", parent: name, max: 16)
+            try validate(self.gameSessionData, name:"gameSessionData", parent: name, max: 4096)
+            try validate(self.gameSessionData, name:"gameSessionData", parent: name, min: 1)
+            try validate(self.gameSessionName, name:"gameSessionName", parent: name, max: 1024)
+            try validate(self.gameSessionName, name:"gameSessionName", parent: name, min: 1)
+            try validate(self.gameSessionQueueName, name:"gameSessionQueueName", parent: name, max: 128)
+            try validate(self.gameSessionQueueName, name:"gameSessionQueueName", parent: name, min: 1)
+            try validate(self.gameSessionQueueName, name:"gameSessionQueueName", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try validate(self.maximumPlayerSessionCount, name:"maximumPlayerSessionCount", parent: name, min: 0)
+            try validate(self.placementId, name:"placementId", parent: name, max: 48)
+            try validate(self.placementId, name:"placementId", parent: name, min: 1)
+            try validate(self.placementId, name:"placementId", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try self.playerLatencies?.forEach {
                 try $0.validate(name: "\(name).playerLatencies[]")
             }
         }
@@ -4915,16 +4915,16 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(configurationName, name:"configurationName", parent: name, max: 128)
-            try validate(configurationName, name:"configurationName", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
-            try validate(gameSessionArn, name:"gameSessionArn", parent: name, max: 256)
-            try validate(gameSessionArn, name:"gameSessionArn", parent: name, min: 1)
-            try validate(gameSessionArn, name:"gameSessionArn", parent: name, pattern: "[a-zA-Z0-9:/-]+")
-            try players.forEach {
+            try validate(self.configurationName, name:"configurationName", parent: name, max: 128)
+            try validate(self.configurationName, name:"configurationName", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.gameSessionArn, name:"gameSessionArn", parent: name, max: 256)
+            try validate(self.gameSessionArn, name:"gameSessionArn", parent: name, min: 1)
+            try validate(self.gameSessionArn, name:"gameSessionArn", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try self.players.forEach {
                 try $0.validate(name: "\(name).players[]")
             }
-            try validate(ticketId, name:"ticketId", parent: name, max: 128)
-            try validate(ticketId, name:"ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.ticketId, name:"ticketId", parent: name, max: 128)
+            try validate(self.ticketId, name:"ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4973,13 +4973,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(configurationName, name:"configurationName", parent: name, max: 128)
-            try validate(configurationName, name:"configurationName", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
-            try players.forEach {
+            try validate(self.configurationName, name:"configurationName", parent: name, max: 128)
+            try validate(self.configurationName, name:"configurationName", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try self.players.forEach {
                 try $0.validate(name: "\(name).players[]")
             }
-            try validate(ticketId, name:"ticketId", parent: name, max: 128)
-            try validate(ticketId, name:"ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.ticketId, name:"ticketId", parent: name, max: 128)
+            try validate(self.ticketId, name:"ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5023,9 +5023,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(actions, name:"actions", parent: name, max: 1)
-            try validate(actions, name:"actions", parent: name, min: 1)
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.actions, name:"actions", parent: name, max: 1)
+            try validate(self.actions, name:"actions", parent: name, min: 1)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5055,9 +5055,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(placementId, name:"placementId", parent: name, max: 48)
-            try validate(placementId, name:"placementId", parent: name, min: 1)
-            try validate(placementId, name:"placementId", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try validate(self.placementId, name:"placementId", parent: name, max: 48)
+            try validate(self.placementId, name:"placementId", parent: name, min: 1)
+            try validate(self.placementId, name:"placementId", parent: name, pattern: "[a-zA-Z0-9-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5095,8 +5095,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(ticketId, name:"ticketId", parent: name, max: 128)
-            try validate(ticketId, name:"ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.ticketId, name:"ticketId", parent: name, max: 128)
+            try validate(self.ticketId, name:"ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5154,13 +5154,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(description, name:"description", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
-            try routingStrategy?.validate(name: "\(name).routingStrategy")
+            try validate(self.aliasId, name:"aliasId", parent: name, pattern: "^alias-\\S+")
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+            try self.routingStrategy?.validate(name: "\(name).routingStrategy")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5209,11 +5209,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(buildId, name:"buildId", parent: name, pattern: "^build-\\S+")
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(version, name:"version", parent: name, max: 1024)
-            try validate(version, name:"version", parent: name, min: 1)
+            try validate(self.buildId, name:"buildId", parent: name, pattern: "^build-\\S+")
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.version, name:"version", parent: name, max: 1024)
+            try validate(self.version, name:"version", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5273,17 +5273,17 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(description, name:"description", parent: name, min: 1)
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try metricGroups?.forEach {
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try self.metricGroups?.forEach {
                 try validate($0, name: "metricGroups[]", parent: name, max: 255)
                 try validate($0, name: "metricGroups[]", parent: name, min: 1)
             }
-            try validate(metricGroups, name:"metricGroups", parent: name, max: 1)
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
-            try resourceCreationLimitPolicy?.validate(name: "\(name).resourceCreationLimitPolicy")
+            try validate(self.metricGroups, name:"metricGroups", parent: name, max: 1)
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try self.resourceCreationLimitPolicy?.validate(name: "\(name).resourceCreationLimitPolicy")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5338,10 +5338,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(desiredInstances, name:"desiredInstances", parent: name, min: 0)
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try validate(maxSize, name:"maxSize", parent: name, min: 0)
-            try validate(minSize, name:"minSize", parent: name, min: 0)
+            try validate(self.desiredInstances, name:"desiredInstances", parent: name, min: 0)
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try validate(self.maxSize, name:"maxSize", parent: name, min: 0)
+            try validate(self.minSize, name:"minSize", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5390,15 +5390,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try inboundPermissionAuthorizations?.forEach {
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try self.inboundPermissionAuthorizations?.forEach {
                 try $0.validate(name: "\(name).inboundPermissionAuthorizations[]")
             }
-            try validate(inboundPermissionAuthorizations, name:"inboundPermissionAuthorizations", parent: name, max: 50)
-            try inboundPermissionRevocations?.forEach {
+            try validate(self.inboundPermissionAuthorizations, name:"inboundPermissionAuthorizations", parent: name, max: 50)
+            try self.inboundPermissionRevocations?.forEach {
                 try $0.validate(name: "\(name).inboundPermissionRevocations[]")
             }
-            try validate(inboundPermissionRevocations, name:"inboundPermissionRevocations", parent: name, max: 50)
+            try validate(self.inboundPermissionRevocations, name:"inboundPermissionRevocations", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5454,12 +5454,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(gameSessionId, name:"gameSessionId", parent: name, max: 256)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, min: 1)
-            try validate(gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
-            try validate(maximumPlayerSessionCount, name:"maximumPlayerSessionCount", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, max: 256)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, min: 1)
+            try validate(self.gameSessionId, name:"gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try validate(self.maximumPlayerSessionCount, name:"maximumPlayerSessionCount", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5513,16 +5513,16 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try destinations?.forEach {
+            try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9-]+")
-            try playerLatencyPolicies?.forEach {
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try self.playerLatencyPolicies?.forEach {
                 try $0.validate(name: "\(name).playerLatencyPolicies[]")
             }
-            try validate(timeoutInSeconds, name:"timeoutInSeconds", parent: name, min: 0)
+            try validate(self.timeoutInSeconds, name:"timeoutInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5611,33 +5611,33 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(acceptanceTimeoutSeconds, name:"acceptanceTimeoutSeconds", parent: name, max: 600)
-            try validate(acceptanceTimeoutSeconds, name:"acceptanceTimeoutSeconds", parent: name, min: 1)
-            try validate(additionalPlayerCount, name:"additionalPlayerCount", parent: name, min: 0)
-            try validate(customEventData, name:"customEventData", parent: name, max: 256)
-            try validate(customEventData, name:"customEventData", parent: name, min: 0)
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(description, name:"description", parent: name, min: 1)
-            try gameProperties?.forEach {
+            try validate(self.acceptanceTimeoutSeconds, name:"acceptanceTimeoutSeconds", parent: name, max: 600)
+            try validate(self.acceptanceTimeoutSeconds, name:"acceptanceTimeoutSeconds", parent: name, min: 1)
+            try validate(self.additionalPlayerCount, name:"additionalPlayerCount", parent: name, min: 0)
+            try validate(self.customEventData, name:"customEventData", parent: name, max: 256)
+            try validate(self.customEventData, name:"customEventData", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
-            try validate(gameProperties, name:"gameProperties", parent: name, max: 16)
-            try validate(gameSessionData, name:"gameSessionData", parent: name, max: 4096)
-            try validate(gameSessionData, name:"gameSessionData", parent: name, min: 1)
-            try gameSessionQueueArns?.forEach {
+            try validate(self.gameProperties, name:"gameProperties", parent: name, max: 16)
+            try validate(self.gameSessionData, name:"gameSessionData", parent: name, max: 4096)
+            try validate(self.gameSessionData, name:"gameSessionData", parent: name, min: 1)
+            try self.gameSessionQueueArns?.forEach {
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, max: 256)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, min: 1)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, pattern: "[a-zA-Z0-9:/-]+")
             }
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
-            try validate(notificationTarget, name:"notificationTarget", parent: name, max: 300)
-            try validate(notificationTarget, name:"notificationTarget", parent: name, min: 0)
-            try validate(notificationTarget, name:"notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_/-]*")
-            try validate(requestTimeoutSeconds, name:"requestTimeoutSeconds", parent: name, max: 43200)
-            try validate(requestTimeoutSeconds, name:"requestTimeoutSeconds", parent: name, min: 1)
-            try validate(ruleSetName, name:"ruleSetName", parent: name, max: 128)
-            try validate(ruleSetName, name:"ruleSetName", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try validate(self.notificationTarget, name:"notificationTarget", parent: name, max: 300)
+            try validate(self.notificationTarget, name:"notificationTarget", parent: name, min: 0)
+            try validate(self.notificationTarget, name:"notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_/-]*")
+            try validate(self.requestTimeoutSeconds, name:"requestTimeoutSeconds", parent: name, max: 43200)
+            try validate(self.requestTimeoutSeconds, name:"requestTimeoutSeconds", parent: name, min: 1)
+            try validate(self.ruleSetName, name:"ruleSetName", parent: name, max: 128)
+            try validate(self.ruleSetName, name:"ruleSetName", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5691,8 +5691,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
-            try runtimeConfiguration.validate(name: "\(name).runtimeConfiguration")
+            try validate(self.fleetId, name:"fleetId", parent: name, pattern: "^fleet-\\S+")
+            try self.runtimeConfiguration.validate(name: "\(name).runtimeConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5747,13 +5747,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(scriptId, name:"scriptId", parent: name, pattern: "^script-\\S+|^arn:.*script-\\S+")
-            try storageLocation?.validate(name: "\(name).storageLocation")
-            try validate(version, name:"version", parent: name, max: 1024)
-            try validate(version, name:"version", parent: name, min: 1)
-            try validate(zipFile, name:"zipFile", parent: name, max: 5000000)
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.scriptId, name:"scriptId", parent: name, pattern: "^script-\\S+|^arn:.*script-\\S+")
+            try self.storageLocation?.validate(name: "\(name).storageLocation")
+            try validate(self.version, name:"version", parent: name, max: 1024)
+            try validate(self.version, name:"version", parent: name, min: 1)
+            try validate(self.zipFile, name:"zipFile", parent: name, max: 5000000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5795,8 +5795,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try validate(ruleSetBody, name:"ruleSetBody", parent: name, max: 65535)
-            try validate(ruleSetBody, name:"ruleSetBody", parent: name, min: 1)
+            try validate(self.ruleSetBody, name:"ruleSetBody", parent: name, max: 65535)
+            try validate(self.ruleSetBody, name:"ruleSetBody", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

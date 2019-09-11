@@ -27,3 +27,16 @@ extension GroundStationErrorType {
         }
     }
 }
+
+extension GroundStationErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .dependencyException(let message):
+            return "DependencyException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

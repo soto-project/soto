@@ -48,3 +48,30 @@ extension LicenseManagerErrorType {
         }
     }
 }
+
+extension LicenseManagerErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .authorizationException(let message):
+            return "AuthorizationException: \(message ?? "")"
+        case .failedDependencyException(let message):
+            return "FailedDependencyException: \(message ?? "")"
+        case .filterLimitExceededException(let message):
+            return "FilterLimitExceededException: \(message ?? "")"
+        case .invalidParameterValueException(let message):
+            return "InvalidParameterValueException: \(message ?? "")"
+        case .invalidResourceStateException(let message):
+            return "InvalidResourceStateException: \(message ?? "")"
+        case .licenseUsageException(let message):
+            return "LicenseUsageException: \(message ?? "")"
+        case .rateLimitExceededException(let message):
+            return "RateLimitExceededException: \(message ?? "")"
+        case .resourceLimitExceededException(let message):
+            return "ResourceLimitExceededException: \(message ?? "")"
+        case .serverInternalException(let message):
+            return "ServerInternalException: \(message ?? "")"
+        }
+    }
+}

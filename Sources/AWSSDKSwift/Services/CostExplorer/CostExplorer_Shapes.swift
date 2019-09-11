@@ -169,8 +169,8 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try validate(end, name:"end", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
-            try validate(start, name:"start", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try validate(self.end, name:"end", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try validate(self.start, name:"start", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -499,7 +499,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -568,9 +568,9 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try validate(predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, max: 99)
-            try validate(predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, min: 51)
-            try timePeriod.validate(name: "\(name).timePeriod")
+            try validate(self.predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, max: 99)
+            try validate(self.predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, min: 51)
+            try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -633,7 +633,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -710,7 +710,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -795,7 +795,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try validate(pageSize, name:"pageSize", parent: name, min: 0)
+            try validate(self.pageSize, name:"pageSize", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -867,7 +867,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -931,7 +931,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1003,9 +1003,9 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try validate(predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, max: 99)
-            try validate(predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, min: 51)
-            try timePeriod.validate(name: "\(name).timePeriod")
+            try validate(self.predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, max: 99)
+            try validate(self.predictionIntervalLevel, name:"predictionIntervalLevel", parent: name, min: 51)
+            try self.timePeriod.validate(name: "\(name).timePeriod")
         }
 
         private enum CodingKeys: String, CodingKey {

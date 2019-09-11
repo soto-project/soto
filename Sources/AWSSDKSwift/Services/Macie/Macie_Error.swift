@@ -30,3 +30,18 @@ extension MacieErrorType {
         }
     }
 }
+
+extension MacieErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .internalException(let message):
+            return "InternalException: \(message ?? "")"
+        case .invalidInputException(let message):
+            return "InvalidInputException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        }
+    }
+}

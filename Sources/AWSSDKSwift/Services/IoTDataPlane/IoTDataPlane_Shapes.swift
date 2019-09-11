@@ -18,9 +18,9 @@ extension IoTDataPlane {
         }
 
         public func validate(name: String) throws {
-            try validate(thingName, name:"thingName", parent: name, max: 128)
-            try validate(thingName, name:"thingName", parent: name, min: 1)
-            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.thingName, name:"thingName", parent: name, max: 128)
+            try validate(self.thingName, name:"thingName", parent: name, min: 1)
+            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -60,9 +60,9 @@ extension IoTDataPlane {
         }
 
         public func validate(name: String) throws {
-            try validate(thingName, name:"thingName", parent: name, max: 128)
-            try validate(thingName, name:"thingName", parent: name, min: 1)
-            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.thingName, name:"thingName", parent: name, max: 128)
+            try validate(self.thingName, name:"thingName", parent: name, min: 1)
+            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -112,8 +112,8 @@ extension IoTDataPlane {
         }
 
         public func validate(name: String) throws {
-            try validate(qos, name:"qos", parent: name, max: 1)
-            try validate(qos, name:"qos", parent: name, min: 0)
+            try validate(self.qos, name:"qos", parent: name, max: 1)
+            try validate(self.qos, name:"qos", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -142,9 +142,9 @@ extension IoTDataPlane {
         }
 
         public func validate(name: String) throws {
-            try validate(thingName, name:"thingName", parent: name, max: 128)
-            try validate(thingName, name:"thingName", parent: name, min: 1)
-            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.thingName, name:"thingName", parent: name, max: 128)
+            try validate(self.thingName, name:"thingName", parent: name, min: 1)
+            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {

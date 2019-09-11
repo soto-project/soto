@@ -242,12 +242,12 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 16384)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(projectArn, name:"projectArn", parent: name, max: 1011)
-            try validate(projectArn, name:"projectArn", parent: name, min: 32)
+            try validate(self.description, name:"description", parent: name, max: 16384)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.projectArn, name:"projectArn", parent: name, max: 1011)
+            try validate(self.projectArn, name:"projectArn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -305,10 +305,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 16384)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, max: 16384)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -394,16 +394,16 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 16384)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(downlinkLossPercent, name:"downlinkLossPercent", parent: name, max: 100)
-            try validate(downlinkLossPercent, name:"downlinkLossPercent", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(projectArn, name:"projectArn", parent: name, max: 1011)
-            try validate(projectArn, name:"projectArn", parent: name, min: 32)
-            try validate(uplinkLossPercent, name:"uplinkLossPercent", parent: name, max: 100)
-            try validate(uplinkLossPercent, name:"uplinkLossPercent", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, max: 16384)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.downlinkLossPercent, name:"downlinkLossPercent", parent: name, max: 100)
+            try validate(self.downlinkLossPercent, name:"downlinkLossPercent", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.projectArn, name:"projectArn", parent: name, max: 1011)
+            try validate(self.projectArn, name:"projectArn", parent: name, min: 32)
+            try validate(self.uplinkLossPercent, name:"uplinkLossPercent", parent: name, max: 100)
+            try validate(self.uplinkLossPercent, name:"uplinkLossPercent", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -456,8 +456,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -500,7 +500,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try vpceConfigurationArns?.forEach {
+            try self.vpceConfigurationArns?.forEach {
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, max: 1011)
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, min: 32)
             }
@@ -569,21 +569,21 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(clientId, name:"clientId", parent: name, max: 64)
-            try validate(clientId, name:"clientId", parent: name, min: 0)
-            try configuration?.validate(name: "\(name).configuration")
-            try validate(deviceArn, name:"deviceArn", parent: name, max: 1011)
-            try validate(deviceArn, name:"deviceArn", parent: name, min: 32)
-            try validate(instanceArn, name:"instanceArn", parent: name, max: 1011)
-            try validate(instanceArn, name:"instanceArn", parent: name, min: 32)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(projectArn, name:"projectArn", parent: name, max: 1011)
-            try validate(projectArn, name:"projectArn", parent: name, min: 32)
-            try validate(remoteRecordAppArn, name:"remoteRecordAppArn", parent: name, max: 1011)
-            try validate(remoteRecordAppArn, name:"remoteRecordAppArn", parent: name, min: 32)
-            try validate(sshPublicKey, name:"sshPublicKey", parent: name, max: 8192)
-            try validate(sshPublicKey, name:"sshPublicKey", parent: name, min: 0)
+            try validate(self.clientId, name:"clientId", parent: name, max: 64)
+            try validate(self.clientId, name:"clientId", parent: name, min: 0)
+            try self.configuration?.validate(name: "\(name).configuration")
+            try validate(self.deviceArn, name:"deviceArn", parent: name, max: 1011)
+            try validate(self.deviceArn, name:"deviceArn", parent: name, min: 32)
+            try validate(self.instanceArn, name:"instanceArn", parent: name, max: 1011)
+            try validate(self.instanceArn, name:"instanceArn", parent: name, min: 32)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.projectArn, name:"projectArn", parent: name, max: 1011)
+            try validate(self.projectArn, name:"projectArn", parent: name, min: 32)
+            try validate(self.remoteRecordAppArn, name:"remoteRecordAppArn", parent: name, max: 1011)
+            try validate(self.remoteRecordAppArn, name:"remoteRecordAppArn", parent: name, min: 32)
+            try validate(self.sshPublicKey, name:"sshPublicKey", parent: name, max: 8192)
+            try validate(self.sshPublicKey, name:"sshPublicKey", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -644,12 +644,12 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(contentType, name:"contentType", parent: name, max: 64)
-            try validate(contentType, name:"contentType", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(projectArn, name:"projectArn", parent: name, max: 1011)
-            try validate(projectArn, name:"projectArn", parent: name, min: 32)
+            try validate(self.contentType, name:"contentType", parent: name, max: 64)
+            try validate(self.contentType, name:"contentType", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.projectArn, name:"projectArn", parent: name, max: 1011)
+            try validate(self.projectArn, name:"projectArn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -702,14 +702,14 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(serviceDnsName, name:"serviceDnsName", parent: name, max: 2048)
-            try validate(serviceDnsName, name:"serviceDnsName", parent: name, min: 0)
-            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", parent: name, max: 2048)
-            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", parent: name, min: 0)
-            try validate(vpceConfigurationName, name:"vpceConfigurationName", parent: name, max: 1024)
-            try validate(vpceConfigurationName, name:"vpceConfigurationName", parent: name, min: 0)
-            try validate(vpceServiceName, name:"vpceServiceName", parent: name, max: 2048)
-            try validate(vpceServiceName, name:"vpceServiceName", parent: name, min: 0)
+            try validate(self.serviceDnsName, name:"serviceDnsName", parent: name, max: 2048)
+            try validate(self.serviceDnsName, name:"serviceDnsName", parent: name, min: 0)
+            try validate(self.vpceConfigurationDescription, name:"vpceConfigurationDescription", parent: name, max: 2048)
+            try validate(self.vpceConfigurationDescription, name:"vpceConfigurationDescription", parent: name, min: 0)
+            try validate(self.vpceConfigurationName, name:"vpceConfigurationName", parent: name, max: 1024)
+            try validate(self.vpceConfigurationName, name:"vpceConfigurationName", parent: name, min: 0)
+            try validate(self.vpceServiceName, name:"vpceServiceName", parent: name, max: 2048)
+            try validate(self.vpceServiceName, name:"vpceServiceName", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -782,8 +782,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -812,8 +812,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -842,8 +842,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -872,8 +872,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -902,8 +902,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -932,8 +932,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -962,8 +962,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -992,8 +992,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1504,8 +1504,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1559,12 +1559,12 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(appArn, name:"appArn", parent: name, max: 1011)
-            try validate(appArn, name:"appArn", parent: name, min: 32)
-            try configuration?.validate(name: "\(name).configuration")
-            try validate(devicePoolArn, name:"devicePoolArn", parent: name, max: 1011)
-            try validate(devicePoolArn, name:"devicePoolArn", parent: name, min: 32)
-            try test?.validate(name: "\(name).test")
+            try validate(self.appArn, name:"appArn", parent: name, max: 1011)
+            try validate(self.appArn, name:"appArn", parent: name, min: 32)
+            try self.configuration?.validate(name: "\(name).configuration")
+            try validate(self.devicePoolArn, name:"devicePoolArn", parent: name, max: 1011)
+            try validate(self.devicePoolArn, name:"devicePoolArn", parent: name, min: 32)
+            try self.test?.validate(name: "\(name).test")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1611,8 +1611,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1650,8 +1650,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1689,8 +1689,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1728,8 +1728,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1767,8 +1767,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1806,8 +1806,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1855,8 +1855,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1894,8 +1894,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1933,8 +1933,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1972,8 +1972,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2011,8 +2011,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2050,8 +2050,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2089,8 +2089,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2154,10 +2154,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(appArn, name:"appArn", parent: name, max: 1011)
-            try validate(appArn, name:"appArn", parent: name, min: 32)
-            try validate(remoteAccessSessionArn, name:"remoteAccessSessionArn", parent: name, max: 1011)
-            try validate(remoteAccessSessionArn, name:"remoteAccessSessionArn", parent: name, min: 32)
+            try validate(self.appArn, name:"appArn", parent: name, max: 1011)
+            try validate(self.appArn, name:"appArn", parent: name, min: 32)
+            try validate(self.remoteAccessSessionArn, name:"remoteAccessSessionArn", parent: name, max: 1011)
+            try validate(self.remoteAccessSessionArn, name:"remoteAccessSessionArn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2348,10 +2348,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2400,8 +2400,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2453,10 +2453,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2509,10 +2509,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2561,8 +2561,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2610,10 +2610,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2665,10 +2665,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2713,8 +2713,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2757,8 +2757,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2801,8 +2801,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2849,10 +2849,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2900,10 +2900,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2951,10 +2951,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3002,10 +3002,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3053,10 +3053,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3100,8 +3100,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceARN, name:"resourceARN", parent: name, max: 1011)
-            try validate(resourceARN, name:"resourceARN", parent: name, min: 32)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3143,10 +3143,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3194,10 +3194,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3249,10 +3249,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3301,8 +3301,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 4)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3717,8 +3717,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(offeringId, name:"offeringId", parent: name, min: 32)
-            try validate(offeringPromotionId, name:"offeringPromotionId", parent: name, min: 4)
+            try validate(self.offeringId, name:"offeringId", parent: name, min: 32)
+            try validate(self.offeringPromotionId, name:"offeringPromotionId", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3938,7 +3938,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(offeringId, name:"offeringId", parent: name, min: 32)
+            try validate(self.offeringId, name:"offeringId", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4285,15 +4285,15 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try auxiliaryApps?.forEach {
+            try self.auxiliaryApps?.forEach {
                 try validate($0, name: "auxiliaryApps[]", parent: name, max: 1011)
                 try validate($0, name: "auxiliaryApps[]", parent: name, min: 32)
             }
-            try validate(extraDataPackageArn, name:"extraDataPackageArn", parent: name, max: 1011)
-            try validate(extraDataPackageArn, name:"extraDataPackageArn", parent: name, min: 32)
-            try validate(networkProfileArn, name:"networkProfileArn", parent: name, max: 1011)
-            try validate(networkProfileArn, name:"networkProfileArn", parent: name, min: 32)
-            try vpceConfigurationArns?.forEach {
+            try validate(self.extraDataPackageArn, name:"extraDataPackageArn", parent: name, max: 1011)
+            try validate(self.extraDataPackageArn, name:"extraDataPackageArn", parent: name, min: 32)
+            try validate(self.networkProfileArn, name:"networkProfileArn", parent: name, max: 1011)
+            try validate(self.networkProfileArn, name:"networkProfileArn", parent: name, min: 32)
+            try self.vpceConfigurationArns?.forEach {
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, max: 1011)
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, min: 32)
             }
@@ -4353,16 +4353,16 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(appArn, name:"appArn", parent: name, max: 1011)
-            try validate(appArn, name:"appArn", parent: name, min: 32)
-            try configuration?.validate(name: "\(name).configuration")
-            try validate(devicePoolArn, name:"devicePoolArn", parent: name, max: 1011)
-            try validate(devicePoolArn, name:"devicePoolArn", parent: name, min: 32)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(projectArn, name:"projectArn", parent: name, max: 1011)
-            try validate(projectArn, name:"projectArn", parent: name, min: 32)
-            try test.validate(name: "\(name).test")
+            try validate(self.appArn, name:"appArn", parent: name, max: 1011)
+            try validate(self.appArn, name:"appArn", parent: name, min: 32)
+            try self.configuration?.validate(name: "\(name).configuration")
+            try validate(self.devicePoolArn, name:"devicePoolArn", parent: name, max: 1011)
+            try validate(self.devicePoolArn, name:"devicePoolArn", parent: name, min: 32)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.projectArn, name:"projectArn", parent: name, max: 1011)
+            try validate(self.projectArn, name:"projectArn", parent: name, min: 32)
+            try self.test.validate(name: "\(name).test")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4423,12 +4423,12 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(filter, name:"filter", parent: name, max: 8192)
-            try validate(filter, name:"filter", parent: name, min: 0)
-            try validate(testPackageArn, name:"testPackageArn", parent: name, max: 1011)
-            try validate(testPackageArn, name:"testPackageArn", parent: name, min: 32)
-            try validate(testSpecArn, name:"testSpecArn", parent: name, max: 1011)
-            try validate(testSpecArn, name:"testSpecArn", parent: name, min: 32)
+            try validate(self.filter, name:"filter", parent: name, max: 8192)
+            try validate(self.filter, name:"filter", parent: name, min: 0)
+            try validate(self.testPackageArn, name:"testPackageArn", parent: name, max: 1011)
+            try validate(self.testPackageArn, name:"testPackageArn", parent: name, min: 32)
+            try validate(self.testSpecArn, name:"testSpecArn", parent: name, max: 1011)
+            try validate(self.testSpecArn, name:"testSpecArn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4453,8 +4453,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4492,8 +4492,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4531,8 +4531,8 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4641,10 +4641,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(value, name:"value", parent: name, max: 256)
-            try validate(value, name:"value", parent: name, min: 0)
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4670,12 +4670,12 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceARN, name:"resourceARN", parent: name, max: 1011)
-            try validate(resourceARN, name:"resourceARN", parent: name, min: 32)
-            try tags.forEach {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 32)
+            try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 150)
+            try validate(self.tags, name:"tags", parent: name, max: 150)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4845,13 +4845,13 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceARN, name:"resourceARN", parent: name, max: 1011)
-            try validate(resourceARN, name:"resourceARN", parent: name, min: 32)
-            try tagKeys.forEach {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 32)
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try validate(tagKeys, name:"tagKeys", parent: name, max: 150)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 150)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4889,10 +4889,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(profileArn, name:"profileArn", parent: name, max: 1011)
-            try validate(profileArn, name:"profileArn", parent: name, min: 32)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.profileArn, name:"profileArn", parent: name, max: 1011)
+            try validate(self.profileArn, name:"profileArn", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4952,12 +4952,12 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(description, name:"description", parent: name, max: 16384)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.description, name:"description", parent: name, max: 16384)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5020,12 +5020,12 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(description, name:"description", parent: name, max: 16384)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.description, name:"description", parent: name, max: 16384)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5112,16 +5112,16 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(description, name:"description", parent: name, max: 16384)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(downlinkLossPercent, name:"downlinkLossPercent", parent: name, max: 100)
-            try validate(downlinkLossPercent, name:"downlinkLossPercent", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(uplinkLossPercent, name:"uplinkLossPercent", parent: name, max: 100)
-            try validate(uplinkLossPercent, name:"uplinkLossPercent", parent: name, min: 0)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.description, name:"description", parent: name, max: 16384)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.downlinkLossPercent, name:"downlinkLossPercent", parent: name, max: 100)
+            try validate(self.downlinkLossPercent, name:"downlinkLossPercent", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.uplinkLossPercent, name:"uplinkLossPercent", parent: name, max: 100)
+            try validate(self.uplinkLossPercent, name:"uplinkLossPercent", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5178,10 +5178,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5233,12 +5233,12 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(contentType, name:"contentType", parent: name, max: 64)
-            try validate(contentType, name:"contentType", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.contentType, name:"contentType", parent: name, max: 64)
+            try validate(self.contentType, name:"contentType", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5295,16 +5295,16 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1011)
-            try validate(arn, name:"arn", parent: name, min: 32)
-            try validate(serviceDnsName, name:"serviceDnsName", parent: name, max: 2048)
-            try validate(serviceDnsName, name:"serviceDnsName", parent: name, min: 0)
-            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", parent: name, max: 2048)
-            try validate(vpceConfigurationDescription, name:"vpceConfigurationDescription", parent: name, min: 0)
-            try validate(vpceConfigurationName, name:"vpceConfigurationName", parent: name, max: 1024)
-            try validate(vpceConfigurationName, name:"vpceConfigurationName", parent: name, min: 0)
-            try validate(vpceServiceName, name:"vpceServiceName", parent: name, max: 2048)
-            try validate(vpceServiceName, name:"vpceServiceName", parent: name, min: 0)
+            try validate(self.arn, name:"arn", parent: name, max: 1011)
+            try validate(self.arn, name:"arn", parent: name, min: 32)
+            try validate(self.serviceDnsName, name:"serviceDnsName", parent: name, max: 2048)
+            try validate(self.serviceDnsName, name:"serviceDnsName", parent: name, min: 0)
+            try validate(self.vpceConfigurationDescription, name:"vpceConfigurationDescription", parent: name, max: 2048)
+            try validate(self.vpceConfigurationDescription, name:"vpceConfigurationDescription", parent: name, min: 0)
+            try validate(self.vpceConfigurationName, name:"vpceConfigurationName", parent: name, max: 1024)
+            try validate(self.vpceConfigurationName, name:"vpceConfigurationName", parent: name, min: 0)
+            try validate(self.vpceServiceName, name:"vpceServiceName", parent: name, max: 2048)
+            try validate(self.vpceServiceName, name:"vpceServiceName", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

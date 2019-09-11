@@ -52,8 +52,8 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -91,8 +91,8 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -144,11 +144,11 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(aliasName, name:"aliasName", parent: name, max: 256)
-            try validate(aliasName, name:"aliasName", parent: name, min: 1)
-            try validate(aliasName, name:"aliasName", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
-            try validate(targetKeyId, name:"targetKeyId", parent: name, max: 2048)
-            try validate(targetKeyId, name:"targetKeyId", parent: name, min: 1)
+            try validate(self.aliasName, name:"aliasName", parent: name, max: 256)
+            try validate(self.aliasName, name:"aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name:"aliasName", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+            try validate(self.targetKeyId, name:"targetKeyId", parent: name, max: 2048)
+            try validate(self.targetKeyId, name:"targetKeyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -182,13 +182,13 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(cloudHsmClusterId, name:"cloudHsmClusterId", parent: name, max: 24)
-            try validate(cloudHsmClusterId, name:"cloudHsmClusterId", parent: name, min: 19)
-            try validate(customKeyStoreName, name:"customKeyStoreName", parent: name, max: 256)
-            try validate(customKeyStoreName, name:"customKeyStoreName", parent: name, min: 1)
-            try validate(keyStorePassword, name:"keyStorePassword", parent: name, min: 1)
-            try validate(trustAnchorCertificate, name:"trustAnchorCertificate", parent: name, max: 5000)
-            try validate(trustAnchorCertificate, name:"trustAnchorCertificate", parent: name, min: 1)
+            try validate(self.cloudHsmClusterId, name:"cloudHsmClusterId", parent: name, max: 24)
+            try validate(self.cloudHsmClusterId, name:"cloudHsmClusterId", parent: name, min: 19)
+            try validate(self.customKeyStoreName, name:"customKeyStoreName", parent: name, max: 256)
+            try validate(self.customKeyStoreName, name:"customKeyStoreName", parent: name, min: 1)
+            try validate(self.keyStorePassword, name:"keyStorePassword", parent: name, min: 1)
+            try validate(self.trustAnchorCertificate, name:"trustAnchorCertificate", parent: name, max: 5000)
+            try validate(self.trustAnchorCertificate, name:"trustAnchorCertificate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -253,23 +253,23 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(granteePrincipal, name:"granteePrincipal", parent: name, max: 256)
-            try validate(granteePrincipal, name:"granteePrincipal", parent: name, min: 1)
-            try validate(granteePrincipal, name:"granteePrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
-            try grantTokens?.forEach {
+            try validate(self.granteePrincipal, name:"granteePrincipal", parent: name, max: 256)
+            try validate(self.granteePrincipal, name:"granteePrincipal", parent: name, min: 1)
+            try validate(self.granteePrincipal, name:"granteePrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
+            try self.grantTokens?.forEach {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
-            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
-            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
-            try validate(retiringPrincipal, name:"retiringPrincipal", parent: name, max: 256)
-            try validate(retiringPrincipal, name:"retiringPrincipal", parent: name, min: 1)
-            try validate(retiringPrincipal, name:"retiringPrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
+            try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+            try validate(self.retiringPrincipal, name:"retiringPrincipal", parent: name, max: 256)
+            try validate(self.retiringPrincipal, name:"retiringPrincipal", parent: name, min: 1)
+            try validate(self.retiringPrincipal, name:"retiringPrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -342,14 +342,14 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
-            try validate(description, name:"description", parent: name, max: 8192)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(policy, name:"policy", parent: name, max: 131072)
-            try validate(policy, name:"policy", parent: name, min: 1)
-            try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
-            try tags?.forEach {
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, max: 8192)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.policy, name:"policy", parent: name, max: 131072)
+            try validate(self.policy, name:"policy", parent: name, min: 1)
+            try validate(self.policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -456,14 +456,14 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(ciphertextBlob, name:"ciphertextBlob", parent: name, max: 6144)
-            try validate(ciphertextBlob, name:"ciphertextBlob", parent: name, min: 1)
-            try grantTokens?.forEach {
+            try validate(self.ciphertextBlob, name:"ciphertextBlob", parent: name, max: 6144)
+            try validate(self.ciphertextBlob, name:"ciphertextBlob", parent: name, min: 1)
+            try self.grantTokens?.forEach {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
-            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
-            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -508,9 +508,9 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(aliasName, name:"aliasName", parent: name, max: 256)
-            try validate(aliasName, name:"aliasName", parent: name, min: 1)
-            try validate(aliasName, name:"aliasName", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+            try validate(self.aliasName, name:"aliasName", parent: name, max: 256)
+            try validate(self.aliasName, name:"aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name:"aliasName", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -531,8 +531,8 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -561,8 +561,8 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -595,15 +595,15 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
-            try validate(customKeyStoreName, name:"customKeyStoreName", parent: name, max: 256)
-            try validate(customKeyStoreName, name:"customKeyStoreName", parent: name, min: 1)
-            try validate(limit, name:"limit", parent: name, max: 1000)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1024)
-            try validate(marker, name:"marker", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
+            try validate(self.customKeyStoreName, name:"customKeyStoreName", parent: name, max: 256)
+            try validate(self.customKeyStoreName, name:"customKeyStoreName", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 1000)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -658,14 +658,14 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try grantTokens?.forEach {
+            try self.grantTokens?.forEach {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
-            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
-            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -704,8 +704,8 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -726,8 +726,8 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -748,8 +748,8 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -778,8 +778,8 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -800,8 +800,8 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -834,16 +834,16 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try grantTokens?.forEach {
+            try self.grantTokens?.forEach {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
-            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
-            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try validate(plaintext, name:"plaintext", parent: name, max: 4096)
-            try validate(plaintext, name:"plaintext", parent: name, min: 1)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.plaintext, name:"plaintext", parent: name, max: 4096)
+            try validate(self.plaintext, name:"plaintext", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -911,16 +911,16 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try grantTokens?.forEach {
+            try self.grantTokens?.forEach {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
-            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
-            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try validate(numberOfBytes, name:"numberOfBytes", parent: name, max: 1024)
-            try validate(numberOfBytes, name:"numberOfBytes", parent: name, min: 1)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.numberOfBytes, name:"numberOfBytes", parent: name, max: 1024)
+            try validate(self.numberOfBytes, name:"numberOfBytes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -988,16 +988,16 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try grantTokens?.forEach {
+            try self.grantTokens?.forEach {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
-            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
-            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try validate(numberOfBytes, name:"numberOfBytes", parent: name, max: 1024)
-            try validate(numberOfBytes, name:"numberOfBytes", parent: name, min: 1)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.numberOfBytes, name:"numberOfBytes", parent: name, max: 1024)
+            try validate(self.numberOfBytes, name:"numberOfBytes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1048,10 +1048,10 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
-            try validate(numberOfBytes, name:"numberOfBytes", parent: name, max: 1024)
-            try validate(numberOfBytes, name:"numberOfBytes", parent: name, min: 1)
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
+            try validate(self.numberOfBytes, name:"numberOfBytes", parent: name, max: 1024)
+            try validate(self.numberOfBytes, name:"numberOfBytes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1094,11 +1094,11 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try validate(policyName, name:"policyName", parent: name, max: 128)
-            try validate(policyName, name:"policyName", parent: name, min: 1)
-            try validate(policyName, name:"policyName", parent: name, pattern: "[\\w]+")
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.policyName, name:"policyName", parent: name, max: 128)
+            try validate(self.policyName, name:"policyName", parent: name, min: 1)
+            try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1137,8 +1137,8 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1184,8 +1184,8 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1348,12 +1348,12 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(encryptedKeyMaterial, name:"encryptedKeyMaterial", parent: name, max: 6144)
-            try validate(encryptedKeyMaterial, name:"encryptedKeyMaterial", parent: name, min: 1)
-            try validate(importToken, name:"importToken", parent: name, max: 6144)
-            try validate(importToken, name:"importToken", parent: name, min: 1)
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.encryptedKeyMaterial, name:"encryptedKeyMaterial", parent: name, max: 6144)
+            try validate(self.encryptedKeyMaterial, name:"encryptedKeyMaterial", parent: name, min: 1)
+            try validate(self.importToken, name:"importToken", parent: name, max: 6144)
+            try validate(self.importToken, name:"importToken", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1523,13 +1523,13 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try validate(limit, name:"limit", parent: name, max: 1000)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1024)
-            try validate(marker, name:"marker", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 1000)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1587,13 +1587,13 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try validate(limit, name:"limit", parent: name, max: 1000)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1024)
-            try validate(marker, name:"marker", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 1000)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1651,13 +1651,13 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try validate(limit, name:"limit", parent: name, max: 1000)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1024)
-            try validate(marker, name:"marker", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 1000)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1711,11 +1711,11 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, max: 1000)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1024)
-            try validate(marker, name:"marker", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
+            try validate(self.limit, name:"limit", parent: name, max: 1000)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1772,13 +1772,13 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try validate(limit, name:"limit", parent: name, max: 1000)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1024)
-            try validate(marker, name:"marker", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 1000)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1836,14 +1836,14 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, max: 1000)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, max: 1024)
-            try validate(marker, name:"marker", parent: name, min: 1)
-            try validate(marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
-            try validate(retiringPrincipal, name:"retiringPrincipal", parent: name, max: 256)
-            try validate(retiringPrincipal, name:"retiringPrincipal", parent: name, min: 1)
-            try validate(retiringPrincipal, name:"retiringPrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
+            try validate(self.limit, name:"limit", parent: name, max: 1000)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
+            try validate(self.marker, name:"marker", parent: name, min: 1)
+            try validate(self.marker, name:"marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
+            try validate(self.retiringPrincipal, name:"retiringPrincipal", parent: name, max: 256)
+            try validate(self.retiringPrincipal, name:"retiringPrincipal", parent: name, min: 1)
+            try validate(self.retiringPrincipal, name:"retiringPrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1885,14 +1885,14 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try validate(policy, name:"policy", parent: name, max: 131072)
-            try validate(policy, name:"policy", parent: name, min: 1)
-            try validate(policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
-            try validate(policyName, name:"policyName", parent: name, max: 128)
-            try validate(policyName, name:"policyName", parent: name, min: 1)
-            try validate(policyName, name:"policyName", parent: name, pattern: "[\\w]+")
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.policy, name:"policy", parent: name, max: 131072)
+            try validate(self.policy, name:"policy", parent: name, min: 1)
+            try validate(self.policy, name:"policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try validate(self.policyName, name:"policyName", parent: name, max: 128)
+            try validate(self.policyName, name:"policyName", parent: name, min: 1)
+            try validate(self.policyName, name:"policyName", parent: name, pattern: "[\\w]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1932,16 +1932,16 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(ciphertextBlob, name:"ciphertextBlob", parent: name, max: 6144)
-            try validate(ciphertextBlob, name:"ciphertextBlob", parent: name, min: 1)
-            try validate(destinationKeyId, name:"destinationKeyId", parent: name, max: 2048)
-            try validate(destinationKeyId, name:"destinationKeyId", parent: name, min: 1)
-            try grantTokens?.forEach {
+            try validate(self.ciphertextBlob, name:"ciphertextBlob", parent: name, max: 6144)
+            try validate(self.ciphertextBlob, name:"ciphertextBlob", parent: name, min: 1)
+            try validate(self.destinationKeyId, name:"destinationKeyId", parent: name, max: 2048)
+            try validate(self.destinationKeyId, name:"destinationKeyId", parent: name, min: 1)
+            try self.grantTokens?.forEach {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
-            try validate(grantTokens, name:"grantTokens", parent: name, max: 10)
-            try validate(grantTokens, name:"grantTokens", parent: name, min: 0)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, max: 10)
+            try validate(self.grantTokens, name:"grantTokens", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2001,12 +2001,12 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(grantId, name:"grantId", parent: name, max: 128)
-            try validate(grantId, name:"grantId", parent: name, min: 1)
-            try validate(grantToken, name:"grantToken", parent: name, max: 8192)
-            try validate(grantToken, name:"grantToken", parent: name, min: 1)
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.grantId, name:"grantId", parent: name, max: 128)
+            try validate(self.grantId, name:"grantId", parent: name, min: 1)
+            try validate(self.grantToken, name:"grantToken", parent: name, max: 8192)
+            try validate(self.grantToken, name:"grantToken", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2033,10 +2033,10 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(grantId, name:"grantId", parent: name, max: 128)
-            try validate(grantId, name:"grantId", parent: name, min: 1)
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.grantId, name:"grantId", parent: name, max: 128)
+            try validate(self.grantId, name:"grantId", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2062,10 +2062,10 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try validate(pendingWindowInDays, name:"pendingWindowInDays", parent: name, max: 365)
-            try validate(pendingWindowInDays, name:"pendingWindowInDays", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.pendingWindowInDays, name:"pendingWindowInDays", parent: name, max: 365)
+            try validate(self.pendingWindowInDays, name:"pendingWindowInDays", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2113,10 +2113,10 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(tagKey, name:"tagKey", parent: name, max: 128)
-            try validate(tagKey, name:"tagKey", parent: name, min: 1)
-            try validate(tagValue, name:"tagValue", parent: name, max: 256)
-            try validate(tagValue, name:"tagValue", parent: name, min: 0)
+            try validate(self.tagKey, name:"tagKey", parent: name, max: 128)
+            try validate(self.tagKey, name:"tagKey", parent: name, min: 1)
+            try validate(self.tagValue, name:"tagValue", parent: name, max: 256)
+            try validate(self.tagValue, name:"tagValue", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2142,9 +2142,9 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try tags.forEach {
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -2172,9 +2172,9 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try tagKeys.forEach {
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
@@ -2203,11 +2203,11 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(aliasName, name:"aliasName", parent: name, max: 256)
-            try validate(aliasName, name:"aliasName", parent: name, min: 1)
-            try validate(aliasName, name:"aliasName", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
-            try validate(targetKeyId, name:"targetKeyId", parent: name, max: 2048)
-            try validate(targetKeyId, name:"targetKeyId", parent: name, min: 1)
+            try validate(self.aliasName, name:"aliasName", parent: name, max: 256)
+            try validate(self.aliasName, name:"aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name:"aliasName", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+            try validate(self.targetKeyId, name:"targetKeyId", parent: name, max: 2048)
+            try validate(self.targetKeyId, name:"targetKeyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2241,13 +2241,13 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(cloudHsmClusterId, name:"cloudHsmClusterId", parent: name, max: 24)
-            try validate(cloudHsmClusterId, name:"cloudHsmClusterId", parent: name, min: 19)
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
-            try validate(customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
-            try validate(keyStorePassword, name:"keyStorePassword", parent: name, min: 1)
-            try validate(newCustomKeyStoreName, name:"newCustomKeyStoreName", parent: name, max: 256)
-            try validate(newCustomKeyStoreName, name:"newCustomKeyStoreName", parent: name, min: 1)
+            try validate(self.cloudHsmClusterId, name:"cloudHsmClusterId", parent: name, max: 24)
+            try validate(self.cloudHsmClusterId, name:"cloudHsmClusterId", parent: name, min: 19)
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, max: 64)
+            try validate(self.customKeyStoreId, name:"customKeyStoreId", parent: name, min: 1)
+            try validate(self.keyStorePassword, name:"keyStorePassword", parent: name, min: 1)
+            try validate(self.newCustomKeyStoreName, name:"newCustomKeyStoreName", parent: name, max: 256)
+            try validate(self.newCustomKeyStoreName, name:"newCustomKeyStoreName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2283,10 +2283,10 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 8192)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(keyId, name:"keyId", parent: name, max: 2048)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, max: 8192)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 2048)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

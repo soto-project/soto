@@ -57,3 +57,36 @@ extension Route53ResolverErrorType {
         }
     }
 }
+
+extension Route53ResolverErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalServiceErrorException(let message):
+            return "InternalServiceErrorException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidPolicyDocument(let message):
+            return "InvalidPolicyDocument: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .invalidTagException(let message):
+            return "InvalidTagException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .resourceExistsException(let message):
+            return "ResourceExistsException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .resourceUnavailableException(let message):
+            return "ResourceUnavailableException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        case .unknownResourceException(let message):
+            return "UnknownResourceException: \(message ?? "")"
+        }
+    }
+}

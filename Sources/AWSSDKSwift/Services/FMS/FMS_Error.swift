@@ -36,3 +36,22 @@ extension FMSErrorType {
         }
     }
 }
+
+extension FMSErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalErrorException(let message):
+            return "InternalErrorException: \(message ?? "")"
+        case .invalidInputException(let message):
+            return "InvalidInputException: \(message ?? "")"
+        case .invalidOperationException(let message):
+            return "InvalidOperationException: \(message ?? "")"
+        case .invalidTypeException(let message):
+            return "InvalidTypeException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

@@ -153,7 +153,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try rules.forEach {
+            try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
         }
@@ -327,8 +327,8 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(ruleName, name:"ruleName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try validate(targetBackupVaultName, name:"targetBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.targetBackupVaultName, name:"targetBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -367,7 +367,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(selectionName, name:"selectionName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.selectionName, name:"selectionName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -548,7 +548,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try backupPlan.validate(name: "\(name).backupPlan")
+            try self.backupPlan.validate(name: "\(name).backupPlan")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -611,7 +611,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try backupSelection.validate(name: "\(name).backupSelection")
+            try self.backupSelection.validate(name: "\(name).backupSelection")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -673,7 +673,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -795,7 +795,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -833,7 +833,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -858,7 +858,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1101,7 +1101,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1539,7 +1539,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1587,7 +1587,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1644,7 +1644,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1760,10 +1760,10 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(byBackupVaultName, name:"byBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try validate(byResourceType, name:"byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.byBackupVaultName, name:"byBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.byResourceType, name:"byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1817,8 +1817,8 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1870,8 +1870,8 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1924,8 +1924,8 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1978,8 +1978,8 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2028,8 +2028,8 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2077,8 +2077,8 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2150,10 +2150,10 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try validate(byResourceType, name:"byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.byResourceType, name:"byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2211,8 +2211,8 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2261,8 +2261,8 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2314,8 +2314,8 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2391,7 +2391,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2421,7 +2421,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2722,7 +2722,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2793,7 +2793,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceType, name:"resourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.resourceType, name:"resourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2907,7 +2907,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try backupPlan.validate(name: "\(name).backupPlan")
+            try self.backupPlan.validate(name: "\(name).backupPlan")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2969,7 +2969,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {

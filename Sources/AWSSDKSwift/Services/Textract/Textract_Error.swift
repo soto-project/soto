@@ -54,3 +54,34 @@ extension TextractErrorType {
         }
     }
 }
+
+extension TextractErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .badDocumentException(let message):
+            return "BadDocumentException: \(message ?? "")"
+        case .documentTooLargeException(let message):
+            return "DocumentTooLargeException: \(message ?? "")"
+        case .idempotentParameterMismatchException(let message):
+            return "IdempotentParameterMismatchException: \(message ?? "")"
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        case .invalidJobIdException(let message):
+            return "InvalidJobIdException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidS3ObjectException(let message):
+            return "InvalidS3ObjectException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .provisionedThroughputExceededException(let message):
+            return "ProvisionedThroughputExceededException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        case .unsupportedDocumentException(let message):
+            return "UnsupportedDocumentException: \(message ?? "")"
+        }
+    }
+}

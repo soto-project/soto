@@ -63,3 +63,40 @@ extension RekognitionErrorType {
         }
     }
 }
+
+extension RekognitionErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .idempotentParameterMismatchException(let message):
+            return "IdempotentParameterMismatchException: \(message ?? "")"
+        case .imageTooLargeException(let message):
+            return "ImageTooLargeException: \(message ?? "")"
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        case .invalidImageFormatException(let message):
+            return "InvalidImageFormatException: \(message ?? "")"
+        case .invalidPaginationTokenException(let message):
+            return "InvalidPaginationTokenException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidS3ObjectException(let message):
+            return "InvalidS3ObjectException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .provisionedThroughputExceededException(let message):
+            return "ProvisionedThroughputExceededException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        case .videoTooLargeException(let message):
+            return "VideoTooLargeException: \(message ?? "")"
+        }
+    }
+}

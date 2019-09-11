@@ -123,3 +123,80 @@ extension ELBV2ErrorType {
         }
     }
 }
+
+extension ELBV2ErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .allocationIdNotFoundException(let message):
+            return "AllocationIdNotFoundException: \(message ?? "")"
+        case .availabilityZoneNotSupportedException(let message):
+            return "AvailabilityZoneNotSupportedException: \(message ?? "")"
+        case .certificateNotFoundException(let message):
+            return "CertificateNotFoundException: \(message ?? "")"
+        case .duplicateListenerException(let message):
+            return "DuplicateListenerException: \(message ?? "")"
+        case .duplicateLoadBalancerNameException(let message):
+            return "DuplicateLoadBalancerNameException: \(message ?? "")"
+        case .duplicateTagKeysException(let message):
+            return "DuplicateTagKeysException: \(message ?? "")"
+        case .duplicateTargetGroupNameException(let message):
+            return "DuplicateTargetGroupNameException: \(message ?? "")"
+        case .healthUnavailableException(let message):
+            return "HealthUnavailableException: \(message ?? "")"
+        case .incompatibleProtocolsException(let message):
+            return "IncompatibleProtocolsException: \(message ?? "")"
+        case .invalidConfigurationRequestException(let message):
+            return "InvalidConfigurationRequestException: \(message ?? "")"
+        case .invalidLoadBalancerActionException(let message):
+            return "InvalidLoadBalancerActionException: \(message ?? "")"
+        case .invalidSchemeException(let message):
+            return "InvalidSchemeException: \(message ?? "")"
+        case .invalidSecurityGroupException(let message):
+            return "InvalidSecurityGroupException: \(message ?? "")"
+        case .invalidSubnetException(let message):
+            return "InvalidSubnetException: \(message ?? "")"
+        case .invalidTargetException(let message):
+            return "InvalidTargetException: \(message ?? "")"
+        case .listenerNotFoundException(let message):
+            return "ListenerNotFoundException: \(message ?? "")"
+        case .loadBalancerNotFoundException(let message):
+            return "LoadBalancerNotFoundException: \(message ?? "")"
+        case .operationNotPermittedException(let message):
+            return "OperationNotPermittedException: \(message ?? "")"
+        case .priorityInUseException(let message):
+            return "PriorityInUseException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .ruleNotFoundException(let message):
+            return "RuleNotFoundException: \(message ?? "")"
+        case .sSLPolicyNotFoundException(let message):
+            return "SSLPolicyNotFoundException: \(message ?? "")"
+        case .subnetNotFoundException(let message):
+            return "SubnetNotFoundException: \(message ?? "")"
+        case .targetGroupAssociationLimitException(let message):
+            return "TargetGroupAssociationLimitException: \(message ?? "")"
+        case .targetGroupNotFoundException(let message):
+            return "TargetGroupNotFoundException: \(message ?? "")"
+        case .tooManyActionsException(let message):
+            return "TooManyActionsException: \(message ?? "")"
+        case .tooManyCertificatesException(let message):
+            return "TooManyCertificatesException: \(message ?? "")"
+        case .tooManyListenersException(let message):
+            return "TooManyListenersException: \(message ?? "")"
+        case .tooManyLoadBalancersException(let message):
+            return "TooManyLoadBalancersException: \(message ?? "")"
+        case .tooManyRegistrationsForTargetIdException(let message):
+            return "TooManyRegistrationsForTargetIdException: \(message ?? "")"
+        case .tooManyRulesException(let message):
+            return "TooManyRulesException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        case .tooManyTargetGroupsException(let message):
+            return "TooManyTargetGroupsException: \(message ?? "")"
+        case .tooManyTargetsException(let message):
+            return "TooManyTargetsException: \(message ?? "")"
+        case .unsupportedProtocolException(let message):
+            return "UnsupportedProtocolException: \(message ?? "")"
+        }
+    }
+}

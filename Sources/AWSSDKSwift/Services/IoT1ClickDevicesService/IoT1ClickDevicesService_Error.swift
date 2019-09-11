@@ -39,3 +39,24 @@ extension IoT1ClickDevicesServiceErrorType {
         }
     }
 }
+
+extension IoT1ClickDevicesServiceErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .forbiddenException(let message):
+            return "ForbiddenException: \(message ?? "")"
+        case .internalFailureException(let message):
+            return "InternalFailureException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .preconditionFailedException(let message):
+            return "PreconditionFailedException: \(message ?? "")"
+        case .rangeNotSatisfiableException(let message):
+            return "RangeNotSatisfiableException: \(message ?? "")"
+        case .resourceConflictException(let message):
+            return "ResourceConflictException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

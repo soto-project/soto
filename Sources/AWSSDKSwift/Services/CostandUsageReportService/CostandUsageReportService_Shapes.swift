@@ -45,8 +45,8 @@ extension CostandUsageReportService {
         }
 
         public func validate(name: String) throws {
-            try validate(reportName, name:"reportName", parent: name, max: 256)
-            try validate(reportName, name:"reportName", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
+            try validate(self.reportName, name:"reportName", parent: name, max: 256)
+            try validate(self.reportName, name:"reportName", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -85,8 +85,8 @@ extension CostandUsageReportService {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 5)
-            try validate(maxResults, name:"maxResults", parent: name, min: 5)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 5)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -129,7 +129,7 @@ extension CostandUsageReportService {
         }
 
         public func validate(name: String) throws {
-            try reportDefinition.validate(name: "\(name).reportDefinition")
+            try self.reportDefinition.validate(name: "\(name).reportDefinition")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -191,11 +191,11 @@ extension CostandUsageReportService {
         }
 
         public func validate(name: String) throws {
-            try validate(reportName, name:"reportName", parent: name, max: 256)
-            try validate(reportName, name:"reportName", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
-            try validate(s3Bucket, name:"s3Bucket", parent: name, max: 256)
-            try validate(s3Prefix, name:"s3Prefix", parent: name, max: 256)
-            try validate(s3Prefix, name:"s3Prefix", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()/]*")
+            try validate(self.reportName, name:"reportName", parent: name, max: 256)
+            try validate(self.reportName, name:"reportName", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, max: 256)
+            try validate(self.s3Prefix, name:"s3Prefix", parent: name, max: 256)
+            try validate(self.s3Prefix, name:"s3Prefix", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()/]*")
         }
 
         private enum CodingKeys: String, CodingKey {

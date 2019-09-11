@@ -44,11 +44,11 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try ids.forEach {
+            try self.ids.forEach {
                 try validate($0, name: "ids[]", parent: name, min: 1)
             }
-            try validate(ids, name:"ids", parent: name, max: 100)
-            try validate(ids, name:"ids", parent: name, min: 1)
+            try validate(self.ids, name:"ids", parent: name, max: 100)
+            try validate(self.ids, name:"ids", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -91,11 +91,11 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try ids.forEach {
+            try self.ids.forEach {
                 try validate($0, name: "ids[]", parent: name, min: 1)
             }
-            try validate(ids, name:"ids", parent: name, max: 100)
-            try validate(ids, name:"ids", parent: name, min: 1)
+            try validate(self.ids, name:"ids", parent: name, max: 100)
+            try validate(self.ids, name:"ids", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -138,11 +138,11 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try names.forEach {
+            try self.names.forEach {
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
-            try validate(names, name:"names", parent: name, max: 100)
-            try validate(names, name:"names", parent: name, min: 1)
+            try validate(self.names, name:"names", parent: name, max: 100)
+            try validate(self.names, name:"names", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -564,34 +564,34 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 255)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(encryptionKey, name:"encryptionKey", parent: name, min: 1)
-            try environment.validate(name: "\(name).environment")
-            try validate(name, name:"name", parent: name, max: 255)
-            try validate(name, name:"name", parent: name, min: 2)
-            try validate(name, name:"name", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
-            try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", parent: name, max: 480)
-            try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", parent: name, min: 5)
-            try validate(secondaryArtifacts, name:"secondaryArtifacts", parent: name, max: 12)
-            try validate(secondaryArtifacts, name:"secondaryArtifacts", parent: name, min: 0)
-            try secondarySources?.forEach {
+            try validate(self.description, name:"description", parent: name, max: 255)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.encryptionKey, name:"encryptionKey", parent: name, min: 1)
+            try self.environment.validate(name: "\(name).environment")
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 2)
+            try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
+            try validate(self.queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", parent: name, max: 480)
+            try validate(self.queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", parent: name, min: 5)
+            try validate(self.secondaryArtifacts, name:"secondaryArtifacts", parent: name, max: 12)
+            try validate(self.secondaryArtifacts, name:"secondaryArtifacts", parent: name, min: 0)
+            try self.secondarySources?.forEach {
                 try $0.validate(name: "\(name).secondarySources[]")
             }
-            try validate(secondarySources, name:"secondarySources", parent: name, max: 12)
-            try validate(secondarySources, name:"secondarySources", parent: name, min: 0)
-            try validate(secondarySourceVersions, name:"secondarySourceVersions", parent: name, max: 12)
-            try validate(secondarySourceVersions, name:"secondarySourceVersions", parent: name, min: 0)
-            try validate(serviceRole, name:"serviceRole", parent: name, min: 1)
-            try source.validate(name: "\(name).source")
-            try tags?.forEach {
+            try validate(self.secondarySources, name:"secondarySources", parent: name, max: 12)
+            try validate(self.secondarySources, name:"secondarySources", parent: name, min: 0)
+            try validate(self.secondarySourceVersions, name:"secondarySourceVersions", parent: name, max: 12)
+            try validate(self.secondarySourceVersions, name:"secondarySourceVersions", parent: name, min: 0)
+            try validate(self.serviceRole, name:"serviceRole", parent: name, min: 1)
+            try self.source.validate(name: "\(name).source")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 0)
-            try validate(timeoutInMinutes, name:"timeoutInMinutes", parent: name, max: 480)
-            try validate(timeoutInMinutes, name:"timeoutInMinutes", parent: name, min: 5)
-            try vpcConfig?.validate(name: "\(name).vpcConfig")
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+            try validate(self.timeoutInMinutes, name:"timeoutInMinutes", parent: name, max: 480)
+            try validate(self.timeoutInMinutes, name:"timeoutInMinutes", parent: name, min: 5)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -654,9 +654,9 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(projectName, name:"projectName", parent: name, max: 255)
-            try validate(projectName, name:"projectName", parent: name, min: 2)
-            try validate(projectName, name:"projectName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
+            try validate(self.projectName, name:"projectName", parent: name, max: 255)
+            try validate(self.projectName, name:"projectName", parent: name, min: 2)
+            try validate(self.projectName, name:"projectName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -701,7 +701,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -730,7 +730,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, min: 1)
+            try validate(self.arn, name:"arn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -768,9 +768,9 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(projectName, name:"projectName", parent: name, max: 255)
-            try validate(projectName, name:"projectName", parent: name, min: 2)
-            try validate(projectName, name:"projectName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
+            try validate(self.projectName, name:"projectName", parent: name, max: 255)
+            try validate(self.projectName, name:"projectName", parent: name, min: 2)
+            try validate(self.projectName, name:"projectName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -884,7 +884,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -948,8 +948,8 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(token, name:"token", parent: name, min: 1)
-            try validate(username, name:"username", parent: name, min: 1)
+            try validate(self.token, name:"token", parent: name, min: 1)
+            try validate(self.username, name:"username", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -990,7 +990,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(projectName, name:"projectName", parent: name, min: 1)
+            try validate(self.projectName, name:"projectName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1041,7 +1041,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(projectName, name:"projectName", parent: name, min: 1)
+            try validate(self.projectName, name:"projectName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1163,7 +1163,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1611,11 +1611,11 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try environmentVariables?.forEach {
+            try self.environmentVariables?.forEach {
                 try $0.validate(name: "\(name).environmentVariables[]")
             }
-            try validate(image, name:"image", parent: name, min: 1)
-            try registryCredential?.validate(name: "\(name).registryCredential")
+            try validate(self.image, name:"image", parent: name, min: 1)
+            try self.registryCredential?.validate(name: "\(name).registryCredential")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1682,7 +1682,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(gitCloneDepth, name:"gitCloneDepth", parent: name, min: 0)
+            try validate(self.gitCloneDepth, name:"gitCloneDepth", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1737,7 +1737,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(credential, name:"credential", parent: name, min: 1)
+            try validate(self.credential, name:"credential", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1972,27 +1972,27 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try environmentVariablesOverride?.forEach {
+            try self.environmentVariablesOverride?.forEach {
                 try $0.validate(name: "\(name).environmentVariablesOverride[]")
             }
-            try validate(gitCloneDepthOverride, name:"gitCloneDepthOverride", parent: name, min: 0)
-            try validate(imageOverride, name:"imageOverride", parent: name, min: 1)
-            try validate(projectName, name:"projectName", parent: name, min: 1)
-            try validate(queuedTimeoutInMinutesOverride, name:"queuedTimeoutInMinutesOverride", parent: name, max: 480)
-            try validate(queuedTimeoutInMinutesOverride, name:"queuedTimeoutInMinutesOverride", parent: name, min: 5)
-            try registryCredentialOverride?.validate(name: "\(name).registryCredentialOverride")
-            try validate(secondaryArtifactsOverride, name:"secondaryArtifactsOverride", parent: name, max: 12)
-            try validate(secondaryArtifactsOverride, name:"secondaryArtifactsOverride", parent: name, min: 0)
-            try secondarySourcesOverride?.forEach {
+            try validate(self.gitCloneDepthOverride, name:"gitCloneDepthOverride", parent: name, min: 0)
+            try validate(self.imageOverride, name:"imageOverride", parent: name, min: 1)
+            try validate(self.projectName, name:"projectName", parent: name, min: 1)
+            try validate(self.queuedTimeoutInMinutesOverride, name:"queuedTimeoutInMinutesOverride", parent: name, max: 480)
+            try validate(self.queuedTimeoutInMinutesOverride, name:"queuedTimeoutInMinutesOverride", parent: name, min: 5)
+            try self.registryCredentialOverride?.validate(name: "\(name).registryCredentialOverride")
+            try validate(self.secondaryArtifactsOverride, name:"secondaryArtifactsOverride", parent: name, max: 12)
+            try validate(self.secondaryArtifactsOverride, name:"secondaryArtifactsOverride", parent: name, min: 0)
+            try self.secondarySourcesOverride?.forEach {
                 try $0.validate(name: "\(name).secondarySourcesOverride[]")
             }
-            try validate(secondarySourcesOverride, name:"secondarySourcesOverride", parent: name, max: 12)
-            try validate(secondarySourcesOverride, name:"secondarySourcesOverride", parent: name, min: 0)
-            try validate(secondarySourcesVersionOverride, name:"secondarySourcesVersionOverride", parent: name, max: 12)
-            try validate(secondarySourcesVersionOverride, name:"secondarySourcesVersionOverride", parent: name, min: 0)
-            try validate(serviceRoleOverride, name:"serviceRoleOverride", parent: name, min: 1)
-            try validate(timeoutInMinutesOverride, name:"timeoutInMinutesOverride", parent: name, max: 480)
-            try validate(timeoutInMinutesOverride, name:"timeoutInMinutesOverride", parent: name, min: 5)
+            try validate(self.secondarySourcesOverride, name:"secondarySourcesOverride", parent: name, max: 12)
+            try validate(self.secondarySourcesOverride, name:"secondarySourcesOverride", parent: name, min: 0)
+            try validate(self.secondarySourcesVersionOverride, name:"secondarySourcesVersionOverride", parent: name, max: 12)
+            try validate(self.secondarySourcesVersionOverride, name:"secondarySourcesVersionOverride", parent: name, min: 0)
+            try validate(self.serviceRoleOverride, name:"serviceRoleOverride", parent: name, min: 1)
+            try validate(self.timeoutInMinutesOverride, name:"timeoutInMinutesOverride", parent: name, max: 480)
+            try validate(self.timeoutInMinutesOverride, name:"timeoutInMinutesOverride", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2067,7 +2067,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, min: 1)
+            try validate(self.id, name:"id", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2109,12 +2109,12 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 127)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=@+\\-]*)$")
-            try validate(value, name:"value", parent: name, max: 255)
-            try validate(value, name:"value", parent: name, min: 1)
-            try validate(value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=@+\\-]*)$")
+            try validate(self.key, name:"key", parent: name, max: 127)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=@+\\-]*)$")
+            try validate(self.value, name:"value", parent: name, max: 255)
+            try validate(self.value, name:"value", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=@+\\-]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2204,32 +2204,32 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 255)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(encryptionKey, name:"encryptionKey", parent: name, min: 1)
-            try environment?.validate(name: "\(name).environment")
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", parent: name, max: 480)
-            try validate(queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", parent: name, min: 5)
-            try validate(secondaryArtifacts, name:"secondaryArtifacts", parent: name, max: 12)
-            try validate(secondaryArtifacts, name:"secondaryArtifacts", parent: name, min: 0)
-            try secondarySources?.forEach {
+            try validate(self.description, name:"description", parent: name, max: 255)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.encryptionKey, name:"encryptionKey", parent: name, min: 1)
+            try self.environment?.validate(name: "\(name).environment")
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", parent: name, max: 480)
+            try validate(self.queuedTimeoutInMinutes, name:"queuedTimeoutInMinutes", parent: name, min: 5)
+            try validate(self.secondaryArtifacts, name:"secondaryArtifacts", parent: name, max: 12)
+            try validate(self.secondaryArtifacts, name:"secondaryArtifacts", parent: name, min: 0)
+            try self.secondarySources?.forEach {
                 try $0.validate(name: "\(name).secondarySources[]")
             }
-            try validate(secondarySources, name:"secondarySources", parent: name, max: 12)
-            try validate(secondarySources, name:"secondarySources", parent: name, min: 0)
-            try validate(secondarySourceVersions, name:"secondarySourceVersions", parent: name, max: 12)
-            try validate(secondarySourceVersions, name:"secondarySourceVersions", parent: name, min: 0)
-            try validate(serviceRole, name:"serviceRole", parent: name, min: 1)
-            try source?.validate(name: "\(name).source")
-            try tags?.forEach {
+            try validate(self.secondarySources, name:"secondarySources", parent: name, max: 12)
+            try validate(self.secondarySources, name:"secondarySources", parent: name, min: 0)
+            try validate(self.secondarySourceVersions, name:"secondarySourceVersions", parent: name, max: 12)
+            try validate(self.secondarySourceVersions, name:"secondarySourceVersions", parent: name, min: 0)
+            try validate(self.serviceRole, name:"serviceRole", parent: name, min: 1)
+            try self.source?.validate(name: "\(name).source")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 0)
-            try validate(timeoutInMinutes, name:"timeoutInMinutes", parent: name, max: 480)
-            try validate(timeoutInMinutes, name:"timeoutInMinutes", parent: name, min: 5)
-            try vpcConfig?.validate(name: "\(name).vpcConfig")
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+            try validate(self.timeoutInMinutes, name:"timeoutInMinutes", parent: name, max: 480)
+            try validate(self.timeoutInMinutes, name:"timeoutInMinutes", parent: name, min: 5)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2296,9 +2296,9 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try validate(projectName, name:"projectName", parent: name, max: 255)
-            try validate(projectName, name:"projectName", parent: name, min: 2)
-            try validate(projectName, name:"projectName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
+            try validate(self.projectName, name:"projectName", parent: name, max: 255)
+            try validate(self.projectName, name:"projectName", parent: name, min: 2)
+            try validate(self.projectName, name:"projectName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2347,15 +2347,15 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try securityGroupIds?.forEach {
+            try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
             }
-            try validate(securityGroupIds, name:"securityGroupIds", parent: name, max: 5)
-            try subnets?.forEach {
+            try validate(self.securityGroupIds, name:"securityGroupIds", parent: name, max: 5)
+            try self.subnets?.forEach {
                 try validate($0, name: "subnets[]", parent: name, min: 1)
             }
-            try validate(subnets, name:"subnets", parent: name, max: 16)
-            try validate(vpcId, name:"vpcId", parent: name, min: 1)
+            try validate(self.subnets, name:"subnets", parent: name, max: 16)
+            try validate(self.vpcId, name:"vpcId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

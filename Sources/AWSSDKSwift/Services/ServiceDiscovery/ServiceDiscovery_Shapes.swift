@@ -26,9 +26,9 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, max: 1024)
+            try validate(self.creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -80,10 +80,10 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, max: 1024)
-            try validate(vpc, name:"vpc", parent: name, max: 64)
+            try validate(self.creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.vpc, name:"vpc", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -132,9 +132,9 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(name, name:"name", parent: name, max: 1024)
+            try validate(self.creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -198,13 +198,13 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
-            try validate(description, name:"description", parent: name, max: 1024)
-            try dnsConfig?.validate(name: "\(name).dnsConfig")
-            try healthCheckConfig?.validate(name: "\(name).healthCheckConfig")
-            try healthCheckCustomConfig?.validate(name: "\(name).healthCheckCustomConfig")
-            try validate(name, name:"name", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
-            try validate(namespaceId, name:"namespaceId", parent: name, max: 64)
+            try validate(self.creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try self.dnsConfig?.validate(name: "\(name).dnsConfig")
+            try self.healthCheckConfig?.validate(name: "\(name).healthCheckConfig")
+            try self.healthCheckCustomConfig?.validate(name: "\(name).healthCheckCustomConfig")
+            try validate(self.name, name:"name", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
+            try validate(self.namespaceId, name:"namespaceId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -254,7 +254,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 64)
+            try validate(self.id, name:"id", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -292,7 +292,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 64)
+            try validate(self.id, name:"id", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -325,8 +325,8 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(instanceId, name:"instanceId", parent: name, max: 64)
-            try validate(serviceId, name:"serviceId", parent: name, max: 64)
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 64)
+            try validate(self.serviceId, name:"serviceId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -381,14 +381,14 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(namespaceName, name:"namespaceName", parent: name, max: 1024)
-            try queryParameters?.forEach {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.namespaceName, name:"namespaceName", parent: name, max: 1024)
+            try self.queryParameters?.forEach {
                 try validate($0.key, name:"queryParameters.key", parent: name, max: 255)
                 try validate($0.value, name:"queryParameters[\"\($0.key)\"]", parent: name, max: 1024)
             }
-            try validate(serviceName, name:"serviceName", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
+            try validate(self.serviceName, name:"serviceName", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -434,7 +434,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try dnsRecords.forEach {
+            try self.dnsRecords.forEach {
                 try $0.validate(name: "\(name).dnsRecords[]")
             }
         }
@@ -458,7 +458,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try dnsRecords.forEach {
+            try self.dnsRecords.forEach {
                 try $0.validate(name: "\(name).dnsRecords[]")
             }
         }
@@ -502,8 +502,8 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(ttl, name:"ttl", parent: name, max: 2147483647)
-            try validate(ttl, name:"ttl", parent: name, min: 0)
+            try validate(self.ttl, name:"ttl", parent: name, max: 2147483647)
+            try validate(self.ttl, name:"ttl", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -536,8 +536,8 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(instanceId, name:"instanceId", parent: name, max: 64)
-            try validate(serviceId, name:"serviceId", parent: name, max: 64)
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 64)
+            try validate(self.serviceId, name:"serviceId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -588,14 +588,14 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try instances?.forEach {
+            try self.instances?.forEach {
                 try validate($0, name: "instances[]", parent: name, max: 64)
             }
-            try validate(instances, name:"instances", parent: name, min: 1)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 4096)
-            try validate(serviceId, name:"serviceId", parent: name, max: 64)
+            try validate(self.instances, name:"instances", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 4096)
+            try validate(self.serviceId, name:"serviceId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -641,7 +641,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 64)
+            try validate(self.id, name:"id", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -679,7 +679,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(operationId, name:"operationId", parent: name, max: 64)
+            try validate(self.operationId, name:"operationId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -717,7 +717,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 64)
+            try validate(self.id, name:"id", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -763,9 +763,9 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(failureThreshold, name:"failureThreshold", parent: name, max: 10)
-            try validate(failureThreshold, name:"failureThreshold", parent: name, min: 1)
-            try validate(resourcePath, name:"resourcePath", parent: name, max: 255)
+            try validate(self.failureThreshold, name:"failureThreshold", parent: name, max: 10)
+            try validate(self.failureThreshold, name:"failureThreshold", parent: name, min: 1)
+            try validate(self.resourcePath, name:"resourcePath", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -788,8 +788,8 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(failureThreshold, name:"failureThreshold", parent: name, max: 10)
-            try validate(failureThreshold, name:"failureThreshold", parent: name, min: 1)
+            try validate(self.failureThreshold, name:"failureThreshold", parent: name, max: 10)
+            try validate(self.failureThreshold, name:"failureThreshold", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -942,10 +942,10 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 4096)
-            try validate(serviceId, name:"serviceId", parent: name, max: 64)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 4096)
+            try validate(self.serviceId, name:"serviceId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -998,12 +998,12 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 4096)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1056,12 +1056,12 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 4096)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1114,12 +1114,12 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 4096)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1229,7 +1229,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try values.forEach {
+            try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 255)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
@@ -1400,7 +1400,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try values.forEach {
+            try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 255)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
@@ -1501,13 +1501,13 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try attributes.forEach {
+            try self.attributes.forEach {
                 try validate($0.key, name:"attributes.key", parent: name, max: 255)
                 try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, max: 1024)
             }
-            try validate(creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
-            try validate(instanceId, name:"instanceId", parent: name, max: 64)
-            try validate(serviceId, name:"serviceId", parent: name, max: 64)
+            try validate(self.creatorRequestId, name:"creatorRequestId", parent: name, max: 64)
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 64)
+            try validate(self.serviceId, name:"serviceId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1628,9 +1628,9 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 1024)
-            try dnsConfig.validate(name: "\(name).dnsConfig")
-            try healthCheckConfig?.validate(name: "\(name).healthCheckConfig")
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try self.dnsConfig.validate(name: "\(name).dnsConfig")
+            try self.healthCheckConfig?.validate(name: "\(name).healthCheckConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1661,7 +1661,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try values.forEach {
+            try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 255)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
@@ -1754,8 +1754,8 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(instanceId, name:"instanceId", parent: name, max: 64)
-            try validate(serviceId, name:"serviceId", parent: name, max: 64)
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 64)
+            try validate(self.serviceId, name:"serviceId", parent: name, max: 64)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1782,8 +1782,8 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 64)
-            try service.validate(name: "\(name).service")
+            try validate(self.id, name:"id", parent: name, max: 64)
+            try self.service.validate(name: "\(name).service")
         }
 
         private enum CodingKeys: String, CodingKey {
