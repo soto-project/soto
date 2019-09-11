@@ -135,9 +135,9 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -330,8 +330,8 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -383,8 +383,8 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -33,3 +33,20 @@ extension IoTEventsDataErrorType {
         }
     }
 }
+
+extension IoTEventsDataErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalFailureException(let message):
+            return "InternalFailureException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        }
+    }
+}

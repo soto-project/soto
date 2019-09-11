@@ -36,10 +36,10 @@
         public func validate(name: String) throws {
 {%for v in struct.validation %}
 {%if v.shape %}
-            try {{v.name}}{%if not v.required %}?{%endif %}.validate(name: "\(name).{{v.name}}")
+            try self.{{v.name}}{%if not v.required %}?{%endif %}.validate(name: "\(name).{{v.name}}")
 {%elif v.member %}
 {# validate array members #}
-            try {{v.name}}{%if not v.required %}?{%endif %}.forEach {
+            try self.{{v.name}}{%if not v.required %}?{%endif %}.forEach {
 {%if v.member.shape %}
                 try $0.validate(name: "\(name).{{v.member.name}}[]")
 {%endif %}
@@ -49,7 +49,7 @@
             }
 {%elif v.key or v.value %}
 {# validate dictionary members #}
-            try {{v.name}}{%if not v.required %}?{%endif %}.forEach {
+            try self.{{v.name}}{%if not v.required %}?{%endif %}.forEach {
 {# validate dictionary keys #}
 {%if v.key.shape %}
                 try $0.key.validate(name: "\(name).{{v.key.name}}.key")
@@ -68,7 +68,7 @@
 {%endif %}
 {# validate min,max,pattern #}
 {%for req,var in v.reqs %}
-            try validate({{v.name}}, name:"{{v.name}}", parent: name, {{req}}: {{var}})
+            try validate(self.{{v.name}}, name:"{{v.name}}", parent: name, {{req}}: {{var}})
 {%endfor %}
 {%endfor %}
         }

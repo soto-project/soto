@@ -42,12 +42,12 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try validate(creationToken, name:"creationToken", parent: name, max: 64)
-            try validate(creationToken, name:"creationToken", parent: name, min: 1)
-            try validate(kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
-            try validate(kmsKeyId, name:"kmsKeyId", parent: name, min: 1)
-            try validate(provisionedThroughputInMibps, name:"provisionedThroughputInMibps", parent: name, min: 1)
-            try tags?.forEach {
+            try validate(self.creationToken, name:"creationToken", parent: name, max: 64)
+            try validate(self.creationToken, name:"creationToken", parent: name, min: 1)
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, min: 1)
+            try validate(self.provisionedThroughputInMibps, name:"provisionedThroughputInMibps", parent: name, min: 1)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -88,7 +88,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try validate(securityGroups, name:"securityGroups", parent: name, max: 5)
+            try validate(self.securityGroups, name:"securityGroups", parent: name, max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -116,7 +116,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try tags.forEach {
+            try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -178,7 +178,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try tagKeys.forEach {
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
@@ -215,9 +215,9 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try validate(creationToken, name:"creationToken", parent: name, max: 64)
-            try validate(creationToken, name:"creationToken", parent: name, min: 1)
-            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(self.creationToken, name:"creationToken", parent: name, max: 64)
+            try validate(self.creationToken, name:"creationToken", parent: name, min: 1)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -331,7 +331,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -390,7 +390,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -601,7 +601,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try validate(securityGroups, name:"securityGroups", parent: name, max: 5)
+            try validate(self.securityGroups, name:"securityGroups", parent: name, max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -702,9 +702,9 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(value, name:"value", parent: name, max: 256)
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -748,7 +748,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try validate(provisionedThroughputInMibps, name:"provisionedThroughputInMibps", parent: name, min: 1)
+            try validate(self.provisionedThroughputInMibps, name:"provisionedThroughputInMibps", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

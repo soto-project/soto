@@ -67,6 +67,10 @@ struct AWSService {
         return apiJSON["serviceName"].stringValue.toSwiftClassCase()
     }
 
+    var signingName: String {
+        return apiJSON["metadata"]["signingName"].string ?? endpointPrefix
+    }
+    
     var serviceErrorName: String {
         return serviceName+"ErrorType"
     }

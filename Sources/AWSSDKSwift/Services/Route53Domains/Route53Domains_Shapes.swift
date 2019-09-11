@@ -59,8 +59,8 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
-            try validate(idnLangCode, name:"idnLangCode", parent: name, max: 3)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.idnLangCode, name:"idnLangCode", parent: name, max: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -103,8 +103,8 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(authCode, name:"authCode", parent: name, max: 1024)
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.authCode, name:"authCode", parent: name, max: 1024)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -195,20 +195,20 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(addressLine1, name:"addressLine1", parent: name, max: 255)
-            try validate(addressLine2, name:"addressLine2", parent: name, max: 255)
-            try validate(city, name:"city", parent: name, max: 255)
-            try validate(email, name:"email", parent: name, max: 254)
-            try extraParams?.forEach {
+            try validate(self.addressLine1, name:"addressLine1", parent: name, max: 255)
+            try validate(self.addressLine2, name:"addressLine2", parent: name, max: 255)
+            try validate(self.city, name:"city", parent: name, max: 255)
+            try validate(self.email, name:"email", parent: name, max: 254)
+            try self.extraParams?.forEach {
                 try $0.validate(name: "\(name).extraParams[]")
             }
-            try validate(fax, name:"fax", parent: name, max: 30)
-            try validate(firstName, name:"firstName", parent: name, max: 255)
-            try validate(lastName, name:"lastName", parent: name, max: 255)
-            try validate(organizationName, name:"organizationName", parent: name, max: 255)
-            try validate(phoneNumber, name:"phoneNumber", parent: name, max: 30)
-            try validate(state, name:"state", parent: name, max: 255)
-            try validate(zipCode, name:"zipCode", parent: name, max: 255)
+            try validate(self.fax, name:"fax", parent: name, max: 30)
+            try validate(self.firstName, name:"firstName", parent: name, max: 255)
+            try validate(self.lastName, name:"lastName", parent: name, max: 255)
+            try validate(self.organizationName, name:"organizationName", parent: name, max: 255)
+            try validate(self.phoneNumber, name:"phoneNumber", parent: name, max: 30)
+            try validate(self.state, name:"state", parent: name, max: 255)
+            try validate(self.zipCode, name:"zipCode", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -488,7 +488,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -518,7 +518,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -547,7 +547,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -667,7 +667,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -696,7 +696,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -738,7 +738,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(value, name:"value", parent: name, max: 2048)
+            try validate(self.value, name:"value", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -790,7 +790,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -833,7 +833,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -979,7 +979,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1019,7 +1019,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(operationId, name:"operationId", parent: name, max: 255)
+            try validate(self.operationId, name:"operationId", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1086,8 +1086,8 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(marker, name:"marker", parent: name, max: 4096)
-            try validate(maxItems, name:"maxItems", parent: name, max: 100)
+            try validate(self.marker, name:"marker", parent: name, max: 4096)
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1139,8 +1139,8 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(marker, name:"marker", parent: name, max: 4096)
-            try validate(maxItems, name:"maxItems", parent: name, max: 100)
+            try validate(self.marker, name:"marker", parent: name, max: 4096)
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1185,7 +1185,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1227,11 +1227,11 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try glueIps?.forEach {
+            try self.glueIps?.forEach {
                 try validate($0, name: "glueIps[]", parent: name, max: 45)
             }
-            try validate(name, name:"name", parent: name, max: 255)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-.]*")
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-.]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1357,13 +1357,13 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try adminContact.validate(name: "\(name).adminContact")
-            try validate(domainName, name:"domainName", parent: name, max: 255)
-            try validate(durationInYears, name:"durationInYears", parent: name, max: 10)
-            try validate(durationInYears, name:"durationInYears", parent: name, min: 1)
-            try validate(idnLangCode, name:"idnLangCode", parent: name, max: 3)
-            try registrantContact.validate(name: "\(name).registrantContact")
-            try techContact.validate(name: "\(name).techContact")
+            try self.adminContact.validate(name: "\(name).adminContact")
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.durationInYears, name:"durationInYears", parent: name, max: 10)
+            try validate(self.durationInYears, name:"durationInYears", parent: name, min: 1)
+            try validate(self.idnLangCode, name:"idnLangCode", parent: name, max: 3)
+            try self.registrantContact.validate(name: "\(name).registrantContact")
+            try self.techContact.validate(name: "\(name).techContact")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1418,9 +1418,9 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
-            try validate(durationInYears, name:"durationInYears", parent: name, max: 10)
-            try validate(durationInYears, name:"durationInYears", parent: name, min: 1)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.durationInYears, name:"durationInYears", parent: name, max: 10)
+            try validate(self.durationInYears, name:"durationInYears", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1460,7 +1460,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1508,7 +1508,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1612,17 +1612,17 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try adminContact.validate(name: "\(name).adminContact")
-            try validate(authCode, name:"authCode", parent: name, max: 1024)
-            try validate(domainName, name:"domainName", parent: name, max: 255)
-            try validate(durationInYears, name:"durationInYears", parent: name, max: 10)
-            try validate(durationInYears, name:"durationInYears", parent: name, min: 1)
-            try validate(idnLangCode, name:"idnLangCode", parent: name, max: 3)
-            try nameservers?.forEach {
+            try self.adminContact.validate(name: "\(name).adminContact")
+            try validate(self.authCode, name:"authCode", parent: name, max: 1024)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.durationInYears, name:"durationInYears", parent: name, max: 10)
+            try validate(self.durationInYears, name:"durationInYears", parent: name, min: 1)
+            try validate(self.idnLangCode, name:"idnLangCode", parent: name, max: 3)
+            try self.nameservers?.forEach {
                 try $0.validate(name: "\(name).nameservers[]")
             }
-            try registrantContact.validate(name: "\(name).registrantContact")
-            try techContact.validate(name: "\(name).techContact")
+            try self.registrantContact.validate(name: "\(name).registrantContact")
+            try self.techContact.validate(name: "\(name).techContact")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1690,7 +1690,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1743,10 +1743,10 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try adminContact?.validate(name: "\(name).adminContact")
-            try validate(domainName, name:"domainName", parent: name, max: 255)
-            try registrantContact?.validate(name: "\(name).registrantContact")
-            try techContact?.validate(name: "\(name).techContact")
+            try self.adminContact?.validate(name: "\(name).adminContact")
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
+            try self.registrantContact?.validate(name: "\(name).registrantContact")
+            try self.techContact?.validate(name: "\(name).techContact")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1791,8 +1791,8 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
-            try nameservers.forEach {
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
+            try self.nameservers.forEach {
                 try $0.validate(name: "\(name).nameservers[]")
             }
         }
@@ -1837,7 +1837,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1879,8 +1879,8 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try validate(marker, name:"marker", parent: name, max: 4096)
-            try validate(maxItems, name:"maxItems", parent: name, max: 100)
+            try validate(self.marker, name:"marker", parent: name, max: 4096)
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {

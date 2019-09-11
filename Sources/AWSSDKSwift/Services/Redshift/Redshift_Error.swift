@@ -315,3 +315,208 @@ extension RedshiftErrorType {
         }
     }
 }
+
+extension RedshiftErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessToSnapshotDeniedFault(let message):
+            return "AccessToSnapshotDeniedFault: \(message ?? "")"
+        case .authorizationAlreadyExistsFault(let message):
+            return "AuthorizationAlreadyExistsFault: \(message ?? "")"
+        case .authorizationNotFoundFault(let message):
+            return "AuthorizationNotFoundFault: \(message ?? "")"
+        case .authorizationQuotaExceededFault(let message):
+            return "AuthorizationQuotaExceededFault: \(message ?? "")"
+        case .batchDeleteRequestSizeExceededFault(let message):
+            return "BatchDeleteRequestSizeExceededFault: \(message ?? "")"
+        case .batchModifyClusterSnapshotsLimitExceededFault(let message):
+            return "BatchModifyClusterSnapshotsLimitExceededFault: \(message ?? "")"
+        case .bucketNotFoundFault(let message):
+            return "BucketNotFoundFault: \(message ?? "")"
+        case .clusterAlreadyExistsFault(let message):
+            return "ClusterAlreadyExistsFault: \(message ?? "")"
+        case .clusterNotFoundFault(let message):
+            return "ClusterNotFoundFault: \(message ?? "")"
+        case .clusterOnLatestRevisionFault(let message):
+            return "ClusterOnLatestRevisionFault: \(message ?? "")"
+        case .clusterParameterGroupAlreadyExistsFault(let message):
+            return "ClusterParameterGroupAlreadyExistsFault: \(message ?? "")"
+        case .clusterParameterGroupNotFoundFault(let message):
+            return "ClusterParameterGroupNotFoundFault: \(message ?? "")"
+        case .clusterParameterGroupQuotaExceededFault(let message):
+            return "ClusterParameterGroupQuotaExceededFault: \(message ?? "")"
+        case .clusterQuotaExceededFault(let message):
+            return "ClusterQuotaExceededFault: \(message ?? "")"
+        case .clusterSecurityGroupAlreadyExistsFault(let message):
+            return "ClusterSecurityGroupAlreadyExistsFault: \(message ?? "")"
+        case .clusterSecurityGroupNotFoundFault(let message):
+            return "ClusterSecurityGroupNotFoundFault: \(message ?? "")"
+        case .clusterSecurityGroupQuotaExceededFault(let message):
+            return "ClusterSecurityGroupQuotaExceededFault: \(message ?? "")"
+        case .clusterSnapshotAlreadyExistsFault(let message):
+            return "ClusterSnapshotAlreadyExistsFault: \(message ?? "")"
+        case .clusterSnapshotNotFoundFault(let message):
+            return "ClusterSnapshotNotFoundFault: \(message ?? "")"
+        case .clusterSnapshotQuotaExceededFault(let message):
+            return "ClusterSnapshotQuotaExceededFault: \(message ?? "")"
+        case .clusterSubnetGroupAlreadyExistsFault(let message):
+            return "ClusterSubnetGroupAlreadyExistsFault: \(message ?? "")"
+        case .clusterSubnetGroupNotFoundFault(let message):
+            return "ClusterSubnetGroupNotFoundFault: \(message ?? "")"
+        case .clusterSubnetGroupQuotaExceededFault(let message):
+            return "ClusterSubnetGroupQuotaExceededFault: \(message ?? "")"
+        case .clusterSubnetQuotaExceededFault(let message):
+            return "ClusterSubnetQuotaExceededFault: \(message ?? "")"
+        case .copyToRegionDisabledFault(let message):
+            return "CopyToRegionDisabledFault: \(message ?? "")"
+        case .dependentServiceRequestThrottlingFault(let message):
+            return "DependentServiceRequestThrottlingFault: \(message ?? "")"
+        case .dependentServiceUnavailableFault(let message):
+            return "DependentServiceUnavailableFault: \(message ?? "")"
+        case .eventSubscriptionQuotaExceededFault(let message):
+            return "EventSubscriptionQuotaExceededFault: \(message ?? "")"
+        case .hsmClientCertificateAlreadyExistsFault(let message):
+            return "HsmClientCertificateAlreadyExistsFault: \(message ?? "")"
+        case .hsmClientCertificateNotFoundFault(let message):
+            return "HsmClientCertificateNotFoundFault: \(message ?? "")"
+        case .hsmClientCertificateQuotaExceededFault(let message):
+            return "HsmClientCertificateQuotaExceededFault: \(message ?? "")"
+        case .hsmConfigurationAlreadyExistsFault(let message):
+            return "HsmConfigurationAlreadyExistsFault: \(message ?? "")"
+        case .hsmConfigurationNotFoundFault(let message):
+            return "HsmConfigurationNotFoundFault: \(message ?? "")"
+        case .hsmConfigurationQuotaExceededFault(let message):
+            return "HsmConfigurationQuotaExceededFault: \(message ?? "")"
+        case .inProgressTableRestoreQuotaExceededFault(let message):
+            return "InProgressTableRestoreQuotaExceededFault: \(message ?? "")"
+        case .incompatibleOrderableOptions(let message):
+            return "IncompatibleOrderableOptions: \(message ?? "")"
+        case .insufficientClusterCapacityFault(let message):
+            return "InsufficientClusterCapacityFault: \(message ?? "")"
+        case .insufficientS3BucketPolicyFault(let message):
+            return "InsufficientS3BucketPolicyFault: \(message ?? "")"
+        case .invalidClusterParameterGroupStateFault(let message):
+            return "InvalidClusterParameterGroupStateFault: \(message ?? "")"
+        case .invalidClusterSecurityGroupStateFault(let message):
+            return "InvalidClusterSecurityGroupStateFault: \(message ?? "")"
+        case .invalidClusterSnapshotScheduleStateFault(let message):
+            return "InvalidClusterSnapshotScheduleStateFault: \(message ?? "")"
+        case .invalidClusterSnapshotStateFault(let message):
+            return "InvalidClusterSnapshotStateFault: \(message ?? "")"
+        case .invalidClusterStateFault(let message):
+            return "InvalidClusterStateFault: \(message ?? "")"
+        case .invalidClusterSubnetGroupStateFault(let message):
+            return "InvalidClusterSubnetGroupStateFault: \(message ?? "")"
+        case .invalidClusterSubnetStateFault(let message):
+            return "InvalidClusterSubnetStateFault: \(message ?? "")"
+        case .invalidClusterTrackFault(let message):
+            return "InvalidClusterTrackFault: \(message ?? "")"
+        case .invalidElasticIpFault(let message):
+            return "InvalidElasticIpFault: \(message ?? "")"
+        case .invalidHsmClientCertificateStateFault(let message):
+            return "InvalidHsmClientCertificateStateFault: \(message ?? "")"
+        case .invalidHsmConfigurationStateFault(let message):
+            return "InvalidHsmConfigurationStateFault: \(message ?? "")"
+        case .invalidReservedNodeStateFault(let message):
+            return "InvalidReservedNodeStateFault: \(message ?? "")"
+        case .invalidRestoreFault(let message):
+            return "InvalidRestoreFault: \(message ?? "")"
+        case .invalidRetentionPeriodFault(let message):
+            return "InvalidRetentionPeriodFault: \(message ?? "")"
+        case .invalidS3BucketNameFault(let message):
+            return "InvalidS3BucketNameFault: \(message ?? "")"
+        case .invalidS3KeyPrefixFault(let message):
+            return "InvalidS3KeyPrefixFault: \(message ?? "")"
+        case .invalidScheduleFault(let message):
+            return "InvalidScheduleFault: \(message ?? "")"
+        case .invalidSnapshotCopyGrantStateFault(let message):
+            return "InvalidSnapshotCopyGrantStateFault: \(message ?? "")"
+        case .invalidSubnet(let message):
+            return "InvalidSubnet: \(message ?? "")"
+        case .invalidSubscriptionStateFault(let message):
+            return "InvalidSubscriptionStateFault: \(message ?? "")"
+        case .invalidTableRestoreArgumentFault(let message):
+            return "InvalidTableRestoreArgumentFault: \(message ?? "")"
+        case .invalidTagFault(let message):
+            return "InvalidTagFault: \(message ?? "")"
+        case .invalidVPCNetworkStateFault(let message):
+            return "InvalidVPCNetworkStateFault: \(message ?? "")"
+        case .limitExceededFault(let message):
+            return "LimitExceededFault: \(message ?? "")"
+        case .numberOfNodesPerClusterLimitExceededFault(let message):
+            return "NumberOfNodesPerClusterLimitExceededFault: \(message ?? "")"
+        case .numberOfNodesQuotaExceededFault(let message):
+            return "NumberOfNodesQuotaExceededFault: \(message ?? "")"
+        case .reservedNodeAlreadyExistsFault(let message):
+            return "ReservedNodeAlreadyExistsFault: \(message ?? "")"
+        case .reservedNodeAlreadyMigratedFault(let message):
+            return "ReservedNodeAlreadyMigratedFault: \(message ?? "")"
+        case .reservedNodeNotFoundFault(let message):
+            return "ReservedNodeNotFoundFault: \(message ?? "")"
+        case .reservedNodeOfferingNotFoundFault(let message):
+            return "ReservedNodeOfferingNotFoundFault: \(message ?? "")"
+        case .reservedNodeQuotaExceededFault(let message):
+            return "ReservedNodeQuotaExceededFault: \(message ?? "")"
+        case .resizeNotFoundFault(let message):
+            return "ResizeNotFoundFault: \(message ?? "")"
+        case .resourceNotFoundFault(let message):
+            return "ResourceNotFoundFault: \(message ?? "")"
+        case .sNSInvalidTopicFault(let message):
+            return "SNSInvalidTopicFault: \(message ?? "")"
+        case .sNSNoAuthorizationFault(let message):
+            return "SNSNoAuthorizationFault: \(message ?? "")"
+        case .sNSTopicArnNotFoundFault(let message):
+            return "SNSTopicArnNotFoundFault: \(message ?? "")"
+        case .scheduleDefinitionTypeUnsupportedFault(let message):
+            return "ScheduleDefinitionTypeUnsupportedFault: \(message ?? "")"
+        case .snapshotCopyAlreadyDisabledFault(let message):
+            return "SnapshotCopyAlreadyDisabledFault: \(message ?? "")"
+        case .snapshotCopyAlreadyEnabledFault(let message):
+            return "SnapshotCopyAlreadyEnabledFault: \(message ?? "")"
+        case .snapshotCopyDisabledFault(let message):
+            return "SnapshotCopyDisabledFault: \(message ?? "")"
+        case .snapshotCopyGrantAlreadyExistsFault(let message):
+            return "SnapshotCopyGrantAlreadyExistsFault: \(message ?? "")"
+        case .snapshotCopyGrantNotFoundFault(let message):
+            return "SnapshotCopyGrantNotFoundFault: \(message ?? "")"
+        case .snapshotCopyGrantQuotaExceededFault(let message):
+            return "SnapshotCopyGrantQuotaExceededFault: \(message ?? "")"
+        case .snapshotScheduleAlreadyExistsFault(let message):
+            return "SnapshotScheduleAlreadyExistsFault: \(message ?? "")"
+        case .snapshotScheduleNotFoundFault(let message):
+            return "SnapshotScheduleNotFoundFault: \(message ?? "")"
+        case .snapshotScheduleQuotaExceededFault(let message):
+            return "SnapshotScheduleQuotaExceededFault: \(message ?? "")"
+        case .snapshotScheduleUpdateInProgressFault(let message):
+            return "SnapshotScheduleUpdateInProgressFault: \(message ?? "")"
+        case .sourceNotFoundFault(let message):
+            return "SourceNotFoundFault: \(message ?? "")"
+        case .subnetAlreadyInUse(let message):
+            return "SubnetAlreadyInUse: \(message ?? "")"
+        case .subscriptionAlreadyExistFault(let message):
+            return "SubscriptionAlreadyExistFault: \(message ?? "")"
+        case .subscriptionCategoryNotFoundFault(let message):
+            return "SubscriptionCategoryNotFoundFault: \(message ?? "")"
+        case .subscriptionEventIdNotFoundFault(let message):
+            return "SubscriptionEventIdNotFoundFault: \(message ?? "")"
+        case .subscriptionNotFoundFault(let message):
+            return "SubscriptionNotFoundFault: \(message ?? "")"
+        case .subscriptionSeverityNotFoundFault(let message):
+            return "SubscriptionSeverityNotFoundFault: \(message ?? "")"
+        case .tableLimitExceededFault(let message):
+            return "TableLimitExceededFault: \(message ?? "")"
+        case .tableRestoreNotFoundFault(let message):
+            return "TableRestoreNotFoundFault: \(message ?? "")"
+        case .tagLimitExceededFault(let message):
+            return "TagLimitExceededFault: \(message ?? "")"
+        case .unauthorizedOperation(let message):
+            return "UnauthorizedOperation: \(message ?? "")"
+        case .unknownSnapshotCopyRegionFault(let message):
+            return "UnknownSnapshotCopyRegionFault: \(message ?? "")"
+        case .unsupportedOperationFault(let message):
+            return "UnsupportedOperationFault: \(message ?? "")"
+        case .unsupportedOptionFault(let message):
+            return "UnsupportedOptionFault: \(message ?? "")"
+        }
+    }
+}

@@ -51,3 +51,32 @@ extension AppStreamErrorType {
         }
     }
 }
+
+extension AppStreamErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .incompatibleImageException(let message):
+            return "IncompatibleImageException: \(message ?? "")"
+        case .invalidAccountStatusException(let message):
+            return "InvalidAccountStatusException: \(message ?? "")"
+        case .invalidParameterCombinationException(let message):
+            return "InvalidParameterCombinationException: \(message ?? "")"
+        case .invalidRoleException(let message):
+            return "InvalidRoleException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .operationNotPermittedException(let message):
+            return "OperationNotPermittedException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotAvailableException(let message):
+            return "ResourceNotAvailableException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

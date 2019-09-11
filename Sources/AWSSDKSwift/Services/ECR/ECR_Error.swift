@@ -84,3 +84,54 @@ extension ECRErrorType {
         }
     }
 }
+
+extension ECRErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .emptyUploadException(let message):
+            return "EmptyUploadException: \(message ?? "")"
+        case .imageAlreadyExistsException(let message):
+            return "ImageAlreadyExistsException: \(message ?? "")"
+        case .imageNotFoundException(let message):
+            return "ImageNotFoundException: \(message ?? "")"
+        case .invalidLayerException(let message):
+            return "InvalidLayerException: \(message ?? "")"
+        case .invalidLayerPartException(let message):
+            return "InvalidLayerPartException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidTagParameterException(let message):
+            return "InvalidTagParameterException: \(message ?? "")"
+        case .layerAlreadyExistsException(let message):
+            return "LayerAlreadyExistsException: \(message ?? "")"
+        case .layerInaccessibleException(let message):
+            return "LayerInaccessibleException: \(message ?? "")"
+        case .layerPartTooSmallException(let message):
+            return "LayerPartTooSmallException: \(message ?? "")"
+        case .layersNotFoundException(let message):
+            return "LayersNotFoundException: \(message ?? "")"
+        case .lifecyclePolicyNotFoundException(let message):
+            return "LifecyclePolicyNotFoundException: \(message ?? "")"
+        case .lifecyclePolicyPreviewInProgressException(let message):
+            return "LifecyclePolicyPreviewInProgressException: \(message ?? "")"
+        case .lifecyclePolicyPreviewNotFoundException(let message):
+            return "LifecyclePolicyPreviewNotFoundException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .repositoryAlreadyExistsException(let message):
+            return "RepositoryAlreadyExistsException: \(message ?? "")"
+        case .repositoryNotEmptyException(let message):
+            return "RepositoryNotEmptyException: \(message ?? "")"
+        case .repositoryNotFoundException(let message):
+            return "RepositoryNotFoundException: \(message ?? "")"
+        case .repositoryPolicyNotFoundException(let message):
+            return "RepositoryPolicyNotFoundException: \(message ?? "")"
+        case .serverException(let message):
+            return "ServerException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        case .uploadNotFoundException(let message):
+            return "UploadNotFoundException: \(message ?? "")"
+        }
+    }
+}

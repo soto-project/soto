@@ -36,3 +36,22 @@ extension Route53DomainsErrorType {
         }
     }
 }
+
+extension Route53DomainsErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .domainLimitExceeded(let message):
+            return "DomainLimitExceeded: \(message ?? "")"
+        case .duplicateRequest(let message):
+            return "DuplicateRequest: \(message ?? "")"
+        case .invalidInput(let message):
+            return "InvalidInput: \(message ?? "")"
+        case .operationLimitExceeded(let message):
+            return "OperationLimitExceeded: \(message ?? "")"
+        case .tLDRulesViolation(let message):
+            return "TLDRulesViolation: \(message ?? "")"
+        case .unsupportedTLD(let message):
+            return "UnsupportedTLD: \(message ?? "")"
+        }
+    }
+}

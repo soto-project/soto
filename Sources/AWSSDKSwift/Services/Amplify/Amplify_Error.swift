@@ -39,3 +39,24 @@ extension AmplifyErrorType {
         }
     }
 }
+
+extension AmplifyErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .dependentServiceFailureException(let message):
+            return "DependentServiceFailureException: \(message ?? "")"
+        case .internalFailureException(let message):
+            return "InternalFailureException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .unauthorizedException(let message):
+            return "UnauthorizedException: \(message ?? "")"
+        }
+    }
+}

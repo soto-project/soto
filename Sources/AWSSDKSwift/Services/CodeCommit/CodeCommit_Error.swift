@@ -459,3 +459,304 @@ extension CodeCommitErrorType {
         }
     }
 }
+
+extension CodeCommitErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .actorDoesNotExistException(let message):
+            return "ActorDoesNotExistException: \(message ?? "")"
+        case .authorDoesNotExistException(let message):
+            return "AuthorDoesNotExistException: \(message ?? "")"
+        case .beforeCommitIdAndAfterCommitIdAreSameException(let message):
+            return "BeforeCommitIdAndAfterCommitIdAreSameException: \(message ?? "")"
+        case .blobIdDoesNotExistException(let message):
+            return "BlobIdDoesNotExistException: \(message ?? "")"
+        case .blobIdRequiredException(let message):
+            return "BlobIdRequiredException: \(message ?? "")"
+        case .branchDoesNotExistException(let message):
+            return "BranchDoesNotExistException: \(message ?? "")"
+        case .branchNameExistsException(let message):
+            return "BranchNameExistsException: \(message ?? "")"
+        case .branchNameIsTagNameException(let message):
+            return "BranchNameIsTagNameException: \(message ?? "")"
+        case .branchNameRequiredException(let message):
+            return "BranchNameRequiredException: \(message ?? "")"
+        case .clientRequestTokenRequiredException(let message):
+            return "ClientRequestTokenRequiredException: \(message ?? "")"
+        case .commentContentRequiredException(let message):
+            return "CommentContentRequiredException: \(message ?? "")"
+        case .commentContentSizeLimitExceededException(let message):
+            return "CommentContentSizeLimitExceededException: \(message ?? "")"
+        case .commentDeletedException(let message):
+            return "CommentDeletedException: \(message ?? "")"
+        case .commentDoesNotExistException(let message):
+            return "CommentDoesNotExistException: \(message ?? "")"
+        case .commentIdRequiredException(let message):
+            return "CommentIdRequiredException: \(message ?? "")"
+        case .commentNotCreatedByCallerException(let message):
+            return "CommentNotCreatedByCallerException: \(message ?? "")"
+        case .commitDoesNotExistException(let message):
+            return "CommitDoesNotExistException: \(message ?? "")"
+        case .commitIdDoesNotExistException(let message):
+            return "CommitIdDoesNotExistException: \(message ?? "")"
+        case .commitIdRequiredException(let message):
+            return "CommitIdRequiredException: \(message ?? "")"
+        case .commitMessageLengthExceededException(let message):
+            return "CommitMessageLengthExceededException: \(message ?? "")"
+        case .commitRequiredException(let message):
+            return "CommitRequiredException: \(message ?? "")"
+        case .defaultBranchCannotBeDeletedException(let message):
+            return "DefaultBranchCannotBeDeletedException: \(message ?? "")"
+        case .directoryNameConflictsWithFileNameException(let message):
+            return "DirectoryNameConflictsWithFileNameException: \(message ?? "")"
+        case .encryptionIntegrityChecksFailedException(let message):
+            return "EncryptionIntegrityChecksFailedException: \(message ?? "")"
+        case .encryptionKeyAccessDeniedException(let message):
+            return "EncryptionKeyAccessDeniedException: \(message ?? "")"
+        case .encryptionKeyDisabledException(let message):
+            return "EncryptionKeyDisabledException: \(message ?? "")"
+        case .encryptionKeyNotFoundException(let message):
+            return "EncryptionKeyNotFoundException: \(message ?? "")"
+        case .encryptionKeyUnavailableException(let message):
+            return "EncryptionKeyUnavailableException: \(message ?? "")"
+        case .fileContentAndSourceFileSpecifiedException(let message):
+            return "FileContentAndSourceFileSpecifiedException: \(message ?? "")"
+        case .fileContentRequiredException(let message):
+            return "FileContentRequiredException: \(message ?? "")"
+        case .fileContentSizeLimitExceededException(let message):
+            return "FileContentSizeLimitExceededException: \(message ?? "")"
+        case .fileDoesNotExistException(let message):
+            return "FileDoesNotExistException: \(message ?? "")"
+        case .fileEntryRequiredException(let message):
+            return "FileEntryRequiredException: \(message ?? "")"
+        case .fileModeRequiredException(let message):
+            return "FileModeRequiredException: \(message ?? "")"
+        case .fileNameConflictsWithDirectoryNameException(let message):
+            return "FileNameConflictsWithDirectoryNameException: \(message ?? "")"
+        case .filePathConflictsWithSubmodulePathException(let message):
+            return "FilePathConflictsWithSubmodulePathException: \(message ?? "")"
+        case .fileTooLargeException(let message):
+            return "FileTooLargeException: \(message ?? "")"
+        case .folderContentSizeLimitExceededException(let message):
+            return "FolderContentSizeLimitExceededException: \(message ?? "")"
+        case .folderDoesNotExistException(let message):
+            return "FolderDoesNotExistException: \(message ?? "")"
+        case .idempotencyParameterMismatchException(let message):
+            return "IdempotencyParameterMismatchException: \(message ?? "")"
+        case .invalidActorArnException(let message):
+            return "InvalidActorArnException: \(message ?? "")"
+        case .invalidAuthorArnException(let message):
+            return "InvalidAuthorArnException: \(message ?? "")"
+        case .invalidBlobIdException(let message):
+            return "InvalidBlobIdException: \(message ?? "")"
+        case .invalidBranchNameException(let message):
+            return "InvalidBranchNameException: \(message ?? "")"
+        case .invalidClientRequestTokenException(let message):
+            return "InvalidClientRequestTokenException: \(message ?? "")"
+        case .invalidCommentIdException(let message):
+            return "InvalidCommentIdException: \(message ?? "")"
+        case .invalidCommitException(let message):
+            return "InvalidCommitException: \(message ?? "")"
+        case .invalidCommitIdException(let message):
+            return "InvalidCommitIdException: \(message ?? "")"
+        case .invalidConflictDetailLevelException(let message):
+            return "InvalidConflictDetailLevelException: \(message ?? "")"
+        case .invalidConflictResolutionException(let message):
+            return "InvalidConflictResolutionException: \(message ?? "")"
+        case .invalidConflictResolutionStrategyException(let message):
+            return "InvalidConflictResolutionStrategyException: \(message ?? "")"
+        case .invalidContinuationTokenException(let message):
+            return "InvalidContinuationTokenException: \(message ?? "")"
+        case .invalidDeletionParameterException(let message):
+            return "InvalidDeletionParameterException: \(message ?? "")"
+        case .invalidDescriptionException(let message):
+            return "InvalidDescriptionException: \(message ?? "")"
+        case .invalidDestinationCommitSpecifierException(let message):
+            return "InvalidDestinationCommitSpecifierException: \(message ?? "")"
+        case .invalidEmailException(let message):
+            return "InvalidEmailException: \(message ?? "")"
+        case .invalidFileLocationException(let message):
+            return "InvalidFileLocationException: \(message ?? "")"
+        case .invalidFileModeException(let message):
+            return "InvalidFileModeException: \(message ?? "")"
+        case .invalidFilePositionException(let message):
+            return "InvalidFilePositionException: \(message ?? "")"
+        case .invalidMaxConflictFilesException(let message):
+            return "InvalidMaxConflictFilesException: \(message ?? "")"
+        case .invalidMaxMergeHunksException(let message):
+            return "InvalidMaxMergeHunksException: \(message ?? "")"
+        case .invalidMaxResultsException(let message):
+            return "InvalidMaxResultsException: \(message ?? "")"
+        case .invalidMergeOptionException(let message):
+            return "InvalidMergeOptionException: \(message ?? "")"
+        case .invalidOrderException(let message):
+            return "InvalidOrderException: \(message ?? "")"
+        case .invalidParentCommitIdException(let message):
+            return "InvalidParentCommitIdException: \(message ?? "")"
+        case .invalidPathException(let message):
+            return "InvalidPathException: \(message ?? "")"
+        case .invalidPullRequestEventTypeException(let message):
+            return "InvalidPullRequestEventTypeException: \(message ?? "")"
+        case .invalidPullRequestIdException(let message):
+            return "InvalidPullRequestIdException: \(message ?? "")"
+        case .invalidPullRequestStatusException(let message):
+            return "InvalidPullRequestStatusException: \(message ?? "")"
+        case .invalidPullRequestStatusUpdateException(let message):
+            return "InvalidPullRequestStatusUpdateException: \(message ?? "")"
+        case .invalidReferenceNameException(let message):
+            return "InvalidReferenceNameException: \(message ?? "")"
+        case .invalidRelativeFileVersionEnumException(let message):
+            return "InvalidRelativeFileVersionEnumException: \(message ?? "")"
+        case .invalidReplacementContentException(let message):
+            return "InvalidReplacementContentException: \(message ?? "")"
+        case .invalidReplacementTypeException(let message):
+            return "InvalidReplacementTypeException: \(message ?? "")"
+        case .invalidRepositoryDescriptionException(let message):
+            return "InvalidRepositoryDescriptionException: \(message ?? "")"
+        case .invalidRepositoryNameException(let message):
+            return "InvalidRepositoryNameException: \(message ?? "")"
+        case .invalidRepositoryTriggerBranchNameException(let message):
+            return "InvalidRepositoryTriggerBranchNameException: \(message ?? "")"
+        case .invalidRepositoryTriggerCustomDataException(let message):
+            return "InvalidRepositoryTriggerCustomDataException: \(message ?? "")"
+        case .invalidRepositoryTriggerDestinationArnException(let message):
+            return "InvalidRepositoryTriggerDestinationArnException: \(message ?? "")"
+        case .invalidRepositoryTriggerEventsException(let message):
+            return "InvalidRepositoryTriggerEventsException: \(message ?? "")"
+        case .invalidRepositoryTriggerNameException(let message):
+            return "InvalidRepositoryTriggerNameException: \(message ?? "")"
+        case .invalidRepositoryTriggerRegionException(let message):
+            return "InvalidRepositoryTriggerRegionException: \(message ?? "")"
+        case .invalidResourceArnException(let message):
+            return "InvalidResourceArnException: \(message ?? "")"
+        case .invalidSortByException(let message):
+            return "InvalidSortByException: \(message ?? "")"
+        case .invalidSourceCommitSpecifierException(let message):
+            return "InvalidSourceCommitSpecifierException: \(message ?? "")"
+        case .invalidSystemTagUsageException(let message):
+            return "InvalidSystemTagUsageException: \(message ?? "")"
+        case .invalidTagKeysListException(let message):
+            return "InvalidTagKeysListException: \(message ?? "")"
+        case .invalidTagsMapException(let message):
+            return "InvalidTagsMapException: \(message ?? "")"
+        case .invalidTargetBranchException(let message):
+            return "InvalidTargetBranchException: \(message ?? "")"
+        case .invalidTargetException(let message):
+            return "InvalidTargetException: \(message ?? "")"
+        case .invalidTargetsException(let message):
+            return "InvalidTargetsException: \(message ?? "")"
+        case .invalidTitleException(let message):
+            return "InvalidTitleException: \(message ?? "")"
+        case .manualMergeRequiredException(let message):
+            return "ManualMergeRequiredException: \(message ?? "")"
+        case .maximumBranchesExceededException(let message):
+            return "MaximumBranchesExceededException: \(message ?? "")"
+        case .maximumConflictResolutionEntriesExceededException(let message):
+            return "MaximumConflictResolutionEntriesExceededException: \(message ?? "")"
+        case .maximumFileContentToLoadExceededException(let message):
+            return "MaximumFileContentToLoadExceededException: \(message ?? "")"
+        case .maximumFileEntriesExceededException(let message):
+            return "MaximumFileEntriesExceededException: \(message ?? "")"
+        case .maximumItemsToCompareExceededException(let message):
+            return "MaximumItemsToCompareExceededException: \(message ?? "")"
+        case .maximumOpenPullRequestsExceededException(let message):
+            return "MaximumOpenPullRequestsExceededException: \(message ?? "")"
+        case .maximumRepositoryNamesExceededException(let message):
+            return "MaximumRepositoryNamesExceededException: \(message ?? "")"
+        case .maximumRepositoryTriggersExceededException(let message):
+            return "MaximumRepositoryTriggersExceededException: \(message ?? "")"
+        case .mergeOptionRequiredException(let message):
+            return "MergeOptionRequiredException: \(message ?? "")"
+        case .multipleConflictResolutionEntriesException(let message):
+            return "MultipleConflictResolutionEntriesException: \(message ?? "")"
+        case .multipleRepositoriesInPullRequestException(let message):
+            return "MultipleRepositoriesInPullRequestException: \(message ?? "")"
+        case .nameLengthExceededException(let message):
+            return "NameLengthExceededException: \(message ?? "")"
+        case .noChangeException(let message):
+            return "NoChangeException: \(message ?? "")"
+        case .parentCommitDoesNotExistException(let message):
+            return "ParentCommitDoesNotExistException: \(message ?? "")"
+        case .parentCommitIdOutdatedException(let message):
+            return "ParentCommitIdOutdatedException: \(message ?? "")"
+        case .parentCommitIdRequiredException(let message):
+            return "ParentCommitIdRequiredException: \(message ?? "")"
+        case .pathDoesNotExistException(let message):
+            return "PathDoesNotExistException: \(message ?? "")"
+        case .pathRequiredException(let message):
+            return "PathRequiredException: \(message ?? "")"
+        case .pullRequestAlreadyClosedException(let message):
+            return "PullRequestAlreadyClosedException: \(message ?? "")"
+        case .pullRequestDoesNotExistException(let message):
+            return "PullRequestDoesNotExistException: \(message ?? "")"
+        case .pullRequestIdRequiredException(let message):
+            return "PullRequestIdRequiredException: \(message ?? "")"
+        case .pullRequestStatusRequiredException(let message):
+            return "PullRequestStatusRequiredException: \(message ?? "")"
+        case .putFileEntryConflictException(let message):
+            return "PutFileEntryConflictException: \(message ?? "")"
+        case .referenceDoesNotExistException(let message):
+            return "ReferenceDoesNotExistException: \(message ?? "")"
+        case .referenceNameRequiredException(let message):
+            return "ReferenceNameRequiredException: \(message ?? "")"
+        case .referenceTypeNotSupportedException(let message):
+            return "ReferenceTypeNotSupportedException: \(message ?? "")"
+        case .replacementContentRequiredException(let message):
+            return "ReplacementContentRequiredException: \(message ?? "")"
+        case .replacementTypeRequiredException(let message):
+            return "ReplacementTypeRequiredException: \(message ?? "")"
+        case .repositoryDoesNotExistException(let message):
+            return "RepositoryDoesNotExistException: \(message ?? "")"
+        case .repositoryLimitExceededException(let message):
+            return "RepositoryLimitExceededException: \(message ?? "")"
+        case .repositoryNameExistsException(let message):
+            return "RepositoryNameExistsException: \(message ?? "")"
+        case .repositoryNameRequiredException(let message):
+            return "RepositoryNameRequiredException: \(message ?? "")"
+        case .repositoryNamesRequiredException(let message):
+            return "RepositoryNamesRequiredException: \(message ?? "")"
+        case .repositoryNotAssociatedWithPullRequestException(let message):
+            return "RepositoryNotAssociatedWithPullRequestException: \(message ?? "")"
+        case .repositoryTriggerBranchNameListRequiredException(let message):
+            return "RepositoryTriggerBranchNameListRequiredException: \(message ?? "")"
+        case .repositoryTriggerDestinationArnRequiredException(let message):
+            return "RepositoryTriggerDestinationArnRequiredException: \(message ?? "")"
+        case .repositoryTriggerEventsListRequiredException(let message):
+            return "RepositoryTriggerEventsListRequiredException: \(message ?? "")"
+        case .repositoryTriggerNameRequiredException(let message):
+            return "RepositoryTriggerNameRequiredException: \(message ?? "")"
+        case .repositoryTriggersListRequiredException(let message):
+            return "RepositoryTriggersListRequiredException: \(message ?? "")"
+        case .resourceArnRequiredException(let message):
+            return "ResourceArnRequiredException: \(message ?? "")"
+        case .restrictedSourceFileException(let message):
+            return "RestrictedSourceFileException: \(message ?? "")"
+        case .sameFileContentException(let message):
+            return "SameFileContentException: \(message ?? "")"
+        case .samePathRequestException(let message):
+            return "SamePathRequestException: \(message ?? "")"
+        case .sourceAndDestinationAreSameException(let message):
+            return "SourceAndDestinationAreSameException: \(message ?? "")"
+        case .sourceFileOrContentRequiredException(let message):
+            return "SourceFileOrContentRequiredException: \(message ?? "")"
+        case .tagKeysListRequiredException(let message):
+            return "TagKeysListRequiredException: \(message ?? "")"
+        case .tagPolicyException(let message):
+            return "TagPolicyException: \(message ?? "")"
+        case .tagsMapRequiredException(let message):
+            return "TagsMapRequiredException: \(message ?? "")"
+        case .targetRequiredException(let message):
+            return "TargetRequiredException: \(message ?? "")"
+        case .targetsRequiredException(let message):
+            return "TargetsRequiredException: \(message ?? "")"
+        case .tipOfSourceReferenceIsDifferentException(let message):
+            return "TipOfSourceReferenceIsDifferentException: \(message ?? "")"
+        case .tipsDivergenceExceededException(let message):
+            return "TipsDivergenceExceededException: \(message ?? "")"
+        case .titleRequiredException(let message):
+            return "TitleRequiredException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        }
+    }
+}

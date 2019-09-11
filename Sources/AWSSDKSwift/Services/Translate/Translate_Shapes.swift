@@ -40,9 +40,9 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -67,9 +67,9 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 400)
-            try validate(id, name:"id", parent: name, min: 1)
-            try validate(id, name:"id", parent: name, pattern: "(arn:aws((-us-gov)|(-cn))?:kms:)?([a-z]{2}-[a-z]+-\\d:)?(\\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+))")
+            try validate(self.id, name:"id", parent: name, max: 400)
+            try validate(self.id, name:"id", parent: name, min: 1)
+            try validate(self.id, name:"id", parent: name, pattern: "(arn:aws((-us-gov)|(-cn))?:kms:)?([a-z]{2}-[a-z]+-\\d:)?(\\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+))")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -100,9 +100,9 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -162,13 +162,13 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(description, name:"description", parent: name, pattern: "[\\P{M}\\p{M}]{0,256}")
-            try encryptionKey?.validate(name: "\(name).encryptionKey")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
-            try terminologyData.validate(name: "\(name).terminologyData")
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.description, name:"description", parent: name, pattern: "[\\P{M}\\p{M}]{0,256}")
+            try self.encryptionKey?.validate(name: "\(name).encryptionKey")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
+            try self.terminologyData.validate(name: "\(name).terminologyData")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -214,10 +214,10 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 500)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 8192)
-            try validate(nextToken, name:"nextToken", parent: name, pattern: "\\p{ASCII}{0,8192}")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "\\p{ASCII}{0,8192}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -292,7 +292,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
-            try validate(file, name:"file", parent: name, max: 10485760)
+            try validate(self.file, name:"file", parent: name, max: 10485760)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -416,18 +416,18 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
-            try validate(sourceLanguageCode, name:"sourceLanguageCode", parent: name, max: 5)
-            try validate(sourceLanguageCode, name:"sourceLanguageCode", parent: name, min: 2)
-            try validate(targetLanguageCode, name:"targetLanguageCode", parent: name, max: 5)
-            try validate(targetLanguageCode, name:"targetLanguageCode", parent: name, min: 2)
-            try terminologyNames?.forEach {
+            try validate(self.sourceLanguageCode, name:"sourceLanguageCode", parent: name, max: 5)
+            try validate(self.sourceLanguageCode, name:"sourceLanguageCode", parent: name, min: 2)
+            try validate(self.targetLanguageCode, name:"targetLanguageCode", parent: name, max: 5)
+            try validate(self.targetLanguageCode, name:"targetLanguageCode", parent: name, min: 2)
+            try self.terminologyNames?.forEach {
                 try validate($0, name: "terminologyNames[]", parent: name, max: 256)
                 try validate($0, name: "terminologyNames[]", parent: name, min: 1)
                 try validate($0, name: "terminologyNames[]", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
             }
-            try validate(text, name:"text", parent: name, max: 5000)
-            try validate(text, name:"text", parent: name, min: 1)
-            try validate(text, name:"text", parent: name, pattern: "[\\P{M}\\p{M}]{1,5000}")
+            try validate(self.text, name:"text", parent: name, max: 5000)
+            try validate(self.text, name:"text", parent: name, min: 1)
+            try validate(self.text, name:"text", parent: name, pattern: "[\\P{M}\\p{M}]{1,5000}")
         }
 
         private enum CodingKeys: String, CodingKey {

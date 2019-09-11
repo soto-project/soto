@@ -35,12 +35,12 @@ extension SageMakerRuntime {
         }
 
         public func validate(name: String) throws {
-            try validate(accept, name:"accept", parent: name, max: 1024)
-            try validate(body, name:"body", parent: name, max: 5242880)
-            try validate(contentType, name:"contentType", parent: name, max: 1024)
-            try validate(customAttributes, name:"customAttributes", parent: name, max: 1024)
-            try validate(endpointName, name:"endpointName", parent: name, max: 63)
-            try validate(endpointName, name:"endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.accept, name:"accept", parent: name, max: 1024)
+            try validate(self.body, name:"body", parent: name, max: 5242880)
+            try validate(self.contentType, name:"contentType", parent: name, max: 1024)
+            try validate(self.customAttributes, name:"customAttributes", parent: name, max: 1024)
+            try validate(self.endpointName, name:"endpointName", parent: name, max: 63)
+            try validate(self.endpointName, name:"endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
 
         private enum CodingKeys: String, CodingKey {

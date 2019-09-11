@@ -36,3 +36,22 @@ extension MediaPackageErrorType {
         }
     }
 }
+
+extension MediaPackageErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .forbiddenException(let message):
+            return "ForbiddenException: \(message ?? "")"
+        case .internalServerErrorException(let message):
+            return "InternalServerErrorException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        case .unprocessableEntityException(let message):
+            return "UnprocessableEntityException: \(message ?? "")"
+        }
+    }
+}

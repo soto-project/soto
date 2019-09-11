@@ -66,3 +66,42 @@ extension WorkMailErrorType {
         }
     }
 }
+
+extension WorkMailErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .directoryServiceAuthenticationFailedException(let message):
+            return "DirectoryServiceAuthenticationFailedException: \(message ?? "")"
+        case .directoryUnavailableException(let message):
+            return "DirectoryUnavailableException: \(message ?? "")"
+        case .emailAddressInUseException(let message):
+            return "EmailAddressInUseException: \(message ?? "")"
+        case .entityAlreadyRegisteredException(let message):
+            return "EntityAlreadyRegisteredException: \(message ?? "")"
+        case .entityNotFoundException(let message):
+            return "EntityNotFoundException: \(message ?? "")"
+        case .entityStateException(let message):
+            return "EntityStateException: \(message ?? "")"
+        case .invalidConfigurationException(let message):
+            return "InvalidConfigurationException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidPasswordException(let message):
+            return "InvalidPasswordException: \(message ?? "")"
+        case .mailDomainNotFoundException(let message):
+            return "MailDomainNotFoundException: \(message ?? "")"
+        case .mailDomainStateException(let message):
+            return "MailDomainStateException: \(message ?? "")"
+        case .nameAvailabilityException(let message):
+            return "NameAvailabilityException: \(message ?? "")"
+        case .organizationNotFoundException(let message):
+            return "OrganizationNotFoundException: \(message ?? "")"
+        case .organizationStateException(let message):
+            return "OrganizationStateException: \(message ?? "")"
+        case .reservedNameException(let message):
+            return "ReservedNameException: \(message ?? "")"
+        case .unsupportedOperationException(let message):
+            return "UnsupportedOperationException: \(message ?? "")"
+        }
+    }
+}

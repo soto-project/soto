@@ -93,3 +93,60 @@ extension WorkDocsErrorType {
         }
     }
 }
+
+extension WorkDocsErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .conflictingOperationException(let message):
+            return "ConflictingOperationException: \(message ?? "")"
+        case .customMetadataLimitExceededException(let message):
+            return "CustomMetadataLimitExceededException: \(message ?? "")"
+        case .deactivatingLastSystemUserException(let message):
+            return "DeactivatingLastSystemUserException: \(message ?? "")"
+        case .documentLockedForCommentsException(let message):
+            return "DocumentLockedForCommentsException: \(message ?? "")"
+        case .draftUploadOutOfSyncException(let message):
+            return "DraftUploadOutOfSyncException: \(message ?? "")"
+        case .entityAlreadyExistsException(let message):
+            return "EntityAlreadyExistsException: \(message ?? "")"
+        case .entityNotExistsException(let message):
+            return "EntityNotExistsException: \(message ?? "")"
+        case .failedDependencyException(let message):
+            return "FailedDependencyException: \(message ?? "")"
+        case .illegalUserStateException(let message):
+            return "IllegalUserStateException: \(message ?? "")"
+        case .invalidArgumentException(let message):
+            return "InvalidArgumentException: \(message ?? "")"
+        case .invalidCommentOperationException(let message):
+            return "InvalidCommentOperationException: \(message ?? "")"
+        case .invalidOperationException(let message):
+            return "InvalidOperationException: \(message ?? "")"
+        case .invalidPasswordException(let message):
+            return "InvalidPasswordException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .prohibitedStateException(let message):
+            return "ProhibitedStateException: \(message ?? "")"
+        case .requestedEntityTooLargeException(let message):
+            return "RequestedEntityTooLargeException: \(message ?? "")"
+        case .resourceAlreadyCheckedOutException(let message):
+            return "ResourceAlreadyCheckedOutException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .storageLimitExceededException(let message):
+            return "StorageLimitExceededException: \(message ?? "")"
+        case .storageLimitWillExceedException(let message):
+            return "StorageLimitWillExceedException: \(message ?? "")"
+        case .tooManyLabelsException(let message):
+            return "TooManyLabelsException: \(message ?? "")"
+        case .tooManySubscriptionsException(let message):
+            return "TooManySubscriptionsException: \(message ?? "")"
+        case .unauthorizedOperationException(let message):
+            return "UnauthorizedOperationException: \(message ?? "")"
+        case .unauthorizedResourceAccessException(let message):
+            return "UnauthorizedResourceAccessException: \(message ?? "")"
+        }
+    }
+}

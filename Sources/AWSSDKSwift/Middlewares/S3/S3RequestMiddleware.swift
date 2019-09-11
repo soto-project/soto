@@ -2,50 +2,44 @@ import Foundation
 import AWSSDKSwiftCore
 
 public struct S3RequestMiddleware: AWSServiceMiddleware {
-    
+
     public init () {}
-    
+
     /// edit request before sending to S3
     public func chain(request: AWSRequest) throws -> AWSRequest {
         var request = request
-        
+
         virutalAddressFixup(request: &request)
         metadataFixup(request: &request)
         createBucketFixup(request: &request)
         calculateMD5(request: &request)
-        
+
         return request
     }
-    
+
     /// Edit responses coming back from S3
     public func chain(response: AWSResponse) throws -> AWSResponse {
         var response = response
-        
+
         fixupMetadata(response: &response)
         fixupGetLocationResponse(response: &response)
 
         return response
     }
-    
+
     func virutalAddressFixup(request: inout AWSRequest) {
         /// process URL into form ${bucket}.s3.amazon.com
         var paths = request.url.path.components(separatedBy: "/").filter({ $0 != "" })
         if paths.count > 0 {
             switch request.httpMethod.lowercased() {
             case "get":
+                guard let host = request.url.host, host.contains("amazonaws.com") else { break }
                 let query = request.url.query != nil ? "?\(request.url.query!)" : ""
-                let domain: String
-                if let host = request.url.host, host.contains("amazonaws.com") {
-                    domain = host
-                } else {
-                    let port = request.url.port == nil ? "" : ":\(request.url.port!)"
-                    domain = request.url.host!+port
-                }
-                request.url = URL(string: "\(request.url.scheme ?? "https")://\(paths.removeFirst()).\(domain)/\(paths.joined(separator: "/"))\(query)")!
+                request.url = URL(string: "\(request.url.scheme ?? "https")://\(paths.removeFirst()).\(host)/\(paths.joined(separator: "/"))\(query)")!
             default:
                 guard let host = request.url.host, host.contains("amazonaws.com") else { break }
                 var pathes = request.url.path.components(separatedBy: "/")
-                if pathes.count > 1 {
+                if paths.count > 1 {
                     _ = pathes.removeFirst() // /
                     let bucket = pathes.removeFirst() // bucket
                     var urlString: String
@@ -63,7 +57,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             }
         }
     }
-    
+
     func metadataFixup(request: inout AWSRequest) {
         // add metadata to request
         if let metadata = request.httpHeaders["x-amz-meta-"] as? [String: String] {
@@ -74,7 +68,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             request.httpHeaders["x-amz-meta-"] = nil
         }
     }
-    
+
     func createBucketFixup(request: inout AWSRequest) {
         switch request.operation {
         // fixup CreateBucket to include location
@@ -88,12 +82,12 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
                 xml += "</CreateBucketConfiguration>"
             }
             request.body = .text(xml)
-            
+
         default:
             break
         }
     }
-    
+
     func calculateMD5(request: inout AWSRequest) {
         // if request has a body, calculate the MD5 for that body
         if let data = request.body.asData() {
@@ -101,7 +95,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
         }
     }
-    
+
     func fixupGetLocationResponse(response: inout AWSResponse) {
         if case .xml(let element) = response.body {
             // GetBucketLocation comes back without a containing xml element
@@ -112,7 +106,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             }
         }
     }
-    
+
     func fixupMetadata(response: inout AWSResponse) {
         // convert x-amz-meta-* header values into a dictionary, which we add as a "x-amz-meta-" header. This is processed by AWSClient to fill metadata values in GetObject and HeadObject
         switch response.body {

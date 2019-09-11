@@ -42,3 +42,26 @@ extension STSErrorType {
         }
     }
 }
+
+extension STSErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .expiredTokenException(let message):
+            return "ExpiredTokenException: \(message ?? "")"
+        case .iDPCommunicationErrorException(let message):
+            return "IDPCommunicationErrorException: \(message ?? "")"
+        case .iDPRejectedClaimException(let message):
+            return "IDPRejectedClaimException: \(message ?? "")"
+        case .invalidAuthorizationMessageException(let message):
+            return "InvalidAuthorizationMessageException: \(message ?? "")"
+        case .invalidIdentityTokenException(let message):
+            return "InvalidIdentityTokenException: \(message ?? "")"
+        case .malformedPolicyDocumentException(let message):
+            return "MalformedPolicyDocumentException: \(message ?? "")"
+        case .packedPolicyTooLargeException(let message):
+            return "PackedPolicyTooLargeException: \(message ?? "")"
+        case .regionDisabledException(let message):
+            return "RegionDisabledException: \(message ?? "")"
+        }
+    }
+}

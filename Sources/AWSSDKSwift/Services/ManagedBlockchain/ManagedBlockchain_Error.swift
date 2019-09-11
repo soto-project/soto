@@ -45,3 +45,28 @@ extension ManagedBlockchainErrorType {
         }
     }
 }
+
+extension ManagedBlockchainErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .illegalActionException(let message):
+            return "IllegalActionException: \(message ?? "")"
+        case .internalServiceErrorException(let message):
+            return "InternalServiceErrorException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceLimitExceededException(let message):
+            return "ResourceLimitExceededException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .resourceNotReadyException(let message):
+            return "ResourceNotReadyException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        }
+    }
+}

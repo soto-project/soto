@@ -18,7 +18,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(handshakeId, name:"handshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
+            try validate(self.handshakeId, name:"handshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -127,8 +127,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
-            try validate(targetId, name:"targetId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+            try validate(self.targetId, name:"targetId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -150,7 +150,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(handshakeId, name:"handshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
+            try validate(self.handshakeId, name:"handshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -238,13 +238,13 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(accountName, name:"accountName", parent: name, max: 50)
-            try validate(accountName, name:"accountName", parent: name, min: 1)
-            try validate(accountName, name:"accountName", parent: name, pattern: "[\\u0020-\\u007E]+")
-            try validate(email, name:"email", parent: name, max: 64)
-            try validate(email, name:"email", parent: name, min: 6)
-            try validate(email, name:"email", parent: name, pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
-            try validate(roleName, name:"roleName", parent: name, pattern: "[\\w+=,.@-]{1,64}")
+            try validate(self.accountName, name:"accountName", parent: name, max: 50)
+            try validate(self.accountName, name:"accountName", parent: name, min: 1)
+            try validate(self.accountName, name:"accountName", parent: name, pattern: "[\\u0020-\\u007E]+")
+            try validate(self.email, name:"email", parent: name, max: 64)
+            try validate(self.email, name:"email", parent: name, min: 6)
+            try validate(self.email, name:"email", parent: name, pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
+            try validate(self.roleName, name:"roleName", parent: name, pattern: "[\\w+=,.@-]{1,64}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -356,13 +356,13 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(accountName, name:"accountName", parent: name, max: 50)
-            try validate(accountName, name:"accountName", parent: name, min: 1)
-            try validate(accountName, name:"accountName", parent: name, pattern: "[\\u0020-\\u007E]+")
-            try validate(email, name:"email", parent: name, max: 64)
-            try validate(email, name:"email", parent: name, min: 6)
-            try validate(email, name:"email", parent: name, pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
-            try validate(roleName, name:"roleName", parent: name, pattern: "[\\w+=,.@-]{1,64}")
+            try validate(self.accountName, name:"accountName", parent: name, max: 50)
+            try validate(self.accountName, name:"accountName", parent: name, min: 1)
+            try validate(self.accountName, name:"accountName", parent: name, pattern: "[\\u0020-\\u007E]+")
+            try validate(self.email, name:"email", parent: name, max: 64)
+            try validate(self.email, name:"email", parent: name, min: 6)
+            try validate(self.email, name:"email", parent: name, pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
+            try validate(self.roleName, name:"roleName", parent: name, pattern: "[\\w+=,.@-]{1,64}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -440,9 +440,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -493,11 +493,11 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(content, name:"content", parent: name, max: 1000000)
-            try validate(content, name:"content", parent: name, min: 1)
-            try validate(description, name:"description", parent: name, max: 512)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.content, name:"content", parent: name, max: 1000000)
+            try validate(self.content, name:"content", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, max: 512)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -538,7 +538,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(handshakeId, name:"handshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
+            try validate(self.handshakeId, name:"handshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -576,7 +576,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(organizationalUnitId, name:"organizationalUnitId", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            try validate(self.organizationalUnitId, name:"organizationalUnitId", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -597,7 +597,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+            try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -618,7 +618,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, pattern: "^\\d{12}$")
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "^\\d{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -656,7 +656,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(createAccountRequestId, name:"createAccountRequestId", parent: name, pattern: "^car-[a-z0-9]{8,32}$")
+            try validate(self.createAccountRequestId, name:"createAccountRequestId", parent: name, pattern: "^car-[a-z0-9]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -694,7 +694,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(handshakeId, name:"handshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
+            try validate(self.handshakeId, name:"handshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -749,7 +749,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(organizationalUnitId, name:"organizationalUnitId", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            try validate(self.organizationalUnitId, name:"organizationalUnitId", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -787,7 +787,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+            try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -829,8 +829,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
-            try validate(targetId, name:"targetId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+            try validate(self.targetId, name:"targetId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -852,9 +852,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(servicePrincipal, name:"servicePrincipal", parent: name, max: 128)
-            try validate(servicePrincipal, name:"servicePrincipal", parent: name, min: 1)
-            try validate(servicePrincipal, name:"servicePrincipal", parent: name, pattern: "[\\w+=,.@-]*")
+            try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, max: 128)
+            try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, min: 1)
+            try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, pattern: "[\\w+=,.@-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -879,7 +879,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(rootId, name:"rootId", parent: name, pattern: "^r-[0-9a-z]{4,32}$")
+            try validate(self.rootId, name:"rootId", parent: name, pattern: "^r-[0-9a-z]{4,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -918,9 +918,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(servicePrincipal, name:"servicePrincipal", parent: name, max: 128)
-            try validate(servicePrincipal, name:"servicePrincipal", parent: name, min: 1)
-            try validate(servicePrincipal, name:"servicePrincipal", parent: name, pattern: "[\\w+=,.@-]*")
+            try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, max: 128)
+            try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, min: 1)
+            try validate(self.servicePrincipal, name:"servicePrincipal", parent: name, pattern: "[\\w+=,.@-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -970,7 +970,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(rootId, name:"rootId", parent: name, pattern: "^r-[0-9a-z]{4,32}$")
+            try validate(self.rootId, name:"rootId", parent: name, pattern: "^r-[0-9a-z]{4,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1087,7 +1087,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(parentHandshakeId, name:"parentHandshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
+            try validate(self.parentHandshakeId, name:"parentHandshakeId", parent: name, pattern: "^h-[0-9a-z]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1113,8 +1113,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 64)
-            try validate(id, name:"id", parent: name, min: 1)
+            try validate(self.id, name:"id", parent: name, max: 64)
+            try validate(self.id, name:"id", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1202,8 +1202,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(notes, name:"notes", parent: name, max: 1024)
-            try target.validate(name: "\(name).target")
+            try validate(self.notes, name:"notes", parent: name, max: 1024)
+            try self.target.validate(name: "\(name).target")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1246,8 +1246,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1299,9 +1299,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1350,8 +1350,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1407,9 +1407,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1463,8 +1463,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1517,9 +1517,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try filter?.validate(name: "\(name).filter")
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1572,9 +1572,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try filter?.validate(name: "\(name).filter")
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1627,9 +1627,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1682,9 +1682,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(childId, name:"childId", parent: name, pattern: "^(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.childId, name:"childId", parent: name, pattern: "^(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1741,9 +1741,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(targetId, name:"targetId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.targetId, name:"targetId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1797,8 +1797,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1847,8 +1847,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1896,7 +1896,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceId, name:"resourceId", parent: name, pattern: "^\\d{12}$")
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^\\d{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1948,9 +1948,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 20)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2003,9 +2003,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, pattern: "^\\d{12}$")
-            try validate(destinationParentId, name:"destinationParentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
-            try validate(sourceParentId, name:"sourceParentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "^\\d{12}$")
+            try validate(self.destinationParentId, name:"destinationParentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try validate(self.sourceParentId, name:"sourceParentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2266,7 +2266,7 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, pattern: "^\\d{12}$")
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "^\\d{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2323,12 +2323,12 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(value, name:"value", parent: name, max: 256)
-            try validate(value, name:"value", parent: name, min: 0)
-            try validate(value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
+            try validate(self.value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2354,8 +2354,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceId, name:"resourceId", parent: name, pattern: "^\\d{12}$")
-            try tags.forEach {
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^\\d{12}$")
+            try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -2390,8 +2390,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceId, name:"resourceId", parent: name, pattern: "^\\d{12}$")
-            try tagKeys.forEach {
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^\\d{12}$")
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -2421,9 +2421,9 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(organizationalUnitId, name:"organizationalUnitId", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.organizationalUnitId, name:"organizationalUnitId", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2474,12 +2474,12 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(content, name:"content", parent: name, max: 1000000)
-            try validate(content, name:"content", parent: name, min: 1)
-            try validate(description, name:"description", parent: name, max: 512)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+            try validate(self.content, name:"content", parent: name, max: 1000000)
+            try validate(self.content, name:"content", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, max: 512)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {

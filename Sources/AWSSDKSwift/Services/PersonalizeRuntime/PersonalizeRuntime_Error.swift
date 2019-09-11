@@ -24,3 +24,14 @@ extension PersonalizeRuntimeErrorType {
         }
     }
 }
+
+extension PersonalizeRuntimeErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .invalidInputException(let message):
+            return "InvalidInputException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

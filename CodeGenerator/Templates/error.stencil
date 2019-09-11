@@ -24,3 +24,14 @@ extension {{errorName}} {
         }
     }
 }
+
+extension {{errorName}} : CustomStringConvertible {
+    public var description : String {
+        switch self {
+{%for error in errors %}
+        case .{{error.enum}}(let message):
+            return "{{error.string}}: \(message ?? "")"
+{% endfor %}
+        }
+    }
+}

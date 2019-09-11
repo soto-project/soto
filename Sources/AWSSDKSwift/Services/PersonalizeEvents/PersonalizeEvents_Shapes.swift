@@ -30,12 +30,12 @@ extension PersonalizeEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(eventId, name:"eventId", parent: name, max: 256)
-            try validate(eventId, name:"eventId", parent: name, min: 1)
-            try validate(eventType, name:"eventType", parent: name, max: 256)
-            try validate(eventType, name:"eventType", parent: name, min: 1)
-            try validate(properties, name:"properties", parent: name, max: 1024)
-            try validate(properties, name:"properties", parent: name, min: 1)
+            try validate(self.eventId, name:"eventId", parent: name, max: 256)
+            try validate(self.eventId, name:"eventId", parent: name, min: 1)
+            try validate(self.eventType, name:"eventType", parent: name, max: 256)
+            try validate(self.eventType, name:"eventType", parent: name, min: 1)
+            try validate(self.properties, name:"properties", parent: name, max: 1024)
+            try validate(self.properties, name:"properties", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -71,17 +71,17 @@ extension PersonalizeEvents {
         }
 
         public func validate(name: String) throws {
-            try eventList.forEach {
+            try self.eventList.forEach {
                 try $0.validate(name: "\(name).eventList[]")
             }
-            try validate(eventList, name:"eventList", parent: name, max: 10)
-            try validate(eventList, name:"eventList", parent: name, min: 1)
-            try validate(sessionId, name:"sessionId", parent: name, max: 256)
-            try validate(sessionId, name:"sessionId", parent: name, min: 1)
-            try validate(trackingId, name:"trackingId", parent: name, max: 256)
-            try validate(trackingId, name:"trackingId", parent: name, min: 1)
-            try validate(userId, name:"userId", parent: name, max: 256)
-            try validate(userId, name:"userId", parent: name, min: 1)
+            try validate(self.eventList, name:"eventList", parent: name, max: 10)
+            try validate(self.eventList, name:"eventList", parent: name, min: 1)
+            try validate(self.sessionId, name:"sessionId", parent: name, max: 256)
+            try validate(self.sessionId, name:"sessionId", parent: name, min: 1)
+            try validate(self.trackingId, name:"trackingId", parent: name, max: 256)
+            try validate(self.trackingId, name:"trackingId", parent: name, min: 1)
+            try validate(self.userId, name:"userId", parent: name, max: 256)
+            try validate(self.userId, name:"userId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

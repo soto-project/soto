@@ -11,18 +11,20 @@ public struct DynamoDBStreams {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
+            sessionToken: sessionToken,
             region: region,
             amzTarget: "DynamoDBStreams_20120810",
             service: "streams.dynamodb",
+            signingName: "dynamodb",
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 0)),
             apiVersion: "2012-08-10",
             endpoint: endpoint,
             serviceEndpoints: ["ca-central-1-fips": "dynamodb-fips.ca-central-1.amazonaws.com", "local": "localhost:8000", "us-east-1-fips": "dynamodb-fips.us-east-1.amazonaws.com", "us-east-2-fips": "dynamodb-fips.us-east-2.amazonaws.com", "us-west-1-fips": "dynamodb-fips.us-west-1.amazonaws.com", "us-west-2-fips": "dynamodb-fips.us-west-2.amazonaws.com"],
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [DynamoDBStreamsErrorType.self]
         )
     }

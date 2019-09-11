@@ -26,11 +26,11 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(entityId, name:"entityId", parent: name, max: 160)
-            try validate(entityId, name:"entityId", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
-            try validate(thingName, name:"thingName", parent: name, max: 128)
-            try validate(thingName, name:"thingName", parent: name, min: 1)
-            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try validate(self.entityId, name:"entityId", parent: name, max: 160)
+            try validate(self.entityId, name:"entityId", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.thingName, name:"thingName", parent: name, max: 128)
+            try validate(self.thingName, name:"thingName", parent: name, min: 1)
+            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -65,7 +65,7 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try definition.validate(name: "\(name).definition")
+            try self.definition.validate(name: "\(name).definition")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -126,15 +126,15 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try definition.validate(name: "\(name).definition")
-            try validate(flowActionsRoleArn, name:"flowActionsRoleArn", parent: name, max: 2048)
-            try validate(flowActionsRoleArn, name:"flowActionsRoleArn", parent: name, min: 20)
-            try metricsConfiguration?.validate(name: "\(name).metricsConfiguration")
-            try tags?.forEach {
+            try self.definition.validate(name: "\(name).definition")
+            try validate(self.flowActionsRoleArn, name:"flowActionsRoleArn", parent: name, max: 2048)
+            try validate(self.flowActionsRoleArn, name:"flowActionsRoleArn", parent: name, min: 20)
+            try self.metricsConfiguration?.validate(name: "\(name).metricsConfiguration")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 0)
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -182,7 +182,7 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try definition.validate(name: "\(name).definition")
+            try self.definition.validate(name: "\(name).definition")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -225,7 +225,7 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(text, name:"text", parent: name, max: 1048576)
+            try validate(self.text, name:"text", parent: name, max: 1048576)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -252,8 +252,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -312,8 +312,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -342,8 +342,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -394,8 +394,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -444,8 +444,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -474,8 +474,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -504,7 +504,7 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(namespaceName, name:"namespaceName", parent: name, max: 128)
+            try validate(self.namespaceName, name:"namespaceName", parent: name, max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -566,9 +566,9 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(thingName, name:"thingName", parent: name, max: 128)
-            try validate(thingName, name:"thingName", parent: name, min: 1)
-            try validate(thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try validate(self.thingName, name:"thingName", parent: name, max: 128)
+            try validate(self.thingName, name:"thingName", parent: name, min: 1)
+            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -813,7 +813,7 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try value.forEach {
+            try self.value.forEach {
                 try validate($0, name: "value[]", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
             }
         }
@@ -878,12 +878,12 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try ids.forEach {
+            try self.ids.forEach {
                 try validate($0, name: "ids[]", parent: name, max: 160)
                 try validate($0, name: "ids[]", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
             }
-            try validate(ids, name:"ids", parent: name, max: 25)
-            try validate(ids, name:"ids", parent: name, min: 0)
+            try validate(self.ids, name:"ids", parent: name, max: 25)
+            try validate(self.ids, name:"ids", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -926,8 +926,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -974,10 +974,10 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1067,8 +1067,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1110,8 +1110,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1158,10 +1158,10 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1206,8 +1206,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(uploadId, name:"uploadId", parent: name, max: 40)
-            try validate(uploadId, name:"uploadId", parent: name, min: 1)
+            try validate(self.uploadId, name:"uploadId", parent: name, max: 40)
+            try validate(self.uploadId, name:"uploadId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1283,8 +1283,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1337,10 +1337,10 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(resourceArn, name:"resourceArn", parent: name, max: 2048)
-            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1389,8 +1389,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(metricRuleRoleArn, name:"metricRuleRoleArn", parent: name, max: 2048)
-            try validate(metricRuleRoleArn, name:"metricRuleRoleArn", parent: name, min: 20)
+            try validate(self.metricRuleRoleArn, name:"metricRuleRoleArn", parent: name, max: 2048)
+            try validate(self.metricRuleRoleArn, name:"metricRuleRoleArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1440,8 +1440,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1508,10 +1508,10 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(systemInstanceId, name:"systemInstanceId", parent: name, max: 160)
-            try validate(systemInstanceId, name:"systemInstanceId", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.systemInstanceId, name:"systemInstanceId", parent: name, max: 160)
+            try validate(self.systemInstanceId, name:"systemInstanceId", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1567,11 +1567,11 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1624,8 +1624,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1678,11 +1678,11 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1739,10 +1739,10 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(entityId, name:"entityId", parent: name, max: 160)
-            try validate(entityId, name:"entityId", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.entityId, name:"entityId", parent: name, max: 160)
+            try validate(self.entityId, name:"entityId", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1962,7 +1962,7 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try value.forEach {
+            try self.value.forEach {
                 try validate($0, name: "value[]", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
             }
         }
@@ -2027,11 +2027,11 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(value, name:"value", parent: name, max: 256)
-            try validate(value, name:"value", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2057,13 +2057,13 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, max: 2048)
-            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
-            try tags.forEach {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 0)
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2115,8 +2115,8 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2158,15 +2158,15 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, max: 2048)
-            try validate(resourceArn, name:"resourceArn", parent: name, min: 1)
-            try tagKeys.forEach {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try validate(tagKeys, name:"tagKeys", parent: name, max: 50)
-            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2204,9 +2204,9 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try definition.validate(name: "\(name).definition")
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try self.definition.validate(name: "\(name).definition")
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2254,9 +2254,9 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try definition.validate(name: "\(name).definition")
-            try validate(id, name:"id", parent: name, max: 160)
-            try validate(id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
+            try self.definition.validate(name: "\(name).definition")
+            try validate(self.id, name:"id", parent: name, max: 160)
+            try validate(self.id, name:"id", parent: name, pattern: "^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\\p{Alnum}_]+(/[\\p{Alnum}_]+)*):([\\p{Alpha}]*):([\\p{Alnum}_]+(/[\\p{Alnum}_]+)*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2304,7 +2304,7 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try document?.validate(name: "\(name).document")
+            try self.document?.validate(name: "\(name).document")
         }
 
         private enum CodingKeys: String, CodingKey {

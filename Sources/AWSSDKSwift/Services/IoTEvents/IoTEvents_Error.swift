@@ -45,3 +45,28 @@ extension IoTEventsErrorType {
         }
     }
 }
+
+extension IoTEventsErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalFailureException(let message):
+            return "InternalFailureException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        case .unsupportedOperationException(let message):
+            return "UnsupportedOperationException: \(message ?? "")"
+        }
+    }
+}

@@ -48,3 +48,30 @@ extension ChimeErrorType {
         }
     }
 }
+
+extension ChimeErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
+        case .forbiddenException(let message):
+            return "ForbiddenException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .resourceLimitExceededException(let message):
+            return "ResourceLimitExceededException: \(message ?? "")"
+        case .serviceFailureException(let message):
+            return "ServiceFailureException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .throttledClientException(let message):
+            return "ThrottledClientException: \(message ?? "")"
+        case .unauthorizedClientException(let message):
+            return "UnauthorizedClientException: \(message ?? "")"
+        case .unprocessableEntityException(let message):
+            return "UnprocessableEntityException: \(message ?? "")"
+        }
+    }
+}

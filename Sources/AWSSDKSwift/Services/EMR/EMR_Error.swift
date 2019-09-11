@@ -27,3 +27,16 @@ extension EMRErrorType {
         }
     }
 }
+
+extension EMRErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        case .internalServerException(let message):
+            return "InternalServerException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        }
+    }
+}

@@ -33,3 +33,20 @@ extension CodeBuildErrorType {
         }
     }
 }
+
+extension CodeBuildErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accountLimitExceededException(let message):
+            return "AccountLimitExceededException: \(message ?? "")"
+        case .invalidInputException(let message):
+            return "InvalidInputException: \(message ?? "")"
+        case .oAuthProviderException(let message):
+            return "OAuthProviderException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

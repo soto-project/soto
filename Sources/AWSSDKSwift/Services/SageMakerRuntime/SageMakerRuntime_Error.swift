@@ -30,3 +30,18 @@ extension SageMakerRuntimeErrorType {
         }
     }
 }
+
+extension SageMakerRuntimeErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalFailure(let message):
+            return "InternalFailure: \(message ?? "")"
+        case .modelError(let message):
+            return "ModelError: \(message ?? "")"
+        case .serviceUnavailable(let message):
+            return "ServiceUnavailable: \(message ?? "")"
+        case .validationError(let message):
+            return "ValidationError: \(message ?? "")"
+        }
+    }
+}

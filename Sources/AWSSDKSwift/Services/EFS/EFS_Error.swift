@@ -81,3 +81,52 @@ extension EFSErrorType {
         }
     }
 }
+
+extension EFSErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badRequest(let message):
+            return "BadRequest: \(message ?? "")"
+        case .dependencyTimeout(let message):
+            return "DependencyTimeout: \(message ?? "")"
+        case .fileSystemAlreadyExists(let message):
+            return "FileSystemAlreadyExists: \(message ?? "")"
+        case .fileSystemInUse(let message):
+            return "FileSystemInUse: \(message ?? "")"
+        case .fileSystemLimitExceeded(let message):
+            return "FileSystemLimitExceeded: \(message ?? "")"
+        case .fileSystemNotFound(let message):
+            return "FileSystemNotFound: \(message ?? "")"
+        case .incorrectFileSystemLifeCycleState(let message):
+            return "IncorrectFileSystemLifeCycleState: \(message ?? "")"
+        case .incorrectMountTargetState(let message):
+            return "IncorrectMountTargetState: \(message ?? "")"
+        case .insufficientThroughputCapacity(let message):
+            return "InsufficientThroughputCapacity: \(message ?? "")"
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        case .ipAddressInUse(let message):
+            return "IpAddressInUse: \(message ?? "")"
+        case .mountTargetConflict(let message):
+            return "MountTargetConflict: \(message ?? "")"
+        case .mountTargetNotFound(let message):
+            return "MountTargetNotFound: \(message ?? "")"
+        case .networkInterfaceLimitExceeded(let message):
+            return "NetworkInterfaceLimitExceeded: \(message ?? "")"
+        case .noFreeAddressesInSubnet(let message):
+            return "NoFreeAddressesInSubnet: \(message ?? "")"
+        case .securityGroupLimitExceeded(let message):
+            return "SecurityGroupLimitExceeded: \(message ?? "")"
+        case .securityGroupNotFound(let message):
+            return "SecurityGroupNotFound: \(message ?? "")"
+        case .subnetNotFound(let message):
+            return "SubnetNotFound: \(message ?? "")"
+        case .throughputLimitExceeded(let message):
+            return "ThroughputLimitExceeded: \(message ?? "")"
+        case .tooManyRequests(let message):
+            return "TooManyRequests: \(message ?? "")"
+        case .unsupportedAvailabilityZone(let message):
+            return "UnsupportedAvailabilityZone: \(message ?? "")"
+        }
+    }
+}

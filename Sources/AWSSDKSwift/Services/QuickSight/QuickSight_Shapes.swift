@@ -30,15 +30,15 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(groupName, name:"groupName", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(memberName, name:"memberName", parent: name, max: 256)
-            try validate(memberName, name:"memberName", parent: name, min: 1)
-            try validate(memberName, name:"memberName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.memberName, name:"memberName", parent: name, max: 256)
+            try validate(self.memberName, name:"memberName", parent: name, min: 1)
+            try validate(self.memberName, name:"memberName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -101,14 +101,14 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(description, name:"description", parent: name, max: 512)
-            try validate(description, name:"description", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.description, name:"description", parent: name, max: 512)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -171,15 +171,15 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(groupName, name:"groupName", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(memberName, name:"memberName", parent: name, max: 256)
-            try validate(memberName, name:"memberName", parent: name, min: 1)
-            try validate(memberName, name:"memberName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.memberName, name:"memberName", parent: name, max: 256)
+            try validate(self.memberName, name:"memberName", parent: name, min: 1)
+            try validate(self.memberName, name:"memberName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -233,12 +233,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(groupName, name:"groupName", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -291,10 +291,10 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -347,12 +347,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
-            try validate(userName, name:"userName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -405,12 +405,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(groupName, name:"groupName", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -468,12 +468,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
-            try validate(userName, name:"userName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -543,11 +543,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(sessionLifetimeInMinutes, name:"sessionLifetimeInMinutes", parent: name, max: 600)
-            try validate(sessionLifetimeInMinutes, name:"sessionLifetimeInMinutes", parent: name, min: 15)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.sessionLifetimeInMinutes, name:"sessionLifetimeInMinutes", parent: name, max: 600)
+            try validate(self.sessionLifetimeInMinutes, name:"sessionLifetimeInMinutes", parent: name, min: 15)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -676,14 +676,14 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(groupName, name:"groupName", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -752,12 +752,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -829,14 +829,14 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
-            try validate(userName, name:"userName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -905,12 +905,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -994,15 +994,15 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
-            try validate(sessionName, name:"sessionName", parent: name, max: 64)
-            try validate(sessionName, name:"sessionName", parent: name, min: 2)
-            try validate(sessionName, name:"sessionName", parent: name, pattern: "[\\w+=.@-]*")
-            try validate(userName, name:"userName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.sessionName, name:"sessionName", parent: name, max: 64)
+            try validate(self.sessionName, name:"sessionName", parent: name, min: 2)
+            try validate(self.sessionName, name:"sessionName", parent: name, pattern: "[\\w+=.@-]*")
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1074,14 +1074,14 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(description, name:"description", parent: name, max: 512)
-            try validate(description, name:"description", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.description, name:"description", parent: name, max: 512)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1148,12 +1148,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, max: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, min: 12)
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(namespace, name:"namespace", parent: name, pattern: "default")
-            try validate(userName, name:"userName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
 
         private enum CodingKeys: String, CodingKey {
