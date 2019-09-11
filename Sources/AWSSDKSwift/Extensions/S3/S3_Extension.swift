@@ -20,32 +20,6 @@ public extension S3ErrorType {
 
 public extension S3 {
 
-    ///  Creates pre-signed URL for retrieving object from Amazon S3.
-    ///
-    /// - parameters:
-    ///     - bucket: The bucket to get the object from
-    ///     - key: The key for the object
-    ///     - expires: The amount of time before the url expires. Defaults to 1 hour
-    /// - returns: A pre-signed url
-    func presignedGetObject(bucket: String, key: String, expires: Int = 3600) throws -> URL {
-        let urlToSign = URL(string: "https://\(bucket).s3.amazonaws.com/\(key)")!
-        let presignedURL = client.signer.signedURL(url: urlToSign,  method: "GET", date: Date(), expires: expires)
-        return presignedURL
-    }
-    
-    ///  Creates pre-signed URL for uploading object to Amazon S3.
-    ///
-    /// - parameters:
-    ///     - bucket: The bucket where the object is being put
-    ///     - key: The key for the object
-    ///     - expires: The amount of time before the url expires. Defaults to 1 hour
-    /// - returns: A pre-signed url
-    func presignedPutObject(bucket: String, key: String, expires: Int = 3600) throws -> URL {
-        let urlToSign = URL(string: "https://\(bucket).s3.amazonaws.com/\(key)")!
-        let presignedURL = client.signer.signedURL(url: urlToSign,  method: "PUT", date: Date(), expires: expires)
-        return presignedURL
-    }
-    
     /// Multipart download of a file from S3.
     ///
     /// - parameters:
