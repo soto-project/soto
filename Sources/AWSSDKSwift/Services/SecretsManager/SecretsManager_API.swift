@@ -11,10 +11,11 @@ public struct SecretsManager {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
+            sessionToken: sessionToken,
             region: region,
             amzTarget: "secretsmanager",
             service: "secretsmanager",
@@ -22,7 +23,7 @@ public struct SecretsManager {
             apiVersion: "2017-10-17",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1-fips": "secretsmanager-fips.us-east-1.amazonaws.com", "us-east-2-fips": "secretsmanager-fips.us-east-2.amazonaws.com", "us-west-1-fips": "secretsmanager-fips.us-west-1.amazonaws.com", "us-west-2-fips": "secretsmanager-fips.us-west-2.amazonaws.com"],
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [SecretsManagerErrorType.self]
         )
     }

@@ -11,10 +11,11 @@ public struct SageMakerRuntime {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
+            sessionToken: sessionToken,
             region: region,
             service: "runtime.sagemaker",
             signingName: "sagemaker",
@@ -22,7 +23,7 @@ public struct SageMakerRuntime {
             apiVersion: "2017-05-13",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1-fips": "runtime-fips.sagemaker.us-east-1.amazonaws.com", "us-east-2-fips": "runtime-fips.sagemaker.us-east-2.amazonaws.com", "us-west-1-fips": "runtime-fips.sagemaker.us-west-1.amazonaws.com", "us-west-2-fips": "runtime-fips.sagemaker.us-west-2.amazonaws.com"],
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [SageMakerRuntimeErrorType.self]
         )
     }

@@ -11,10 +11,11 @@ public struct Pricing {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
+            sessionToken: sessionToken,
             region: region,
             amzTarget: "AWSPriceListService",
             service: "api.pricing",
@@ -22,7 +23,7 @@ public struct Pricing {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-10-15",
             endpoint: endpoint,
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [PricingErrorType.self]
         )
     }

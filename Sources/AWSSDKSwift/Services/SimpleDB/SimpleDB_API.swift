@@ -11,17 +11,18 @@ public struct SimpleDB {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
+            sessionToken: sessionToken,
             region: region,
             service: "sdb",
             serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2009-04-15",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1": "sdb.amazonaws.com"],
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [SimpleDBErrorType.self]
         )
     }

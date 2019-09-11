@@ -11,10 +11,11 @@ public struct Route53 {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
+            sessionToken: sessionToken,
             region: region,
             service: "route53",
             serviceProtocol: ServiceProtocol(type: .restxml),
@@ -22,7 +23,7 @@ public struct Route53 {
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "route53.amazonaws.com"],
             partitionEndpoint: "aws-global",
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [Route53ErrorType.self]
         )
     }
