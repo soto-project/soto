@@ -9,7 +9,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
     public func chain(request: AWSRequest) throws -> AWSRequest {
         var request = request
 
-        virutalAddressFixup(request: &request)
+        virtualAddressFixup(request: &request)
         metadataFixup(request: &request)
         createBucketFixup(request: &request)
         calculateMD5(request: &request)
@@ -21,13 +21,13 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
     public func chain(response: AWSResponse) throws -> AWSResponse {
         var response = response
 
-        fixupMetadata(response: &response)
-        fixupGetLocationResponse(response: &response)
+        metadataFixup(response: &response)
+        getLocationResponseFixup(response: &response)
 
         return response
     }
 
-    func virutalAddressFixup(request: inout AWSRequest) {
+    func virtualAddressFixup(request: inout AWSRequest) {
         /// process URL into form ${bucket}.s3.amazon.com
         var paths = request.url.path.components(separatedBy: "/").filter({ $0 != "" })
         if paths.count > 0 {
@@ -96,7 +96,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         }
     }
 
-    func fixupGetLocationResponse(response: inout AWSResponse) {
+    func getLocationResponseFixup(response: inout AWSResponse) {
         if case .xml(let element) = response.body {
             // GetBucketLocation comes back without a containing xml element
             if element.name == "LocationConstraint" {
@@ -107,7 +107,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         }
     }
 
-    func fixupMetadata(response: inout AWSResponse) {
+    func metadataFixup(response: inout AWSResponse) {
         // convert x-amz-meta-* header values into a dictionary, which we add as a "x-amz-meta-" header. This is processed by AWSClient to fill metadata values in GetObject and HeadObject
         switch response.body {
         case .buffer(_), .empty:
