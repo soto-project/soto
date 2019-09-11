@@ -2531,8 +2531,8 @@ extension CloudFront {
     }
 
     public enum HttpVersion: String, CustomStringConvertible, Codable {
-        case http11 = "http1.1"
-        case http2 = "http2"
+        case http11 = "HTTP1_1"
+        case http2 = "HTTP2"
         public var description: String { return self.rawValue }
     }
 
