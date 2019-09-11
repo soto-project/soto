@@ -15,15 +15,9 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
 
         switch request.httpMethod.lowercased() {
         case "get":
+            guard let host = request.url.host, host.contains("amazonaws.com") else { break }
             let query = request.url.query != nil ? "?\(request.url.query!)" : ""
-            let domain: String
-            if let host = request.url.host, host.contains("amazonaws.com") {
-                domain = host
-            } else {
-                let port = request.url.port == nil ? "" : ":\(request.url.port!)"
-                domain = request.url.host!+port
-            }
-            request.url = URL(string: "\(request.url.scheme ?? "https")://\(paths.removeFirst()).\(domain)/\(paths.joined(separator: "/"))\(query)")!
+            request.url = URL(string: "\(request.url.scheme ?? "https")://\(paths.removeFirst()).\(host)/\(paths.joined(separator: "/"))\(query)")!
         default:
             guard let host = request.url.host, host.contains("amazonaws.com") else { break }
             var pathes = request.url.path.components(separatedBy: "/")
@@ -60,7 +54,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
             break
         }
 
-        if let data = try request.body.asData() {
+        if let data = request.body.asData() {
             let encoded = Data(md5(data)).base64EncodedString()
             request.addValue(encoded, forHTTPHeaderField: "Content-MD5")
         }
@@ -69,17 +63,20 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
     }
     
     
-    public func chain(responseBody: Body) throws -> Body {
-        switch responseBody {
+    public func chain(response: AWSResponse) throws -> AWSResponse {
+        switch response.body {
         case .xml(let element):
             if element.name == "LocationConstraint" {
                 let parentElement = XML.Element(name: "BucketLocation")
                 parentElement.addChild(element)
-                return .xml(parentElement)
+                
+                var newResponse = response
+                newResponse.body = .xml(parentElement)
+                return newResponse
             }
         default:
             break
         }
-        return responseBody
+        return response
     }
 }

@@ -36,3 +36,22 @@ extension TransferErrorType {
         }
     }
 }
+
+extension TransferErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalServiceError(let message):
+            return "InternalServiceError: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .resourceExistsException(let message):
+            return "ResourceExistsException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        }
+    }
+}

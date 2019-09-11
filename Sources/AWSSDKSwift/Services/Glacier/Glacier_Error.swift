@@ -42,3 +42,26 @@ extension GlacierErrorType {
         }
     }
 }
+
+extension GlacierErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .insufficientCapacityException(let message):
+            return "InsufficientCapacityException: \(message ?? "")"
+        case .invalidParameterValueException(let message):
+            return "InvalidParameterValueException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .missingParameterValueException(let message):
+            return "MissingParameterValueException: \(message ?? "")"
+        case .policyEnforcedException(let message):
+            return "PolicyEnforcedException: \(message ?? "")"
+        case .requestTimeoutException(let message):
+            return "RequestTimeoutException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        }
+    }
+}

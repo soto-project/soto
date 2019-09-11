@@ -45,3 +45,28 @@ extension RoboMakerErrorType {
         }
     }
 }
+
+extension RoboMakerErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .concurrentDeploymentException(let message):
+            return "ConcurrentDeploymentException: \(message ?? "")"
+        case .idempotentParameterMismatchException(let message):
+            return "IdempotentParameterMismatchException: \(message ?? "")"
+        case .internalServerException(let message):
+            return "InternalServerException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        }
+    }
+}

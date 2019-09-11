@@ -2392,7 +2392,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HealthChecks", required: true, type: .list, encoding: .list(member:"HealthCheck")), 
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: true, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -2402,13 +2402,13 @@ extension Route53 {
         /// A flag that indicates whether there are more health checks to be listed. If the response was truncated, you can get the next group of health checks by submitting another ListHealthChecks request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
         /// For the second and subsequent calls to ListHealthChecks, Marker is the value that you specified for the marker parameter in the previous request.
-        public let marker: String
+        public let marker: String?
         /// The value that you specified for the maxitems parameter in the call to ListHealthChecks that produced the current response.
         public let maxItems: String
         /// If IsTruncated is true, the value of NextMarker identifies the first health check that Amazon Route 53 returns if you submit another ListHealthChecks request and specify the value of NextMarker in the marker parameter.
         public let nextMarker: String?
 
-        public init(healthChecks: [HealthCheck], isTruncated: Bool, marker: String, maxItems: String, nextMarker: String? = nil) {
+        public init(healthChecks: [HealthCheck], isTruncated: Bool, marker: String? = nil, maxItems: String, nextMarker: String? = nil) {
             self.healthChecks = healthChecks
             self.isTruncated = isTruncated
             self.marker = marker
@@ -2540,7 +2540,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HostedZones", required: true, type: .list, encoding: .list(member:"HostedZone")), 
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: true, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -2550,13 +2550,13 @@ extension Route53 {
         /// A flag indicating whether there are more hosted zones to be listed. If the response was truncated, you can get more hosted zones by submitting another ListHostedZones request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
         /// For the second and subsequent calls to ListHostedZones, Marker is the value that you specified for the marker parameter in the request that produced the current response.
-        public let marker: String
+        public let marker: String?
         /// The value that you specified for the maxitems parameter in the call to ListHostedZones that produced the current response.
         public let maxItems: String
         /// If IsTruncated is true, the value of NextMarker identifies the first hosted zone in the next group of hosted zones. Submit another ListHostedZones request, and specify the value of NextMarker from the response in the marker parameter. This element is present only if IsTruncated is true.
         public let nextMarker: String?
 
-        public init(hostedZones: [HostedZone], isTruncated: Bool, marker: String, maxItems: String, nextMarker: String? = nil) {
+        public init(hostedZones: [HostedZone], isTruncated: Bool, marker: String? = nil, maxItems: String, nextMarker: String? = nil) {
             self.hostedZones = hostedZones
             self.isTruncated = isTruncated
             self.marker = marker
@@ -2743,7 +2743,7 @@ extension Route53 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DelegationSets", required: true, type: .list, encoding: .list(member:"DelegationSet")), 
             AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxItems", required: true, type: .string), 
             AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
@@ -2753,13 +2753,13 @@ extension Route53 {
         /// A flag that indicates whether there are more reusable delegation sets to be listed.
         public let isTruncated: Bool
         /// For the second and subsequent calls to ListReusableDelegationSets, Marker is the value that you specified for the marker parameter in the request that produced the current response.
-        public let marker: String
+        public let marker: String?
         /// The value that you specified for the maxitems parameter in the call to ListReusableDelegationSets that produced the current response.
         public let maxItems: String
         /// If IsTruncated is true, the value of NextMarker identifies the next reusable delegation set that Amazon Route 53 will return if you submit another ListReusableDelegationSets request and specify the value of NextMarker in the marker parameter.
         public let nextMarker: String?
 
-        public init(delegationSets: [DelegationSet], isTruncated: Bool, marker: String, maxItems: String, nextMarker: String? = nil) {
+        public init(delegationSets: [DelegationSet], isTruncated: Bool, marker: String? = nil, maxItems: String, nextMarker: String? = nil) {
             self.delegationSets = delegationSets
             self.isTruncated = isTruncated
             self.marker = marker

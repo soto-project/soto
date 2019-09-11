@@ -48,3 +48,30 @@ extension TranslateErrorType {
         }
     }
 }
+
+extension TranslateErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .detectedLanguageLowConfidenceException(let message):
+            return "DetectedLanguageLowConfidenceException: \(message ?? "")"
+        case .internalServerException(let message):
+            return "InternalServerException: \(message ?? "")"
+        case .invalidParameterValueException(let message):
+            return "InvalidParameterValueException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .textSizeLimitExceededException(let message):
+            return "TextSizeLimitExceededException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        case .unsupportedLanguagePairException(let message):
+            return "UnsupportedLanguagePairException: \(message ?? "")"
+        }
+    }
+}

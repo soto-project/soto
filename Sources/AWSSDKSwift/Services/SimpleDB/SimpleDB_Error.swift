@@ -69,3 +69,44 @@ extension SimpleDBErrorType {
         }
     }
 }
+
+extension SimpleDBErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .attributeDoesNotExist(let message):
+            return "AttributeDoesNotExist: \(message ?? "")"
+        case .duplicateItemName(let message):
+            return "DuplicateItemName: \(message ?? "")"
+        case .invalidNextToken(let message):
+            return "InvalidNextToken: \(message ?? "")"
+        case .invalidNumberPredicates(let message):
+            return "InvalidNumberPredicates: \(message ?? "")"
+        case .invalidNumberValueTests(let message):
+            return "InvalidNumberValueTests: \(message ?? "")"
+        case .invalidParameterValue(let message):
+            return "InvalidParameterValue: \(message ?? "")"
+        case .invalidQueryExpression(let message):
+            return "InvalidQueryExpression: \(message ?? "")"
+        case .missingParameter(let message):
+            return "MissingParameter: \(message ?? "")"
+        case .noSuchDomain(let message):
+            return "NoSuchDomain: \(message ?? "")"
+        case .numberDomainAttributesExceeded(let message):
+            return "NumberDomainAttributesExceeded: \(message ?? "")"
+        case .numberDomainBytesExceeded(let message):
+            return "NumberDomainBytesExceeded: \(message ?? "")"
+        case .numberDomainsExceeded(let message):
+            return "NumberDomainsExceeded: \(message ?? "")"
+        case .numberItemAttributesExceeded(let message):
+            return "NumberItemAttributesExceeded: \(message ?? "")"
+        case .numberSubmittedAttributesExceeded(let message):
+            return "NumberSubmittedAttributesExceeded: \(message ?? "")"
+        case .numberSubmittedItemsExceeded(let message):
+            return "NumberSubmittedItemsExceeded: \(message ?? "")"
+        case .requestTimeout(let message):
+            return "RequestTimeout: \(message ?? "")"
+        case .tooManyRequestedAttributes(let message):
+            return "TooManyRequestedAttributes: \(message ?? "")"
+        }
+    }
+}

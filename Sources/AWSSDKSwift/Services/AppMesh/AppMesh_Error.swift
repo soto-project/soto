@@ -48,3 +48,30 @@ extension AppMeshErrorType {
         }
     }
 }
+
+extension AppMeshErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
+        case .forbiddenException(let message):
+            return "ForbiddenException: \(message ?? "")"
+        case .internalServerErrorException(let message):
+            return "InternalServerErrorException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        }
+    }
+}

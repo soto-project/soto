@@ -78,3 +78,50 @@ extension ImportExportErrorType {
         }
     }
 }
+
+extension ImportExportErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .bucketPermissionException(let message):
+            return "BucketPermissionException: \(message ?? "")"
+        case .canceledJobIdException(let message):
+            return "CanceledJobIdException: \(message ?? "")"
+        case .createJobQuotaExceededException(let message):
+            return "CreateJobQuotaExceededException: \(message ?? "")"
+        case .expiredJobIdException(let message):
+            return "ExpiredJobIdException: \(message ?? "")"
+        case .invalidAccessKeyIdException(let message):
+            return "InvalidAccessKeyIdException: \(message ?? "")"
+        case .invalidAddressException(let message):
+            return "InvalidAddressException: \(message ?? "")"
+        case .invalidCustomsException(let message):
+            return "InvalidCustomsException: \(message ?? "")"
+        case .invalidFileSystemException(let message):
+            return "InvalidFileSystemException: \(message ?? "")"
+        case .invalidJobIdException(let message):
+            return "InvalidJobIdException: \(message ?? "")"
+        case .invalidManifestFieldException(let message):
+            return "InvalidManifestFieldException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidVersionException(let message):
+            return "InvalidVersionException: \(message ?? "")"
+        case .malformedManifestException(let message):
+            return "MalformedManifestException: \(message ?? "")"
+        case .missingCustomsException(let message):
+            return "MissingCustomsException: \(message ?? "")"
+        case .missingManifestFieldException(let message):
+            return "MissingManifestFieldException: \(message ?? "")"
+        case .missingParameterException(let message):
+            return "MissingParameterException: \(message ?? "")"
+        case .multipleRegionsException(let message):
+            return "MultipleRegionsException: \(message ?? "")"
+        case .noSuchBucketException(let message):
+            return "NoSuchBucketException: \(message ?? "")"
+        case .unableToCancelJobIdException(let message):
+            return "UnableToCancelJobIdException: \(message ?? "")"
+        case .unableToUpdateJobIdException(let message):
+            return "UnableToUpdateJobIdException: \(message ?? "")"
+        }
+    }
+}

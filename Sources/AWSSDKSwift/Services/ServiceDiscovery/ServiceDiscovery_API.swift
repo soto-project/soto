@@ -11,17 +11,18 @@ public struct ServiceDiscovery {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
+            sessionToken: sessionToken,
             region: region,
             amzTarget: "Route53AutoNaming_v20170314",
             service: "servicediscovery",
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-03-14",
             endpoint: endpoint,
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [ServiceDiscoveryErrorType.self]
         )
     }

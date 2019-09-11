@@ -11,16 +11,18 @@ public struct MediaTailor {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
+            sessionToken: sessionToken,
             region: region,
             service: "api.mediatailor",
+            signingName: "mediatailor",
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2018-04-23",
             endpoint: endpoint,
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [MediaTailorErrorType.self]
         )
     }

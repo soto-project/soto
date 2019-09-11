@@ -30,3 +30,18 @@ extension DirectConnectErrorType {
         }
     }
 }
+
+extension DirectConnectErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .directConnectClientException(let message):
+            return "DirectConnectClientException: \(message ?? "")"
+        case .directConnectServerException(let message):
+            return "DirectConnectServerException: \(message ?? "")"
+        case .duplicateTagKeysException(let message):
+            return "DuplicateTagKeysException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        }
+    }
+}

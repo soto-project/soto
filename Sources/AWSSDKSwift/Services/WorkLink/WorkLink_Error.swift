@@ -36,3 +36,22 @@ extension WorkLinkErrorType {
         }
     }
 }
+
+extension WorkLinkErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalServerErrorException(let message):
+            return "InternalServerErrorException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        case .unauthorizedException(let message):
+            return "UnauthorizedException: \(message ?? "")"
+        }
+    }
+}

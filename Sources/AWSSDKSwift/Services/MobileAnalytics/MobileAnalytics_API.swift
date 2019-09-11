@@ -11,16 +11,17 @@ public struct MobileAnalytics {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
+            sessionToken: sessionToken,
             region: region,
             service: "mobileanalytics",
             serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2014-06-05",
             endpoint: endpoint,
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [MobileAnalyticsErrorType.self]
         )
     }

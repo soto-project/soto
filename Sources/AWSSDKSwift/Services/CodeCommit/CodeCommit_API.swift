@@ -11,10 +11,11 @@ public struct CodeCommit {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
+            sessionToken: sessionToken,
             region: region,
             amzTarget: "CodeCommit_20150413",
             service: "codecommit",
@@ -22,7 +23,7 @@ public struct CodeCommit {
             apiVersion: "2015-04-13",
             endpoint: endpoint,
             serviceEndpoints: ["fips": "codecommit-fips.ca-central-1.amazonaws.com"],
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [CodeCommitErrorType.self]
         )
     }

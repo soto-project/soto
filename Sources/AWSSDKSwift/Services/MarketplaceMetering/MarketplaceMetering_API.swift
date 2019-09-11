@@ -11,17 +11,19 @@ public struct MarketplaceMetering {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
+            sessionToken: sessionToken,
             region: region,
             amzTarget: "AWSMPMeteringService",
             service: "metering.marketplace",
+            signingName: "aws-marketplace",
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-01-14",
             endpoint: endpoint,
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [MarketplaceMeteringErrorType.self]
         )
     }

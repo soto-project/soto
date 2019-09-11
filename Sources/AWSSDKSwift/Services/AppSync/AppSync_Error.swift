@@ -51,3 +51,32 @@ extension AppSyncErrorType {
         }
     }
 }
+
+extension AppSyncErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .apiKeyLimitExceededException(let message):
+            return "ApiKeyLimitExceededException: \(message ?? "")"
+        case .apiKeyValidityOutOfBoundsException(let message):
+            return "ApiKeyValidityOutOfBoundsException: \(message ?? "")"
+        case .apiLimitExceededException(let message):
+            return "ApiLimitExceededException: \(message ?? "")"
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .graphQLSchemaException(let message):
+            return "GraphQLSchemaException: \(message ?? "")"
+        case .internalFailureException(let message):
+            return "InternalFailureException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .unauthorizedException(let message):
+            return "UnauthorizedException: \(message ?? "")"
+        }
+    }
+}

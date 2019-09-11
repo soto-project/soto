@@ -33,3 +33,20 @@ extension ApplicationInsightsErrorType {
         }
     }
 }
+
+extension ApplicationInsightsErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .internalServerException(let message):
+            return "InternalServerException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
+        }
+    }
+}
