@@ -78,3 +78,50 @@ extension RAMErrorType {
         }
     }
 }
+
+extension RAMErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .idempotentParameterMismatchException(let message):
+            return "IdempotentParameterMismatchException: \(message ?? "")"
+        case .invalidClientTokenException(let message):
+            return "InvalidClientTokenException: \(message ?? "")"
+        case .invalidMaxResultsException(let message):
+            return "InvalidMaxResultsException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidResourceTypeException(let message):
+            return "InvalidResourceTypeException: \(message ?? "")"
+        case .invalidStateTransitionException(let message):
+            return "InvalidStateTransitionException: \(message ?? "")"
+        case .malformedArnException(let message):
+            return "MalformedArnException: \(message ?? "")"
+        case .missingRequiredParameterException(let message):
+            return "MissingRequiredParameterException: \(message ?? "")"
+        case .operationNotPermittedException(let message):
+            return "OperationNotPermittedException: \(message ?? "")"
+        case .resourceArnNotFoundException(let message):
+            return "ResourceArnNotFoundException: \(message ?? "")"
+        case .resourceShareInvitationAlreadyAcceptedException(let message):
+            return "ResourceShareInvitationAlreadyAcceptedException: \(message ?? "")"
+        case .resourceShareInvitationAlreadyRejectedException(let message):
+            return "ResourceShareInvitationAlreadyRejectedException: \(message ?? "")"
+        case .resourceShareInvitationArnNotFoundException(let message):
+            return "ResourceShareInvitationArnNotFoundException: \(message ?? "")"
+        case .resourceShareInvitationExpiredException(let message):
+            return "ResourceShareInvitationExpiredException: \(message ?? "")"
+        case .resourceShareLimitExceededException(let message):
+            return "ResourceShareLimitExceededException: \(message ?? "")"
+        case .serverInternalException(let message):
+            return "ServerInternalException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .tagLimitExceededException(let message):
+            return "TagLimitExceededException: \(message ?? "")"
+        case .unknownResourceException(let message):
+            return "UnknownResourceException: \(message ?? "")"
+        }
+    }
+}

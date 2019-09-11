@@ -51,3 +51,32 @@ extension KinesisVideoErrorType {
         }
     }
 }
+
+extension KinesisVideoErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accountStreamLimitExceededException(let message):
+            return "AccountStreamLimitExceededException: \(message ?? "")"
+        case .clientLimitExceededException(let message):
+            return "ClientLimitExceededException: \(message ?? "")"
+        case .deviceStreamLimitExceededException(let message):
+            return "DeviceStreamLimitExceededException: \(message ?? "")"
+        case .invalidArgumentException(let message):
+            return "InvalidArgumentException: \(message ?? "")"
+        case .invalidDeviceException(let message):
+            return "InvalidDeviceException: \(message ?? "")"
+        case .invalidResourceFormatException(let message):
+            return "InvalidResourceFormatException: \(message ?? "")"
+        case .notAuthorizedException(let message):
+            return "NotAuthorizedException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tagsPerResourceExceededLimitException(let message):
+            return "TagsPerResourceExceededLimitException: \(message ?? "")"
+        case .versionMismatchException(let message):
+            return "VersionMismatchException: \(message ?? "")"
+        }
+    }
+}

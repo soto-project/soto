@@ -36,3 +36,22 @@ extension PinpointSMSVoiceErrorType {
         }
     }
 }
+
+extension PinpointSMSVoiceErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .alreadyExistsException(let message):
+            return "AlreadyExistsException: \(message ?? "")"
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .internalServiceErrorException(let message):
+            return "InternalServiceErrorException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        }
+    }
+}

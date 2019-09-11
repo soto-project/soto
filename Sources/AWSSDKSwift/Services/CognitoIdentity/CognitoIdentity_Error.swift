@@ -51,3 +51,32 @@ extension CognitoIdentityErrorType {
         }
     }
 }
+
+extension CognitoIdentityErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .developerUserAlreadyRegisteredException(let message):
+            return "DeveloperUserAlreadyRegisteredException: \(message ?? "")"
+        case .externalServiceException(let message):
+            return "ExternalServiceException: \(message ?? "")"
+        case .internalErrorException(let message):
+            return "InternalErrorException: \(message ?? "")"
+        case .invalidIdentityPoolConfigurationException(let message):
+            return "InvalidIdentityPoolConfigurationException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .notAuthorizedException(let message):
+            return "NotAuthorizedException: \(message ?? "")"
+        case .resourceConflictException(let message):
+            return "ResourceConflictException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        }
+    }
+}

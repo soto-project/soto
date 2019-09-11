@@ -63,3 +63,40 @@ extension ServiceQuotasErrorType {
         }
     }
 }
+
+extension ServiceQuotasErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .aWSServiceAccessNotEnabledException(let message):
+            return "AWSServiceAccessNotEnabledException: \(message ?? "")"
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .dependencyAccessDeniedException(let message):
+            return "DependencyAccessDeniedException: \(message ?? "")"
+        case .illegalArgumentException(let message):
+            return "IllegalArgumentException: \(message ?? "")"
+        case .invalidPaginationTokenException(let message):
+            return "InvalidPaginationTokenException: \(message ?? "")"
+        case .invalidResourceStateException(let message):
+            return "InvalidResourceStateException: \(message ?? "")"
+        case .noAvailableOrganizationException(let message):
+            return "NoAvailableOrganizationException: \(message ?? "")"
+        case .noSuchResourceException(let message):
+            return "NoSuchResourceException: \(message ?? "")"
+        case .organizationNotInAllFeaturesModeException(let message):
+            return "OrganizationNotInAllFeaturesModeException: \(message ?? "")"
+        case .quotaExceededException(let message):
+            return "QuotaExceededException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .serviceException(let message):
+            return "ServiceException: \(message ?? "")"
+        case .serviceQuotaTemplateNotInUseException(let message):
+            return "ServiceQuotaTemplateNotInUseException: \(message ?? "")"
+        case .templatesNotAvailableInRegionException(let message):
+            return "TemplatesNotAvailableInRegionException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        }
+    }
+}

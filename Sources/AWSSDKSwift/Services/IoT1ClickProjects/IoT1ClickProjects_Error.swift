@@ -33,3 +33,20 @@ extension IoT1ClickProjectsErrorType {
         }
     }
 }
+
+extension IoT1ClickProjectsErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalFailureException(let message):
+            return "InternalFailureException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .resourceConflictException(let message):
+            return "ResourceConflictException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        }
+    }
+}

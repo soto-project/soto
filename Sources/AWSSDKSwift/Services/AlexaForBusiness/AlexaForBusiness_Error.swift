@@ -63,3 +63,40 @@ extension AlexaForBusinessErrorType {
         }
     }
 }
+
+extension AlexaForBusinessErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .alreadyExistsException(let message):
+            return "AlreadyExistsException: \(message ?? "")"
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .deviceNotRegisteredException(let message):
+            return "DeviceNotRegisteredException: \(message ?? "")"
+        case .invalidCertificateAuthorityException(let message):
+            return "InvalidCertificateAuthorityException: \(message ?? "")"
+        case .invalidDeviceException(let message):
+            return "InvalidDeviceException: \(message ?? "")"
+        case .invalidSecretsManagerResourceException(let message):
+            return "InvalidSecretsManagerResourceException: \(message ?? "")"
+        case .invalidServiceLinkedRoleStateException(let message):
+            return "InvalidServiceLinkedRoleStateException: \(message ?? "")"
+        case .invalidUserStatusException(let message):
+            return "InvalidUserStatusException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .nameInUseException(let message):
+            return "NameInUseException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .resourceAssociatedException(let message):
+            return "ResourceAssociatedException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .skillNotLinkedException(let message):
+            return "SkillNotLinkedException: \(message ?? "")"
+        case .unauthorizedException(let message):
+            return "UnauthorizedException: \(message ?? "")"
+        }
+    }
+}

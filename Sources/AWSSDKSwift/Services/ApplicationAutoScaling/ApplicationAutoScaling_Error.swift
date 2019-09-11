@@ -39,3 +39,24 @@ extension ApplicationAutoScalingErrorType {
         }
     }
 }
+
+extension ApplicationAutoScalingErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .concurrentUpdateException(let message):
+            return "ConcurrentUpdateException: \(message ?? "")"
+        case .failedResourceAccessException(let message):
+            return "FailedResourceAccessException: \(message ?? "")"
+        case .internalServiceException(let message):
+            return "InternalServiceException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .objectNotFoundException(let message):
+            return "ObjectNotFoundException: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
+        }
+    }
+}

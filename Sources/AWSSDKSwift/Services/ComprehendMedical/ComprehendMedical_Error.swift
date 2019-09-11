@@ -36,3 +36,22 @@ extension ComprehendMedicalErrorType {
         }
     }
 }
+
+extension ComprehendMedicalErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalServerException(let message):
+            return "InternalServerException: \(message ?? "")"
+        case .invalidEncodingException(let message):
+            return "InvalidEncodingException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .textSizeLimitExceededException(let message):
+            return "TextSizeLimitExceededException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        }
+    }
+}

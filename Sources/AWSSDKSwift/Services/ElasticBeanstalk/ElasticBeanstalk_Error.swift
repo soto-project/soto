@@ -75,3 +75,48 @@ extension ElasticBeanstalkErrorType {
         }
     }
 }
+
+extension ElasticBeanstalkErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .codeBuildNotInServiceRegionException(let message):
+            return "CodeBuildNotInServiceRegionException: \(message ?? "")"
+        case .elasticBeanstalkServiceException(let message):
+            return "ElasticBeanstalkServiceException: \(message ?? "")"
+        case .insufficientPrivilegesException(let message):
+            return "InsufficientPrivilegesException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .managedActionInvalidStateException(let message):
+            return "ManagedActionInvalidStateException: \(message ?? "")"
+        case .operationInProgressException(let message):
+            return "OperationInProgressException: \(message ?? "")"
+        case .platformVersionStillReferencedException(let message):
+            return "PlatformVersionStillReferencedException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .resourceTypeNotSupportedException(let message):
+            return "ResourceTypeNotSupportedException: \(message ?? "")"
+        case .s3LocationNotInServiceRegionException(let message):
+            return "S3LocationNotInServiceRegionException: \(message ?? "")"
+        case .s3SubscriptionRequiredException(let message):
+            return "S3SubscriptionRequiredException: \(message ?? "")"
+        case .sourceBundleDeletionException(let message):
+            return "SourceBundleDeletionException: \(message ?? "")"
+        case .tooManyApplicationVersionsException(let message):
+            return "TooManyApplicationVersionsException: \(message ?? "")"
+        case .tooManyApplicationsException(let message):
+            return "TooManyApplicationsException: \(message ?? "")"
+        case .tooManyBucketsException(let message):
+            return "TooManyBucketsException: \(message ?? "")"
+        case .tooManyConfigurationTemplatesException(let message):
+            return "TooManyConfigurationTemplatesException: \(message ?? "")"
+        case .tooManyEnvironmentsException(let message):
+            return "TooManyEnvironmentsException: \(message ?? "")"
+        case .tooManyPlatformsException(let message):
+            return "TooManyPlatformsException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        }
+    }
+}

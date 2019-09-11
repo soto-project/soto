@@ -36,3 +36,22 @@ extension FirehoseErrorType {
         }
     }
 }
+
+extension FirehoseErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .invalidArgumentException(let message):
+            return "InvalidArgumentException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        }
+    }
+}

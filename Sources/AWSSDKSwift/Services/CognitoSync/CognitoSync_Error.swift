@@ -57,3 +57,36 @@ extension CognitoSyncErrorType {
         }
     }
 }
+
+extension CognitoSyncErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .alreadyStreamedException(let message):
+            return "AlreadyStreamedException: \(message ?? "")"
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .duplicateRequestException(let message):
+            return "DuplicateRequestException: \(message ?? "")"
+        case .internalErrorException(let message):
+            return "InternalErrorException: \(message ?? "")"
+        case .invalidConfigurationException(let message):
+            return "InvalidConfigurationException: \(message ?? "")"
+        case .invalidLambdaFunctionOutputException(let message):
+            return "InvalidLambdaFunctionOutputException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .lambdaThrottledException(let message):
+            return "LambdaThrottledException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .notAuthorizedException(let message):
+            return "NotAuthorizedException: \(message ?? "")"
+        case .resourceConflictException(let message):
+            return "ResourceConflictException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        }
+    }
+}

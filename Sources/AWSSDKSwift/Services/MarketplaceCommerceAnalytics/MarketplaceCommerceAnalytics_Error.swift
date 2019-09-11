@@ -21,3 +21,12 @@ extension MarketplaceCommerceAnalyticsErrorType {
         }
     }
 }
+
+extension MarketplaceCommerceAnalyticsErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .marketplaceCommerceAnalyticsException(let message):
+            return "MarketplaceCommerceAnalyticsException: \(message ?? "")"
+        }
+    }
+}

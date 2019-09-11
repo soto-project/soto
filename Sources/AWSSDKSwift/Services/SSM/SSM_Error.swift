@@ -348,3 +348,230 @@ extension SSMErrorType {
         }
     }
 }
+
+extension SSMErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .alreadyExistsException(let message):
+            return "AlreadyExistsException: \(message ?? "")"
+        case .associatedInstances(let message):
+            return "AssociatedInstances: \(message ?? "")"
+        case .associationAlreadyExists(let message):
+            return "AssociationAlreadyExists: \(message ?? "")"
+        case .associationDoesNotExist(let message):
+            return "AssociationDoesNotExist: \(message ?? "")"
+        case .associationExecutionDoesNotExist(let message):
+            return "AssociationExecutionDoesNotExist: \(message ?? "")"
+        case .associationLimitExceeded(let message):
+            return "AssociationLimitExceeded: \(message ?? "")"
+        case .associationVersionLimitExceeded(let message):
+            return "AssociationVersionLimitExceeded: \(message ?? "")"
+        case .automationDefinitionNotFoundException(let message):
+            return "AutomationDefinitionNotFoundException: \(message ?? "")"
+        case .automationDefinitionVersionNotFoundException(let message):
+            return "AutomationDefinitionVersionNotFoundException: \(message ?? "")"
+        case .automationExecutionLimitExceededException(let message):
+            return "AutomationExecutionLimitExceededException: \(message ?? "")"
+        case .automationExecutionNotFoundException(let message):
+            return "AutomationExecutionNotFoundException: \(message ?? "")"
+        case .automationStepNotFoundException(let message):
+            return "AutomationStepNotFoundException: \(message ?? "")"
+        case .complianceTypeCountLimitExceededException(let message):
+            return "ComplianceTypeCountLimitExceededException: \(message ?? "")"
+        case .customSchemaCountLimitExceededException(let message):
+            return "CustomSchemaCountLimitExceededException: \(message ?? "")"
+        case .documentAlreadyExists(let message):
+            return "DocumentAlreadyExists: \(message ?? "")"
+        case .documentLimitExceeded(let message):
+            return "DocumentLimitExceeded: \(message ?? "")"
+        case .documentPermissionLimit(let message):
+            return "DocumentPermissionLimit: \(message ?? "")"
+        case .documentVersionLimitExceeded(let message):
+            return "DocumentVersionLimitExceeded: \(message ?? "")"
+        case .doesNotExistException(let message):
+            return "DoesNotExistException: \(message ?? "")"
+        case .duplicateDocumentContent(let message):
+            return "DuplicateDocumentContent: \(message ?? "")"
+        case .duplicateDocumentVersionName(let message):
+            return "DuplicateDocumentVersionName: \(message ?? "")"
+        case .duplicateInstanceId(let message):
+            return "DuplicateInstanceId: \(message ?? "")"
+        case .featureNotAvailableException(let message):
+            return "FeatureNotAvailableException: \(message ?? "")"
+        case .hierarchyLevelLimitExceededException(let message):
+            return "HierarchyLevelLimitExceededException: \(message ?? "")"
+        case .hierarchyTypeMismatchException(let message):
+            return "HierarchyTypeMismatchException: \(message ?? "")"
+        case .idempotentParameterMismatch(let message):
+            return "IdempotentParameterMismatch: \(message ?? "")"
+        case .incompatiblePolicyException(let message):
+            return "IncompatiblePolicyException: \(message ?? "")"
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        case .invalidActivation(let message):
+            return "InvalidActivation: \(message ?? "")"
+        case .invalidActivationId(let message):
+            return "InvalidActivationId: \(message ?? "")"
+        case .invalidAggregatorException(let message):
+            return "InvalidAggregatorException: \(message ?? "")"
+        case .invalidAllowedPatternException(let message):
+            return "InvalidAllowedPatternException: \(message ?? "")"
+        case .invalidAssociation(let message):
+            return "InvalidAssociation: \(message ?? "")"
+        case .invalidAssociationVersion(let message):
+            return "InvalidAssociationVersion: \(message ?? "")"
+        case .invalidAutomationExecutionParametersException(let message):
+            return "InvalidAutomationExecutionParametersException: \(message ?? "")"
+        case .invalidAutomationSignalException(let message):
+            return "InvalidAutomationSignalException: \(message ?? "")"
+        case .invalidAutomationStatusUpdateException(let message):
+            return "InvalidAutomationStatusUpdateException: \(message ?? "")"
+        case .invalidCommandId(let message):
+            return "InvalidCommandId: \(message ?? "")"
+        case .invalidDeleteInventoryParametersException(let message):
+            return "InvalidDeleteInventoryParametersException: \(message ?? "")"
+        case .invalidDeletionIdException(let message):
+            return "InvalidDeletionIdException: \(message ?? "")"
+        case .invalidDocument(let message):
+            return "InvalidDocument: \(message ?? "")"
+        case .invalidDocumentContent(let message):
+            return "InvalidDocumentContent: \(message ?? "")"
+        case .invalidDocumentOperation(let message):
+            return "InvalidDocumentOperation: \(message ?? "")"
+        case .invalidDocumentSchemaVersion(let message):
+            return "InvalidDocumentSchemaVersion: \(message ?? "")"
+        case .invalidDocumentVersion(let message):
+            return "InvalidDocumentVersion: \(message ?? "")"
+        case .invalidFilter(let message):
+            return "InvalidFilter: \(message ?? "")"
+        case .invalidFilterKey(let message):
+            return "InvalidFilterKey: \(message ?? "")"
+        case .invalidFilterOption(let message):
+            return "InvalidFilterOption: \(message ?? "")"
+        case .invalidFilterValue(let message):
+            return "InvalidFilterValue: \(message ?? "")"
+        case .invalidInstanceId(let message):
+            return "InvalidInstanceId: \(message ?? "")"
+        case .invalidInstanceInformationFilterValue(let message):
+            return "InvalidInstanceInformationFilterValue: \(message ?? "")"
+        case .invalidInventoryGroupException(let message):
+            return "InvalidInventoryGroupException: \(message ?? "")"
+        case .invalidInventoryItemContextException(let message):
+            return "InvalidInventoryItemContextException: \(message ?? "")"
+        case .invalidInventoryRequestException(let message):
+            return "InvalidInventoryRequestException: \(message ?? "")"
+        case .invalidItemContentException(let message):
+            return "InvalidItemContentException: \(message ?? "")"
+        case .invalidKeyId(let message):
+            return "InvalidKeyId: \(message ?? "")"
+        case .invalidNextToken(let message):
+            return "InvalidNextToken: \(message ?? "")"
+        case .invalidNotificationConfig(let message):
+            return "InvalidNotificationConfig: \(message ?? "")"
+        case .invalidOptionException(let message):
+            return "InvalidOptionException: \(message ?? "")"
+        case .invalidOutputFolder(let message):
+            return "InvalidOutputFolder: \(message ?? "")"
+        case .invalidOutputLocation(let message):
+            return "InvalidOutputLocation: \(message ?? "")"
+        case .invalidParameters(let message):
+            return "InvalidParameters: \(message ?? "")"
+        case .invalidPermissionType(let message):
+            return "InvalidPermissionType: \(message ?? "")"
+        case .invalidPluginName(let message):
+            return "InvalidPluginName: \(message ?? "")"
+        case .invalidPolicyAttributeException(let message):
+            return "InvalidPolicyAttributeException: \(message ?? "")"
+        case .invalidPolicyTypeException(let message):
+            return "InvalidPolicyTypeException: \(message ?? "")"
+        case .invalidResourceId(let message):
+            return "InvalidResourceId: \(message ?? "")"
+        case .invalidResourceType(let message):
+            return "InvalidResourceType: \(message ?? "")"
+        case .invalidResultAttributeException(let message):
+            return "InvalidResultAttributeException: \(message ?? "")"
+        case .invalidRole(let message):
+            return "InvalidRole: \(message ?? "")"
+        case .invalidSchedule(let message):
+            return "InvalidSchedule: \(message ?? "")"
+        case .invalidTarget(let message):
+            return "InvalidTarget: \(message ?? "")"
+        case .invalidTypeNameException(let message):
+            return "InvalidTypeNameException: \(message ?? "")"
+        case .invalidUpdate(let message):
+            return "InvalidUpdate: \(message ?? "")"
+        case .invocationDoesNotExist(let message):
+            return "InvocationDoesNotExist: \(message ?? "")"
+        case .itemContentMismatchException(let message):
+            return "ItemContentMismatchException: \(message ?? "")"
+        case .itemSizeLimitExceededException(let message):
+            return "ItemSizeLimitExceededException: \(message ?? "")"
+        case .maxDocumentSizeExceeded(let message):
+            return "MaxDocumentSizeExceeded: \(message ?? "")"
+        case .opsItemAlreadyExistsException(let message):
+            return "OpsItemAlreadyExistsException: \(message ?? "")"
+        case .opsItemInvalidParameterException(let message):
+            return "OpsItemInvalidParameterException: \(message ?? "")"
+        case .opsItemLimitExceededException(let message):
+            return "OpsItemLimitExceededException: \(message ?? "")"
+        case .opsItemNotFoundException(let message):
+            return "OpsItemNotFoundException: \(message ?? "")"
+        case .parameterAlreadyExists(let message):
+            return "ParameterAlreadyExists: \(message ?? "")"
+        case .parameterLimitExceeded(let message):
+            return "ParameterLimitExceeded: \(message ?? "")"
+        case .parameterMaxVersionLimitExceeded(let message):
+            return "ParameterMaxVersionLimitExceeded: \(message ?? "")"
+        case .parameterNotFound(let message):
+            return "ParameterNotFound: \(message ?? "")"
+        case .parameterPatternMismatchException(let message):
+            return "ParameterPatternMismatchException: \(message ?? "")"
+        case .parameterVersionLabelLimitExceeded(let message):
+            return "ParameterVersionLabelLimitExceeded: \(message ?? "")"
+        case .parameterVersionNotFound(let message):
+            return "ParameterVersionNotFound: \(message ?? "")"
+        case .policiesLimitExceededException(let message):
+            return "PoliciesLimitExceededException: \(message ?? "")"
+        case .resourceDataSyncAlreadyExistsException(let message):
+            return "ResourceDataSyncAlreadyExistsException: \(message ?? "")"
+        case .resourceDataSyncCountExceededException(let message):
+            return "ResourceDataSyncCountExceededException: \(message ?? "")"
+        case .resourceDataSyncInvalidConfigurationException(let message):
+            return "ResourceDataSyncInvalidConfigurationException: \(message ?? "")"
+        case .resourceDataSyncNotFoundException(let message):
+            return "ResourceDataSyncNotFoundException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceLimitExceededException(let message):
+            return "ResourceLimitExceededException: \(message ?? "")"
+        case .serviceSettingNotFound(let message):
+            return "ServiceSettingNotFound: \(message ?? "")"
+        case .statusUnchanged(let message):
+            return "StatusUnchanged: \(message ?? "")"
+        case .subTypeCountLimitExceededException(let message):
+            return "SubTypeCountLimitExceededException: \(message ?? "")"
+        case .targetInUseException(let message):
+            return "TargetInUseException: \(message ?? "")"
+        case .targetNotConnected(let message):
+            return "TargetNotConnected: \(message ?? "")"
+        case .tooManyTagsError(let message):
+            return "TooManyTagsError: \(message ?? "")"
+        case .tooManyUpdates(let message):
+            return "TooManyUpdates: \(message ?? "")"
+        case .totalSizeLimitExceededException(let message):
+            return "TotalSizeLimitExceededException: \(message ?? "")"
+        case .unsupportedFeatureRequiredException(let message):
+            return "UnsupportedFeatureRequiredException: \(message ?? "")"
+        case .unsupportedInventoryItemContextException(let message):
+            return "UnsupportedInventoryItemContextException: \(message ?? "")"
+        case .unsupportedInventorySchemaVersionException(let message):
+            return "UnsupportedInventorySchemaVersionException: \(message ?? "")"
+        case .unsupportedOperatingSystem(let message):
+            return "UnsupportedOperatingSystem: \(message ?? "")"
+        case .unsupportedParameterType(let message):
+            return "UnsupportedParameterType: \(message ?? "")"
+        case .unsupportedPlatformType(let message):
+            return "UnsupportedPlatformType: \(message ?? "")"
+        }
+    }
+}

@@ -30,3 +30,18 @@ extension DLMErrorType {
         }
     }
 }
+
+extension DLMErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalServerException(let message):
+            return "InternalServerException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

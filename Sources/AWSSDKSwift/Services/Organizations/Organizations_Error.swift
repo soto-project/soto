@@ -138,3 +138,90 @@ extension OrganizationsErrorType {
         }
     }
 }
+
+extension OrganizationsErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .aWSOrganizationsNotInUseException(let message):
+            return "AWSOrganizationsNotInUseException: \(message ?? "")"
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .accessDeniedForDependencyException(let message):
+            return "AccessDeniedForDependencyException: \(message ?? "")"
+        case .accountNotFoundException(let message):
+            return "AccountNotFoundException: \(message ?? "")"
+        case .accountOwnerNotVerifiedException(let message):
+            return "AccountOwnerNotVerifiedException: \(message ?? "")"
+        case .alreadyInOrganizationException(let message):
+            return "AlreadyInOrganizationException: \(message ?? "")"
+        case .childNotFoundException(let message):
+            return "ChildNotFoundException: \(message ?? "")"
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .constraintViolationException(let message):
+            return "ConstraintViolationException: \(message ?? "")"
+        case .createAccountStatusNotFoundException(let message):
+            return "CreateAccountStatusNotFoundException: \(message ?? "")"
+        case .destinationParentNotFoundException(let message):
+            return "DestinationParentNotFoundException: \(message ?? "")"
+        case .duplicateAccountException(let message):
+            return "DuplicateAccountException: \(message ?? "")"
+        case .duplicateHandshakeException(let message):
+            return "DuplicateHandshakeException: \(message ?? "")"
+        case .duplicateOrganizationalUnitException(let message):
+            return "DuplicateOrganizationalUnitException: \(message ?? "")"
+        case .duplicatePolicyAttachmentException(let message):
+            return "DuplicatePolicyAttachmentException: \(message ?? "")"
+        case .duplicatePolicyException(let message):
+            return "DuplicatePolicyException: \(message ?? "")"
+        case .finalizingOrganizationException(let message):
+            return "FinalizingOrganizationException: \(message ?? "")"
+        case .handshakeAlreadyInStateException(let message):
+            return "HandshakeAlreadyInStateException: \(message ?? "")"
+        case .handshakeConstraintViolationException(let message):
+            return "HandshakeConstraintViolationException: \(message ?? "")"
+        case .handshakeNotFoundException(let message):
+            return "HandshakeNotFoundException: \(message ?? "")"
+        case .invalidHandshakeTransitionException(let message):
+            return "InvalidHandshakeTransitionException: \(message ?? "")"
+        case .invalidInputException(let message):
+            return "InvalidInputException: \(message ?? "")"
+        case .malformedPolicyDocumentException(let message):
+            return "MalformedPolicyDocumentException: \(message ?? "")"
+        case .masterCannotLeaveOrganizationException(let message):
+            return "MasterCannotLeaveOrganizationException: \(message ?? "")"
+        case .organizationNotEmptyException(let message):
+            return "OrganizationNotEmptyException: \(message ?? "")"
+        case .organizationalUnitNotEmptyException(let message):
+            return "OrganizationalUnitNotEmptyException: \(message ?? "")"
+        case .organizationalUnitNotFoundException(let message):
+            return "OrganizationalUnitNotFoundException: \(message ?? "")"
+        case .parentNotFoundException(let message):
+            return "ParentNotFoundException: \(message ?? "")"
+        case .policyInUseException(let message):
+            return "PolicyInUseException: \(message ?? "")"
+        case .policyNotAttachedException(let message):
+            return "PolicyNotAttachedException: \(message ?? "")"
+        case .policyNotFoundException(let message):
+            return "PolicyNotFoundException: \(message ?? "")"
+        case .policyTypeAlreadyEnabledException(let message):
+            return "PolicyTypeAlreadyEnabledException: \(message ?? "")"
+        case .policyTypeNotAvailableForOrganizationException(let message):
+            return "PolicyTypeNotAvailableForOrganizationException: \(message ?? "")"
+        case .policyTypeNotEnabledException(let message):
+            return "PolicyTypeNotEnabledException: \(message ?? "")"
+        case .rootNotFoundException(let message):
+            return "RootNotFoundException: \(message ?? "")"
+        case .serviceException(let message):
+            return "ServiceException: \(message ?? "")"
+        case .sourceParentNotFoundException(let message):
+            return "SourceParentNotFoundException: \(message ?? "")"
+        case .targetNotFoundException(let message):
+            return "TargetNotFoundException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        case .unsupportedAPIEndpointException(let message):
+            return "UnsupportedAPIEndpointException: \(message ?? "")"
+        }
+    }
+}

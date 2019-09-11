@@ -24,3 +24,14 @@ extension BatchErrorType {
         }
     }
 }
+
+extension BatchErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .clientException(let message):
+            return "ClientException: \(message ?? "")"
+        case .serverException(let message):
+            return "ServerException: \(message ?? "")"
+        }
+    }
+}

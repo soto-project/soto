@@ -24,3 +24,14 @@ extension CloudSearchDomainErrorType {
         }
     }
 }
+
+extension CloudSearchDomainErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .documentServiceException(let message):
+            return "DocumentServiceException: \(message ?? "")"
+        case .searchException(let message):
+            return "SearchException: \(message ?? "")"
+        }
+    }
+}
