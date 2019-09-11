@@ -684,8 +684,8 @@ extension ServerlessApplicationRepository {
         }
 
         public func validate(name: String) throws {
-            try validate(maxItems, name:"maxItems", parent: name, max: 100)
-            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 100)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -734,8 +734,8 @@ extension ServerlessApplicationRepository {
         }
 
         public func validate(name: String) throws {
-            try validate(maxItems, name:"maxItems", parent: name, max: 100)
-            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 100)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -780,8 +780,8 @@ extension ServerlessApplicationRepository {
         }
 
         public func validate(name: String) throws {
-            try validate(maxItems, name:"maxItems", parent: name, max: 100)
-            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 100)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

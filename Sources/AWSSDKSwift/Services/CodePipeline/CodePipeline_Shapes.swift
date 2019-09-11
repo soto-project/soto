@@ -49,9 +49,9 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(jobId, name:"jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
-            try validate(nonce, name:"nonce", parent: name, max: 50)
-            try validate(nonce, name:"nonce", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try validate(self.nonce, name:"nonce", parent: name, max: 50)
+            try validate(self.nonce, name:"nonce", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -98,12 +98,12 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(clientToken, name:"clientToken", parent: name, max: 256)
-            try validate(clientToken, name:"clientToken", parent: name, min: 1)
-            try validate(jobId, name:"jobId", parent: name, max: 512)
-            try validate(jobId, name:"jobId", parent: name, min: 1)
-            try validate(nonce, name:"nonce", parent: name, max: 50)
-            try validate(nonce, name:"nonce", parent: name, min: 1)
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 256)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, max: 512)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.nonce, name:"nonce", parent: name, max: 50)
+            try validate(self.nonce, name:"nonce", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -194,10 +194,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 160)
-            try validate(description, name:"description", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 50)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, max: 160)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -281,28 +281,28 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try actionTypeId.validate(name: "\(name).actionTypeId")
-            try configuration?.forEach {
+            try self.actionTypeId.validate(name: "\(name).actionTypeId")
+            try self.configuration?.forEach {
                 try validate($0.key, name:"configuration.key", parent: name, max: 50)
                 try validate($0.key, name:"configuration.key", parent: name, min: 1)
                 try validate($0.value, name:"configuration[\"\($0.key)\"]", parent: name, max: 1000)
                 try validate($0.value, name:"configuration[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try inputArtifacts?.forEach {
+            try self.inputArtifacts?.forEach {
                 try $0.validate(name: "\(name).inputArtifacts[]")
             }
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try outputArtifacts?.forEach {
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.outputArtifacts?.forEach {
                 try $0.validate(name: "\(name).outputArtifacts[]")
             }
-            try validate(region, name:"region", parent: name, max: 30)
-            try validate(region, name:"region", parent: name, min: 4)
-            try validate(roleArn, name:"roleArn", parent: name, max: 1024)
-            try validate(roleArn, name:"roleArn", parent: name, pattern: "arn:aws(-[\\w]+)*:iam::[0-9]{12}:role/.*")
-            try validate(runOrder, name:"runOrder", parent: name, max: 999)
-            try validate(runOrder, name:"runOrder", parent: name, min: 1)
+            try validate(self.region, name:"region", parent: name, max: 30)
+            try validate(self.region, name:"region", parent: name, min: 4)
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 1024)
+            try validate(self.roleArn, name:"roleArn", parent: name, pattern: "arn:aws(-[\\w]+)*:iam::[0-9]{12}:role/.*")
+            try validate(self.runOrder, name:"runOrder", parent: name, max: 999)
+            try validate(self.runOrder, name:"runOrder", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -449,7 +449,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(pipelineExecutionId, name:"pipelineExecutionId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try validate(self.pipelineExecutionId, name:"pipelineExecutionId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -577,10 +577,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(revisionChangeId, name:"revisionChangeId", parent: name, max: 100)
-            try validate(revisionChangeId, name:"revisionChangeId", parent: name, min: 1)
-            try validate(revisionId, name:"revisionId", parent: name, max: 1500)
-            try validate(revisionId, name:"revisionId", parent: name, min: 1)
+            try validate(self.revisionChangeId, name:"revisionChangeId", parent: name, max: 100)
+            try validate(self.revisionChangeId, name:"revisionChangeId", parent: name, min: 1)
+            try validate(self.revisionId, name:"revisionId", parent: name, max: 1500)
+            try validate(self.revisionId, name:"revisionId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -689,12 +689,12 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(provider, name:"provider", parent: name, max: 25)
-            try validate(provider, name:"provider", parent: name, min: 1)
-            try validate(provider, name:"provider", parent: name, pattern: "[0-9A-Za-z_-]+")
-            try validate(version, name:"version", parent: name, max: 9)
-            try validate(version, name:"version", parent: name, min: 1)
-            try validate(version, name:"version", parent: name, pattern: "[0-9A-Za-z_-]+")
+            try validate(self.provider, name:"provider", parent: name, max: 25)
+            try validate(self.provider, name:"provider", parent: name, min: 1)
+            try validate(self.provider, name:"provider", parent: name, pattern: "[0-9A-Za-z_-]+")
+            try validate(self.version, name:"version", parent: name, max: 9)
+            try validate(self.version, name:"version", parent: name, min: 1)
+            try validate(self.version, name:"version", parent: name, pattern: "[0-9A-Za-z_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -730,14 +730,14 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(entityUrlTemplate, name:"entityUrlTemplate", parent: name, max: 2048)
-            try validate(entityUrlTemplate, name:"entityUrlTemplate", parent: name, min: 1)
-            try validate(executionUrlTemplate, name:"executionUrlTemplate", parent: name, max: 2048)
-            try validate(executionUrlTemplate, name:"executionUrlTemplate", parent: name, min: 1)
-            try validate(revisionUrlTemplate, name:"revisionUrlTemplate", parent: name, max: 2048)
-            try validate(revisionUrlTemplate, name:"revisionUrlTemplate", parent: name, min: 1)
-            try validate(thirdPartyConfigurationUrl, name:"thirdPartyConfigurationUrl", parent: name, max: 2048)
-            try validate(thirdPartyConfigurationUrl, name:"thirdPartyConfigurationUrl", parent: name, min: 1)
+            try validate(self.entityUrlTemplate, name:"entityUrlTemplate", parent: name, max: 2048)
+            try validate(self.entityUrlTemplate, name:"entityUrlTemplate", parent: name, min: 1)
+            try validate(self.executionUrlTemplate, name:"executionUrlTemplate", parent: name, max: 2048)
+            try validate(self.executionUrlTemplate, name:"executionUrlTemplate", parent: name, min: 1)
+            try validate(self.revisionUrlTemplate, name:"revisionUrlTemplate", parent: name, max: 2048)
+            try validate(self.revisionUrlTemplate, name:"revisionUrlTemplate", parent: name, min: 1)
+            try validate(self.thirdPartyConfigurationUrl, name:"thirdPartyConfigurationUrl", parent: name, max: 2048)
+            try validate(self.thirdPartyConfigurationUrl, name:"thirdPartyConfigurationUrl", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -765,8 +765,8 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(summary, name:"summary", parent: name, max: 512)
-            try validate(summary, name:"summary", parent: name, min: 0)
+            try validate(self.summary, name:"summary", parent: name, max: 512)
+            try validate(self.summary, name:"summary", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -847,10 +847,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(maximumCount, name:"maximumCount", parent: name, max: 5)
-            try validate(maximumCount, name:"maximumCount", parent: name, min: 0)
-            try validate(minimumCount, name:"minimumCount", parent: name, max: 5)
-            try validate(minimumCount, name:"minimumCount", parent: name, min: 0)
+            try validate(self.maximumCount, name:"maximumCount", parent: name, max: 5)
+            try validate(self.maximumCount, name:"maximumCount", parent: name, min: 0)
+            try validate(self.minimumCount, name:"minimumCount", parent: name, max: 5)
+            try validate(self.minimumCount, name:"minimumCount", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -949,10 +949,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try encryptionKey?.validate(name: "\(name).encryptionKey")
-            try validate(location, name:"location", parent: name, max: 63)
-            try validate(location, name:"location", parent: name, min: 3)
-            try validate(location, name:"location", parent: name, pattern: "[a-zA-Z0-9\\-\\.]+")
+            try self.encryptionKey?.validate(name: "\(name).encryptionKey")
+            try validate(self.location, name:"location", parent: name, max: 63)
+            try validate(self.location, name:"location", parent: name, min: 3)
+            try validate(self.location, name:"location", parent: name, pattern: "[a-zA-Z0-9\\-\\.]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -984,8 +984,8 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1040,22 +1040,22 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try configurationProperties?.forEach {
+            try self.configurationProperties?.forEach {
                 try $0.validate(name: "\(name).configurationProperties[]")
             }
-            try validate(configurationProperties, name:"configurationProperties", parent: name, max: 10)
-            try inputArtifactDetails.validate(name: "\(name).inputArtifactDetails")
-            try outputArtifactDetails.validate(name: "\(name).outputArtifactDetails")
-            try validate(provider, name:"provider", parent: name, max: 25)
-            try validate(provider, name:"provider", parent: name, min: 1)
-            try validate(provider, name:"provider", parent: name, pattern: "[0-9A-Za-z_-]+")
-            try settings?.validate(name: "\(name).settings")
-            try tags?.forEach {
+            try validate(self.configurationProperties, name:"configurationProperties", parent: name, max: 10)
+            try self.inputArtifactDetails.validate(name: "\(name).inputArtifactDetails")
+            try self.outputArtifactDetails.validate(name: "\(name).outputArtifactDetails")
+            try validate(self.provider, name:"provider", parent: name, max: 25)
+            try validate(self.provider, name:"provider", parent: name, min: 1)
+            try validate(self.provider, name:"provider", parent: name, pattern: "[0-9A-Za-z_-]+")
+            try self.settings?.validate(name: "\(name).settings")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(version, name:"version", parent: name, max: 9)
-            try validate(version, name:"version", parent: name, min: 1)
-            try validate(version, name:"version", parent: name, pattern: "[0-9A-Za-z_-]+")
+            try validate(self.version, name:"version", parent: name, max: 9)
+            try validate(self.version, name:"version", parent: name, min: 1)
+            try validate(self.version, name:"version", parent: name, pattern: "[0-9A-Za-z_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1109,8 +1109,8 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try pipeline.validate(name: "\(name).pipeline")
-            try tags?.forEach {
+            try self.pipeline.validate(name: "\(name).pipeline")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -1168,12 +1168,12 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(changeIdentifier, name:"changeIdentifier", parent: name, max: 100)
-            try validate(changeIdentifier, name:"changeIdentifier", parent: name, min: 1)
-            try validate(revision, name:"revision", parent: name, max: 1500)
-            try validate(revision, name:"revision", parent: name, min: 1)
-            try validate(revisionSummary, name:"revisionSummary", parent: name, max: 2048)
-            try validate(revisionSummary, name:"revisionSummary", parent: name, min: 1)
+            try validate(self.changeIdentifier, name:"changeIdentifier", parent: name, max: 100)
+            try validate(self.changeIdentifier, name:"changeIdentifier", parent: name, min: 1)
+            try validate(self.revision, name:"revision", parent: name, max: 1500)
+            try validate(self.revision, name:"revision", parent: name, min: 1)
+            try validate(self.revisionSummary, name:"revisionSummary", parent: name, max: 2048)
+            try validate(self.revisionSummary, name:"revisionSummary", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1205,12 +1205,12 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(provider, name:"provider", parent: name, max: 25)
-            try validate(provider, name:"provider", parent: name, min: 1)
-            try validate(provider, name:"provider", parent: name, pattern: "[0-9A-Za-z_-]+")
-            try validate(version, name:"version", parent: name, max: 9)
-            try validate(version, name:"version", parent: name, min: 1)
-            try validate(version, name:"version", parent: name, pattern: "[0-9A-Za-z_-]+")
+            try validate(self.provider, name:"provider", parent: name, max: 25)
+            try validate(self.provider, name:"provider", parent: name, min: 1)
+            try validate(self.provider, name:"provider", parent: name, pattern: "[0-9A-Za-z_-]+")
+            try validate(self.version, name:"version", parent: name, max: 9)
+            try validate(self.version, name:"version", parent: name, min: 1)
+            try validate(self.version, name:"version", parent: name, pattern: "[0-9A-Za-z_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1233,9 +1233,9 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1256,9 +1256,9 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1287,9 +1287,9 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(webhookName, name:"webhookName", parent: name, max: 100)
-            try validate(webhookName, name:"webhookName", parent: name, min: 1)
-            try validate(webhookName, name:"webhookName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.webhookName, name:"webhookName", parent: name, max: 100)
+            try validate(self.webhookName, name:"webhookName", parent: name, min: 1)
+            try validate(self.webhookName, name:"webhookName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1330,15 +1330,15 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 100)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try validate(reason, name:"reason", parent: name, max: 300)
-            try validate(reason, name:"reason", parent: name, min: 1)
-            try validate(reason, name:"reason", parent: name, pattern: "[a-zA-Z0-9!@ \\(\\)\\.\\*\\?\\-]+")
-            try validate(stageName, name:"stageName", parent: name, max: 100)
-            try validate(stageName, name:"stageName", parent: name, min: 1)
-            try validate(stageName, name:"stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 100)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.reason, name:"reason", parent: name, max: 300)
+            try validate(self.reason, name:"reason", parent: name, min: 1)
+            try validate(self.reason, name:"reason", parent: name, pattern: "[a-zA-Z0-9!@ \\(\\)\\.\\*\\?\\-]+")
+            try validate(self.stageName, name:"stageName", parent: name, max: 100)
+            try validate(self.stageName, name:"stageName", parent: name, min: 1)
+            try validate(self.stageName, name:"stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1370,12 +1370,12 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 100)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try validate(stageName, name:"stageName", parent: name, max: 100)
-            try validate(stageName, name:"stageName", parent: name, min: 1)
-            try validate(stageName, name:"stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 100)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.stageName, name:"stageName", parent: name, max: 100)
+            try validate(self.stageName, name:"stageName", parent: name, min: 1)
+            try validate(self.stageName, name:"stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1402,8 +1402,8 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 100)
-            try validate(id, name:"id", parent: name, min: 1)
+            try validate(self.id, name:"id", parent: name, max: 100)
+            try validate(self.id, name:"id", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1460,12 +1460,12 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(externalExecutionId, name:"externalExecutionId", parent: name, max: 1500)
-            try validate(externalExecutionId, name:"externalExecutionId", parent: name, min: 1)
-            try validate(percentComplete, name:"percentComplete", parent: name, max: 100)
-            try validate(percentComplete, name:"percentComplete", parent: name, min: 0)
-            try validate(summary, name:"summary", parent: name, max: 2048)
-            try validate(summary, name:"summary", parent: name, min: 1)
+            try validate(self.externalExecutionId, name:"externalExecutionId", parent: name, max: 1500)
+            try validate(self.externalExecutionId, name:"externalExecutionId", parent: name, min: 1)
+            try validate(self.percentComplete, name:"percentComplete", parent: name, max: 100)
+            try validate(self.percentComplete, name:"percentComplete", parent: name, min: 0)
+            try validate(self.summary, name:"summary", parent: name, max: 2048)
+            try validate(self.summary, name:"summary", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1496,10 +1496,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(externalExecutionId, name:"externalExecutionId", parent: name, max: 1500)
-            try validate(externalExecutionId, name:"externalExecutionId", parent: name, min: 1)
-            try validate(message, name:"message", parent: name, max: 5000)
-            try validate(message, name:"message", parent: name, min: 1)
+            try validate(self.externalExecutionId, name:"externalExecutionId", parent: name, max: 1500)
+            try validate(self.externalExecutionId, name:"externalExecutionId", parent: name, min: 1)
+            try validate(self.message, name:"message", parent: name, max: 5000)
+            try validate(self.message, name:"message", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1532,7 +1532,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(jobId, name:"jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1574,10 +1574,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(pipelineExecutionId, name:"pipelineExecutionId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 100)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.pipelineExecutionId, name:"pipelineExecutionId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 100)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1620,10 +1620,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try validate(version, name:"version", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.version, name:"version", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1667,9 +1667,9 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1731,10 +1731,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(clientToken, name:"clientToken", parent: name, max: 256)
-            try validate(clientToken, name:"clientToken", parent: name, min: 1)
-            try validate(jobId, name:"jobId", parent: name, max: 512)
-            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 256)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, max: 512)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1773,9 +1773,9 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-]+")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1930,14 +1930,14 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try filter?.validate(name: "\(name).filter")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 100)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 100)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1987,8 +1987,8 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2040,13 +2040,13 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 100)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 100)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2091,8 +2091,8 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2143,11 +2143,11 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codepipeline:.+:[0-9]{12}:.+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codepipeline:.+:[0-9]{12}:.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2243,10 +2243,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2290,9 +2290,9 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-]+")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2370,21 +2370,21 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try artifactStore?.validate(name: "\(name).artifactStore")
-            try artifactStores?.forEach {
+            try self.artifactStore?.validate(name: "\(name).artifactStore")
+            try self.artifactStores?.forEach {
                 try validate($0.key, name:"artifactStores.key", parent: name, max: 30)
                 try validate($0.key, name:"artifactStores.key", parent: name, min: 4)
                 try $0.value.validate(name: "\(name).artifactStores[\"\($0.key)\"]")
             }
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try validate(roleArn, name:"roleArn", parent: name, max: 1024)
-            try validate(roleArn, name:"roleArn", parent: name, pattern: "arn:aws(-[\\w]+)*:iam::[0-9]{12}:role/.*")
-            try stages.forEach {
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 1024)
+            try validate(self.roleArn, name:"roleArn", parent: name, pattern: "arn:aws(-[\\w]+)*:iam::[0-9]{12}:role/.*")
+            try self.stages.forEach {
                 try $0.validate(name: "\(name).stages[]")
             }
-            try validate(version, name:"version", parent: name, min: 1)
+            try validate(self.version, name:"version", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2559,9 +2559,9 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try actionTypeId.validate(name: "\(name).actionTypeId")
-            try validate(maxBatchSize, name:"maxBatchSize", parent: name, min: 1)
-            try queryParam?.forEach {
+            try self.actionTypeId.validate(name: "\(name).actionTypeId")
+            try validate(self.maxBatchSize, name:"maxBatchSize", parent: name, min: 1)
+            try self.queryParam?.forEach {
                 try validate($0.key, name:"queryParam.key", parent: name, max: 50)
                 try validate($0.key, name:"queryParam.key", parent: name, min: 1)
                 try validate($0.value, name:"queryParam[\"\($0.key)\"]", parent: name, max: 50)
@@ -2611,8 +2611,8 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try actionTypeId.validate(name: "\(name).actionTypeId")
-            try validate(maxBatchSize, name:"maxBatchSize", parent: name, min: 1)
+            try self.actionTypeId.validate(name: "\(name).actionTypeId")
+            try validate(self.maxBatchSize, name:"maxBatchSize", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2663,16 +2663,16 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(actionName, name:"actionName", parent: name, max: 100)
-            try validate(actionName, name:"actionName", parent: name, min: 1)
-            try validate(actionName, name:"actionName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try actionRevision.validate(name: "\(name).actionRevision")
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 100)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try validate(stageName, name:"stageName", parent: name, max: 100)
-            try validate(stageName, name:"stageName", parent: name, min: 1)
-            try validate(stageName, name:"stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.actionName, name:"actionName", parent: name, max: 100)
+            try validate(self.actionName, name:"actionName", parent: name, min: 1)
+            try validate(self.actionName, name:"actionName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.actionRevision.validate(name: "\(name).actionRevision")
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 100)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.stageName, name:"stageName", parent: name, max: 100)
+            try validate(self.stageName, name:"stageName", parent: name, min: 1)
+            try validate(self.stageName, name:"stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2734,17 +2734,17 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(actionName, name:"actionName", parent: name, max: 100)
-            try validate(actionName, name:"actionName", parent: name, min: 1)
-            try validate(actionName, name:"actionName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 100)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try result.validate(name: "\(name).result")
-            try validate(stageName, name:"stageName", parent: name, max: 100)
-            try validate(stageName, name:"stageName", parent: name, min: 1)
-            try validate(stageName, name:"stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try validate(token, name:"token", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try validate(self.actionName, name:"actionName", parent: name, max: 100)
+            try validate(self.actionName, name:"actionName", parent: name, min: 1)
+            try validate(self.actionName, name:"actionName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 100)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.result.validate(name: "\(name).result")
+            try validate(self.stageName, name:"stageName", parent: name, max: 100)
+            try validate(self.stageName, name:"stageName", parent: name, min: 1)
+            try validate(self.stageName, name:"stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.token, name:"token", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2790,8 +2790,8 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try failureDetails.validate(name: "\(name).failureDetails")
-            try validate(jobId, name:"jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.failureDetails.validate(name: "\(name).failureDetails")
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2825,11 +2825,11 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(continuationToken, name:"continuationToken", parent: name, max: 2048)
-            try validate(continuationToken, name:"continuationToken", parent: name, min: 1)
-            try currentRevision?.validate(name: "\(name).currentRevision")
-            try executionDetails?.validate(name: "\(name).executionDetails")
-            try validate(jobId, name:"jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try validate(self.continuationToken, name:"continuationToken", parent: name, max: 2048)
+            try validate(self.continuationToken, name:"continuationToken", parent: name, min: 1)
+            try self.currentRevision?.validate(name: "\(name).currentRevision")
+            try self.executionDetails?.validate(name: "\(name).executionDetails")
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2861,11 +2861,11 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(clientToken, name:"clientToken", parent: name, max: 256)
-            try validate(clientToken, name:"clientToken", parent: name, min: 1)
-            try failureDetails.validate(name: "\(name).failureDetails")
-            try validate(jobId, name:"jobId", parent: name, max: 512)
-            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 256)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try self.failureDetails.validate(name: "\(name).failureDetails")
+            try validate(self.jobId, name:"jobId", parent: name, max: 512)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2904,14 +2904,14 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(clientToken, name:"clientToken", parent: name, max: 256)
-            try validate(clientToken, name:"clientToken", parent: name, min: 1)
-            try validate(continuationToken, name:"continuationToken", parent: name, max: 2048)
-            try validate(continuationToken, name:"continuationToken", parent: name, min: 1)
-            try currentRevision?.validate(name: "\(name).currentRevision")
-            try executionDetails?.validate(name: "\(name).executionDetails")
-            try validate(jobId, name:"jobId", parent: name, max: 512)
-            try validate(jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 256)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.continuationToken, name:"continuationToken", parent: name, max: 2048)
+            try validate(self.continuationToken, name:"continuationToken", parent: name, min: 1)
+            try self.currentRevision?.validate(name: "\(name).currentRevision")
+            try self.executionDetails?.validate(name: "\(name).executionDetails")
+            try validate(self.jobId, name:"jobId", parent: name, max: 512)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2940,10 +2940,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try tags?.forEach {
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try webhook.validate(name: "\(name).webhook")
+            try self.webhook.validate(name: "\(name).webhook")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2982,9 +2982,9 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(webhookName, name:"webhookName", parent: name, max: 100)
-            try validate(webhookName, name:"webhookName", parent: name, min: 1)
-            try validate(webhookName, name:"webhookName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.webhookName, name:"webhookName", parent: name, max: 100)
+            try validate(self.webhookName, name:"webhookName", parent: name, min: 1)
+            try validate(self.webhookName, name:"webhookName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3025,13 +3025,13 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(pipelineExecutionId, name:"pipelineExecutionId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 100)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try validate(stageName, name:"stageName", parent: name, max: 100)
-            try validate(stageName, name:"stageName", parent: name, min: 1)
-            try validate(stageName, name:"stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.pipelineExecutionId, name:"pipelineExecutionId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 100)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.stageName, name:"stageName", parent: name, max: 100)
+            try validate(self.stageName, name:"stageName", parent: name, min: 1)
+            try validate(self.stageName, name:"stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3173,15 +3173,15 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try actions.forEach {
+            try self.actions.forEach {
                 try $0.validate(name: "\(name).actions[]")
             }
-            try blockers?.forEach {
+            try self.blockers?.forEach {
                 try $0.validate(name: "\(name).blockers[]")
             }
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3280,12 +3280,12 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 128)
-            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
-            try validate(clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 128)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3328,10 +3328,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(value, name:"value", parent: name, max: 256)
-            try validate(value, name:"value", parent: name, min: 0)
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3357,8 +3357,8 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codepipeline:.+:[0-9]{12}:.+")
-            try tags.forEach {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codepipeline:.+:[0-9]{12}:.+")
+            try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -3527,8 +3527,8 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codepipeline:.+:[0-9]{12}:.+")
-            try tagKeys.forEach {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codepipeline:.+:[0-9]{12}:.+")
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
@@ -3561,7 +3561,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try pipeline.validate(name: "\(name).pipeline")
+            try self.pipeline.validate(name: "\(name).pipeline")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3603,10 +3603,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(allowedIPRange, name:"allowedIPRange", parent: name, max: 100)
-            try validate(allowedIPRange, name:"allowedIPRange", parent: name, min: 1)
-            try validate(secretToken, name:"secretToken", parent: name, max: 100)
-            try validate(secretToken, name:"secretToken", parent: name, min: 1)
+            try validate(self.allowedIPRange, name:"allowedIPRange", parent: name, max: 100)
+            try validate(self.allowedIPRange, name:"allowedIPRange", parent: name, min: 1)
+            try validate(self.secretToken, name:"secretToken", parent: name, max: 100)
+            try validate(self.secretToken, name:"secretToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3655,20 +3655,20 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try authenticationConfiguration.validate(name: "\(name).authenticationConfiguration")
-            try filters.forEach {
+            try self.authenticationConfiguration.validate(name: "\(name).authenticationConfiguration")
+            try self.filters.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try validate(targetAction, name:"targetAction", parent: name, max: 100)
-            try validate(targetAction, name:"targetAction", parent: name, min: 1)
-            try validate(targetAction, name:"targetAction", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
-            try validate(targetPipeline, name:"targetPipeline", parent: name, max: 100)
-            try validate(targetPipeline, name:"targetPipeline", parent: name, min: 1)
-            try validate(targetPipeline, name:"targetPipeline", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.targetAction, name:"targetAction", parent: name, max: 100)
+            try validate(self.targetAction, name:"targetAction", parent: name, min: 1)
+            try validate(self.targetAction, name:"targetAction", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try validate(self.targetPipeline, name:"targetPipeline", parent: name, max: 100)
+            try validate(self.targetPipeline, name:"targetPipeline", parent: name, min: 1)
+            try validate(self.targetPipeline, name:"targetPipeline", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3698,10 +3698,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
-            try validate(jsonPath, name:"jsonPath", parent: name, max: 150)
-            try validate(jsonPath, name:"jsonPath", parent: name, min: 1)
-            try validate(matchEquals, name:"matchEquals", parent: name, max: 150)
-            try validate(matchEquals, name:"matchEquals", parent: name, min: 1)
+            try validate(self.jsonPath, name:"jsonPath", parent: name, max: 150)
+            try validate(self.jsonPath, name:"jsonPath", parent: name, min: 1)
+            try validate(self.matchEquals, name:"matchEquals", parent: name, max: 150)
+            try validate(self.matchEquals, name:"matchEquals", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

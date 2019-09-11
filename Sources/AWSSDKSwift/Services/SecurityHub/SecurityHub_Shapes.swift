@@ -22,8 +22,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(invitationId, name:"invitationId", parent: name, pattern: ".*\\S.*")
-            try validate(masterId, name:"masterId", parent: name, pattern: ".*\\S.*")
+            try validate(self.invitationId, name:"invitationId", parent: name, pattern: ".*\\S.*")
+            try validate(self.masterId, name:"masterId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -57,7 +57,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(email, name:"email", parent: name, pattern: ".*\\S.*")
+            try validate(self.email, name:"email", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -138,19 +138,19 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(iamInstanceProfileArn, name:"iamInstanceProfileArn", parent: name, pattern: ".*\\S.*")
-            try validate(imageId, name:"imageId", parent: name, pattern: ".*\\S.*")
-            try ipV4Addresses?.forEach {
+            try validate(self.iamInstanceProfileArn, name:"iamInstanceProfileArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.imageId, name:"imageId", parent: name, pattern: ".*\\S.*")
+            try self.ipV4Addresses?.forEach {
                 try validate($0, name: "ipV4Addresses[]", parent: name, pattern: ".*\\S.*")
             }
-            try ipV6Addresses?.forEach {
+            try self.ipV6Addresses?.forEach {
                 try validate($0, name: "ipV6Addresses[]", parent: name, pattern: ".*\\S.*")
             }
-            try validate(keyName, name:"keyName", parent: name, pattern: ".*\\S.*")
-            try validate(launchedAt, name:"launchedAt", parent: name, pattern: ".*\\S.*")
-            try validate(subnetId, name:"subnetId", parent: name, pattern: ".*\\S.*")
-            try validate(`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
-            try validate(vpcId, name:"vpcId", parent: name, pattern: ".*\\S.*")
+            try validate(self.keyName, name:"keyName", parent: name, pattern: ".*\\S.*")
+            try validate(self.launchedAt, name:"launchedAt", parent: name, pattern: ".*\\S.*")
+            try validate(self.subnetId, name:"subnetId", parent: name, pattern: ".*\\S.*")
+            try validate(self.`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
+            try validate(self.vpcId, name:"vpcId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -187,8 +187,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(createdAt, name:"createdAt", parent: name, pattern: ".*\\S.*")
-            try validate(userName, name:"userName", parent: name, pattern: ".*\\S.*")
+            try validate(self.createdAt, name:"createdAt", parent: name, pattern: ".*\\S.*")
+            try validate(self.userName, name:"userName", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -221,8 +221,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(ownerId, name:"ownerId", parent: name, pattern: ".*\\S.*")
-            try validate(ownerName, name:"ownerName", parent: name, pattern: ".*\\S.*")
+            try validate(self.ownerId, name:"ownerId", parent: name, pattern: ".*\\S.*")
+            try validate(self.ownerName, name:"ownerName", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -360,42 +360,42 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(awsAccountId, name:"awsAccountId", parent: name, pattern: ".*\\S.*")
-            try validate(createdAt, name:"createdAt", parent: name, pattern: ".*\\S.*")
-            try validate(description, name:"description", parent: name, pattern: ".*\\S.*")
-            try validate(firstObservedAt, name:"firstObservedAt", parent: name, pattern: ".*\\S.*")
-            try validate(generatorId, name:"generatorId", parent: name, pattern: ".*\\S.*")
-            try validate(id, name:"id", parent: name, pattern: ".*\\S.*")
-            try validate(lastObservedAt, name:"lastObservedAt", parent: name, pattern: ".*\\S.*")
-            try malware?.forEach {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.createdAt, name:"createdAt", parent: name, pattern: ".*\\S.*")
+            try validate(self.description, name:"description", parent: name, pattern: ".*\\S.*")
+            try validate(self.firstObservedAt, name:"firstObservedAt", parent: name, pattern: ".*\\S.*")
+            try validate(self.generatorId, name:"generatorId", parent: name, pattern: ".*\\S.*")
+            try validate(self.id, name:"id", parent: name, pattern: ".*\\S.*")
+            try validate(self.lastObservedAt, name:"lastObservedAt", parent: name, pattern: ".*\\S.*")
+            try self.malware?.forEach {
                 try $0.validate(name: "\(name).malware[]")
             }
-            try network?.validate(name: "\(name).network")
-            try note?.validate(name: "\(name).note")
-            try process?.validate(name: "\(name).process")
-            try validate(productArn, name:"productArn", parent: name, pattern: ".*\\S.*")
-            try productFields?.forEach {
+            try self.network?.validate(name: "\(name).network")
+            try self.note?.validate(name: "\(name).note")
+            try self.process?.validate(name: "\(name).process")
+            try validate(self.productArn, name:"productArn", parent: name, pattern: ".*\\S.*")
+            try self.productFields?.forEach {
                 try validate($0.key, name:"productFields.key", parent: name, pattern: ".*\\S.*")
                 try validate($0.value, name:"productFields[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
             }
-            try relatedFindings?.forEach {
+            try self.relatedFindings?.forEach {
                 try $0.validate(name: "\(name).relatedFindings[]")
             }
-            try remediation?.validate(name: "\(name).remediation")
-            try resources.forEach {
+            try self.remediation?.validate(name: "\(name).remediation")
+            try self.resources.forEach {
                 try $0.validate(name: "\(name).resources[]")
             }
-            try validate(schemaVersion, name:"schemaVersion", parent: name, pattern: ".*\\S.*")
-            try validate(sourceUrl, name:"sourceUrl", parent: name, pattern: ".*\\S.*")
-            try threatIntelIndicators?.forEach {
+            try validate(self.schemaVersion, name:"schemaVersion", parent: name, pattern: ".*\\S.*")
+            try validate(self.sourceUrl, name:"sourceUrl", parent: name, pattern: ".*\\S.*")
+            try self.threatIntelIndicators?.forEach {
                 try $0.validate(name: "\(name).threatIntelIndicators[]")
             }
-            try validate(title, name:"title", parent: name, pattern: ".*\\S.*")
-            try types.forEach {
+            try validate(self.title, name:"title", parent: name, pattern: ".*\\S.*")
+            try self.types.forEach {
                 try validate($0, name: "types[]", parent: name, pattern: ".*\\S.*")
             }
-            try validate(updatedAt, name:"updatedAt", parent: name, pattern: ".*\\S.*")
-            try userDefinedFields?.forEach {
+            try validate(self.updatedAt, name:"updatedAt", parent: name, pattern: ".*\\S.*")
+            try self.userDefinedFields?.forEach {
                 try validate($0.key, name:"userDefinedFields.key", parent: name, pattern: ".*\\S.*")
                 try validate($0.value, name:"userDefinedFields[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
             }
@@ -776,229 +776,229 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try awsAccountId?.forEach {
+            try self.awsAccountId?.forEach {
                 try $0.validate(name: "\(name).awsAccountId[]")
             }
-            try companyName?.forEach {
+            try self.companyName?.forEach {
                 try $0.validate(name: "\(name).companyName[]")
             }
-            try complianceStatus?.forEach {
+            try self.complianceStatus?.forEach {
                 try $0.validate(name: "\(name).complianceStatus[]")
             }
-            try createdAt?.forEach {
+            try self.createdAt?.forEach {
                 try $0.validate(name: "\(name).createdAt[]")
             }
-            try description?.forEach {
+            try self.description?.forEach {
                 try $0.validate(name: "\(name).description[]")
             }
-            try firstObservedAt?.forEach {
+            try self.firstObservedAt?.forEach {
                 try $0.validate(name: "\(name).firstObservedAt[]")
             }
-            try generatorId?.forEach {
+            try self.generatorId?.forEach {
                 try $0.validate(name: "\(name).generatorId[]")
             }
-            try id?.forEach {
+            try self.id?.forEach {
                 try $0.validate(name: "\(name).id[]")
             }
-            try keyword?.forEach {
+            try self.keyword?.forEach {
                 try $0.validate(name: "\(name).keyword[]")
             }
-            try lastObservedAt?.forEach {
+            try self.lastObservedAt?.forEach {
                 try $0.validate(name: "\(name).lastObservedAt[]")
             }
-            try malwareName?.forEach {
+            try self.malwareName?.forEach {
                 try $0.validate(name: "\(name).malwareName[]")
             }
-            try malwarePath?.forEach {
+            try self.malwarePath?.forEach {
                 try $0.validate(name: "\(name).malwarePath[]")
             }
-            try malwareState?.forEach {
+            try self.malwareState?.forEach {
                 try $0.validate(name: "\(name).malwareState[]")
             }
-            try malwareType?.forEach {
+            try self.malwareType?.forEach {
                 try $0.validate(name: "\(name).malwareType[]")
             }
-            try networkDestinationDomain?.forEach {
+            try self.networkDestinationDomain?.forEach {
                 try $0.validate(name: "\(name).networkDestinationDomain[]")
             }
-            try networkDestinationIpV4?.forEach {
+            try self.networkDestinationIpV4?.forEach {
                 try $0.validate(name: "\(name).networkDestinationIpV4[]")
             }
-            try networkDestinationIpV6?.forEach {
+            try self.networkDestinationIpV6?.forEach {
                 try $0.validate(name: "\(name).networkDestinationIpV6[]")
             }
-            try networkDirection?.forEach {
+            try self.networkDirection?.forEach {
                 try $0.validate(name: "\(name).networkDirection[]")
             }
-            try networkProtocol?.forEach {
+            try self.networkProtocol?.forEach {
                 try $0.validate(name: "\(name).networkProtocol[]")
             }
-            try networkSourceDomain?.forEach {
+            try self.networkSourceDomain?.forEach {
                 try $0.validate(name: "\(name).networkSourceDomain[]")
             }
-            try networkSourceIpV4?.forEach {
+            try self.networkSourceIpV4?.forEach {
                 try $0.validate(name: "\(name).networkSourceIpV4[]")
             }
-            try networkSourceIpV6?.forEach {
+            try self.networkSourceIpV6?.forEach {
                 try $0.validate(name: "\(name).networkSourceIpV6[]")
             }
-            try networkSourceMac?.forEach {
+            try self.networkSourceMac?.forEach {
                 try $0.validate(name: "\(name).networkSourceMac[]")
             }
-            try noteText?.forEach {
+            try self.noteText?.forEach {
                 try $0.validate(name: "\(name).noteText[]")
             }
-            try noteUpdatedAt?.forEach {
+            try self.noteUpdatedAt?.forEach {
                 try $0.validate(name: "\(name).noteUpdatedAt[]")
             }
-            try noteUpdatedBy?.forEach {
+            try self.noteUpdatedBy?.forEach {
                 try $0.validate(name: "\(name).noteUpdatedBy[]")
             }
-            try processLaunchedAt?.forEach {
+            try self.processLaunchedAt?.forEach {
                 try $0.validate(name: "\(name).processLaunchedAt[]")
             }
-            try processName?.forEach {
+            try self.processName?.forEach {
                 try $0.validate(name: "\(name).processName[]")
             }
-            try processPath?.forEach {
+            try self.processPath?.forEach {
                 try $0.validate(name: "\(name).processPath[]")
             }
-            try processTerminatedAt?.forEach {
+            try self.processTerminatedAt?.forEach {
                 try $0.validate(name: "\(name).processTerminatedAt[]")
             }
-            try productArn?.forEach {
+            try self.productArn?.forEach {
                 try $0.validate(name: "\(name).productArn[]")
             }
-            try productFields?.forEach {
+            try self.productFields?.forEach {
                 try $0.validate(name: "\(name).productFields[]")
             }
-            try productName?.forEach {
+            try self.productName?.forEach {
                 try $0.validate(name: "\(name).productName[]")
             }
-            try recommendationText?.forEach {
+            try self.recommendationText?.forEach {
                 try $0.validate(name: "\(name).recommendationText[]")
             }
-            try recordState?.forEach {
+            try self.recordState?.forEach {
                 try $0.validate(name: "\(name).recordState[]")
             }
-            try relatedFindingsId?.forEach {
+            try self.relatedFindingsId?.forEach {
                 try $0.validate(name: "\(name).relatedFindingsId[]")
             }
-            try relatedFindingsProductArn?.forEach {
+            try self.relatedFindingsProductArn?.forEach {
                 try $0.validate(name: "\(name).relatedFindingsProductArn[]")
             }
-            try resourceAwsEc2InstanceIamInstanceProfileArn?.forEach {
+            try self.resourceAwsEc2InstanceIamInstanceProfileArn?.forEach {
                 try $0.validate(name: "\(name).resourceAwsEc2InstanceIamInstanceProfileArn[]")
             }
-            try resourceAwsEc2InstanceImageId?.forEach {
+            try self.resourceAwsEc2InstanceImageId?.forEach {
                 try $0.validate(name: "\(name).resourceAwsEc2InstanceImageId[]")
             }
-            try resourceAwsEc2InstanceIpV4Addresses?.forEach {
+            try self.resourceAwsEc2InstanceIpV4Addresses?.forEach {
                 try $0.validate(name: "\(name).resourceAwsEc2InstanceIpV4Addresses[]")
             }
-            try resourceAwsEc2InstanceIpV6Addresses?.forEach {
+            try self.resourceAwsEc2InstanceIpV6Addresses?.forEach {
                 try $0.validate(name: "\(name).resourceAwsEc2InstanceIpV6Addresses[]")
             }
-            try resourceAwsEc2InstanceKeyName?.forEach {
+            try self.resourceAwsEc2InstanceKeyName?.forEach {
                 try $0.validate(name: "\(name).resourceAwsEc2InstanceKeyName[]")
             }
-            try resourceAwsEc2InstanceLaunchedAt?.forEach {
+            try self.resourceAwsEc2InstanceLaunchedAt?.forEach {
                 try $0.validate(name: "\(name).resourceAwsEc2InstanceLaunchedAt[]")
             }
-            try resourceAwsEc2InstanceSubnetId?.forEach {
+            try self.resourceAwsEc2InstanceSubnetId?.forEach {
                 try $0.validate(name: "\(name).resourceAwsEc2InstanceSubnetId[]")
             }
-            try resourceAwsEc2InstanceType?.forEach {
+            try self.resourceAwsEc2InstanceType?.forEach {
                 try $0.validate(name: "\(name).resourceAwsEc2InstanceType[]")
             }
-            try resourceAwsEc2InstanceVpcId?.forEach {
+            try self.resourceAwsEc2InstanceVpcId?.forEach {
                 try $0.validate(name: "\(name).resourceAwsEc2InstanceVpcId[]")
             }
-            try resourceAwsIamAccessKeyCreatedAt?.forEach {
+            try self.resourceAwsIamAccessKeyCreatedAt?.forEach {
                 try $0.validate(name: "\(name).resourceAwsIamAccessKeyCreatedAt[]")
             }
-            try resourceAwsIamAccessKeyStatus?.forEach {
+            try self.resourceAwsIamAccessKeyStatus?.forEach {
                 try $0.validate(name: "\(name).resourceAwsIamAccessKeyStatus[]")
             }
-            try resourceAwsIamAccessKeyUserName?.forEach {
+            try self.resourceAwsIamAccessKeyUserName?.forEach {
                 try $0.validate(name: "\(name).resourceAwsIamAccessKeyUserName[]")
             }
-            try resourceAwsS3BucketOwnerId?.forEach {
+            try self.resourceAwsS3BucketOwnerId?.forEach {
                 try $0.validate(name: "\(name).resourceAwsS3BucketOwnerId[]")
             }
-            try resourceAwsS3BucketOwnerName?.forEach {
+            try self.resourceAwsS3BucketOwnerName?.forEach {
                 try $0.validate(name: "\(name).resourceAwsS3BucketOwnerName[]")
             }
-            try resourceContainerImageId?.forEach {
+            try self.resourceContainerImageId?.forEach {
                 try $0.validate(name: "\(name).resourceContainerImageId[]")
             }
-            try resourceContainerImageName?.forEach {
+            try self.resourceContainerImageName?.forEach {
                 try $0.validate(name: "\(name).resourceContainerImageName[]")
             }
-            try resourceContainerLaunchedAt?.forEach {
+            try self.resourceContainerLaunchedAt?.forEach {
                 try $0.validate(name: "\(name).resourceContainerLaunchedAt[]")
             }
-            try resourceContainerName?.forEach {
+            try self.resourceContainerName?.forEach {
                 try $0.validate(name: "\(name).resourceContainerName[]")
             }
-            try resourceDetailsOther?.forEach {
+            try self.resourceDetailsOther?.forEach {
                 try $0.validate(name: "\(name).resourceDetailsOther[]")
             }
-            try resourceId?.forEach {
+            try self.resourceId?.forEach {
                 try $0.validate(name: "\(name).resourceId[]")
             }
-            try resourcePartition?.forEach {
+            try self.resourcePartition?.forEach {
                 try $0.validate(name: "\(name).resourcePartition[]")
             }
-            try resourceRegion?.forEach {
+            try self.resourceRegion?.forEach {
                 try $0.validate(name: "\(name).resourceRegion[]")
             }
-            try resourceTags?.forEach {
+            try self.resourceTags?.forEach {
                 try $0.validate(name: "\(name).resourceTags[]")
             }
-            try resourceType?.forEach {
+            try self.resourceType?.forEach {
                 try $0.validate(name: "\(name).resourceType[]")
             }
-            try severityLabel?.forEach {
+            try self.severityLabel?.forEach {
                 try $0.validate(name: "\(name).severityLabel[]")
             }
-            try sourceUrl?.forEach {
+            try self.sourceUrl?.forEach {
                 try $0.validate(name: "\(name).sourceUrl[]")
             }
-            try threatIntelIndicatorCategory?.forEach {
+            try self.threatIntelIndicatorCategory?.forEach {
                 try $0.validate(name: "\(name).threatIntelIndicatorCategory[]")
             }
-            try threatIntelIndicatorLastObservedAt?.forEach {
+            try self.threatIntelIndicatorLastObservedAt?.forEach {
                 try $0.validate(name: "\(name).threatIntelIndicatorLastObservedAt[]")
             }
-            try threatIntelIndicatorSource?.forEach {
+            try self.threatIntelIndicatorSource?.forEach {
                 try $0.validate(name: "\(name).threatIntelIndicatorSource[]")
             }
-            try threatIntelIndicatorSourceUrl?.forEach {
+            try self.threatIntelIndicatorSourceUrl?.forEach {
                 try $0.validate(name: "\(name).threatIntelIndicatorSourceUrl[]")
             }
-            try threatIntelIndicatorType?.forEach {
+            try self.threatIntelIndicatorType?.forEach {
                 try $0.validate(name: "\(name).threatIntelIndicatorType[]")
             }
-            try threatIntelIndicatorValue?.forEach {
+            try self.threatIntelIndicatorValue?.forEach {
                 try $0.validate(name: "\(name).threatIntelIndicatorValue[]")
             }
-            try title?.forEach {
+            try self.title?.forEach {
                 try $0.validate(name: "\(name).title[]")
             }
-            try `type`?.forEach {
+            try self.`type`?.forEach {
                 try $0.validate(name: "\(name).`type`[]")
             }
-            try updatedAt?.forEach {
+            try self.updatedAt?.forEach {
                 try $0.validate(name: "\(name).updatedAt[]")
             }
-            try userDefinedFields?.forEach {
+            try self.userDefinedFields?.forEach {
                 try $0.validate(name: "\(name).userDefinedFields[]")
             }
-            try verificationState?.forEach {
+            try self.verificationState?.forEach {
                 try $0.validate(name: "\(name).verificationState[]")
             }
-            try workflowState?.forEach {
+            try self.workflowState?.forEach {
                 try $0.validate(name: "\(name).workflowState[]")
             }
         }
@@ -1103,11 +1103,11 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try standardsSubscriptionArns.forEach {
+            try self.standardsSubscriptionArns.forEach {
                 try validate($0, name: "standardsSubscriptionArns[]", parent: name, pattern: ".*\\S.*")
             }
-            try validate(standardsSubscriptionArns, name:"standardsSubscriptionArns", parent: name, max: 25)
-            try validate(standardsSubscriptionArns, name:"standardsSubscriptionArns", parent: name, min: 1)
+            try validate(self.standardsSubscriptionArns, name:"standardsSubscriptionArns", parent: name, max: 25)
+            try validate(self.standardsSubscriptionArns, name:"standardsSubscriptionArns", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1145,11 +1145,11 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try standardsSubscriptionRequests.forEach {
+            try self.standardsSubscriptionRequests.forEach {
                 try $0.validate(name: "\(name).standardsSubscriptionRequests[]")
             }
-            try validate(standardsSubscriptionRequests, name:"standardsSubscriptionRequests", parent: name, max: 25)
-            try validate(standardsSubscriptionRequests, name:"standardsSubscriptionRequests", parent: name, min: 1)
+            try validate(self.standardsSubscriptionRequests, name:"standardsSubscriptionRequests", parent: name, max: 25)
+            try validate(self.standardsSubscriptionRequests, name:"standardsSubscriptionRequests", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1187,7 +1187,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try findings.forEach {
+            try self.findings.forEach {
                 try $0.validate(name: "\(name).findings[]")
             }
         }
@@ -1274,10 +1274,10 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(imageId, name:"imageId", parent: name, pattern: ".*\\S.*")
-            try validate(imageName, name:"imageName", parent: name, pattern: ".*\\S.*")
-            try validate(launchedAt, name:"launchedAt", parent: name, pattern: ".*\\S.*")
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.imageId, name:"imageId", parent: name, pattern: ".*\\S.*")
+            try validate(self.imageName, name:"imageName", parent: name, pattern: ".*\\S.*")
+            try validate(self.launchedAt, name:"launchedAt", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1309,9 +1309,9 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, pattern: ".*\\S.*")
-            try validate(id, name:"id", parent: name, pattern: ".*\\S.*")
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.description, name:"description", parent: name, pattern: ".*\\S.*")
+            try validate(self.id, name:"id", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1359,9 +1359,9 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try filters.validate(name: "\(name).filters")
-            try validate(groupByAttribute, name:"groupByAttribute", parent: name, pattern: ".*\\S.*")
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try self.filters.validate(name: "\(name).filters")
+            try validate(self.groupByAttribute, name:"groupByAttribute", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1401,7 +1401,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try accountDetails?.forEach {
+            try self.accountDetails?.forEach {
                 try $0.validate(name: "\(name).accountDetails[]")
             }
         }
@@ -1449,8 +1449,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(end, name:"end", parent: name, pattern: ".*\\S.*")
-            try validate(start, name:"start", parent: name, pattern: ".*\\S.*")
+            try validate(self.end, name:"end", parent: name, pattern: ".*\\S.*")
+            try validate(self.start, name:"start", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1500,7 +1500,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try accountIds?.forEach {
+            try self.accountIds?.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: ".*\\S.*")
             }
         }
@@ -1540,7 +1540,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(actionTargetArn, name:"actionTargetArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.actionTargetArn, name:"actionTargetArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1578,7 +1578,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(insightArn, name:"insightArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.insightArn, name:"insightArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1616,7 +1616,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try accountIds?.forEach {
+            try self.accountIds?.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: ".*\\S.*")
             }
         }
@@ -1656,7 +1656,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try accountIds?.forEach {
+            try self.accountIds?.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: ".*\\S.*")
             }
         }
@@ -1704,11 +1704,11 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try actionTargetArns?.forEach {
+            try self.actionTargetArns?.forEach {
                 try validate($0, name: "actionTargetArns[]", parent: name, pattern: ".*\\S.*")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1753,7 +1753,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(hubArn, name:"hubArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.hubArn, name:"hubArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1800,8 +1800,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1845,7 +1845,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(productSubscriptionArn, name:"productSubscriptionArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.productSubscriptionArn, name:"productSubscriptionArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1906,7 +1906,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try accountIds?.forEach {
+            try self.accountIds?.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: ".*\\S.*")
             }
         }
@@ -1937,7 +1937,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(productArn, name:"productArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.productArn, name:"productArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1975,7 +1975,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try tags?.forEach {
+            try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
                 try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
@@ -2017,13 +2017,13 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try standardsSubscriptionArns?.forEach {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.standardsSubscriptionArns?.forEach {
                 try validate($0, name: "standardsSubscriptionArns[]", parent: name, pattern: ".*\\S.*")
             }
-            try validate(standardsSubscriptionArns, name:"standardsSubscriptionArns", parent: name, max: 25)
-            try validate(standardsSubscriptionArns, name:"standardsSubscriptionArns", parent: name, min: 1)
+            try validate(self.standardsSubscriptionArns, name:"standardsSubscriptionArns", parent: name, max: 25)
+            try validate(self.standardsSubscriptionArns, name:"standardsSubscriptionArns", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2080,10 +2080,10 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try filters?.validate(name: "\(name).filters")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try sortCriteria?.forEach {
+            try self.filters?.validate(name: "\(name).filters")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.sortCriteria?.forEach {
                 try $0.validate(name: "\(name).sortCriteria[]")
             }
         }
@@ -2131,7 +2131,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(insightArn, name:"insightArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.insightArn, name:"insightArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2177,11 +2177,11 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try insightArns?.forEach {
+            try self.insightArns?.forEach {
                 try validate($0, name: "insightArns[]", parent: name, pattern: ".*\\S.*")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2276,7 +2276,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try accountIds.forEach {
+            try self.accountIds.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: ".*\\S.*")
             }
         }
@@ -2461,7 +2461,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try accountIds?.forEach {
+            try self.accountIds?.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: ".*\\S.*")
             }
         }
@@ -2501,7 +2501,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(cidr, name:"cidr", parent: name, pattern: ".*\\S.*")
+            try validate(self.cidr, name:"cidr", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2522,7 +2522,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(value, name:"value", parent: name, pattern: ".*\\S.*")
+            try validate(self.value, name:"value", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2547,8 +2547,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2596,8 +2596,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2649,8 +2649,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2695,7 +2695,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:securityhub:.*")
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:securityhub:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2745,8 +2745,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
-            try validate(path, name:"path", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.path, name:"path", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2804,8 +2804,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, pattern: ".*\\S.*")
-            try validate(value, name:"value", parent: name, pattern: ".*\\S.*")
+            try validate(self.key, name:"key", parent: name, pattern: ".*\\S.*")
+            try validate(self.value, name:"value", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2915,14 +2915,14 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(destinationDomain, name:"destinationDomain", parent: name, pattern: ".*\\S.*")
-            try validate(destinationIpV4, name:"destinationIpV4", parent: name, pattern: ".*\\S.*")
-            try validate(destinationIpV6, name:"destinationIpV6", parent: name, pattern: ".*\\S.*")
-            try validate(`protocol`, name:"`protocol`", parent: name, pattern: ".*\\S.*")
-            try validate(sourceDomain, name:"sourceDomain", parent: name, pattern: ".*\\S.*")
-            try validate(sourceIpV4, name:"sourceIpV4", parent: name, pattern: ".*\\S.*")
-            try validate(sourceIpV6, name:"sourceIpV6", parent: name, pattern: ".*\\S.*")
-            try validate(sourceMac, name:"sourceMac", parent: name, pattern: ".*\\S.*")
+            try validate(self.destinationDomain, name:"destinationDomain", parent: name, pattern: ".*\\S.*")
+            try validate(self.destinationIpV4, name:"destinationIpV4", parent: name, pattern: ".*\\S.*")
+            try validate(self.destinationIpV6, name:"destinationIpV6", parent: name, pattern: ".*\\S.*")
+            try validate(self.`protocol`, name:"`protocol`", parent: name, pattern: ".*\\S.*")
+            try validate(self.sourceDomain, name:"sourceDomain", parent: name, pattern: ".*\\S.*")
+            try validate(self.sourceIpV4, name:"sourceIpV4", parent: name, pattern: ".*\\S.*")
+            try validate(self.sourceIpV6, name:"sourceIpV6", parent: name, pattern: ".*\\S.*")
+            try validate(self.sourceMac, name:"sourceMac", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2967,9 +2967,9 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(text, name:"text", parent: name, pattern: ".*\\S.*")
-            try validate(updatedAt, name:"updatedAt", parent: name, pattern: ".*\\S.*")
-            try validate(updatedBy, name:"updatedBy", parent: name, pattern: ".*\\S.*")
+            try validate(self.text, name:"text", parent: name, pattern: ".*\\S.*")
+            try validate(self.updatedAt, name:"updatedAt", parent: name, pattern: ".*\\S.*")
+            try validate(self.updatedBy, name:"updatedBy", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2996,8 +2996,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(text, name:"text", parent: name, pattern: ".*\\S.*")
-            try validate(updatedBy, name:"updatedBy", parent: name, pattern: ".*\\S.*")
+            try validate(self.text, name:"text", parent: name, pattern: ".*\\S.*")
+            try validate(self.updatedBy, name:"updatedBy", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3073,10 +3073,10 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(launchedAt, name:"launchedAt", parent: name, pattern: ".*\\S.*")
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
-            try validate(path, name:"path", parent: name, pattern: ".*\\S.*")
-            try validate(terminatedAt, name:"terminatedAt", parent: name, pattern: ".*\\S.*")
+            try validate(self.launchedAt, name:"launchedAt", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.path, name:"path", parent: name, pattern: ".*\\S.*")
+            try validate(self.terminatedAt, name:"terminatedAt", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3158,8 +3158,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(text, name:"text", parent: name, pattern: ".*\\S.*")
-            try validate(url, name:"url", parent: name, pattern: ".*\\S.*")
+            try validate(self.text, name:"text", parent: name, pattern: ".*\\S.*")
+            try validate(self.url, name:"url", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3191,8 +3191,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, pattern: ".*\\S.*")
-            try validate(productArn, name:"productArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.id, name:"id", parent: name, pattern: ".*\\S.*")
+            try validate(self.productArn, name:"productArn", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3214,7 +3214,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try recommendation?.validate(name: "\(name).recommendation")
+            try self.recommendation?.validate(name: "\(name).recommendation")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3255,14 +3255,14 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try details?.validate(name: "\(name).details")
-            try validate(id, name:"id", parent: name, pattern: ".*\\S.*")
-            try validate(region, name:"region", parent: name, pattern: ".*\\S.*")
-            try tags?.forEach {
+            try self.details?.validate(name: "\(name).details")
+            try validate(self.id, name:"id", parent: name, pattern: ".*\\S.*")
+            try validate(self.region, name:"region", parent: name, pattern: ".*\\S.*")
+            try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, pattern: ".*\\S.*")
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
             }
-            try validate(`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
+            try validate(self.`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3304,11 +3304,11 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try awsEc2Instance?.validate(name: "\(name).awsEc2Instance")
-            try awsIamAccessKey?.validate(name: "\(name).awsIamAccessKey")
-            try awsS3Bucket?.validate(name: "\(name).awsS3Bucket")
-            try container?.validate(name: "\(name).container")
-            try other?.forEach {
+            try self.awsEc2Instance?.validate(name: "\(name).awsEc2Instance")
+            try self.awsIamAccessKey?.validate(name: "\(name).awsIamAccessKey")
+            try self.awsS3Bucket?.validate(name: "\(name).awsS3Bucket")
+            try self.container?.validate(name: "\(name).container")
+            try self.other?.forEach {
                 try validate($0.key, name:"other.key", parent: name, pattern: ".*\\S.*")
                 try validate($0.value, name:"other[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
             }
@@ -3384,7 +3384,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(field, name:"field", parent: name, pattern: ".*\\S.*")
+            try validate(self.field, name:"field", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3457,8 +3457,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(standardsArn, name:"standardsArn", parent: name, pattern: ".*\\S.*")
-            try standardsInput?.forEach {
+            try validate(self.standardsArn, name:"standardsArn", parent: name, pattern: ".*\\S.*")
+            try self.standardsInput?.forEach {
                 try validate($0.key, name:"standardsInput.key", parent: name, pattern: ".*\\S.*")
                 try validate($0.value, name:"standardsInput[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
             }
@@ -3487,7 +3487,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(value, name:"value", parent: name, pattern: ".*\\S.*")
+            try validate(self.value, name:"value", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3519,8 +3519,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:securityhub:.*")
-            try tags.forEach {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:securityhub:.*")
+            try self.tags.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
                 try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
@@ -3575,10 +3575,10 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(lastObservedAt, name:"lastObservedAt", parent: name, pattern: ".*\\S.*")
-            try validate(source, name:"source", parent: name, pattern: ".*\\S.*")
-            try validate(sourceUrl, name:"sourceUrl", parent: name, pattern: ".*\\S.*")
-            try validate(value, name:"value", parent: name, pattern: ".*\\S.*")
+            try validate(self.lastObservedAt, name:"lastObservedAt", parent: name, pattern: ".*\\S.*")
+            try validate(self.source, name:"source", parent: name, pattern: ".*\\S.*")
+            try validate(self.sourceUrl, name:"sourceUrl", parent: name, pattern: ".*\\S.*")
+            try validate(self.value, name:"value", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3633,14 +3633,14 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:securityhub:.*")
-            try tagKeys.forEach {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:securityhub:.*")
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
-            try validate(tagKeys, name:"tagKeys", parent: name, max: 50)
-            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3678,9 +3678,9 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try validate(actionTargetArn, name:"actionTargetArn", parent: name, pattern: ".*\\S.*")
-            try validate(description, name:"description", parent: name, pattern: ".*\\S.*")
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.actionTargetArn, name:"actionTargetArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.description, name:"description", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3719,8 +3719,8 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try filters.validate(name: "\(name).filters")
-            try note?.validate(name: "\(name).note")
+            try self.filters.validate(name: "\(name).filters")
+            try self.note?.validate(name: "\(name).note")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3763,10 +3763,10 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
-            try filters?.validate(name: "\(name).filters")
-            try validate(groupByAttribute, name:"groupByAttribute", parent: name, pattern: ".*\\S.*")
-            try validate(insightArn, name:"insightArn", parent: name, pattern: ".*\\S.*")
-            try validate(name, name:"name", parent: name, pattern: ".*\\S.*")
+            try self.filters?.validate(name: "\(name).filters")
+            try validate(self.groupByAttribute, name:"groupByAttribute", parent: name, pattern: ".*\\S.*")
+            try validate(self.insightArn, name:"insightArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {

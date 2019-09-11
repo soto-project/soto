@@ -30,15 +30,15 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try phrases?.forEach {
+            try self.phrases?.forEach {
                 try validate($0, name: "phrases[]", parent: name, max: 256)
                 try validate($0, name: "phrases[]", parent: name, min: 0)
             }
-            try validate(vocabularyFileUri, name:"vocabularyFileUri", parent: name, max: 2000)
-            try validate(vocabularyFileUri, name:"vocabularyFileUri", parent: name, min: 1)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, max: 200)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, min: 1)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(self.vocabularyFileUri, name:"vocabularyFileUri", parent: name, max: 2000)
+            try validate(self.vocabularyFileUri, name:"vocabularyFileUri", parent: name, min: 1)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, max: 200)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, min: 1)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -99,9 +99,9 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, max: 200)
-            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, min: 1)
-            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, max: 200)
+            try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, min: 1)
+            try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -122,9 +122,9 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try validate(vocabularyName, name:"vocabularyName", parent: name, max: 200)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, min: 1)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, max: 200)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, min: 1)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -145,9 +145,9 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, max: 200)
-            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, min: 1)
-            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, max: 200)
+            try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, min: 1)
+            try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -185,9 +185,9 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try validate(vocabularyName, name:"vocabularyName", parent: name, max: 200)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, min: 1)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, max: 200)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, min: 1)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -280,12 +280,12 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try validate(jobNameContains, name:"jobNameContains", parent: name, max: 200)
-            try validate(jobNameContains, name:"jobNameContains", parent: name, min: 1)
-            try validate(jobNameContains, name:"jobNameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.jobNameContains, name:"jobNameContains", parent: name, max: 200)
+            try validate(self.jobNameContains, name:"jobNameContains", parent: name, min: 1)
+            try validate(self.jobNameContains, name:"jobNameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -348,12 +348,12 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nameContains, name:"nameContains", parent: name, max: 200)
-            try validate(nameContains, name:"nameContains", parent: name, min: 1)
-            try validate(nameContains, name:"nameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
-            try validate(nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nameContains, name:"nameContains", parent: name, max: 200)
+            try validate(self.nameContains, name:"nameContains", parent: name, min: 1)
+            try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -404,8 +404,8 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try validate(mediaFileUri, name:"mediaFileUri", parent: name, max: 2000)
-            try validate(mediaFileUri, name:"mediaFileUri", parent: name, min: 1)
+            try validate(self.mediaFileUri, name:"mediaFileUri", parent: name, max: 2000)
+            try validate(self.mediaFileUri, name:"mediaFileUri", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -452,11 +452,11 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try validate(maxSpeakerLabels, name:"maxSpeakerLabels", parent: name, max: 10)
-            try validate(maxSpeakerLabels, name:"maxSpeakerLabels", parent: name, min: 2)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, max: 200)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, min: 1)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(self.maxSpeakerLabels, name:"maxSpeakerLabels", parent: name, max: 10)
+            try validate(self.maxSpeakerLabels, name:"maxSpeakerLabels", parent: name, min: 2)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, max: 200)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, min: 1)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -504,14 +504,14 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try media.validate(name: "\(name).media")
-            try validate(mediaSampleRateHertz, name:"mediaSampleRateHertz", parent: name, max: 48000)
-            try validate(mediaSampleRateHertz, name:"mediaSampleRateHertz", parent: name, min: 8000)
-            try validate(outputBucketName, name:"outputBucketName", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
-            try settings?.validate(name: "\(name).settings")
-            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, max: 200)
-            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, min: 1)
-            try validate(transcriptionJobName, name:"transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try self.media.validate(name: "\(name).media")
+            try validate(self.mediaSampleRateHertz, name:"mediaSampleRateHertz", parent: name, max: 48000)
+            try validate(self.mediaSampleRateHertz, name:"mediaSampleRateHertz", parent: name, min: 8000)
+            try validate(self.outputBucketName, name:"outputBucketName", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
+            try self.settings?.validate(name: "\(name).settings")
+            try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, max: 200)
+            try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, min: 1)
+            try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -705,15 +705,15 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try phrases?.forEach {
+            try self.phrases?.forEach {
                 try validate($0, name: "phrases[]", parent: name, max: 256)
                 try validate($0, name: "phrases[]", parent: name, min: 0)
             }
-            try validate(vocabularyFileUri, name:"vocabularyFileUri", parent: name, max: 2000)
-            try validate(vocabularyFileUri, name:"vocabularyFileUri", parent: name, min: 1)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, max: 200)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, min: 1)
-            try validate(vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try validate(self.vocabularyFileUri, name:"vocabularyFileUri", parent: name, max: 2000)
+            try validate(self.vocabularyFileUri, name:"vocabularyFileUri", parent: name, min: 1)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, max: 200)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, min: 1)
+            try validate(self.vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
         }
 
         private enum CodingKeys: String, CodingKey {

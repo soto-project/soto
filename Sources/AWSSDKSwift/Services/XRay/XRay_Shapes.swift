@@ -129,7 +129,7 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try traceIds.forEach {
+            try self.traceIds.forEach {
                 try validate($0, name: "traceIds[]", parent: name, max: 35)
                 try validate($0, name: "traceIds[]", parent: name, min: 1)
             }
@@ -185,8 +185,8 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try validate(groupName, name:"groupName", parent: name, max: 32)
-            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, max: 32)
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -225,7 +225,7 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try samplingRule.validate(name: "\(name).samplingRule")
+            try self.samplingRule.validate(name: "\(name).samplingRule")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -267,10 +267,10 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try validate(groupARN, name:"groupARN", parent: name, max: 400)
-            try validate(groupARN, name:"groupARN", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, max: 32)
-            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.groupARN, name:"groupARN", parent: name, max: 400)
+            try validate(self.groupARN, name:"groupARN", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, max: 32)
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -707,10 +707,10 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try validate(groupARN, name:"groupARN", parent: name, max: 400)
-            try validate(groupARN, name:"groupARN", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, max: 32)
-            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.groupARN, name:"groupARN", parent: name, max: 400)
+            try validate(self.groupARN, name:"groupARN", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, max: 32)
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -749,8 +749,8 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, max: 100)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 100)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -871,10 +871,10 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try samplingStatisticsDocuments.forEach {
+            try self.samplingStatisticsDocuments.forEach {
                 try $0.validate(name: "\(name).samplingStatisticsDocuments[]")
             }
-            try validate(samplingStatisticsDocuments, name:"samplingStatisticsDocuments", parent: name, max: 25)
+            try validate(self.samplingStatisticsDocuments, name:"samplingStatisticsDocuments", parent: name, max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -938,10 +938,10 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try validate(groupARN, name:"groupARN", parent: name, max: 400)
-            try validate(groupARN, name:"groupARN", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, max: 32)
-            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.groupARN, name:"groupARN", parent: name, max: 400)
+            try validate(self.groupARN, name:"groupARN", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, max: 32)
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1027,12 +1027,12 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try validate(entitySelectorExpression, name:"entitySelectorExpression", parent: name, max: 500)
-            try validate(entitySelectorExpression, name:"entitySelectorExpression", parent: name, min: 1)
-            try validate(groupARN, name:"groupARN", parent: name, max: 400)
-            try validate(groupARN, name:"groupARN", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, max: 32)
-            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.entitySelectorExpression, name:"entitySelectorExpression", parent: name, max: 500)
+            try validate(self.entitySelectorExpression, name:"entitySelectorExpression", parent: name, min: 1)
+            try validate(self.groupARN, name:"groupARN", parent: name, max: 400)
+            try validate(self.groupARN, name:"groupARN", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, max: 32)
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1090,7 +1090,7 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try traceIds.forEach {
+            try self.traceIds.forEach {
                 try validate($0, name: "traceIds[]", parent: name, max: 35)
                 try validate($0, name: "traceIds[]", parent: name, min: 1)
             }
@@ -1350,8 +1350,8 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try validate(keyId, name:"keyId", parent: name, max: 3000)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, max: 3000)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1398,9 +1398,9 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try validate(eC2InstanceId, name:"eC2InstanceId", parent: name, max: 20)
-            try validate(hostname, name:"hostname", parent: name, max: 255)
-            try validate(resourceARN, name:"resourceARN", parent: name, max: 500)
+            try validate(self.eC2InstanceId, name:"eC2InstanceId", parent: name, max: 20)
+            try validate(self.hostname, name:"hostname", parent: name, max: 255)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1639,26 +1639,26 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try attributes?.forEach {
+            try self.attributes?.forEach {
                 try validate($0.key, name:"attributes.key", parent: name, max: 32)
                 try validate($0.key, name:"attributes.key", parent: name, min: 1)
                 try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, max: 32)
                 try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try validate(fixedRate, name:"fixedRate", parent: name, max: 1)
-            try validate(fixedRate, name:"fixedRate", parent: name, min: 0)
-            try validate(host, name:"host", parent: name, max: 64)
-            try validate(hTTPMethod, name:"hTTPMethod", parent: name, max: 10)
-            try validate(priority, name:"priority", parent: name, max: 9999)
-            try validate(priority, name:"priority", parent: name, min: 1)
-            try validate(reservoirSize, name:"reservoirSize", parent: name, min: 0)
-            try validate(resourceARN, name:"resourceARN", parent: name, max: 500)
-            try validate(ruleName, name:"ruleName", parent: name, max: 32)
-            try validate(ruleName, name:"ruleName", parent: name, min: 1)
-            try validate(serviceName, name:"serviceName", parent: name, max: 64)
-            try validate(serviceType, name:"serviceType", parent: name, max: 64)
-            try validate(uRLPath, name:"uRLPath", parent: name, max: 128)
-            try validate(version, name:"version", parent: name, min: 1)
+            try validate(self.fixedRate, name:"fixedRate", parent: name, max: 1)
+            try validate(self.fixedRate, name:"fixedRate", parent: name, min: 0)
+            try validate(self.host, name:"host", parent: name, max: 64)
+            try validate(self.hTTPMethod, name:"hTTPMethod", parent: name, max: 10)
+            try validate(self.priority, name:"priority", parent: name, max: 9999)
+            try validate(self.priority, name:"priority", parent: name, min: 1)
+            try validate(self.reservoirSize, name:"reservoirSize", parent: name, min: 0)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 500)
+            try validate(self.ruleName, name:"ruleName", parent: name, max: 32)
+            try validate(self.ruleName, name:"ruleName", parent: name, min: 1)
+            try validate(self.serviceName, name:"serviceName", parent: name, max: 64)
+            try validate(self.serviceType, name:"serviceType", parent: name, max: 64)
+            try validate(self.uRLPath, name:"uRLPath", parent: name, max: 128)
+            try validate(self.version, name:"version", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1762,20 +1762,20 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try attributes?.forEach {
+            try self.attributes?.forEach {
                 try validate($0.key, name:"attributes.key", parent: name, max: 32)
                 try validate($0.key, name:"attributes.key", parent: name, min: 1)
                 try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, max: 32)
                 try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try validate(host, name:"host", parent: name, max: 64)
-            try validate(hTTPMethod, name:"hTTPMethod", parent: name, max: 10)
-            try validate(resourceARN, name:"resourceARN", parent: name, max: 500)
-            try validate(ruleName, name:"ruleName", parent: name, max: 32)
-            try validate(ruleName, name:"ruleName", parent: name, min: 1)
-            try validate(serviceName, name:"serviceName", parent: name, max: 64)
-            try validate(serviceType, name:"serviceType", parent: name, max: 64)
-            try validate(uRLPath, name:"uRLPath", parent: name, max: 128)
+            try validate(self.host, name:"host", parent: name, max: 64)
+            try validate(self.hTTPMethod, name:"hTTPMethod", parent: name, max: 10)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 500)
+            try validate(self.ruleName, name:"ruleName", parent: name, max: 32)
+            try validate(self.ruleName, name:"ruleName", parent: name, min: 1)
+            try validate(self.serviceName, name:"serviceName", parent: name, max: 64)
+            try validate(self.serviceType, name:"serviceType", parent: name, max: 64)
+            try validate(self.uRLPath, name:"uRLPath", parent: name, max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1864,13 +1864,13 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try validate(borrowCount, name:"borrowCount", parent: name, min: 0)
-            try validate(clientID, name:"clientID", parent: name, max: 24)
-            try validate(clientID, name:"clientID", parent: name, min: 24)
-            try validate(requestCount, name:"requestCount", parent: name, min: 0)
-            try validate(ruleName, name:"ruleName", parent: name, max: 32)
-            try validate(ruleName, name:"ruleName", parent: name, min: 1)
-            try validate(sampledCount, name:"sampledCount", parent: name, min: 0)
+            try validate(self.borrowCount, name:"borrowCount", parent: name, min: 0)
+            try validate(self.clientID, name:"clientID", parent: name, max: 24)
+            try validate(self.clientID, name:"clientID", parent: name, min: 24)
+            try validate(self.requestCount, name:"requestCount", parent: name, min: 0)
+            try validate(self.ruleName, name:"ruleName", parent: name, max: 32)
+            try validate(self.ruleName, name:"ruleName", parent: name, min: 1)
+            try validate(self.sampledCount, name:"sampledCount", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2420,10 +2420,10 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try validate(groupARN, name:"groupARN", parent: name, max: 400)
-            try validate(groupARN, name:"groupARN", parent: name, min: 1)
-            try validate(groupName, name:"groupName", parent: name, max: 32)
-            try validate(groupName, name:"groupName", parent: name, min: 1)
+            try validate(self.groupARN, name:"groupARN", parent: name, max: 400)
+            try validate(self.groupARN, name:"groupARN", parent: name, min: 1)
+            try validate(self.groupName, name:"groupName", parent: name, max: 32)
+            try validate(self.groupName, name:"groupName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2463,7 +2463,7 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
-            try samplingRuleUpdate.validate(name: "\(name).samplingRuleUpdate")
+            try self.samplingRuleUpdate.validate(name: "\(name).samplingRuleUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {

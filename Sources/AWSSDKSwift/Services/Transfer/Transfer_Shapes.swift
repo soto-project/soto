@@ -42,12 +42,12 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try endpointDetails?.validate(name: "\(name).endpointDetails")
-            try validate(hostKey, name:"hostKey", parent: name, max: 4096)
-            try identityProviderDetails?.validate(name: "\(name).identityProviderDetails")
-            try validate(loggingRole, name:"loggingRole", parent: name, pattern: "arn:.*role/.*")
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 1)
+            try self.endpointDetails?.validate(name: "\(name).endpointDetails")
+            try validate(self.hostKey, name:"hostKey", parent: name, max: 4096)
+            try self.identityProviderDetails?.validate(name: "\(name).identityProviderDetails")
+            try validate(self.loggingRole, name:"loggingRole", parent: name, pattern: "arn:.*role/.*")
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -115,15 +115,15 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(homeDirectory, name:"homeDirectory", parent: name, max: 1024)
-            try validate(homeDirectory, name:"homeDirectory", parent: name, pattern: "^$|/.*")
-            try validate(role, name:"role", parent: name, pattern: "arn:.*role/.*")
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
-            try validate(sshPublicKeyBody, name:"sshPublicKeyBody", parent: name, max: 2048)
-            try validate(sshPublicKeyBody, name:"sshPublicKeyBody", parent: name, pattern: "^ssh-rsa\\s+[A-Za-z0-9+/]+[=]{0,3}(\\s+.+)?\\s*$")
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.homeDirectory, name:"homeDirectory", parent: name, max: 1024)
+            try validate(self.homeDirectory, name:"homeDirectory", parent: name, pattern: "^$|/.*")
+            try validate(self.role, name:"role", parent: name, pattern: "arn:.*role/.*")
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try validate(self.sshPublicKeyBody, name:"sshPublicKeyBody", parent: name, max: 2048)
+            try validate(self.sshPublicKeyBody, name:"sshPublicKeyBody", parent: name, pattern: "^ssh-rsa\\s+[A-Za-z0-9+/]+[=]{0,3}(\\s+.+)?\\s*$")
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -172,7 +172,7 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -201,9 +201,9 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
-            try validate(sshPublicKeyId, name:"sshPublicKeyId", parent: name, pattern: "^key-[0-9a-f]{17}$")
-            try validate(userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try validate(self.sshPublicKeyId, name:"sshPublicKeyId", parent: name, pattern: "^key-[0-9a-f]{17}$")
+            try validate(self.userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -230,8 +230,8 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
-            try validate(userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try validate(self.userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -253,7 +253,7 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -295,8 +295,8 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
-            try validate(userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try validate(self.userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -454,7 +454,7 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(vpcEndpointId, name:"vpcEndpointId", parent: name, pattern: "^vpce-[0-9a-f]{17}$")
+            try validate(self.vpcEndpointId, name:"vpcEndpointId", parent: name, pattern: "^vpce-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -485,7 +485,7 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(invocationRole, name:"invocationRole", parent: name, pattern: "arn:.*role/.*")
+            try validate(self.invocationRole, name:"invocationRole", parent: name, pattern: "arn:.*role/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -521,10 +521,10 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
-            try validate(sshPublicKeyBody, name:"sshPublicKeyBody", parent: name, max: 2048)
-            try validate(sshPublicKeyBody, name:"sshPublicKeyBody", parent: name, pattern: "^ssh-rsa\\s+[A-Za-z0-9+/]+[=]{0,3}(\\s+.+)?\\s*$")
-            try validate(userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try validate(self.sshPublicKeyBody, name:"sshPublicKeyBody", parent: name, max: 2048)
+            try validate(self.sshPublicKeyBody, name:"sshPublicKeyBody", parent: name, pattern: "^ssh-rsa\\s+[A-Za-z0-9+/]+[=]{0,3}(\\s+.+)?\\s*$")
+            try validate(self.userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -578,10 +578,10 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 6144)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 6144)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -633,12 +633,12 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1600)
-            try validate(arn, name:"arn", parent: name, min: 20)
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 6144)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.arn, name:"arn", parent: name, max: 1600)
+            try validate(self.arn, name:"arn", parent: name, min: 20)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 6144)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -696,11 +696,11 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 6144)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 6144)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -861,7 +861,7 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -892,7 +892,7 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -939,10 +939,10 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1600)
-            try validate(arn, name:"arn", parent: name, min: 20)
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 1)
+            try validate(self.arn, name:"arn", parent: name, max: 1600)
+            try validate(self.arn, name:"arn", parent: name, min: 20)
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -972,8 +972,8 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
-            try validate(userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try validate(self.userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1027,10 +1027,10 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1600)
-            try validate(arn, name:"arn", parent: name, min: 20)
-            try validate(tagKeys, name:"tagKeys", parent: name, max: 50)
-            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
+            try validate(self.arn, name:"arn", parent: name, max: 1600)
+            try validate(self.arn, name:"arn", parent: name, min: 20)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1072,11 +1072,11 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try endpointDetails?.validate(name: "\(name).endpointDetails")
-            try validate(hostKey, name:"hostKey", parent: name, max: 4096)
-            try identityProviderDetails?.validate(name: "\(name).identityProviderDetails")
-            try validate(loggingRole, name:"loggingRole", parent: name, pattern: "^$|arn:.*role/.*")
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try self.endpointDetails?.validate(name: "\(name).endpointDetails")
+            try validate(self.hostKey, name:"hostKey", parent: name, max: 4096)
+            try self.identityProviderDetails?.validate(name: "\(name).identityProviderDetails")
+            try validate(self.loggingRole, name:"loggingRole", parent: name, pattern: "^$|arn:.*role/.*")
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1135,11 +1135,11 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try validate(homeDirectory, name:"homeDirectory", parent: name, max: 1024)
-            try validate(homeDirectory, name:"homeDirectory", parent: name, pattern: "^$|/.*")
-            try validate(role, name:"role", parent: name, pattern: "arn:.*role/.*")
-            try validate(serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
-            try validate(userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
+            try validate(self.homeDirectory, name:"homeDirectory", parent: name, max: 1024)
+            try validate(self.homeDirectory, name:"homeDirectory", parent: name, pattern: "^$|/.*")
+            try validate(self.role, name:"role", parent: name, pattern: "arn:.*role/.*")
+            try validate(self.serverId, name:"serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try validate(self.userName, name:"userName", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$")
         }
 
         private enum CodingKeys: String, CodingKey {

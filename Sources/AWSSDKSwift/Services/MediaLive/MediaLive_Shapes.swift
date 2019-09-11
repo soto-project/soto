@@ -186,8 +186,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(dialnorm, name:"dialnorm", parent: name, max: 31)
-            try validate(dialnorm, name:"dialnorm", parent: name, min: 1)
+            try validate(self.dialnorm, name:"dialnorm", parent: name, max: 31)
+            try validate(self.dialnorm, name:"dialnorm", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -220,7 +220,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try m2tsSettings?.validate(name: "\(name).m2tsSettings")
+            try self.m2tsSettings?.validate(name: "\(name).m2tsSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -245,7 +245,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(rolloverInterval, name:"rolloverInterval", parent: name, min: 1)
+            try validate(self.rolloverInterval, name:"rolloverInterval", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -275,7 +275,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try containerSettings.validate(name: "\(name).containerSettings")
+            try self.containerSettings.validate(name: "\(name).containerSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -318,11 +318,11 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try inputChannelLevels.forEach {
+            try self.inputChannelLevels.forEach {
                 try $0.validate(name: "\(name).inputChannelLevels[]")
             }
-            try validate(outputChannel, name:"outputChannel", parent: name, max: 7)
-            try validate(outputChannel, name:"outputChannel", parent: name, min: 0)
+            try validate(self.outputChannel, name:"outputChannel", parent: name, max: 7)
+            try validate(self.outputChannel, name:"outputChannel", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -355,8 +355,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try ac3Settings?.validate(name: "\(name).ac3Settings")
-            try eac3Settings?.validate(name: "\(name).eac3Settings")
+            try self.ac3Settings?.validate(name: "\(name).ac3Settings")
+            try self.eac3Settings?.validate(name: "\(name).eac3Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -420,10 +420,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try codecSettings?.validate(name: "\(name).codecSettings")
-            try validate(languageCode, name:"languageCode", parent: name, max: 3)
-            try validate(languageCode, name:"languageCode", parent: name, min: 3)
-            try remixSettings?.validate(name: "\(name).remixSettings")
+            try self.codecSettings?.validate(name: "\(name).codecSettings")
+            try validate(self.languageCode, name:"languageCode", parent: name, max: 3)
+            try validate(self.languageCode, name:"languageCode", parent: name, min: 3)
+            try self.remixSettings?.validate(name: "\(name).remixSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -574,8 +574,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(pid, name:"pid", parent: name, max: 8191)
-            try validate(pid, name:"pid", parent: name, min: 0)
+            try validate(self.pid, name:"pid", parent: name, max: 8191)
+            try validate(self.pid, name:"pid", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -600,8 +600,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
-            try selectorSettings?.validate(name: "\(name).selectorSettings")
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try self.selectorSettings?.validate(name: "\(name).selectorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -625,7 +625,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try audioPidSelection?.validate(name: "\(name).audioPidSelection")
+            try self.audioPidSelection?.validate(name: "\(name).audioPidSelection")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -689,7 +689,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try availSettings?.validate(name: "\(name).availSettings")
+            try self.availSettings?.validate(name: "\(name).availSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -712,8 +712,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try scte35SpliceInsert?.validate(name: "\(name).scte35SpliceInsert")
-            try scte35TimeSignalApos?.validate(name: "\(name).scte35TimeSignalApos")
+            try self.scte35SpliceInsert?.validate(name: "\(name).scte35SpliceInsert")
+            try self.scte35TimeSignalApos?.validate(name: "\(name).scte35TimeSignalApos")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -735,7 +735,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try scheduleActions.forEach {
+            try self.scheduleActions.forEach {
                 try $0.validate(name: "\(name).scheduleActions[]")
             }
         }
@@ -816,7 +816,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try creates?.validate(name: "\(name).creates")
+            try self.creates?.validate(name: "\(name).creates")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -875,8 +875,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(networkId, name:"networkId", parent: name, max: 34)
-            try validate(networkId, name:"networkId", parent: name, min: 34)
+            try validate(self.networkId, name:"networkId", parent: name, max: 34)
+            try validate(self.networkId, name:"networkId", parent: name, min: 34)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -991,18 +991,18 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(backgroundOpacity, name:"backgroundOpacity", parent: name, max: 255)
-            try validate(backgroundOpacity, name:"backgroundOpacity", parent: name, min: 0)
-            try validate(fontOpacity, name:"fontOpacity", parent: name, max: 255)
-            try validate(fontOpacity, name:"fontOpacity", parent: name, min: 0)
-            try validate(fontResolution, name:"fontResolution", parent: name, max: 600)
-            try validate(fontResolution, name:"fontResolution", parent: name, min: 96)
-            try validate(outlineSize, name:"outlineSize", parent: name, max: 10)
-            try validate(outlineSize, name:"outlineSize", parent: name, min: 0)
-            try validate(shadowOpacity, name:"shadowOpacity", parent: name, max: 255)
-            try validate(shadowOpacity, name:"shadowOpacity", parent: name, min: 0)
-            try validate(xPosition, name:"xPosition", parent: name, min: 0)
-            try validate(yPosition, name:"yPosition", parent: name, min: 0)
+            try validate(self.backgroundOpacity, name:"backgroundOpacity", parent: name, max: 255)
+            try validate(self.backgroundOpacity, name:"backgroundOpacity", parent: name, min: 0)
+            try validate(self.fontOpacity, name:"fontOpacity", parent: name, max: 255)
+            try validate(self.fontOpacity, name:"fontOpacity", parent: name, min: 0)
+            try validate(self.fontResolution, name:"fontResolution", parent: name, max: 600)
+            try validate(self.fontResolution, name:"fontResolution", parent: name, min: 96)
+            try validate(self.outlineSize, name:"outlineSize", parent: name, max: 10)
+            try validate(self.outlineSize, name:"outlineSize", parent: name, min: 0)
+            try validate(self.shadowOpacity, name:"shadowOpacity", parent: name, max: 255)
+            try validate(self.shadowOpacity, name:"shadowOpacity", parent: name, min: 0)
+            try validate(self.xPosition, name:"xPosition", parent: name, min: 0)
+            try validate(self.yPosition, name:"yPosition", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1088,7 +1088,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try destinationSettings?.validate(name: "\(name).destinationSettings")
+            try self.destinationSettings?.validate(name: "\(name).destinationSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1145,8 +1145,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try burnInDestinationSettings?.validate(name: "\(name).burnInDestinationSettings")
-            try dvbSubDestinationSettings?.validate(name: "\(name).dvbSubDestinationSettings")
+            try self.burnInDestinationSettings?.validate(name: "\(name).burnInDestinationSettings")
+            try self.dvbSubDestinationSettings?.validate(name: "\(name).dvbSubDestinationSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1186,11 +1186,11 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(captionChannel, name:"captionChannel", parent: name, max: 4)
-            try validate(captionChannel, name:"captionChannel", parent: name, min: 1)
-            try validate(languageCode, name:"languageCode", parent: name, max: 3)
-            try validate(languageCode, name:"languageCode", parent: name, min: 3)
-            try validate(languageDescription, name:"languageDescription", parent: name, min: 1)
+            try validate(self.captionChannel, name:"captionChannel", parent: name, max: 4)
+            try validate(self.captionChannel, name:"captionChannel", parent: name, min: 1)
+            try validate(self.languageCode, name:"languageCode", parent: name, max: 3)
+            try validate(self.languageCode, name:"languageCode", parent: name, min: 3)
+            try validate(self.languageDescription, name:"languageDescription", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1221,8 +1221,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
-            try selectorSettings?.validate(name: "\(name).selectorSettings")
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try self.selectorSettings?.validate(name: "\(name).selectorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1259,10 +1259,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try dvbSubSourceSettings?.validate(name: "\(name).dvbSubSourceSettings")
-            try embeddedSourceSettings?.validate(name: "\(name).embeddedSourceSettings")
-            try scte20SourceSettings?.validate(name: "\(name).scte20SourceSettings")
-            try scte27SourceSettings?.validate(name: "\(name).scte27SourceSettings")
+            try self.dvbSubSourceSettings?.validate(name: "\(name).dvbSubSourceSettings")
+            try self.embeddedSourceSettings?.validate(name: "\(name).embeddedSourceSettings")
+            try self.scte20SourceSettings?.validate(name: "\(name).scte20SourceSettings")
+            try self.scte27SourceSettings?.validate(name: "\(name).scte27SourceSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1510,11 +1510,11 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try destinations?.forEach {
+            try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
-            try encoderSettings?.validate(name: "\(name).encoderSettings")
-            try inputAttachments?.forEach {
+            try self.encoderSettings?.validate(name: "\(name).encoderSettings")
+            try self.inputAttachments?.forEach {
                 try $0.validate(name: "\(name).inputAttachments[]")
             }
         }
@@ -2355,8 +2355,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2407,12 +2407,12 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(networkId, name:"networkId", parent: name, max: 65536)
-            try validate(networkId, name:"networkId", parent: name, min: 0)
-            try validate(networkName, name:"networkName", parent: name, max: 256)
-            try validate(networkName, name:"networkName", parent: name, min: 1)
-            try validate(repInterval, name:"repInterval", parent: name, max: 10000)
-            try validate(repInterval, name:"repInterval", parent: name, min: 25)
+            try validate(self.networkId, name:"networkId", parent: name, max: 65536)
+            try validate(self.networkId, name:"networkId", parent: name, min: 0)
+            try validate(self.networkName, name:"networkName", parent: name, max: 256)
+            try validate(self.networkName, name:"networkName", parent: name, min: 1)
+            try validate(self.repInterval, name:"repInterval", parent: name, max: 10000)
+            try validate(self.repInterval, name:"repInterval", parent: name, min: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2455,12 +2455,12 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(repInterval, name:"repInterval", parent: name, max: 2000)
-            try validate(repInterval, name:"repInterval", parent: name, min: 25)
-            try validate(serviceName, name:"serviceName", parent: name, max: 256)
-            try validate(serviceName, name:"serviceName", parent: name, min: 1)
-            try validate(serviceProviderName, name:"serviceProviderName", parent: name, max: 256)
-            try validate(serviceProviderName, name:"serviceProviderName", parent: name, min: 1)
+            try validate(self.repInterval, name:"repInterval", parent: name, max: 2000)
+            try validate(self.repInterval, name:"repInterval", parent: name, min: 25)
+            try validate(self.serviceName, name:"serviceName", parent: name, max: 256)
+            try validate(self.serviceName, name:"serviceName", parent: name, min: 1)
+            try validate(self.serviceProviderName, name:"serviceProviderName", parent: name, max: 256)
+            try validate(self.serviceProviderName, name:"serviceProviderName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2582,18 +2582,18 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(backgroundOpacity, name:"backgroundOpacity", parent: name, max: 255)
-            try validate(backgroundOpacity, name:"backgroundOpacity", parent: name, min: 0)
-            try validate(fontOpacity, name:"fontOpacity", parent: name, max: 255)
-            try validate(fontOpacity, name:"fontOpacity", parent: name, min: 0)
-            try validate(fontResolution, name:"fontResolution", parent: name, max: 600)
-            try validate(fontResolution, name:"fontResolution", parent: name, min: 96)
-            try validate(outlineSize, name:"outlineSize", parent: name, max: 10)
-            try validate(outlineSize, name:"outlineSize", parent: name, min: 0)
-            try validate(shadowOpacity, name:"shadowOpacity", parent: name, max: 255)
-            try validate(shadowOpacity, name:"shadowOpacity", parent: name, min: 0)
-            try validate(xPosition, name:"xPosition", parent: name, min: 0)
-            try validate(yPosition, name:"yPosition", parent: name, min: 0)
+            try validate(self.backgroundOpacity, name:"backgroundOpacity", parent: name, max: 255)
+            try validate(self.backgroundOpacity, name:"backgroundOpacity", parent: name, min: 0)
+            try validate(self.fontOpacity, name:"fontOpacity", parent: name, max: 255)
+            try validate(self.fontOpacity, name:"fontOpacity", parent: name, min: 0)
+            try validate(self.fontResolution, name:"fontResolution", parent: name, max: 600)
+            try validate(self.fontResolution, name:"fontResolution", parent: name, min: 96)
+            try validate(self.outlineSize, name:"outlineSize", parent: name, max: 10)
+            try validate(self.outlineSize, name:"outlineSize", parent: name, min: 0)
+            try validate(self.shadowOpacity, name:"shadowOpacity", parent: name, max: 255)
+            try validate(self.shadowOpacity, name:"shadowOpacity", parent: name, min: 0)
+            try validate(self.xPosition, name:"xPosition", parent: name, min: 0)
+            try validate(self.yPosition, name:"yPosition", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2643,7 +2643,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(pid, name:"pid", parent: name, min: 1)
+            try validate(self.pid, name:"pid", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2664,8 +2664,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(repInterval, name:"repInterval", parent: name, max: 30000)
-            try validate(repInterval, name:"repInterval", parent: name, min: 1000)
+            try validate(self.repInterval, name:"repInterval", parent: name, max: 30000)
+            try validate(self.repInterval, name:"repInterval", parent: name, min: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2840,8 +2840,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(dialnorm, name:"dialnorm", parent: name, max: 31)
-            try validate(dialnorm, name:"dialnorm", parent: name, min: 1)
+            try validate(self.dialnorm, name:"dialnorm", parent: name, max: 31)
+            try validate(self.dialnorm, name:"dialnorm", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2943,10 +2943,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(source608ChannelNumber, name:"source608ChannelNumber", parent: name, max: 4)
-            try validate(source608ChannelNumber, name:"source608ChannelNumber", parent: name, min: 1)
-            try validate(source608TrackNumber, name:"source608TrackNumber", parent: name, max: 5)
-            try validate(source608TrackNumber, name:"source608TrackNumber", parent: name, min: 1)
+            try validate(self.source608ChannelNumber, name:"source608ChannelNumber", parent: name, max: 4)
+            try validate(self.source608ChannelNumber, name:"source608ChannelNumber", parent: name, min: 1)
+            try validate(self.source608TrackNumber, name:"source608TrackNumber", parent: name, max: 5)
+            try validate(self.source608TrackNumber, name:"source608TrackNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2999,20 +2999,20 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try audioDescriptions.forEach {
+            try self.audioDescriptions.forEach {
                 try $0.validate(name: "\(name).audioDescriptions[]")
             }
-            try availConfiguration?.validate(name: "\(name).availConfiguration")
-            try blackoutSlate?.validate(name: "\(name).blackoutSlate")
-            try captionDescriptions?.forEach {
+            try self.availConfiguration?.validate(name: "\(name).availConfiguration")
+            try self.blackoutSlate?.validate(name: "\(name).blackoutSlate")
+            try self.captionDescriptions?.forEach {
                 try $0.validate(name: "\(name).captionDescriptions[]")
             }
-            try globalConfiguration?.validate(name: "\(name).globalConfiguration")
-            try outputGroups.forEach {
+            try self.globalConfiguration?.validate(name: "\(name).globalConfiguration")
+            try self.outputGroups.forEach {
                 try $0.validate(name: "\(name).outputGroups[]")
             }
-            try timecodeConfig.validate(name: "\(name).timecodeConfig")
-            try videoDescriptions.forEach {
+            try self.timecodeConfig.validate(name: "\(name).timecodeConfig")
+            try self.videoDescriptions.forEach {
                 try $0.validate(name: "\(name).videoDescriptions[]")
             }
         }
@@ -3057,10 +3057,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(columnDepth, name:"columnDepth", parent: name, max: 20)
-            try validate(columnDepth, name:"columnDepth", parent: name, min: 4)
-            try validate(rowLength, name:"rowLength", parent: name, max: 20)
-            try validate(rowLength, name:"rowLength", parent: name, min: 1)
+            try validate(self.columnDepth, name:"columnDepth", parent: name, max: 20)
+            try validate(self.columnDepth, name:"columnDepth", parent: name, min: 4)
+            try validate(self.rowLength, name:"rowLength", parent: name, max: 20)
+            try validate(self.rowLength, name:"rowLength", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3177,8 +3177,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(captureInterval, name:"captureInterval", parent: name, max: 3600)
-            try validate(captureInterval, name:"captureInterval", parent: name, min: 1)
+            try validate(self.captureInterval, name:"captureInterval", parent: name, max: 3600)
+            try validate(self.captureInterval, name:"captureInterval", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3221,9 +3221,9 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(initialAudioGain, name:"initialAudioGain", parent: name, max: 60)
-            try validate(initialAudioGain, name:"initialAudioGain", parent: name, min: -60)
-            try inputLossBehavior?.validate(name: "\(name).inputLossBehavior")
+            try validate(self.initialAudioGain, name:"initialAudioGain", parent: name, max: 60)
+            try validate(self.initialAudioGain, name:"initialAudioGain", parent: name, min: -60)
+            try self.inputLossBehavior?.validate(name: "\(name).inputLossBehavior")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3541,27 +3541,27 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(bitrate, name:"bitrate", parent: name, min: 1000)
-            try validate(bufFillPct, name:"bufFillPct", parent: name, max: 100)
-            try validate(bufFillPct, name:"bufFillPct", parent: name, min: 0)
-            try validate(bufSize, name:"bufSize", parent: name, min: 0)
-            try validate(framerateDenominator, name:"framerateDenominator", parent: name, min: 1)
-            try validate(framerateNumerator, name:"framerateNumerator", parent: name, min: 1)
-            try validate(gopClosedCadence, name:"gopClosedCadence", parent: name, min: 0)
-            try validate(gopNumBFrames, name:"gopNumBFrames", parent: name, max: 7)
-            try validate(gopNumBFrames, name:"gopNumBFrames", parent: name, min: 0)
-            try validate(maxBitrate, name:"maxBitrate", parent: name, min: 1000)
-            try validate(minIInterval, name:"minIInterval", parent: name, max: 30)
-            try validate(minIInterval, name:"minIInterval", parent: name, min: 0)
-            try validate(numRefFrames, name:"numRefFrames", parent: name, max: 6)
-            try validate(numRefFrames, name:"numRefFrames", parent: name, min: 1)
-            try validate(parDenominator, name:"parDenominator", parent: name, min: 1)
-            try validate(qvbrQualityLevel, name:"qvbrQualityLevel", parent: name, max: 10)
-            try validate(qvbrQualityLevel, name:"qvbrQualityLevel", parent: name, min: 1)
-            try validate(slices, name:"slices", parent: name, max: 32)
-            try validate(slices, name:"slices", parent: name, min: 1)
-            try validate(softness, name:"softness", parent: name, max: 128)
-            try validate(softness, name:"softness", parent: name, min: 0)
+            try validate(self.bitrate, name:"bitrate", parent: name, min: 1000)
+            try validate(self.bufFillPct, name:"bufFillPct", parent: name, max: 100)
+            try validate(self.bufFillPct, name:"bufFillPct", parent: name, min: 0)
+            try validate(self.bufSize, name:"bufSize", parent: name, min: 0)
+            try validate(self.framerateDenominator, name:"framerateDenominator", parent: name, min: 1)
+            try validate(self.framerateNumerator, name:"framerateNumerator", parent: name, min: 1)
+            try validate(self.gopClosedCadence, name:"gopClosedCadence", parent: name, min: 0)
+            try validate(self.gopNumBFrames, name:"gopNumBFrames", parent: name, max: 7)
+            try validate(self.gopNumBFrames, name:"gopNumBFrames", parent: name, min: 0)
+            try validate(self.maxBitrate, name:"maxBitrate", parent: name, min: 1000)
+            try validate(self.minIInterval, name:"minIInterval", parent: name, max: 30)
+            try validate(self.minIInterval, name:"minIInterval", parent: name, min: 0)
+            try validate(self.numRefFrames, name:"numRefFrames", parent: name, max: 6)
+            try validate(self.numRefFrames, name:"numRefFrames", parent: name, min: 1)
+            try validate(self.parDenominator, name:"parDenominator", parent: name, min: 1)
+            try validate(self.qvbrQualityLevel, name:"qvbrQualityLevel", parent: name, max: 10)
+            try validate(self.qvbrQualityLevel, name:"qvbrQualityLevel", parent: name, min: 1)
+            try validate(self.slices, name:"slices", parent: name, max: 32)
+            try validate(self.slices, name:"slices", parent: name, min: 1)
+            try validate(self.softness, name:"softness", parent: name, max: 128)
+            try validate(self.softness, name:"softness", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3685,12 +3685,12 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
-            try validate(filecacheDuration, name:"filecacheDuration", parent: name, max: 600)
-            try validate(filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
-            try validate(numRetries, name:"numRetries", parent: name, min: 0)
-            try validate(restartDelay, name:"restartDelay", parent: name, max: 15)
-            try validate(restartDelay, name:"restartDelay", parent: name, min: 0)
+            try validate(self.connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
+            try validate(self.filecacheDuration, name:"filecacheDuration", parent: name, max: 600)
+            try validate(self.filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
+            try validate(self.numRetries, name:"numRetries", parent: name, min: 0)
+            try validate(self.restartDelay, name:"restartDelay", parent: name, max: 15)
+            try validate(self.restartDelay, name:"restartDelay", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3729,12 +3729,12 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
-            try validate(filecacheDuration, name:"filecacheDuration", parent: name, max: 600)
-            try validate(filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
-            try validate(numRetries, name:"numRetries", parent: name, min: 0)
-            try validate(restartDelay, name:"restartDelay", parent: name, max: 15)
-            try validate(restartDelay, name:"restartDelay", parent: name, min: 0)
+            try validate(self.connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
+            try validate(self.filecacheDuration, name:"filecacheDuration", parent: name, max: 600)
+            try validate(self.filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
+            try validate(self.numRetries, name:"numRetries", parent: name, min: 0)
+            try validate(self.restartDelay, name:"restartDelay", parent: name, max: 15)
+            try validate(self.restartDelay, name:"restartDelay", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3773,10 +3773,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try hlsAkamaiSettings?.validate(name: "\(name).hlsAkamaiSettings")
-            try hlsBasicPutSettings?.validate(name: "\(name).hlsBasicPutSettings")
-            try hlsMediaStoreSettings?.validate(name: "\(name).hlsMediaStoreSettings")
-            try hlsWebdavSettings?.validate(name: "\(name).hlsWebdavSettings")
+            try self.hlsAkamaiSettings?.validate(name: "\(name).hlsAkamaiSettings")
+            try self.hlsBasicPutSettings?.validate(name: "\(name).hlsBasicPutSettings")
+            try self.hlsMediaStoreSettings?.validate(name: "\(name).hlsMediaStoreSettings")
+            try self.hlsWebdavSettings?.validate(name: "\(name).hlsWebdavSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3977,22 +3977,22 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try captionLanguageMappings?.forEach {
+            try self.captionLanguageMappings?.forEach {
                 try $0.validate(name: "\(name).captionLanguageMappings[]")
             }
-            try validate(constantIv, name:"constantIv", parent: name, max: 32)
-            try validate(constantIv, name:"constantIv", parent: name, min: 32)
-            try hlsCdnSettings?.validate(name: "\(name).hlsCdnSettings")
-            try validate(indexNSegments, name:"indexNSegments", parent: name, min: 3)
-            try validate(keepSegments, name:"keepSegments", parent: name, min: 1)
-            try keyProviderSettings?.validate(name: "\(name).keyProviderSettings")
-            try validate(minSegmentLength, name:"minSegmentLength", parent: name, min: 0)
-            try validate(programDateTimePeriod, name:"programDateTimePeriod", parent: name, max: 3600)
-            try validate(programDateTimePeriod, name:"programDateTimePeriod", parent: name, min: 0)
-            try validate(segmentLength, name:"segmentLength", parent: name, min: 1)
-            try validate(segmentsPerSubdirectory, name:"segmentsPerSubdirectory", parent: name, min: 1)
-            try validate(timedMetadataId3Period, name:"timedMetadataId3Period", parent: name, min: 0)
-            try validate(timestampDeltaMilliseconds, name:"timestampDeltaMilliseconds", parent: name, min: 0)
+            try validate(self.constantIv, name:"constantIv", parent: name, max: 32)
+            try validate(self.constantIv, name:"constantIv", parent: name, min: 32)
+            try self.hlsCdnSettings?.validate(name: "\(name).hlsCdnSettings")
+            try validate(self.indexNSegments, name:"indexNSegments", parent: name, min: 3)
+            try validate(self.keepSegments, name:"keepSegments", parent: name, min: 1)
+            try self.keyProviderSettings?.validate(name: "\(name).keyProviderSettings")
+            try validate(self.minSegmentLength, name:"minSegmentLength", parent: name, min: 0)
+            try validate(self.programDateTimePeriod, name:"programDateTimePeriod", parent: name, max: 3600)
+            try validate(self.programDateTimePeriod, name:"programDateTimePeriod", parent: name, min: 0)
+            try validate(self.segmentLength, name:"segmentLength", parent: name, min: 1)
+            try validate(self.segmentsPerSubdirectory, name:"segmentsPerSubdirectory", parent: name, min: 1)
+            try validate(self.timedMetadataId3Period, name:"timedMetadataId3Period", parent: name, min: 0)
+            try validate(self.timestampDeltaMilliseconds, name:"timestampDeltaMilliseconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4061,10 +4061,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(bandwidth, name:"bandwidth", parent: name, min: 0)
-            try validate(bufferSegments, name:"bufferSegments", parent: name, min: 0)
-            try validate(retries, name:"retries", parent: name, min: 0)
-            try validate(retryInterval, name:"retryInterval", parent: name, min: 0)
+            try validate(self.bandwidth, name:"bandwidth", parent: name, min: 0)
+            try validate(self.bufferSegments, name:"bufferSegments", parent: name, min: 0)
+            try validate(self.retries, name:"retries", parent: name, min: 0)
+            try validate(self.retryInterval, name:"retryInterval", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4128,12 +4128,12 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
-            try validate(filecacheDuration, name:"filecacheDuration", parent: name, max: 600)
-            try validate(filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
-            try validate(numRetries, name:"numRetries", parent: name, min: 0)
-            try validate(restartDelay, name:"restartDelay", parent: name, max: 15)
-            try validate(restartDelay, name:"restartDelay", parent: name, min: 0)
+            try validate(self.connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
+            try validate(self.filecacheDuration, name:"filecacheDuration", parent: name, max: 600)
+            try validate(self.filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
+            try validate(self.numRetries, name:"numRetries", parent: name, min: 0)
+            try validate(self.restartDelay, name:"restartDelay", parent: name, max: 15)
+            try validate(self.restartDelay, name:"restartDelay", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4183,8 +4183,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try hlsSettings.validate(name: "\(name).hlsSettings")
-            try validate(nameModifier, name:"nameModifier", parent: name, min: 1)
+            try self.hlsSettings.validate(name: "\(name).hlsSettings")
+            try validate(self.nameModifier, name:"nameModifier", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4227,7 +4227,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try standardHlsSettings?.validate(name: "\(name).standardHlsSettings")
+            try self.standardHlsSettings?.validate(name: "\(name).standardHlsSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4307,12 +4307,12 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
-            try validate(filecacheDuration, name:"filecacheDuration", parent: name, max: 600)
-            try validate(filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
-            try validate(numRetries, name:"numRetries", parent: name, min: 0)
-            try validate(restartDelay, name:"restartDelay", parent: name, max: 15)
-            try validate(restartDelay, name:"restartDelay", parent: name, min: 0)
+            try validate(self.connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
+            try validate(self.filecacheDuration, name:"filecacheDuration", parent: name, max: 600)
+            try validate(self.filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
+            try validate(self.numRetries, name:"numRetries", parent: name, min: 0)
+            try validate(self.restartDelay, name:"restartDelay", parent: name, max: 15)
+            try validate(self.restartDelay, name:"restartDelay", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4427,7 +4427,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try inputSettings?.validate(name: "\(name).inputSettings")
+            try self.inputSettings?.validate(name: "\(name).inputSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4454,10 +4454,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(gain, name:"gain", parent: name, max: 6)
-            try validate(gain, name:"gain", parent: name, min: -60)
-            try validate(inputChannel, name:"inputChannel", parent: name, max: 15)
-            try validate(inputChannel, name:"inputChannel", parent: name, min: 0)
+            try validate(self.gain, name:"gain", parent: name, max: 6)
+            try validate(self.gain, name:"gain", parent: name, min: -60)
+            try validate(self.inputChannel, name:"inputChannel", parent: name, max: 15)
+            try validate(self.inputChannel, name:"inputChannel", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4652,12 +4652,12 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(blackFrameMsec, name:"blackFrameMsec", parent: name, max: 1000000)
-            try validate(blackFrameMsec, name:"blackFrameMsec", parent: name, min: 0)
-            try validate(inputLossImageColor, name:"inputLossImageColor", parent: name, max: 6)
-            try validate(inputLossImageColor, name:"inputLossImageColor", parent: name, min: 6)
-            try validate(repeatFrameMsec, name:"repeatFrameMsec", parent: name, max: 1000000)
-            try validate(repeatFrameMsec, name:"repeatFrameMsec", parent: name, min: 0)
+            try validate(self.blackFrameMsec, name:"blackFrameMsec", parent: name, max: 1000000)
+            try validate(self.blackFrameMsec, name:"blackFrameMsec", parent: name, min: 0)
+            try validate(self.inputLossImageColor, name:"inputLossImageColor", parent: name, max: 6)
+            try validate(self.inputLossImageColor, name:"inputLossImageColor", parent: name, min: 6)
+            try validate(self.repeatFrameMsec, name:"repeatFrameMsec", parent: name, max: 1000000)
+            try validate(self.repeatFrameMsec, name:"repeatFrameMsec", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4787,16 +4787,16 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try audioSelectors?.forEach {
+            try self.audioSelectors?.forEach {
                 try $0.validate(name: "\(name).audioSelectors[]")
             }
-            try captionSelectors?.forEach {
+            try self.captionSelectors?.forEach {
                 try $0.validate(name: "\(name).captionSelectors[]")
             }
-            try validate(filterStrength, name:"filterStrength", parent: name, max: 5)
-            try validate(filterStrength, name:"filterStrength", parent: name, min: 1)
-            try networkInputSettings?.validate(name: "\(name).networkInputSettings")
-            try videoSelector?.validate(name: "\(name).videoSelector")
+            try validate(self.filterStrength, name:"filterStrength", parent: name, max: 5)
+            try validate(self.filterStrength, name:"filterStrength", parent: name, min: 1)
+            try self.networkInputSettings?.validate(name: "\(name).networkInputSettings")
+            try self.videoSelector?.validate(name: "\(name).videoSelector")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5008,7 +5008,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try staticKeySettings?.validate(name: "\(name).staticKeySettings")
+            try self.staticKeySettings?.validate(name: "\(name).staticKeySettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5031,8 +5031,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5076,8 +5076,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5121,8 +5121,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5193,8 +5193,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5271,8 +5271,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 1000)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5651,23 +5651,23 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(audioFramesPerPes, name:"audioFramesPerPes", parent: name, min: 0)
-            try validate(bitrate, name:"bitrate", parent: name, min: 0)
-            try dvbNitSettings?.validate(name: "\(name).dvbNitSettings")
-            try dvbSdtSettings?.validate(name: "\(name).dvbSdtSettings")
-            try dvbTdtSettings?.validate(name: "\(name).dvbTdtSettings")
-            try validate(ebpLookaheadMs, name:"ebpLookaheadMs", parent: name, max: 10000)
-            try validate(ebpLookaheadMs, name:"ebpLookaheadMs", parent: name, min: 0)
-            try validate(patInterval, name:"patInterval", parent: name, max: 1000)
-            try validate(patInterval, name:"patInterval", parent: name, min: 0)
-            try validate(pcrPeriod, name:"pcrPeriod", parent: name, max: 500)
-            try validate(pcrPeriod, name:"pcrPeriod", parent: name, min: 0)
-            try validate(pmtInterval, name:"pmtInterval", parent: name, max: 1000)
-            try validate(pmtInterval, name:"pmtInterval", parent: name, min: 0)
-            try validate(programNum, name:"programNum", parent: name, max: 65535)
-            try validate(programNum, name:"programNum", parent: name, min: 0)
-            try validate(transportStreamId, name:"transportStreamId", parent: name, max: 65535)
-            try validate(transportStreamId, name:"transportStreamId", parent: name, min: 0)
+            try validate(self.audioFramesPerPes, name:"audioFramesPerPes", parent: name, min: 0)
+            try validate(self.bitrate, name:"bitrate", parent: name, min: 0)
+            try self.dvbNitSettings?.validate(name: "\(name).dvbNitSettings")
+            try self.dvbSdtSettings?.validate(name: "\(name).dvbSdtSettings")
+            try self.dvbTdtSettings?.validate(name: "\(name).dvbTdtSettings")
+            try validate(self.ebpLookaheadMs, name:"ebpLookaheadMs", parent: name, max: 10000)
+            try validate(self.ebpLookaheadMs, name:"ebpLookaheadMs", parent: name, min: 0)
+            try validate(self.patInterval, name:"patInterval", parent: name, max: 1000)
+            try validate(self.patInterval, name:"patInterval", parent: name, min: 0)
+            try validate(self.pcrPeriod, name:"pcrPeriod", parent: name, max: 500)
+            try validate(self.pcrPeriod, name:"pcrPeriod", parent: name, min: 0)
+            try validate(self.pmtInterval, name:"pmtInterval", parent: name, max: 1000)
+            try validate(self.pmtInterval, name:"pmtInterval", parent: name, min: 0)
+            try validate(self.programNum, name:"programNum", parent: name, max: 65535)
+            try validate(self.programNum, name:"programNum", parent: name, min: 0)
+            try validate(self.transportStreamId, name:"transportStreamId", parent: name, max: 65535)
+            try validate(self.transportStreamId, name:"transportStreamId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5811,17 +5811,17 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(audioFramesPerPes, name:"audioFramesPerPes", parent: name, min: 0)
-            try validate(patInterval, name:"patInterval", parent: name, max: 1000)
-            try validate(patInterval, name:"patInterval", parent: name, min: 0)
-            try validate(pcrPeriod, name:"pcrPeriod", parent: name, max: 500)
-            try validate(pcrPeriod, name:"pcrPeriod", parent: name, min: 0)
-            try validate(pmtInterval, name:"pmtInterval", parent: name, max: 1000)
-            try validate(pmtInterval, name:"pmtInterval", parent: name, min: 0)
-            try validate(programNum, name:"programNum", parent: name, max: 65535)
-            try validate(programNum, name:"programNum", parent: name, min: 0)
-            try validate(transportStreamId, name:"transportStreamId", parent: name, max: 65535)
-            try validate(transportStreamId, name:"transportStreamId", parent: name, min: 0)
+            try validate(self.audioFramesPerPes, name:"audioFramesPerPes", parent: name, min: 0)
+            try validate(self.patInterval, name:"patInterval", parent: name, max: 1000)
+            try validate(self.patInterval, name:"patInterval", parent: name, min: 0)
+            try validate(self.pcrPeriod, name:"pcrPeriod", parent: name, max: 500)
+            try validate(self.pcrPeriod, name:"pcrPeriod", parent: name, min: 0)
+            try validate(self.pmtInterval, name:"pmtInterval", parent: name, max: 1000)
+            try validate(self.pmtInterval, name:"pmtInterval", parent: name, min: 0)
+            try validate(self.programNum, name:"programNum", parent: name, max: 65535)
+            try validate(self.programNum, name:"programNum", parent: name, min: 0)
+            try validate(self.transportStreamId, name:"transportStreamId", parent: name, max: 65535)
+            try validate(self.transportStreamId, name:"transportStreamId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5914,7 +5914,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(channelId, name:"channelId", parent: name, min: 1)
+            try validate(self.channelId, name:"channelId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6055,13 +6055,13 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
-            try validate(filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
-            try validate(fragmentLength, name:"fragmentLength", parent: name, min: 1)
-            try validate(numRetries, name:"numRetries", parent: name, min: 0)
-            try validate(restartDelay, name:"restartDelay", parent: name, min: 0)
-            try validate(sendDelayMs, name:"sendDelayMs", parent: name, max: 10000)
-            try validate(sendDelayMs, name:"sendDelayMs", parent: name, min: 0)
+            try validate(self.connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 0)
+            try validate(self.filecacheDuration, name:"filecacheDuration", parent: name, min: 0)
+            try validate(self.fragmentLength, name:"fragmentLength", parent: name, min: 1)
+            try validate(self.numRetries, name:"numRetries", parent: name, min: 0)
+            try validate(self.restartDelay, name:"restartDelay", parent: name, min: 0)
+            try validate(self.sendDelayMs, name:"sendDelayMs", parent: name, max: 10000)
+            try validate(self.sendDelayMs, name:"sendDelayMs", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6127,7 +6127,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try hlsInputSettings?.validate(name: "\(name).hlsInputSettings")
+            try self.hlsInputSettings?.validate(name: "\(name).hlsInputSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6242,9 +6242,9 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(outputName, name:"outputName", parent: name, max: 255)
-            try validate(outputName, name:"outputName", parent: name, min: 1)
-            try outputSettings.validate(name: "\(name).outputSettings")
+            try validate(self.outputName, name:"outputName", parent: name, max: 255)
+            try validate(self.outputName, name:"outputName", parent: name, min: 1)
+            try self.outputSettings.validate(name: "\(name).outputSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6277,7 +6277,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try mediaPackageSettings?.forEach {
+            try self.mediaPackageSettings?.forEach {
                 try $0.validate(name: "\(name).mediaPackageSettings[]")
             }
         }
@@ -6341,9 +6341,9 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 32)
-            try outputGroupSettings.validate(name: "\(name).outputGroupSettings")
-            try outputs.forEach {
+            try validate(self.name, name:"name", parent: name, max: 32)
+            try self.outputGroupSettings.validate(name: "\(name).outputGroupSettings")
+            try self.outputs.forEach {
                 try $0.validate(name: "\(name).outputs[]")
             }
         }
@@ -6385,11 +6385,11 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try archiveGroupSettings?.validate(name: "\(name).archiveGroupSettings")
-            try hlsGroupSettings?.validate(name: "\(name).hlsGroupSettings")
-            try msSmoothGroupSettings?.validate(name: "\(name).msSmoothGroupSettings")
-            try rtmpGroupSettings?.validate(name: "\(name).rtmpGroupSettings")
-            try udpGroupSettings?.validate(name: "\(name).udpGroupSettings")
+            try self.archiveGroupSettings?.validate(name: "\(name).archiveGroupSettings")
+            try self.hlsGroupSettings?.validate(name: "\(name).hlsGroupSettings")
+            try self.msSmoothGroupSettings?.validate(name: "\(name).msSmoothGroupSettings")
+            try self.rtmpGroupSettings?.validate(name: "\(name).rtmpGroupSettings")
+            try self.udpGroupSettings?.validate(name: "\(name).udpGroupSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6449,10 +6449,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try archiveOutputSettings?.validate(name: "\(name).archiveOutputSettings")
-            try hlsOutputSettings?.validate(name: "\(name).hlsOutputSettings")
-            try rtmpOutputSettings?.validate(name: "\(name).rtmpOutputSettings")
-            try udpOutputSettings?.validate(name: "\(name).udpOutputSettings")
+            try self.archiveOutputSettings?.validate(name: "\(name).archiveOutputSettings")
+            try self.hlsOutputSettings?.validate(name: "\(name).hlsOutputSettings")
+            try self.rtmpOutputSettings?.validate(name: "\(name).rtmpOutputSettings")
+            try self.udpOutputSettings?.validate(name: "\(name).udpOutputSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6540,7 +6540,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(count, name:"count", parent: name, min: 1)
+            try validate(self.count, name:"count", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6591,13 +6591,13 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try channelMappings.forEach {
+            try self.channelMappings.forEach {
                 try $0.validate(name: "\(name).channelMappings[]")
             }
-            try validate(channelsIn, name:"channelsIn", parent: name, max: 16)
-            try validate(channelsIn, name:"channelsIn", parent: name, min: 1)
-            try validate(channelsOut, name:"channelsOut", parent: name, max: 8)
-            try validate(channelsOut, name:"channelsOut", parent: name, min: 1)
+            try validate(self.channelsIn, name:"channelsIn", parent: name, max: 16)
+            try validate(self.channelsIn, name:"channelsIn", parent: name, min: 1)
+            try validate(self.channelsOut, name:"channelsOut", parent: name, max: 8)
+            try validate(self.channelsOut, name:"channelsOut", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6873,8 +6873,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(cacheLength, name:"cacheLength", parent: name, min: 30)
-            try validate(restartDelay, name:"restartDelay", parent: name, min: 0)
+            try validate(self.cacheLength, name:"cacheLength", parent: name, min: 30)
+            try validate(self.restartDelay, name:"restartDelay", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6918,8 +6918,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 1)
-            try validate(numRetries, name:"numRetries", parent: name, min: 0)
+            try validate(self.connectionRetryInterval, name:"connectionRetryInterval", parent: name, min: 1)
+            try validate(self.numRetries, name:"numRetries", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6951,7 +6951,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try scheduleActionSettings.validate(name: "\(name).scheduleActionSettings")
+            try self.scheduleActionSettings.validate(name: "\(name).scheduleActionSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7002,11 +7002,11 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try scte35ReturnToNetworkSettings?.validate(name: "\(name).scte35ReturnToNetworkSettings")
-            try scte35SpliceInsertSettings?.validate(name: "\(name).scte35SpliceInsertSettings")
-            try scte35TimeSignalSettings?.validate(name: "\(name).scte35TimeSignalSettings")
-            try staticImageActivateSettings?.validate(name: "\(name).staticImageActivateSettings")
-            try staticImageDeactivateSettings?.validate(name: "\(name).staticImageDeactivateSettings")
+            try self.scte35ReturnToNetworkSettings?.validate(name: "\(name).scte35ReturnToNetworkSettings")
+            try self.scte35SpliceInsertSettings?.validate(name: "\(name).scte35SpliceInsertSettings")
+            try self.scte35TimeSignalSettings?.validate(name: "\(name).scte35TimeSignalSettings")
+            try self.staticImageActivateSettings?.validate(name: "\(name).staticImageActivateSettings")
+            try self.staticImageDeactivateSettings?.validate(name: "\(name).staticImageDeactivateSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7074,8 +7074,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(source608ChannelNumber, name:"source608ChannelNumber", parent: name, max: 4)
-            try validate(source608ChannelNumber, name:"source608ChannelNumber", parent: name, min: 1)
+            try validate(self.source608ChannelNumber, name:"source608ChannelNumber", parent: name, max: 4)
+            try validate(self.source608ChannelNumber, name:"source608ChannelNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7109,7 +7109,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(pid, name:"pid", parent: name, min: 1)
+            try validate(self.pid, name:"pid", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7180,7 +7180,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try scte35DescriptorSettings.validate(name: "\(name).scte35DescriptorSettings")
+            try self.scte35DescriptorSettings.validate(name: "\(name).scte35DescriptorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7201,7 +7201,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try segmentationDescriptorScte35DescriptorSettings.validate(name: "\(name).segmentationDescriptorScte35DescriptorSettings")
+            try self.segmentationDescriptorScte35DescriptorSettings.validate(name: "\(name).segmentationDescriptorScte35DescriptorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7236,8 +7236,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(spliceEventId, name:"spliceEventId", parent: name, max: 4294967295)
-            try validate(spliceEventId, name:"spliceEventId", parent: name, min: 0)
+            try validate(self.spliceEventId, name:"spliceEventId", parent: name, max: 4294967295)
+            try validate(self.spliceEventId, name:"spliceEventId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7304,22 +7304,22 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(segmentationDuration, name:"segmentationDuration", parent: name, max: 1099511627775)
-            try validate(segmentationDuration, name:"segmentationDuration", parent: name, min: 0)
-            try validate(segmentationEventId, name:"segmentationEventId", parent: name, max: 4294967295)
-            try validate(segmentationEventId, name:"segmentationEventId", parent: name, min: 0)
-            try validate(segmentationTypeId, name:"segmentationTypeId", parent: name, max: 255)
-            try validate(segmentationTypeId, name:"segmentationTypeId", parent: name, min: 0)
-            try validate(segmentationUpidType, name:"segmentationUpidType", parent: name, max: 255)
-            try validate(segmentationUpidType, name:"segmentationUpidType", parent: name, min: 0)
-            try validate(segmentNum, name:"segmentNum", parent: name, max: 255)
-            try validate(segmentNum, name:"segmentNum", parent: name, min: 0)
-            try validate(segmentsExpected, name:"segmentsExpected", parent: name, max: 255)
-            try validate(segmentsExpected, name:"segmentsExpected", parent: name, min: 0)
-            try validate(subSegmentNum, name:"subSegmentNum", parent: name, max: 255)
-            try validate(subSegmentNum, name:"subSegmentNum", parent: name, min: 0)
-            try validate(subSegmentsExpected, name:"subSegmentsExpected", parent: name, max: 255)
-            try validate(subSegmentsExpected, name:"subSegmentsExpected", parent: name, min: 0)
+            try validate(self.segmentationDuration, name:"segmentationDuration", parent: name, max: 1099511627775)
+            try validate(self.segmentationDuration, name:"segmentationDuration", parent: name, min: 0)
+            try validate(self.segmentationEventId, name:"segmentationEventId", parent: name, max: 4294967295)
+            try validate(self.segmentationEventId, name:"segmentationEventId", parent: name, min: 0)
+            try validate(self.segmentationTypeId, name:"segmentationTypeId", parent: name, max: 255)
+            try validate(self.segmentationTypeId, name:"segmentationTypeId", parent: name, min: 0)
+            try validate(self.segmentationUpidType, name:"segmentationUpidType", parent: name, max: 255)
+            try validate(self.segmentationUpidType, name:"segmentationUpidType", parent: name, min: 0)
+            try validate(self.segmentNum, name:"segmentNum", parent: name, max: 255)
+            try validate(self.segmentNum, name:"segmentNum", parent: name, min: 0)
+            try validate(self.segmentsExpected, name:"segmentsExpected", parent: name, max: 255)
+            try validate(self.segmentsExpected, name:"segmentsExpected", parent: name, min: 0)
+            try validate(self.subSegmentNum, name:"subSegmentNum", parent: name, max: 255)
+            try validate(self.subSegmentNum, name:"subSegmentNum", parent: name, min: 0)
+            try validate(self.subSegmentsExpected, name:"subSegmentsExpected", parent: name, max: 255)
+            try validate(self.subSegmentsExpected, name:"subSegmentsExpected", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7358,8 +7358,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(adAvailOffset, name:"adAvailOffset", parent: name, max: 1000)
-            try validate(adAvailOffset, name:"adAvailOffset", parent: name, min: -1000)
+            try validate(self.adAvailOffset, name:"adAvailOffset", parent: name, max: 1000)
+            try validate(self.adAvailOffset, name:"adAvailOffset", parent: name, min: -1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7392,10 +7392,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(duration, name:"duration", parent: name, max: 8589934591)
-            try validate(duration, name:"duration", parent: name, min: 0)
-            try validate(spliceEventId, name:"spliceEventId", parent: name, max: 4294967295)
-            try validate(spliceEventId, name:"spliceEventId", parent: name, min: 0)
+            try validate(self.duration, name:"duration", parent: name, max: 8589934591)
+            try validate(self.duration, name:"duration", parent: name, min: 0)
+            try validate(self.spliceEventId, name:"spliceEventId", parent: name, max: 4294967295)
+            try validate(self.spliceEventId, name:"spliceEventId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7431,8 +7431,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(adAvailOffset, name:"adAvailOffset", parent: name, max: 1000)
-            try validate(adAvailOffset, name:"adAvailOffset", parent: name, min: -1000)
+            try validate(self.adAvailOffset, name:"adAvailOffset", parent: name, max: 1000)
+            try validate(self.adAvailOffset, name:"adAvailOffset", parent: name, min: -1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7455,7 +7455,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try scte35Descriptors.forEach {
+            try self.scte35Descriptors.forEach {
                 try $0.validate(name: "\(name).scte35Descriptors[]")
             }
         }
@@ -7544,7 +7544,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try m3u8Settings.validate(name: "\(name).m3u8Settings")
+            try self.m3u8Settings.validate(name: "\(name).m3u8Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7686,17 +7686,17 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(duration, name:"duration", parent: name, min: 0)
-            try validate(fadeIn, name:"fadeIn", parent: name, min: 0)
-            try validate(fadeOut, name:"fadeOut", parent: name, min: 0)
-            try validate(height, name:"height", parent: name, min: 1)
-            try validate(imageX, name:"imageX", parent: name, min: 0)
-            try validate(imageY, name:"imageY", parent: name, min: 0)
-            try validate(layer, name:"layer", parent: name, max: 7)
-            try validate(layer, name:"layer", parent: name, min: 0)
-            try validate(opacity, name:"opacity", parent: name, max: 100)
-            try validate(opacity, name:"opacity", parent: name, min: 0)
-            try validate(width, name:"width", parent: name, min: 1)
+            try validate(self.duration, name:"duration", parent: name, min: 0)
+            try validate(self.fadeIn, name:"fadeIn", parent: name, min: 0)
+            try validate(self.fadeOut, name:"fadeOut", parent: name, min: 0)
+            try validate(self.height, name:"height", parent: name, min: 1)
+            try validate(self.imageX, name:"imageX", parent: name, min: 0)
+            try validate(self.imageY, name:"imageY", parent: name, min: 0)
+            try validate(self.layer, name:"layer", parent: name, max: 7)
+            try validate(self.layer, name:"layer", parent: name, min: 0)
+            try validate(self.opacity, name:"opacity", parent: name, max: 100)
+            try validate(self.opacity, name:"opacity", parent: name, min: 0)
+            try validate(self.width, name:"width", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7730,9 +7730,9 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(fadeOut, name:"fadeOut", parent: name, min: 0)
-            try validate(layer, name:"layer", parent: name, max: 7)
-            try validate(layer, name:"layer", parent: name, min: 0)
+            try validate(self.fadeOut, name:"fadeOut", parent: name, min: 0)
+            try validate(self.layer, name:"layer", parent: name, max: 7)
+            try validate(self.layer, name:"layer", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7758,8 +7758,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(staticKeyValue, name:"staticKeyValue", parent: name, max: 32)
-            try validate(staticKeyValue, name:"staticKeyValue", parent: name, min: 32)
+            try validate(self.staticKeyValue, name:"staticKeyValue", parent: name, max: 32)
+            try validate(self.staticKeyValue, name:"staticKeyValue", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7897,8 +7897,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(syncThreshold, name:"syncThreshold", parent: name, max: 1000000)
-            try validate(syncThreshold, name:"syncThreshold", parent: name, min: 1)
+            try validate(self.syncThreshold, name:"syncThreshold", parent: name, max: 1000000)
+            try validate(self.syncThreshold, name:"syncThreshold", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7949,7 +7949,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try m2tsSettings?.validate(name: "\(name).m2tsSettings")
+            try self.m2tsSettings?.validate(name: "\(name).m2tsSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7978,7 +7978,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(timedMetadataId3Period, name:"timedMetadataId3Period", parent: name, min: 0)
+            try validate(self.timedMetadataId3Period, name:"timedMetadataId3Period", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8012,10 +8012,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(bufferMsec, name:"bufferMsec", parent: name, max: 10000)
-            try validate(bufferMsec, name:"bufferMsec", parent: name, min: 0)
-            try containerSettings.validate(name: "\(name).containerSettings")
-            try fecOutputSettings?.validate(name: "\(name).fecOutputSettings")
+            try validate(self.bufferMsec, name:"bufferMsec", parent: name, max: 10000)
+            try validate(self.bufferMsec, name:"bufferMsec", parent: name, min: 0)
+            try self.containerSettings.validate(name: "\(name).containerSettings")
+            try self.fecOutputSettings?.validate(name: "\(name).fecOutputSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8051,7 +8051,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try destinations?.forEach {
+            try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
         }
@@ -8112,11 +8112,11 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try destinations?.forEach {
+            try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
-            try encoderSettings?.validate(name: "\(name).encoderSettings")
-            try inputAttachments?.forEach {
+            try self.encoderSettings?.validate(name: "\(name).encoderSettings")
+            try self.inputAttachments?.forEach {
                 try $0.validate(name: "\(name).inputAttachments[]")
             }
         }
@@ -8296,8 +8296,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try frameCaptureSettings?.validate(name: "\(name).frameCaptureSettings")
-            try h264Settings?.validate(name: "\(name).h264Settings")
+            try self.frameCaptureSettings?.validate(name: "\(name).frameCaptureSettings")
+            try self.h264Settings?.validate(name: "\(name).h264Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8343,9 +8343,9 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try codecSettings?.validate(name: "\(name).codecSettings")
-            try validate(sharpness, name:"sharpness", parent: name, max: 100)
-            try validate(sharpness, name:"sharpness", parent: name, min: 0)
+            try self.codecSettings?.validate(name: "\(name).codecSettings")
+            try validate(self.sharpness, name:"sharpness", parent: name, max: 100)
+            try validate(self.sharpness, name:"sharpness", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8393,7 +8393,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try selectorSettings?.validate(name: "\(name).selectorSettings")
+            try self.selectorSettings?.validate(name: "\(name).selectorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8429,8 +8429,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(pid, name:"pid", parent: name, max: 8191)
-            try validate(pid, name:"pid", parent: name, min: 0)
+            try validate(self.pid, name:"pid", parent: name, max: 8191)
+            try validate(self.pid, name:"pid", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8451,8 +8451,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try validate(programId, name:"programId", parent: name, max: 65536)
-            try validate(programId, name:"programId", parent: name, min: 0)
+            try validate(self.programId, name:"programId", parent: name, max: 65536)
+            try validate(self.programId, name:"programId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8475,8 +8475,8 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
-            try videoSelectorPid?.validate(name: "\(name).videoSelectorPid")
-            try videoSelectorProgramId?.validate(name: "\(name).videoSelectorProgramId")
+            try self.videoSelectorPid?.validate(name: "\(name).videoSelectorPid")
+            try self.videoSelectorProgramId?.validate(name: "\(name).videoSelectorProgramId")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -30,9 +30,9 @@ extension DLM {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 500)
-            try validate(description, name:"description", parent: name, min: 0)
-            try policyDetails.validate(name: "\(name).policyDetails")
+            try validate(self.description, name:"description", parent: name, max: 500)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try self.policyDetails.validate(name: "\(name).policyDetails")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -81,11 +81,11 @@ extension DLM {
         }
 
         public func validate(name: String) throws {
-            try validate(interval, name:"interval", parent: name, min: 1)
-            try times?.forEach {
+            try validate(self.interval, name:"interval", parent: name, min: 1)
+            try self.times?.forEach {
                 try validate($0, name: "times[]", parent: name, pattern: "^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
             }
-            try validate(times, name:"times", parent: name, max: 1)
+            try validate(self.times, name:"times", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -149,12 +149,12 @@ extension DLM {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceTypes, name:"resourceTypes", parent: name, max: 1)
-            try validate(resourceTypes, name:"resourceTypes", parent: name, min: 1)
-            try validate(tagsToAdd, name:"tagsToAdd", parent: name, max: 50)
-            try validate(tagsToAdd, name:"tagsToAdd", parent: name, min: 0)
-            try validate(targetTags, name:"targetTags", parent: name, max: 50)
-            try validate(targetTags, name:"targetTags", parent: name, min: 1)
+            try validate(self.resourceTypes, name:"resourceTypes", parent: name, max: 1)
+            try validate(self.resourceTypes, name:"resourceTypes", parent: name, min: 1)
+            try validate(self.tagsToAdd, name:"tagsToAdd", parent: name, max: 50)
+            try validate(self.tagsToAdd, name:"tagsToAdd", parent: name, min: 0)
+            try validate(self.targetTags, name:"targetTags", parent: name, max: 50)
+            try validate(self.targetTags, name:"targetTags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -349,15 +349,15 @@ extension DLM {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceTypes, name:"resourceTypes", parent: name, max: 1)
-            try validate(resourceTypes, name:"resourceTypes", parent: name, min: 1)
-            try schedules?.forEach {
+            try validate(self.resourceTypes, name:"resourceTypes", parent: name, max: 1)
+            try validate(self.resourceTypes, name:"resourceTypes", parent: name, min: 1)
+            try self.schedules?.forEach {
                 try $0.validate(name: "\(name).schedules[]")
             }
-            try validate(schedules, name:"schedules", parent: name, max: 1)
-            try validate(schedules, name:"schedules", parent: name, min: 1)
-            try validate(targetTags, name:"targetTags", parent: name, max: 50)
-            try validate(targetTags, name:"targetTags", parent: name, min: 1)
+            try validate(self.schedules, name:"schedules", parent: name, max: 1)
+            try validate(self.schedules, name:"schedules", parent: name, min: 1)
+            try validate(self.targetTags, name:"targetTags", parent: name, max: 50)
+            try validate(self.targetTags, name:"targetTags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -393,8 +393,8 @@ extension DLM {
         }
 
         public func validate(name: String) throws {
-            try validate(count, name:"count", parent: name, max: 1000)
-            try validate(count, name:"count", parent: name, min: 1)
+            try validate(self.count, name:"count", parent: name, max: 1000)
+            try validate(self.count, name:"count", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -435,14 +435,14 @@ extension DLM {
         }
 
         public func validate(name: String) throws {
-            try createRule?.validate(name: "\(name).createRule")
-            try validate(name, name:"name", parent: name, max: 500)
-            try validate(name, name:"name", parent: name, min: 0)
-            try retainRule?.validate(name: "\(name).retainRule")
-            try validate(tagsToAdd, name:"tagsToAdd", parent: name, max: 50)
-            try validate(tagsToAdd, name:"tagsToAdd", parent: name, min: 0)
-            try validate(variableTags, name:"variableTags", parent: name, max: 50)
-            try validate(variableTags, name:"variableTags", parent: name, min: 0)
+            try self.createRule?.validate(name: "\(name).createRule")
+            try validate(self.name, name:"name", parent: name, max: 500)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try self.retainRule?.validate(name: "\(name).retainRule")
+            try validate(self.tagsToAdd, name:"tagsToAdd", parent: name, max: 50)
+            try validate(self.tagsToAdd, name:"tagsToAdd", parent: name, min: 0)
+            try validate(self.variableTags, name:"variableTags", parent: name, max: 50)
+            try validate(self.variableTags, name:"variableTags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -512,9 +512,9 @@ extension DLM {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 500)
-            try validate(description, name:"description", parent: name, min: 0)
-            try policyDetails?.validate(name: "\(name).policyDetails")
+            try validate(self.description, name:"description", parent: name, max: 500)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try self.policyDetails?.validate(name: "\(name).policyDetails")
         }
 
         private enum CodingKeys: String, CodingKey {

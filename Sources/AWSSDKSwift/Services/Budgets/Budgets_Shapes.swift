@@ -54,17 +54,17 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try budgetLimit?.validate(name: "\(name).budgetLimit")
-            try validate(budgetName, name:"budgetName", parent: name, max: 100)
-            try validate(budgetName, name:"budgetName", parent: name, min: 1)
-            try validate(budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
-            try calculatedSpend?.validate(name: "\(name).calculatedSpend")
-            try costFilters?.forEach {
+            try self.budgetLimit?.validate(name: "\(name).budgetLimit")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.calculatedSpend?.validate(name: "\(name).calculatedSpend")
+            try self.costFilters?.forEach {
                 try validate($0.key, name:"costFilters.key", parent: name, max: 2147483647)
                 try validate($0.key, name:"costFilters.key", parent: name, min: 0)
                 try validate($0.key, name:"costFilters.key", parent: name, pattern: ".*")
             }
-            try plannedBudgetLimits?.forEach {
+            try self.plannedBudgetLimits?.forEach {
                 try validate($0.key, name:"plannedBudgetLimits.key", parent: name, max: 2147483647)
                 try validate($0.key, name:"plannedBudgetLimits.key", parent: name, min: 0)
                 try validate($0.key, name:"plannedBudgetLimits.key", parent: name, pattern: ".*")
@@ -177,8 +177,8 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try actualSpend.validate(name: "\(name).actualSpend")
-            try forecastedSpend?.validate(name: "\(name).forecastedSpend")
+            try self.actualSpend.validate(name: "\(name).actualSpend")
+            try self.forecastedSpend?.validate(name: "\(name).forecastedSpend")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -282,14 +282,14 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try budget.validate(name: "\(name).budget")
-            try notificationsWithSubscribers?.forEach {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try self.budget.validate(name: "\(name).budget")
+            try self.notificationsWithSubscribers?.forEach {
                 try $0.validate(name: "\(name).notificationsWithSubscribers[]")
             }
-            try validate(notificationsWithSubscribers, name:"notificationsWithSubscribers", parent: name, max: 5)
+            try validate(self.notificationsWithSubscribers, name:"notificationsWithSubscribers", parent: name, max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -332,18 +332,18 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try validate(budgetName, name:"budgetName", parent: name, max: 100)
-            try validate(budgetName, name:"budgetName", parent: name, min: 1)
-            try validate(budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
-            try notification.validate(name: "\(name).notification")
-            try subscribers.forEach {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.notification.validate(name: "\(name).notification")
+            try self.subscribers.forEach {
                 try $0.validate(name: "\(name).subscribers[]")
             }
-            try validate(subscribers, name:"subscribers", parent: name, max: 11)
-            try validate(subscribers, name:"subscribers", parent: name, min: 1)
+            try validate(self.subscribers, name:"subscribers", parent: name, max: 11)
+            try validate(self.subscribers, name:"subscribers", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -387,14 +387,14 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try validate(budgetName, name:"budgetName", parent: name, max: 100)
-            try validate(budgetName, name:"budgetName", parent: name, min: 1)
-            try validate(budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
-            try notification.validate(name: "\(name).notification")
-            try subscriber.validate(name: "\(name).subscriber")
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.notification.validate(name: "\(name).notification")
+            try self.subscriber.validate(name: "\(name).subscriber")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -430,12 +430,12 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try validate(budgetName, name:"budgetName", parent: name, max: 100)
-            try validate(budgetName, name:"budgetName", parent: name, min: 1)
-            try validate(budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -473,13 +473,13 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try validate(budgetName, name:"budgetName", parent: name, max: 100)
-            try validate(budgetName, name:"budgetName", parent: name, min: 1)
-            try validate(budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
-            try notification.validate(name: "\(name).notification")
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.notification.validate(name: "\(name).notification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -522,14 +522,14 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try validate(budgetName, name:"budgetName", parent: name, max: 100)
-            try validate(budgetName, name:"budgetName", parent: name, min: 1)
-            try validate(budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
-            try notification.validate(name: "\(name).notification")
-            try subscriber.validate(name: "\(name).subscriber")
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.notification.validate(name: "\(name).notification")
+            try self.subscriber.validate(name: "\(name).subscriber")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -573,17 +573,17 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try validate(budgetName, name:"budgetName", parent: name, max: 100)
-            try validate(budgetName, name:"budgetName", parent: name, min: 1)
-            try validate(budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 2147483647)
-            try validate(nextToken, name:"nextToken", parent: name, min: 0)
-            try validate(nextToken, name:"nextToken", parent: name, pattern: ".*")
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2147483647)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -633,12 +633,12 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try validate(budgetName, name:"budgetName", parent: name, max: 100)
-            try validate(budgetName, name:"budgetName", parent: name, min: 1)
-            try validate(budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -685,14 +685,14 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 2147483647)
-            try validate(nextToken, name:"nextToken", parent: name, min: 0)
-            try validate(nextToken, name:"nextToken", parent: name, pattern: ".*")
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2147483647)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -749,17 +749,17 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try validate(budgetName, name:"budgetName", parent: name, max: 100)
-            try validate(budgetName, name:"budgetName", parent: name, min: 1)
-            try validate(budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 2147483647)
-            try validate(nextToken, name:"nextToken", parent: name, min: 0)
-            try validate(nextToken, name:"nextToken", parent: name, pattern: ".*")
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2147483647)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -821,18 +821,18 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try validate(budgetName, name:"budgetName", parent: name, max: 100)
-            try validate(budgetName, name:"budgetName", parent: name, min: 1)
-            try validate(budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 2147483647)
-            try validate(nextToken, name:"nextToken", parent: name, min: 0)
-            try validate(nextToken, name:"nextToken", parent: name, pattern: ".*")
-            try notification.validate(name: "\(name).notification")
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2147483647)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+            try self.notification.validate(name: "\(name).notification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -895,8 +895,8 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(threshold, name:"threshold", parent: name, max: 1000000000)
-            try validate(threshold, name:"threshold", parent: name, min: 0)
+            try validate(self.threshold, name:"threshold", parent: name, max: 1000000000)
+            try validate(self.threshold, name:"threshold", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -937,12 +937,12 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try notification.validate(name: "\(name).notification")
-            try subscribers.forEach {
+            try self.notification.validate(name: "\(name).notification")
+            try self.subscribers.forEach {
                 try $0.validate(name: "\(name).subscribers[]")
             }
-            try validate(subscribers, name:"subscribers", parent: name, max: 11)
-            try validate(subscribers, name:"subscribers", parent: name, min: 1)
+            try validate(self.subscribers, name:"subscribers", parent: name, max: 11)
+            try validate(self.subscribers, name:"subscribers", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -968,12 +968,12 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(amount, name:"amount", parent: name, max: 2147483647)
-            try validate(amount, name:"amount", parent: name, min: 1)
-            try validate(amount, name:"amount", parent: name, pattern: "([0-9]*\\.)?[0-9]+")
-            try validate(unit, name:"unit", parent: name, max: 2147483647)
-            try validate(unit, name:"unit", parent: name, min: 1)
-            try validate(unit, name:"unit", parent: name, pattern: ".*")
+            try validate(self.amount, name:"amount", parent: name, max: 2147483647)
+            try validate(self.amount, name:"amount", parent: name, min: 1)
+            try validate(self.amount, name:"amount", parent: name, pattern: "([0-9]*\\.)?[0-9]+")
+            try validate(self.unit, name:"unit", parent: name, max: 2147483647)
+            try validate(self.unit, name:"unit", parent: name, min: 1)
+            try validate(self.unit, name:"unit", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -999,9 +999,9 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(address, name:"address", parent: name, max: 2147483647)
-            try validate(address, name:"address", parent: name, min: 1)
-            try validate(address, name:"address", parent: name, pattern: "(?s).*")
+            try validate(self.address, name:"address", parent: name, max: 2147483647)
+            try validate(self.address, name:"address", parent: name, min: 1)
+            try validate(self.address, name:"address", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1069,10 +1069,10 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try newBudget.validate(name: "\(name).newBudget")
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try self.newBudget.validate(name: "\(name).newBudget")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1114,14 +1114,14 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try validate(budgetName, name:"budgetName", parent: name, max: 100)
-            try validate(budgetName, name:"budgetName", parent: name, min: 1)
-            try validate(budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
-            try newNotification.validate(name: "\(name).newNotification")
-            try oldNotification.validate(name: "\(name).oldNotification")
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.newNotification.validate(name: "\(name).newNotification")
+            try self.oldNotification.validate(name: "\(name).oldNotification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1169,15 +1169,15 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(accountId, name:"accountId", parent: name, max: 12)
-            try validate(accountId, name:"accountId", parent: name, min: 12)
-            try validate(accountId, name:"accountId", parent: name, pattern: "\\d{12}")
-            try validate(budgetName, name:"budgetName", parent: name, max: 100)
-            try validate(budgetName, name:"budgetName", parent: name, min: 1)
-            try validate(budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
-            try newSubscriber.validate(name: "\(name).newSubscriber")
-            try notification.validate(name: "\(name).notification")
-            try oldSubscriber.validate(name: "\(name).oldSubscriber")
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.newSubscriber.validate(name: "\(name).newSubscriber")
+            try self.notification.validate(name: "\(name).notification")
+            try self.oldSubscriber.validate(name: "\(name).oldSubscriber")
         }
 
         private enum CodingKeys: String, CodingKey {

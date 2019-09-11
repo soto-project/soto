@@ -83,31 +83,31 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try allowedHeaders.forEach {
+            try self.allowedHeaders.forEach {
                 try validate($0, name: "allowedHeaders[]", parent: name, max: 8192)
                 try validate($0, name: "allowedHeaders[]", parent: name, min: 1)
                 try validate($0, name: "allowedHeaders[]", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             }
-            try validate(allowedHeaders, name:"allowedHeaders", parent: name, max: 100)
-            try validate(allowedHeaders, name:"allowedHeaders", parent: name, min: 0)
-            try validate(allowedMethods, name:"allowedMethods", parent: name, max: 4)
-            try validate(allowedMethods, name:"allowedMethods", parent: name, min: 1)
-            try allowedOrigins.forEach {
+            try validate(self.allowedHeaders, name:"allowedHeaders", parent: name, max: 100)
+            try validate(self.allowedHeaders, name:"allowedHeaders", parent: name, min: 0)
+            try validate(self.allowedMethods, name:"allowedMethods", parent: name, max: 4)
+            try validate(self.allowedMethods, name:"allowedMethods", parent: name, min: 1)
+            try self.allowedOrigins.forEach {
                 try validate($0, name: "allowedOrigins[]", parent: name, max: 2048)
                 try validate($0, name: "allowedOrigins[]", parent: name, min: 1)
                 try validate($0, name: "allowedOrigins[]", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             }
-            try validate(allowedOrigins, name:"allowedOrigins", parent: name, max: 100)
-            try validate(allowedOrigins, name:"allowedOrigins", parent: name, min: 1)
-            try exposeHeaders?.forEach {
+            try validate(self.allowedOrigins, name:"allowedOrigins", parent: name, max: 100)
+            try validate(self.allowedOrigins, name:"allowedOrigins", parent: name, min: 1)
+            try self.exposeHeaders?.forEach {
                 try validate($0, name: "exposeHeaders[]", parent: name, max: 8192)
                 try validate($0, name: "exposeHeaders[]", parent: name, min: 1)
                 try validate($0, name: "exposeHeaders[]", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             }
-            try validate(exposeHeaders, name:"exposeHeaders", parent: name, max: 100)
-            try validate(exposeHeaders, name:"exposeHeaders", parent: name, min: 0)
-            try validate(maxAgeSeconds, name:"maxAgeSeconds", parent: name, max: 2147483647)
-            try validate(maxAgeSeconds, name:"maxAgeSeconds", parent: name, min: 0)
+            try validate(self.exposeHeaders, name:"exposeHeaders", parent: name, max: 100)
+            try validate(self.exposeHeaders, name:"exposeHeaders", parent: name, min: 0)
+            try validate(self.maxAgeSeconds, name:"maxAgeSeconds", parent: name, max: 2147483647)
+            try validate(self.maxAgeSeconds, name:"maxAgeSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -136,10 +136,10 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
-            try tags?.forEach {
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -180,9 +180,9 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -211,9 +211,9 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -242,9 +242,9 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -273,9 +273,9 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -304,9 +304,9 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -344,9 +344,9 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -384,9 +384,9 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -424,9 +424,9 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -468,11 +468,11 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 1024)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, pattern: "[0-9A-Za-z=/+]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[0-9A-Za-z=/+]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -516,9 +516,9 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(resource, name:"resource", parent: name, max: 1024)
-            try validate(resource, name:"resource", parent: name, min: 1)
-            try validate(resource, name:"resource", parent: name, pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
+            try validate(self.resource, name:"resource", parent: name, max: 1024)
+            try validate(self.resource, name:"resource", parent: name, min: 1)
+            try validate(self.resource, name:"resource", parent: name, pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -568,12 +568,12 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
-            try validate(policy, name:"policy", parent: name, max: 8192)
-            try validate(policy, name:"policy", parent: name, min: 1)
-            try validate(policy, name:"policy", parent: name, pattern: "[\\x00-\\x7F]+")
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try validate(self.policy, name:"policy", parent: name, max: 8192)
+            try validate(self.policy, name:"policy", parent: name, min: 1)
+            try validate(self.policy, name:"policy", parent: name, pattern: "[\\x00-\\x7F]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -607,14 +607,14 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
-            try corsPolicy.forEach {
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try self.corsPolicy.forEach {
                 try $0.validate(name: "\(name).corsPolicy[]")
             }
-            try validate(corsPolicy, name:"corsPolicy", parent: name, max: 100)
-            try validate(corsPolicy, name:"corsPolicy", parent: name, min: 1)
+            try validate(self.corsPolicy, name:"corsPolicy", parent: name, max: 100)
+            try validate(self.corsPolicy, name:"corsPolicy", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -648,12 +648,12 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
-            try validate(lifecyclePolicy, name:"lifecyclePolicy", parent: name, max: 8192)
-            try validate(lifecyclePolicy, name:"lifecyclePolicy", parent: name, min: 0)
-            try validate(lifecyclePolicy, name:"lifecyclePolicy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try validate(self.lifecyclePolicy, name:"lifecyclePolicy", parent: name, max: 8192)
+            try validate(self.lifecyclePolicy, name:"lifecyclePolicy", parent: name, min: 0)
+            try validate(self.lifecyclePolicy, name:"lifecyclePolicy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -683,9 +683,9 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -714,9 +714,9 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(containerName, name:"containerName", parent: name, max: 255)
-            try validate(containerName, name:"containerName", parent: name, min: 1)
-            try validate(containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
+            try validate(self.containerName, name:"containerName", parent: name, max: 255)
+            try validate(self.containerName, name:"containerName", parent: name, min: 1)
+            try validate(self.containerName, name:"containerName", parent: name, pattern: "[\\w-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -749,10 +749,10 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(value, name:"value", parent: name, max: 256)
-            try validate(value, name:"value", parent: name, min: 0)
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -778,10 +778,10 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(resource, name:"resource", parent: name, max: 1024)
-            try validate(resource, name:"resource", parent: name, min: 1)
-            try validate(resource, name:"resource", parent: name, pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
-            try tags.forEach {
+            try validate(self.resource, name:"resource", parent: name, max: 1024)
+            try validate(self.resource, name:"resource", parent: name, min: 1)
+            try validate(self.resource, name:"resource", parent: name, pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
+            try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -817,10 +817,10 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
-            try validate(resource, name:"resource", parent: name, max: 1024)
-            try validate(resource, name:"resource", parent: name, min: 1)
-            try validate(resource, name:"resource", parent: name, pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
-            try tagKeys.forEach {
+            try validate(self.resource, name:"resource", parent: name, max: 1024)
+            try validate(self.resource, name:"resource", parent: name, min: 1)
+            try validate(self.resource, name:"resource", parent: name, pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }

@@ -88,10 +88,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try tags.forEach {
+            try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 1000)
+            try validate(self.tags, name:"tags", parent: name, max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -365,7 +365,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(value, name:"value", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -456,7 +456,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(value, name:"value", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -489,7 +489,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(value, name:"value", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -568,9 +568,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(additionalInfo, name:"additionalInfo", parent: name, max: 1024)
-            try validate(message, name:"message", parent: name, max: 1024)
-            try validate(message, name:"message", parent: name, min: 1)
+            try validate(self.additionalInfo, name:"additionalInfo", parent: name, max: 1024)
+            try validate(self.message, name:"message", parent: name, max: 1024)
+            try validate(self.message, name:"message", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -741,12 +741,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try values?.forEach {
+            try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 1024)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try validate(values, name:"values", parent: name, max: 1)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 1)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -914,12 +914,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try values.forEach {
+            try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 150)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try validate(values, name:"values", parent: name, max: 10)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 10)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1097,13 +1097,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(commandId, name:"commandId", parent: name, max: 36)
-            try validate(commandId, name:"commandId", parent: name, min: 36)
-            try instanceIds?.forEach {
+            try validate(self.commandId, name:"commandId", parent: name, max: 36)
+            try validate(self.commandId, name:"commandId", parent: name, min: 36)
+            try self.instanceIds?.forEach {
                 try validate($0, name: "instanceIds[]", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
             }
-            try validate(instanceIds, name:"instanceIds", parent: name, max: 50)
-            try validate(instanceIds, name:"instanceIds", parent: name, min: 0)
+            try validate(self.instanceIds, name:"instanceIds", parent: name, max: 50)
+            try validate(self.instanceIds, name:"instanceIds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1133,9 +1133,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, max: 36)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, min: 36)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1177,9 +1177,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(cloudWatchLogGroupName, name:"cloudWatchLogGroupName", parent: name, max: 512)
-            try validate(cloudWatchLogGroupName, name:"cloudWatchLogGroupName", parent: name, min: 1)
-            try validate(cloudWatchLogGroupName, name:"cloudWatchLogGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try validate(self.cloudWatchLogGroupName, name:"cloudWatchLogGroupName", parent: name, max: 512)
+            try validate(self.cloudWatchLogGroupName, name:"cloudWatchLogGroupName", parent: name, min: 1)
+            try validate(self.cloudWatchLogGroupName, name:"cloudWatchLogGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1332,8 +1332,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(value, name:"value", parent: name, max: 128)
-            try validate(value, name:"value", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 128)
+            try validate(self.value, name:"value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1568,8 +1568,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(executionId, name:"executionId", parent: name, max: 100)
-            try validate(executionType, name:"executionType", parent: name, max: 50)
+            try validate(self.executionId, name:"executionId", parent: name, max: 100)
+            try validate(self.executionType, name:"executionType", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1665,15 +1665,15 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try details?.forEach {
+            try self.details?.forEach {
                 try validate($0.key, name:"details.key", parent: name, max: 64)
                 try validate($0.key, name:"details.key", parent: name, min: 1)
                 try validate($0.value, name:"details[\"\($0.key)\"]", parent: name, max: 4096)
                 try validate($0.value, name:"details[\"\($0.key)\"]", parent: name, min: 0)
             }
-            try validate(id, name:"id", parent: name, max: 100)
-            try validate(id, name:"id", parent: name, min: 1)
-            try validate(title, name:"title", parent: name, max: 500)
+            try validate(self.id, name:"id", parent: name, max: 100)
+            try validate(self.id, name:"id", parent: name, min: 1)
+            try validate(self.title, name:"title", parent: name, max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1731,10 +1731,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 200)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(values, name:"values", parent: name, max: 20)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, max: 200)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 20)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1832,18 +1832,18 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(defaultInstanceName, name:"defaultInstanceName", parent: name, max: 256)
-            try validate(defaultInstanceName, name:"defaultInstanceName", parent: name, min: 0)
-            try validate(defaultInstanceName, name:"defaultInstanceName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(iamRole, name:"iamRole", parent: name, max: 64)
-            try validate(registrationLimit, name:"registrationLimit", parent: name, max: 1000)
-            try validate(registrationLimit, name:"registrationLimit", parent: name, min: 1)
-            try tags?.forEach {
+            try validate(self.defaultInstanceName, name:"defaultInstanceName", parent: name, max: 256)
+            try validate(self.defaultInstanceName, name:"defaultInstanceName", parent: name, min: 0)
+            try validate(self.defaultInstanceName, name:"defaultInstanceName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.iamRole, name:"iamRole", parent: name, max: 64)
+            try validate(self.registrationLimit, name:"registrationLimit", parent: name, max: 1000)
+            try validate(self.registrationLimit, name:"registrationLimit", parent: name, min: 1)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 1000)
+            try validate(self.tags, name:"tags", parent: name, max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1891,10 +1891,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try entries.forEach {
+            try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
-            try validate(entries, name:"entries", parent: name, min: 1)
+            try validate(self.entries, name:"entries", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1959,26 +1959,26 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(associationName, name:"associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(automationTargetParameterName, name:"automationTargetParameterName", parent: name, max: 50)
-            try validate(automationTargetParameterName, name:"automationTargetParameterName", parent: name, min: 1)
-            try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", parent: name, max: 7)
-            try validate(maxErrors, name:"maxErrors", parent: name, min: 1)
-            try validate(maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try outputLocation?.validate(name: "\(name).outputLocation")
-            try validate(scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
-            try validate(scheduleExpression, name:"scheduleExpression", parent: name, min: 1)
-            try targets?.forEach {
+            try validate(self.associationName, name:"associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.automationTargetParameterName, name:"automationTargetParameterName", parent: name, max: 50)
+            try validate(self.automationTargetParameterName, name:"automationTargetParameterName", parent: name, min: 1)
+            try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try validate(self.maxErrors, name:"maxErrors", parent: name, max: 7)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, min: 1)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.outputLocation?.validate(name: "\(name).outputLocation")
+            try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
+            try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, min: 1)
+            try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try validate(targets, name:"targets", parent: name, max: 5)
-            try validate(targets, name:"targets", parent: name, min: 0)
+            try validate(self.targets, name:"targets", parent: name, max: 5)
+            try validate(self.targets, name:"targets", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2076,26 +2076,26 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(associationName, name:"associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(automationTargetParameterName, name:"automationTargetParameterName", parent: name, max: 50)
-            try validate(automationTargetParameterName, name:"automationTargetParameterName", parent: name, min: 1)
-            try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", parent: name, max: 7)
-            try validate(maxErrors, name:"maxErrors", parent: name, min: 1)
-            try validate(maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try outputLocation?.validate(name: "\(name).outputLocation")
-            try validate(scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
-            try validate(scheduleExpression, name:"scheduleExpression", parent: name, min: 1)
-            try targets?.forEach {
+            try validate(self.associationName, name:"associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.automationTargetParameterName, name:"automationTargetParameterName", parent: name, max: 50)
+            try validate(self.automationTargetParameterName, name:"automationTargetParameterName", parent: name, min: 1)
+            try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try validate(self.maxErrors, name:"maxErrors", parent: name, max: 7)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, min: 1)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.outputLocation?.validate(name: "\(name).outputLocation")
+            try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
+            try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, min: 1)
+            try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try validate(targets, name:"targets", parent: name, max: 5)
-            try validate(targets, name:"targets", parent: name, min: 0)
+            try validate(self.targets, name:"targets", parent: name, max: 5)
+            try validate(self.targets, name:"targets", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2172,20 +2172,20 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try attachments?.forEach {
+            try self.attachments?.forEach {
                 try $0.validate(name: "\(name).attachments[]")
             }
-            try validate(attachments, name:"attachments", parent: name, max: 1)
-            try validate(attachments, name:"attachments", parent: name, min: 0)
-            try validate(content, name:"content", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try tags?.forEach {
+            try validate(self.attachments, name:"attachments", parent: name, max: 1)
+            try validate(self.attachments, name:"attachments", parent: name, min: 0)
+            try validate(self.content, name:"content", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 1000)
-            try validate(targetType, name:"targetType", parent: name, max: 200)
-            try validate(targetType, name:"targetType", parent: name, pattern: "^\\/[\\w\\.\\-\\:\\/]*$")
-            try validate(versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
+            try validate(self.tags, name:"tags", parent: name, max: 1000)
+            try validate(self.targetType, name:"targetType", parent: name, max: 200)
+            try validate(self.targetType, name:"targetType", parent: name, pattern: "^\\/[\\w\\.\\-\\:\\/]*$")
+            try validate(self.versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2270,23 +2270,23 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(clientToken, name:"clientToken", parent: name, max: 64)
-            try validate(clientToken, name:"clientToken", parent: name, min: 1)
-            try validate(cutoff, name:"cutoff", parent: name, max: 23)
-            try validate(cutoff, name:"cutoff", parent: name, min: 0)
-            try validate(description, name:"description", parent: name, max: 128)
-            try validate(description, name:"description", parent: name, min: 1)
-            try validate(duration, name:"duration", parent: name, max: 24)
-            try validate(duration, name:"duration", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(schedule, name:"schedule", parent: name, max: 256)
-            try validate(schedule, name:"schedule", parent: name, min: 1)
-            try tags?.forEach {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 64)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.cutoff, name:"cutoff", parent: name, max: 23)
+            try validate(self.cutoff, name:"cutoff", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, max: 128)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.duration, name:"duration", parent: name, max: 24)
+            try validate(self.duration, name:"duration", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.schedule, name:"schedule", parent: name, max: 256)
+            try validate(self.schedule, name:"schedule", parent: name, min: 1)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 1000)
+            try validate(self.tags, name:"tags", parent: name, max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2362,22 +2362,22 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(description, name:"description", parent: name, min: 1)
-            try operationalData?.forEach {
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try self.operationalData?.forEach {
                 try validate($0.key, name:"operationalData.key", parent: name, max: 128)
                 try validate($0.key, name:"operationalData.key", parent: name, min: 1)
             }
-            try validate(priority, name:"priority", parent: name, max: 5)
-            try validate(priority, name:"priority", parent: name, min: 1)
-            try validate(source, name:"source", parent: name, max: 64)
-            try validate(source, name:"source", parent: name, min: 1)
-            try tags?.forEach {
+            try validate(self.priority, name:"priority", parent: name, max: 5)
+            try validate(self.priority, name:"priority", parent: name, min: 1)
+            try validate(self.source, name:"source", parent: name, max: 64)
+            try validate(self.source, name:"source", parent: name, min: 1)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 1000)
-            try validate(title, name:"title", parent: name, max: 1024)
-            try validate(title, name:"title", parent: name, min: 1)
+            try validate(self.tags, name:"tags", parent: name, max: 1000)
+            try validate(self.title, name:"title", parent: name, max: 1024)
+            try validate(self.title, name:"title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2470,36 +2470,36 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try approvalRules?.validate(name: "\(name).approvalRules")
-            try approvedPatches?.forEach {
+            try self.approvalRules?.validate(name: "\(name).approvalRules")
+            try self.approvedPatches?.forEach {
                 try validate($0, name: "approvedPatches[]", parent: name, max: 100)
                 try validate($0, name: "approvedPatches[]", parent: name, min: 1)
             }
-            try validate(approvedPatches, name:"approvedPatches", parent: name, max: 50)
-            try validate(approvedPatches, name:"approvedPatches", parent: name, min: 0)
-            try validate(clientToken, name:"clientToken", parent: name, max: 64)
-            try validate(clientToken, name:"clientToken", parent: name, min: 1)
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(description, name:"description", parent: name, min: 1)
-            try globalFilters?.validate(name: "\(name).globalFilters")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try rejectedPatches?.forEach {
+            try validate(self.approvedPatches, name:"approvedPatches", parent: name, max: 50)
+            try validate(self.approvedPatches, name:"approvedPatches", parent: name, min: 0)
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 64)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try self.globalFilters?.validate(name: "\(name).globalFilters")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.rejectedPatches?.forEach {
                 try validate($0, name: "rejectedPatches[]", parent: name, max: 100)
                 try validate($0, name: "rejectedPatches[]", parent: name, min: 1)
             }
-            try validate(rejectedPatches, name:"rejectedPatches", parent: name, max: 50)
-            try validate(rejectedPatches, name:"rejectedPatches", parent: name, min: 0)
-            try sources?.forEach {
+            try validate(self.rejectedPatches, name:"rejectedPatches", parent: name, max: 50)
+            try validate(self.rejectedPatches, name:"rejectedPatches", parent: name, min: 0)
+            try self.sources?.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
-            try validate(sources, name:"sources", parent: name, max: 20)
-            try validate(sources, name:"sources", parent: name, min: 0)
-            try tags?.forEach {
+            try validate(self.sources, name:"sources", parent: name, max: 20)
+            try validate(self.sources, name:"sources", parent: name, min: 0)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 1000)
+            try validate(self.tags, name:"tags", parent: name, max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2553,9 +2553,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try s3Destination.validate(name: "\(name).s3Destination")
-            try validate(syncName, name:"syncName", parent: name, max: 64)
-            try validate(syncName, name:"syncName", parent: name, min: 1)
+            try self.s3Destination.validate(name: "\(name).s3Destination")
+            try validate(self.syncName, name:"syncName", parent: name, max: 64)
+            try validate(self.syncName, name:"syncName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2585,7 +2585,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(activationId, name:"activationId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try validate(self.activationId, name:"activationId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2622,9 +2622,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2663,9 +2663,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
+            try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2708,11 +2708,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(clientToken, name:"clientToken", parent: name, max: 64)
-            try validate(clientToken, name:"clientToken", parent: name, min: 1)
-            try validate(typeName, name:"typeName", parent: name, max: 100)
-            try validate(typeName, name:"typeName", parent: name, min: 1)
-            try validate(typeName, name:"typeName", parent: name, pattern: "^(AWS|Custom):.*$")
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 64)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, max: 100)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, pattern: "^(AWS|Custom):.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2763,9 +2763,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2803,8 +2803,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 2048)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2833,12 +2833,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try names.forEach {
+            try self.names.forEach {
                 try validate($0, name: "names[]", parent: name, max: 2048)
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
-            try validate(names, name:"names", parent: name, max: 10)
-            try validate(names, name:"names", parent: name, min: 1)
+            try validate(self.names, name:"names", parent: name, max: 10)
+            try validate(self.names, name:"names", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2881,9 +2881,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(baselineId, name:"baselineId", parent: name, max: 128)
-            try validate(baselineId, name:"baselineId", parent: name, min: 20)
-            try validate(baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
+            try validate(self.baselineId, name:"baselineId", parent: name, max: 128)
+            try validate(self.baselineId, name:"baselineId", parent: name, min: 20)
+            try validate(self.baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2921,8 +2921,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(syncName, name:"syncName", parent: name, max: 64)
-            try validate(syncName, name:"syncName", parent: name, min: 1)
+            try validate(self.syncName, name:"syncName", parent: name, max: 64)
+            try validate(self.syncName, name:"syncName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2951,7 +2951,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "^mi-[0-9a-f]{17}$")
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "^mi-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2984,12 +2984,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(baselineId, name:"baselineId", parent: name, max: 128)
-            try validate(baselineId, name:"baselineId", parent: name, min: 20)
-            try validate(baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-            try validate(patchGroup, name:"patchGroup", parent: name, max: 256)
-            try validate(patchGroup, name:"patchGroup", parent: name, min: 1)
-            try validate(patchGroup, name:"patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.baselineId, name:"baselineId", parent: name, max: 128)
+            try validate(self.baselineId, name:"baselineId", parent: name, min: 20)
+            try validate(self.baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
+            try validate(self.patchGroup, name:"patchGroup", parent: name, max: 256)
+            try validate(self.patchGroup, name:"patchGroup", parent: name, min: 1)
+            try validate(self.patchGroup, name:"patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3041,12 +3041,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
-            try validate(windowTargetId, name:"windowTargetId", parent: name, max: 36)
-            try validate(windowTargetId, name:"windowTargetId", parent: name, min: 36)
-            try validate(windowTargetId, name:"windowTargetId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.windowTargetId, name:"windowTargetId", parent: name, max: 36)
+            try validate(self.windowTargetId, name:"windowTargetId", parent: name, min: 36)
+            try validate(self.windowTargetId, name:"windowTargetId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3095,12 +3095,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
-            try validate(windowTaskId, name:"windowTaskId", parent: name, max: 36)
-            try validate(windowTaskId, name:"windowTaskId", parent: name, min: 36)
-            try validate(windowTaskId, name:"windowTaskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.windowTaskId, name:"windowTaskId", parent: name, max: 36)
+            try validate(self.windowTaskId, name:"windowTaskId", parent: name, min: 36)
+            try validate(self.windowTaskId, name:"windowTaskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3181,8 +3181,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3243,14 +3243,14 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try validate(executionId, name:"executionId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try filters?.forEach {
+            try validate(self.associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try validate(self.executionId, name:"executionId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3309,13 +3309,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try filters?.forEach {
+            try validate(self.associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3373,10 +3373,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try validate(associationVersion, name:"associationVersion", parent: name, pattern: "([$]LATEST)|([1-9][0-9]*)")
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try validate(self.associationVersion, name:"associationVersion", parent: name, pattern: "([$]LATEST)|([1-9][0-9]*)")
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3425,13 +3425,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 10)
-            try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, max: 10)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3492,15 +3492,15 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(automationExecutionId, name:"automationExecutionId", parent: name, max: 36)
-            try validate(automationExecutionId, name:"automationExecutionId", parent: name, min: 36)
-            try filters?.forEach {
+            try validate(self.automationExecutionId, name:"automationExecutionId", parent: name, max: 36)
+            try validate(self.automationExecutionId, name:"automationExecutionId", parent: name, min: 36)
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 6)
-            try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, max: 6)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3555,13 +3555,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3610,7 +3610,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3657,9 +3657,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try validate(versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
+            try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3707,9 +3707,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(maxResults, name:"maxResults", parent: name, max: 5)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 5)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3762,11 +3762,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(baselineId, name:"baselineId", parent: name, max: 128)
-            try validate(baselineId, name:"baselineId", parent: name, min: 20)
-            try validate(baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.baselineId, name:"baselineId", parent: name, max: 128)
+            try validate(self.baselineId, name:"baselineId", parent: name, min: 20)
+            try validate(self.baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3819,9 +3819,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3878,16 +3878,16 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try instanceInformationFilterList?.forEach {
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try self.instanceInformationFilterList?.forEach {
                 try $0.validate(name: "\(name).instanceInformationFilterList[]")
             }
-            try validate(instanceInformationFilterList, name:"instanceInformationFilterList", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 5)
+            try validate(self.instanceInformationFilterList, name:"instanceInformationFilterList", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3945,16 +3945,16 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 4)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(patchGroup, name:"patchGroup", parent: name, max: 256)
-            try validate(patchGroup, name:"patchGroup", parent: name, min: 1)
-            try validate(patchGroup, name:"patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.filters, name:"filters", parent: name, max: 4)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.patchGroup, name:"patchGroup", parent: name, max: 256)
+            try validate(self.patchGroup, name:"patchGroup", parent: name, min: 1)
+            try validate(self.patchGroup, name:"patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4008,13 +4008,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try instanceIds.forEach {
+            try self.instanceIds.forEach {
                 try validate($0, name: "instanceIds[]", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
             }
-            try validate(instanceIds, name:"instanceIds", parent: name, max: 50)
-            try validate(instanceIds, name:"instanceIds", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.instanceIds, name:"instanceIds", parent: name, max: 50)
+            try validate(self.instanceIds, name:"instanceIds", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4071,14 +4071,14 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4132,8 +4132,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4194,19 +4194,19 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(taskId, name:"taskId", parent: name, max: 36)
-            try validate(taskId, name:"taskId", parent: name, min: 36)
-            try validate(taskId, name:"taskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.taskId, name:"taskId", parent: name, max: 36)
+            try validate(self.taskId, name:"taskId", parent: name, min: 36)
+            try validate(self.taskId, name:"taskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, max: 36)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, min: 36)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4265,16 +4265,16 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, max: 36)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, min: 36)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4332,16 +4332,16 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4407,20 +4407,20 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try targets?.forEach {
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try validate(targets, name:"targets", parent: name, max: 5)
-            try validate(targets, name:"targets", parent: name, min: 0)
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.targets, name:"targets", parent: name, max: 5)
+            try validate(self.targets, name:"targets", parent: name, min: 0)
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4480,16 +4480,16 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4547,16 +4547,16 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4614,12 +4614,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try targets.forEach {
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.targets.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try validate(targets, name:"targets", parent: name, max: 5)
-            try validate(targets, name:"targets", parent: name, min: 0)
+            try validate(self.targets, name:"targets", parent: name, max: 5)
+            try validate(self.targets, name:"targets", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4673,13 +4673,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 10)
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4732,8 +4732,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4790,12 +4790,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try parameterFilters?.forEach {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.parameterFilters?.forEach {
                 try $0.validate(name: "\(name).parameterFilters[]")
             }
         }
@@ -4851,13 +4851,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4902,9 +4902,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(patchGroup, name:"patchGroup", parent: name, max: 256)
-            try validate(patchGroup, name:"patchGroup", parent: name, min: 1)
-            try validate(patchGroup, name:"patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.patchGroup, name:"patchGroup", parent: name, max: 256)
+            try validate(self.patchGroup, name:"patchGroup", parent: name, min: 1)
+            try validate(self.patchGroup, name:"patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4985,13 +4985,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5052,8 +5052,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5112,13 +5112,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(maxResults, name:"maxResults", parent: name, max: 200)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 200)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5312,7 +5312,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(value, name:"value", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5420,9 +5420,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try values?.forEach {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
@@ -5649,8 +5649,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(automationExecutionId, name:"automationExecutionId", parent: name, max: 36)
-            try validate(automationExecutionId, name:"automationExecutionId", parent: name, min: 36)
+            try validate(self.automationExecutionId, name:"automationExecutionId", parent: name, max: 36)
+            try validate(self.automationExecutionId, name:"automationExecutionId", parent: name, min: 36)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5696,10 +5696,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(commandId, name:"commandId", parent: name, max: 36)
-            try validate(commandId, name:"commandId", parent: name, min: 36)
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(pluginName, name:"pluginName", parent: name, min: 4)
+            try validate(self.commandId, name:"commandId", parent: name, max: 36)
+            try validate(self.commandId, name:"commandId", parent: name, min: 36)
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.pluginName, name:"pluginName", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5819,8 +5819,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(target, name:"target", parent: name, max: 50)
-            try validate(target, name:"target", parent: name, min: 1)
+            try validate(self.target, name:"target", parent: name, max: 50)
+            try validate(self.target, name:"target", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5906,10 +5906,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(snapshotId, name:"snapshotId", parent: name, max: 36)
-            try validate(snapshotId, name:"snapshotId", parent: name, min: 36)
-            try validate(snapshotId, name:"snapshotId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.snapshotId, name:"snapshotId", parent: name, max: 36)
+            try validate(self.snapshotId, name:"snapshotId", parent: name, min: 36)
+            try validate(self.snapshotId, name:"snapshotId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5975,9 +5975,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try validate(versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
+            try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6074,23 +6074,23 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try aggregators?.forEach {
+            try self.aggregators?.forEach {
                 try $0.validate(name: "\(name).aggregators[]")
             }
-            try validate(aggregators, name:"aggregators", parent: name, max: 10)
-            try validate(aggregators, name:"aggregators", parent: name, min: 1)
-            try filters?.forEach {
+            try validate(self.aggregators, name:"aggregators", parent: name, max: 10)
+            try validate(self.aggregators, name:"aggregators", parent: name, min: 1)
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try resultAttributes?.forEach {
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.resultAttributes?.forEach {
                 try $0.validate(name: "\(name).resultAttributes[]")
             }
-            try validate(resultAttributes, name:"resultAttributes", parent: name, max: 1)
-            try validate(resultAttributes, name:"resultAttributes", parent: name, min: 1)
+            try validate(self.resultAttributes, name:"resultAttributes", parent: name, max: 1)
+            try validate(self.resultAttributes, name:"resultAttributes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6153,10 +6153,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 200)
-            try validate(maxResults, name:"maxResults", parent: name, min: 50)
-            try validate(typeName, name:"typeName", parent: name, max: 100)
-            try validate(typeName, name:"typeName", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 200)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 50)
+            try validate(self.typeName, name:"typeName", parent: name, max: 100)
+            try validate(self.typeName, name:"typeName", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6203,9 +6203,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, max: 36)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, min: 36)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6276,15 +6276,15 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(invocationId, name:"invocationId", parent: name, max: 36)
-            try validate(invocationId, name:"invocationId", parent: name, min: 36)
-            try validate(invocationId, name:"invocationId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(taskId, name:"taskId", parent: name, max: 36)
-            try validate(taskId, name:"taskId", parent: name, min: 36)
-            try validate(taskId, name:"taskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.invocationId, name:"invocationId", parent: name, max: 36)
+            try validate(self.invocationId, name:"invocationId", parent: name, min: 36)
+            try validate(self.invocationId, name:"invocationId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.taskId, name:"taskId", parent: name, max: 36)
+            try validate(self.taskId, name:"taskId", parent: name, min: 36)
+            try validate(self.taskId, name:"taskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, max: 36)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, min: 36)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6383,12 +6383,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(taskId, name:"taskId", parent: name, max: 36)
-            try validate(taskId, name:"taskId", parent: name, min: 36)
-            try validate(taskId, name:"taskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, max: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, min: 36)
-            try validate(windowExecutionId, name:"windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.taskId, name:"taskId", parent: name, max: 36)
+            try validate(self.taskId, name:"taskId", parent: name, min: 36)
+            try validate(self.taskId, name:"taskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, max: 36)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, min: 36)
+            try validate(self.windowExecutionId, name:"windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6487,9 +6487,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6596,12 +6596,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
-            try validate(windowTaskId, name:"windowTaskId", parent: name, max: 36)
-            try validate(windowTaskId, name:"windowTaskId", parent: name, min: 36)
-            try validate(windowTaskId, name:"windowTaskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.windowTaskId, name:"windowTaskId", parent: name, max: 36)
+            try validate(self.windowTaskId, name:"windowTaskId", parent: name, min: 36)
+            try validate(self.windowTaskId, name:"windowTaskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6705,7 +6705,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(opsItemId, name:"opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
+            try validate(self.opsItemId, name:"opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6755,18 +6755,18 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try aggregators.forEach {
+            try self.aggregators.forEach {
                 try $0.validate(name: "\(name).aggregators[]")
             }
-            try validate(aggregators, name:"aggregators", parent: name, max: 12)
-            try validate(aggregators, name:"aggregators", parent: name, min: 1)
-            try filters?.forEach {
+            try validate(self.aggregators, name:"aggregators", parent: name, max: 12)
+            try validate(self.aggregators, name:"aggregators", parent: name, min: 1)
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6824,10 +6824,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 2048)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6877,8 +6877,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 2048)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6937,13 +6937,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 10)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try parameterFilters?.forEach {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 10)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.parameterFilters?.forEach {
                 try $0.validate(name: "\(name).parameterFilters[]")
             }
-            try validate(path, name:"path", parent: name, max: 2048)
-            try validate(path, name:"path", parent: name, min: 1)
+            try validate(self.path, name:"path", parent: name, max: 2048)
+            try validate(self.path, name:"path", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6995,12 +6995,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try names.forEach {
+            try self.names.forEach {
                 try validate($0, name: "names[]", parent: name, max: 2048)
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
-            try validate(names, name:"names", parent: name, max: 10)
-            try validate(names, name:"names", parent: name, min: 1)
+            try validate(self.names, name:"names", parent: name, max: 10)
+            try validate(self.names, name:"names", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7048,9 +7048,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(patchGroup, name:"patchGroup", parent: name, max: 256)
-            try validate(patchGroup, name:"patchGroup", parent: name, min: 1)
-            try validate(patchGroup, name:"patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.patchGroup, name:"patchGroup", parent: name, max: 256)
+            try validate(self.patchGroup, name:"patchGroup", parent: name, min: 1)
+            try validate(self.patchGroup, name:"patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7099,9 +7099,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(baselineId, name:"baselineId", parent: name, max: 128)
-            try validate(baselineId, name:"baselineId", parent: name, min: 20)
-            try validate(baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
+            try validate(self.baselineId, name:"baselineId", parent: name, max: 128)
+            try validate(self.baselineId, name:"baselineId", parent: name, min: 20)
+            try validate(self.baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7209,8 +7209,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(settingId, name:"settingId", parent: name, max: 1000)
-            try validate(settingId, name:"settingId", parent: name, min: 1)
+            try validate(self.settingId, name:"settingId", parent: name, max: 1000)
+            try validate(self.settingId, name:"settingId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7302,7 +7302,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try s3Location?.validate(name: "\(name).s3Location")
+            try self.s3Location?.validate(name: "\(name).s3Location")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7523,11 +7523,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try valueSet.forEach {
+            try self.valueSet.forEach {
                 try validate($0, name: "valueSet[]", parent: name, min: 1)
             }
-            try validate(valueSet, name:"valueSet", parent: name, max: 100)
-            try validate(valueSet, name:"valueSet", parent: name, min: 1)
+            try validate(self.valueSet, name:"valueSet", parent: name, max: 100)
+            try validate(self.valueSet, name:"valueSet", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7565,12 +7565,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, min: 1)
-            try values.forEach {
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try validate(values, name:"values", parent: name, max: 100)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 100)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7692,10 +7692,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 200)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(values, name:"values", parent: name, max: 1)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, max: 200)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 1)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7734,18 +7734,18 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try aggregators?.forEach {
+            try self.aggregators?.forEach {
                 try $0.validate(name: "\(name).aggregators[]")
             }
-            try validate(aggregators, name:"aggregators", parent: name, max: 10)
-            try validate(aggregators, name:"aggregators", parent: name, min: 1)
-            try validate(expression, name:"expression", parent: name, max: 1000)
-            try validate(expression, name:"expression", parent: name, min: 1)
-            try groups?.forEach {
+            try validate(self.aggregators, name:"aggregators", parent: name, max: 10)
+            try validate(self.aggregators, name:"aggregators", parent: name, min: 1)
+            try validate(self.expression, name:"expression", parent: name, max: 1000)
+            try validate(self.expression, name:"expression", parent: name, min: 1)
+            try self.groups?.forEach {
                 try $0.validate(name: "\(name).groups[]")
             }
-            try validate(groups, name:"groups", parent: name, max: 10)
-            try validate(groups, name:"groups", parent: name, min: 1)
+            try validate(self.groups, name:"groups", parent: name, max: 10)
+            try validate(self.groups, name:"groups", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7889,10 +7889,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 200)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(values, name:"values", parent: name, max: 40)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, max: 200)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 40)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7919,13 +7919,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters.forEach {
+            try self.filters.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 200)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 200)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7967,20 +7967,20 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(captureTime, name:"captureTime", parent: name, pattern: "^(20)[0-9][0-9]-(0[1-9]|1[012])-([12][0-9]|3[01]|0[1-9])(T)(2[0-3]|[0-1][0-9])(:[0-5][0-9])(:[0-5][0-9])(Z)$")
-            try validate(content, name:"content", parent: name, max: 10000)
-            try validate(content, name:"content", parent: name, min: 0)
-            try validate(contentHash, name:"contentHash", parent: name, max: 256)
-            try context?.forEach {
+            try validate(self.captureTime, name:"captureTime", parent: name, pattern: "^(20)[0-9][0-9]-(0[1-9]|1[012])-([12][0-9]|3[01]|0[1-9])(T)(2[0-3]|[0-1][0-9])(:[0-5][0-9])(:[0-5][0-9])(Z)$")
+            try validate(self.content, name:"content", parent: name, max: 10000)
+            try validate(self.content, name:"content", parent: name, min: 0)
+            try validate(self.contentHash, name:"contentHash", parent: name, max: 256)
+            try self.context?.forEach {
                 try validate($0.key, name:"context.key", parent: name, max: 64)
                 try validate($0.key, name:"context.key", parent: name, min: 1)
                 try validate($0.value, name:"context[\"\($0.key)\"]", parent: name, max: 4096)
                 try validate($0.value, name:"context[\"\($0.key)\"]", parent: name, min: 0)
             }
-            try validate(schemaVersion, name:"schemaVersion", parent: name, pattern: "^([0-9]{1,6})(\\.[0-9]{1,6})$")
-            try validate(typeName, name:"typeName", parent: name, max: 100)
-            try validate(typeName, name:"typeName", parent: name, min: 1)
-            try validate(typeName, name:"typeName", parent: name, pattern: "^(AWS|Custom):.*$")
+            try validate(self.schemaVersion, name:"schemaVersion", parent: name, pattern: "^([0-9]{1,6})(\\.[0-9]{1,6})$")
+            try validate(self.typeName, name:"typeName", parent: name, max: 100)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, pattern: "^(AWS|Custom):.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8143,14 +8143,14 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try labels.forEach {
+            try self.labels.forEach {
                 try validate($0, name: "labels[]", parent: name, max: 100)
                 try validate($0, name: "labels[]", parent: name, min: 1)
             }
-            try validate(labels, name:"labels", parent: name, max: 10)
-            try validate(labels, name:"labels", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 2048)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.labels, name:"labels", parent: name, max: 10)
+            try validate(self.labels, name:"labels", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8205,9 +8205,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8260,12 +8260,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try associationFilterList?.forEach {
+            try self.associationFilterList?.forEach {
                 try $0.validate(name: "\(name).associationFilterList[]")
             }
-            try validate(associationFilterList, name:"associationFilterList", parent: name, min: 1)
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.associationFilterList, name:"associationFilterList", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8330,16 +8330,16 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(commandId, name:"commandId", parent: name, max: 36)
-            try validate(commandId, name:"commandId", parent: name, min: 36)
-            try filters?.forEach {
+            try validate(self.commandId, name:"commandId", parent: name, max: 36)
+            try validate(self.commandId, name:"commandId", parent: name, min: 36)
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8403,16 +8403,16 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(commandId, name:"commandId", parent: name, max: 36)
-            try validate(commandId, name:"commandId", parent: name, min: 36)
-            try filters?.forEach {
+            try validate(self.commandId, name:"commandId", parent: name, max: 36)
+            try validate(self.commandId, name:"commandId", parent: name, min: 36)
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8475,21 +8475,21 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try resourceIds?.forEach {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.resourceIds?.forEach {
                 try validate($0, name: "resourceIds[]", parent: name, max: 100)
                 try validate($0, name: "resourceIds[]", parent: name, min: 1)
             }
-            try validate(resourceIds, name:"resourceIds", parent: name, min: 1)
-            try resourceTypes?.forEach {
+            try validate(self.resourceIds, name:"resourceIds", parent: name, min: 1)
+            try self.resourceTypes?.forEach {
                 try validate($0, name: "resourceTypes[]", parent: name, max: 50)
                 try validate($0, name: "resourceTypes[]", parent: name, min: 1)
             }
-            try validate(resourceTypes, name:"resourceTypes", parent: name, min: 1)
+            try validate(self.resourceTypes, name:"resourceTypes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8544,11 +8544,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8601,9 +8601,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8660,17 +8660,17 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try documentFilterList?.forEach {
+            try self.documentFilterList?.forEach {
                 try $0.validate(name: "\(name).documentFilterList[]")
             }
-            try validate(documentFilterList, name:"documentFilterList", parent: name, min: 1)
-            try filters?.forEach {
+            try validate(self.documentFilterList, name:"documentFilterList", parent: name, min: 1)
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 6)
-            try validate(filters, name:"filters", parent: name, min: 0)
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.filters, name:"filters", parent: name, max: 6)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8732,17 +8732,17 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(typeName, name:"typeName", parent: name, max: 100)
-            try validate(typeName, name:"typeName", parent: name, min: 1)
-            try validate(typeName, name:"typeName", parent: name, pattern: "^(AWS|Custom):.*$")
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, max: 100)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, pattern: "^(AWS|Custom):.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8817,11 +8817,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8870,8 +8870,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 50)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8962,11 +8962,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(s3BucketName, name:"s3BucketName", parent: name, max: 63)
-            try validate(s3BucketName, name:"s3BucketName", parent: name, min: 3)
-            try validate(s3KeyPrefix, name:"s3KeyPrefix", parent: name, max: 500)
-            try validate(s3Region, name:"s3Region", parent: name, max: 20)
-            try validate(s3Region, name:"s3Region", parent: name, min: 3)
+            try validate(self.s3BucketName, name:"s3BucketName", parent: name, max: 63)
+            try validate(self.s3BucketName, name:"s3BucketName", parent: name, min: 3)
+            try validate(self.s3KeyPrefix, name:"s3KeyPrefix", parent: name, max: 500)
+            try validate(self.s3Region, name:"s3Region", parent: name, max: 20)
+            try validate(self.s3Region, name:"s3Region", parent: name, min: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8993,8 +8993,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try parameters?.forEach {
+            try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.parameters?.forEach {
                 try validate($0.key, name:"parameters.key", parent: name, max: 50)
                 try validate($0.key, name:"parameters.key", parent: name, min: 1)
                 try validate($0.value, name:"parameters[\"\($0.key)\"]", parent: name, max: 10)
@@ -9203,9 +9203,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try values?.forEach {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
@@ -9327,11 +9327,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(clientContext, name:"clientContext", parent: name, max: 8000)
-            try validate(clientContext, name:"clientContext", parent: name, min: 1)
-            try validate(payload, name:"payload", parent: name, max: 4096)
-            try validate(qualifier, name:"qualifier", parent: name, max: 128)
-            try validate(qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.clientContext, name:"clientContext", parent: name, max: 8000)
+            try validate(self.clientContext, name:"clientContext", parent: name, min: 1)
+            try validate(self.payload, name:"payload", parent: name, max: 4096)
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9391,13 +9391,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(comment, name:"comment", parent: name, max: 100)
-            try validate(documentHash, name:"documentHash", parent: name, max: 256)
-            try validate(outputS3BucketName, name:"outputS3BucketName", parent: name, max: 63)
-            try validate(outputS3BucketName, name:"outputS3BucketName", parent: name, min: 3)
-            try validate(outputS3KeyPrefix, name:"outputS3KeyPrefix", parent: name, max: 500)
-            try validate(timeoutSeconds, name:"timeoutSeconds", parent: name, max: 2592000)
-            try validate(timeoutSeconds, name:"timeoutSeconds", parent: name, min: 30)
+            try validate(self.comment, name:"comment", parent: name, max: 100)
+            try validate(self.documentHash, name:"documentHash", parent: name, max: 256)
+            try validate(self.outputS3BucketName, name:"outputS3BucketName", parent: name, max: 63)
+            try validate(self.outputS3BucketName, name:"outputS3BucketName", parent: name, min: 3)
+            try validate(self.outputS3KeyPrefix, name:"outputS3KeyPrefix", parent: name, max: 500)
+            try validate(self.timeoutSeconds, name:"timeoutSeconds", parent: name, max: 2592000)
+            try validate(self.timeoutSeconds, name:"timeoutSeconds", parent: name, min: 30)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9430,9 +9430,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(input, name:"input", parent: name, max: 4096)
-            try validate(name, name:"name", parent: name, max: 80)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.input, name:"input", parent: name, max: 4096)
+            try validate(self.name, name:"name", parent: name, max: 80)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9590,10 +9590,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try automation?.validate(name: "\(name).automation")
-            try lambda?.validate(name: "\(name).lambda")
-            try runCommand?.validate(name: "\(name).runCommand")
-            try stepFunctions?.validate(name: "\(name).stepFunctions")
+            try self.automation?.validate(name: "\(name).automation")
+            try self.lambda?.validate(name: "\(name).lambda")
+            try self.runCommand?.validate(name: "\(name).runCommand")
+            try self.stepFunctions?.validate(name: "\(name).stepFunctions")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9617,7 +9617,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try values?.forEach {
+            try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 255)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
@@ -9661,15 +9661,15 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try accountIdsToAdd?.forEach {
+            try self.accountIdsToAdd?.forEach {
                 try validate($0, name: "accountIdsToAdd[]", parent: name, pattern: "(?i)all|[0-9]{12}")
             }
-            try validate(accountIdsToAdd, name:"accountIdsToAdd", parent: name, max: 20)
-            try accountIdsToRemove?.forEach {
+            try validate(self.accountIdsToAdd, name:"accountIdsToAdd", parent: name, max: 20)
+            try self.accountIdsToRemove?.forEach {
                 try validate($0, name: "accountIdsToRemove[]", parent: name, pattern: "(?i)all|[0-9]{12}")
             }
-            try validate(accountIdsToRemove, name:"accountIdsToRemove", parent: name, max: 20)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.accountIdsToRemove, name:"accountIdsToRemove", parent: name, max: 20)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9797,23 +9797,23 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try aggregators?.forEach {
+            try self.aggregators?.forEach {
                 try $0.validate(name: "\(name).aggregators[]")
             }
-            try validate(aggregators, name:"aggregators", parent: name, max: 12)
-            try validate(aggregators, name:"aggregators", parent: name, min: 1)
-            try validate(aggregatorType, name:"aggregatorType", parent: name, max: 20)
-            try validate(aggregatorType, name:"aggregatorType", parent: name, min: 1)
-            try validate(aggregatorType, name:"aggregatorType", parent: name, pattern: "^(range|count)")
-            try filters?.forEach {
+            try validate(self.aggregators, name:"aggregators", parent: name, max: 12)
+            try validate(self.aggregators, name:"aggregators", parent: name, min: 1)
+            try validate(self.aggregatorType, name:"aggregatorType", parent: name, max: 20)
+            try validate(self.aggregatorType, name:"aggregatorType", parent: name, min: 1)
+            try validate(self.aggregatorType, name:"aggregatorType", parent: name, pattern: "^(range|count)")
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(filters, name:"filters", parent: name, max: 5)
-            try validate(filters, name:"filters", parent: name, min: 1)
-            try validate(typeName, name:"typeName", parent: name, max: 100)
-            try validate(typeName, name:"typeName", parent: name, min: 1)
-            try validate(typeName, name:"typeName", parent: name, pattern: "^(AWS|Custom):.*$")
-            try values?.forEach {
+            try validate(self.filters, name:"filters", parent: name, max: 5)
+            try validate(self.filters, name:"filters", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, max: 100)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, pattern: "^(AWS|Custom):.*$")
+            try self.values?.forEach {
                 try validate($0.key, name:"values.key", parent: name, max: 32)
                 try validate($0.key, name:"values.key", parent: name, min: 1)
                 try validate($0.value, name:"values[\"\($0.key)\"]", parent: name, max: 512)
@@ -9891,10 +9891,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 200)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(values, name:"values", parent: name, max: 40)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, max: 200)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 40)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10418,17 +10418,17 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 132)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(key, name:"key", parent: name, pattern: "tag:.+|Name|Type|KeyId|Path|Label|Tier")
-            try validate(option, name:"option", parent: name, max: 10)
-            try validate(option, name:"option", parent: name, min: 1)
-            try values?.forEach {
+            try validate(self.key, name:"key", parent: name, max: 132)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "tag:.+|Name|Type|KeyId|Path|Label|Tier")
+            try validate(self.option, name:"option", parent: name, max: 10)
+            try validate(self.option, name:"option", parent: name, min: 1)
+            try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 1024)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try validate(values, name:"values", parent: name, max: 50)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 50)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10468,12 +10468,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try values.forEach {
+            try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 1024)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try validate(values, name:"values", parent: name, max: 50)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 50)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10696,12 +10696,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try values.forEach {
+            try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 64)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try validate(values, name:"values", parent: name, max: 20)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 20)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10723,11 +10723,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try patchFilters.forEach {
+            try self.patchFilters.forEach {
                 try $0.validate(name: "\(name).patchFilters[]")
             }
-            try validate(patchFilters, name:"patchFilters", parent: name, max: 4)
-            try validate(patchFilters, name:"patchFilters", parent: name, min: 0)
+            try validate(self.patchFilters, name:"patchFilters", parent: name, max: 4)
+            try validate(self.patchFilters, name:"patchFilters", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10793,9 +10793,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try values?.forEach {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
@@ -10842,9 +10842,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(approveAfterDays, name:"approveAfterDays", parent: name, max: 100)
-            try validate(approveAfterDays, name:"approveAfterDays", parent: name, min: 0)
-            try patchFilterGroup.validate(name: "\(name).patchFilterGroup")
+            try validate(self.approveAfterDays, name:"approveAfterDays", parent: name, max: 100)
+            try validate(self.approveAfterDays, name:"approveAfterDays", parent: name, min: 0)
+            try self.patchFilterGroup.validate(name: "\(name).patchFilterGroup")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10868,11 +10868,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try patchRules.forEach {
+            try self.patchRules.forEach {
                 try $0.validate(name: "\(name).patchRules[]")
             }
-            try validate(patchRules, name:"patchRules", parent: name, max: 10)
-            try validate(patchRules, name:"patchRules", parent: name, min: 0)
+            try validate(self.patchRules, name:"patchRules", parent: name, max: 10)
+            try validate(self.patchRules, name:"patchRules", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10907,15 +10907,15 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(configuration, name:"configuration", parent: name, max: 512)
-            try validate(configuration, name:"configuration", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,50}$")
-            try products.forEach {
+            try validate(self.configuration, name:"configuration", parent: name, max: 512)
+            try validate(self.configuration, name:"configuration", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,50}$")
+            try self.products.forEach {
                 try validate($0, name: "products[]", parent: name, max: 128)
                 try validate($0, name: "products[]", parent: name, min: 1)
             }
-            try validate(products, name:"products", parent: name, max: 20)
-            try validate(products, name:"products", parent: name, min: 1)
+            try validate(self.products, name:"products", parent: name, max: 20)
+            try validate(self.products, name:"products", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11035,20 +11035,20 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(complianceType, name:"complianceType", parent: name, max: 100)
-            try validate(complianceType, name:"complianceType", parent: name, min: 1)
-            try validate(complianceType, name:"complianceType", parent: name, pattern: "[A-Za-z0-9_\\-]\\w+|Custom:[a-zA-Z0-9_\\-]\\w+")
-            try executionSummary.validate(name: "\(name).executionSummary")
-            try validate(itemContentHash, name:"itemContentHash", parent: name, max: 256)
-            try items.forEach {
+            try validate(self.complianceType, name:"complianceType", parent: name, max: 100)
+            try validate(self.complianceType, name:"complianceType", parent: name, min: 1)
+            try validate(self.complianceType, name:"complianceType", parent: name, pattern: "[A-Za-z0-9_\\-]\\w+|Custom:[a-zA-Z0-9_\\-]\\w+")
+            try self.executionSummary.validate(name: "\(name).executionSummary")
+            try validate(self.itemContentHash, name:"itemContentHash", parent: name, max: 256)
+            try self.items.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
-            try validate(items, name:"items", parent: name, max: 10000)
-            try validate(items, name:"items", parent: name, min: 0)
-            try validate(resourceId, name:"resourceId", parent: name, max: 100)
-            try validate(resourceId, name:"resourceId", parent: name, min: 1)
-            try validate(resourceType, name:"resourceType", parent: name, max: 50)
-            try validate(resourceType, name:"resourceType", parent: name, min: 1)
+            try validate(self.items, name:"items", parent: name, max: 10000)
+            try validate(self.items, name:"items", parent: name, min: 0)
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 100)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(self.resourceType, name:"resourceType", parent: name, max: 50)
+            try validate(self.resourceType, name:"resourceType", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11086,12 +11086,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try items.forEach {
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.items.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
-            try validate(items, name:"items", parent: name, max: 30)
-            try validate(items, name:"items", parent: name, min: 1)
+            try validate(self.items, name:"items", parent: name, max: 30)
+            try validate(self.items, name:"items", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11166,21 +11166,21 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(allowedPattern, name:"allowedPattern", parent: name, max: 1024)
-            try validate(allowedPattern, name:"allowedPattern", parent: name, min: 0)
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(keyId, name:"keyId", parent: name, max: 256)
-            try validate(keyId, name:"keyId", parent: name, min: 1)
-            try validate(keyId, name:"keyId", parent: name, pattern: "^([a-zA-Z0-9:/_-]+)$")
-            try validate(name, name:"name", parent: name, max: 2048)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(policies, name:"policies", parent: name, max: 4096)
-            try validate(policies, name:"policies", parent: name, min: 1)
-            try tags?.forEach {
+            try validate(self.allowedPattern, name:"allowedPattern", parent: name, max: 1024)
+            try validate(self.allowedPattern, name:"allowedPattern", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.keyId, name:"keyId", parent: name, max: 256)
+            try validate(self.keyId, name:"keyId", parent: name, min: 1)
+            try validate(self.keyId, name:"keyId", parent: name, pattern: "^([a-zA-Z0-9:/_-]+)$")
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.policies, name:"policies", parent: name, max: 4096)
+            try validate(self.policies, name:"policies", parent: name, min: 1)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 1000)
+            try validate(self.tags, name:"tags", parent: name, max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11227,9 +11227,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(baselineId, name:"baselineId", parent: name, max: 128)
-            try validate(baselineId, name:"baselineId", parent: name, min: 20)
-            try validate(baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
+            try validate(self.baselineId, name:"baselineId", parent: name, max: 128)
+            try validate(self.baselineId, name:"baselineId", parent: name, min: 20)
+            try validate(self.baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11271,12 +11271,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(baselineId, name:"baselineId", parent: name, max: 128)
-            try validate(baselineId, name:"baselineId", parent: name, min: 20)
-            try validate(baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-            try validate(patchGroup, name:"patchGroup", parent: name, max: 256)
-            try validate(patchGroup, name:"patchGroup", parent: name, min: 1)
-            try validate(patchGroup, name:"patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.baselineId, name:"baselineId", parent: name, max: 128)
+            try validate(self.baselineId, name:"baselineId", parent: name, min: 20)
+            try validate(self.baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
+            try validate(self.patchGroup, name:"patchGroup", parent: name, max: 256)
+            try validate(self.patchGroup, name:"patchGroup", parent: name, min: 1)
+            try validate(self.patchGroup, name:"patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11344,23 +11344,23 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(clientToken, name:"clientToken", parent: name, max: 64)
-            try validate(clientToken, name:"clientToken", parent: name, min: 1)
-            try validate(description, name:"description", parent: name, max: 128)
-            try validate(description, name:"description", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(ownerInformation, name:"ownerInformation", parent: name, max: 128)
-            try validate(ownerInformation, name:"ownerInformation", parent: name, min: 1)
-            try targets.forEach {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 64)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, max: 128)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.ownerInformation, name:"ownerInformation", parent: name, max: 128)
+            try validate(self.ownerInformation, name:"ownerInformation", parent: name, min: 1)
+            try self.targets.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try validate(targets, name:"targets", parent: name, max: 5)
-            try validate(targets, name:"targets", parent: name, min: 0)
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.targets, name:"targets", parent: name, max: 5)
+            try validate(self.targets, name:"targets", parent: name, min: 0)
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11456,37 +11456,37 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(clientToken, name:"clientToken", parent: name, max: 64)
-            try validate(clientToken, name:"clientToken", parent: name, min: 1)
-            try validate(description, name:"description", parent: name, max: 128)
-            try validate(description, name:"description", parent: name, min: 1)
-            try loggingInfo?.validate(name: "\(name).loggingInfo")
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", parent: name, max: 7)
-            try validate(maxErrors, name:"maxErrors", parent: name, min: 1)
-            try validate(maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(priority, name:"priority", parent: name, min: 0)
-            try targets.forEach {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 64)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, max: 128)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try self.loggingInfo?.validate(name: "\(name).loggingInfo")
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try validate(self.maxErrors, name:"maxErrors", parent: name, max: 7)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, min: 1)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.priority, name:"priority", parent: name, min: 0)
+            try self.targets.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try validate(targets, name:"targets", parent: name, max: 5)
-            try validate(targets, name:"targets", parent: name, min: 0)
-            try validate(taskArn, name:"taskArn", parent: name, max: 1600)
-            try validate(taskArn, name:"taskArn", parent: name, min: 1)
-            try taskInvocationParameters?.validate(name: "\(name).taskInvocationParameters")
-            try taskParameters?.forEach {
+            try validate(self.targets, name:"targets", parent: name, max: 5)
+            try validate(self.targets, name:"targets", parent: name, min: 0)
+            try validate(self.taskArn, name:"taskArn", parent: name, max: 1600)
+            try validate(self.taskArn, name:"taskArn", parent: name, min: 1)
+            try self.taskInvocationParameters?.validate(name: "\(name).taskInvocationParameters")
+            try self.taskParameters?.forEach {
                 try validate($0.key, name:"taskParameters.key", parent: name, max: 255)
                 try validate($0.key, name:"taskParameters.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).taskParameters[\"\($0.key)\"]")
             }
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11562,7 +11562,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try tagKeys.forEach {
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -11597,8 +11597,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(settingId, name:"settingId", parent: name, max: 1000)
-            try validate(settingId, name:"settingId", parent: name, min: 1)
+            try validate(self.settingId, name:"settingId", parent: name, max: 1000)
+            try validate(self.settingId, name:"settingId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11773,15 +11773,15 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, max: 512)
-            try validate(aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, min: 1)
-            try validate(aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, pattern: "arn:.*")
-            try validate(bucketName, name:"bucketName", parent: name, max: 2048)
-            try validate(bucketName, name:"bucketName", parent: name, min: 1)
-            try validate(prefix, name:"prefix", parent: name, max: 256)
-            try validate(prefix, name:"prefix", parent: name, min: 1)
-            try validate(region, name:"region", parent: name, max: 64)
-            try validate(region, name:"region", parent: name, min: 1)
+            try validate(self.aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, max: 512)
+            try validate(self.aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, min: 1)
+            try validate(self.aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, pattern: "arn:.*")
+            try validate(self.bucketName, name:"bucketName", parent: name, max: 2048)
+            try validate(self.bucketName, name:"bucketName", parent: name, min: 1)
+            try validate(self.prefix, name:"prefix", parent: name, max: 256)
+            try validate(self.prefix, name:"prefix", parent: name, min: 1)
+            try validate(self.region, name:"region", parent: name, max: 64)
+            try validate(self.region, name:"region", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11828,9 +11828,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(typeName, name:"typeName", parent: name, max: 100)
-            try validate(typeName, name:"typeName", parent: name, min: 1)
-            try validate(typeName, name:"typeName", parent: name, pattern: "^(AWS|Custom):.*$")
+            try validate(self.typeName, name:"typeName", parent: name, max: 100)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, pattern: "^(AWS|Custom):.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11851,8 +11851,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(sessionId, name:"sessionId", parent: name, max: 96)
-            try validate(sessionId, name:"sessionId", parent: name, min: 1)
+            try validate(self.sessionId, name:"sessionId", parent: name, max: 96)
+            try validate(self.sessionId, name:"sessionId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11908,11 +11908,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(outputS3BucketName, name:"outputS3BucketName", parent: name, max: 63)
-            try validate(outputS3BucketName, name:"outputS3BucketName", parent: name, min: 3)
-            try validate(outputS3KeyPrefix, name:"outputS3KeyPrefix", parent: name, max: 500)
-            try validate(outputS3Region, name:"outputS3Region", parent: name, max: 20)
-            try validate(outputS3Region, name:"outputS3Region", parent: name, min: 3)
+            try validate(self.outputS3BucketName, name:"outputS3BucketName", parent: name, max: 63)
+            try validate(self.outputS3BucketName, name:"outputS3BucketName", parent: name, min: 3)
+            try validate(self.outputS3KeyPrefix, name:"outputS3KeyPrefix", parent: name, max: 500)
+            try validate(self.outputS3Region, name:"outputS3Region", parent: name, max: 20)
+            try validate(self.outputS3Region, name:"outputS3Region", parent: name, min: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11987,9 +11987,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(automationExecutionId, name:"automationExecutionId", parent: name, max: 36)
-            try validate(automationExecutionId, name:"automationExecutionId", parent: name, min: 36)
-            try payload?.forEach {
+            try validate(self.automationExecutionId, name:"automationExecutionId", parent: name, max: 36)
+            try validate(self.automationExecutionId, name:"automationExecutionId", parent: name, min: 36)
+            try self.payload?.forEach {
                 try validate($0.key, name:"payload.key", parent: name, max: 50)
                 try validate($0.key, name:"payload.key", parent: name, min: 1)
                 try validate($0.value, name:"payload[\"\($0.key)\"]", parent: name, max: 10)
@@ -12089,34 +12089,34 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try cloudWatchOutputConfig?.validate(name: "\(name).cloudWatchOutputConfig")
-            try validate(comment, name:"comment", parent: name, max: 100)
-            try validate(documentHash, name:"documentHash", parent: name, max: 256)
-            try validate(documentName, name:"documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try instanceIds?.forEach {
+            try self.cloudWatchOutputConfig?.validate(name: "\(name).cloudWatchOutputConfig")
+            try validate(self.comment, name:"comment", parent: name, max: 100)
+            try validate(self.documentHash, name:"documentHash", parent: name, max: 256)
+            try validate(self.documentName, name:"documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.instanceIds?.forEach {
                 try validate($0, name: "instanceIds[]", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
             }
-            try validate(instanceIds, name:"instanceIds", parent: name, max: 50)
-            try validate(instanceIds, name:"instanceIds", parent: name, min: 0)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", parent: name, max: 7)
-            try validate(maxErrors, name:"maxErrors", parent: name, min: 1)
-            try validate(maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(outputS3BucketName, name:"outputS3BucketName", parent: name, max: 63)
-            try validate(outputS3BucketName, name:"outputS3BucketName", parent: name, min: 3)
-            try validate(outputS3KeyPrefix, name:"outputS3KeyPrefix", parent: name, max: 500)
-            try validate(outputS3Region, name:"outputS3Region", parent: name, max: 20)
-            try validate(outputS3Region, name:"outputS3Region", parent: name, min: 3)
-            try targets?.forEach {
+            try validate(self.instanceIds, name:"instanceIds", parent: name, max: 50)
+            try validate(self.instanceIds, name:"instanceIds", parent: name, min: 0)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try validate(self.maxErrors, name:"maxErrors", parent: name, max: 7)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, min: 1)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try validate(self.outputS3BucketName, name:"outputS3BucketName", parent: name, max: 63)
+            try validate(self.outputS3BucketName, name:"outputS3BucketName", parent: name, min: 3)
+            try validate(self.outputS3KeyPrefix, name:"outputS3KeyPrefix", parent: name, max: 500)
+            try validate(self.outputS3Region, name:"outputS3Region", parent: name, max: 20)
+            try validate(self.outputS3Region, name:"outputS3Region", parent: name, min: 3)
+            try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try validate(targets, name:"targets", parent: name, max: 5)
-            try validate(targets, name:"targets", parent: name, min: 0)
-            try validate(timeoutSeconds, name:"timeoutSeconds", parent: name, max: 2592000)
-            try validate(timeoutSeconds, name:"timeoutSeconds", parent: name, min: 30)
+            try validate(self.targets, name:"targets", parent: name, max: 5)
+            try validate(self.targets, name:"targets", parent: name, min: 0)
+            try validate(self.timeoutSeconds, name:"timeoutSeconds", parent: name, max: 2592000)
+            try validate(self.timeoutSeconds, name:"timeoutSeconds", parent: name, min: 30)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12273,8 +12273,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(value, name:"value", parent: name, max: 200)
-            try validate(value, name:"value", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 200)
+            try validate(self.value, name:"value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12394,11 +12394,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try associationIds.forEach {
+            try self.associationIds.forEach {
                 try validate($0, name: "associationIds[]", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
             }
-            try validate(associationIds, name:"associationIds", parent: name, max: 10)
-            try validate(associationIds, name:"associationIds", parent: name, min: 1)
+            try validate(self.associationIds, name:"associationIds", parent: name, max: 10)
+            try validate(self.associationIds, name:"associationIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12467,37 +12467,37 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(clientToken, name:"clientToken", parent: name, max: 36)
-            try validate(clientToken, name:"clientToken", parent: name, min: 36)
-            try validate(clientToken, name:"clientToken", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
-            try validate(documentName, name:"documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", parent: name, max: 7)
-            try validate(maxErrors, name:"maxErrors", parent: name, min: 1)
-            try validate(maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try parameters?.forEach {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 36)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 36)
+            try validate(self.clientToken, name:"clientToken", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
+            try validate(self.documentName, name:"documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try validate(self.maxErrors, name:"maxErrors", parent: name, max: 7)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, min: 1)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try self.parameters?.forEach {
                 try validate($0.key, name:"parameters.key", parent: name, max: 50)
                 try validate($0.key, name:"parameters.key", parent: name, min: 1)
                 try validate($0.value, name:"parameters[\"\($0.key)\"]", parent: name, max: 10)
                 try validate($0.value, name:"parameters[\"\($0.key)\"]", parent: name, min: 0)
             }
-            try targetLocations?.forEach {
+            try self.targetLocations?.forEach {
                 try $0.validate(name: "\(name).targetLocations[]")
             }
-            try validate(targetLocations, name:"targetLocations", parent: name, max: 100)
-            try validate(targetLocations, name:"targetLocations", parent: name, min: 1)
-            try validate(targetMaps, name:"targetMaps", parent: name, max: 300)
-            try validate(targetMaps, name:"targetMaps", parent: name, min: 0)
-            try validate(targetParameterName, name:"targetParameterName", parent: name, max: 50)
-            try validate(targetParameterName, name:"targetParameterName", parent: name, min: 1)
-            try targets?.forEach {
+            try validate(self.targetLocations, name:"targetLocations", parent: name, max: 100)
+            try validate(self.targetLocations, name:"targetLocations", parent: name, min: 1)
+            try validate(self.targetMaps, name:"targetMaps", parent: name, max: 300)
+            try validate(self.targetMaps, name:"targetMaps", parent: name, min: 0)
+            try validate(self.targetParameterName, name:"targetParameterName", parent: name, max: 50)
+            try validate(self.targetParameterName, name:"targetParameterName", parent: name, min: 1)
+            try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try validate(targets, name:"targets", parent: name, max: 5)
-            try validate(targets, name:"targets", parent: name, min: 0)
+            try validate(self.targets, name:"targets", parent: name, max: 5)
+            try validate(self.targets, name:"targets", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12553,13 +12553,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(documentName, name:"documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try parameters?.forEach {
+            try validate(self.documentName, name:"documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.parameters?.forEach {
                 try validate($0.key, name:"parameters.key", parent: name, max: 255)
                 try validate($0.key, name:"parameters.key", parent: name, min: 1)
             }
-            try validate(target, name:"target", parent: name, max: 50)
-            try validate(target, name:"target", parent: name, min: 1)
+            try validate(self.target, name:"target", parent: name, max: 50)
+            try validate(self.target, name:"target", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12735,12 +12735,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try values.forEach {
+            try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 150)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try validate(values, name:"values", parent: name, max: 10)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 10)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12776,8 +12776,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(automationExecutionId, name:"automationExecutionId", parent: name, max: 36)
-            try validate(automationExecutionId, name:"automationExecutionId", parent: name, min: 36)
+            try validate(self.automationExecutionId, name:"automationExecutionId", parent: name, max: 36)
+            try validate(self.automationExecutionId, name:"automationExecutionId", parent: name, min: 36)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12817,12 +12817,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try validate(value, name:"value", parent: name, max: 256)
-            try validate(value, name:"value", parent: name, min: 1)
-            try validate(value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12848,11 +12848,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(key, name:"key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=\\-@]*$")
-            try validate(values, name:"values", parent: name, max: 50)
-            try validate(values, name:"values", parent: name, min: 0)
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=\\-@]*$")
+            try validate(self.values, name:"values", parent: name, max: 50)
+            try validate(self.values, name:"values", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12890,18 +12890,18 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(accounts, name:"accounts", parent: name, max: 50)
-            try validate(accounts, name:"accounts", parent: name, min: 1)
-            try validate(executionRoleName, name:"executionRoleName", parent: name, max: 64)
-            try validate(executionRoleName, name:"executionRoleName", parent: name, min: 1)
-            try validate(regions, name:"regions", parent: name, max: 50)
-            try validate(regions, name:"regions", parent: name, min: 1)
-            try validate(targetLocationMaxConcurrency, name:"targetLocationMaxConcurrency", parent: name, max: 7)
-            try validate(targetLocationMaxConcurrency, name:"targetLocationMaxConcurrency", parent: name, min: 1)
-            try validate(targetLocationMaxConcurrency, name:"targetLocationMaxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(targetLocationMaxErrors, name:"targetLocationMaxErrors", parent: name, max: 7)
-            try validate(targetLocationMaxErrors, name:"targetLocationMaxErrors", parent: name, min: 1)
-            try validate(targetLocationMaxErrors, name:"targetLocationMaxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try validate(self.accounts, name:"accounts", parent: name, max: 50)
+            try validate(self.accounts, name:"accounts", parent: name, min: 1)
+            try validate(self.executionRoleName, name:"executionRoleName", parent: name, max: 64)
+            try validate(self.executionRoleName, name:"executionRoleName", parent: name, min: 1)
+            try validate(self.regions, name:"regions", parent: name, max: 50)
+            try validate(self.regions, name:"regions", parent: name, min: 1)
+            try validate(self.targetLocationMaxConcurrency, name:"targetLocationMaxConcurrency", parent: name, max: 7)
+            try validate(self.targetLocationMaxConcurrency, name:"targetLocationMaxConcurrency", parent: name, min: 1)
+            try validate(self.targetLocationMaxConcurrency, name:"targetLocationMaxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try validate(self.targetLocationMaxErrors, name:"targetLocationMaxErrors", parent: name, max: 7)
+            try validate(self.targetLocationMaxErrors, name:"targetLocationMaxErrors", parent: name, min: 1)
+            try validate(self.targetLocationMaxErrors, name:"targetLocationMaxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12926,8 +12926,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(sessionId, name:"sessionId", parent: name, max: 96)
-            try validate(sessionId, name:"sessionId", parent: name, min: 1)
+            try validate(self.sessionId, name:"sessionId", parent: name, max: 96)
+            try validate(self.sessionId, name:"sessionId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13013,27 +13013,27 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-            try validate(associationName, name:"associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(associationVersion, name:"associationVersion", parent: name, pattern: "([$]LATEST)|([1-9][0-9]*)")
-            try validate(automationTargetParameterName, name:"automationTargetParameterName", parent: name, max: 50)
-            try validate(automationTargetParameterName, name:"automationTargetParameterName", parent: name, min: 1)
-            try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", parent: name, max: 7)
-            try validate(maxErrors, name:"maxErrors", parent: name, min: 1)
-            try validate(maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
-            try outputLocation?.validate(name: "\(name).outputLocation")
-            try validate(scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
-            try validate(scheduleExpression, name:"scheduleExpression", parent: name, min: 1)
-            try targets?.forEach {
+            try validate(self.associationId, name:"associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try validate(self.associationName, name:"associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.associationVersion, name:"associationVersion", parent: name, pattern: "([$]LATEST)|([1-9][0-9]*)")
+            try validate(self.automationTargetParameterName, name:"automationTargetParameterName", parent: name, max: 50)
+            try validate(self.automationTargetParameterName, name:"automationTargetParameterName", parent: name, min: 1)
+            try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try validate(self.maxErrors, name:"maxErrors", parent: name, max: 7)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, min: 1)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.outputLocation?.validate(name: "\(name).outputLocation")
+            try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
+            try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, min: 1)
+            try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try validate(targets, name:"targets", parent: name, max: 5)
-            try validate(targets, name:"targets", parent: name, min: 0)
+            try validate(self.targets, name:"targets", parent: name, max: 5)
+            try validate(self.targets, name:"targets", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13091,9 +13091,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try associationStatus.validate(name: "\(name).associationStatus")
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.associationStatus.validate(name: "\(name).associationStatus")
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13137,8 +13137,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(documentVersion, name:"documentVersion", parent: name, pattern: "(^[1-9][0-9]*$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "(^[1-9][0-9]*$)")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13201,17 +13201,17 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try attachments?.forEach {
+            try self.attachments?.forEach {
                 try $0.validate(name: "\(name).attachments[]")
             }
-            try validate(attachments, name:"attachments", parent: name, max: 1)
-            try validate(attachments, name:"attachments", parent: name, min: 0)
-            try validate(content, name:"content", parent: name, min: 1)
-            try validate(documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(targetType, name:"targetType", parent: name, max: 200)
-            try validate(targetType, name:"targetType", parent: name, pattern: "^\\/[\\w\\.\\-\\:\\/]*$")
-            try validate(versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
+            try validate(self.attachments, name:"attachments", parent: name, max: 1)
+            try validate(self.attachments, name:"attachments", parent: name, min: 0)
+            try validate(self.content, name:"content", parent: name, min: 1)
+            try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.targetType, name:"targetType", parent: name, max: 200)
+            try validate(self.targetType, name:"targetType", parent: name, pattern: "^\\/[\\w\\.\\-\\:\\/]*$")
+            try validate(self.versionName, name:"versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13299,20 +13299,20 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(cutoff, name:"cutoff", parent: name, max: 23)
-            try validate(cutoff, name:"cutoff", parent: name, min: 0)
-            try validate(description, name:"description", parent: name, max: 128)
-            try validate(description, name:"description", parent: name, min: 1)
-            try validate(duration, name:"duration", parent: name, max: 24)
-            try validate(duration, name:"duration", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(schedule, name:"schedule", parent: name, max: 256)
-            try validate(schedule, name:"schedule", parent: name, min: 1)
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.cutoff, name:"cutoff", parent: name, max: 23)
+            try validate(self.cutoff, name:"cutoff", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, max: 128)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.duration, name:"duration", parent: name, max: 24)
+            try validate(self.duration, name:"duration", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.schedule, name:"schedule", parent: name, max: 256)
+            try validate(self.schedule, name:"schedule", parent: name, min: 1)
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13435,24 +13435,24 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 128)
-            try validate(description, name:"description", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(ownerInformation, name:"ownerInformation", parent: name, max: 128)
-            try validate(ownerInformation, name:"ownerInformation", parent: name, min: 1)
-            try targets?.forEach {
+            try validate(self.description, name:"description", parent: name, max: 128)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.ownerInformation, name:"ownerInformation", parent: name, max: 128)
+            try validate(self.ownerInformation, name:"ownerInformation", parent: name, min: 1)
+            try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try validate(targets, name:"targets", parent: name, max: 5)
-            try validate(targets, name:"targets", parent: name, min: 0)
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
-            try validate(windowTargetId, name:"windowTargetId", parent: name, max: 36)
-            try validate(windowTargetId, name:"windowTargetId", parent: name, min: 36)
-            try validate(windowTargetId, name:"windowTargetId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.targets, name:"targets", parent: name, max: 5)
+            try validate(self.targets, name:"targets", parent: name, min: 0)
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.windowTargetId, name:"windowTargetId", parent: name, max: 36)
+            try validate(self.windowTargetId, name:"windowTargetId", parent: name, min: 36)
+            try validate(self.windowTargetId, name:"windowTargetId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13573,38 +13573,38 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 128)
-            try validate(description, name:"description", parent: name, min: 1)
-            try loggingInfo?.validate(name: "\(name).loggingInfo")
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
-            try validate(maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
-            try validate(maxErrors, name:"maxErrors", parent: name, max: 7)
-            try validate(maxErrors, name:"maxErrors", parent: name, min: 1)
-            try validate(maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try validate(priority, name:"priority", parent: name, min: 0)
-            try targets?.forEach {
+            try validate(self.description, name:"description", parent: name, max: 128)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try self.loggingInfo?.validate(name: "\(name).loggingInfo")
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, max: 7)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, min: 1)
+            try validate(self.maxConcurrency, name:"maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try validate(self.maxErrors, name:"maxErrors", parent: name, max: 7)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, min: 1)
+            try validate(self.maxErrors, name:"maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.priority, name:"priority", parent: name, min: 0)
+            try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try validate(targets, name:"targets", parent: name, max: 5)
-            try validate(targets, name:"targets", parent: name, min: 0)
-            try validate(taskArn, name:"taskArn", parent: name, max: 1600)
-            try validate(taskArn, name:"taskArn", parent: name, min: 1)
-            try taskInvocationParameters?.validate(name: "\(name).taskInvocationParameters")
-            try taskParameters?.forEach {
+            try validate(self.targets, name:"targets", parent: name, max: 5)
+            try validate(self.targets, name:"targets", parent: name, min: 0)
+            try validate(self.taskArn, name:"taskArn", parent: name, max: 1600)
+            try validate(self.taskArn, name:"taskArn", parent: name, min: 1)
+            try self.taskInvocationParameters?.validate(name: "\(name).taskInvocationParameters")
+            try self.taskParameters?.forEach {
                 try validate($0.key, name:"taskParameters.key", parent: name, max: 255)
                 try validate($0.key, name:"taskParameters.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).taskParameters[\"\($0.key)\"]")
             }
-            try validate(windowId, name:"windowId", parent: name, max: 20)
-            try validate(windowId, name:"windowId", parent: name, min: 20)
-            try validate(windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
-            try validate(windowTaskId, name:"windowTaskId", parent: name, max: 36)
-            try validate(windowTaskId, name:"windowTaskId", parent: name, min: 36)
-            try validate(windowTaskId, name:"windowTaskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try validate(self.windowId, name:"windowId", parent: name, max: 20)
+            try validate(self.windowId, name:"windowId", parent: name, min: 20)
+            try validate(self.windowId, name:"windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try validate(self.windowTaskId, name:"windowTaskId", parent: name, max: 36)
+            try validate(self.windowTaskId, name:"windowTaskId", parent: name, min: 36)
+            try validate(self.windowTaskId, name:"windowTaskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13719,8 +13719,8 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(iamRole, name:"iamRole", parent: name, max: 64)
-            try validate(instanceId, name:"instanceId", parent: name, pattern: "^mi-[0-9a-f]{17}$")
+            try validate(self.iamRole, name:"iamRole", parent: name, max: 64)
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: "^mi-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13782,17 +13782,17 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(description, name:"description", parent: name, min: 1)
-            try operationalData?.forEach {
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try self.operationalData?.forEach {
                 try validate($0.key, name:"operationalData.key", parent: name, max: 128)
                 try validate($0.key, name:"operationalData.key", parent: name, min: 1)
             }
-            try validate(opsItemId, name:"opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
-            try validate(priority, name:"priority", parent: name, max: 5)
-            try validate(priority, name:"priority", parent: name, min: 1)
-            try validate(title, name:"title", parent: name, max: 1024)
-            try validate(title, name:"title", parent: name, min: 1)
+            try validate(self.opsItemId, name:"opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
+            try validate(self.priority, name:"priority", parent: name, max: 5)
+            try validate(self.priority, name:"priority", parent: name, min: 1)
+            try validate(self.title, name:"title", parent: name, max: 1024)
+            try validate(self.title, name:"title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13873,33 +13873,33 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try approvalRules?.validate(name: "\(name).approvalRules")
-            try approvedPatches?.forEach {
+            try self.approvalRules?.validate(name: "\(name).approvalRules")
+            try self.approvedPatches?.forEach {
                 try validate($0, name: "approvedPatches[]", parent: name, max: 100)
                 try validate($0, name: "approvedPatches[]", parent: name, min: 1)
             }
-            try validate(approvedPatches, name:"approvedPatches", parent: name, max: 50)
-            try validate(approvedPatches, name:"approvedPatches", parent: name, min: 0)
-            try validate(baselineId, name:"baselineId", parent: name, max: 128)
-            try validate(baselineId, name:"baselineId", parent: name, min: 20)
-            try validate(baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
-            try validate(description, name:"description", parent: name, max: 1024)
-            try validate(description, name:"description", parent: name, min: 1)
-            try globalFilters?.validate(name: "\(name).globalFilters")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 3)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try rejectedPatches?.forEach {
+            try validate(self.approvedPatches, name:"approvedPatches", parent: name, max: 50)
+            try validate(self.approvedPatches, name:"approvedPatches", parent: name, min: 0)
+            try validate(self.baselineId, name:"baselineId", parent: name, max: 128)
+            try validate(self.baselineId, name:"baselineId", parent: name, min: 20)
+            try validate(self.baselineId, name:"baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
+            try validate(self.description, name:"description", parent: name, max: 1024)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try self.globalFilters?.validate(name: "\(name).globalFilters")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 3)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.rejectedPatches?.forEach {
                 try validate($0, name: "rejectedPatches[]", parent: name, max: 100)
                 try validate($0, name: "rejectedPatches[]", parent: name, min: 1)
             }
-            try validate(rejectedPatches, name:"rejectedPatches", parent: name, max: 50)
-            try validate(rejectedPatches, name:"rejectedPatches", parent: name, min: 0)
-            try sources?.forEach {
+            try validate(self.rejectedPatches, name:"rejectedPatches", parent: name, max: 50)
+            try validate(self.rejectedPatches, name:"rejectedPatches", parent: name, min: 0)
+            try self.sources?.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
-            try validate(sources, name:"sources", parent: name, max: 20)
-            try validate(sources, name:"sources", parent: name, min: 0)
+            try validate(self.sources, name:"sources", parent: name, max: 20)
+            try validate(self.sources, name:"sources", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14017,10 +14017,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(settingId, name:"settingId", parent: name, max: 1000)
-            try validate(settingId, name:"settingId", parent: name, min: 1)
-            try validate(settingValue, name:"settingValue", parent: name, max: 4096)
-            try validate(settingValue, name:"settingValue", parent: name, min: 1)
+            try validate(self.settingId, name:"settingId", parent: name, max: 1000)
+            try validate(self.settingId, name:"settingId", parent: name, min: 1)
+            try validate(self.settingValue, name:"settingValue", parent: name, max: 4096)
+            try validate(self.settingValue, name:"settingValue", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

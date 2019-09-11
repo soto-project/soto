@@ -78,7 +78,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(settingsGroup, name:"settingsGroup", parent: name, max: 100)
+            try validate(self.settingsGroup, name:"settingsGroup", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -131,8 +131,8 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetName, name:"fleetName", parent: name, min: 1)
-            try validate(stackName, name:"stackName", parent: name, min: 1)
+            try validate(self.fleetName, name:"fleetName", parent: name, min: 1)
+            try validate(self.stackName, name:"stackName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -169,11 +169,11 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try userStackAssociations.forEach {
+            try self.userStackAssociations.forEach {
                 try $0.validate(name: "\(name).userStackAssociations[]")
             }
-            try validate(userStackAssociations, name:"userStackAssociations", parent: name, max: 25)
-            try validate(userStackAssociations, name:"userStackAssociations", parent: name, min: 1)
+            try validate(self.userStackAssociations, name:"userStackAssociations", parent: name, max: 25)
+            try validate(self.userStackAssociations, name:"userStackAssociations", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -211,11 +211,11 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try userStackAssociations.forEach {
+            try self.userStackAssociations.forEach {
                 try $0.validate(name: "\(name).userStackAssociations[]")
             }
-            try validate(userStackAssociations, name:"userStackAssociations", parent: name, max: 25)
-            try validate(userStackAssociations, name:"userStackAssociations", parent: name, min: 1)
+            try validate(self.userStackAssociations, name:"userStackAssociations", parent: name, max: 25)
+            try validate(self.userStackAssociations, name:"userStackAssociations", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -314,11 +314,11 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(destinationImageDescription, name:"destinationImageDescription", parent: name, max: 256)
-            try validate(destinationImageName, name:"destinationImageName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try validate(destinationRegion, name:"destinationRegion", parent: name, max: 32)
-            try validate(destinationRegion, name:"destinationRegion", parent: name, min: 1)
-            try validate(sourceImageName, name:"sourceImageName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try validate(self.destinationImageDescription, name:"destinationImageDescription", parent: name, max: 256)
+            try validate(self.destinationImageName, name:"destinationImageName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try validate(self.destinationRegion, name:"destinationRegion", parent: name, max: 32)
+            try validate(self.destinationRegion, name:"destinationRegion", parent: name, min: 1)
+            try validate(self.sourceImageName, name:"sourceImageName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -367,10 +367,10 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try organizationalUnitDistinguishedNames.forEach {
+            try self.organizationalUnitDistinguishedNames.forEach {
                 try validate($0, name: "organizationalUnitDistinguishedNames[]", parent: name, max: 2000)
             }
-            try serviceAccountCredentials.validate(name: "\(name).serviceAccountCredentials")
+            try self.serviceAccountCredentials.validate(name: "\(name).serviceAccountCredentials")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -466,14 +466,14 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(displayName, name:"displayName", parent: name, max: 100)
-            try domainJoinInfo?.validate(name: "\(name).domainJoinInfo")
-            try validate(imageArn, name:"imageArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try validate(imageName, name:"imageName", parent: name, min: 1)
-            try validate(instanceType, name:"instanceType", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try tags?.forEach {
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.displayName, name:"displayName", parent: name, max: 100)
+            try self.domainJoinInfo?.validate(name: "\(name).domainJoinInfo")
+            try validate(self.imageArn, name:"imageArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try validate(self.imageName, name:"imageName", parent: name, min: 1)
+            try validate(self.instanceType, name:"instanceType", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
                 try validate($0.key, name:"tags.key", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -481,7 +481,7 @@ extension AppStream {
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try vpcConfig?.validate(name: "\(name).vpcConfig")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -573,16 +573,16 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(appstreamAgentVersion, name:"appstreamAgentVersion", parent: name, max: 100)
-            try validate(appstreamAgentVersion, name:"appstreamAgentVersion", parent: name, min: 1)
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(displayName, name:"displayName", parent: name, max: 100)
-            try domainJoinInfo?.validate(name: "\(name).domainJoinInfo")
-            try validate(imageArn, name:"imageArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try validate(imageName, name:"imageName", parent: name, min: 1)
-            try validate(instanceType, name:"instanceType", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try tags?.forEach {
+            try validate(self.appstreamAgentVersion, name:"appstreamAgentVersion", parent: name, max: 100)
+            try validate(self.appstreamAgentVersion, name:"appstreamAgentVersion", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.displayName, name:"displayName", parent: name, max: 100)
+            try self.domainJoinInfo?.validate(name: "\(name).domainJoinInfo")
+            try validate(self.imageArn, name:"imageArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try validate(self.imageName, name:"imageName", parent: name, min: 1)
+            try validate(self.instanceType, name:"instanceType", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
                 try validate($0.key, name:"tags.key", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -590,7 +590,7 @@ extension AppStream {
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try vpcConfig?.validate(name: "\(name).vpcConfig")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -642,7 +642,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -718,16 +718,16 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try applicationSettings?.validate(name: "\(name).applicationSettings")
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(displayName, name:"displayName", parent: name, max: 100)
-            try validate(feedbackURL, name:"feedbackURL", parent: name, max: 1000)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try validate(redirectURL, name:"redirectURL", parent: name, max: 1000)
-            try storageConnectors?.forEach {
+            try self.applicationSettings?.validate(name: "\(name).applicationSettings")
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.displayName, name:"displayName", parent: name, max: 100)
+            try validate(self.feedbackURL, name:"feedbackURL", parent: name, max: 1000)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try validate(self.redirectURL, name:"redirectURL", parent: name, max: 1000)
+            try self.storageConnectors?.forEach {
                 try $0.validate(name: "\(name).storageConnectors[]")
             }
-            try tags?.forEach {
+            try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
                 try validate($0.key, name:"tags.key", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -735,7 +735,7 @@ extension AppStream {
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try validate(userSettings, name:"userSettings", parent: name, min: 1)
+            try validate(self.userSettings, name:"userSettings", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -801,13 +801,13 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(applicationId, name:"applicationId", parent: name, min: 1)
-            try validate(fleetName, name:"fleetName", parent: name, min: 1)
-            try validate(sessionContext, name:"sessionContext", parent: name, min: 1)
-            try validate(stackName, name:"stackName", parent: name, min: 1)
-            try validate(userId, name:"userId", parent: name, max: 32)
-            try validate(userId, name:"userId", parent: name, min: 2)
-            try validate(userId, name:"userId", parent: name, pattern: "[\\w+=,.@-]*")
+            try validate(self.applicationId, name:"applicationId", parent: name, min: 1)
+            try validate(self.fleetName, name:"fleetName", parent: name, min: 1)
+            try validate(self.sessionContext, name:"sessionContext", parent: name, min: 1)
+            try validate(self.stackName, name:"stackName", parent: name, min: 1)
+            try validate(self.userId, name:"userId", parent: name, max: 32)
+            try validate(self.userId, name:"userId", parent: name, min: 2)
+            try validate(self.userId, name:"userId", parent: name, pattern: "[\\w+=,.@-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -901,13 +901,13 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(firstName, name:"firstName", parent: name, max: 2048)
-            try validate(firstName, name:"firstName", parent: name, pattern: "^[A-Za-z0-9_\\-\\s]+$")
-            try validate(lastName, name:"lastName", parent: name, max: 2048)
-            try validate(lastName, name:"lastName", parent: name, pattern: "^[A-Za-z0-9_\\-\\s]+$")
-            try validate(userName, name:"userName", parent: name, max: 128)
-            try validate(userName, name:"userName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
+            try validate(self.firstName, name:"firstName", parent: name, max: 2048)
+            try validate(self.firstName, name:"firstName", parent: name, pattern: "^[A-Za-z0-9_\\-\\s]+$")
+            try validate(self.lastName, name:"lastName", parent: name, max: 2048)
+            try validate(self.lastName, name:"lastName", parent: name, pattern: "^[A-Za-z0-9_\\-\\s]+$")
+            try validate(self.userName, name:"userName", parent: name, max: 128)
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -965,7 +965,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -994,7 +994,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1036,8 +1036,8 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try validate(sharedAccountId, name:"sharedAccountId", parent: name, pattern: "^\\d+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try validate(self.sharedAccountId, name:"sharedAccountId", parent: name, pattern: "^\\d+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1067,7 +1067,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1105,7 +1105,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1154,9 +1154,9 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(userName, name:"userName", parent: name, max: 128)
-            try validate(userName, name:"userName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
+            try validate(self.userName, name:"userName", parent: name, max: 128)
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1194,7 +1194,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1243,10 +1243,10 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try names?.forEach {
+            try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1298,10 +1298,10 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try names?.forEach {
+            try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1358,15 +1358,15 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 500)
-            try validate(maxResults, name:"maxResults", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try sharedAwsAccountIds?.forEach {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try self.sharedAwsAccountIds?.forEach {
                 try validate($0, name: "sharedAwsAccountIds[]", parent: name, pattern: "^\\d+$")
             }
-            try validate(sharedAwsAccountIds, name:"sharedAwsAccountIds", parent: name, max: 5)
-            try validate(sharedAwsAccountIds, name:"sharedAwsAccountIds", parent: name, min: 1)
+            try validate(self.sharedAwsAccountIds, name:"sharedAwsAccountIds", parent: name, max: 5)
+            try validate(self.sharedAwsAccountIds, name:"sharedAwsAccountIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1433,15 +1433,15 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try arns?.forEach {
+            try self.arns?.forEach {
                 try validate($0, name: "arns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 25)
-            try validate(maxResults, name:"maxResults", parent: name, min: 0)
-            try names?.forEach {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
+            try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1508,11 +1508,11 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetName, name:"fleetName", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(stackName, name:"stackName", parent: name, min: 1)
-            try validate(userId, name:"userId", parent: name, max: 32)
-            try validate(userId, name:"userId", parent: name, min: 2)
+            try validate(self.fleetName, name:"fleetName", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.stackName, name:"stackName", parent: name, min: 1)
+            try validate(self.userId, name:"userId", parent: name, max: 32)
+            try validate(self.userId, name:"userId", parent: name, min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1564,10 +1564,10 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try names?.forEach {
+            try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1615,7 +1615,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1675,13 +1675,13 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 500)
-            try validate(maxResults, name:"maxResults", parent: name, min: 0)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(stackName, name:"stackName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, max: 128)
-            try validate(userName, name:"userName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.stackName, name:"stackName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, max: 128)
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1736,7 +1736,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1817,9 +1817,9 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(userName, name:"userName", parent: name, max: 128)
-            try validate(userName, name:"userName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
+            try validate(self.userName, name:"userName", parent: name, max: 128)
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1853,8 +1853,8 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetName, name:"fleetName", parent: name, min: 1)
-            try validate(stackName, name:"stackName", parent: name, min: 1)
+            try validate(self.fleetName, name:"fleetName", parent: name, min: 1)
+            try validate(self.stackName, name:"stackName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1888,7 +1888,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", parent: name, max: 2000)
+            try validate(self.organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", parent: name, max: 2000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1914,9 +1914,9 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(userName, name:"userName", parent: name, max: 128)
-            try validate(userName, name:"userName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
+            try validate(self.userName, name:"userName", parent: name, max: 128)
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1946,7 +1946,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(sessionId, name:"sessionId", parent: name, min: 1)
+            try validate(self.sessionId, name:"sessionId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2460,8 +2460,8 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(stackName, name:"stackName", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.stackName, name:"stackName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2509,8 +2509,8 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(fleetName, name:"fleetName", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.fleetName, name:"fleetName", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2554,7 +2554,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2664,9 +2664,9 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(accountName, name:"accountName", parent: name, min: 1)
-            try validate(accountPassword, name:"accountPassword", parent: name, max: 127)
-            try validate(accountPassword, name:"accountPassword", parent: name, min: 1)
+            try validate(self.accountName, name:"accountName", parent: name, min: 1)
+            try validate(self.accountPassword, name:"accountPassword", parent: name, max: 127)
+            try validate(self.accountPassword, name:"accountPassword", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2892,7 +2892,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2925,9 +2925,9 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(appstreamAgentVersion, name:"appstreamAgentVersion", parent: name, max: 100)
-            try validate(appstreamAgentVersion, name:"appstreamAgentVersion", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.appstreamAgentVersion, name:"appstreamAgentVersion", parent: name, max: 100)
+            try validate(self.appstreamAgentVersion, name:"appstreamAgentVersion", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2966,7 +2966,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2995,7 +2995,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3041,11 +3041,11 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try domains?.forEach {
+            try self.domains?.forEach {
                 try validate($0, name: "domains[]", parent: name, max: 64)
             }
-            try validate(domains, name:"domains", parent: name, max: 10)
-            try validate(resourceIdentifier, name:"resourceIdentifier", parent: name, min: 1)
+            try validate(self.domains, name:"domains", parent: name, max: 10)
+            try validate(self.resourceIdentifier, name:"resourceIdentifier", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3079,8 +3079,8 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try tags.forEach {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.tags.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
                 try validate($0.key, name:"tags.key", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -3121,14 +3121,14 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try tagKeys.forEach {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try validate(tagKeys, name:"tagKeys", parent: name, max: 50)
-            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3166,10 +3166,10 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try organizationalUnitDistinguishedNames?.forEach {
+            try self.organizationalUnitDistinguishedNames?.forEach {
                 try validate($0, name: "organizationalUnitDistinguishedNames[]", parent: name, max: 2000)
             }
-            try serviceAccountCredentials?.validate(name: "\(name).serviceAccountCredentials")
+            try self.serviceAccountCredentials?.validate(name: "\(name).serviceAccountCredentials")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3261,14 +3261,14 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(displayName, name:"displayName", parent: name, max: 100)
-            try domainJoinInfo?.validate(name: "\(name).domainJoinInfo")
-            try validate(imageArn, name:"imageArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try validate(imageName, name:"imageName", parent: name, min: 1)
-            try validate(instanceType, name:"instanceType", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, min: 1)
-            try vpcConfig?.validate(name: "\(name).vpcConfig")
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.displayName, name:"displayName", parent: name, max: 100)
+            try self.domainJoinInfo?.validate(name: "\(name).domainJoinInfo")
+            try validate(self.imageArn, name:"imageArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try validate(self.imageName, name:"imageName", parent: name, min: 1)
+            try validate(self.instanceType, name:"instanceType", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3327,8 +3327,8 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try validate(sharedAccountId, name:"sharedAccountId", parent: name, pattern: "^\\d+$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try validate(self.sharedAccountId, name:"sharedAccountId", parent: name, pattern: "^\\d+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3391,16 +3391,16 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try applicationSettings?.validate(name: "\(name).applicationSettings")
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(displayName, name:"displayName", parent: name, max: 100)
-            try validate(feedbackURL, name:"feedbackURL", parent: name, max: 1000)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(redirectURL, name:"redirectURL", parent: name, max: 1000)
-            try storageConnectors?.forEach {
+            try self.applicationSettings?.validate(name: "\(name).applicationSettings")
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.displayName, name:"displayName", parent: name, max: 100)
+            try validate(self.feedbackURL, name:"feedbackURL", parent: name, max: 1000)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.redirectURL, name:"redirectURL", parent: name, max: 1000)
+            try self.storageConnectors?.forEach {
                 try $0.validate(name: "\(name).storageConnectors[]")
             }
-            try validate(userSettings, name:"userSettings", parent: name, min: 1)
+            try validate(self.userSettings, name:"userSettings", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3576,10 +3576,10 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try validate(stackName, name:"stackName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, max: 128)
-            try validate(userName, name:"userName", parent: name, min: 1)
-            try validate(userName, name:"userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
+            try validate(self.stackName, name:"stackName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, max: 128)
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3648,11 +3648,11 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try securityGroupIds?.forEach {
+            try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
             }
-            try validate(securityGroupIds, name:"securityGroupIds", parent: name, max: 5)
-            try subnetIds?.forEach {
+            try validate(self.securityGroupIds, name:"securityGroupIds", parent: name, max: 5)
+            try self.subnetIds?.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, min: 1)
             }
         }

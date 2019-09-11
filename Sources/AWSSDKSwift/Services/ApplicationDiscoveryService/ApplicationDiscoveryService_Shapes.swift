@@ -203,8 +203,8 @@ extension ApplicationDiscoveryService {
         }
 
         public func validate(name: String) throws {
-            try validate(importTaskIds, name:"importTaskIds", parent: name, max: 10)
-            try validate(importTaskIds, name:"importTaskIds", parent: name, min: 1)
+            try validate(self.importTaskIds, name:"importTaskIds", parent: name, max: 10)
+            try validate(self.importTaskIds, name:"importTaskIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -669,8 +669,8 @@ extension ApplicationDiscoveryService {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -825,11 +825,11 @@ extension ApplicationDiscoveryService {
         }
 
         public func validate(name: String) throws {
-            try filters?.forEach {
+            try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try validate(maxResults, name:"maxResults", parent: name, max: 100)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1235,12 +1235,12 @@ extension ApplicationDiscoveryService {
         }
 
         public func validate(name: String) throws {
-            try values?.forEach {
+            try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 100)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try validate(values, name:"values", parent: name, max: 100)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 100)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1587,12 +1587,12 @@ extension ApplicationDiscoveryService {
         }
 
         public func validate(name: String) throws {
-            try validate(clientRequestToken, name:"clientRequestToken", parent: name, max: 100)
-            try validate(clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
-            try validate(importUrl, name:"importUrl", parent: name, max: 4000)
-            try validate(importUrl, name:"importUrl", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 100)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 100)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.importUrl, name:"importUrl", parent: name, max: 4000)
+            try validate(self.importUrl, name:"importUrl", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 100)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

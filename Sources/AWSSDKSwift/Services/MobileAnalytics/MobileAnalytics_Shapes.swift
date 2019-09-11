@@ -38,21 +38,21 @@ extension MobileAnalytics {
         }
 
         public func validate(name: String) throws {
-            try attributes?.forEach {
+            try self.attributes?.forEach {
                 try validate($0.key, name:"attributes.key", parent: name, max: 50)
                 try validate($0.key, name:"attributes.key", parent: name, min: 1)
                 try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, max: 1000)
                 try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, min: 0)
             }
-            try validate(eventType, name:"eventType", parent: name, max: 50)
-            try validate(eventType, name:"eventType", parent: name, min: 1)
-            try metrics?.forEach {
+            try validate(self.eventType, name:"eventType", parent: name, max: 50)
+            try validate(self.eventType, name:"eventType", parent: name, min: 1)
+            try self.metrics?.forEach {
                 try validate($0.key, name:"metrics.key", parent: name, max: 50)
                 try validate($0.key, name:"metrics.key", parent: name, min: 1)
             }
-            try session?.validate(name: "\(name).session")
-            try validate(version, name:"version", parent: name, max: 10)
-            try validate(version, name:"version", parent: name, min: 1)
+            try self.session?.validate(name: "\(name).session")
+            try validate(self.version, name:"version", parent: name, max: 10)
+            try validate(self.version, name:"version", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -86,7 +86,7 @@ extension MobileAnalytics {
         }
 
         public func validate(name: String) throws {
-            try events.forEach {
+            try self.events.forEach {
                 try $0.validate(name: "\(name).events[]")
             }
         }
@@ -123,8 +123,8 @@ extension MobileAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(id, name:"id", parent: name, max: 50)
-            try validate(id, name:"id", parent: name, min: 1)
+            try validate(self.id, name:"id", parent: name, max: 50)
+            try validate(self.id, name:"id", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

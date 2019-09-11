@@ -259,10 +259,10 @@ extension OpsWorks {
         }
 
         public func validate(name: String) throws {
-            try validate(ignoreMetricsTime, name:"ignoreMetricsTime", parent: name, max: 100)
-            try validate(ignoreMetricsTime, name:"ignoreMetricsTime", parent: name, min: 1)
-            try validate(thresholdsWaitTime, name:"thresholdsWaitTime", parent: name, max: 100)
-            try validate(thresholdsWaitTime, name:"thresholdsWaitTime", parent: name, min: 1)
+            try validate(self.ignoreMetricsTime, name:"ignoreMetricsTime", parent: name, max: 100)
+            try validate(self.ignoreMetricsTime, name:"ignoreMetricsTime", parent: name, min: 1)
+            try validate(self.thresholdsWaitTime, name:"thresholdsWaitTime", parent: name, max: 100)
+            try validate(self.thresholdsWaitTime, name:"thresholdsWaitTime", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2744,8 +2744,8 @@ extension OpsWorks {
         }
 
         public func validate(name: String) throws {
-            try validate(validForInMinutes, name:"validForInMinutes", parent: name, max: 1440)
-            try validate(validForInMinutes, name:"validForInMinutes", parent: name, min: 60)
+            try validate(self.validForInMinutes, name:"validForInMinutes", parent: name, max: 1440)
+            try validate(self.validForInMinutes, name:"validForInMinutes", parent: name, min: 60)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4031,8 +4031,8 @@ extension OpsWorks {
         }
 
         public func validate(name: String) throws {
-            try downScaling?.validate(name: "\(name).downScaling")
-            try upScaling?.validate(name: "\(name).upScaling")
+            try self.downScaling?.validate(name: "\(name).downScaling")
+            try self.upScaling?.validate(name: "\(name).upScaling")
         }
 
         private enum CodingKeys: String, CodingKey {

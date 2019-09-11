@@ -26,16 +26,16 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try attributes.forEach {
+            try self.attributes.forEach {
                 try validate($0.key, name:"attributes.key", parent: name, max: 256)
                 try validate($0.key, name:"attributes.key", parent: name, min: 1)
                 try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name:"attributes[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(next, name:"next", parent: name, max: 128)
-            try validate(next, name:"next", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.next, name:"next", parent: name, max: 128)
+            try validate(self.next, name:"next", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -89,10 +89,10 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(channelName, name:"channelName", parent: name, max: 128)
-            try validate(channelName, name:"channelName", parent: name, min: 1)
-            try validate(channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try messages.forEach {
+            try validate(self.channelName, name:"channelName", parent: name, max: 128)
+            try validate(self.channelName, name:"channelName", parent: name, min: 1)
+            try validate(self.channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.messages.forEach {
                 try $0.validate(name: "\(name).messages[]")
             }
         }
@@ -137,9 +137,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 128)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 128)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -224,13 +224,13 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(channelName, name:"channelName", parent: name, max: 128)
-            try validate(channelName, name:"channelName", parent: name, min: 1)
-            try validate(channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(next, name:"next", parent: name, max: 128)
-            try validate(next, name:"next", parent: name, min: 1)
+            try validate(self.channelName, name:"channelName", parent: name, max: 128)
+            try validate(self.channelName, name:"channelName", parent: name, min: 1)
+            try validate(self.channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.next, name:"next", parent: name, max: 128)
+            try validate(self.next, name:"next", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -281,7 +281,7 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try customerManagedS3?.validate(name: "\(name).customerManagedS3")
+            try self.customerManagedS3?.validate(name: "\(name).customerManagedS3")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -380,15 +380,15 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(executionRoleArn, name:"executionRoleArn", parent: name, max: 2048)
-            try validate(executionRoleArn, name:"executionRoleArn", parent: name, min: 20)
-            try validate(image, name:"image", parent: name, max: 255)
-            try resourceConfiguration.validate(name: "\(name).resourceConfiguration")
-            try variables?.forEach {
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, max: 2048)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, min: 20)
+            try validate(self.image, name:"image", parent: name, max: 255)
+            try self.resourceConfiguration.validate(name: "\(name).resourceConfiguration")
+            try self.variables?.forEach {
                 try $0.validate(name: "\(name).variables[]")
             }
-            try validate(variables, name:"variables", parent: name, max: 50)
-            try validate(variables, name:"variables", parent: name, min: 0)
+            try validate(self.variables, name:"variables", parent: name, max: 50)
+            try validate(self.variables, name:"variables", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -424,16 +424,16 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(channelName, name:"channelName", parent: name, max: 128)
-            try validate(channelName, name:"channelName", parent: name, min: 1)
-            try validate(channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try channelStorage?.validate(name: "\(name).channelStorage")
-            try retentionPeriod?.validate(name: "\(name).retentionPeriod")
-            try tags?.forEach {
+            try validate(self.channelName, name:"channelName", parent: name, max: 128)
+            try validate(self.channelName, name:"channelName", parent: name, min: 1)
+            try validate(self.channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.channelStorage?.validate(name: "\(name).channelStorage")
+            try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 1)
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -484,9 +484,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -548,31 +548,31 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try actions.forEach {
+            try self.actions.forEach {
                 try $0.validate(name: "\(name).actions[]")
             }
-            try validate(actions, name:"actions", parent: name, max: 1)
-            try validate(actions, name:"actions", parent: name, min: 1)
-            try contentDeliveryRules?.forEach {
+            try validate(self.actions, name:"actions", parent: name, max: 1)
+            try validate(self.actions, name:"actions", parent: name, min: 1)
+            try self.contentDeliveryRules?.forEach {
                 try $0.validate(name: "\(name).contentDeliveryRules[]")
             }
-            try validate(contentDeliveryRules, name:"contentDeliveryRules", parent: name, max: 20)
-            try validate(contentDeliveryRules, name:"contentDeliveryRules", parent: name, min: 0)
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try retentionPeriod?.validate(name: "\(name).retentionPeriod")
-            try tags?.forEach {
+            try validate(self.contentDeliveryRules, name:"contentDeliveryRules", parent: name, max: 20)
+            try validate(self.contentDeliveryRules, name:"contentDeliveryRules", parent: name, min: 0)
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 1)
-            try triggers?.forEach {
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
+            try self.triggers?.forEach {
                 try $0.validate(name: "\(name).triggers[]")
             }
-            try validate(triggers, name:"triggers", parent: name, max: 5)
-            try validate(triggers, name:"triggers", parent: name, min: 0)
-            try versioningConfiguration?.validate(name: "\(name).versioningConfiguration")
+            try validate(self.triggers, name:"triggers", parent: name, max: 5)
+            try validate(self.triggers, name:"triggers", parent: name, min: 0)
+            try self.versioningConfiguration?.validate(name: "\(name).versioningConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -638,16 +638,16 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(datastoreName, name:"datastoreName", parent: name, max: 128)
-            try validate(datastoreName, name:"datastoreName", parent: name, min: 1)
-            try validate(datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try datastoreStorage?.validate(name: "\(name).datastoreStorage")
-            try retentionPeriod?.validate(name: "\(name).retentionPeriod")
-            try tags?.forEach {
+            try validate(self.datastoreName, name:"datastoreName", parent: name, max: 128)
+            try validate(self.datastoreName, name:"datastoreName", parent: name, min: 1)
+            try validate(self.datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.datastoreStorage?.validate(name: "\(name).datastoreStorage")
+            try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 1)
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -706,19 +706,19 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try pipelineActivities.forEach {
+            try self.pipelineActivities.forEach {
                 try $0.validate(name: "\(name).pipelineActivities[]")
             }
-            try validate(pipelineActivities, name:"pipelineActivities", parent: name, max: 25)
-            try validate(pipelineActivities, name:"pipelineActivities", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 128)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try tags?.forEach {
+            try validate(self.pipelineActivities, name:"pipelineActivities", parent: name, max: 25)
+            try validate(self.pipelineActivities, name:"pipelineActivities", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 128)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 1)
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -771,14 +771,14 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(bucket, name:"bucket", parent: name, max: 255)
-            try validate(bucket, name:"bucket", parent: name, min: 3)
-            try validate(bucket, name:"bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]*$")
-            try validate(keyPrefix, name:"keyPrefix", parent: name, max: 255)
-            try validate(keyPrefix, name:"keyPrefix", parent: name, min: 1)
-            try validate(keyPrefix, name:"keyPrefix", parent: name, pattern: "^[a-zA-Z0-9!_.*'()/{}:-]*/$")
-            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
-            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.bucket, name:"bucket", parent: name, max: 255)
+            try validate(self.bucket, name:"bucket", parent: name, min: 3)
+            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]*$")
+            try validate(self.keyPrefix, name:"keyPrefix", parent: name, max: 255)
+            try validate(self.keyPrefix, name:"keyPrefix", parent: name, min: 1)
+            try validate(self.keyPrefix, name:"keyPrefix", parent: name, pattern: "^[a-zA-Z0-9!_.*'()/{}:-]*/$")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -836,14 +836,14 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(bucket, name:"bucket", parent: name, max: 255)
-            try validate(bucket, name:"bucket", parent: name, min: 3)
-            try validate(bucket, name:"bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]*$")
-            try validate(keyPrefix, name:"keyPrefix", parent: name, max: 255)
-            try validate(keyPrefix, name:"keyPrefix", parent: name, min: 1)
-            try validate(keyPrefix, name:"keyPrefix", parent: name, pattern: "^[a-zA-Z0-9!_.*'()/{}:-]*/$")
-            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
-            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.bucket, name:"bucket", parent: name, max: 255)
+            try validate(self.bucket, name:"bucket", parent: name, min: 3)
+            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]*$")
+            try validate(self.keyPrefix, name:"keyPrefix", parent: name, max: 255)
+            try validate(self.keyPrefix, name:"keyPrefix", parent: name, min: 1)
+            try validate(self.keyPrefix, name:"keyPrefix", parent: name, pattern: "^[a-zA-Z0-9!_.*'()/{}:-]*/$")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -963,11 +963,11 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(actionName, name:"actionName", parent: name, max: 128)
-            try validate(actionName, name:"actionName", parent: name, min: 1)
-            try validate(actionName, name:"actionName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try containerAction?.validate(name: "\(name).containerAction")
-            try queryAction?.validate(name: "\(name).queryAction")
+            try validate(self.actionName, name:"actionName", parent: name, max: 128)
+            try validate(self.actionName, name:"actionName", parent: name, min: 1)
+            try validate(self.actionName, name:"actionName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.containerAction?.validate(name: "\(name).containerAction")
+            try self.queryAction?.validate(name: "\(name).queryAction")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1022,8 +1022,8 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try iotEventsDestinationConfiguration?.validate(name: "\(name).iotEventsDestinationConfiguration")
-            try s3DestinationConfiguration?.validate(name: "\(name).s3DestinationConfiguration")
+            try self.iotEventsDestinationConfiguration?.validate(name: "\(name).iotEventsDestinationConfiguration")
+            try self.s3DestinationConfiguration?.validate(name: "\(name).s3DestinationConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1049,7 +1049,7 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try destination.validate(name: "\(name).destination")
+            try self.destination.validate(name: "\(name).destination")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1132,9 +1132,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1230,7 +1230,7 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try dataset?.validate(name: "\(name).dataset")
+            try self.dataset?.validate(name: "\(name).dataset")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1303,11 +1303,11 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(datastoreName, name:"datastoreName", parent: name, max: 128)
-            try validate(datastoreName, name:"datastoreName", parent: name, min: 1)
-            try validate(datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
+            try validate(self.datastoreName, name:"datastoreName", parent: name, max: 128)
+            try validate(self.datastoreName, name:"datastoreName", parent: name, min: 1)
+            try validate(self.datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1357,7 +1357,7 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try customerManagedS3?.validate(name: "\(name).customerManagedS3")
+            try self.customerManagedS3?.validate(name: "\(name).customerManagedS3")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1438,9 +1438,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(channelName, name:"channelName", parent: name, max: 128)
-            try validate(channelName, name:"channelName", parent: name, min: 1)
-            try validate(channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.channelName, name:"channelName", parent: name, max: 128)
+            try validate(self.channelName, name:"channelName", parent: name, min: 1)
+            try validate(self.channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1465,11 +1465,11 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try validate(versionId, name:"versionId", parent: name, max: 36)
-            try validate(versionId, name:"versionId", parent: name, min: 7)
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.versionId, name:"versionId", parent: name, max: 36)
+            try validate(self.versionId, name:"versionId", parent: name, min: 7)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1491,9 +1491,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1514,9 +1514,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(datastoreName, name:"datastoreName", parent: name, max: 128)
-            try validate(datastoreName, name:"datastoreName", parent: name, min: 1)
-            try validate(datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.datastoreName, name:"datastoreName", parent: name, max: 128)
+            try validate(self.datastoreName, name:"datastoreName", parent: name, min: 1)
+            try validate(self.datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1537,9 +1537,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 128)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 128)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1586,9 +1586,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(channelName, name:"channelName", parent: name, max: 128)
-            try validate(channelName, name:"channelName", parent: name, min: 1)
-            try validate(channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.channelName, name:"channelName", parent: name, max: 128)
+            try validate(self.channelName, name:"channelName", parent: name, min: 1)
+            try validate(self.channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1632,9 +1632,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1676,9 +1676,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(datastoreName, name:"datastoreName", parent: name, max: 128)
-            try validate(datastoreName, name:"datastoreName", parent: name, min: 1)
-            try validate(datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.datastoreName, name:"datastoreName", parent: name, max: 128)
+            try validate(self.datastoreName, name:"datastoreName", parent: name, min: 1)
+            try validate(self.datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1747,9 +1747,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 128)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 128)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1803,16 +1803,16 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(attribute, name:"attribute", parent: name, max: 256)
-            try validate(attribute, name:"attribute", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(next, name:"next", parent: name, max: 128)
-            try validate(next, name:"next", parent: name, min: 1)
-            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
-            try validate(roleArn, name:"roleArn", parent: name, min: 20)
-            try validate(thingName, name:"thingName", parent: name, max: 256)
-            try validate(thingName, name:"thingName", parent: name, min: 1)
+            try validate(self.attribute, name:"attribute", parent: name, max: 256)
+            try validate(self.attribute, name:"attribute", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.next, name:"next", parent: name, max: 128)
+            try validate(self.next, name:"next", parent: name, min: 1)
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.thingName, name:"thingName", parent: name, max: 256)
+            try validate(self.thingName, name:"thingName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1853,16 +1853,16 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(attribute, name:"attribute", parent: name, max: 256)
-            try validate(attribute, name:"attribute", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(next, name:"next", parent: name, max: 128)
-            try validate(next, name:"next", parent: name, min: 1)
-            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
-            try validate(roleArn, name:"roleArn", parent: name, min: 20)
-            try validate(thingName, name:"thingName", parent: name, max: 256)
-            try validate(thingName, name:"thingName", parent: name, min: 1)
+            try validate(self.attribute, name:"attribute", parent: name, max: 256)
+            try validate(self.attribute, name:"attribute", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.next, name:"next", parent: name, max: 128)
+            try validate(self.next, name:"next", parent: name, min: 1)
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.thingName, name:"thingName", parent: name, max: 256)
+            try validate(self.thingName, name:"thingName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1917,12 +1917,12 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(filter, name:"filter", parent: name, max: 256)
-            try validate(filter, name:"filter", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(next, name:"next", parent: name, max: 128)
-            try validate(next, name:"next", parent: name, min: 1)
+            try validate(self.filter, name:"filter", parent: name, max: 256)
+            try validate(self.filter, name:"filter", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.next, name:"next", parent: name, max: 128)
+            try validate(self.next, name:"next", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1949,11 +1949,11 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try validate(versionId, name:"versionId", parent: name, max: 36)
-            try validate(versionId, name:"versionId", parent: name, min: 7)
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.versionId, name:"versionId", parent: name, max: 36)
+            try validate(self.versionId, name:"versionId", parent: name, min: 7)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2006,12 +2006,12 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(databaseName, name:"databaseName", parent: name, max: 150)
-            try validate(databaseName, name:"databaseName", parent: name, min: 1)
-            try validate(databaseName, name:"databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try validate(tableName, name:"tableName", parent: name, max: 150)
-            try validate(tableName, name:"tableName", parent: name, min: 1)
-            try validate(tableName, name:"tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.databaseName, name:"databaseName", parent: name, max: 150)
+            try validate(self.databaseName, name:"databaseName", parent: name, min: 1)
+            try validate(self.databaseName, name:"databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.tableName, name:"tableName", parent: name, max: 150)
+            try validate(self.tableName, name:"tableName", parent: name, min: 1)
+            try validate(self.tableName, name:"tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2037,11 +2037,11 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(inputName, name:"inputName", parent: name, max: 128)
-            try validate(inputName, name:"inputName", parent: name, min: 1)
-            try validate(inputName, name:"inputName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
-            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
-            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.inputName, name:"inputName", parent: name, max: 128)
+            try validate(self.inputName, name:"inputName", parent: name, min: 1)
+            try validate(self.inputName, name:"inputName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2075,15 +2075,15 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(batchSize, name:"batchSize", parent: name, max: 1000)
-            try validate(batchSize, name:"batchSize", parent: name, min: 1)
-            try validate(lambdaName, name:"lambdaName", parent: name, max: 64)
-            try validate(lambdaName, name:"lambdaName", parent: name, min: 1)
-            try validate(lambdaName, name:"lambdaName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(next, name:"next", parent: name, max: 128)
-            try validate(next, name:"next", parent: name, min: 1)
+            try validate(self.batchSize, name:"batchSize", parent: name, max: 1000)
+            try validate(self.batchSize, name:"batchSize", parent: name, min: 1)
+            try validate(self.lambdaName, name:"lambdaName", parent: name, max: 64)
+            try validate(self.lambdaName, name:"lambdaName", parent: name, min: 1)
+            try validate(self.lambdaName, name:"lambdaName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.next, name:"next", parent: name, max: 128)
+            try validate(self.next, name:"next", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2111,8 +2111,8 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2172,11 +2172,11 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2227,8 +2227,8 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2276,8 +2276,8 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2325,8 +2325,8 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(maxResults, name:"maxResults", parent: name, max: 250)
-            try validate(maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2370,8 +2370,8 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, max: 2048)
-            try validate(resourceArn, name:"resourceArn", parent: name, min: 20)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2422,8 +2422,8 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
-            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2458,14 +2458,14 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(attribute, name:"attribute", parent: name, max: 256)
-            try validate(attribute, name:"attribute", parent: name, min: 1)
-            try validate(math, name:"math", parent: name, max: 256)
-            try validate(math, name:"math", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(next, name:"next", parent: name, max: 128)
-            try validate(next, name:"next", parent: name, min: 1)
+            try validate(self.attribute, name:"attribute", parent: name, max: 256)
+            try validate(self.attribute, name:"attribute", parent: name, min: 1)
+            try validate(self.math, name:"math", parent: name, max: 256)
+            try validate(self.math, name:"math", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.next, name:"next", parent: name, max: 128)
+            try validate(self.next, name:"next", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2493,8 +2493,8 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(messageId, name:"messageId", parent: name, max: 128)
-            try validate(messageId, name:"messageId", parent: name, min: 1)
+            try validate(self.messageId, name:"messageId", parent: name, max: 128)
+            try validate(self.messageId, name:"messageId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2516,7 +2516,7 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(fileName, name:"fileName", parent: name, pattern: "[\\w\\.-]{1,255}")
+            try validate(self.fileName, name:"fileName", parent: name, pattern: "[\\w\\.-]{1,255}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2615,16 +2615,16 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try addAttributes?.validate(name: "\(name).addAttributes")
-            try channel?.validate(name: "\(name).channel")
-            try datastore?.validate(name: "\(name).datastore")
-            try deviceRegistryEnrich?.validate(name: "\(name).deviceRegistryEnrich")
-            try deviceShadowEnrich?.validate(name: "\(name).deviceShadowEnrich")
-            try filter?.validate(name: "\(name).filter")
-            try lambda?.validate(name: "\(name).lambda")
-            try math?.validate(name: "\(name).math")
-            try removeAttributes?.validate(name: "\(name).removeAttributes")
-            try selectAttributes?.validate(name: "\(name).selectAttributes")
+            try self.addAttributes?.validate(name: "\(name).addAttributes")
+            try self.channel?.validate(name: "\(name).channel")
+            try self.datastore?.validate(name: "\(name).datastore")
+            try self.deviceRegistryEnrich?.validate(name: "\(name).deviceRegistryEnrich")
+            try self.deviceShadowEnrich?.validate(name: "\(name).deviceShadowEnrich")
+            try self.filter?.validate(name: "\(name).filter")
+            try self.lambda?.validate(name: "\(name).lambda")
+            try self.math?.validate(name: "\(name).math")
+            try self.removeAttributes?.validate(name: "\(name).removeAttributes")
+            try self.selectAttributes?.validate(name: "\(name).selectAttributes")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2686,7 +2686,7 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try loggingOptions.validate(name: "\(name).loggingOptions")
+            try self.loggingOptions.validate(name: "\(name).loggingOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2732,16 +2732,16 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try attributes.forEach {
+            try self.attributes.forEach {
                 try validate($0, name: "attributes[]", parent: name, max: 256)
                 try validate($0, name: "attributes[]", parent: name, min: 1)
             }
-            try validate(attributes, name:"attributes", parent: name, max: 50)
-            try validate(attributes, name:"attributes", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(next, name:"next", parent: name, max: 128)
-            try validate(next, name:"next", parent: name, min: 1)
+            try validate(self.attributes, name:"attributes", parent: name, max: 50)
+            try validate(self.attributes, name:"attributes", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.next, name:"next", parent: name, max: 128)
+            try validate(self.next, name:"next", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2803,8 +2803,8 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(volumeSizeInGB, name:"volumeSizeInGB", parent: name, max: 50)
-            try validate(volumeSizeInGB, name:"volumeSizeInGB", parent: name, min: 1)
+            try validate(self.volumeSizeInGB, name:"volumeSizeInGB", parent: name, max: 50)
+            try validate(self.volumeSizeInGB, name:"volumeSizeInGB", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2830,7 +2830,7 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(numberOfDays, name:"numberOfDays", parent: name, min: 1)
+            try validate(self.numberOfDays, name:"numberOfDays", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2856,9 +2856,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(payloads, name:"payloads", parent: name, max: 10)
-            try validate(payloads, name:"payloads", parent: name, min: 1)
-            try pipelineActivity.validate(name: "\(name).pipelineActivity")
+            try validate(self.payloads, name:"payloads", parent: name, max: 10)
+            try validate(self.payloads, name:"payloads", parent: name, min: 1)
+            try self.pipelineActivity.validate(name: "\(name).pipelineActivity")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2914,15 +2914,15 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(bucket, name:"bucket", parent: name, max: 255)
-            try validate(bucket, name:"bucket", parent: name, min: 3)
-            try validate(bucket, name:"bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]*$")
-            try glueConfiguration?.validate(name: "\(name).glueConfiguration")
-            try validate(key, name:"key", parent: name, max: 255)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(key, name:"key", parent: name, pattern: "^[a-zA-Z0-9!_.*'()/{}:-]*$")
-            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
-            try validate(roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.bucket, name:"bucket", parent: name, max: 255)
+            try validate(self.bucket, name:"bucket", parent: name, min: 3)
+            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]*$")
+            try self.glueConfiguration?.validate(name: "\(name).glueConfiguration")
+            try validate(self.key, name:"key", parent: name, max: 255)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^[a-zA-Z0-9!_.*'()/{}:-]*$")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2958,11 +2958,11 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(channelName, name:"channelName", parent: name, max: 128)
-            try validate(channelName, name:"channelName", parent: name, min: 1)
-            try validate(channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try validate(maxMessages, name:"maxMessages", parent: name, max: 10)
-            try validate(maxMessages, name:"maxMessages", parent: name, min: 1)
+            try validate(self.channelName, name:"channelName", parent: name, max: 128)
+            try validate(self.channelName, name:"channelName", parent: name, min: 1)
+            try validate(self.channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.maxMessages, name:"maxMessages", parent: name, max: 10)
+            try validate(self.maxMessages, name:"maxMessages", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3028,16 +3028,16 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try attributes.forEach {
+            try self.attributes.forEach {
                 try validate($0, name: "attributes[]", parent: name, max: 256)
                 try validate($0, name: "attributes[]", parent: name, min: 1)
             }
-            try validate(attributes, name:"attributes", parent: name, max: 50)
-            try validate(attributes, name:"attributes", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(next, name:"next", parent: name, max: 128)
-            try validate(next, name:"next", parent: name, min: 1)
+            try validate(self.attributes, name:"attributes", parent: name, max: 50)
+            try validate(self.attributes, name:"attributes", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.next, name:"next", parent: name, max: 128)
+            try validate(self.next, name:"next", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3096,8 +3096,8 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(filters, name:"filters", parent: name, max: 1)
-            try validate(filters, name:"filters", parent: name, min: 0)
+            try validate(self.filters, name:"filters", parent: name, max: 1)
+            try validate(self.filters, name:"filters", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3127,9 +3127,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 128)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 128)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3173,10 +3173,10 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 256)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(value, name:"value", parent: name, max: 256)
-            try validate(value, name:"value", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, max: 256)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3202,13 +3202,13 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, max: 2048)
-            try validate(resourceArn, name:"resourceArn", parent: name, min: 20)
-            try tags.forEach {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
+            try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 1)
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3238,9 +3238,9 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3265,14 +3265,14 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceArn, name:"resourceArn", parent: name, max: 2048)
-            try validate(resourceArn, name:"resourceArn", parent: name, min: 20)
-            try tagKeys.forEach {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 256)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try validate(tagKeys, name:"tagKeys", parent: name, max: 50)
-            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3310,11 +3310,11 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(channelName, name:"channelName", parent: name, max: 128)
-            try validate(channelName, name:"channelName", parent: name, min: 1)
-            try validate(channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try channelStorage?.validate(name: "\(name).channelStorage")
-            try retentionPeriod?.validate(name: "\(name).retentionPeriod")
+            try validate(self.channelName, name:"channelName", parent: name, max: 128)
+            try validate(self.channelName, name:"channelName", parent: name, min: 1)
+            try validate(self.channelName, name:"channelName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.channelStorage?.validate(name: "\(name).channelStorage")
+            try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3357,26 +3357,26 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try actions.forEach {
+            try self.actions.forEach {
                 try $0.validate(name: "\(name).actions[]")
             }
-            try validate(actions, name:"actions", parent: name, max: 1)
-            try validate(actions, name:"actions", parent: name, min: 1)
-            try contentDeliveryRules?.forEach {
+            try validate(self.actions, name:"actions", parent: name, max: 1)
+            try validate(self.actions, name:"actions", parent: name, min: 1)
+            try self.contentDeliveryRules?.forEach {
                 try $0.validate(name: "\(name).contentDeliveryRules[]")
             }
-            try validate(contentDeliveryRules, name:"contentDeliveryRules", parent: name, max: 20)
-            try validate(contentDeliveryRules, name:"contentDeliveryRules", parent: name, min: 0)
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try retentionPeriod?.validate(name: "\(name).retentionPeriod")
-            try triggers?.forEach {
+            try validate(self.contentDeliveryRules, name:"contentDeliveryRules", parent: name, max: 20)
+            try validate(self.contentDeliveryRules, name:"contentDeliveryRules", parent: name, min: 0)
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
+            try self.triggers?.forEach {
                 try $0.validate(name: "\(name).triggers[]")
             }
-            try validate(triggers, name:"triggers", parent: name, max: 5)
-            try validate(triggers, name:"triggers", parent: name, min: 0)
-            try versioningConfiguration?.validate(name: "\(name).versioningConfiguration")
+            try validate(self.triggers, name:"triggers", parent: name, max: 5)
+            try validate(self.triggers, name:"triggers", parent: name, min: 0)
+            try self.versioningConfiguration?.validate(name: "\(name).versioningConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3410,11 +3410,11 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(datastoreName, name:"datastoreName", parent: name, max: 128)
-            try validate(datastoreName, name:"datastoreName", parent: name, min: 1)
-            try validate(datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
-            try datastoreStorage?.validate(name: "\(name).datastoreStorage")
-            try retentionPeriod?.validate(name: "\(name).retentionPeriod")
+            try validate(self.datastoreName, name:"datastoreName", parent: name, max: 128)
+            try validate(self.datastoreName, name:"datastoreName", parent: name, min: 1)
+            try validate(self.datastoreName, name:"datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.datastoreStorage?.validate(name: "\(name).datastoreStorage")
+            try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3441,14 +3441,14 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try pipelineActivities.forEach {
+            try self.pipelineActivities.forEach {
                 try $0.validate(name: "\(name).pipelineActivities[]")
             }
-            try validate(pipelineActivities, name:"pipelineActivities", parent: name, max: 25)
-            try validate(pipelineActivities, name:"pipelineActivities", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, max: 128)
-            try validate(pipelineName, name:"pipelineName", parent: name, min: 1)
-            try validate(pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try validate(self.pipelineActivities, name:"pipelineActivities", parent: name, max: 25)
+            try validate(self.pipelineActivities, name:"pipelineActivities", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, max: 128)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, min: 1)
+            try validate(self.pipelineName, name:"pipelineName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3486,12 +3486,12 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try datasetContentVersionValue?.validate(name: "\(name).datasetContentVersionValue")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 1)
-            try outputFileUriValue?.validate(name: "\(name).outputFileUriValue")
-            try validate(stringValue, name:"stringValue", parent: name, max: 1024)
-            try validate(stringValue, name:"stringValue", parent: name, min: 0)
+            try self.datasetContentVersionValue?.validate(name: "\(name).datasetContentVersionValue")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try self.outputFileUriValue?.validate(name: "\(name).outputFileUriValue")
+            try validate(self.stringValue, name:"stringValue", parent: name, max: 1024)
+            try validate(self.stringValue, name:"stringValue", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3520,8 +3520,8 @@ extension IoTAnalytics {
         }
 
         public func validate(name: String) throws {
-            try validate(maxVersions, name:"maxVersions", parent: name, max: 1000)
-            try validate(maxVersions, name:"maxVersions", parent: name, min: 1)
+            try validate(self.maxVersions, name:"maxVersions", parent: name, max: 1000)
+            try validate(self.maxVersions, name:"maxVersions", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -101,15 +101,15 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(action, name:"action", parent: name, pattern: "lambda:GetLayerVersion")
-            try validate(layerName, name:"layerName", parent: name, max: 140)
-            try validate(layerName, name:"layerName", parent: name, min: 1)
-            try validate(layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
-            try validate(organizationId, name:"organizationId", parent: name, pattern: "o-[a-z0-9]{10,32}")
-            try validate(principal, name:"principal", parent: name, pattern: "\\d{12}|\\*|arn:(aws[a-zA-Z-]*):iam::\\d{12}:root")
-            try validate(statementId, name:"statementId", parent: name, max: 100)
-            try validate(statementId, name:"statementId", parent: name, min: 1)
-            try validate(statementId, name:"statementId", parent: name, pattern: "([a-zA-Z0-9-_]+)")
+            try validate(self.action, name:"action", parent: name, pattern: "lambda:GetLayerVersion")
+            try validate(self.layerName, name:"layerName", parent: name, max: 140)
+            try validate(self.layerName, name:"layerName", parent: name, min: 1)
+            try validate(self.layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
+            try validate(self.organizationId, name:"organizationId", parent: name, pattern: "o-[a-z0-9]{10,32}")
+            try validate(self.principal, name:"principal", parent: name, pattern: "\\d{12}|\\*|arn:(aws[a-zA-Z-]*):iam::\\d{12}:root")
+            try validate(self.statementId, name:"statementId", parent: name, max: 100)
+            try validate(self.statementId, name:"statementId", parent: name, min: 1)
+            try validate(self.statementId, name:"statementId", parent: name, pattern: "([a-zA-Z0-9-_]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -190,22 +190,22 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(action, name:"action", parent: name, pattern: "(lambda:[*]|lambda:[a-zA-Z]+|[*])")
-            try validate(eventSourceToken, name:"eventSourceToken", parent: name, max: 256)
-            try validate(eventSourceToken, name:"eventSourceToken", parent: name, min: 0)
-            try validate(eventSourceToken, name:"eventSourceToken", parent: name, pattern: "[a-zA-Z0-9._\\-]+")
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(principal, name:"principal", parent: name, pattern: ".*")
-            try validate(qualifier, name:"qualifier", parent: name, max: 128)
-            try validate(qualifier, name:"qualifier", parent: name, min: 1)
-            try validate(qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
-            try validate(sourceAccount, name:"sourceAccount", parent: name, pattern: "\\d{12}")
-            try validate(sourceArn, name:"sourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
-            try validate(statementId, name:"statementId", parent: name, max: 100)
-            try validate(statementId, name:"statementId", parent: name, min: 1)
-            try validate(statementId, name:"statementId", parent: name, pattern: "([a-zA-Z0-9-_]+)")
+            try validate(self.action, name:"action", parent: name, pattern: "(lambda:[*]|lambda:[a-zA-Z]+|[*])")
+            try validate(self.eventSourceToken, name:"eventSourceToken", parent: name, max: 256)
+            try validate(self.eventSourceToken, name:"eventSourceToken", parent: name, min: 0)
+            try validate(self.eventSourceToken, name:"eventSourceToken", parent: name, pattern: "[a-zA-Z0-9._\\-]+")
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.principal, name:"principal", parent: name, pattern: ".*")
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+            try validate(self.sourceAccount, name:"sourceAccount", parent: name, pattern: "\\d{12}")
+            try validate(self.sourceArn, name:"sourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+            try validate(self.statementId, name:"statementId", parent: name, max: 100)
+            try validate(self.statementId, name:"statementId", parent: name, min: 1)
+            try validate(self.statementId, name:"statementId", parent: name, pattern: "([a-zA-Z0-9-_]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -293,7 +293,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try additionalVersionWeights?.forEach {
+            try self.additionalVersionWeights?.forEach {
                 try validate($0.key, name:"additionalVersionWeights.key", parent: name, max: 1024)
                 try validate($0.key, name:"additionalVersionWeights.key", parent: name, min: 1)
                 try validate($0.key, name:"additionalVersionWeights.key", parent: name, pattern: "[0-9]+")
@@ -353,18 +353,18 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(functionVersion, name:"functionVersion", parent: name, max: 1024)
-            try validate(functionVersion, name:"functionVersion", parent: name, min: 1)
-            try validate(functionVersion, name:"functionVersion", parent: name, pattern: "(\\$LATEST|[0-9]+)")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
-            try routingConfig?.validate(name: "\(name).routingConfig")
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.functionVersion, name:"functionVersion", parent: name, max: 1024)
+            try validate(self.functionVersion, name:"functionVersion", parent: name, min: 1)
+            try validate(self.functionVersion, name:"functionVersion", parent: name, pattern: "(\\$LATEST|[0-9]+)")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
+            try self.routingConfig?.validate(name: "\(name).routingConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -409,12 +409,12 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(batchSize, name:"batchSize", parent: name, max: 10000)
-            try validate(batchSize, name:"batchSize", parent: name, min: 1)
-            try validate(eventSourceArn, name:"eventSourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.batchSize, name:"batchSize", parent: name, max: 10000)
+            try validate(self.batchSize, name:"batchSize", parent: name, min: 1)
+            try validate(self.eventSourceArn, name:"eventSourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -500,27 +500,27 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try code.validate(name: "\(name).code")
-            try deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(description, name:"description", parent: name, min: 0)
-            try environment?.validate(name: "\(name).environment")
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(handler, name:"handler", parent: name, max: 128)
-            try validate(handler, name:"handler", parent: name, pattern: "[^\\s]+")
-            try validate(kMSKeyArn, name:"kMSKeyArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
-            try layers?.forEach {
+            try self.code.validate(name: "\(name).code")
+            try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try self.environment?.validate(name: "\(name).environment")
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.handler, name:"handler", parent: name, max: 128)
+            try validate(self.handler, name:"handler", parent: name, pattern: "[^\\s]+")
+            try validate(self.kMSKeyArn, name:"kMSKeyArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
+            try self.layers?.forEach {
                 try validate($0, name: "layers[]", parent: name, max: 140)
                 try validate($0, name: "layers[]", parent: name, min: 1)
                 try validate($0, name: "layers[]", parent: name, pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
             }
-            try validate(memorySize, name:"memorySize", parent: name, max: 3008)
-            try validate(memorySize, name:"memorySize", parent: name, min: 128)
-            try validate(role, name:"role", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
-            try validate(timeout, name:"timeout", parent: name, min: 1)
-            try vpcConfig?.validate(name: "\(name).vpcConfig")
+            try validate(self.memorySize, name:"memorySize", parent: name, max: 3008)
+            try validate(self.memorySize, name:"memorySize", parent: name, min: 128)
+            try validate(self.role, name:"role", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try validate(self.timeout, name:"timeout", parent: name, min: 1)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -556,7 +556,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(targetArn, name:"targetArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
+            try validate(self.targetArn, name:"targetArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -581,12 +581,12 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -625,9 +625,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -652,12 +652,12 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(qualifier, name:"qualifier", parent: name, max: 128)
-            try validate(qualifier, name:"qualifier", parent: name, min: 1)
-            try validate(qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -683,9 +683,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(layerName, name:"layerName", parent: name, max: 140)
-            try validate(layerName, name:"layerName", parent: name, min: 1)
-            try validate(layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
+            try validate(self.layerName, name:"layerName", parent: name, max: 140)
+            try validate(self.layerName, name:"layerName", parent: name, min: 1)
+            try validate(self.layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -707,7 +707,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try variables?.forEach {
+            try self.variables?.forEach {
                 try validate($0.key, name:"variables.key", parent: name, pattern: "[a-zA-Z]([a-zA-Z0-9_])+")
             }
         }
@@ -845,13 +845,13 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(s3Bucket, name:"s3Bucket", parent: name, max: 63)
-            try validate(s3Bucket, name:"s3Bucket", parent: name, min: 3)
-            try validate(s3Bucket, name:"s3Bucket", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$")
-            try validate(s3Key, name:"s3Key", parent: name, max: 1024)
-            try validate(s3Key, name:"s3Key", parent: name, min: 1)
-            try validate(s3ObjectVersion, name:"s3ObjectVersion", parent: name, max: 1024)
-            try validate(s3ObjectVersion, name:"s3ObjectVersion", parent: name, min: 1)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, max: 63)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, min: 3)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$")
+            try validate(self.s3Key, name:"s3Key", parent: name, max: 1024)
+            try validate(self.s3Key, name:"s3Key", parent: name, min: 1)
+            try validate(self.s3ObjectVersion, name:"s3ObjectVersion", parent: name, max: 1024)
+            try validate(self.s3ObjectVersion, name:"s3ObjectVersion", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1048,12 +1048,12 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1096,12 +1096,12 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 170)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(qualifier, name:"qualifier", parent: name, max: 128)
-            try validate(qualifier, name:"qualifier", parent: name, min: 1)
-            try validate(qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+            try validate(self.functionName, name:"functionName", parent: name, max: 170)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1127,12 +1127,12 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 170)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(qualifier, name:"qualifier", parent: name, max: 128)
-            try validate(qualifier, name:"qualifier", parent: name, min: 1)
-            try validate(qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+            try validate(self.functionName, name:"functionName", parent: name, max: 170)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1186,9 +1186,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 140)
-            try validate(arn, name:"arn", parent: name, min: 1)
-            try validate(arn, name:"arn", parent: name, pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
+            try validate(self.arn, name:"arn", parent: name, max: 140)
+            try validate(self.arn, name:"arn", parent: name, min: 1)
+            try validate(self.arn, name:"arn", parent: name, pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1213,9 +1213,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(layerName, name:"layerName", parent: name, max: 140)
-            try validate(layerName, name:"layerName", parent: name, min: 1)
-            try validate(layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
+            try validate(self.layerName, name:"layerName", parent: name, max: 140)
+            try validate(self.layerName, name:"layerName", parent: name, min: 1)
+            try validate(self.layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1263,9 +1263,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(layerName, name:"layerName", parent: name, max: 140)
-            try validate(layerName, name:"layerName", parent: name, min: 1)
-            try validate(layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
+            try validate(self.layerName, name:"layerName", parent: name, max: 140)
+            try validate(self.layerName, name:"layerName", parent: name, min: 1)
+            try validate(self.layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1343,12 +1343,12 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 170)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(qualifier, name:"qualifier", parent: name, max: 128)
-            try validate(qualifier, name:"qualifier", parent: name, min: 1)
-            try validate(qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+            try validate(self.functionName, name:"functionName", parent: name, max: 170)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1414,12 +1414,12 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 170)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(qualifier, name:"qualifier", parent: name, max: 128)
-            try validate(qualifier, name:"qualifier", parent: name, min: 1)
-            try validate(qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+            try validate(self.functionName, name:"functionName", parent: name, max: 170)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1497,9 +1497,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 170)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.functionName, name:"functionName", parent: name, max: 170)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1572,13 +1572,13 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(s3Bucket, name:"s3Bucket", parent: name, max: 63)
-            try validate(s3Bucket, name:"s3Bucket", parent: name, min: 3)
-            try validate(s3Bucket, name:"s3Bucket", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$")
-            try validate(s3Key, name:"s3Key", parent: name, max: 1024)
-            try validate(s3Key, name:"s3Key", parent: name, min: 1)
-            try validate(s3ObjectVersion, name:"s3ObjectVersion", parent: name, max: 1024)
-            try validate(s3ObjectVersion, name:"s3ObjectVersion", parent: name, min: 1)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, max: 63)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, min: 3)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$")
+            try validate(self.s3Key, name:"s3Key", parent: name, max: 1024)
+            try validate(self.s3Key, name:"s3Key", parent: name, min: 1)
+            try validate(self.s3ObjectVersion, name:"s3ObjectVersion", parent: name, max: 1024)
+            try validate(self.s3ObjectVersion, name:"s3ObjectVersion", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1710,14 +1710,14 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(functionVersion, name:"functionVersion", parent: name, max: 1024)
-            try validate(functionVersion, name:"functionVersion", parent: name, min: 1)
-            try validate(functionVersion, name:"functionVersion", parent: name, pattern: "(\\$LATEST|[0-9]+)")
-            try validate(maxItems, name:"maxItems", parent: name, max: 10000)
-            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.functionVersion, name:"functionVersion", parent: name, max: 1024)
+            try validate(self.functionVersion, name:"functionVersion", parent: name, min: 1)
+            try validate(self.functionVersion, name:"functionVersion", parent: name, pattern: "(\\$LATEST|[0-9]+)")
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 10000)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1775,12 +1775,12 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(eventSourceArn, name:"eventSourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(maxItems, name:"maxItems", parent: name, max: 10000)
-            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(self.eventSourceArn, name:"eventSourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 10000)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1838,9 +1838,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(masterRegion, name:"masterRegion", parent: name, pattern: "ALL|[a-z]{2}(-gov)?-[a-z]+-\\d{1}")
-            try validate(maxItems, name:"maxItems", parent: name, max: 10000)
-            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(self.masterRegion, name:"masterRegion", parent: name, pattern: "ALL|[a-z]{2}(-gov)?-[a-z]+-\\d{1}")
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 10000)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1898,11 +1898,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(layerName, name:"layerName", parent: name, max: 140)
-            try validate(layerName, name:"layerName", parent: name, min: 1)
-            try validate(layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
-            try validate(maxItems, name:"maxItems", parent: name, max: 50)
-            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(self.layerName, name:"layerName", parent: name, max: 140)
+            try validate(self.layerName, name:"layerName", parent: name, min: 1)
+            try validate(self.layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 50)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1956,8 +1956,8 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(maxItems, name:"maxItems", parent: name, max: 50)
-            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 50)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2002,7 +2002,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(resource, name:"resource", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.resource, name:"resource", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2048,11 +2048,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 170)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(maxItems, name:"maxItems", parent: name, max: 10000)
-            try validate(maxItems, name:"maxItems", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, max: 170)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.maxItems, name:"maxItems", parent: name, max: 10000)
+            try validate(self.maxItems, name:"maxItems", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2119,14 +2119,14 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(compatibleRuntimes, name:"compatibleRuntimes", parent: name, max: 5)
-            try content.validate(name: "\(name).content")
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(layerName, name:"layerName", parent: name, max: 140)
-            try validate(layerName, name:"layerName", parent: name, min: 1)
-            try validate(layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
-            try validate(licenseInfo, name:"licenseInfo", parent: name, max: 512)
+            try validate(self.compatibleRuntimes, name:"compatibleRuntimes", parent: name, max: 5)
+            try self.content.validate(name: "\(name).content")
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.layerName, name:"layerName", parent: name, max: 140)
+            try validate(self.layerName, name:"layerName", parent: name, min: 1)
+            try validate(self.layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
+            try validate(self.licenseInfo, name:"licenseInfo", parent: name, max: 512)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2215,11 +2215,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2247,10 +2247,10 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(reservedConcurrentExecutions, name:"reservedConcurrentExecutions", parent: name, min: 0)
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.reservedConcurrentExecutions, name:"reservedConcurrentExecutions", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2284,12 +2284,12 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(layerName, name:"layerName", parent: name, max: 140)
-            try validate(layerName, name:"layerName", parent: name, min: 1)
-            try validate(layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
-            try validate(statementId, name:"statementId", parent: name, max: 100)
-            try validate(statementId, name:"statementId", parent: name, min: 1)
-            try validate(statementId, name:"statementId", parent: name, pattern: "([a-zA-Z0-9-_]+)")
+            try validate(self.layerName, name:"layerName", parent: name, max: 140)
+            try validate(self.layerName, name:"layerName", parent: name, min: 1)
+            try validate(self.layerName, name:"layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
+            try validate(self.statementId, name:"statementId", parent: name, max: 100)
+            try validate(self.statementId, name:"statementId", parent: name, min: 1)
+            try validate(self.statementId, name:"statementId", parent: name, pattern: "([a-zA-Z0-9-_]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2325,15 +2325,15 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(qualifier, name:"qualifier", parent: name, max: 128)
-            try validate(qualifier, name:"qualifier", parent: name, min: 1)
-            try validate(qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
-            try validate(statementId, name:"statementId", parent: name, max: 100)
-            try validate(statementId, name:"statementId", parent: name, min: 1)
-            try validate(statementId, name:"statementId", parent: name, pattern: "([a-zA-Z0-9-_.]+)")
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.qualifier, name:"qualifier", parent: name, max: 128)
+            try validate(self.qualifier, name:"qualifier", parent: name, min: 1)
+            try validate(self.qualifier, name:"qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+            try validate(self.statementId, name:"statementId", parent: name, max: 100)
+            try validate(self.statementId, name:"statementId", parent: name, min: 1)
+            try validate(self.statementId, name:"statementId", parent: name, pattern: "([a-zA-Z0-9-_.]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2381,7 +2381,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(resource, name:"resource", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.resource, name:"resource", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2447,7 +2447,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(resource, name:"resource", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.resource, name:"resource", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2489,18 +2489,18 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(description, name:"description", parent: name, min: 0)
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(functionVersion, name:"functionVersion", parent: name, max: 1024)
-            try validate(functionVersion, name:"functionVersion", parent: name, min: 1)
-            try validate(functionVersion, name:"functionVersion", parent: name, pattern: "(\\$LATEST|[0-9]+)")
-            try validate(name, name:"name", parent: name, max: 128)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
-            try routingConfig?.validate(name: "\(name).routingConfig")
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.functionVersion, name:"functionVersion", parent: name, max: 1024)
+            try validate(self.functionVersion, name:"functionVersion", parent: name, min: 1)
+            try validate(self.functionVersion, name:"functionVersion", parent: name, pattern: "(\\$LATEST|[0-9]+)")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
+            try self.routingConfig?.validate(name: "\(name).routingConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2538,11 +2538,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(batchSize, name:"batchSize", parent: name, max: 10000)
-            try validate(batchSize, name:"batchSize", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.batchSize, name:"batchSize", parent: name, max: 10000)
+            try validate(self.batchSize, name:"batchSize", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2594,16 +2594,16 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(s3Bucket, name:"s3Bucket", parent: name, max: 63)
-            try validate(s3Bucket, name:"s3Bucket", parent: name, min: 3)
-            try validate(s3Bucket, name:"s3Bucket", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$")
-            try validate(s3Key, name:"s3Key", parent: name, max: 1024)
-            try validate(s3Key, name:"s3Key", parent: name, min: 1)
-            try validate(s3ObjectVersion, name:"s3ObjectVersion", parent: name, max: 1024)
-            try validate(s3ObjectVersion, name:"s3ObjectVersion", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, max: 63)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, min: 3)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$")
+            try validate(self.s3Key, name:"s3Key", parent: name, max: 1024)
+            try validate(self.s3Key, name:"s3Key", parent: name, min: 1)
+            try validate(self.s3ObjectVersion, name:"s3ObjectVersion", parent: name, max: 1024)
+            try validate(self.s3ObjectVersion, name:"s3ObjectVersion", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2683,26 +2683,26 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
-            try validate(description, name:"description", parent: name, max: 256)
-            try validate(description, name:"description", parent: name, min: 0)
-            try environment?.validate(name: "\(name).environment")
-            try validate(functionName, name:"functionName", parent: name, max: 140)
-            try validate(functionName, name:"functionName", parent: name, min: 1)
-            try validate(functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try validate(handler, name:"handler", parent: name, max: 128)
-            try validate(handler, name:"handler", parent: name, pattern: "[^\\s]+")
-            try validate(kMSKeyArn, name:"kMSKeyArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
-            try layers?.forEach {
+            try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
+            try validate(self.description, name:"description", parent: name, max: 256)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try self.environment?.validate(name: "\(name).environment")
+            try validate(self.functionName, name:"functionName", parent: name, max: 140)
+            try validate(self.functionName, name:"functionName", parent: name, min: 1)
+            try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.handler, name:"handler", parent: name, max: 128)
+            try validate(self.handler, name:"handler", parent: name, pattern: "[^\\s]+")
+            try validate(self.kMSKeyArn, name:"kMSKeyArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
+            try self.layers?.forEach {
                 try validate($0, name: "layers[]", parent: name, max: 140)
                 try validate($0, name: "layers[]", parent: name, min: 1)
                 try validate($0, name: "layers[]", parent: name, pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
             }
-            try validate(memorySize, name:"memorySize", parent: name, max: 3008)
-            try validate(memorySize, name:"memorySize", parent: name, min: 128)
-            try validate(role, name:"role", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
-            try validate(timeout, name:"timeout", parent: name, min: 1)
-            try vpcConfig?.validate(name: "\(name).vpcConfig")
+            try validate(self.memorySize, name:"memorySize", parent: name, max: 3008)
+            try validate(self.memorySize, name:"memorySize", parent: name, min: 128)
+            try validate(self.role, name:"role", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try validate(self.timeout, name:"timeout", parent: name, min: 1)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2740,8 +2740,8 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try validate(securityGroupIds, name:"securityGroupIds", parent: name, max: 5)
-            try validate(subnetIds, name:"subnetIds", parent: name, max: 16)
+            try validate(self.securityGroupIds, name:"securityGroupIds", parent: name, max: 5)
+            try validate(self.subnetIds, name:"subnetIds", parent: name, max: 16)
         }
 
         private enum CodingKeys: String, CodingKey {

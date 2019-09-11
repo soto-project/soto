@@ -130,9 +130,9 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
-            try validate(userId, name:"userId", parent: name, max: 100)
-            try validate(userId, name:"userId", parent: name, min: 2)
-            try validate(userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
+            try validate(self.userId, name:"userId", parent: name, max: 100)
+            try validate(self.userId, name:"userId", parent: name, min: 2)
+            try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -244,11 +244,11 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
-            try validate(inputText, name:"inputText", parent: name, max: 1024)
-            try validate(inputText, name:"inputText", parent: name, min: 1)
-            try validate(userId, name:"userId", parent: name, max: 100)
-            try validate(userId, name:"userId", parent: name, min: 2)
-            try validate(userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
+            try validate(self.inputText, name:"inputText", parent: name, max: 1024)
+            try validate(self.inputText, name:"inputText", parent: name, min: 1)
+            try validate(self.userId, name:"userId", parent: name, max: 100)
+            try validate(self.userId, name:"userId", parent: name, min: 2)
+            try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
