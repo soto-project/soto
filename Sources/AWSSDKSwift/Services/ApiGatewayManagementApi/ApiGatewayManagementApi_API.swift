@@ -27,7 +27,7 @@ public struct ApiGatewayManagementApi {
     }
 
     ///  Sends the provided data to the specified connection.
-    @discardableResult public func postToConnection(_ input: PostToConnectionRequest) throws -> Future<Void> {
-        return try client.send(operation: "PostToConnection", path: "/@connections/{connectionId}", httpMethod: "POST", input: input)
+    @discardableResult public func postToConnection(_ input: PostToConnectionRequest) -> Future<Void> {
+        return client.send(operation: "PostToConnection", path: "/@connections/{connectionId}", httpMethod: "POST", input: input)
     }
 }

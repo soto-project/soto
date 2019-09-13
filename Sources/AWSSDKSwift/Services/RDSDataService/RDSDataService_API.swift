@@ -40,8 +40,8 @@ public struct RDSDataService {
     ///                      transactionID parameter, changes that result from the call are
     ///                  committed automatically.    
     ///          
-    public func batchExecuteStatement(_ input: BatchExecuteStatementRequest) throws -> Future<BatchExecuteStatementResponse> {
-        return try client.send(operation: "BatchExecuteStatement", path: "/BatchExecute", httpMethod: "POST", input: input)
+    public func batchExecuteStatement(_ input: BatchExecuteStatementRequest) -> Future<BatchExecuteStatementResponse> {
+        return client.send(operation: "BatchExecuteStatement", path: "/BatchExecute", httpMethod: "POST", input: input)
     }
 
     ///  Starts a SQL transaction.
@@ -56,14 +56,14 @@ public struct RDSDataService {
     ///                  that you run each DDL statement in a separate ExecuteStatement call with 
     ///                  continueAfterTimeout enabled.
     ///          
-    public func beginTransaction(_ input: BeginTransactionRequest) throws -> Future<BeginTransactionResponse> {
-        return try client.send(operation: "BeginTransaction", path: "/BeginTransaction", httpMethod: "POST", input: input)
+    public func beginTransaction(_ input: BeginTransactionRequest) -> Future<BeginTransactionResponse> {
+        return client.send(operation: "BeginTransaction", path: "/BeginTransaction", httpMethod: "POST", input: input)
     }
 
     ///  Ends a SQL transaction started with the BeginTransaction operation and
     ///              commits the changes.
-    public func commitTransaction(_ input: CommitTransactionRequest) throws -> Future<CommitTransactionResponse> {
-        return try client.send(operation: "CommitTransaction", path: "/CommitTransaction", httpMethod: "POST", input: input)
+    public func commitTransaction(_ input: CommitTransactionRequest) -> Future<CommitTransactionResponse> {
+        return client.send(operation: "CommitTransaction", path: "/CommitTransaction", httpMethod: "POST", input: input)
     }
 
     ///  Runs one or more SQL statements.
@@ -72,8 +72,8 @@ public struct RDSDataService {
     ///                      ExecuteStatement operation.
     ///          
     @available(*, deprecated, message:"ExecuteSql is deprecated.")
-    public func executeSql(_ input: ExecuteSqlRequest) throws -> Future<ExecuteSqlResponse> {
-        return try client.send(operation: "ExecuteSql", path: "/ExecuteSql", httpMethod: "POST", input: input)
+    public func executeSql(_ input: ExecuteSqlRequest) -> Future<ExecuteSqlResponse> {
+        return client.send(operation: "ExecuteSql", path: "/ExecuteSql", httpMethod: "POST", input: input)
     }
 
     ///  Runs a SQL statement against a database.
@@ -83,12 +83,12 @@ public struct RDSDataService {
     ///                  committed automatically.    
     ///          
     ///          The response size limit is 1 MB or 1,000 records. If the call returns more than 1 MB of response data or over 1,000 records, the call is terminated.
-    public func executeStatement(_ input: ExecuteStatementRequest) throws -> Future<ExecuteStatementResponse> {
-        return try client.send(operation: "ExecuteStatement", path: "/Execute", httpMethod: "POST", input: input)
+    public func executeStatement(_ input: ExecuteStatementRequest) -> Future<ExecuteStatementResponse> {
+        return client.send(operation: "ExecuteStatement", path: "/Execute", httpMethod: "POST", input: input)
     }
 
     ///  Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
-    public func rollbackTransaction(_ input: RollbackTransactionRequest) throws -> Future<RollbackTransactionResponse> {
-        return try client.send(operation: "RollbackTransaction", path: "/RollbackTransaction", httpMethod: "POST", input: input)
+    public func rollbackTransaction(_ input: RollbackTransactionRequest) -> Future<RollbackTransactionResponse> {
+        return client.send(operation: "RollbackTransaction", path: "/RollbackTransaction", httpMethod: "POST", input: input)
     }
 }

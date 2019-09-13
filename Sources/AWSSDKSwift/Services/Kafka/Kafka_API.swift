@@ -30,109 +30,109 @@ public struct Kafka {
 
     ///              Creates a new MSK cluster.
     ///           
-    public func createCluster(_ input: CreateClusterRequest) throws -> Future<CreateClusterResponse> {
-        return try client.send(operation: "CreateCluster", path: "/v1/clusters", httpMethod: "POST", input: input)
+    public func createCluster(_ input: CreateClusterRequest) -> Future<CreateClusterResponse> {
+        return client.send(operation: "CreateCluster", path: "/v1/clusters", httpMethod: "POST", input: input)
     }
 
     ///              Creates a new MSK configuration.
     ///           
-    public func createConfiguration(_ input: CreateConfigurationRequest) throws -> Future<CreateConfigurationResponse> {
-        return try client.send(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: "POST", input: input)
+    public func createConfiguration(_ input: CreateConfigurationRequest) -> Future<CreateConfigurationResponse> {
+        return client.send(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: "POST", input: input)
     }
 
     ///              Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
     ///           
-    public func deleteCluster(_ input: DeleteClusterRequest) throws -> Future<DeleteClusterResponse> {
-        return try client.send(operation: "DeleteCluster", path: "/v1/clusters/{clusterArn}", httpMethod: "DELETE", input: input)
+    public func deleteCluster(_ input: DeleteClusterRequest) -> Future<DeleteClusterResponse> {
+        return client.send(operation: "DeleteCluster", path: "/v1/clusters/{clusterArn}", httpMethod: "DELETE", input: input)
     }
 
     ///              Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     ///           
-    public func describeCluster(_ input: DescribeClusterRequest) throws -> Future<DescribeClusterResponse> {
-        return try client.send(operation: "DescribeCluster", path: "/v1/clusters/{clusterArn}", httpMethod: "GET", input: input)
+    public func describeCluster(_ input: DescribeClusterRequest) -> Future<DescribeClusterResponse> {
+        return client.send(operation: "DescribeCluster", path: "/v1/clusters/{clusterArn}", httpMethod: "GET", input: input)
     }
 
     ///              Returns a description of the cluster operation specified by the ARN.
     ///           
-    public func describeClusterOperation(_ input: DescribeClusterOperationRequest) throws -> Future<DescribeClusterOperationResponse> {
-        return try client.send(operation: "DescribeClusterOperation", path: "/v1/operations/{clusterOperationArn}", httpMethod: "GET", input: input)
+    public func describeClusterOperation(_ input: DescribeClusterOperationRequest) -> Future<DescribeClusterOperationResponse> {
+        return client.send(operation: "DescribeClusterOperation", path: "/v1/operations/{clusterOperationArn}", httpMethod: "GET", input: input)
     }
 
     ///              Returns a description of this MSK configuration.
     ///           
-    public func describeConfiguration(_ input: DescribeConfigurationRequest) throws -> Future<DescribeConfigurationResponse> {
-        return try client.send(operation: "DescribeConfiguration", path: "/v1/configurations/{arn}", httpMethod: "GET", input: input)
+    public func describeConfiguration(_ input: DescribeConfigurationRequest) -> Future<DescribeConfigurationResponse> {
+        return client.send(operation: "DescribeConfiguration", path: "/v1/configurations/{arn}", httpMethod: "GET", input: input)
     }
 
     ///              Returns a description of this revision of the configuration.
     ///           
-    public func describeConfigurationRevision(_ input: DescribeConfigurationRevisionRequest) throws -> Future<DescribeConfigurationRevisionResponse> {
-        return try client.send(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{arn}/revisions/{revision}", httpMethod: "GET", input: input)
+    public func describeConfigurationRevision(_ input: DescribeConfigurationRevisionRequest) -> Future<DescribeConfigurationRevisionResponse> {
+        return client.send(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{arn}/revisions/{revision}", httpMethod: "GET", input: input)
     }
 
     ///              A list of brokers that a client application can use to bootstrap.
     ///           
-    public func getBootstrapBrokers(_ input: GetBootstrapBrokersRequest) throws -> Future<GetBootstrapBrokersResponse> {
-        return try client.send(operation: "GetBootstrapBrokers", path: "/v1/clusters/{clusterArn}/bootstrap-brokers", httpMethod: "GET", input: input)
+    public func getBootstrapBrokers(_ input: GetBootstrapBrokersRequest) -> Future<GetBootstrapBrokersResponse> {
+        return client.send(operation: "GetBootstrapBrokers", path: "/v1/clusters/{clusterArn}/bootstrap-brokers", httpMethod: "GET", input: input)
     }
 
     ///              Returns a list of all the operations that have been performed on the specified MSK cluster.
     ///           
-    public func listClusterOperations(_ input: ListClusterOperationsRequest) throws -> Future<ListClusterOperationsResponse> {
-        return try client.send(operation: "ListClusterOperations", path: "/v1/clusters/{clusterArn}/operations", httpMethod: "GET", input: input)
+    public func listClusterOperations(_ input: ListClusterOperationsRequest) -> Future<ListClusterOperationsResponse> {
+        return client.send(operation: "ListClusterOperations", path: "/v1/clusters/{clusterArn}/operations", httpMethod: "GET", input: input)
     }
 
     ///              Returns a list of all the MSK clusters in the current Region.
     ///           
-    public func listClusters(_ input: ListClustersRequest) throws -> Future<ListClustersResponse> {
-        return try client.send(operation: "ListClusters", path: "/v1/clusters", httpMethod: "GET", input: input)
+    public func listClusters(_ input: ListClustersRequest) -> Future<ListClustersResponse> {
+        return client.send(operation: "ListClusters", path: "/v1/clusters", httpMethod: "GET", input: input)
     }
 
     ///              Returns a list of all the MSK configurations in this Region.
     ///           
-    public func listConfigurationRevisions(_ input: ListConfigurationRevisionsRequest) throws -> Future<ListConfigurationRevisionsResponse> {
-        return try client.send(operation: "ListConfigurationRevisions", path: "/v1/configurations/{arn}/revisions", httpMethod: "GET", input: input)
+    public func listConfigurationRevisions(_ input: ListConfigurationRevisionsRequest) -> Future<ListConfigurationRevisionsResponse> {
+        return client.send(operation: "ListConfigurationRevisions", path: "/v1/configurations/{arn}/revisions", httpMethod: "GET", input: input)
     }
 
     ///              Returns a list of all the MSK configurations in this Region.
     ///           
-    public func listConfigurations(_ input: ListConfigurationsRequest) throws -> Future<ListConfigurationsResponse> {
-        return try client.send(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: "GET", input: input)
+    public func listConfigurations(_ input: ListConfigurationsRequest) -> Future<ListConfigurationsResponse> {
+        return client.send(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: "GET", input: input)
     }
 
     ///              Returns a list of the broker nodes in the cluster.
     ///           
-    public func listNodes(_ input: ListNodesRequest) throws -> Future<ListNodesResponse> {
-        return try client.send(operation: "ListNodes", path: "/v1/clusters/{clusterArn}/nodes", httpMethod: "GET", input: input)
+    public func listNodes(_ input: ListNodesRequest) -> Future<ListNodesResponse> {
+        return client.send(operation: "ListNodes", path: "/v1/clusters/{clusterArn}/nodes", httpMethod: "GET", input: input)
     }
 
     ///              Returns a list of the tags associated with the specified resource.
     ///           
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
-        return try client.send(operation: "ListTagsForResource", path: "/v1/tags/{resourceArn}", httpMethod: "GET", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/v1/tags/{resourceArn}", httpMethod: "GET", input: input)
     }
 
     ///              Adds tags to the specified MSK resource.
     ///           
-    @discardableResult public func tagResource(_ input: TagResourceRequest) throws -> Future<Void> {
-        return try client.send(operation: "TagResource", path: "/v1/tags/{resourceArn}", httpMethod: "POST", input: input)
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> Future<Void> {
+        return client.send(operation: "TagResource", path: "/v1/tags/{resourceArn}", httpMethod: "POST", input: input)
     }
 
     ///              Removes the tags associated with the keys that are provided in the query.
     ///           
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
-        return try client.send(operation: "UntagResource", path: "/v1/tags/{resourceArn}", httpMethod: "DELETE", input: input)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
+        return client.send(operation: "UntagResource", path: "/v1/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
     ///              Updates the EBS storage associated with MSK brokers.
     ///           
-    public func updateBrokerStorage(_ input: UpdateBrokerStorageRequest) throws -> Future<UpdateBrokerStorageResponse> {
-        return try client.send(operation: "UpdateBrokerStorage", path: "/v1/clusters/{clusterArn}/nodes/storage", httpMethod: "PUT", input: input)
+    public func updateBrokerStorage(_ input: UpdateBrokerStorageRequest) -> Future<UpdateBrokerStorageResponse> {
+        return client.send(operation: "UpdateBrokerStorage", path: "/v1/clusters/{clusterArn}/nodes/storage", httpMethod: "PUT", input: input)
     }
 
     ///              Updates the cluster with the configuration that is specified in the request body.
     ///           
-    public func updateClusterConfiguration(_ input: UpdateClusterConfigurationRequest) throws -> Future<UpdateClusterConfigurationResponse> {
-        return try client.send(operation: "UpdateClusterConfiguration", path: "/v1/clusters/{clusterArn}/configuration", httpMethod: "PUT", input: input)
+    public func updateClusterConfiguration(_ input: UpdateClusterConfigurationRequest) -> Future<UpdateClusterConfigurationResponse> {
+        return client.send(operation: "UpdateClusterConfiguration", path: "/v1/clusters/{clusterArn}/configuration", httpMethod: "PUT", input: input)
     }
 }

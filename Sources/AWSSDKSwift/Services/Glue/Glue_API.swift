@@ -28,547 +28,547 @@ public struct Glue {
     }
 
     ///  Creates one or more partitions in a batch operation.
-    public func batchCreatePartition(_ input: BatchCreatePartitionRequest) throws -> Future<BatchCreatePartitionResponse> {
-        return try client.send(operation: "BatchCreatePartition", path: "/", httpMethod: "POST", input: input)
+    public func batchCreatePartition(_ input: BatchCreatePartitionRequest) -> Future<BatchCreatePartitionResponse> {
+        return client.send(operation: "BatchCreatePartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a list of connection definitions from the Data Catalog.
-    public func batchDeleteConnection(_ input: BatchDeleteConnectionRequest) throws -> Future<BatchDeleteConnectionResponse> {
-        return try client.send(operation: "BatchDeleteConnection", path: "/", httpMethod: "POST", input: input)
+    public func batchDeleteConnection(_ input: BatchDeleteConnectionRequest) -> Future<BatchDeleteConnectionResponse> {
+        return client.send(operation: "BatchDeleteConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes one or more partitions in a batch operation.
-    public func batchDeletePartition(_ input: BatchDeletePartitionRequest) throws -> Future<BatchDeletePartitionResponse> {
-        return try client.send(operation: "BatchDeletePartition", path: "/", httpMethod: "POST", input: input)
+    public func batchDeletePartition(_ input: BatchDeletePartitionRequest) -> Future<BatchDeletePartitionResponse> {
+        return client.send(operation: "BatchDeletePartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes multiple tables at once.  After completing this operation, you will no longer have access to the table versions and partitions that belong to the deleted table. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure immediate deletion of all related resources, before calling BatchDeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table. 
-    public func batchDeleteTable(_ input: BatchDeleteTableRequest) throws -> Future<BatchDeleteTableResponse> {
-        return try client.send(operation: "BatchDeleteTable", path: "/", httpMethod: "POST", input: input)
+    public func batchDeleteTable(_ input: BatchDeleteTableRequest) -> Future<BatchDeleteTableResponse> {
+        return client.send(operation: "BatchDeleteTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified batch of versions of a table.
-    public func batchDeleteTableVersion(_ input: BatchDeleteTableVersionRequest) throws -> Future<BatchDeleteTableVersionResponse> {
-        return try client.send(operation: "BatchDeleteTableVersion", path: "/", httpMethod: "POST", input: input)
+    public func batchDeleteTableVersion(_ input: BatchDeleteTableVersionRequest) -> Future<BatchDeleteTableVersionResponse> {
+        return client.send(operation: "BatchDeleteTableVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    public func batchGetCrawlers(_ input: BatchGetCrawlersRequest) throws -> Future<BatchGetCrawlersResponse> {
-        return try client.send(operation: "BatchGetCrawlers", path: "/", httpMethod: "POST", input: input)
+    public func batchGetCrawlers(_ input: BatchGetCrawlersRequest) -> Future<BatchGetCrawlersResponse> {
+        return client.send(operation: "BatchGetCrawlers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of resource metadata for a given list of DevEndpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    public func batchGetDevEndpoints(_ input: BatchGetDevEndpointsRequest) throws -> Future<BatchGetDevEndpointsResponse> {
-        return try client.send(operation: "BatchGetDevEndpoints", path: "/", httpMethod: "POST", input: input)
+    public func batchGetDevEndpoints(_ input: BatchGetDevEndpointsRequest) -> Future<BatchGetDevEndpointsResponse> {
+        return client.send(operation: "BatchGetDevEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags. 
-    public func batchGetJobs(_ input: BatchGetJobsRequest) throws -> Future<BatchGetJobsResponse> {
-        return try client.send(operation: "BatchGetJobs", path: "/", httpMethod: "POST", input: input)
+    public func batchGetJobs(_ input: BatchGetJobsRequest) -> Future<BatchGetJobsResponse> {
+        return client.send(operation: "BatchGetJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves partitions in a batch request.
-    public func batchGetPartition(_ input: BatchGetPartitionRequest) throws -> Future<BatchGetPartitionResponse> {
-        return try client.send(operation: "BatchGetPartition", path: "/", httpMethod: "POST", input: input)
+    public func batchGetPartition(_ input: BatchGetPartitionRequest) -> Future<BatchGetPartitionResponse> {
+        return client.send(operation: "BatchGetPartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    public func batchGetTriggers(_ input: BatchGetTriggersRequest) throws -> Future<BatchGetTriggersResponse> {
-        return try client.send(operation: "BatchGetTriggers", path: "/", httpMethod: "POST", input: input)
+    public func batchGetTriggers(_ input: BatchGetTriggersRequest) -> Future<BatchGetTriggersResponse> {
+        return client.send(operation: "BatchGetTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
-    public func batchGetWorkflows(_ input: BatchGetWorkflowsRequest) throws -> Future<BatchGetWorkflowsResponse> {
-        return try client.send(operation: "BatchGetWorkflows", path: "/", httpMethod: "POST", input: input)
+    public func batchGetWorkflows(_ input: BatchGetWorkflowsRequest) -> Future<BatchGetWorkflowsResponse> {
+        return client.send(operation: "BatchGetWorkflows", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops one or more job runs for a specified job definition.
-    public func batchStopJobRun(_ input: BatchStopJobRunRequest) throws -> Future<BatchStopJobRunResponse> {
-        return try client.send(operation: "BatchStopJobRun", path: "/", httpMethod: "POST", input: input)
+    public func batchStopJobRun(_ input: BatchStopJobRunRequest) -> Future<BatchStopJobRunResponse> {
+        return client.send(operation: "BatchStopJobRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
-    public func createClassifier(_ input: CreateClassifierRequest) throws -> Future<CreateClassifierResponse> {
-        return try client.send(operation: "CreateClassifier", path: "/", httpMethod: "POST", input: input)
+    public func createClassifier(_ input: CreateClassifierRequest) -> Future<CreateClassifierResponse> {
+        return client.send(operation: "CreateClassifier", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a connection definition in the Data Catalog.
-    public func createConnection(_ input: CreateConnectionRequest) throws -> Future<CreateConnectionResponse> {
-        return try client.send(operation: "CreateConnection", path: "/", httpMethod: "POST", input: input)
+    public func createConnection(_ input: CreateConnectionRequest) -> Future<CreateConnectionResponse> {
+        return client.send(operation: "CreateConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
-    public func createCrawler(_ input: CreateCrawlerRequest) throws -> Future<CreateCrawlerResponse> {
-        return try client.send(operation: "CreateCrawler", path: "/", httpMethod: "POST", input: input)
+    public func createCrawler(_ input: CreateCrawlerRequest) -> Future<CreateCrawlerResponse> {
+        return client.send(operation: "CreateCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new database in a Data Catalog.
-    public func createDatabase(_ input: CreateDatabaseRequest) throws -> Future<CreateDatabaseResponse> {
-        return try client.send(operation: "CreateDatabase", path: "/", httpMethod: "POST", input: input)
+    public func createDatabase(_ input: CreateDatabaseRequest) -> Future<CreateDatabaseResponse> {
+        return client.send(operation: "CreateDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new DevEndpoint.
-    public func createDevEndpoint(_ input: CreateDevEndpointRequest) throws -> Future<CreateDevEndpointResponse> {
-        return try client.send(operation: "CreateDevEndpoint", path: "/", httpMethod: "POST", input: input)
+    public func createDevEndpoint(_ input: CreateDevEndpointRequest) -> Future<CreateDevEndpointResponse> {
+        return client.send(operation: "CreateDevEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new job definition.
-    public func createJob(_ input: CreateJobRequest) throws -> Future<CreateJobResponse> {
-        return try client.send(operation: "CreateJob", path: "/", httpMethod: "POST", input: input)
+    public func createJob(_ input: CreateJobRequest) -> Future<CreateJobResponse> {
+        return client.send(operation: "CreateJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new partition.
-    public func createPartition(_ input: CreatePartitionRequest) throws -> Future<CreatePartitionResponse> {
-        return try client.send(operation: "CreatePartition", path: "/", httpMethod: "POST", input: input)
+    public func createPartition(_ input: CreatePartitionRequest) -> Future<CreatePartitionResponse> {
+        return client.send(operation: "CreatePartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Transforms a directed acyclic graph (DAG) into code.
-    public func createScript(_ input: CreateScriptRequest) throws -> Future<CreateScriptResponse> {
-        return try client.send(operation: "CreateScript", path: "/", httpMethod: "POST", input: input)
+    public func createScript(_ input: CreateScriptRequest) -> Future<CreateScriptResponse> {
+        return client.send(operation: "CreateScript", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new security configuration.
-    public func createSecurityConfiguration(_ input: CreateSecurityConfigurationRequest) throws -> Future<CreateSecurityConfigurationResponse> {
-        return try client.send(operation: "CreateSecurityConfiguration", path: "/", httpMethod: "POST", input: input)
+    public func createSecurityConfiguration(_ input: CreateSecurityConfigurationRequest) -> Future<CreateSecurityConfigurationResponse> {
+        return client.send(operation: "CreateSecurityConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new table definition in the Data Catalog.
-    public func createTable(_ input: CreateTableRequest) throws -> Future<CreateTableResponse> {
-        return try client.send(operation: "CreateTable", path: "/", httpMethod: "POST", input: input)
+    public func createTable(_ input: CreateTableRequest) -> Future<CreateTableResponse> {
+        return client.send(operation: "CreateTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new trigger.
-    public func createTrigger(_ input: CreateTriggerRequest) throws -> Future<CreateTriggerResponse> {
-        return try client.send(operation: "CreateTrigger", path: "/", httpMethod: "POST", input: input)
+    public func createTrigger(_ input: CreateTriggerRequest) -> Future<CreateTriggerResponse> {
+        return client.send(operation: "CreateTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new function definition in the Data Catalog.
-    public func createUserDefinedFunction(_ input: CreateUserDefinedFunctionRequest) throws -> Future<CreateUserDefinedFunctionResponse> {
-        return try client.send(operation: "CreateUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
+    public func createUserDefinedFunction(_ input: CreateUserDefinedFunctionRequest) -> Future<CreateUserDefinedFunctionResponse> {
+        return client.send(operation: "CreateUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new workflow.
-    public func createWorkflow(_ input: CreateWorkflowRequest) throws -> Future<CreateWorkflowResponse> {
-        return try client.send(operation: "CreateWorkflow", path: "/", httpMethod: "POST", input: input)
+    public func createWorkflow(_ input: CreateWorkflowRequest) -> Future<CreateWorkflowResponse> {
+        return client.send(operation: "CreateWorkflow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a classifier from the Data Catalog.
-    public func deleteClassifier(_ input: DeleteClassifierRequest) throws -> Future<DeleteClassifierResponse> {
-        return try client.send(operation: "DeleteClassifier", path: "/", httpMethod: "POST", input: input)
+    public func deleteClassifier(_ input: DeleteClassifierRequest) -> Future<DeleteClassifierResponse> {
+        return client.send(operation: "DeleteClassifier", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a connection from the Data Catalog.
-    public func deleteConnection(_ input: DeleteConnectionRequest) throws -> Future<DeleteConnectionResponse> {
-        return try client.send(operation: "DeleteConnection", path: "/", httpMethod: "POST", input: input)
+    public func deleteConnection(_ input: DeleteConnectionRequest) -> Future<DeleteConnectionResponse> {
+        return client.send(operation: "DeleteConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a specified crawler from the AWS Glue Data Catalog, unless the crawler state is RUNNING.
-    public func deleteCrawler(_ input: DeleteCrawlerRequest) throws -> Future<DeleteCrawlerResponse> {
-        return try client.send(operation: "DeleteCrawler", path: "/", httpMethod: "POST", input: input)
+    public func deleteCrawler(_ input: DeleteCrawlerRequest) -> Future<DeleteCrawlerResponse> {
+        return client.send(operation: "DeleteCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a specified Database from a Data Catalog.  After completing this operation, you will no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database. 
-    public func deleteDatabase(_ input: DeleteDatabaseRequest) throws -> Future<DeleteDatabaseResponse> {
-        return try client.send(operation: "DeleteDatabase", path: "/", httpMethod: "POST", input: input)
+    public func deleteDatabase(_ input: DeleteDatabaseRequest) -> Future<DeleteDatabaseResponse> {
+        return client.send(operation: "DeleteDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified DevEndpoint.
-    public func deleteDevEndpoint(_ input: DeleteDevEndpointRequest) throws -> Future<DeleteDevEndpointResponse> {
-        return try client.send(operation: "DeleteDevEndpoint", path: "/", httpMethod: "POST", input: input)
+    public func deleteDevEndpoint(_ input: DeleteDevEndpointRequest) -> Future<DeleteDevEndpointResponse> {
+        return client.send(operation: "DeleteDevEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified job definition. If the job definition is not found, no exception is thrown.
-    public func deleteJob(_ input: DeleteJobRequest) throws -> Future<DeleteJobResponse> {
-        return try client.send(operation: "DeleteJob", path: "/", httpMethod: "POST", input: input)
+    public func deleteJob(_ input: DeleteJobRequest) -> Future<DeleteJobResponse> {
+        return client.send(operation: "DeleteJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified partition.
-    public func deletePartition(_ input: DeletePartitionRequest) throws -> Future<DeletePartitionResponse> {
-        return try client.send(operation: "DeletePartition", path: "/", httpMethod: "POST", input: input)
+    public func deletePartition(_ input: DeletePartitionRequest) -> Future<DeletePartitionResponse> {
+        return client.send(operation: "DeletePartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified policy.
-    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest) throws -> Future<DeleteResourcePolicyResponse> {
-        return try client.send(operation: "DeleteResourcePolicy", path: "/", httpMethod: "POST", input: input)
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest) -> Future<DeleteResourcePolicyResponse> {
+        return client.send(operation: "DeleteResourcePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified security configuration.
-    public func deleteSecurityConfiguration(_ input: DeleteSecurityConfigurationRequest) throws -> Future<DeleteSecurityConfigurationResponse> {
-        return try client.send(operation: "DeleteSecurityConfiguration", path: "/", httpMethod: "POST", input: input)
+    public func deleteSecurityConfiguration(_ input: DeleteSecurityConfigurationRequest) -> Future<DeleteSecurityConfigurationResponse> {
+        return client.send(operation: "DeleteSecurityConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes a table definition from the Data Catalog.  After completing this operation, you will no longer have access to the table versions and partitions that belong to the deleted table. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure immediate deletion of all related resources, before calling DeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table. 
-    public func deleteTable(_ input: DeleteTableRequest) throws -> Future<DeleteTableResponse> {
-        return try client.send(operation: "DeleteTable", path: "/", httpMethod: "POST", input: input)
+    public func deleteTable(_ input: DeleteTableRequest) -> Future<DeleteTableResponse> {
+        return client.send(operation: "DeleteTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified version of a table.
-    public func deleteTableVersion(_ input: DeleteTableVersionRequest) throws -> Future<DeleteTableVersionResponse> {
-        return try client.send(operation: "DeleteTableVersion", path: "/", httpMethod: "POST", input: input)
+    public func deleteTableVersion(_ input: DeleteTableVersionRequest) -> Future<DeleteTableVersionResponse> {
+        return client.send(operation: "DeleteTableVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified trigger. If the trigger is not found, no exception is thrown.
-    public func deleteTrigger(_ input: DeleteTriggerRequest) throws -> Future<DeleteTriggerResponse> {
-        return try client.send(operation: "DeleteTrigger", path: "/", httpMethod: "POST", input: input)
+    public func deleteTrigger(_ input: DeleteTriggerRequest) -> Future<DeleteTriggerResponse> {
+        return client.send(operation: "DeleteTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an existing function definition from the Data Catalog.
-    public func deleteUserDefinedFunction(_ input: DeleteUserDefinedFunctionRequest) throws -> Future<DeleteUserDefinedFunctionResponse> {
-        return try client.send(operation: "DeleteUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
+    public func deleteUserDefinedFunction(_ input: DeleteUserDefinedFunctionRequest) -> Future<DeleteUserDefinedFunctionResponse> {
+        return client.send(operation: "DeleteUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a workflow.
-    public func deleteWorkflow(_ input: DeleteWorkflowRequest) throws -> Future<DeleteWorkflowResponse> {
-        return try client.send(operation: "DeleteWorkflow", path: "/", httpMethod: "POST", input: input)
+    public func deleteWorkflow(_ input: DeleteWorkflowRequest) -> Future<DeleteWorkflowResponse> {
+        return client.send(operation: "DeleteWorkflow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the status of a migration operation.
-    public func getCatalogImportStatus(_ input: GetCatalogImportStatusRequest) throws -> Future<GetCatalogImportStatusResponse> {
-        return try client.send(operation: "GetCatalogImportStatus", path: "/", httpMethod: "POST", input: input)
+    public func getCatalogImportStatus(_ input: GetCatalogImportStatusRequest) -> Future<GetCatalogImportStatusResponse> {
+        return client.send(operation: "GetCatalogImportStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieve a classifier by name.
-    public func getClassifier(_ input: GetClassifierRequest) throws -> Future<GetClassifierResponse> {
-        return try client.send(operation: "GetClassifier", path: "/", httpMethod: "POST", input: input)
+    public func getClassifier(_ input: GetClassifierRequest) -> Future<GetClassifierResponse> {
+        return client.send(operation: "GetClassifier", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all classifier objects in the Data Catalog.
-    public func getClassifiers(_ input: GetClassifiersRequest) throws -> Future<GetClassifiersResponse> {
-        return try client.send(operation: "GetClassifiers", path: "/", httpMethod: "POST", input: input)
+    public func getClassifiers(_ input: GetClassifiersRequest) -> Future<GetClassifiersResponse> {
+        return client.send(operation: "GetClassifiers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a connection definition from the Data Catalog.
-    public func getConnection(_ input: GetConnectionRequest) throws -> Future<GetConnectionResponse> {
-        return try client.send(operation: "GetConnection", path: "/", httpMethod: "POST", input: input)
+    public func getConnection(_ input: GetConnectionRequest) -> Future<GetConnectionResponse> {
+        return client.send(operation: "GetConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of connection definitions from the Data Catalog.
-    public func getConnections(_ input: GetConnectionsRequest) throws -> Future<GetConnectionsResponse> {
-        return try client.send(operation: "GetConnections", path: "/", httpMethod: "POST", input: input)
+    public func getConnections(_ input: GetConnectionsRequest) -> Future<GetConnectionsResponse> {
+        return client.send(operation: "GetConnections", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves metadata for a specified crawler.
-    public func getCrawler(_ input: GetCrawlerRequest) throws -> Future<GetCrawlerResponse> {
-        return try client.send(operation: "GetCrawler", path: "/", httpMethod: "POST", input: input)
+    public func getCrawler(_ input: GetCrawlerRequest) -> Future<GetCrawlerResponse> {
+        return client.send(operation: "GetCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves metrics about specified crawlers.
-    public func getCrawlerMetrics(_ input: GetCrawlerMetricsRequest) throws -> Future<GetCrawlerMetricsResponse> {
-        return try client.send(operation: "GetCrawlerMetrics", path: "/", httpMethod: "POST", input: input)
+    public func getCrawlerMetrics(_ input: GetCrawlerMetricsRequest) -> Future<GetCrawlerMetricsResponse> {
+        return client.send(operation: "GetCrawlerMetrics", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves metadata for all crawlers defined in the customer account.
-    public func getCrawlers(_ input: GetCrawlersRequest) throws -> Future<GetCrawlersResponse> {
-        return try client.send(operation: "GetCrawlers", path: "/", httpMethod: "POST", input: input)
+    public func getCrawlers(_ input: GetCrawlersRequest) -> Future<GetCrawlersResponse> {
+        return client.send(operation: "GetCrawlers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the security configuration for a specified catalog.
-    public func getDataCatalogEncryptionSettings(_ input: GetDataCatalogEncryptionSettingsRequest) throws -> Future<GetDataCatalogEncryptionSettingsResponse> {
-        return try client.send(operation: "GetDataCatalogEncryptionSettings", path: "/", httpMethod: "POST", input: input)
+    public func getDataCatalogEncryptionSettings(_ input: GetDataCatalogEncryptionSettingsRequest) -> Future<GetDataCatalogEncryptionSettingsResponse> {
+        return client.send(operation: "GetDataCatalogEncryptionSettings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the definition of a specified database.
-    public func getDatabase(_ input: GetDatabaseRequest) throws -> Future<GetDatabaseResponse> {
-        return try client.send(operation: "GetDatabase", path: "/", httpMethod: "POST", input: input)
+    public func getDatabase(_ input: GetDatabaseRequest) -> Future<GetDatabaseResponse> {
+        return client.send(operation: "GetDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves all Databases defined in a given Data Catalog.
-    public func getDatabases(_ input: GetDatabasesRequest) throws -> Future<GetDatabasesResponse> {
-        return try client.send(operation: "GetDatabases", path: "/", httpMethod: "POST", input: input)
+    public func getDatabases(_ input: GetDatabasesRequest) -> Future<GetDatabasesResponse> {
+        return client.send(operation: "GetDatabases", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Transforms a Python script into a directed acyclic graph (DAG). 
-    public func getDataflowGraph(_ input: GetDataflowGraphRequest) throws -> Future<GetDataflowGraphResponse> {
-        return try client.send(operation: "GetDataflowGraph", path: "/", httpMethod: "POST", input: input)
+    public func getDataflowGraph(_ input: GetDataflowGraphRequest) -> Future<GetDataflowGraphResponse> {
+        return client.send(operation: "GetDataflowGraph", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a specified DevEndpoint.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. 
-    public func getDevEndpoint(_ input: GetDevEndpointRequest) throws -> Future<GetDevEndpointResponse> {
-        return try client.send(operation: "GetDevEndpoint", path: "/", httpMethod: "POST", input: input)
+    public func getDevEndpoint(_ input: GetDevEndpointRequest) -> Future<GetDevEndpointResponse> {
+        return client.send(operation: "GetDevEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves all the DevEndpoints in this AWS account.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. 
-    public func getDevEndpoints(_ input: GetDevEndpointsRequest) throws -> Future<GetDevEndpointsResponse> {
-        return try client.send(operation: "GetDevEndpoints", path: "/", httpMethod: "POST", input: input)
+    public func getDevEndpoints(_ input: GetDevEndpointsRequest) -> Future<GetDevEndpointsResponse> {
+        return client.send(operation: "GetDevEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves an existing job definition.
-    public func getJob(_ input: GetJobRequest) throws -> Future<GetJobResponse> {
-        return try client.send(operation: "GetJob", path: "/", httpMethod: "POST", input: input)
+    public func getJob(_ input: GetJobRequest) -> Future<GetJobResponse> {
+        return client.send(operation: "GetJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the metadata for a given job run.
-    public func getJobRun(_ input: GetJobRunRequest) throws -> Future<GetJobRunResponse> {
-        return try client.send(operation: "GetJobRun", path: "/", httpMethod: "POST", input: input)
+    public func getJobRun(_ input: GetJobRunRequest) -> Future<GetJobRunResponse> {
+        return client.send(operation: "GetJobRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves metadata for all runs of a given job definition.
-    public func getJobRuns(_ input: GetJobRunsRequest) throws -> Future<GetJobRunsResponse> {
-        return try client.send(operation: "GetJobRuns", path: "/", httpMethod: "POST", input: input)
+    public func getJobRuns(_ input: GetJobRunsRequest) -> Future<GetJobRunsResponse> {
+        return client.send(operation: "GetJobRuns", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves all current job definitions.
-    public func getJobs(_ input: GetJobsRequest) throws -> Future<GetJobsResponse> {
-        return try client.send(operation: "GetJobs", path: "/", httpMethod: "POST", input: input)
+    public func getJobs(_ input: GetJobsRequest) -> Future<GetJobsResponse> {
+        return client.send(operation: "GetJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates mappings.
-    public func getMapping(_ input: GetMappingRequest) throws -> Future<GetMappingResponse> {
-        return try client.send(operation: "GetMapping", path: "/", httpMethod: "POST", input: input)
+    public func getMapping(_ input: GetMappingRequest) -> Future<GetMappingResponse> {
+        return client.send(operation: "GetMapping", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a specified partition.
-    public func getPartition(_ input: GetPartitionRequest) throws -> Future<GetPartitionResponse> {
-        return try client.send(operation: "GetPartition", path: "/", httpMethod: "POST", input: input)
+    public func getPartition(_ input: GetPartitionRequest) -> Future<GetPartitionResponse> {
+        return client.send(operation: "GetPartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about the partitions in a table.
-    public func getPartitions(_ input: GetPartitionsRequest) throws -> Future<GetPartitionsResponse> {
-        return try client.send(operation: "GetPartitions", path: "/", httpMethod: "POST", input: input)
+    public func getPartitions(_ input: GetPartitionsRequest) -> Future<GetPartitionsResponse> {
+        return client.send(operation: "GetPartitions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets code to perform a specified mapping.
-    public func getPlan(_ input: GetPlanRequest) throws -> Future<GetPlanResponse> {
-        return try client.send(operation: "GetPlan", path: "/", httpMethod: "POST", input: input)
+    public func getPlan(_ input: GetPlanRequest) -> Future<GetPlanResponse> {
+        return client.send(operation: "GetPlan", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a specified resource policy.
-    public func getResourcePolicy(_ input: GetResourcePolicyRequest) throws -> Future<GetResourcePolicyResponse> {
-        return try client.send(operation: "GetResourcePolicy", path: "/", httpMethod: "POST", input: input)
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest) -> Future<GetResourcePolicyResponse> {
+        return client.send(operation: "GetResourcePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a specified security configuration.
-    public func getSecurityConfiguration(_ input: GetSecurityConfigurationRequest) throws -> Future<GetSecurityConfigurationResponse> {
-        return try client.send(operation: "GetSecurityConfiguration", path: "/", httpMethod: "POST", input: input)
+    public func getSecurityConfiguration(_ input: GetSecurityConfigurationRequest) -> Future<GetSecurityConfigurationResponse> {
+        return client.send(operation: "GetSecurityConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of all security configurations.
-    public func getSecurityConfigurations(_ input: GetSecurityConfigurationsRequest) throws -> Future<GetSecurityConfigurationsResponse> {
-        return try client.send(operation: "GetSecurityConfigurations", path: "/", httpMethod: "POST", input: input)
+    public func getSecurityConfigurations(_ input: GetSecurityConfigurationsRequest) -> Future<GetSecurityConfigurationsResponse> {
+        return client.send(operation: "GetSecurityConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the Table definition in a Data Catalog for a specified table.
-    public func getTable(_ input: GetTableRequest) throws -> Future<GetTableResponse> {
-        return try client.send(operation: "GetTable", path: "/", httpMethod: "POST", input: input)
+    public func getTable(_ input: GetTableRequest) -> Future<GetTableResponse> {
+        return client.send(operation: "GetTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a specified version of a table.
-    public func getTableVersion(_ input: GetTableVersionRequest) throws -> Future<GetTableVersionResponse> {
-        return try client.send(operation: "GetTableVersion", path: "/", httpMethod: "POST", input: input)
+    public func getTableVersion(_ input: GetTableVersionRequest) -> Future<GetTableVersionResponse> {
+        return client.send(operation: "GetTableVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of strings that identify available versions of a specified table.
-    public func getTableVersions(_ input: GetTableVersionsRequest) throws -> Future<GetTableVersionsResponse> {
-        return try client.send(operation: "GetTableVersions", path: "/", httpMethod: "POST", input: input)
+    public func getTableVersions(_ input: GetTableVersionsRequest) -> Future<GetTableVersionsResponse> {
+        return client.send(operation: "GetTableVersions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the definitions of some or all of the tables in a given Database.
-    public func getTables(_ input: GetTablesRequest) throws -> Future<GetTablesResponse> {
-        return try client.send(operation: "GetTables", path: "/", httpMethod: "POST", input: input)
+    public func getTables(_ input: GetTablesRequest) -> Future<GetTablesResponse> {
+        return client.send(operation: "GetTables", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a list of tags associated with a resource.
-    public func getTags(_ input: GetTagsRequest) throws -> Future<GetTagsResponse> {
-        return try client.send(operation: "GetTags", path: "/", httpMethod: "POST", input: input)
+    public func getTags(_ input: GetTagsRequest) -> Future<GetTagsResponse> {
+        return client.send(operation: "GetTags", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the definition of a trigger.
-    public func getTrigger(_ input: GetTriggerRequest) throws -> Future<GetTriggerResponse> {
-        return try client.send(operation: "GetTrigger", path: "/", httpMethod: "POST", input: input)
+    public func getTrigger(_ input: GetTriggerRequest) -> Future<GetTriggerResponse> {
+        return client.send(operation: "GetTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets all the triggers associated with a job.
-    public func getTriggers(_ input: GetTriggersRequest) throws -> Future<GetTriggersResponse> {
-        return try client.send(operation: "GetTriggers", path: "/", httpMethod: "POST", input: input)
+    public func getTriggers(_ input: GetTriggersRequest) -> Future<GetTriggersResponse> {
+        return client.send(operation: "GetTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a specified function definition from the Data Catalog.
-    public func getUserDefinedFunction(_ input: GetUserDefinedFunctionRequest) throws -> Future<GetUserDefinedFunctionResponse> {
-        return try client.send(operation: "GetUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
+    public func getUserDefinedFunction(_ input: GetUserDefinedFunctionRequest) -> Future<GetUserDefinedFunctionResponse> {
+        return client.send(operation: "GetUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a multiple function definitions from the Data Catalog.
-    public func getUserDefinedFunctions(_ input: GetUserDefinedFunctionsRequest) throws -> Future<GetUserDefinedFunctionsResponse> {
-        return try client.send(operation: "GetUserDefinedFunctions", path: "/", httpMethod: "POST", input: input)
+    public func getUserDefinedFunctions(_ input: GetUserDefinedFunctionsRequest) -> Future<GetUserDefinedFunctionsResponse> {
+        return client.send(operation: "GetUserDefinedFunctions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves resource metadata for a workflow.
-    public func getWorkflow(_ input: GetWorkflowRequest) throws -> Future<GetWorkflowResponse> {
-        return try client.send(operation: "GetWorkflow", path: "/", httpMethod: "POST", input: input)
+    public func getWorkflow(_ input: GetWorkflowRequest) -> Future<GetWorkflowResponse> {
+        return client.send(operation: "GetWorkflow", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the metadata for a given workflow run. 
-    public func getWorkflowRun(_ input: GetWorkflowRunRequest) throws -> Future<GetWorkflowRunResponse> {
-        return try client.send(operation: "GetWorkflowRun", path: "/", httpMethod: "POST", input: input)
+    public func getWorkflowRun(_ input: GetWorkflowRunRequest) -> Future<GetWorkflowRunResponse> {
+        return client.send(operation: "GetWorkflowRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the workflow run properties which were set during the run.
-    public func getWorkflowRunProperties(_ input: GetWorkflowRunPropertiesRequest) throws -> Future<GetWorkflowRunPropertiesResponse> {
-        return try client.send(operation: "GetWorkflowRunProperties", path: "/", httpMethod: "POST", input: input)
+    public func getWorkflowRunProperties(_ input: GetWorkflowRunPropertiesRequest) -> Future<GetWorkflowRunPropertiesResponse> {
+        return client.send(operation: "GetWorkflowRunProperties", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves metadata for all runs of a given workflow.
-    public func getWorkflowRuns(_ input: GetWorkflowRunsRequest) throws -> Future<GetWorkflowRunsResponse> {
-        return try client.send(operation: "GetWorkflowRuns", path: "/", httpMethod: "POST", input: input)
+    public func getWorkflowRuns(_ input: GetWorkflowRunsRequest) -> Future<GetWorkflowRunsResponse> {
+        return client.send(operation: "GetWorkflowRuns", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Imports an existing Athena Data Catalog to AWS Glue
-    public func importCatalogToGlue(_ input: ImportCatalogToGlueRequest) throws -> Future<ImportCatalogToGlueResponse> {
-        return try client.send(operation: "ImportCatalogToGlue", path: "/", httpMethod: "POST", input: input)
+    public func importCatalogToGlue(_ input: ImportCatalogToGlueRequest) -> Future<ImportCatalogToGlueResponse> {
+        return client.send(operation: "ImportCatalogToGlue", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the names of all crawler resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listCrawlers(_ input: ListCrawlersRequest) throws -> Future<ListCrawlersResponse> {
-        return try client.send(operation: "ListCrawlers", path: "/", httpMethod: "POST", input: input)
+    public func listCrawlers(_ input: ListCrawlersRequest) -> Future<ListCrawlersResponse> {
+        return client.send(operation: "ListCrawlers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the names of all DevEndpoint resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listDevEndpoints(_ input: ListDevEndpointsRequest) throws -> Future<ListDevEndpointsResponse> {
-        return try client.send(operation: "ListDevEndpoints", path: "/", httpMethod: "POST", input: input)
+    public func listDevEndpoints(_ input: ListDevEndpointsRequest) -> Future<ListDevEndpointsResponse> {
+        return client.send(operation: "ListDevEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the names of all job resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listJobs(_ input: ListJobsRequest) throws -> Future<ListJobsResponse> {
-        return try client.send(operation: "ListJobs", path: "/", httpMethod: "POST", input: input)
+    public func listJobs(_ input: ListJobsRequest) -> Future<ListJobsResponse> {
+        return client.send(operation: "ListJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the names of all trigger resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
-    public func listTriggers(_ input: ListTriggersRequest) throws -> Future<ListTriggersResponse> {
-        return try client.send(operation: "ListTriggers", path: "/", httpMethod: "POST", input: input)
+    public func listTriggers(_ input: ListTriggersRequest) -> Future<ListTriggersResponse> {
+        return client.send(operation: "ListTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists names of workflows created in the account.
-    public func listWorkflows(_ input: ListWorkflowsRequest) throws -> Future<ListWorkflowsResponse> {
-        return try client.send(operation: "ListWorkflows", path: "/", httpMethod: "POST", input: input)
+    public func listWorkflows(_ input: ListWorkflowsRequest) -> Future<ListWorkflowsResponse> {
+        return client.send(operation: "ListWorkflows", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
-    public func putDataCatalogEncryptionSettings(_ input: PutDataCatalogEncryptionSettingsRequest) throws -> Future<PutDataCatalogEncryptionSettingsResponse> {
-        return try client.send(operation: "PutDataCatalogEncryptionSettings", path: "/", httpMethod: "POST", input: input)
+    public func putDataCatalogEncryptionSettings(_ input: PutDataCatalogEncryptionSettingsRequest) -> Future<PutDataCatalogEncryptionSettingsResponse> {
+        return client.send(operation: "PutDataCatalogEncryptionSettings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the Data Catalog resource policy for access control.
-    public func putResourcePolicy(_ input: PutResourcePolicyRequest) throws -> Future<PutResourcePolicyResponse> {
-        return try client.send(operation: "PutResourcePolicy", path: "/", httpMethod: "POST", input: input)
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest) -> Future<PutResourcePolicyResponse> {
+        return client.send(operation: "PutResourcePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
-    public func putWorkflowRunProperties(_ input: PutWorkflowRunPropertiesRequest) throws -> Future<PutWorkflowRunPropertiesResponse> {
-        return try client.send(operation: "PutWorkflowRunProperties", path: "/", httpMethod: "POST", input: input)
+    public func putWorkflowRunProperties(_ input: PutWorkflowRunPropertiesRequest) -> Future<PutWorkflowRunPropertiesResponse> {
+        return client.send(operation: "PutWorkflowRunProperties", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets a bookmark entry.
-    public func resetJobBookmark(_ input: ResetJobBookmarkRequest) throws -> Future<ResetJobBookmarkResponse> {
-        return try client.send(operation: "ResetJobBookmark", path: "/", httpMethod: "POST", input: input)
+    public func resetJobBookmark(_ input: ResetJobBookmarkRequest) -> Future<ResetJobBookmarkResponse> {
+        return client.send(operation: "ResetJobBookmark", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a CrawlerRunningException.
-    public func startCrawler(_ input: StartCrawlerRequest) throws -> Future<StartCrawlerResponse> {
-        return try client.send(operation: "StartCrawler", path: "/", httpMethod: "POST", input: input)
+    public func startCrawler(_ input: StartCrawlerRequest) -> Future<StartCrawlerResponse> {
+        return client.send(operation: "StartCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes the schedule state of the specified crawler to SCHEDULED, unless the crawler is already running or the schedule state is already SCHEDULED.
-    public func startCrawlerSchedule(_ input: StartCrawlerScheduleRequest) throws -> Future<StartCrawlerScheduleResponse> {
-        return try client.send(operation: "StartCrawlerSchedule", path: "/", httpMethod: "POST", input: input)
+    public func startCrawlerSchedule(_ input: StartCrawlerScheduleRequest) -> Future<StartCrawlerScheduleResponse> {
+        return client.send(operation: "StartCrawlerSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a job run using a job definition.
-    public func startJobRun(_ input: StartJobRunRequest) throws -> Future<StartJobRunResponse> {
-        return try client.send(operation: "StartJobRun", path: "/", httpMethod: "POST", input: input)
+    public func startJobRun(_ input: StartJobRunRequest) -> Future<StartJobRunResponse> {
+        return client.send(operation: "StartJobRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts an existing trigger. See Triggering Jobs for information about how different types of trigger are started.
-    public func startTrigger(_ input: StartTriggerRequest) throws -> Future<StartTriggerResponse> {
-        return try client.send(operation: "StartTrigger", path: "/", httpMethod: "POST", input: input)
+    public func startTrigger(_ input: StartTriggerRequest) -> Future<StartTriggerResponse> {
+        return client.send(operation: "StartTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a new run of the specified workflow.
-    public func startWorkflowRun(_ input: StartWorkflowRunRequest) throws -> Future<StartWorkflowRunResponse> {
-        return try client.send(operation: "StartWorkflowRun", path: "/", httpMethod: "POST", input: input)
+    public func startWorkflowRun(_ input: StartWorkflowRunRequest) -> Future<StartWorkflowRunResponse> {
+        return client.send(operation: "StartWorkflowRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  If the specified crawler is running, stops the crawl.
-    public func stopCrawler(_ input: StopCrawlerRequest) throws -> Future<StopCrawlerResponse> {
-        return try client.send(operation: "StopCrawler", path: "/", httpMethod: "POST", input: input)
+    public func stopCrawler(_ input: StopCrawlerRequest) -> Future<StopCrawlerResponse> {
+        return client.send(operation: "StopCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the schedule state of the specified crawler to NOT_SCHEDULED, but does not stop the crawler if it is already running.
-    public func stopCrawlerSchedule(_ input: StopCrawlerScheduleRequest) throws -> Future<StopCrawlerScheduleResponse> {
-        return try client.send(operation: "StopCrawlerSchedule", path: "/", httpMethod: "POST", input: input)
+    public func stopCrawlerSchedule(_ input: StopCrawlerScheduleRequest) -> Future<StopCrawlerScheduleResponse> {
+        return client.send(operation: "StopCrawlerSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a specified trigger.
-    public func stopTrigger(_ input: StopTriggerRequest) throws -> Future<StopTriggerResponse> {
-        return try client.send(operation: "StopTrigger", path: "/", httpMethod: "POST", input: input)
+    public func stopTrigger(_ input: StopTriggerRequest) -> Future<StopTriggerResponse> {
+        return client.send(operation: "StopTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds tags to a resource. A tag is a label you can assign to an AWS resource. In AWS Glue, you can tag only certain resources. For information about what resources you can tag, see AWS Tags in AWS Glue.
-    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
-        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
-        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
-    public func updateClassifier(_ input: UpdateClassifierRequest) throws -> Future<UpdateClassifierResponse> {
-        return try client.send(operation: "UpdateClassifier", path: "/", httpMethod: "POST", input: input)
+    public func updateClassifier(_ input: UpdateClassifierRequest) -> Future<UpdateClassifierResponse> {
+        return client.send(operation: "UpdateClassifier", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a connection definition in the Data Catalog.
-    public func updateConnection(_ input: UpdateConnectionRequest) throws -> Future<UpdateConnectionResponse> {
-        return try client.send(operation: "UpdateConnection", path: "/", httpMethod: "POST", input: input)
+    public func updateConnection(_ input: UpdateConnectionRequest) -> Future<UpdateConnectionResponse> {
+        return client.send(operation: "UpdateConnection", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a crawler. If a crawler is running, you must stop it using StopCrawler before updating it.
-    public func updateCrawler(_ input: UpdateCrawlerRequest) throws -> Future<UpdateCrawlerResponse> {
-        return try client.send(operation: "UpdateCrawler", path: "/", httpMethod: "POST", input: input)
+    public func updateCrawler(_ input: UpdateCrawlerRequest) -> Future<UpdateCrawlerResponse> {
+        return client.send(operation: "UpdateCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the schedule of a crawler using a cron expression. 
-    public func updateCrawlerSchedule(_ input: UpdateCrawlerScheduleRequest) throws -> Future<UpdateCrawlerScheduleResponse> {
-        return try client.send(operation: "UpdateCrawlerSchedule", path: "/", httpMethod: "POST", input: input)
+    public func updateCrawlerSchedule(_ input: UpdateCrawlerScheduleRequest) -> Future<UpdateCrawlerScheduleResponse> {
+        return client.send(operation: "UpdateCrawlerSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing database definition in a Data Catalog.
-    public func updateDatabase(_ input: UpdateDatabaseRequest) throws -> Future<UpdateDatabaseResponse> {
-        return try client.send(operation: "UpdateDatabase", path: "/", httpMethod: "POST", input: input)
+    public func updateDatabase(_ input: UpdateDatabaseRequest) -> Future<UpdateDatabaseResponse> {
+        return client.send(operation: "UpdateDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a specified DevEndpoint.
-    public func updateDevEndpoint(_ input: UpdateDevEndpointRequest) throws -> Future<UpdateDevEndpointResponse> {
-        return try client.send(operation: "UpdateDevEndpoint", path: "/", httpMethod: "POST", input: input)
+    public func updateDevEndpoint(_ input: UpdateDevEndpointRequest) -> Future<UpdateDevEndpointResponse> {
+        return client.send(operation: "UpdateDevEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing job definition.
-    public func updateJob(_ input: UpdateJobRequest) throws -> Future<UpdateJobResponse> {
-        return try client.send(operation: "UpdateJob", path: "/", httpMethod: "POST", input: input)
+    public func updateJob(_ input: UpdateJobRequest) -> Future<UpdateJobResponse> {
+        return client.send(operation: "UpdateJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a partition.
-    public func updatePartition(_ input: UpdatePartitionRequest) throws -> Future<UpdatePartitionResponse> {
-        return try client.send(operation: "UpdatePartition", path: "/", httpMethod: "POST", input: input)
+    public func updatePartition(_ input: UpdatePartitionRequest) -> Future<UpdatePartitionResponse> {
+        return client.send(operation: "UpdatePartition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a metadata table in the Data Catalog.
-    public func updateTable(_ input: UpdateTableRequest) throws -> Future<UpdateTableResponse> {
-        return try client.send(operation: "UpdateTable", path: "/", httpMethod: "POST", input: input)
+    public func updateTable(_ input: UpdateTableRequest) -> Future<UpdateTableResponse> {
+        return client.send(operation: "UpdateTable", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a trigger definition.
-    public func updateTrigger(_ input: UpdateTriggerRequest) throws -> Future<UpdateTriggerResponse> {
-        return try client.send(operation: "UpdateTrigger", path: "/", httpMethod: "POST", input: input)
+    public func updateTrigger(_ input: UpdateTriggerRequest) -> Future<UpdateTriggerResponse> {
+        return client.send(operation: "UpdateTrigger", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing function definition in the Data Catalog.
-    public func updateUserDefinedFunction(_ input: UpdateUserDefinedFunctionRequest) throws -> Future<UpdateUserDefinedFunctionResponse> {
-        return try client.send(operation: "UpdateUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
+    public func updateUserDefinedFunction(_ input: UpdateUserDefinedFunctionRequest) -> Future<UpdateUserDefinedFunctionResponse> {
+        return client.send(operation: "UpdateUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing workflow.
-    public func updateWorkflow(_ input: UpdateWorkflowRequest) throws -> Future<UpdateWorkflowResponse> {
-        return try client.send(operation: "UpdateWorkflow", path: "/", httpMethod: "POST", input: input)
+    public func updateWorkflow(_ input: UpdateWorkflowRequest) -> Future<UpdateWorkflowResponse> {
+        return client.send(operation: "UpdateWorkflow", path: "/", httpMethod: "POST", input: input)
     }
 }

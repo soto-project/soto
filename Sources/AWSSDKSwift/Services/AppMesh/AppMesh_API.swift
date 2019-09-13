@@ -43,8 +43,8 @@ public struct AppMesh {
     ///           After you create your service mesh, you can create virtual services, virtual nodes,
     ///           virtual routers, and routes to distribute traffic between the applications in your
     ///           mesh.
-    public func createMesh(_ input: CreateMeshInput) throws -> Future<CreateMeshOutput> {
-        return try client.send(operation: "CreateMesh", path: "/v20190125/meshes", httpMethod: "PUT", input: input)
+    public func createMesh(_ input: CreateMeshInput) -> Future<CreateMeshOutput> {
+        return client.send(operation: "CreateMesh", path: "/v20190125/meshes", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a route that is associated with a virtual router.
@@ -55,8 +55,8 @@ public struct AppMesh {
     ///           /metrics.
     ///           If your route matches a request, you can distribute traffic to one or more target
     ///           virtual nodes with relative weighting.
-    public func createRoute(_ input: CreateRouteInput) throws -> Future<CreateRouteOutput> {
-        return try client.send(operation: "CreateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: "PUT", input: input)
+    public func createRoute(_ input: CreateRouteInput) -> Future<CreateRouteOutput> {
+        return client.send(operation: "CreateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a virtual node within a service mesh.
@@ -78,8 +78,8 @@ public struct AppMesh {
     ///                 APPMESH_VIRTUAL_NODE_NAME with the
     ///                 APPMESH_VIRTUAL_NODE_CLUSTER environment variable.
     ///           
-    public func createVirtualNode(_ input: CreateVirtualNodeInput) throws -> Future<CreateVirtualNodeOutput> {
-        return try client.send(operation: "CreateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: "PUT", input: input)
+    public func createVirtualNode(_ input: CreateVirtualNodeInput) -> Future<CreateVirtualNodeOutput> {
+        return client.send(operation: "CreateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a virtual router within a service mesh.
@@ -88,8 +88,8 @@ public struct AppMesh {
     ///           Virtual routers handle traffic for one or more virtual services within your mesh. After
     ///           you create your virtual router, create and associate routes for your virtual router that
     ///           direct incoming requests to different virtual nodes.
-    public func createVirtualRouter(_ input: CreateVirtualRouterInput) throws -> Future<CreateVirtualRouterOutput> {
-        return try client.send(operation: "CreateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: "PUT", input: input)
+    public func createVirtualRouter(_ input: CreateVirtualRouterInput) -> Future<CreateVirtualRouterOutput> {
+        return client.send(operation: "CreateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a virtual service within a service mesh.
@@ -98,131 +98,131 @@ public struct AppMesh {
     ///           service by its virtualServiceName, and those requests are routed to the
     ///           virtual node or virtual router that is specified as the provider for the virtual
     ///           service.
-    public func createVirtualService(_ input: CreateVirtualServiceInput) throws -> Future<CreateVirtualServiceOutput> {
-        return try client.send(operation: "CreateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: "PUT", input: input)
+    public func createVirtualService(_ input: CreateVirtualServiceInput) -> Future<CreateVirtualServiceOutput> {
+        return client.send(operation: "CreateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: "PUT", input: input)
     }
 
     ///  Deletes an existing service mesh.
     ///           You must delete all resources (virtual services, routes, virtual routers, and virtual
     ///           nodes) in the service mesh before you can delete the mesh itself.
-    public func deleteMesh(_ input: DeleteMeshInput) throws -> Future<DeleteMeshOutput> {
-        return try client.send(operation: "DeleteMesh", path: "/v20190125/meshes/{meshName}", httpMethod: "DELETE", input: input)
+    public func deleteMesh(_ input: DeleteMeshInput) -> Future<DeleteMeshOutput> {
+        return client.send(operation: "DeleteMesh", path: "/v20190125/meshes/{meshName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing route.
-    public func deleteRoute(_ input: DeleteRouteInput) throws -> Future<DeleteRouteOutput> {
-        return try client.send(operation: "DeleteRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: "DELETE", input: input)
+    public func deleteRoute(_ input: DeleteRouteInput) -> Future<DeleteRouteOutput> {
+        return client.send(operation: "DeleteRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing virtual node.
     ///           You must delete any virtual services that list a virtual node as a service provider
     ///           before you can delete the virtual node itself.
-    public func deleteVirtualNode(_ input: DeleteVirtualNodeInput) throws -> Future<DeleteVirtualNodeOutput> {
-        return try client.send(operation: "DeleteVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: "DELETE", input: input)
+    public func deleteVirtualNode(_ input: DeleteVirtualNodeInput) -> Future<DeleteVirtualNodeOutput> {
+        return client.send(operation: "DeleteVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing virtual router.
     ///           You must delete any routes associated with the virtual router before you can delete the
     ///           router itself.
-    public func deleteVirtualRouter(_ input: DeleteVirtualRouterInput) throws -> Future<DeleteVirtualRouterOutput> {
-        return try client.send(operation: "DeleteVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: "DELETE", input: input)
+    public func deleteVirtualRouter(_ input: DeleteVirtualRouterInput) -> Future<DeleteVirtualRouterOutput> {
+        return client.send(operation: "DeleteVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes an existing virtual service.
-    public func deleteVirtualService(_ input: DeleteVirtualServiceInput) throws -> Future<DeleteVirtualServiceOutput> {
-        return try client.send(operation: "DeleteVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: "DELETE", input: input)
+    public func deleteVirtualService(_ input: DeleteVirtualServiceInput) -> Future<DeleteVirtualServiceOutput> {
+        return client.send(operation: "DeleteVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Describes an existing service mesh.
-    public func describeMesh(_ input: DescribeMeshInput) throws -> Future<DescribeMeshOutput> {
-        return try client.send(operation: "DescribeMesh", path: "/v20190125/meshes/{meshName}", httpMethod: "GET", input: input)
+    public func describeMesh(_ input: DescribeMeshInput) -> Future<DescribeMeshOutput> {
+        return client.send(operation: "DescribeMesh", path: "/v20190125/meshes/{meshName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes an existing route.
-    public func describeRoute(_ input: DescribeRouteInput) throws -> Future<DescribeRouteOutput> {
-        return try client.send(operation: "DescribeRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: "GET", input: input)
+    public func describeRoute(_ input: DescribeRouteInput) -> Future<DescribeRouteOutput> {
+        return client.send(operation: "DescribeRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes an existing virtual node.
-    public func describeVirtualNode(_ input: DescribeVirtualNodeInput) throws -> Future<DescribeVirtualNodeOutput> {
-        return try client.send(operation: "DescribeVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: "GET", input: input)
+    public func describeVirtualNode(_ input: DescribeVirtualNodeInput) -> Future<DescribeVirtualNodeOutput> {
+        return client.send(operation: "DescribeVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes an existing virtual router.
-    public func describeVirtualRouter(_ input: DescribeVirtualRouterInput) throws -> Future<DescribeVirtualRouterOutput> {
-        return try client.send(operation: "DescribeVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: "GET", input: input)
+    public func describeVirtualRouter(_ input: DescribeVirtualRouterInput) -> Future<DescribeVirtualRouterOutput> {
+        return client.send(operation: "DescribeVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes an existing virtual service.
-    public func describeVirtualService(_ input: DescribeVirtualServiceInput) throws -> Future<DescribeVirtualServiceOutput> {
-        return try client.send(operation: "DescribeVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: "GET", input: input)
+    public func describeVirtualService(_ input: DescribeVirtualServiceInput) -> Future<DescribeVirtualServiceOutput> {
+        return client.send(operation: "DescribeVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of existing service meshes.
-    public func listMeshes(_ input: ListMeshesInput) throws -> Future<ListMeshesOutput> {
-        return try client.send(operation: "ListMeshes", path: "/v20190125/meshes", httpMethod: "GET", input: input)
+    public func listMeshes(_ input: ListMeshesInput) -> Future<ListMeshesOutput> {
+        return client.send(operation: "ListMeshes", path: "/v20190125/meshes", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of existing routes in a service mesh.
-    public func listRoutes(_ input: ListRoutesInput) throws -> Future<ListRoutesOutput> {
-        return try client.send(operation: "ListRoutes", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: "GET", input: input)
+    public func listRoutes(_ input: ListRoutesInput) -> Future<ListRoutesOutput> {
+        return client.send(operation: "ListRoutes", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: "GET", input: input)
     }
 
     ///  List the tags for an App Mesh resource.
-    public func listTagsForResource(_ input: ListTagsForResourceInput) throws -> Future<ListTagsForResourceOutput> {
-        return try client.send(operation: "ListTagsForResource", path: "/v20190125/tags", httpMethod: "GET", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceInput) -> Future<ListTagsForResourceOutput> {
+        return client.send(operation: "ListTagsForResource", path: "/v20190125/tags", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of existing virtual nodes.
-    public func listVirtualNodes(_ input: ListVirtualNodesInput) throws -> Future<ListVirtualNodesOutput> {
-        return try client.send(operation: "ListVirtualNodes", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: "GET", input: input)
+    public func listVirtualNodes(_ input: ListVirtualNodesInput) -> Future<ListVirtualNodesOutput> {
+        return client.send(operation: "ListVirtualNodes", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of existing virtual routers in a service mesh.
-    public func listVirtualRouters(_ input: ListVirtualRoutersInput) throws -> Future<ListVirtualRoutersOutput> {
-        return try client.send(operation: "ListVirtualRouters", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: "GET", input: input)
+    public func listVirtualRouters(_ input: ListVirtualRoutersInput) -> Future<ListVirtualRoutersOutput> {
+        return client.send(operation: "ListVirtualRouters", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of existing virtual services in a service mesh.
-    public func listVirtualServices(_ input: ListVirtualServicesInput) throws -> Future<ListVirtualServicesOutput> {
-        return try client.send(operation: "ListVirtualServices", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: "GET", input: input)
+    public func listVirtualServices(_ input: ListVirtualServicesInput) -> Future<ListVirtualServicesOutput> {
+        return client.send(operation: "ListVirtualServices", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: "GET", input: input)
     }
 
     ///  Associates the specified tags to a resource with the specified resourceArn.
     ///           If existing tags on a resource aren't specified in the request parameters, they aren't
     ///           changed. When a resource is deleted, the tags associated with that resource are also
     ///           deleted.
-    public func tagResource(_ input: TagResourceInput) throws -> Future<TagResourceOutput> {
-        return try client.send(operation: "TagResource", path: "/v20190125/tag", httpMethod: "PUT", input: input)
+    public func tagResource(_ input: TagResourceInput) -> Future<TagResourceOutput> {
+        return client.send(operation: "TagResource", path: "/v20190125/tag", httpMethod: "PUT", input: input)
     }
 
     ///  Deletes specified tags from a resource.
-    public func untagResource(_ input: UntagResourceInput) throws -> Future<UntagResourceOutput> {
-        return try client.send(operation: "UntagResource", path: "/v20190125/untag", httpMethod: "PUT", input: input)
+    public func untagResource(_ input: UntagResourceInput) -> Future<UntagResourceOutput> {
+        return client.send(operation: "UntagResource", path: "/v20190125/untag", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing service mesh.
-    public func updateMesh(_ input: UpdateMeshInput) throws -> Future<UpdateMeshOutput> {
-        return try client.send(operation: "UpdateMesh", path: "/v20190125/meshes/{meshName}", httpMethod: "PUT", input: input)
+    public func updateMesh(_ input: UpdateMeshInput) -> Future<UpdateMeshOutput> {
+        return client.send(operation: "UpdateMesh", path: "/v20190125/meshes/{meshName}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing route for a specified service mesh and virtual router.
-    public func updateRoute(_ input: UpdateRouteInput) throws -> Future<UpdateRouteOutput> {
-        return try client.send(operation: "UpdateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: "PUT", input: input)
+    public func updateRoute(_ input: UpdateRouteInput) -> Future<UpdateRouteOutput> {
+        return client.send(operation: "UpdateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing virtual node in a specified service mesh.
-    public func updateVirtualNode(_ input: UpdateVirtualNodeInput) throws -> Future<UpdateVirtualNodeOutput> {
-        return try client.send(operation: "UpdateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: "PUT", input: input)
+    public func updateVirtualNode(_ input: UpdateVirtualNodeInput) -> Future<UpdateVirtualNodeOutput> {
+        return client.send(operation: "UpdateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing virtual router in a specified service mesh.
-    public func updateVirtualRouter(_ input: UpdateVirtualRouterInput) throws -> Future<UpdateVirtualRouterOutput> {
-        return try client.send(operation: "UpdateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: "PUT", input: input)
+    public func updateVirtualRouter(_ input: UpdateVirtualRouterInput) -> Future<UpdateVirtualRouterOutput> {
+        return client.send(operation: "UpdateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing virtual service in a specified service mesh.
-    public func updateVirtualService(_ input: UpdateVirtualServiceInput) throws -> Future<UpdateVirtualServiceOutput> {
-        return try client.send(operation: "UpdateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: "PUT", input: input)
+    public func updateVirtualService(_ input: UpdateVirtualServiceInput) -> Future<UpdateVirtualServiceOutput> {
+        return client.send(operation: "UpdateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: "PUT", input: input)
     }
 }
