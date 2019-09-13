@@ -33,3 +33,20 @@ extension SignerErrorType {
         }
     }
 }
+
+extension SignerErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .internalServiceErrorException(let message):
+            return "InternalServiceErrorException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
+        }
+    }
+}

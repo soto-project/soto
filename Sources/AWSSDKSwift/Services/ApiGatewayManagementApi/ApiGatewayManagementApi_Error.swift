@@ -30,3 +30,18 @@ extension ApiGatewayManagementApiErrorType {
         }
     }
 }
+
+extension ApiGatewayManagementApiErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .forbiddenException(let message):
+            return "ForbiddenException: \(message ?? "")"
+        case .goneException(let message):
+            return "GoneException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .payloadTooLargeException(let message):
+            return "PayloadTooLargeException: \(message ?? "")"
+        }
+    }
+}

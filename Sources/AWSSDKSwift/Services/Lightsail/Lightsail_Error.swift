@@ -39,3 +39,24 @@ extension LightsailErrorType {
         }
     }
 }
+
+extension LightsailErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .accountSetupInProgressException(let message):
+            return "AccountSetupInProgressException: \(message ?? "")"
+        case .invalidInputException(let message):
+            return "InvalidInputException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .operationFailureException(let message):
+            return "OperationFailureException: \(message ?? "")"
+        case .serviceException(let message):
+            return "ServiceException: \(message ?? "")"
+        case .unauthenticatedException(let message):
+            return "UnauthenticatedException: \(message ?? "")"
+        }
+    }
+}

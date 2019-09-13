@@ -42,3 +42,26 @@ extension ServiceCatalogErrorType {
         }
     }
 }
+
+extension ServiceCatalogErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .duplicateResourceException(let message):
+            return "DuplicateResourceException: \(message ?? "")"
+        case .invalidParametersException(let message):
+            return "InvalidParametersException: \(message ?? "")"
+        case .invalidStateException(let message):
+            return "InvalidStateException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .operationNotSupportedException(let message):
+            return "OperationNotSupportedException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tagOptionNotMigratedException(let message):
+            return "TagOptionNotMigratedException: \(message ?? "")"
+        }
+    }
+}

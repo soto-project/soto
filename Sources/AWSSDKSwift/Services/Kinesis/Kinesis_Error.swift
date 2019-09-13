@@ -57,3 +57,36 @@ extension KinesisErrorType {
         }
     }
 }
+
+extension KinesisErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .expiredIteratorException(let message):
+            return "ExpiredIteratorException: \(message ?? "")"
+        case .expiredNextTokenException(let message):
+            return "ExpiredNextTokenException: \(message ?? "")"
+        case .invalidArgumentException(let message):
+            return "InvalidArgumentException: \(message ?? "")"
+        case .kMSAccessDeniedException(let message):
+            return "KMSAccessDeniedException: \(message ?? "")"
+        case .kMSDisabledException(let message):
+            return "KMSDisabledException: \(message ?? "")"
+        case .kMSInvalidStateException(let message):
+            return "KMSInvalidStateException: \(message ?? "")"
+        case .kMSNotFoundException(let message):
+            return "KMSNotFoundException: \(message ?? "")"
+        case .kMSOptInRequired(let message):
+            return "KMSOptInRequired: \(message ?? "")"
+        case .kMSThrottlingException(let message):
+            return "KMSThrottlingException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .provisionedThroughputExceededException(let message):
+            return "ProvisionedThroughputExceededException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

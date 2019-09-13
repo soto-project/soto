@@ -120,3 +120,78 @@ extension SESErrorType {
         }
     }
 }
+
+extension SESErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accountSendingPausedException(let message):
+            return "AccountSendingPausedException: \(message ?? "")"
+        case .alreadyExistsException(let message):
+            return "AlreadyExistsException: \(message ?? "")"
+        case .cannotDeleteException(let message):
+            return "CannotDeleteException: \(message ?? "")"
+        case .configurationSetAlreadyExistsException(let message):
+            return "ConfigurationSetAlreadyExistsException: \(message ?? "")"
+        case .configurationSetDoesNotExistException(let message):
+            return "ConfigurationSetDoesNotExistException: \(message ?? "")"
+        case .configurationSetSendingPausedException(let message):
+            return "ConfigurationSetSendingPausedException: \(message ?? "")"
+        case .customVerificationEmailInvalidContentException(let message):
+            return "CustomVerificationEmailInvalidContentException: \(message ?? "")"
+        case .customVerificationEmailTemplateAlreadyExistsException(let message):
+            return "CustomVerificationEmailTemplateAlreadyExistsException: \(message ?? "")"
+        case .customVerificationEmailTemplateDoesNotExistException(let message):
+            return "CustomVerificationEmailTemplateDoesNotExistException: \(message ?? "")"
+        case .eventDestinationAlreadyExistsException(let message):
+            return "EventDestinationAlreadyExistsException: \(message ?? "")"
+        case .eventDestinationDoesNotExistException(let message):
+            return "EventDestinationDoesNotExistException: \(message ?? "")"
+        case .fromEmailAddressNotVerifiedException(let message):
+            return "FromEmailAddressNotVerifiedException: \(message ?? "")"
+        case .invalidCloudWatchDestinationException(let message):
+            return "InvalidCloudWatchDestinationException: \(message ?? "")"
+        case .invalidConfigurationSetException(let message):
+            return "InvalidConfigurationSetException: \(message ?? "")"
+        case .invalidDeliveryOptionsException(let message):
+            return "InvalidDeliveryOptionsException: \(message ?? "")"
+        case .invalidFirehoseDestinationException(let message):
+            return "InvalidFirehoseDestinationException: \(message ?? "")"
+        case .invalidLambdaFunctionException(let message):
+            return "InvalidLambdaFunctionException: \(message ?? "")"
+        case .invalidPolicyException(let message):
+            return "InvalidPolicyException: \(message ?? "")"
+        case .invalidRenderingParameterException(let message):
+            return "InvalidRenderingParameterException: \(message ?? "")"
+        case .invalidS3ConfigurationException(let message):
+            return "InvalidS3ConfigurationException: \(message ?? "")"
+        case .invalidSNSDestinationException(let message):
+            return "InvalidSNSDestinationException: \(message ?? "")"
+        case .invalidSnsTopicException(let message):
+            return "InvalidSnsTopicException: \(message ?? "")"
+        case .invalidTemplateException(let message):
+            return "InvalidTemplateException: \(message ?? "")"
+        case .invalidTrackingOptionsException(let message):
+            return "InvalidTrackingOptionsException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .mailFromDomainNotVerifiedException(let message):
+            return "MailFromDomainNotVerifiedException: \(message ?? "")"
+        case .messageRejected(let message):
+            return "MessageRejected: \(message ?? "")"
+        case .missingRenderingAttributeException(let message):
+            return "MissingRenderingAttributeException: \(message ?? "")"
+        case .productionAccessNotGrantedException(let message):
+            return "ProductionAccessNotGrantedException: \(message ?? "")"
+        case .ruleDoesNotExistException(let message):
+            return "RuleDoesNotExistException: \(message ?? "")"
+        case .ruleSetDoesNotExistException(let message):
+            return "RuleSetDoesNotExistException: \(message ?? "")"
+        case .templateDoesNotExistException(let message):
+            return "TemplateDoesNotExistException: \(message ?? "")"
+        case .trackingOptionsAlreadyExistsException(let message):
+            return "TrackingOptionsAlreadyExistsException: \(message ?? "")"
+        case .trackingOptionsDoesNotExistException(let message):
+            return "TrackingOptionsDoesNotExistException: \(message ?? "")"
+        }
+    }
+}

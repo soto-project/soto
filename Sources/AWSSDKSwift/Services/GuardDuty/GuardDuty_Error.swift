@@ -24,3 +24,14 @@ extension GuardDutyErrorType {
         }
     }
 }
+
+extension GuardDutyErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .internalServerErrorException(let message):
+            return "InternalServerErrorException: \(message ?? "")"
+        }
+    }
+}

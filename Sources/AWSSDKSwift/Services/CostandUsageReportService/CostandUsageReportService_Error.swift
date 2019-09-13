@@ -30,3 +30,18 @@ extension CostandUsageReportServiceErrorType {
         }
     }
 }
+
+extension CostandUsageReportServiceErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .duplicateReportNameException(let message):
+            return "DuplicateReportNameException: \(message ?? "")"
+        case .internalErrorException(let message):
+            return "InternalErrorException: \(message ?? "")"
+        case .reportLimitReachedException(let message):
+            return "ReportLimitReachedException: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
+        }
+    }
+}

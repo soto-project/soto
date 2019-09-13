@@ -27,3 +27,16 @@ extension CloudHSMErrorType {
         }
     }
 }
+
+extension CloudHSMErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .cloudHsmInternalException(let message):
+            return "CloudHsmInternalException: \(message ?? "")"
+        case .cloudHsmServiceException(let message):
+            return "CloudHsmServiceException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        }
+    }
+}

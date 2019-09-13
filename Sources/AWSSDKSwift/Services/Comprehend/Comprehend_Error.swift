@@ -66,3 +66,42 @@ extension ComprehendErrorType {
         }
     }
 }
+
+extension ComprehendErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .batchSizeLimitExceededException(let message):
+            return "BatchSizeLimitExceededException: \(message ?? "")"
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .internalServerException(let message):
+            return "InternalServerException: \(message ?? "")"
+        case .invalidFilterException(let message):
+            return "InvalidFilterException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .jobNotFoundException(let message):
+            return "JobNotFoundException: \(message ?? "")"
+        case .kmsKeyValidationException(let message):
+            return "KmsKeyValidationException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceLimitExceededException(let message):
+            return "ResourceLimitExceededException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .resourceUnavailableException(let message):
+            return "ResourceUnavailableException: \(message ?? "")"
+        case .textSizeLimitExceededException(let message):
+            return "TextSizeLimitExceededException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        case .tooManyTagKeysException(let message):
+            return "TooManyTagKeysException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        case .unsupportedLanguageException(let message):
+            return "UnsupportedLanguageException: \(message ?? "")"
+        }
+    }
+}

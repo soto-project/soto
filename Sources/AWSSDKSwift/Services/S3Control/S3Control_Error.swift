@@ -45,3 +45,28 @@ extension S3ControlErrorType {
         }
     }
 }
+
+extension S3ControlErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .idempotencyException(let message):
+            return "IdempotencyException: \(message ?? "")"
+        case .internalServiceException(let message):
+            return "InternalServiceException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .jobStatusException(let message):
+            return "JobStatusException: \(message ?? "")"
+        case .noSuchPublicAccessBlockConfiguration(let message):
+            return "NoSuchPublicAccessBlockConfiguration: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        }
+    }
+}

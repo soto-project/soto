@@ -36,3 +36,22 @@ extension OpsWorksCMErrorType {
         }
     }
 }
+
+extension OpsWorksCMErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidStateException(let message):
+            return "InvalidStateException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
+        }
+    }
+}

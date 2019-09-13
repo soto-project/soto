@@ -39,3 +39,24 @@ extension LexModelBuildingServiceErrorType {
         }
     }
 }
+
+extension LexModelBuildingServiceErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
+        case .internalFailureException(let message):
+            return "InternalFailureException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .preconditionFailedException(let message):
+            return "PreconditionFailedException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        }
+    }
+}

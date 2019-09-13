@@ -36,3 +36,22 @@ extension MediaStoreErrorType {
         }
     }
 }
+
+extension MediaStoreErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .containerInUseException(let message):
+            return "ContainerInUseException: \(message ?? "")"
+        case .containerNotFoundException(let message):
+            return "ContainerNotFoundException: \(message ?? "")"
+        case .corsPolicyNotFoundException(let message):
+            return "CorsPolicyNotFoundException: \(message ?? "")"
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .policyNotFoundException(let message):
+            return "PolicyNotFoundException: \(message ?? "")"
+        }
+    }
+}

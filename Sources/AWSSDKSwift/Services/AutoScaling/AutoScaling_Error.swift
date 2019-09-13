@@ -39,3 +39,24 @@ extension AutoScalingErrorType {
         }
     }
 }
+
+extension AutoScalingErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .alreadyExistsFault(let message):
+            return "AlreadyExistsFault: \(message ?? "")"
+        case .invalidNextToken(let message):
+            return "InvalidNextToken: \(message ?? "")"
+        case .limitExceededFault(let message):
+            return "LimitExceededFault: \(message ?? "")"
+        case .resourceContentionFault(let message):
+            return "ResourceContentionFault: \(message ?? "")"
+        case .resourceInUseFault(let message):
+            return "ResourceInUseFault: \(message ?? "")"
+        case .scalingActivityInProgressFault(let message):
+            return "ScalingActivityInProgressFault: \(message ?? "")"
+        case .serviceLinkedRoleFailure(let message):
+            return "ServiceLinkedRoleFailure: \(message ?? "")"
+        }
+    }
+}

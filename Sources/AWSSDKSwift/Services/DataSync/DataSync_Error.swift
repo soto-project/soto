@@ -24,3 +24,14 @@ extension DataSyncErrorType {
         }
     }
 }
+
+extension DataSyncErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalException(let message):
+            return "InternalException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        }
+    }
+}

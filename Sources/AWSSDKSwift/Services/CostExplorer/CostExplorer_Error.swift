@@ -36,3 +36,22 @@ extension CostExplorerErrorType {
         }
     }
 }
+
+extension CostExplorerErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .billExpirationException(let message):
+            return "BillExpirationException: \(message ?? "")"
+        case .dataUnavailableException(let message):
+            return "DataUnavailableException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .requestChangedException(let message):
+            return "RequestChangedException: \(message ?? "")"
+        case .unresolvableUsageUnitException(let message):
+            return "UnresolvableUsageUnitException: \(message ?? "")"
+        }
+    }
+}

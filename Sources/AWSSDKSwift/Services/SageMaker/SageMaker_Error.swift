@@ -27,3 +27,16 @@ extension SageMakerErrorType {
         }
     }
 }
+
+extension SageMakerErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .resourceInUse(let message):
+            return "ResourceInUse: \(message ?? "")"
+        case .resourceLimitExceeded(let message):
+            return "ResourceLimitExceeded: \(message ?? "")"
+        case .resourceNotFound(let message):
+            return "ResourceNotFound: \(message ?? "")"
+        }
+    }
+}

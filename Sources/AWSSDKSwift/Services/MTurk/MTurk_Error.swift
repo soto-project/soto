@@ -24,3 +24,14 @@ extension MTurkErrorType {
         }
     }
 }
+
+extension MTurkErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .requestError(let message):
+            return "RequestError: \(message ?? "")"
+        case .serviceFault(let message):
+            return "ServiceFault: \(message ?? "")"
+        }
+    }
+}

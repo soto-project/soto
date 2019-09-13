@@ -342,3 +342,226 @@ extension CodeDeployErrorType {
         }
     }
 }
+
+extension CodeDeployErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .alarmsLimitExceededException(let message):
+            return "AlarmsLimitExceededException: \(message ?? "")"
+        case .applicationAlreadyExistsException(let message):
+            return "ApplicationAlreadyExistsException: \(message ?? "")"
+        case .applicationDoesNotExistException(let message):
+            return "ApplicationDoesNotExistException: \(message ?? "")"
+        case .applicationLimitExceededException(let message):
+            return "ApplicationLimitExceededException: \(message ?? "")"
+        case .applicationNameRequiredException(let message):
+            return "ApplicationNameRequiredException: \(message ?? "")"
+        case .arnNotSupportedException(let message):
+            return "ArnNotSupportedException: \(message ?? "")"
+        case .batchLimitExceededException(let message):
+            return "BatchLimitExceededException: \(message ?? "")"
+        case .bucketNameFilterRequiredException(let message):
+            return "BucketNameFilterRequiredException: \(message ?? "")"
+        case .deploymentAlreadyCompletedException(let message):
+            return "DeploymentAlreadyCompletedException: \(message ?? "")"
+        case .deploymentConfigAlreadyExistsException(let message):
+            return "DeploymentConfigAlreadyExistsException: \(message ?? "")"
+        case .deploymentConfigDoesNotExistException(let message):
+            return "DeploymentConfigDoesNotExistException: \(message ?? "")"
+        case .deploymentConfigInUseException(let message):
+            return "DeploymentConfigInUseException: \(message ?? "")"
+        case .deploymentConfigLimitExceededException(let message):
+            return "DeploymentConfigLimitExceededException: \(message ?? "")"
+        case .deploymentConfigNameRequiredException(let message):
+            return "DeploymentConfigNameRequiredException: \(message ?? "")"
+        case .deploymentDoesNotExistException(let message):
+            return "DeploymentDoesNotExistException: \(message ?? "")"
+        case .deploymentGroupAlreadyExistsException(let message):
+            return "DeploymentGroupAlreadyExistsException: \(message ?? "")"
+        case .deploymentGroupDoesNotExistException(let message):
+            return "DeploymentGroupDoesNotExistException: \(message ?? "")"
+        case .deploymentGroupLimitExceededException(let message):
+            return "DeploymentGroupLimitExceededException: \(message ?? "")"
+        case .deploymentGroupNameRequiredException(let message):
+            return "DeploymentGroupNameRequiredException: \(message ?? "")"
+        case .deploymentIdRequiredException(let message):
+            return "DeploymentIdRequiredException: \(message ?? "")"
+        case .deploymentIsNotInReadyStateException(let message):
+            return "DeploymentIsNotInReadyStateException: \(message ?? "")"
+        case .deploymentLimitExceededException(let message):
+            return "DeploymentLimitExceededException: \(message ?? "")"
+        case .deploymentNotStartedException(let message):
+            return "DeploymentNotStartedException: \(message ?? "")"
+        case .deploymentTargetDoesNotExistException(let message):
+            return "DeploymentTargetDoesNotExistException: \(message ?? "")"
+        case .deploymentTargetIdRequiredException(let message):
+            return "DeploymentTargetIdRequiredException: \(message ?? "")"
+        case .deploymentTargetListSizeExceededException(let message):
+            return "DeploymentTargetListSizeExceededException: \(message ?? "")"
+        case .descriptionTooLongException(let message):
+            return "DescriptionTooLongException: \(message ?? "")"
+        case .eCSServiceMappingLimitExceededException(let message):
+            return "ECSServiceMappingLimitExceededException: \(message ?? "")"
+        case .gitHubAccountTokenDoesNotExistException(let message):
+            return "GitHubAccountTokenDoesNotExistException: \(message ?? "")"
+        case .gitHubAccountTokenNameRequiredException(let message):
+            return "GitHubAccountTokenNameRequiredException: \(message ?? "")"
+        case .iamArnRequiredException(let message):
+            return "IamArnRequiredException: \(message ?? "")"
+        case .iamSessionArnAlreadyRegisteredException(let message):
+            return "IamSessionArnAlreadyRegisteredException: \(message ?? "")"
+        case .iamUserArnAlreadyRegisteredException(let message):
+            return "IamUserArnAlreadyRegisteredException: \(message ?? "")"
+        case .iamUserArnRequiredException(let message):
+            return "IamUserArnRequiredException: \(message ?? "")"
+        case .instanceDoesNotExistException(let message):
+            return "InstanceDoesNotExistException: \(message ?? "")"
+        case .instanceIdRequiredException(let message):
+            return "InstanceIdRequiredException: \(message ?? "")"
+        case .instanceLimitExceededException(let message):
+            return "InstanceLimitExceededException: \(message ?? "")"
+        case .instanceNameAlreadyRegisteredException(let message):
+            return "InstanceNameAlreadyRegisteredException: \(message ?? "")"
+        case .instanceNameRequiredException(let message):
+            return "InstanceNameRequiredException: \(message ?? "")"
+        case .instanceNotRegisteredException(let message):
+            return "InstanceNotRegisteredException: \(message ?? "")"
+        case .invalidAlarmConfigException(let message):
+            return "InvalidAlarmConfigException: \(message ?? "")"
+        case .invalidApplicationNameException(let message):
+            return "InvalidApplicationNameException: \(message ?? "")"
+        case .invalidArnException(let message):
+            return "InvalidArnException: \(message ?? "")"
+        case .invalidAutoRollbackConfigException(let message):
+            return "InvalidAutoRollbackConfigException: \(message ?? "")"
+        case .invalidAutoScalingGroupException(let message):
+            return "InvalidAutoScalingGroupException: \(message ?? "")"
+        case .invalidBlueGreenDeploymentConfigurationException(let message):
+            return "InvalidBlueGreenDeploymentConfigurationException: \(message ?? "")"
+        case .invalidBucketNameFilterException(let message):
+            return "InvalidBucketNameFilterException: \(message ?? "")"
+        case .invalidComputePlatformException(let message):
+            return "InvalidComputePlatformException: \(message ?? "")"
+        case .invalidDeployedStateFilterException(let message):
+            return "InvalidDeployedStateFilterException: \(message ?? "")"
+        case .invalidDeploymentConfigNameException(let message):
+            return "InvalidDeploymentConfigNameException: \(message ?? "")"
+        case .invalidDeploymentGroupNameException(let message):
+            return "InvalidDeploymentGroupNameException: \(message ?? "")"
+        case .invalidDeploymentIdException(let message):
+            return "InvalidDeploymentIdException: \(message ?? "")"
+        case .invalidDeploymentInstanceTypeException(let message):
+            return "InvalidDeploymentInstanceTypeException: \(message ?? "")"
+        case .invalidDeploymentStatusException(let message):
+            return "InvalidDeploymentStatusException: \(message ?? "")"
+        case .invalidDeploymentStyleException(let message):
+            return "InvalidDeploymentStyleException: \(message ?? "")"
+        case .invalidDeploymentTargetIdException(let message):
+            return "InvalidDeploymentTargetIdException: \(message ?? "")"
+        case .invalidDeploymentWaitTypeException(let message):
+            return "InvalidDeploymentWaitTypeException: \(message ?? "")"
+        case .invalidEC2TagCombinationException(let message):
+            return "InvalidEC2TagCombinationException: \(message ?? "")"
+        case .invalidEC2TagException(let message):
+            return "InvalidEC2TagException: \(message ?? "")"
+        case .invalidECSServiceException(let message):
+            return "InvalidECSServiceException: \(message ?? "")"
+        case .invalidFileExistsBehaviorException(let message):
+            return "InvalidFileExistsBehaviorException: \(message ?? "")"
+        case .invalidGitHubAccountTokenException(let message):
+            return "InvalidGitHubAccountTokenException: \(message ?? "")"
+        case .invalidGitHubAccountTokenNameException(let message):
+            return "InvalidGitHubAccountTokenNameException: \(message ?? "")"
+        case .invalidIamSessionArnException(let message):
+            return "InvalidIamSessionArnException: \(message ?? "")"
+        case .invalidIamUserArnException(let message):
+            return "InvalidIamUserArnException: \(message ?? "")"
+        case .invalidIgnoreApplicationStopFailuresValueException(let message):
+            return "InvalidIgnoreApplicationStopFailuresValueException: \(message ?? "")"
+        case .invalidInputException(let message):
+            return "InvalidInputException: \(message ?? "")"
+        case .invalidInstanceNameException(let message):
+            return "InvalidInstanceNameException: \(message ?? "")"
+        case .invalidInstanceStatusException(let message):
+            return "InvalidInstanceStatusException: \(message ?? "")"
+        case .invalidInstanceTypeException(let message):
+            return "InvalidInstanceTypeException: \(message ?? "")"
+        case .invalidKeyPrefixFilterException(let message):
+            return "InvalidKeyPrefixFilterException: \(message ?? "")"
+        case .invalidLifecycleEventHookExecutionIdException(let message):
+            return "InvalidLifecycleEventHookExecutionIdException: \(message ?? "")"
+        case .invalidLifecycleEventHookExecutionStatusException(let message):
+            return "InvalidLifecycleEventHookExecutionStatusException: \(message ?? "")"
+        case .invalidLoadBalancerInfoException(let message):
+            return "InvalidLoadBalancerInfoException: \(message ?? "")"
+        case .invalidMinimumHealthyHostValueException(let message):
+            return "InvalidMinimumHealthyHostValueException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidOnPremisesTagCombinationException(let message):
+            return "InvalidOnPremisesTagCombinationException: \(message ?? "")"
+        case .invalidOperationException(let message):
+            return "InvalidOperationException: \(message ?? "")"
+        case .invalidRegistrationStatusException(let message):
+            return "InvalidRegistrationStatusException: \(message ?? "")"
+        case .invalidRevisionException(let message):
+            return "InvalidRevisionException: \(message ?? "")"
+        case .invalidRoleException(let message):
+            return "InvalidRoleException: \(message ?? "")"
+        case .invalidSortByException(let message):
+            return "InvalidSortByException: \(message ?? "")"
+        case .invalidSortOrderException(let message):
+            return "InvalidSortOrderException: \(message ?? "")"
+        case .invalidTagException(let message):
+            return "InvalidTagException: \(message ?? "")"
+        case .invalidTagFilterException(let message):
+            return "InvalidTagFilterException: \(message ?? "")"
+        case .invalidTagsToAddException(let message):
+            return "InvalidTagsToAddException: \(message ?? "")"
+        case .invalidTargetFilterNameException(let message):
+            return "InvalidTargetFilterNameException: \(message ?? "")"
+        case .invalidTargetGroupPairException(let message):
+            return "InvalidTargetGroupPairException: \(message ?? "")"
+        case .invalidTargetInstancesException(let message):
+            return "InvalidTargetInstancesException: \(message ?? "")"
+        case .invalidTimeRangeException(let message):
+            return "InvalidTimeRangeException: \(message ?? "")"
+        case .invalidTrafficRoutingConfigurationException(let message):
+            return "InvalidTrafficRoutingConfigurationException: \(message ?? "")"
+        case .invalidTriggerConfigException(let message):
+            return "InvalidTriggerConfigException: \(message ?? "")"
+        case .invalidUpdateOutdatedInstancesOnlyValueException(let message):
+            return "InvalidUpdateOutdatedInstancesOnlyValueException: \(message ?? "")"
+        case .lifecycleEventAlreadyCompletedException(let message):
+            return "LifecycleEventAlreadyCompletedException: \(message ?? "")"
+        case .lifecycleHookLimitExceededException(let message):
+            return "LifecycleHookLimitExceededException: \(message ?? "")"
+        case .multipleIamArnsProvidedException(let message):
+            return "MultipleIamArnsProvidedException: \(message ?? "")"
+        case .operationNotSupportedException(let message):
+            return "OperationNotSupportedException: \(message ?? "")"
+        case .resourceArnRequiredException(let message):
+            return "ResourceArnRequiredException: \(message ?? "")"
+        case .resourceValidationException(let message):
+            return "ResourceValidationException: \(message ?? "")"
+        case .revisionDoesNotExistException(let message):
+            return "RevisionDoesNotExistException: \(message ?? "")"
+        case .revisionRequiredException(let message):
+            return "RevisionRequiredException: \(message ?? "")"
+        case .roleRequiredException(let message):
+            return "RoleRequiredException: \(message ?? "")"
+        case .tagLimitExceededException(let message):
+            return "TagLimitExceededException: \(message ?? "")"
+        case .tagRequiredException(let message):
+            return "TagRequiredException: \(message ?? "")"
+        case .tagSetListLimitExceededException(let message):
+            return "TagSetListLimitExceededException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        case .triggerTargetsLimitExceededException(let message):
+            return "TriggerTargetsLimitExceededException: \(message ?? "")"
+        case .unsupportedActionForDeploymentTypeException(let message):
+            return "UnsupportedActionForDeploymentTypeException: \(message ?? "")"
+        }
+    }
+}

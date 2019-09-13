@@ -96,3 +96,62 @@ extension DAXErrorType {
         }
     }
 }
+
+extension DAXErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .clusterAlreadyExistsFault(let message):
+            return "ClusterAlreadyExistsFault: \(message ?? "")"
+        case .clusterNotFoundFault(let message):
+            return "ClusterNotFoundFault: \(message ?? "")"
+        case .clusterQuotaForCustomerExceededFault(let message):
+            return "ClusterQuotaForCustomerExceededFault: \(message ?? "")"
+        case .insufficientClusterCapacityFault(let message):
+            return "InsufficientClusterCapacityFault: \(message ?? "")"
+        case .invalidARNFault(let message):
+            return "InvalidARNFault: \(message ?? "")"
+        case .invalidClusterStateFault(let message):
+            return "InvalidClusterStateFault: \(message ?? "")"
+        case .invalidParameterCombinationException(let message):
+            return "InvalidParameterCombinationException: \(message ?? "")"
+        case .invalidParameterGroupStateFault(let message):
+            return "InvalidParameterGroupStateFault: \(message ?? "")"
+        case .invalidParameterValueException(let message):
+            return "InvalidParameterValueException: \(message ?? "")"
+        case .invalidSubnet(let message):
+            return "InvalidSubnet: \(message ?? "")"
+        case .invalidVPCNetworkStateFault(let message):
+            return "InvalidVPCNetworkStateFault: \(message ?? "")"
+        case .nodeNotFoundFault(let message):
+            return "NodeNotFoundFault: \(message ?? "")"
+        case .nodeQuotaForClusterExceededFault(let message):
+            return "NodeQuotaForClusterExceededFault: \(message ?? "")"
+        case .nodeQuotaForCustomerExceededFault(let message):
+            return "NodeQuotaForCustomerExceededFault: \(message ?? "")"
+        case .parameterGroupAlreadyExistsFault(let message):
+            return "ParameterGroupAlreadyExistsFault: \(message ?? "")"
+        case .parameterGroupNotFoundFault(let message):
+            return "ParameterGroupNotFoundFault: \(message ?? "")"
+        case .parameterGroupQuotaExceededFault(let message):
+            return "ParameterGroupQuotaExceededFault: \(message ?? "")"
+        case .serviceLinkedRoleNotFoundFault(let message):
+            return "ServiceLinkedRoleNotFoundFault: \(message ?? "")"
+        case .subnetGroupAlreadyExistsFault(let message):
+            return "SubnetGroupAlreadyExistsFault: \(message ?? "")"
+        case .subnetGroupInUseFault(let message):
+            return "SubnetGroupInUseFault: \(message ?? "")"
+        case .subnetGroupNotFoundFault(let message):
+            return "SubnetGroupNotFoundFault: \(message ?? "")"
+        case .subnetGroupQuotaExceededFault(let message):
+            return "SubnetGroupQuotaExceededFault: \(message ?? "")"
+        case .subnetInUse(let message):
+            return "SubnetInUse: \(message ?? "")"
+        case .subnetQuotaExceededFault(let message):
+            return "SubnetQuotaExceededFault: \(message ?? "")"
+        case .tagNotFoundFault(let message):
+            return "TagNotFoundFault: \(message ?? "")"
+        case .tagQuotaPerResourceExceeded(let message):
+            return "TagQuotaPerResourceExceeded: \(message ?? "")"
+        }
+    }
+}

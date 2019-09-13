@@ -42,3 +42,26 @@ extension ApplicationDiscoveryServiceErrorType {
         }
     }
 }
+
+extension ApplicationDiscoveryServiceErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .authorizationErrorException(let message):
+            return "AuthorizationErrorException: \(message ?? "")"
+        case .conflictErrorException(let message):
+            return "ConflictErrorException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidParameterValueException(let message):
+            return "InvalidParameterValueException: \(message ?? "")"
+        case .operationNotPermittedException(let message):
+            return "OperationNotPermittedException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serverInternalErrorException(let message):
+            return "ServerInternalErrorException: \(message ?? "")"
+        }
+    }
+}

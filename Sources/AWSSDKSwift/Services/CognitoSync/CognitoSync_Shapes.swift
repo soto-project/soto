@@ -18,9 +18,9 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -74,11 +74,11 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
-            try validate(roleArn, name:"roleArn", parent: name, min: 20)
-            try validate(roleArn, name:"roleArn", parent: name, pattern: "arn:aws:iam::\\d+:role/.*")
-            try validate(streamName, name:"streamName", parent: name, max: 128)
-            try validate(streamName, name:"streamName", parent: name, min: 1)
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.roleArn, name:"roleArn", parent: name, pattern: "arn:aws:iam::\\d+:role/.*")
+            try validate(self.streamName, name:"streamName", parent: name, max: 128)
+            try validate(self.streamName, name:"streamName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -156,15 +156,15 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "[a-zA-Z0-9_.:-]+")
-            try validate(identityId, name:"identityId", parent: name, max: 55)
-            try validate(identityId, name:"identityId", parent: name, min: 1)
-            try validate(identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "[a-zA-Z0-9_.:-]+")
+            try validate(self.identityId, name:"identityId", parent: name, max: 55)
+            try validate(self.identityId, name:"identityId", parent: name, min: 1)
+            try validate(self.identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -212,15 +212,15 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "[a-zA-Z0-9_.:-]+")
-            try validate(identityId, name:"identityId", parent: name, max: 55)
-            try validate(identityId, name:"identityId", parent: name, min: 1)
-            try validate(identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "[a-zA-Z0-9_.:-]+")
+            try validate(self.identityId, name:"identityId", parent: name, max: 55)
+            try validate(self.identityId, name:"identityId", parent: name, min: 1)
+            try validate(self.identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -260,9 +260,9 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -304,12 +304,12 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(identityId, name:"identityId", parent: name, max: 55)
-            try validate(identityId, name:"identityId", parent: name, min: 1)
-            try validate(identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityId, name:"identityId", parent: name, max: 55)
+            try validate(self.identityId, name:"identityId", parent: name, min: 1)
+            try validate(self.identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -348,9 +348,9 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -408,9 +408,9 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -448,9 +448,9 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -579,12 +579,12 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(identityId, name:"identityId", parent: name, max: 55)
-            try validate(identityId, name:"identityId", parent: name, min: 1)
-            try validate(identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityId, name:"identityId", parent: name, max: 55)
+            try validate(self.identityId, name:"identityId", parent: name, min: 1)
+            try validate(self.identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -713,15 +713,15 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "[a-zA-Z0-9_.:-]+")
-            try validate(identityId, name:"identityId", parent: name, max: 55)
-            try validate(identityId, name:"identityId", parent: name, min: 1)
-            try validate(identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "[a-zA-Z0-9_.:-]+")
+            try validate(self.identityId, name:"identityId", parent: name, max: 55)
+            try validate(self.identityId, name:"identityId", parent: name, min: 1)
+            try validate(self.identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -823,12 +823,12 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try applicationArns?.forEach {
+            try self.applicationArns?.forEach {
                 try validate($0, name: "applicationArns[]", parent: name, pattern: "arn:aws:sns:[-0-9a-z]+:\\d+:app/[A-Z_]+/[a-zA-Z0-9_.-]+")
             }
-            try validate(roleArn, name:"roleArn", parent: name, max: 2048)
-            try validate(roleArn, name:"roleArn", parent: name, min: 20)
-            try validate(roleArn, name:"roleArn", parent: name, pattern: "arn:aws:iam::\\d+:role/.*")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.roleArn, name:"roleArn", parent: name, pattern: "arn:aws:iam::\\d+:role/.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -908,9 +908,9 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 1024)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(value, name:"value", parent: name, max: 1048575)
+            try validate(self.key, name:"key", parent: name, max: 1024)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 1048575)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -947,12 +947,12 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(identityId, name:"identityId", parent: name, max: 55)
-            try validate(identityId, name:"identityId", parent: name, min: 1)
-            try validate(identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityId, name:"identityId", parent: name, max: 55)
+            try validate(self.identityId, name:"identityId", parent: name, min: 1)
+            try validate(self.identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -997,9 +997,9 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1029,11 +1029,11 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try cognitoStreams?.validate(name: "\(name).cognitoStreams")
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
-            try pushSync?.validate(name: "\(name).pushSync")
+            try self.cognitoStreams?.validate(name: "\(name).cognitoStreams")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try self.pushSync?.validate(name: "\(name).pushSync")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1101,17 +1101,17 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "[a-zA-Z0-9_.:-]+")
-            try validate(deviceId, name:"deviceId", parent: name, max: 256)
-            try validate(deviceId, name:"deviceId", parent: name, min: 1)
-            try validate(identityId, name:"identityId", parent: name, max: 55)
-            try validate(identityId, name:"identityId", parent: name, min: 1)
-            try validate(identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "[a-zA-Z0-9_.:-]+")
+            try validate(self.deviceId, name:"deviceId", parent: name, max: 256)
+            try validate(self.deviceId, name:"deviceId", parent: name, min: 1)
+            try validate(self.identityId, name:"identityId", parent: name, max: 55)
+            try validate(self.identityId, name:"identityId", parent: name, min: 1)
+            try validate(self.identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1155,17 +1155,17 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "[a-zA-Z0-9_.:-]+")
-            try validate(deviceId, name:"deviceId", parent: name, max: 256)
-            try validate(deviceId, name:"deviceId", parent: name, min: 1)
-            try validate(identityId, name:"identityId", parent: name, max: 55)
-            try validate(identityId, name:"identityId", parent: name, min: 1)
-            try validate(identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "[a-zA-Z0-9_.:-]+")
+            try validate(self.deviceId, name:"deviceId", parent: name, max: 256)
+            try validate(self.deviceId, name:"deviceId", parent: name, min: 1)
+            try validate(self.identityId, name:"identityId", parent: name, max: 55)
+            try validate(self.identityId, name:"identityId", parent: name, min: 1)
+            try validate(self.identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1221,18 +1221,18 @@ extension CognitoSync {
         }
 
         public func validate(name: String) throws {
-            try validate(datasetName, name:"datasetName", parent: name, max: 128)
-            try validate(datasetName, name:"datasetName", parent: name, min: 1)
-            try validate(datasetName, name:"datasetName", parent: name, pattern: "[a-zA-Z0-9_.:-]+")
-            try validate(deviceId, name:"deviceId", parent: name, max: 256)
-            try validate(deviceId, name:"deviceId", parent: name, min: 1)
-            try validate(identityId, name:"identityId", parent: name, max: 55)
-            try validate(identityId, name:"identityId", parent: name, min: 1)
-            try validate(identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
-            try validate(identityPoolId, name:"identityPoolId", parent: name, max: 55)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, min: 1)
-            try validate(identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
-            try recordPatches?.forEach {
+            try validate(self.datasetName, name:"datasetName", parent: name, max: 128)
+            try validate(self.datasetName, name:"datasetName", parent: name, min: 1)
+            try validate(self.datasetName, name:"datasetName", parent: name, pattern: "[a-zA-Z0-9_.:-]+")
+            try validate(self.deviceId, name:"deviceId", parent: name, max: 256)
+            try validate(self.deviceId, name:"deviceId", parent: name, min: 1)
+            try validate(self.identityId, name:"identityId", parent: name, max: 55)
+            try validate(self.identityId, name:"identityId", parent: name, min: 1)
+            try validate(self.identityId, name:"identityId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, max: 55)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, min: 1)
+            try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try self.recordPatches?.forEach {
                 try $0.validate(name: "\(name).recordPatches[]")
             }
         }

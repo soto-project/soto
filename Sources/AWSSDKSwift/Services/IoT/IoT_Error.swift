@@ -102,3 +102,66 @@ extension IoTErrorType {
         }
     }
 }
+
+extension IoTErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .certificateConflictException(let message):
+            return "CertificateConflictException: \(message ?? "")"
+        case .certificateStateException(let message):
+            return "CertificateStateException: \(message ?? "")"
+        case .certificateValidationException(let message):
+            return "CertificateValidationException: \(message ?? "")"
+        case .conflictingResourceUpdateException(let message):
+            return "ConflictingResourceUpdateException: \(message ?? "")"
+        case .deleteConflictException(let message):
+            return "DeleteConflictException: \(message ?? "")"
+        case .indexNotReadyException(let message):
+            return "IndexNotReadyException: \(message ?? "")"
+        case .internalException(let message):
+            return "InternalException: \(message ?? "")"
+        case .internalFailureException(let message):
+            return "InternalFailureException: \(message ?? "")"
+        case .invalidAggregationException(let message):
+            return "InvalidAggregationException: \(message ?? "")"
+        case .invalidQueryException(let message):
+            return "InvalidQueryException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .invalidResponseException(let message):
+            return "InvalidResponseException: \(message ?? "")"
+        case .invalidStateTransitionException(let message):
+            return "InvalidStateTransitionException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .malformedPolicyException(let message):
+            return "MalformedPolicyException: \(message ?? "")"
+        case .notConfiguredException(let message):
+            return "NotConfiguredException: \(message ?? "")"
+        case .registrationCodeValidationException(let message):
+            return "RegistrationCodeValidationException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .resourceRegistrationFailureException(let message):
+            return "ResourceRegistrationFailureException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .sqlParseException(let message):
+            return "SqlParseException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        case .transferAlreadyCompletedException(let message):
+            return "TransferAlreadyCompletedException: \(message ?? "")"
+        case .transferConflictException(let message):
+            return "TransferConflictException: \(message ?? "")"
+        case .unauthorizedException(let message):
+            return "UnauthorizedException: \(message ?? "")"
+        case .versionConflictException(let message):
+            return "VersionConflictException: \(message ?? "")"
+        case .versionsLimitExceededException(let message):
+            return "VersionsLimitExceededException: \(message ?? "")"
+        }
+    }
+}

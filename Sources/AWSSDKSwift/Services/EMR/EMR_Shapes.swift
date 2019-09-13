@@ -30,10 +30,10 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(clusterId, name:"clusterId", parent: name, max: 256)
-            try validate(clusterId, name:"clusterId", parent: name, min: 0)
-            try validate(clusterId, name:"clusterId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try instanceFleet.validate(name: "\(name).instanceFleet")
+            try validate(self.clusterId, name:"clusterId", parent: name, max: 256)
+            try validate(self.clusterId, name:"clusterId", parent: name, min: 0)
+            try validate(self.clusterId, name:"clusterId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.instanceFleet.validate(name: "\(name).instanceFleet")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -81,12 +81,12 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try instanceGroups.forEach {
+            try self.instanceGroups.forEach {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
-            try validate(jobFlowId, name:"jobFlowId", parent: name, max: 256)
-            try validate(jobFlowId, name:"jobFlowId", parent: name, min: 0)
-            try validate(jobFlowId, name:"jobFlowId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.jobFlowId, name:"jobFlowId", parent: name, max: 256)
+            try validate(self.jobFlowId, name:"jobFlowId", parent: name, min: 0)
+            try validate(self.jobFlowId, name:"jobFlowId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -134,10 +134,10 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(jobFlowId, name:"jobFlowId", parent: name, max: 256)
-            try validate(jobFlowId, name:"jobFlowId", parent: name, min: 0)
-            try validate(jobFlowId, name:"jobFlowId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try steps.forEach {
+            try validate(self.jobFlowId, name:"jobFlowId", parent: name, max: 256)
+            try validate(self.jobFlowId, name:"jobFlowId", parent: name, min: 0)
+            try validate(self.jobFlowId, name:"jobFlowId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.steps.forEach {
                 try $0.validate(name: "\(name).steps[]")
             }
         }
@@ -251,7 +251,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try rules.forEach {
+            try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
         }
@@ -367,10 +367,10 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try scriptBootstrapAction.validate(name: "\(name).scriptBootstrapAction")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.scriptBootstrapAction.validate(name: "\(name).scriptBootstrapAction")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -440,10 +440,10 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(clusterId, name:"clusterId", parent: name, max: 256)
-            try validate(clusterId, name:"clusterId", parent: name, min: 0)
-            try validate(clusterId, name:"clusterId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try stepIds?.forEach {
+            try validate(self.clusterId, name:"clusterId", parent: name, max: 256)
+            try validate(self.clusterId, name:"clusterId", parent: name, min: 0)
+            try validate(self.clusterId, name:"clusterId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.stepIds?.forEach {
                 try validate($0, name: "stepIds[]", parent: name, max: 256)
                 try validate($0, name: "stepIds[]", parent: name, min: 0)
                 try validate($0, name: "stepIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -524,7 +524,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(threshold, name:"threshold", parent: name, min: 0)
+            try validate(self.threshold, name:"threshold", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -887,9 +887,9 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 10280)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.name, name:"name", parent: name, max: 10280)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -933,9 +933,9 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 10280)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.name, name:"name", parent: name, max: 10280)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1010,7 +1010,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try jobFlowIds?.forEach {
+            try self.jobFlowIds?.forEach {
                 try validate($0, name: "jobFlowIds[]", parent: name, max: 10280)
                 try validate($0, name: "jobFlowIds[]", parent: name, min: 0)
                 try validate($0, name: "jobFlowIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1055,9 +1055,9 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 10280)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.name, name:"name", parent: name, max: 10280)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1338,18 +1338,18 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try args?.forEach {
+            try self.args?.forEach {
                 try validate($0, name: "args[]", parent: name, max: 10280)
                 try validate($0, name: "args[]", parent: name, min: 0)
                 try validate($0, name: "args[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
-            try validate(jar, name:"jar", parent: name, max: 10280)
-            try validate(jar, name:"jar", parent: name, min: 0)
-            try validate(jar, name:"jar", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(mainClass, name:"mainClass", parent: name, max: 10280)
-            try validate(mainClass, name:"mainClass", parent: name, min: 0)
-            try validate(mainClass, name:"mainClass", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try properties?.forEach {
+            try validate(self.jar, name:"jar", parent: name, max: 10280)
+            try validate(self.jar, name:"jar", parent: name, min: 0)
+            try validate(self.jar, name:"jar", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.mainClass, name:"mainClass", parent: name, max: 10280)
+            try validate(self.mainClass, name:"mainClass", parent: name, min: 0)
+            try validate(self.mainClass, name:"mainClass", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.properties?.forEach {
                 try $0.validate(name: "\(name).properties[]")
             }
         }
@@ -1567,15 +1567,15 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try instanceTypeConfigs?.forEach {
+            try self.instanceTypeConfigs?.forEach {
                 try $0.validate(name: "\(name).instanceTypeConfigs[]")
             }
-            try launchSpecifications?.validate(name: "\(name).launchSpecifications")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(targetOnDemandCapacity, name:"targetOnDemandCapacity", parent: name, min: 0)
-            try validate(targetSpotCapacity, name:"targetSpotCapacity", parent: name, min: 0)
+            try self.launchSpecifications?.validate(name: "\(name).launchSpecifications")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.targetOnDemandCapacity, name:"targetOnDemandCapacity", parent: name, min: 0)
+            try validate(self.targetSpotCapacity, name:"targetSpotCapacity", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1609,8 +1609,8 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(targetOnDemandCapacity, name:"targetOnDemandCapacity", parent: name, min: 0)
-            try validate(targetSpotCapacity, name:"targetSpotCapacity", parent: name, min: 0)
+            try validate(self.targetOnDemandCapacity, name:"targetOnDemandCapacity", parent: name, min: 0)
+            try validate(self.targetSpotCapacity, name:"targetSpotCapacity", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1633,7 +1633,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try spotSpecification.validate(name: "\(name).spotSpecification")
+            try self.spotSpecification.validate(name: "\(name).spotSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1885,16 +1885,16 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try autoScalingPolicy?.validate(name: "\(name).autoScalingPolicy")
-            try validate(bidPrice, name:"bidPrice", parent: name, max: 256)
-            try validate(bidPrice, name:"bidPrice", parent: name, min: 0)
-            try validate(bidPrice, name:"bidPrice", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(instanceType, name:"instanceType", parent: name, max: 256)
-            try validate(instanceType, name:"instanceType", parent: name, min: 1)
-            try validate(instanceType, name:"instanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.autoScalingPolicy?.validate(name: "\(name).autoScalingPolicy")
+            try validate(self.bidPrice, name:"bidPrice", parent: name, max: 256)
+            try validate(self.bidPrice, name:"bidPrice", parent: name, min: 0)
+            try validate(self.bidPrice, name:"bidPrice", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.instanceType, name:"instanceType", parent: name, max: 256)
+            try validate(self.instanceType, name:"instanceType", parent: name, min: 1)
+            try validate(self.instanceType, name:"instanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2021,9 +2021,9 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(instanceGroupId, name:"instanceGroupId", parent: name, max: 256)
-            try validate(instanceGroupId, name:"instanceGroupId", parent: name, min: 0)
-            try validate(instanceGroupId, name:"instanceGroupId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.instanceGroupId, name:"instanceGroupId", parent: name, max: 256)
+            try validate(self.instanceGroupId, name:"instanceGroupId", parent: name, min: 0)
+            try validate(self.instanceGroupId, name:"instanceGroupId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2302,14 +2302,14 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(bidPrice, name:"bidPrice", parent: name, max: 256)
-            try validate(bidPrice, name:"bidPrice", parent: name, min: 0)
-            try validate(bidPrice, name:"bidPrice", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(bidPriceAsPercentageOfOnDemandPrice, name:"bidPriceAsPercentageOfOnDemandPrice", parent: name, min: 0)
-            try validate(instanceType, name:"instanceType", parent: name, max: 256)
-            try validate(instanceType, name:"instanceType", parent: name, min: 1)
-            try validate(instanceType, name:"instanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(weightedCapacity, name:"weightedCapacity", parent: name, min: 0)
+            try validate(self.bidPrice, name:"bidPrice", parent: name, max: 256)
+            try validate(self.bidPrice, name:"bidPrice", parent: name, min: 0)
+            try validate(self.bidPrice, name:"bidPrice", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.bidPriceAsPercentageOfOnDemandPrice, name:"bidPriceAsPercentageOfOnDemandPrice", parent: name, min: 0)
+            try validate(self.instanceType, name:"instanceType", parent: name, max: 256)
+            try validate(self.instanceType, name:"instanceType", parent: name, min: 1)
+            try validate(self.instanceType, name:"instanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.weightedCapacity, name:"weightedCapacity", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2582,52 +2582,52 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try additionalMasterSecurityGroups?.forEach {
+            try self.additionalMasterSecurityGroups?.forEach {
                 try validate($0, name: "additionalMasterSecurityGroups[]", parent: name, max: 256)
                 try validate($0, name: "additionalMasterSecurityGroups[]", parent: name, min: 0)
                 try validate($0, name: "additionalMasterSecurityGroups[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
-            try additionalSlaveSecurityGroups?.forEach {
+            try self.additionalSlaveSecurityGroups?.forEach {
                 try validate($0, name: "additionalSlaveSecurityGroups[]", parent: name, max: 256)
                 try validate($0, name: "additionalSlaveSecurityGroups[]", parent: name, min: 0)
                 try validate($0, name: "additionalSlaveSecurityGroups[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
-            try validate(ec2KeyName, name:"ec2KeyName", parent: name, max: 256)
-            try validate(ec2KeyName, name:"ec2KeyName", parent: name, min: 0)
-            try validate(ec2KeyName, name:"ec2KeyName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(ec2SubnetId, name:"ec2SubnetId", parent: name, max: 256)
-            try validate(ec2SubnetId, name:"ec2SubnetId", parent: name, min: 0)
-            try validate(ec2SubnetId, name:"ec2SubnetId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try ec2SubnetIds?.forEach {
+            try validate(self.ec2KeyName, name:"ec2KeyName", parent: name, max: 256)
+            try validate(self.ec2KeyName, name:"ec2KeyName", parent: name, min: 0)
+            try validate(self.ec2KeyName, name:"ec2KeyName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.ec2SubnetId, name:"ec2SubnetId", parent: name, max: 256)
+            try validate(self.ec2SubnetId, name:"ec2SubnetId", parent: name, min: 0)
+            try validate(self.ec2SubnetId, name:"ec2SubnetId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.ec2SubnetIds?.forEach {
                 try validate($0, name: "ec2SubnetIds[]", parent: name, max: 256)
                 try validate($0, name: "ec2SubnetIds[]", parent: name, min: 0)
                 try validate($0, name: "ec2SubnetIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
-            try validate(emrManagedMasterSecurityGroup, name:"emrManagedMasterSecurityGroup", parent: name, max: 256)
-            try validate(emrManagedMasterSecurityGroup, name:"emrManagedMasterSecurityGroup", parent: name, min: 0)
-            try validate(emrManagedMasterSecurityGroup, name:"emrManagedMasterSecurityGroup", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(emrManagedSlaveSecurityGroup, name:"emrManagedSlaveSecurityGroup", parent: name, max: 256)
-            try validate(emrManagedSlaveSecurityGroup, name:"emrManagedSlaveSecurityGroup", parent: name, min: 0)
-            try validate(emrManagedSlaveSecurityGroup, name:"emrManagedSlaveSecurityGroup", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(hadoopVersion, name:"hadoopVersion", parent: name, max: 256)
-            try validate(hadoopVersion, name:"hadoopVersion", parent: name, min: 0)
-            try validate(hadoopVersion, name:"hadoopVersion", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try instanceFleets?.forEach {
+            try validate(self.emrManagedMasterSecurityGroup, name:"emrManagedMasterSecurityGroup", parent: name, max: 256)
+            try validate(self.emrManagedMasterSecurityGroup, name:"emrManagedMasterSecurityGroup", parent: name, min: 0)
+            try validate(self.emrManagedMasterSecurityGroup, name:"emrManagedMasterSecurityGroup", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.emrManagedSlaveSecurityGroup, name:"emrManagedSlaveSecurityGroup", parent: name, max: 256)
+            try validate(self.emrManagedSlaveSecurityGroup, name:"emrManagedSlaveSecurityGroup", parent: name, min: 0)
+            try validate(self.emrManagedSlaveSecurityGroup, name:"emrManagedSlaveSecurityGroup", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.hadoopVersion, name:"hadoopVersion", parent: name, max: 256)
+            try validate(self.hadoopVersion, name:"hadoopVersion", parent: name, min: 0)
+            try validate(self.hadoopVersion, name:"hadoopVersion", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.instanceFleets?.forEach {
                 try $0.validate(name: "\(name).instanceFleets[]")
             }
-            try instanceGroups?.forEach {
+            try self.instanceGroups?.forEach {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
-            try validate(masterInstanceType, name:"masterInstanceType", parent: name, max: 256)
-            try validate(masterInstanceType, name:"masterInstanceType", parent: name, min: 1)
-            try validate(masterInstanceType, name:"masterInstanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try placement?.validate(name: "\(name).placement")
-            try validate(serviceAccessSecurityGroup, name:"serviceAccessSecurityGroup", parent: name, max: 256)
-            try validate(serviceAccessSecurityGroup, name:"serviceAccessSecurityGroup", parent: name, min: 0)
-            try validate(serviceAccessSecurityGroup, name:"serviceAccessSecurityGroup", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(slaveInstanceType, name:"slaveInstanceType", parent: name, max: 256)
-            try validate(slaveInstanceType, name:"slaveInstanceType", parent: name, min: 1)
-            try validate(slaveInstanceType, name:"slaveInstanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.masterInstanceType, name:"masterInstanceType", parent: name, max: 256)
+            try validate(self.masterInstanceType, name:"masterInstanceType", parent: name, min: 1)
+            try validate(self.masterInstanceType, name:"masterInstanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.placement?.validate(name: "\(name).placement")
+            try validate(self.serviceAccessSecurityGroup, name:"serviceAccessSecurityGroup", parent: name, max: 256)
+            try validate(self.serviceAccessSecurityGroup, name:"serviceAccessSecurityGroup", parent: name, min: 0)
+            try validate(self.serviceAccessSecurityGroup, name:"serviceAccessSecurityGroup", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.slaveInstanceType, name:"slaveInstanceType", parent: name, max: 256)
+            try validate(self.slaveInstanceType, name:"slaveInstanceType", parent: name, min: 1)
+            try validate(self.slaveInstanceType, name:"slaveInstanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2757,21 +2757,21 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(aDDomainJoinPassword, name:"aDDomainJoinPassword", parent: name, max: 256)
-            try validate(aDDomainJoinPassword, name:"aDDomainJoinPassword", parent: name, min: 0)
-            try validate(aDDomainJoinPassword, name:"aDDomainJoinPassword", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(aDDomainJoinUser, name:"aDDomainJoinUser", parent: name, max: 256)
-            try validate(aDDomainJoinUser, name:"aDDomainJoinUser", parent: name, min: 0)
-            try validate(aDDomainJoinUser, name:"aDDomainJoinUser", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(crossRealmTrustPrincipalPassword, name:"crossRealmTrustPrincipalPassword", parent: name, max: 256)
-            try validate(crossRealmTrustPrincipalPassword, name:"crossRealmTrustPrincipalPassword", parent: name, min: 0)
-            try validate(crossRealmTrustPrincipalPassword, name:"crossRealmTrustPrincipalPassword", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(kdcAdminPassword, name:"kdcAdminPassword", parent: name, max: 256)
-            try validate(kdcAdminPassword, name:"kdcAdminPassword", parent: name, min: 0)
-            try validate(kdcAdminPassword, name:"kdcAdminPassword", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(realm, name:"realm", parent: name, max: 256)
-            try validate(realm, name:"realm", parent: name, min: 0)
-            try validate(realm, name:"realm", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.aDDomainJoinPassword, name:"aDDomainJoinPassword", parent: name, max: 256)
+            try validate(self.aDDomainJoinPassword, name:"aDDomainJoinPassword", parent: name, min: 0)
+            try validate(self.aDDomainJoinPassword, name:"aDDomainJoinPassword", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.aDDomainJoinUser, name:"aDDomainJoinUser", parent: name, max: 256)
+            try validate(self.aDDomainJoinUser, name:"aDDomainJoinUser", parent: name, min: 0)
+            try validate(self.aDDomainJoinUser, name:"aDDomainJoinUser", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.crossRealmTrustPrincipalPassword, name:"crossRealmTrustPrincipalPassword", parent: name, max: 256)
+            try validate(self.crossRealmTrustPrincipalPassword, name:"crossRealmTrustPrincipalPassword", parent: name, min: 0)
+            try validate(self.crossRealmTrustPrincipalPassword, name:"crossRealmTrustPrincipalPassword", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.kdcAdminPassword, name:"kdcAdminPassword", parent: name, max: 256)
+            try validate(self.kdcAdminPassword, name:"kdcAdminPassword", parent: name, min: 0)
+            try validate(self.kdcAdminPassword, name:"kdcAdminPassword", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.realm, name:"realm", parent: name, max: 256)
+            try validate(self.realm, name:"realm", parent: name, min: 0)
+            try validate(self.realm, name:"realm", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2800,12 +2800,12 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 10280)
-            try validate(key, name:"key", parent: name, min: 0)
-            try validate(key, name:"key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(value, name:"value", parent: name, max: 10280)
-            try validate(value, name:"value", parent: name, min: 0)
-            try validate(value, name:"value", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.key, name:"key", parent: name, max: 10280)
+            try validate(self.key, name:"key", parent: name, min: 0)
+            try validate(self.key, name:"key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.value, name:"value", parent: name, max: 10280)
+            try validate(self.value, name:"value", parent: name, min: 0)
+            try validate(self.value, name:"value", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3133,7 +3133,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try stepIds?.forEach {
+            try self.stepIds?.forEach {
                 try validate($0, name: "stepIds[]", parent: name, max: 10280)
                 try validate($0, name: "stepIds[]", parent: name, min: 0)
                 try validate($0, name: "stepIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3215,7 +3215,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try instanceFleet.validate(name: "\(name).instanceFleet")
+            try self.instanceFleet.validate(name: "\(name).instanceFleet")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3241,7 +3241,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try instanceGroups?.forEach {
+            try self.instanceGroups?.forEach {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
         }
@@ -3269,10 +3269,10 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(availabilityZone, name:"availabilityZone", parent: name, max: 10280)
-            try validate(availabilityZone, name:"availabilityZone", parent: name, min: 0)
-            try validate(availabilityZone, name:"availabilityZone", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try availabilityZones?.forEach {
+            try validate(self.availabilityZone, name:"availabilityZone", parent: name, max: 10280)
+            try validate(self.availabilityZone, name:"availabilityZone", parent: name, min: 0)
+            try validate(self.availabilityZone, name:"availabilityZone", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.availabilityZones?.forEach {
                 try validate($0, name: "availabilityZones[]", parent: name, max: 256)
                 try validate($0, name: "availabilityZones[]", parent: name, min: 0)
                 try validate($0, name: "availabilityZones[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3306,7 +3306,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try autoScalingPolicy.validate(name: "\(name).autoScalingPolicy")
+            try self.autoScalingPolicy.validate(name: "\(name).autoScalingPolicy")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3510,48 +3510,48 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(additionalInfo, name:"additionalInfo", parent: name, max: 10280)
-            try validate(additionalInfo, name:"additionalInfo", parent: name, min: 0)
-            try validate(additionalInfo, name:"additionalInfo", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(amiVersion, name:"amiVersion", parent: name, max: 256)
-            try validate(amiVersion, name:"amiVersion", parent: name, min: 0)
-            try validate(amiVersion, name:"amiVersion", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(autoScalingRole, name:"autoScalingRole", parent: name, max: 10280)
-            try validate(autoScalingRole, name:"autoScalingRole", parent: name, min: 0)
-            try validate(autoScalingRole, name:"autoScalingRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try bootstrapActions?.forEach {
+            try validate(self.additionalInfo, name:"additionalInfo", parent: name, max: 10280)
+            try validate(self.additionalInfo, name:"additionalInfo", parent: name, min: 0)
+            try validate(self.additionalInfo, name:"additionalInfo", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.amiVersion, name:"amiVersion", parent: name, max: 256)
+            try validate(self.amiVersion, name:"amiVersion", parent: name, min: 0)
+            try validate(self.amiVersion, name:"amiVersion", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.autoScalingRole, name:"autoScalingRole", parent: name, max: 10280)
+            try validate(self.autoScalingRole, name:"autoScalingRole", parent: name, min: 0)
+            try validate(self.autoScalingRole, name:"autoScalingRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.bootstrapActions?.forEach {
                 try $0.validate(name: "\(name).bootstrapActions[]")
             }
-            try validate(customAmiId, name:"customAmiId", parent: name, max: 256)
-            try validate(customAmiId, name:"customAmiId", parent: name, min: 0)
-            try validate(customAmiId, name:"customAmiId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try instances.validate(name: "\(name).instances")
-            try validate(jobFlowRole, name:"jobFlowRole", parent: name, max: 10280)
-            try validate(jobFlowRole, name:"jobFlowRole", parent: name, min: 0)
-            try validate(jobFlowRole, name:"jobFlowRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try kerberosAttributes?.validate(name: "\(name).kerberosAttributes")
-            try validate(logUri, name:"logUri", parent: name, max: 10280)
-            try validate(logUri, name:"logUri", parent: name, min: 0)
-            try validate(logUri, name:"logUri", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try newSupportedProducts?.forEach {
+            try validate(self.customAmiId, name:"customAmiId", parent: name, max: 256)
+            try validate(self.customAmiId, name:"customAmiId", parent: name, min: 0)
+            try validate(self.customAmiId, name:"customAmiId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.instances.validate(name: "\(name).instances")
+            try validate(self.jobFlowRole, name:"jobFlowRole", parent: name, max: 10280)
+            try validate(self.jobFlowRole, name:"jobFlowRole", parent: name, min: 0)
+            try validate(self.jobFlowRole, name:"jobFlowRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.kerberosAttributes?.validate(name: "\(name).kerberosAttributes")
+            try validate(self.logUri, name:"logUri", parent: name, max: 10280)
+            try validate(self.logUri, name:"logUri", parent: name, min: 0)
+            try validate(self.logUri, name:"logUri", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.newSupportedProducts?.forEach {
                 try $0.validate(name: "\(name).newSupportedProducts[]")
             }
-            try validate(releaseLabel, name:"releaseLabel", parent: name, max: 256)
-            try validate(releaseLabel, name:"releaseLabel", parent: name, min: 0)
-            try validate(releaseLabel, name:"releaseLabel", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(securityConfiguration, name:"securityConfiguration", parent: name, max: 10280)
-            try validate(securityConfiguration, name:"securityConfiguration", parent: name, min: 0)
-            try validate(securityConfiguration, name:"securityConfiguration", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try validate(serviceRole, name:"serviceRole", parent: name, max: 10280)
-            try validate(serviceRole, name:"serviceRole", parent: name, min: 0)
-            try validate(serviceRole, name:"serviceRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
-            try steps?.forEach {
+            try validate(self.releaseLabel, name:"releaseLabel", parent: name, max: 256)
+            try validate(self.releaseLabel, name:"releaseLabel", parent: name, min: 0)
+            try validate(self.releaseLabel, name:"releaseLabel", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.securityConfiguration, name:"securityConfiguration", parent: name, max: 10280)
+            try validate(self.securityConfiguration, name:"securityConfiguration", parent: name, min: 0)
+            try validate(self.securityConfiguration, name:"securityConfiguration", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.serviceRole, name:"serviceRole", parent: name, max: 10280)
+            try validate(self.serviceRole, name:"serviceRole", parent: name, min: 0)
+            try validate(self.serviceRole, name:"serviceRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.steps?.forEach {
                 try $0.validate(name: "\(name).steps[]")
             }
-            try supportedProducts?.forEach {
+            try self.supportedProducts?.forEach {
                 try validate($0, name: "supportedProducts[]", parent: name, max: 256)
                 try validate($0, name: "supportedProducts[]", parent: name, min: 0)
                 try validate($0, name: "supportedProducts[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3677,7 +3677,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try trigger.validate(name: "\(name).trigger")
+            try self.trigger.validate(name: "\(name).trigger")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3701,7 +3701,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try cloudWatchAlarmDefinition.validate(name: "\(name).cloudWatchAlarmDefinition")
+            try self.cloudWatchAlarmDefinition.validate(name: "\(name).cloudWatchAlarmDefinition")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3726,14 +3726,14 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try args?.forEach {
+            try self.args?.forEach {
                 try validate($0, name: "args[]", parent: name, max: 10280)
                 try validate($0, name: "args[]", parent: name, min: 0)
                 try validate($0, name: "args[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
-            try validate(path, name:"path", parent: name, max: 10280)
-            try validate(path, name:"path", parent: name, min: 0)
-            try validate(path, name:"path", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.path, name:"path", parent: name, max: 10280)
+            try validate(self.path, name:"path", parent: name, min: 0)
+            try validate(self.path, name:"path", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3781,7 +3781,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try jobFlowIds.forEach {
+            try self.jobFlowIds.forEach {
                 try validate($0, name: "jobFlowIds[]", parent: name, max: 10280)
                 try validate($0, name: "jobFlowIds[]", parent: name, min: 0)
                 try validate($0, name: "jobFlowIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3811,7 +3811,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try jobFlowIds.forEach {
+            try self.jobFlowIds.forEach {
                 try validate($0, name: "jobFlowIds[]", parent: name, max: 10280)
                 try validate($0, name: "jobFlowIds[]", parent: name, min: 0)
                 try validate($0, name: "jobFlowIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3894,8 +3894,8 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try validate(blockDurationMinutes, name:"blockDurationMinutes", parent: name, min: 0)
-            try validate(timeoutDurationMinutes, name:"timeoutDurationMinutes", parent: name, min: 0)
+            try validate(self.blockDurationMinutes, name:"blockDurationMinutes", parent: name, min: 0)
+            try validate(self.timeoutDurationMinutes, name:"timeoutDurationMinutes", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3978,10 +3978,10 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try hadoopJarStep.validate(name: "\(name).hadoopJarStep")
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.hadoopJarStep.validate(name: "\(name).hadoopJarStep")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4212,14 +4212,14 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try args?.forEach {
+            try self.args?.forEach {
                 try validate($0, name: "args[]", parent: name, max: 10280)
                 try validate($0, name: "args[]", parent: name, min: 0)
                 try validate($0, name: "args[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
-            try validate(name, name:"name", parent: name, max: 256)
-            try validate(name, name:"name", parent: name, min: 0)
-            try validate(name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4263,7 +4263,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
-            try jobFlowIds.forEach {
+            try self.jobFlowIds.forEach {
                 try validate($0, name: "jobFlowIds[]", parent: name, max: 10280)
                 try validate($0, name: "jobFlowIds[]", parent: name, min: 0)
                 try validate($0, name: "jobFlowIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")

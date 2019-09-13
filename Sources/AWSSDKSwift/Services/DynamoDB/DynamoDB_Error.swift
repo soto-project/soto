@@ -93,3 +93,60 @@ extension DynamoDBErrorType {
         }
     }
 }
+
+extension DynamoDBErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .backupInUseException(let message):
+            return "BackupInUseException: \(message ?? "")"
+        case .backupNotFoundException(let message):
+            return "BackupNotFoundException: \(message ?? "")"
+        case .conditionalCheckFailedException(let message):
+            return "ConditionalCheckFailedException: \(message ?? "")"
+        case .continuousBackupsUnavailableException(let message):
+            return "ContinuousBackupsUnavailableException: \(message ?? "")"
+        case .globalTableAlreadyExistsException(let message):
+            return "GlobalTableAlreadyExistsException: \(message ?? "")"
+        case .globalTableNotFoundException(let message):
+            return "GlobalTableNotFoundException: \(message ?? "")"
+        case .idempotentParameterMismatchException(let message):
+            return "IdempotentParameterMismatchException: \(message ?? "")"
+        case .indexNotFoundException(let message):
+            return "IndexNotFoundException: \(message ?? "")"
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        case .invalidRestoreTimeException(let message):
+            return "InvalidRestoreTimeException: \(message ?? "")"
+        case .itemCollectionSizeLimitExceededException(let message):
+            return "ItemCollectionSizeLimitExceededException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .pointInTimeRecoveryUnavailableException(let message):
+            return "PointInTimeRecoveryUnavailableException: \(message ?? "")"
+        case .provisionedThroughputExceededException(let message):
+            return "ProvisionedThroughputExceededException: \(message ?? "")"
+        case .replicaAlreadyExistsException(let message):
+            return "ReplicaAlreadyExistsException: \(message ?? "")"
+        case .replicaNotFoundException(let message):
+            return "ReplicaNotFoundException: \(message ?? "")"
+        case .requestLimitExceeded(let message):
+            return "RequestLimitExceeded: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tableAlreadyExistsException(let message):
+            return "TableAlreadyExistsException: \(message ?? "")"
+        case .tableInUseException(let message):
+            return "TableInUseException: \(message ?? "")"
+        case .tableNotFoundException(let message):
+            return "TableNotFoundException: \(message ?? "")"
+        case .transactionCanceledException(let message):
+            return "TransactionCanceledException: \(message ?? "")"
+        case .transactionConflictException(let message):
+            return "TransactionConflictException: \(message ?? "")"
+        case .transactionInProgressException(let message):
+            return "TransactionInProgressException: \(message ?? "")"
+        }
+    }
+}

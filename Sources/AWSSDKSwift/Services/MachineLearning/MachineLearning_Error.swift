@@ -42,3 +42,26 @@ extension MachineLearningErrorType {
         }
     }
 }
+
+extension MachineLearningErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .idempotentParameterMismatchException(let message):
+            return "IdempotentParameterMismatchException: \(message ?? "")"
+        case .internalServerException(let message):
+            return "InternalServerException: \(message ?? "")"
+        case .invalidInputException(let message):
+            return "InvalidInputException: \(message ?? "")"
+        case .invalidTagException(let message):
+            return "InvalidTagException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .predictorNotMountedException(let message):
+            return "PredictorNotMountedException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tagLimitExceededException(let message):
+            return "TagLimitExceededException: \(message ?? "")"
+        }
+    }
+}

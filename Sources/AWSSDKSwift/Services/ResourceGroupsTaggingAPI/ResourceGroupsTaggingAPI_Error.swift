@@ -30,3 +30,18 @@ extension ResourceGroupsTaggingAPIErrorType {
         }
     }
 }
+
+extension ResourceGroupsTaggingAPIErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalServiceException(let message):
+            return "InternalServiceException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .paginationTokenExpiredException(let message):
+            return "PaginationTokenExpiredException: \(message ?? "")"
+        case .throttledException(let message):
+            return "ThrottledException: \(message ?? "")"
+        }
+    }
+}

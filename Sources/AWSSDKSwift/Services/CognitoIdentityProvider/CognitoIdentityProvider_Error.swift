@@ -129,3 +129,84 @@ extension CognitoIdentityProviderErrorType {
         }
     }
 }
+
+extension CognitoIdentityProviderErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .aliasExistsException(let message):
+            return "AliasExistsException: \(message ?? "")"
+        case .codeDeliveryFailureException(let message):
+            return "CodeDeliveryFailureException: \(message ?? "")"
+        case .codeMismatchException(let message):
+            return "CodeMismatchException: \(message ?? "")"
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .duplicateProviderException(let message):
+            return "DuplicateProviderException: \(message ?? "")"
+        case .enableSoftwareTokenMFAException(let message):
+            return "EnableSoftwareTokenMFAException: \(message ?? "")"
+        case .expiredCodeException(let message):
+            return "ExpiredCodeException: \(message ?? "")"
+        case .groupExistsException(let message):
+            return "GroupExistsException: \(message ?? "")"
+        case .internalErrorException(let message):
+            return "InternalErrorException: \(message ?? "")"
+        case .invalidEmailRoleAccessPolicyException(let message):
+            return "InvalidEmailRoleAccessPolicyException: \(message ?? "")"
+        case .invalidLambdaResponseException(let message):
+            return "InvalidLambdaResponseException: \(message ?? "")"
+        case .invalidOAuthFlowException(let message):
+            return "InvalidOAuthFlowException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidPasswordException(let message):
+            return "InvalidPasswordException: \(message ?? "")"
+        case .invalidSmsRoleAccessPolicyException(let message):
+            return "InvalidSmsRoleAccessPolicyException: \(message ?? "")"
+        case .invalidSmsRoleTrustRelationshipException(let message):
+            return "InvalidSmsRoleTrustRelationshipException: \(message ?? "")"
+        case .invalidUserPoolConfigurationException(let message):
+            return "InvalidUserPoolConfigurationException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .mFAMethodNotFoundException(let message):
+            return "MFAMethodNotFoundException: \(message ?? "")"
+        case .notAuthorizedException(let message):
+            return "NotAuthorizedException: \(message ?? "")"
+        case .passwordResetRequiredException(let message):
+            return "PasswordResetRequiredException: \(message ?? "")"
+        case .preconditionNotMetException(let message):
+            return "PreconditionNotMetException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .scopeDoesNotExistException(let message):
+            return "ScopeDoesNotExistException: \(message ?? "")"
+        case .softwareTokenMFANotFoundException(let message):
+            return "SoftwareTokenMFANotFoundException: \(message ?? "")"
+        case .tooManyFailedAttemptsException(let message):
+            return "TooManyFailedAttemptsException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        case .unexpectedLambdaException(let message):
+            return "UnexpectedLambdaException: \(message ?? "")"
+        case .unsupportedIdentityProviderException(let message):
+            return "UnsupportedIdentityProviderException: \(message ?? "")"
+        case .unsupportedUserStateException(let message):
+            return "UnsupportedUserStateException: \(message ?? "")"
+        case .userImportInProgressException(let message):
+            return "UserImportInProgressException: \(message ?? "")"
+        case .userLambdaValidationException(let message):
+            return "UserLambdaValidationException: \(message ?? "")"
+        case .userNotConfirmedException(let message):
+            return "UserNotConfirmedException: \(message ?? "")"
+        case .userNotFoundException(let message):
+            return "UserNotFoundException: \(message ?? "")"
+        case .userPoolAddOnNotEnabledException(let message):
+            return "UserPoolAddOnNotEnabledException: \(message ?? "")"
+        case .userPoolTaggingException(let message):
+            return "UserPoolTaggingException: \(message ?? "")"
+        case .usernameExistsException(let message):
+            return "UsernameExistsException: \(message ?? "")"
+        }
+    }
+}

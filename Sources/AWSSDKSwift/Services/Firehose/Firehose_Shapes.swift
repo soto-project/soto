@@ -22,10 +22,10 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(intervalInSeconds, name:"intervalInSeconds", parent: name, max: 900)
-            try validate(intervalInSeconds, name:"intervalInSeconds", parent: name, min: 60)
-            try validate(sizeInMBs, name:"sizeInMBs", parent: name, max: 128)
-            try validate(sizeInMBs, name:"sizeInMBs", parent: name, min: 1)
+            try validate(self.intervalInSeconds, name:"intervalInSeconds", parent: name, max: 900)
+            try validate(self.intervalInSeconds, name:"intervalInSeconds", parent: name, min: 60)
+            try validate(self.sizeInMBs, name:"sizeInMBs", parent: name, max: 128)
+            try validate(self.sizeInMBs, name:"sizeInMBs", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -90,7 +90,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(dataTableName, name:"dataTableName", parent: name, min: 1)
+            try validate(self.dataTableName, name:"dataTableName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -141,19 +141,19 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try elasticsearchDestinationConfiguration?.validate(name: "\(name).elasticsearchDestinationConfiguration")
-            try extendedS3DestinationConfiguration?.validate(name: "\(name).extendedS3DestinationConfiguration")
-            try kinesisStreamSourceConfiguration?.validate(name: "\(name).kinesisStreamSourceConfiguration")
-            try redshiftDestinationConfiguration?.validate(name: "\(name).redshiftDestinationConfiguration")
-            try splunkDestinationConfiguration?.validate(name: "\(name).splunkDestinationConfiguration")
-            try tags?.forEach {
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.elasticsearchDestinationConfiguration?.validate(name: "\(name).elasticsearchDestinationConfiguration")
+            try self.extendedS3DestinationConfiguration?.validate(name: "\(name).extendedS3DestinationConfiguration")
+            try self.kinesisStreamSourceConfiguration?.validate(name: "\(name).kinesisStreamSourceConfiguration")
+            try self.redshiftDestinationConfiguration?.validate(name: "\(name).redshiftDestinationConfiguration")
+            try self.splunkDestinationConfiguration?.validate(name: "\(name).splunkDestinationConfiguration")
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 1)
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -210,9 +210,9 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try inputFormatConfiguration?.validate(name: "\(name).inputFormatConfiguration")
-            try outputFormatConfiguration?.validate(name: "\(name).outputFormatConfiguration")
-            try schemaConfiguration?.validate(name: "\(name).schemaConfiguration")
+            try self.inputFormatConfiguration?.validate(name: "\(name).inputFormatConfiguration")
+            try self.outputFormatConfiguration?.validate(name: "\(name).outputFormatConfiguration")
+            try self.schemaConfiguration?.validate(name: "\(name).schemaConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -236,9 +236,9 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -380,13 +380,13 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try validate(exclusiveStartDestinationId, name:"exclusiveStartDestinationId", parent: name, max: 100)
-            try validate(exclusiveStartDestinationId, name:"exclusiveStartDestinationId", parent: name, min: 1)
-            try validate(limit, name:"limit", parent: name, max: 10000)
-            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(self.exclusiveStartDestinationId, name:"exclusiveStartDestinationId", parent: name, max: 100)
+            try validate(self.exclusiveStartDestinationId, name:"exclusiveStartDestinationId", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 10000)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -430,8 +430,8 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try hiveJsonSerDe?.validate(name: "\(name).hiveJsonSerDe")
-            try openXJsonSerDe?.validate(name: "\(name).openXJsonSerDe")
+            try self.hiveJsonSerDe?.validate(name: "\(name).hiveJsonSerDe")
+            try self.openXJsonSerDe?.validate(name: "\(name).openXJsonSerDe")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -499,10 +499,10 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(intervalInSeconds, name:"intervalInSeconds", parent: name, max: 900)
-            try validate(intervalInSeconds, name:"intervalInSeconds", parent: name, min: 60)
-            try validate(sizeInMBs, name:"sizeInMBs", parent: name, max: 100)
-            try validate(sizeInMBs, name:"sizeInMBs", parent: name, min: 1)
+            try validate(self.intervalInSeconds, name:"intervalInSeconds", parent: name, max: 900)
+            try validate(self.intervalInSeconds, name:"intervalInSeconds", parent: name, min: 60)
+            try validate(self.sizeInMBs, name:"sizeInMBs", parent: name, max: 100)
+            try validate(self.sizeInMBs, name:"sizeInMBs", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -564,20 +564,20 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try bufferingHints?.validate(name: "\(name).bufferingHints")
-            try validate(domainARN, name:"domainARN", parent: name, max: 512)
-            try validate(domainARN, name:"domainARN", parent: name, min: 1)
-            try validate(domainARN, name:"domainARN", parent: name, pattern: "arn:.*")
-            try validate(indexName, name:"indexName", parent: name, max: 80)
-            try validate(indexName, name:"indexName", parent: name, min: 1)
-            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
-            try retryOptions?.validate(name: "\(name).retryOptions")
-            try validate(roleARN, name:"roleARN", parent: name, max: 512)
-            try validate(roleARN, name:"roleARN", parent: name, min: 1)
-            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
-            try s3Configuration.validate(name: "\(name).s3Configuration")
-            try validate(typeName, name:"typeName", parent: name, max: 100)
-            try validate(typeName, name:"typeName", parent: name, min: 1)
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try validate(self.domainARN, name:"domainARN", parent: name, max: 512)
+            try validate(self.domainARN, name:"domainARN", parent: name, min: 1)
+            try validate(self.domainARN, name:"domainARN", parent: name, pattern: "arn:.*")
+            try validate(self.indexName, name:"indexName", parent: name, max: 80)
+            try validate(self.indexName, name:"indexName", parent: name, min: 1)
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try validate(self.roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(self.roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try self.s3Configuration.validate(name: "\(name).s3Configuration")
+            try validate(self.typeName, name:"typeName", parent: name, max: 100)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -711,20 +711,20 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try bufferingHints?.validate(name: "\(name).bufferingHints")
-            try validate(domainARN, name:"domainARN", parent: name, max: 512)
-            try validate(domainARN, name:"domainARN", parent: name, min: 1)
-            try validate(domainARN, name:"domainARN", parent: name, pattern: "arn:.*")
-            try validate(indexName, name:"indexName", parent: name, max: 80)
-            try validate(indexName, name:"indexName", parent: name, min: 1)
-            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
-            try retryOptions?.validate(name: "\(name).retryOptions")
-            try validate(roleARN, name:"roleARN", parent: name, max: 512)
-            try validate(roleARN, name:"roleARN", parent: name, min: 1)
-            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
-            try s3Update?.validate(name: "\(name).s3Update")
-            try validate(typeName, name:"typeName", parent: name, max: 100)
-            try validate(typeName, name:"typeName", parent: name, min: 1)
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try validate(self.domainARN, name:"domainARN", parent: name, max: 512)
+            try validate(self.domainARN, name:"domainARN", parent: name, min: 1)
+            try validate(self.domainARN, name:"domainARN", parent: name, pattern: "arn:.*")
+            try validate(self.indexName, name:"indexName", parent: name, max: 80)
+            try validate(self.indexName, name:"indexName", parent: name, min: 1)
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try validate(self.roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(self.roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try self.s3Update?.validate(name: "\(name).s3Update")
+            try validate(self.typeName, name:"typeName", parent: name, max: 100)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -763,8 +763,8 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(durationInSeconds, name:"durationInSeconds", parent: name, max: 7200)
-            try validate(durationInSeconds, name:"durationInSeconds", parent: name, min: 0)
+            try validate(self.durationInSeconds, name:"durationInSeconds", parent: name, max: 7200)
+            try validate(self.durationInSeconds, name:"durationInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -795,7 +795,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try kMSEncryptionConfig?.validate(name: "\(name).kMSEncryptionConfig")
+            try self.kMSEncryptionConfig?.validate(name: "\(name).kMSEncryptionConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -861,17 +861,17 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
-            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
-            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
-            try bufferingHints?.validate(name: "\(name).bufferingHints")
-            try dataFormatConversionConfiguration?.validate(name: "\(name).dataFormatConversionConfiguration")
-            try encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
-            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
-            try validate(roleARN, name:"roleARN", parent: name, max: 512)
-            try validate(roleARN, name:"roleARN", parent: name, min: 1)
-            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
-            try s3BackupConfiguration?.validate(name: "\(name).s3BackupConfiguration")
+            try validate(self.bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(self.bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(self.bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.dataFormatConversionConfiguration?.validate(name: "\(name).dataFormatConversionConfiguration")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try validate(self.roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(self.roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try self.s3BackupConfiguration?.validate(name: "\(name).s3BackupConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1019,17 +1019,17 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
-            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
-            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
-            try bufferingHints?.validate(name: "\(name).bufferingHints")
-            try dataFormatConversionConfiguration?.validate(name: "\(name).dataFormatConversionConfiguration")
-            try encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
-            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
-            try validate(roleARN, name:"roleARN", parent: name, max: 512)
-            try validate(roleARN, name:"roleARN", parent: name, min: 1)
-            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
-            try s3BackupUpdate?.validate(name: "\(name).s3BackupUpdate")
+            try validate(self.bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(self.bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(self.bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.dataFormatConversionConfiguration?.validate(name: "\(name).dataFormatConversionConfiguration")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try validate(self.roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(self.roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try self.s3BackupUpdate?.validate(name: "\(name).s3BackupUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1067,7 +1067,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try timestampFormats?.forEach {
+            try self.timestampFormats?.forEach {
                 try validate($0, name: "timestampFormats[]", parent: name, pattern: "^(?!\\s*$).+")
             }
         }
@@ -1090,7 +1090,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try deserializer?.validate(name: "\(name).deserializer")
+            try self.deserializer?.validate(name: "\(name).deserializer")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1111,9 +1111,9 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, max: 512)
-            try validate(aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, min: 1)
-            try validate(aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, pattern: "arn:.*")
+            try validate(self.aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, max: 512)
+            try validate(self.aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, min: 1)
+            try validate(self.aWSKMSKeyARN, name:"aWSKMSKeyARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1138,12 +1138,12 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(kinesisStreamARN, name:"kinesisStreamARN", parent: name, max: 512)
-            try validate(kinesisStreamARN, name:"kinesisStreamARN", parent: name, min: 1)
-            try validate(kinesisStreamARN, name:"kinesisStreamARN", parent: name, pattern: "arn:.*")
-            try validate(roleARN, name:"roleARN", parent: name, max: 512)
-            try validate(roleARN, name:"roleARN", parent: name, min: 1)
-            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try validate(self.kinesisStreamARN, name:"kinesisStreamARN", parent: name, max: 512)
+            try validate(self.kinesisStreamARN, name:"kinesisStreamARN", parent: name, min: 1)
+            try validate(self.kinesisStreamARN, name:"kinesisStreamARN", parent: name, pattern: "arn:.*")
+            try validate(self.roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(self.roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1200,11 +1200,11 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(exclusiveStartDeliveryStreamName, name:"exclusiveStartDeliveryStreamName", parent: name, max: 64)
-            try validate(exclusiveStartDeliveryStreamName, name:"exclusiveStartDeliveryStreamName", parent: name, min: 1)
-            try validate(exclusiveStartDeliveryStreamName, name:"exclusiveStartDeliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try validate(limit, name:"limit", parent: name, max: 10000)
-            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(self.exclusiveStartDeliveryStreamName, name:"exclusiveStartDeliveryStreamName", parent: name, max: 64)
+            try validate(self.exclusiveStartDeliveryStreamName, name:"exclusiveStartDeliveryStreamName", parent: name, min: 1)
+            try validate(self.exclusiveStartDeliveryStreamName, name:"exclusiveStartDeliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(self.limit, name:"limit", parent: name, max: 10000)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1257,13 +1257,13 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try validate(exclusiveStartTagKey, name:"exclusiveStartTagKey", parent: name, max: 128)
-            try validate(exclusiveStartTagKey, name:"exclusiveStartTagKey", parent: name, min: 1)
-            try validate(limit, name:"limit", parent: name, max: 50)
-            try validate(limit, name:"limit", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(self.exclusiveStartTagKey, name:"exclusiveStartTagKey", parent: name, max: 128)
+            try validate(self.exclusiveStartTagKey, name:"exclusiveStartTagKey", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 50)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1321,7 +1321,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try columnToJsonKeyMappings?.forEach {
+            try self.columnToJsonKeyMappings?.forEach {
                 try validate($0.key, name:"columnToJsonKeyMappings.key", parent: name, pattern: "^\\S+$")
                 try validate($0.value, name:"columnToJsonKeyMappings[\"\($0.key)\"]", parent: name, pattern: "^(?!\\s*$).+")
             }
@@ -1396,18 +1396,18 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(blockSizeBytes, name:"blockSizeBytes", parent: name, min: 67108864)
-            try bloomFilterColumns?.forEach {
+            try validate(self.blockSizeBytes, name:"blockSizeBytes", parent: name, min: 67108864)
+            try self.bloomFilterColumns?.forEach {
                 try validate($0, name: "bloomFilterColumns[]", parent: name, pattern: "^\\S+$")
             }
-            try validate(bloomFilterFalsePositiveProbability, name:"bloomFilterFalsePositiveProbability", parent: name, max: 1)
-            try validate(bloomFilterFalsePositiveProbability, name:"bloomFilterFalsePositiveProbability", parent: name, min: 0)
-            try validate(dictionaryKeyThreshold, name:"dictionaryKeyThreshold", parent: name, max: 1)
-            try validate(dictionaryKeyThreshold, name:"dictionaryKeyThreshold", parent: name, min: 0)
-            try validate(paddingTolerance, name:"paddingTolerance", parent: name, max: 1)
-            try validate(paddingTolerance, name:"paddingTolerance", parent: name, min: 0)
-            try validate(rowIndexStride, name:"rowIndexStride", parent: name, min: 1000)
-            try validate(stripeSizeBytes, name:"stripeSizeBytes", parent: name, min: 8388608)
+            try validate(self.bloomFilterFalsePositiveProbability, name:"bloomFilterFalsePositiveProbability", parent: name, max: 1)
+            try validate(self.bloomFilterFalsePositiveProbability, name:"bloomFilterFalsePositiveProbability", parent: name, min: 0)
+            try validate(self.dictionaryKeyThreshold, name:"dictionaryKeyThreshold", parent: name, max: 1)
+            try validate(self.dictionaryKeyThreshold, name:"dictionaryKeyThreshold", parent: name, min: 0)
+            try validate(self.paddingTolerance, name:"paddingTolerance", parent: name, max: 1)
+            try validate(self.paddingTolerance, name:"paddingTolerance", parent: name, min: 0)
+            try validate(self.rowIndexStride, name:"rowIndexStride", parent: name, min: 1000)
+            try validate(self.stripeSizeBytes, name:"stripeSizeBytes", parent: name, min: 8388608)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1437,7 +1437,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try serializer?.validate(name: "\(name).serializer")
+            try self.serializer?.validate(name: "\(name).serializer")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1485,9 +1485,9 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(blockSizeBytes, name:"blockSizeBytes", parent: name, min: 67108864)
-            try validate(maxPaddingBytes, name:"maxPaddingBytes", parent: name, min: 0)
-            try validate(pageSizeBytes, name:"pageSizeBytes", parent: name, min: 65536)
+            try validate(self.blockSizeBytes, name:"blockSizeBytes", parent: name, min: 67108864)
+            try validate(self.maxPaddingBytes, name:"maxPaddingBytes", parent: name, min: 0)
+            try validate(self.pageSizeBytes, name:"pageSizeBytes", parent: name, min: 65536)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1523,7 +1523,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try processors?.forEach {
+            try self.processors?.forEach {
                 try $0.validate(name: "\(name).processors[]")
             }
         }
@@ -1551,7 +1551,7 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try parameters?.forEach {
+            try self.parameters?.forEach {
                 try $0.validate(name: "\(name).parameters[]")
             }
         }
@@ -1579,8 +1579,8 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(parameterValue, name:"parameterValue", parent: name, max: 512)
-            try validate(parameterValue, name:"parameterValue", parent: name, min: 1)
+            try validate(self.parameterValue, name:"parameterValue", parent: name, max: 512)
+            try validate(self.parameterValue, name:"parameterValue", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1620,14 +1620,14 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try records.forEach {
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.records.forEach {
                 try $0.validate(name: "\(name).records[]")
             }
-            try validate(records, name:"records", parent: name, max: 500)
-            try validate(records, name:"records", parent: name, min: 1)
+            try validate(self.records, name:"records", parent: name, max: 500)
+            try validate(self.records, name:"records", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1707,10 +1707,10 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try record.validate(name: "\(name).record")
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.record.validate(name: "\(name).record")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1754,8 +1754,8 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(data, name:"data", parent: name, max: 1024000)
-            try validate(data, name:"data", parent: name, min: 0)
+            try validate(self.data, name:"data", parent: name, max: 1024000)
+            try validate(self.data, name:"data", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1816,18 +1816,18 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(clusterJDBCURL, name:"clusterJDBCURL", parent: name, min: 1)
-            try validate(clusterJDBCURL, name:"clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.amazonaws\\.com:\\d{1,5}/[a-zA-Z0-9_$]+")
-            try copyCommand.validate(name: "\(name).copyCommand")
-            try validate(password, name:"password", parent: name, min: 6)
-            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
-            try retryOptions?.validate(name: "\(name).retryOptions")
-            try validate(roleARN, name:"roleARN", parent: name, max: 512)
-            try validate(roleARN, name:"roleARN", parent: name, min: 1)
-            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
-            try s3BackupConfiguration?.validate(name: "\(name).s3BackupConfiguration")
-            try s3Configuration.validate(name: "\(name).s3Configuration")
-            try validate(username, name:"username", parent: name, min: 1)
+            try validate(self.clusterJDBCURL, name:"clusterJDBCURL", parent: name, min: 1)
+            try validate(self.clusterJDBCURL, name:"clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.amazonaws\\.com:\\d{1,5}/[a-zA-Z0-9_$]+")
+            try self.copyCommand.validate(name: "\(name).copyCommand")
+            try validate(self.password, name:"password", parent: name, min: 6)
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try validate(self.roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(self.roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try self.s3BackupConfiguration?.validate(name: "\(name).s3BackupConfiguration")
+            try self.s3Configuration.validate(name: "\(name).s3Configuration")
+            try validate(self.username, name:"username", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1960,18 +1960,18 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(clusterJDBCURL, name:"clusterJDBCURL", parent: name, min: 1)
-            try validate(clusterJDBCURL, name:"clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.amazonaws\\.com:\\d{1,5}/[a-zA-Z0-9_$]+")
-            try copyCommand?.validate(name: "\(name).copyCommand")
-            try validate(password, name:"password", parent: name, min: 6)
-            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
-            try retryOptions?.validate(name: "\(name).retryOptions")
-            try validate(roleARN, name:"roleARN", parent: name, max: 512)
-            try validate(roleARN, name:"roleARN", parent: name, min: 1)
-            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
-            try s3BackupUpdate?.validate(name: "\(name).s3BackupUpdate")
-            try s3Update?.validate(name: "\(name).s3Update")
-            try validate(username, name:"username", parent: name, min: 1)
+            try validate(self.clusterJDBCURL, name:"clusterJDBCURL", parent: name, min: 1)
+            try validate(self.clusterJDBCURL, name:"clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.amazonaws\\.com:\\d{1,5}/[a-zA-Z0-9_$]+")
+            try self.copyCommand?.validate(name: "\(name).copyCommand")
+            try validate(self.password, name:"password", parent: name, min: 6)
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try validate(self.roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(self.roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try self.s3BackupUpdate?.validate(name: "\(name).s3BackupUpdate")
+            try self.s3Update?.validate(name: "\(name).s3Update")
+            try validate(self.username, name:"username", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2002,8 +2002,8 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(durationInSeconds, name:"durationInSeconds", parent: name, max: 7200)
-            try validate(durationInSeconds, name:"durationInSeconds", parent: name, min: 0)
+            try validate(self.durationInSeconds, name:"durationInSeconds", parent: name, max: 7200)
+            try validate(self.durationInSeconds, name:"durationInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2064,14 +2064,14 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
-            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
-            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
-            try bufferingHints?.validate(name: "\(name).bufferingHints")
-            try encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
-            try validate(roleARN, name:"roleARN", parent: name, max: 512)
-            try validate(roleARN, name:"roleARN", parent: name, min: 1)
-            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try validate(self.bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(self.bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(self.bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try validate(self.roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(self.roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2179,14 +2179,14 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(bucketARN, name:"bucketARN", parent: name, max: 2048)
-            try validate(bucketARN, name:"bucketARN", parent: name, min: 1)
-            try validate(bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
-            try bufferingHints?.validate(name: "\(name).bufferingHints")
-            try encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
-            try validate(roleARN, name:"roleARN", parent: name, max: 512)
-            try validate(roleARN, name:"roleARN", parent: name, min: 1)
-            try validate(roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
+            try validate(self.bucketARN, name:"bucketARN", parent: name, max: 2048)
+            try validate(self.bucketARN, name:"bucketARN", parent: name, min: 1)
+            try validate(self.bucketARN, name:"bucketARN", parent: name, pattern: "arn:.*")
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try validate(self.roleARN, name:"roleARN", parent: name, max: 512)
+            try validate(self.roleARN, name:"roleARN", parent: name, min: 1)
+            try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2234,12 +2234,12 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(catalogId, name:"catalogId", parent: name, pattern: "^\\S+$")
-            try validate(databaseName, name:"databaseName", parent: name, pattern: "^\\S+$")
-            try validate(region, name:"region", parent: name, pattern: "^\\S+$")
-            try validate(roleARN, name:"roleARN", parent: name, pattern: "^\\S+$")
-            try validate(tableName, name:"tableName", parent: name, pattern: "^\\S+$")
-            try validate(versionId, name:"versionId", parent: name, pattern: "^\\S+$")
+            try validate(self.catalogId, name:"catalogId", parent: name, pattern: "^\\S+$")
+            try validate(self.databaseName, name:"databaseName", parent: name, pattern: "^\\S+$")
+            try validate(self.region, name:"region", parent: name, pattern: "^\\S+$")
+            try validate(self.roleARN, name:"roleARN", parent: name, pattern: "^\\S+$")
+            try validate(self.tableName, name:"tableName", parent: name, pattern: "^\\S+$")
+            try validate(self.versionId, name:"versionId", parent: name, pattern: "^\\S+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2269,8 +2269,8 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try orcSerDe?.validate(name: "\(name).orcSerDe")
-            try parquetSerDe?.validate(name: "\(name).parquetSerDe")
+            try self.orcSerDe?.validate(name: "\(name).orcSerDe")
+            try self.parquetSerDe?.validate(name: "\(name).parquetSerDe")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2341,11 +2341,11 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", parent: name, max: 600)
-            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", parent: name, min: 180)
-            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
-            try retryOptions?.validate(name: "\(name).retryOptions")
-            try s3Configuration.validate(name: "\(name).s3Configuration")
+            try validate(self.hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", parent: name, max: 600)
+            try validate(self.hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", parent: name, min: 180)
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try self.s3Configuration.validate(name: "\(name).s3Configuration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2463,11 +2463,11 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", parent: name, max: 600)
-            try validate(hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", parent: name, min: 180)
-            try processingConfiguration?.validate(name: "\(name).processingConfiguration")
-            try retryOptions?.validate(name: "\(name).retryOptions")
-            try s3Update?.validate(name: "\(name).s3Update")
+            try validate(self.hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", parent: name, max: 600)
+            try validate(self.hECAcknowledgmentTimeoutInSeconds, name:"hECAcknowledgmentTimeoutInSeconds", parent: name, min: 180)
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try self.s3Update?.validate(name: "\(name).s3Update")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2496,8 +2496,8 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(durationInSeconds, name:"durationInSeconds", parent: name, max: 7200)
-            try validate(durationInSeconds, name:"durationInSeconds", parent: name, min: 0)
+            try validate(self.durationInSeconds, name:"durationInSeconds", parent: name, max: 7200)
+            try validate(self.durationInSeconds, name:"durationInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2524,9 +2524,9 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2555,9 +2555,9 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2590,10 +2590,10 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(value, name:"value", parent: name, max: 256)
-            try validate(value, name:"value", parent: name, min: 0)
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2619,14 +2619,14 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try tags.forEach {
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try validate(tags, name:"tags", parent: name, max: 50)
-            try validate(tags, name:"tags", parent: name, min: 1)
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2660,15 +2660,15 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try tagKeys.forEach {
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try validate(tagKeys, name:"tagKeys", parent: name, max: 50)
-            try validate(tagKeys, name:"tagKeys", parent: name, min: 1)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2722,18 +2722,18 @@ extension Firehose {
         }
 
         public func validate(name: String) throws {
-            try validate(currentDeliveryStreamVersionId, name:"currentDeliveryStreamVersionId", parent: name, max: 50)
-            try validate(currentDeliveryStreamVersionId, name:"currentDeliveryStreamVersionId", parent: name, min: 1)
-            try validate(currentDeliveryStreamVersionId, name:"currentDeliveryStreamVersionId", parent: name, pattern: "[0-9]+")
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
-            try validate(deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try validate(destinationId, name:"destinationId", parent: name, max: 100)
-            try validate(destinationId, name:"destinationId", parent: name, min: 1)
-            try elasticsearchDestinationUpdate?.validate(name: "\(name).elasticsearchDestinationUpdate")
-            try extendedS3DestinationUpdate?.validate(name: "\(name).extendedS3DestinationUpdate")
-            try redshiftDestinationUpdate?.validate(name: "\(name).redshiftDestinationUpdate")
-            try splunkDestinationUpdate?.validate(name: "\(name).splunkDestinationUpdate")
+            try validate(self.currentDeliveryStreamVersionId, name:"currentDeliveryStreamVersionId", parent: name, max: 50)
+            try validate(self.currentDeliveryStreamVersionId, name:"currentDeliveryStreamVersionId", parent: name, min: 1)
+            try validate(self.currentDeliveryStreamVersionId, name:"currentDeliveryStreamVersionId", parent: name, pattern: "[0-9]+")
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, max: 64)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, min: 1)
+            try validate(self.deliveryStreamName, name:"deliveryStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(self.destinationId, name:"destinationId", parent: name, max: 100)
+            try validate(self.destinationId, name:"destinationId", parent: name, min: 1)
+            try self.elasticsearchDestinationUpdate?.validate(name: "\(name).elasticsearchDestinationUpdate")
+            try self.extendedS3DestinationUpdate?.validate(name: "\(name).extendedS3DestinationUpdate")
+            try self.redshiftDestinationUpdate?.validate(name: "\(name).redshiftDestinationUpdate")
+            try self.splunkDestinationUpdate?.validate(name: "\(name).splunkDestinationUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {

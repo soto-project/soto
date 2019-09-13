@@ -24,3 +24,14 @@ extension OpsWorksErrorType {
         }
     }
 }
+
+extension OpsWorksErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
+        }
+    }
+}

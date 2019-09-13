@@ -63,3 +63,40 @@ extension QuickSightErrorType {
         }
     }
 }
+
+extension QuickSightErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .domainNotWhitelistedException(let message):
+            return "DomainNotWhitelistedException: \(message ?? "")"
+        case .identityTypeNotSupportedException(let message):
+            return "IdentityTypeNotSupportedException: \(message ?? "")"
+        case .internalFailureException(let message):
+            return "InternalFailureException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidParameterValueException(let message):
+            return "InvalidParameterValueException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .preconditionNotMetException(let message):
+            return "PreconditionNotMetException: \(message ?? "")"
+        case .quickSightUserNotFoundException(let message):
+            return "QuickSightUserNotFoundException: \(message ?? "")"
+        case .resourceExistsException(let message):
+            return "ResourceExistsException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .resourceUnavailableException(let message):
+            return "ResourceUnavailableException: \(message ?? "")"
+        case .sessionLifetimeInMinutesInvalidException(let message):
+            return "SessionLifetimeInMinutesInvalidException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        case .unsupportedUserEditionException(let message):
+            return "UnsupportedUserEditionException: \(message ?? "")"
+        }
+    }
+}

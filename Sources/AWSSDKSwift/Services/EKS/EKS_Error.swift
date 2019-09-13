@@ -45,3 +45,28 @@ extension EKSErrorType {
         }
     }
 }
+
+extension EKSErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .clientException(let message):
+            return "ClientException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceLimitExceededException(let message):
+            return "ResourceLimitExceededException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serverException(let message):
+            return "ServerException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .unsupportedAvailabilityZoneException(let message):
+            return "UnsupportedAvailabilityZoneException: \(message ?? "")"
+        }
+    }
+}

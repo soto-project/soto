@@ -42,3 +42,26 @@ extension ElasticsearchServiceErrorType {
         }
     }
 }
+
+extension ElasticsearchServiceErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .baseException(let message):
+            return "BaseException: \(message ?? "")"
+        case .disabledOperationException(let message):
+            return "DisabledOperationException: \(message ?? "")"
+        case .internalException(let message):
+            return "InternalException: \(message ?? "")"
+        case .invalidTypeException(let message):
+            return "InvalidTypeException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
+        }
+    }
+}

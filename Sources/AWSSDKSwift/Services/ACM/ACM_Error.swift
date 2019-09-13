@@ -48,3 +48,30 @@ extension ACMErrorType {
         }
     }
 }
+
+extension ACMErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .invalidArgsException(let message):
+            return "InvalidArgsException: \(message ?? "")"
+        case .invalidArnException(let message):
+            return "InvalidArnException: \(message ?? "")"
+        case .invalidDomainValidationOptionsException(let message):
+            return "InvalidDomainValidationOptionsException: \(message ?? "")"
+        case .invalidStateException(let message):
+            return "InvalidStateException: \(message ?? "")"
+        case .invalidTagException(let message):
+            return "InvalidTagException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .requestInProgressException(let message):
+            return "RequestInProgressException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        }
+    }
+}

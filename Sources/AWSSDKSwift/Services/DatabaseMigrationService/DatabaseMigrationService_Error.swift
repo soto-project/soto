@@ -78,3 +78,50 @@ extension DatabaseMigrationServiceErrorType {
         }
     }
 }
+
+extension DatabaseMigrationServiceErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedFault(let message):
+            return "AccessDeniedFault: \(message ?? "")"
+        case .insufficientResourceCapacityFault(let message):
+            return "InsufficientResourceCapacityFault: \(message ?? "")"
+        case .invalidCertificateFault(let message):
+            return "InvalidCertificateFault: \(message ?? "")"
+        case .invalidResourceStateFault(let message):
+            return "InvalidResourceStateFault: \(message ?? "")"
+        case .invalidSubnet(let message):
+            return "InvalidSubnet: \(message ?? "")"
+        case .kMSAccessDeniedFault(let message):
+            return "KMSAccessDeniedFault: \(message ?? "")"
+        case .kMSDisabledFault(let message):
+            return "KMSDisabledFault: \(message ?? "")"
+        case .kMSInvalidStateFault(let message):
+            return "KMSInvalidStateFault: \(message ?? "")"
+        case .kMSKeyNotAccessibleFault(let message):
+            return "KMSKeyNotAccessibleFault: \(message ?? "")"
+        case .kMSNotFoundFault(let message):
+            return "KMSNotFoundFault: \(message ?? "")"
+        case .kMSThrottlingFault(let message):
+            return "KMSThrottlingFault: \(message ?? "")"
+        case .replicationSubnetGroupDoesNotCoverEnoughAZs(let message):
+            return "ReplicationSubnetGroupDoesNotCoverEnoughAZs: \(message ?? "")"
+        case .resourceAlreadyExistsFault(let message):
+            return "ResourceAlreadyExistsFault: \(message ?? "")"
+        case .resourceNotFoundFault(let message):
+            return "ResourceNotFoundFault: \(message ?? "")"
+        case .resourceQuotaExceededFault(let message):
+            return "ResourceQuotaExceededFault: \(message ?? "")"
+        case .sNSInvalidTopicFault(let message):
+            return "SNSInvalidTopicFault: \(message ?? "")"
+        case .sNSNoAuthorizationFault(let message):
+            return "SNSNoAuthorizationFault: \(message ?? "")"
+        case .storageQuotaExceededFault(let message):
+            return "StorageQuotaExceededFault: \(message ?? "")"
+        case .subnetAlreadyInUse(let message):
+            return "SubnetAlreadyInUse: \(message ?? "")"
+        case .upgradeDependencyFailureFault(let message):
+            return "UpgradeDependencyFailureFault: \(message ?? "")"
+        }
+    }
+}

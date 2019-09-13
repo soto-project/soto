@@ -51,3 +51,32 @@ extension ConnectErrorType {
         }
     }
 }
+
+extension ConnectErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .contactNotFoundException(let message):
+            return "ContactNotFoundException: \(message ?? "")"
+        case .destinationNotAllowedException(let message):
+            return "DestinationNotAllowedException: \(message ?? "")"
+        case .duplicateResourceException(let message):
+            return "DuplicateResourceException: \(message ?? "")"
+        case .internalServiceException(let message):
+            return "InternalServiceException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .outboundContactNotPermittedException(let message):
+            return "OutboundContactNotPermittedException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        case .userNotFoundException(let message):
+            return "UserNotFoundException: \(message ?? "")"
+        }
+    }
+}

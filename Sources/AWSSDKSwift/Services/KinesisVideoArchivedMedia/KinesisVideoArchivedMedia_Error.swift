@@ -42,3 +42,26 @@ extension KinesisVideoArchivedMediaErrorType {
         }
     }
 }
+
+extension KinesisVideoArchivedMediaErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .clientLimitExceededException(let message):
+            return "ClientLimitExceededException: \(message ?? "")"
+        case .invalidArgumentException(let message):
+            return "InvalidArgumentException: \(message ?? "")"
+        case .invalidCodecPrivateDataException(let message):
+            return "InvalidCodecPrivateDataException: \(message ?? "")"
+        case .missingCodecPrivateDataException(let message):
+            return "MissingCodecPrivateDataException: \(message ?? "")"
+        case .noDataRetentionException(let message):
+            return "NoDataRetentionException: \(message ?? "")"
+        case .notAuthorizedException(let message):
+            return "NotAuthorizedException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .unsupportedStreamMediaTypeException(let message):
+            return "UnsupportedStreamMediaTypeException: \(message ?? "")"
+        }
+    }
+}

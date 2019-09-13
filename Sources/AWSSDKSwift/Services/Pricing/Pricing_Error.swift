@@ -33,3 +33,20 @@ extension PricingErrorType {
         }
     }
 }
+
+extension PricingErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .expiredNextTokenException(let message):
+            return "ExpiredNextTokenException: \(message ?? "")"
+        case .internalErrorException(let message):
+            return "InternalErrorException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        }
+    }
+}

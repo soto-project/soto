@@ -72,3 +72,46 @@ extension ACMPCAErrorType {
         }
     }
 }
+
+extension ACMPCAErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .certificateMismatchException(let message):
+            return "CertificateMismatchException: \(message ?? "")"
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .invalidArgsException(let message):
+            return "InvalidArgsException: \(message ?? "")"
+        case .invalidArnException(let message):
+            return "InvalidArnException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidPolicyException(let message):
+            return "InvalidPolicyException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .invalidStateException(let message):
+            return "InvalidStateException: \(message ?? "")"
+        case .invalidTagException(let message):
+            return "InvalidTagException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .malformedCSRException(let message):
+            return "MalformedCSRException: \(message ?? "")"
+        case .malformedCertificateException(let message):
+            return "MalformedCertificateException: \(message ?? "")"
+        case .permissionAlreadyExistsException(let message):
+            return "PermissionAlreadyExistsException: \(message ?? "")"
+        case .requestAlreadyProcessedException(let message):
+            return "RequestAlreadyProcessedException: \(message ?? "")"
+        case .requestFailedException(let message):
+            return "RequestFailedException: \(message ?? "")"
+        case .requestInProgressException(let message):
+            return "RequestInProgressException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        }
+    }
+}

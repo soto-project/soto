@@ -148,9 +148,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -207,9 +207,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -282,9 +282,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -325,9 +325,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(taskCount, name:"taskCount", parent: name, min: 1)
-            try validate(taskDefinitionArn, name:"taskDefinitionArn", parent: name, max: 1600)
-            try validate(taskDefinitionArn, name:"taskDefinitionArn", parent: name, min: 1)
+            try validate(self.taskCount, name:"taskCount", parent: name, min: 1)
+            try validate(self.taskDefinitionArn, name:"taskDefinitionArn", parent: name, max: 1600)
+            try validate(self.taskDefinitionArn, name:"taskDefinitionArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -353,9 +353,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -380,14 +380,14 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try inputPathsMap?.forEach {
+            try self.inputPathsMap?.forEach {
                 try validate($0.key, name:"inputPathsMap.key", parent: name, max: 256)
                 try validate($0.key, name:"inputPathsMap.key", parent: name, min: 1)
                 try validate($0.key, name:"inputPathsMap.key", parent: name, pattern: "[A-Za-z0-9\\_\\-]+")
                 try validate($0.value, name:"inputPathsMap[\"\($0.key)\"]", parent: name, max: 256)
             }
-            try validate(inputTemplate, name:"inputTemplate", parent: name, max: 8192)
-            try validate(inputTemplate, name:"inputTemplate", parent: name, min: 1)
+            try validate(self.inputTemplate, name:"inputTemplate", parent: name, max: 8192)
+            try validate(self.inputTemplate, name:"inputTemplate", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -409,7 +409,7 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(partitionKeyPath, name:"partitionKeyPath", parent: name, max: 256)
+            try validate(self.partitionKeyPath, name:"partitionKeyPath", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -444,12 +444,12 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, max: 100)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(targetArn, name:"targetArn", parent: name, max: 1600)
-            try validate(targetArn, name:"targetArn", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.targetArn, name:"targetArn", parent: name, max: 1600)
+            try validate(self.targetArn, name:"targetArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -502,13 +502,13 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, max: 100)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(namePrefix, name:"namePrefix", parent: name, max: 64)
-            try validate(namePrefix, name:"namePrefix", parent: name, min: 1)
-            try validate(namePrefix, name:"namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.namePrefix, name:"namePrefix", parent: name, max: 64)
+            try validate(self.namePrefix, name:"namePrefix", parent: name, min: 1)
+            try validate(self.namePrefix, name:"namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -553,8 +553,8 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceARN, name:"resourceARN", parent: name, max: 1600)
-            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1600)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -600,13 +600,13 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(limit, name:"limit", parent: name, max: 100)
-            try validate(limit, name:"limit", parent: name, min: 1)
-            try validate(nextToken, name:"nextToken", parent: name, max: 2048)
-            try validate(nextToken, name:"nextToken", parent: name, min: 1)
-            try validate(rule, name:"rule", parent: name, max: 64)
-            try validate(rule, name:"rule", parent: name, min: 1)
-            try validate(rule, name:"rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.rule, name:"rule", parent: name, max: 64)
+            try validate(self.rule, name:"rule", parent: name, min: 1)
+            try validate(self.rule, name:"rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -668,8 +668,8 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(entries, name:"entries", parent: name, max: 10)
-            try validate(entries, name:"entries", parent: name, min: 1)
+            try validate(self.entries, name:"entries", parent: name, max: 10)
+            try validate(self.entries, name:"entries", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -788,15 +788,15 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(action, name:"action", parent: name, max: 64)
-            try validate(action, name:"action", parent: name, min: 1)
-            try validate(action, name:"action", parent: name, pattern: "events:[a-zA-Z]+")
-            try validate(principal, name:"principal", parent: name, max: 12)
-            try validate(principal, name:"principal", parent: name, min: 1)
-            try validate(principal, name:"principal", parent: name, pattern: "(\\d{12}|\\*)")
-            try validate(statementId, name:"statementId", parent: name, max: 64)
-            try validate(statementId, name:"statementId", parent: name, min: 1)
-            try validate(statementId, name:"statementId", parent: name, pattern: "[a-zA-Z0-9-_]+")
+            try validate(self.action, name:"action", parent: name, max: 64)
+            try validate(self.action, name:"action", parent: name, min: 1)
+            try validate(self.action, name:"action", parent: name, pattern: "events:[a-zA-Z]+")
+            try validate(self.principal, name:"principal", parent: name, max: 12)
+            try validate(self.principal, name:"principal", parent: name, min: 1)
+            try validate(self.principal, name:"principal", parent: name, pattern: "(\\d{12}|\\*)")
+            try validate(self.statementId, name:"statementId", parent: name, max: 64)
+            try validate(self.statementId, name:"statementId", parent: name, min: 1)
+            try validate(self.statementId, name:"statementId", parent: name, pattern: "[a-zA-Z0-9-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -844,14 +844,14 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(description, name:"description", parent: name, max: 512)
-            try validate(name, name:"name", parent: name, max: 64)
-            try validate(name, name:"name", parent: name, min: 1)
-            try validate(name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try validate(roleArn, name:"roleArn", parent: name, max: 1600)
-            try validate(roleArn, name:"roleArn", parent: name, min: 1)
-            try validate(scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
-            try tags?.forEach {
+            try validate(self.description, name:"description", parent: name, max: 512)
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 1600)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 1)
+            try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
+            try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -901,14 +901,14 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(rule, name:"rule", parent: name, max: 64)
-            try validate(rule, name:"rule", parent: name, min: 1)
-            try validate(rule, name:"rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try targets.forEach {
+            try validate(self.rule, name:"rule", parent: name, max: 64)
+            try validate(self.rule, name:"rule", parent: name, min: 1)
+            try validate(self.rule, name:"rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.targets.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try validate(targets, name:"targets", parent: name, max: 100)
-            try validate(targets, name:"targets", parent: name, min: 1)
+            try validate(self.targets, name:"targets", parent: name, max: 100)
+            try validate(self.targets, name:"targets", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -979,9 +979,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(statementId, name:"statementId", parent: name, max: 64)
-            try validate(statementId, name:"statementId", parent: name, min: 1)
-            try validate(statementId, name:"statementId", parent: name, pattern: "[a-zA-Z0-9-_]+")
+            try validate(self.statementId, name:"statementId", parent: name, max: 64)
+            try validate(self.statementId, name:"statementId", parent: name, min: 1)
+            try validate(self.statementId, name:"statementId", parent: name, pattern: "[a-zA-Z0-9-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1010,16 +1010,16 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try ids.forEach {
+            try self.ids.forEach {
                 try validate($0, name: "ids[]", parent: name, max: 64)
                 try validate($0, name: "ids[]", parent: name, min: 1)
                 try validate($0, name: "ids[]", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
             }
-            try validate(ids, name:"ids", parent: name, max: 100)
-            try validate(ids, name:"ids", parent: name, min: 1)
-            try validate(rule, name:"rule", parent: name, max: 64)
-            try validate(rule, name:"rule", parent: name, min: 1)
-            try validate(rule, name:"rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(self.ids, name:"ids", parent: name, max: 100)
+            try validate(self.ids, name:"ids", parent: name, min: 1)
+            try validate(self.rule, name:"rule", parent: name, max: 64)
+            try validate(self.rule, name:"rule", parent: name, min: 1)
+            try validate(self.rule, name:"rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1149,11 +1149,11 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try runCommandTargets.forEach {
+            try self.runCommandTargets.forEach {
                 try $0.validate(name: "\(name).runCommandTargets[]")
             }
-            try validate(runCommandTargets, name:"runCommandTargets", parent: name, max: 5)
-            try validate(runCommandTargets, name:"runCommandTargets", parent: name, min: 1)
+            try validate(self.runCommandTargets, name:"runCommandTargets", parent: name, max: 5)
+            try validate(self.runCommandTargets, name:"runCommandTargets", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1178,15 +1178,15 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(key, name:"key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
-            try values.forEach {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+            try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try validate(values, name:"values", parent: name, max: 50)
-            try validate(values, name:"values", parent: name, min: 1)
+            try validate(self.values, name:"values", parent: name, max: 50)
+            try validate(self.values, name:"values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1229,10 +1229,10 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(key, name:"key", parent: name, max: 128)
-            try validate(key, name:"key", parent: name, min: 1)
-            try validate(value, name:"value", parent: name, max: 256)
-            try validate(value, name:"value", parent: name, min: 0)
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1258,9 +1258,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceARN, name:"resourceARN", parent: name, max: 1600)
-            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
-            try tags.forEach {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1600)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
         }
@@ -1332,19 +1332,19 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(arn, name:"arn", parent: name, max: 1600)
-            try validate(arn, name:"arn", parent: name, min: 1)
-            try ecsParameters?.validate(name: "\(name).ecsParameters")
-            try validate(id, name:"id", parent: name, max: 64)
-            try validate(id, name:"id", parent: name, min: 1)
-            try validate(id, name:"id", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try validate(input, name:"input", parent: name, max: 8192)
-            try validate(inputPath, name:"inputPath", parent: name, max: 256)
-            try inputTransformer?.validate(name: "\(name).inputTransformer")
-            try kinesisParameters?.validate(name: "\(name).kinesisParameters")
-            try validate(roleArn, name:"roleArn", parent: name, max: 1600)
-            try validate(roleArn, name:"roleArn", parent: name, min: 1)
-            try runCommandParameters?.validate(name: "\(name).runCommandParameters")
+            try validate(self.arn, name:"arn", parent: name, max: 1600)
+            try validate(self.arn, name:"arn", parent: name, min: 1)
+            try self.ecsParameters?.validate(name: "\(name).ecsParameters")
+            try validate(self.id, name:"id", parent: name, max: 64)
+            try validate(self.id, name:"id", parent: name, min: 1)
+            try validate(self.id, name:"id", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try validate(self.input, name:"input", parent: name, max: 8192)
+            try validate(self.inputPath, name:"inputPath", parent: name, max: 256)
+            try self.inputTransformer?.validate(name: "\(name).inputTransformer")
+            try self.kinesisParameters?.validate(name: "\(name).kinesisParameters")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 1600)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 1)
+            try self.runCommandParameters?.validate(name: "\(name).runCommandParameters")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1418,9 +1418,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
-            try validate(resourceARN, name:"resourceARN", parent: name, max: 1600)
-            try validate(resourceARN, name:"resourceARN", parent: name, min: 1)
-            try tagKeys.forEach {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1600)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }

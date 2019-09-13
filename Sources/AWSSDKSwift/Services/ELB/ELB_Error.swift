@@ -84,3 +84,54 @@ extension ELBErrorType {
         }
     }
 }
+
+extension ELBErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessPointNotFoundException(let message):
+            return "AccessPointNotFoundException: \(message ?? "")"
+        case .certificateNotFoundException(let message):
+            return "CertificateNotFoundException: \(message ?? "")"
+        case .dependencyThrottleException(let message):
+            return "DependencyThrottleException: \(message ?? "")"
+        case .duplicateAccessPointNameException(let message):
+            return "DuplicateAccessPointNameException: \(message ?? "")"
+        case .duplicateListenerException(let message):
+            return "DuplicateListenerException: \(message ?? "")"
+        case .duplicatePolicyNameException(let message):
+            return "DuplicatePolicyNameException: \(message ?? "")"
+        case .duplicateTagKeysException(let message):
+            return "DuplicateTagKeysException: \(message ?? "")"
+        case .invalidConfigurationRequestException(let message):
+            return "InvalidConfigurationRequestException: \(message ?? "")"
+        case .invalidEndPointException(let message):
+            return "InvalidEndPointException: \(message ?? "")"
+        case .invalidSchemeException(let message):
+            return "InvalidSchemeException: \(message ?? "")"
+        case .invalidSecurityGroupException(let message):
+            return "InvalidSecurityGroupException: \(message ?? "")"
+        case .invalidSubnetException(let message):
+            return "InvalidSubnetException: \(message ?? "")"
+        case .listenerNotFoundException(let message):
+            return "ListenerNotFoundException: \(message ?? "")"
+        case .loadBalancerAttributeNotFoundException(let message):
+            return "LoadBalancerAttributeNotFoundException: \(message ?? "")"
+        case .operationNotPermittedException(let message):
+            return "OperationNotPermittedException: \(message ?? "")"
+        case .policyNotFoundException(let message):
+            return "PolicyNotFoundException: \(message ?? "")"
+        case .policyTypeNotFoundException(let message):
+            return "PolicyTypeNotFoundException: \(message ?? "")"
+        case .subnetNotFoundException(let message):
+            return "SubnetNotFoundException: \(message ?? "")"
+        case .tooManyAccessPointsException(let message):
+            return "TooManyAccessPointsException: \(message ?? "")"
+        case .tooManyPoliciesException(let message):
+            return "TooManyPoliciesException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        case .unsupportedProtocolException(let message):
+            return "UnsupportedProtocolException: \(message ?? "")"
+        }
+    }
+}

@@ -54,3 +54,34 @@ extension WorkSpacesErrorType {
         }
     }
 }
+
+extension WorkSpacesErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .invalidParameterValuesException(let message):
+            return "InvalidParameterValuesException: \(message ?? "")"
+        case .invalidResourceStateException(let message):
+            return "InvalidResourceStateException: \(message ?? "")"
+        case .operationInProgressException(let message):
+            return "OperationInProgressException: \(message ?? "")"
+        case .operationNotSupportedException(let message):
+            return "OperationNotSupportedException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceAssociatedException(let message):
+            return "ResourceAssociatedException: \(message ?? "")"
+        case .resourceCreationFailedException(let message):
+            return "ResourceCreationFailedException: \(message ?? "")"
+        case .resourceLimitExceededException(let message):
+            return "ResourceLimitExceededException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .resourceUnavailableException(let message):
+            return "ResourceUnavailableException: \(message ?? "")"
+        case .unsupportedWorkspaceConfigurationException(let message):
+            return "UnsupportedWorkspaceConfigurationException: \(message ?? "")"
+        }
+    }
+}

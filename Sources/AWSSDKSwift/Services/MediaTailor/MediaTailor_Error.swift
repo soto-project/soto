@@ -21,3 +21,12 @@ extension MediaTailorErrorType {
         }
     }
 }
+
+extension MediaTailorErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        }
+    }
+}

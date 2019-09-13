@@ -51,3 +51,32 @@ extension CloudWatchLogsErrorType {
         }
     }
 }
+
+extension CloudWatchLogsErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .dataAlreadyAcceptedException(let message):
+            return "DataAlreadyAcceptedException: \(message ?? "")"
+        case .invalidOperationException(let message):
+            return "InvalidOperationException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidSequenceTokenException(let message):
+            return "InvalidSequenceTokenException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .malformedQueryException(let message):
+            return "MalformedQueryException: \(message ?? "")"
+        case .operationAbortedException(let message):
+            return "OperationAbortedException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .unrecognizedClientException(let message):
+            return "UnrecognizedClientException: \(message ?? "")"
+        }
+    }
+}

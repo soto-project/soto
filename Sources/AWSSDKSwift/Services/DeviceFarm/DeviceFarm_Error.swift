@@ -48,3 +48,30 @@ extension DeviceFarmErrorType {
         }
     }
 }
+
+extension DeviceFarmErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .argumentException(let message):
+            return "ArgumentException: \(message ?? "")"
+        case .idempotencyException(let message):
+            return "IdempotencyException: \(message ?? "")"
+        case .invalidOperationException(let message):
+            return "InvalidOperationException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .notEligibleException(let message):
+            return "NotEligibleException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .serviceAccountException(let message):
+            return "ServiceAccountException: \(message ?? "")"
+        case .tagOperationException(let message):
+            return "TagOperationException: \(message ?? "")"
+        case .tagPolicyException(let message):
+            return "TagPolicyException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        }
+    }
+}

@@ -39,3 +39,24 @@ extension CloudWatchEventsErrorType {
         }
     }
 }
+
+extension CloudWatchEventsErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .internalException(let message):
+            return "InternalException: \(message ?? "")"
+        case .invalidEventPatternException(let message):
+            return "InvalidEventPatternException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .managedRuleException(let message):
+            return "ManagedRuleException: \(message ?? "")"
+        case .policyLengthExceededException(let message):
+            return "PolicyLengthExceededException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

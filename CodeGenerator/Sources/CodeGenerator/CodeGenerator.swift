@@ -259,6 +259,9 @@ extension AWSService {
         context["description"] = serviceDescription
         context["amzTarget"] = apiJSON["metadata"]["targetPrefix"].string
         context["endpointPrefix"] = endpointPrefix
+        if signingName != endpointPrefix {
+            context["signingName"] = signingName
+        }
         context["protocol"] = serviceProtocol.instantiationCode()
         context["apiVersion"] = version
         let endpoints = serviceEndpoints.sorted { $0.key < $1.key }.map {return "\"\($0.key)\": \"\($0.value)\""}

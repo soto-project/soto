@@ -261,3 +261,172 @@ extension CloudFrontErrorType {
         }
     }
 }
+
+extension CloudFrontErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDenied(let message):
+            return "AccessDenied: \(message ?? "")"
+        case .batchTooLarge(let message):
+            return "BatchTooLarge: \(message ?? "")"
+        case .cNAMEAlreadyExists(let message):
+            return "CNAMEAlreadyExists: \(message ?? "")"
+        case .cannotChangeImmutablePublicKeyFields(let message):
+            return "CannotChangeImmutablePublicKeyFields: \(message ?? "")"
+        case .cloudFrontOriginAccessIdentityAlreadyExists(let message):
+            return "CloudFrontOriginAccessIdentityAlreadyExists: \(message ?? "")"
+        case .cloudFrontOriginAccessIdentityInUse(let message):
+            return "CloudFrontOriginAccessIdentityInUse: \(message ?? "")"
+        case .distributionAlreadyExists(let message):
+            return "DistributionAlreadyExists: \(message ?? "")"
+        case .distributionNotDisabled(let message):
+            return "DistributionNotDisabled: \(message ?? "")"
+        case .fieldLevelEncryptionConfigAlreadyExists(let message):
+            return "FieldLevelEncryptionConfigAlreadyExists: \(message ?? "")"
+        case .fieldLevelEncryptionConfigInUse(let message):
+            return "FieldLevelEncryptionConfigInUse: \(message ?? "")"
+        case .fieldLevelEncryptionProfileAlreadyExists(let message):
+            return "FieldLevelEncryptionProfileAlreadyExists: \(message ?? "")"
+        case .fieldLevelEncryptionProfileInUse(let message):
+            return "FieldLevelEncryptionProfileInUse: \(message ?? "")"
+        case .fieldLevelEncryptionProfileSizeExceeded(let message):
+            return "FieldLevelEncryptionProfileSizeExceeded: \(message ?? "")"
+        case .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(let message):
+            return "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: \(message ?? "")"
+        case .illegalUpdate(let message):
+            return "IllegalUpdate: \(message ?? "")"
+        case .inconsistentQuantities(let message):
+            return "InconsistentQuantities: \(message ?? "")"
+        case .invalidArgument(let message):
+            return "InvalidArgument: \(message ?? "")"
+        case .invalidDefaultRootObject(let message):
+            return "InvalidDefaultRootObject: \(message ?? "")"
+        case .invalidErrorCode(let message):
+            return "InvalidErrorCode: \(message ?? "")"
+        case .invalidForwardCookies(let message):
+            return "InvalidForwardCookies: \(message ?? "")"
+        case .invalidGeoRestrictionParameter(let message):
+            return "InvalidGeoRestrictionParameter: \(message ?? "")"
+        case .invalidHeadersForS3Origin(let message):
+            return "InvalidHeadersForS3Origin: \(message ?? "")"
+        case .invalidIfMatchVersion(let message):
+            return "InvalidIfMatchVersion: \(message ?? "")"
+        case .invalidLambdaFunctionAssociation(let message):
+            return "InvalidLambdaFunctionAssociation: \(message ?? "")"
+        case .invalidLocationCode(let message):
+            return "InvalidLocationCode: \(message ?? "")"
+        case .invalidMinimumProtocolVersion(let message):
+            return "InvalidMinimumProtocolVersion: \(message ?? "")"
+        case .invalidOrigin(let message):
+            return "InvalidOrigin: \(message ?? "")"
+        case .invalidOriginAccessIdentity(let message):
+            return "InvalidOriginAccessIdentity: \(message ?? "")"
+        case .invalidOriginKeepaliveTimeout(let message):
+            return "InvalidOriginKeepaliveTimeout: \(message ?? "")"
+        case .invalidOriginReadTimeout(let message):
+            return "InvalidOriginReadTimeout: \(message ?? "")"
+        case .invalidProtocolSettings(let message):
+            return "InvalidProtocolSettings: \(message ?? "")"
+        case .invalidQueryStringParameters(let message):
+            return "InvalidQueryStringParameters: \(message ?? "")"
+        case .invalidRelativePath(let message):
+            return "InvalidRelativePath: \(message ?? "")"
+        case .invalidRequiredProtocol(let message):
+            return "InvalidRequiredProtocol: \(message ?? "")"
+        case .invalidResponseCode(let message):
+            return "InvalidResponseCode: \(message ?? "")"
+        case .invalidTTLOrder(let message):
+            return "InvalidTTLOrder: \(message ?? "")"
+        case .invalidTagging(let message):
+            return "InvalidTagging: \(message ?? "")"
+        case .invalidViewerCertificate(let message):
+            return "InvalidViewerCertificate: \(message ?? "")"
+        case .invalidWebACLId(let message):
+            return "InvalidWebACLId: \(message ?? "")"
+        case .missingBody(let message):
+            return "MissingBody: \(message ?? "")"
+        case .noSuchCloudFrontOriginAccessIdentity(let message):
+            return "NoSuchCloudFrontOriginAccessIdentity: \(message ?? "")"
+        case .noSuchDistribution(let message):
+            return "NoSuchDistribution: \(message ?? "")"
+        case .noSuchFieldLevelEncryptionConfig(let message):
+            return "NoSuchFieldLevelEncryptionConfig: \(message ?? "")"
+        case .noSuchFieldLevelEncryptionProfile(let message):
+            return "NoSuchFieldLevelEncryptionProfile: \(message ?? "")"
+        case .noSuchInvalidation(let message):
+            return "NoSuchInvalidation: \(message ?? "")"
+        case .noSuchOrigin(let message):
+            return "NoSuchOrigin: \(message ?? "")"
+        case .noSuchPublicKey(let message):
+            return "NoSuchPublicKey: \(message ?? "")"
+        case .noSuchResource(let message):
+            return "NoSuchResource: \(message ?? "")"
+        case .noSuchStreamingDistribution(let message):
+            return "NoSuchStreamingDistribution: \(message ?? "")"
+        case .preconditionFailed(let message):
+            return "PreconditionFailed: \(message ?? "")"
+        case .publicKeyAlreadyExists(let message):
+            return "PublicKeyAlreadyExists: \(message ?? "")"
+        case .publicKeyInUse(let message):
+            return "PublicKeyInUse: \(message ?? "")"
+        case .queryArgProfileEmpty(let message):
+            return "QueryArgProfileEmpty: \(message ?? "")"
+        case .streamingDistributionAlreadyExists(let message):
+            return "StreamingDistributionAlreadyExists: \(message ?? "")"
+        case .streamingDistributionNotDisabled(let message):
+            return "StreamingDistributionNotDisabled: \(message ?? "")"
+        case .tooManyCacheBehaviors(let message):
+            return "TooManyCacheBehaviors: \(message ?? "")"
+        case .tooManyCertificates(let message):
+            return "TooManyCertificates: \(message ?? "")"
+        case .tooManyCloudFrontOriginAccessIdentities(let message):
+            return "TooManyCloudFrontOriginAccessIdentities: \(message ?? "")"
+        case .tooManyCookieNamesInWhiteList(let message):
+            return "TooManyCookieNamesInWhiteList: \(message ?? "")"
+        case .tooManyDistributionCNAMEs(let message):
+            return "TooManyDistributionCNAMEs: \(message ?? "")"
+        case .tooManyDistributions(let message):
+            return "TooManyDistributions: \(message ?? "")"
+        case .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(let message):
+            return "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig: \(message ?? "")"
+        case .tooManyDistributionsWithLambdaAssociations(let message):
+            return "TooManyDistributionsWithLambdaAssociations: \(message ?? "")"
+        case .tooManyFieldLevelEncryptionConfigs(let message):
+            return "TooManyFieldLevelEncryptionConfigs: \(message ?? "")"
+        case .tooManyFieldLevelEncryptionContentTypeProfiles(let message):
+            return "TooManyFieldLevelEncryptionContentTypeProfiles: \(message ?? "")"
+        case .tooManyFieldLevelEncryptionEncryptionEntities(let message):
+            return "TooManyFieldLevelEncryptionEncryptionEntities: \(message ?? "")"
+        case .tooManyFieldLevelEncryptionFieldPatterns(let message):
+            return "TooManyFieldLevelEncryptionFieldPatterns: \(message ?? "")"
+        case .tooManyFieldLevelEncryptionProfiles(let message):
+            return "TooManyFieldLevelEncryptionProfiles: \(message ?? "")"
+        case .tooManyFieldLevelEncryptionQueryArgProfiles(let message):
+            return "TooManyFieldLevelEncryptionQueryArgProfiles: \(message ?? "")"
+        case .tooManyHeadersInForwardedValues(let message):
+            return "TooManyHeadersInForwardedValues: \(message ?? "")"
+        case .tooManyInvalidationsInProgress(let message):
+            return "TooManyInvalidationsInProgress: \(message ?? "")"
+        case .tooManyLambdaFunctionAssociations(let message):
+            return "TooManyLambdaFunctionAssociations: \(message ?? "")"
+        case .tooManyOriginCustomHeaders(let message):
+            return "TooManyOriginCustomHeaders: \(message ?? "")"
+        case .tooManyOriginGroupsPerDistribution(let message):
+            return "TooManyOriginGroupsPerDistribution: \(message ?? "")"
+        case .tooManyOrigins(let message):
+            return "TooManyOrigins: \(message ?? "")"
+        case .tooManyPublicKeys(let message):
+            return "TooManyPublicKeys: \(message ?? "")"
+        case .tooManyQueryStringParameters(let message):
+            return "TooManyQueryStringParameters: \(message ?? "")"
+        case .tooManyStreamingDistributionCNAMEs(let message):
+            return "TooManyStreamingDistributionCNAMEs: \(message ?? "")"
+        case .tooManyStreamingDistributions(let message):
+            return "TooManyStreamingDistributions: \(message ?? "")"
+        case .tooManyTrustedSigners(let message):
+            return "TooManyTrustedSigners: \(message ?? "")"
+        case .trustedSignerDoesNotExist(let message):
+            return "TrustedSignerDoesNotExist: \(message ?? "")"
+        }
+    }
+}

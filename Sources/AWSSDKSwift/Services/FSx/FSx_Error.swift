@@ -69,3 +69,44 @@ extension FSxErrorType {
         }
     }
 }
+
+extension FSxErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .activeDirectoryError(let message):
+            return "ActiveDirectoryError: \(message ?? "")"
+        case .backupInProgress(let message):
+            return "BackupInProgress: \(message ?? "")"
+        case .backupNotFound(let message):
+            return "BackupNotFound: \(message ?? "")"
+        case .backupRestoring(let message):
+            return "BackupRestoring: \(message ?? "")"
+        case .badRequest(let message):
+            return "BadRequest: \(message ?? "")"
+        case .fileSystemNotFound(let message):
+            return "FileSystemNotFound: \(message ?? "")"
+        case .incompatibleParameterError(let message):
+            return "IncompatibleParameterError: \(message ?? "")"
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        case .invalidExportPath(let message):
+            return "InvalidExportPath: \(message ?? "")"
+        case .invalidImportPath(let message):
+            return "InvalidImportPath: \(message ?? "")"
+        case .invalidNetworkSettings(let message):
+            return "InvalidNetworkSettings: \(message ?? "")"
+        case .missingFileSystemConfiguration(let message):
+            return "MissingFileSystemConfiguration: \(message ?? "")"
+        case .notServiceResourceError(let message):
+            return "NotServiceResourceError: \(message ?? "")"
+        case .resourceDoesNotSupportTagging(let message):
+            return "ResourceDoesNotSupportTagging: \(message ?? "")"
+        case .resourceNotFound(let message):
+            return "ResourceNotFound: \(message ?? "")"
+        case .serviceLimitExceeded(let message):
+            return "ServiceLimitExceeded: \(message ?? "")"
+        case .unsupportedOperation(let message):
+            return "UnsupportedOperation: \(message ?? "")"
+        }
+    }
+}

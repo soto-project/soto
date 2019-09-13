@@ -27,3 +27,16 @@ extension MarketplaceEntitlementServiceErrorType {
         }
     }
 }
+
+extension MarketplaceEntitlementServiceErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalServiceErrorException(let message):
+            return "InternalServiceErrorException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        }
+    }
+}

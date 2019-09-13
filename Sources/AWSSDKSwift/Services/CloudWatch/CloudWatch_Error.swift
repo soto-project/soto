@@ -57,3 +57,36 @@ extension CloudWatchErrorType {
         }
     }
 }
+
+extension CloudWatchErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .dashboardInvalidInputError(let message):
+            return "DashboardInvalidInputError: \(message ?? "")"
+        case .dashboardNotFoundError(let message):
+            return "DashboardNotFoundError: \(message ?? "")"
+        case .internalServiceFault(let message):
+            return "InternalServiceFault: \(message ?? "")"
+        case .invalidFormatFault(let message):
+            return "InvalidFormatFault: \(message ?? "")"
+        case .invalidNextToken(let message):
+            return "InvalidNextToken: \(message ?? "")"
+        case .invalidParameterCombinationException(let message):
+            return "InvalidParameterCombinationException: \(message ?? "")"
+        case .invalidParameterValueException(let message):
+            return "InvalidParameterValueException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .limitExceededFault(let message):
+            return "LimitExceededFault: \(message ?? "")"
+        case .missingRequiredParameterException(let message):
+            return "MissingRequiredParameterException: \(message ?? "")"
+        case .resourceNotFound(let message):
+            return "ResourceNotFound: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

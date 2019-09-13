@@ -87,3 +87,56 @@ extension SNSErrorType {
         }
     }
 }
+
+extension SNSErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .authorizationErrorException(let message):
+            return "AuthorizationErrorException: \(message ?? "")"
+        case .concurrentAccessException(let message):
+            return "ConcurrentAccessException: \(message ?? "")"
+        case .endpointDisabledException(let message):
+            return "EndpointDisabledException: \(message ?? "")"
+        case .filterPolicyLimitExceededException(let message):
+            return "FilterPolicyLimitExceededException: \(message ?? "")"
+        case .internalErrorException(let message):
+            return "InternalErrorException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidParameterValueException(let message):
+            return "InvalidParameterValueException: \(message ?? "")"
+        case .invalidSecurityException(let message):
+            return "InvalidSecurityException: \(message ?? "")"
+        case .kMSAccessDeniedException(let message):
+            return "KMSAccessDeniedException: \(message ?? "")"
+        case .kMSDisabledException(let message):
+            return "KMSDisabledException: \(message ?? "")"
+        case .kMSInvalidStateException(let message):
+            return "KMSInvalidStateException: \(message ?? "")"
+        case .kMSNotFoundException(let message):
+            return "KMSNotFoundException: \(message ?? "")"
+        case .kMSOptInRequired(let message):
+            return "KMSOptInRequired: \(message ?? "")"
+        case .kMSThrottlingException(let message):
+            return "KMSThrottlingException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .platformApplicationDisabledException(let message):
+            return "PlatformApplicationDisabledException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .staleTagException(let message):
+            return "StaleTagException: \(message ?? "")"
+        case .subscriptionLimitExceededException(let message):
+            return "SubscriptionLimitExceededException: \(message ?? "")"
+        case .tagLimitExceededException(let message):
+            return "TagLimitExceededException: \(message ?? "")"
+        case .tagPolicyException(let message):
+            return "TagPolicyException: \(message ?? "")"
+        case .throttledException(let message):
+            return "ThrottledException: \(message ?? "")"
+        case .topicLimitExceededException(let message):
+            return "TopicLimitExceededException: \(message ?? "")"
+        }
+    }
+}

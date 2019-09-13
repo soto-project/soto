@@ -195,3 +195,128 @@ extension NeptuneErrorType {
         }
     }
 }
+
+extension NeptuneErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .authorizationNotFoundFault(let message):
+            return "AuthorizationNotFoundFault: \(message ?? "")"
+        case .certificateNotFoundFault(let message):
+            return "CertificateNotFoundFault: \(message ?? "")"
+        case .dBClusterAlreadyExistsFault(let message):
+            return "DBClusterAlreadyExistsFault: \(message ?? "")"
+        case .dBClusterNotFoundFault(let message):
+            return "DBClusterNotFoundFault: \(message ?? "")"
+        case .dBClusterParameterGroupNotFoundFault(let message):
+            return "DBClusterParameterGroupNotFoundFault: \(message ?? "")"
+        case .dBClusterQuotaExceededFault(let message):
+            return "DBClusterQuotaExceededFault: \(message ?? "")"
+        case .dBClusterRoleAlreadyExistsFault(let message):
+            return "DBClusterRoleAlreadyExistsFault: \(message ?? "")"
+        case .dBClusterRoleNotFoundFault(let message):
+            return "DBClusterRoleNotFoundFault: \(message ?? "")"
+        case .dBClusterRoleQuotaExceededFault(let message):
+            return "DBClusterRoleQuotaExceededFault: \(message ?? "")"
+        case .dBClusterSnapshotAlreadyExistsFault(let message):
+            return "DBClusterSnapshotAlreadyExistsFault: \(message ?? "")"
+        case .dBClusterSnapshotNotFoundFault(let message):
+            return "DBClusterSnapshotNotFoundFault: \(message ?? "")"
+        case .dBInstanceAlreadyExistsFault(let message):
+            return "DBInstanceAlreadyExistsFault: \(message ?? "")"
+        case .dBInstanceNotFoundFault(let message):
+            return "DBInstanceNotFoundFault: \(message ?? "")"
+        case .dBParameterGroupAlreadyExistsFault(let message):
+            return "DBParameterGroupAlreadyExistsFault: \(message ?? "")"
+        case .dBParameterGroupNotFoundFault(let message):
+            return "DBParameterGroupNotFoundFault: \(message ?? "")"
+        case .dBParameterGroupQuotaExceededFault(let message):
+            return "DBParameterGroupQuotaExceededFault: \(message ?? "")"
+        case .dBSecurityGroupNotFoundFault(let message):
+            return "DBSecurityGroupNotFoundFault: \(message ?? "")"
+        case .dBSnapshotAlreadyExistsFault(let message):
+            return "DBSnapshotAlreadyExistsFault: \(message ?? "")"
+        case .dBSnapshotNotFoundFault(let message):
+            return "DBSnapshotNotFoundFault: \(message ?? "")"
+        case .dBSubnetGroupAlreadyExistsFault(let message):
+            return "DBSubnetGroupAlreadyExistsFault: \(message ?? "")"
+        case .dBSubnetGroupDoesNotCoverEnoughAZs(let message):
+            return "DBSubnetGroupDoesNotCoverEnoughAZs: \(message ?? "")"
+        case .dBSubnetGroupNotFoundFault(let message):
+            return "DBSubnetGroupNotFoundFault: \(message ?? "")"
+        case .dBSubnetGroupQuotaExceededFault(let message):
+            return "DBSubnetGroupQuotaExceededFault: \(message ?? "")"
+        case .dBSubnetQuotaExceededFault(let message):
+            return "DBSubnetQuotaExceededFault: \(message ?? "")"
+        case .dBUpgradeDependencyFailureFault(let message):
+            return "DBUpgradeDependencyFailureFault: \(message ?? "")"
+        case .domainNotFoundFault(let message):
+            return "DomainNotFoundFault: \(message ?? "")"
+        case .eventSubscriptionQuotaExceededFault(let message):
+            return "EventSubscriptionQuotaExceededFault: \(message ?? "")"
+        case .instanceQuotaExceededFault(let message):
+            return "InstanceQuotaExceededFault: \(message ?? "")"
+        case .insufficientDBClusterCapacityFault(let message):
+            return "InsufficientDBClusterCapacityFault: \(message ?? "")"
+        case .insufficientDBInstanceCapacityFault(let message):
+            return "InsufficientDBInstanceCapacityFault: \(message ?? "")"
+        case .insufficientStorageClusterCapacityFault(let message):
+            return "InsufficientStorageClusterCapacityFault: \(message ?? "")"
+        case .invalidDBClusterSnapshotStateFault(let message):
+            return "InvalidDBClusterSnapshotStateFault: \(message ?? "")"
+        case .invalidDBClusterStateFault(let message):
+            return "InvalidDBClusterStateFault: \(message ?? "")"
+        case .invalidDBInstanceStateFault(let message):
+            return "InvalidDBInstanceStateFault: \(message ?? "")"
+        case .invalidDBParameterGroupStateFault(let message):
+            return "InvalidDBParameterGroupStateFault: \(message ?? "")"
+        case .invalidDBSecurityGroupStateFault(let message):
+            return "InvalidDBSecurityGroupStateFault: \(message ?? "")"
+        case .invalidDBSnapshotStateFault(let message):
+            return "InvalidDBSnapshotStateFault: \(message ?? "")"
+        case .invalidDBSubnetGroupStateFault(let message):
+            return "InvalidDBSubnetGroupStateFault: \(message ?? "")"
+        case .invalidDBSubnetStateFault(let message):
+            return "InvalidDBSubnetStateFault: \(message ?? "")"
+        case .invalidEventSubscriptionStateFault(let message):
+            return "InvalidEventSubscriptionStateFault: \(message ?? "")"
+        case .invalidRestoreFault(let message):
+            return "InvalidRestoreFault: \(message ?? "")"
+        case .invalidSubnet(let message):
+            return "InvalidSubnet: \(message ?? "")"
+        case .invalidVPCNetworkStateFault(let message):
+            return "InvalidVPCNetworkStateFault: \(message ?? "")"
+        case .kMSKeyNotAccessibleFault(let message):
+            return "KMSKeyNotAccessibleFault: \(message ?? "")"
+        case .optionGroupNotFoundFault(let message):
+            return "OptionGroupNotFoundFault: \(message ?? "")"
+        case .provisionedIopsNotAvailableInAZFault(let message):
+            return "ProvisionedIopsNotAvailableInAZFault: \(message ?? "")"
+        case .resourceNotFoundFault(let message):
+            return "ResourceNotFoundFault: \(message ?? "")"
+        case .sNSInvalidTopicFault(let message):
+            return "SNSInvalidTopicFault: \(message ?? "")"
+        case .sNSNoAuthorizationFault(let message):
+            return "SNSNoAuthorizationFault: \(message ?? "")"
+        case .sNSTopicArnNotFoundFault(let message):
+            return "SNSTopicArnNotFoundFault: \(message ?? "")"
+        case .sharedSnapshotQuotaExceededFault(let message):
+            return "SharedSnapshotQuotaExceededFault: \(message ?? "")"
+        case .snapshotQuotaExceededFault(let message):
+            return "SnapshotQuotaExceededFault: \(message ?? "")"
+        case .sourceNotFoundFault(let message):
+            return "SourceNotFoundFault: \(message ?? "")"
+        case .storageQuotaExceededFault(let message):
+            return "StorageQuotaExceededFault: \(message ?? "")"
+        case .storageTypeNotSupportedFault(let message):
+            return "StorageTypeNotSupportedFault: \(message ?? "")"
+        case .subnetAlreadyInUse(let message):
+            return "SubnetAlreadyInUse: \(message ?? "")"
+        case .subscriptionAlreadyExistFault(let message):
+            return "SubscriptionAlreadyExistFault: \(message ?? "")"
+        case .subscriptionCategoryNotFoundFault(let message):
+            return "SubscriptionCategoryNotFoundFault: \(message ?? "")"
+        case .subscriptionNotFoundFault(let message):
+            return "SubscriptionNotFoundFault: \(message ?? "")"
+        }
+    }
+}

@@ -111,3 +111,72 @@ extension KMSErrorType {
         }
     }
 }
+
+extension KMSErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .alreadyExistsException(let message):
+            return "AlreadyExistsException: \(message ?? "")"
+        case .cloudHsmClusterInUseException(let message):
+            return "CloudHsmClusterInUseException: \(message ?? "")"
+        case .cloudHsmClusterInvalidConfigurationException(let message):
+            return "CloudHsmClusterInvalidConfigurationException: \(message ?? "")"
+        case .cloudHsmClusterNotActiveException(let message):
+            return "CloudHsmClusterNotActiveException: \(message ?? "")"
+        case .cloudHsmClusterNotFoundException(let message):
+            return "CloudHsmClusterNotFoundException: \(message ?? "")"
+        case .cloudHsmClusterNotRelatedException(let message):
+            return "CloudHsmClusterNotRelatedException: \(message ?? "")"
+        case .customKeyStoreHasCMKsException(let message):
+            return "CustomKeyStoreHasCMKsException: \(message ?? "")"
+        case .customKeyStoreInvalidStateException(let message):
+            return "CustomKeyStoreInvalidStateException: \(message ?? "")"
+        case .customKeyStoreNameInUseException(let message):
+            return "CustomKeyStoreNameInUseException: \(message ?? "")"
+        case .customKeyStoreNotFoundException(let message):
+            return "CustomKeyStoreNotFoundException: \(message ?? "")"
+        case .dependencyTimeoutException(let message):
+            return "DependencyTimeoutException: \(message ?? "")"
+        case .disabledException(let message):
+            return "DisabledException: \(message ?? "")"
+        case .expiredImportTokenException(let message):
+            return "ExpiredImportTokenException: \(message ?? "")"
+        case .incorrectKeyMaterialException(let message):
+            return "IncorrectKeyMaterialException: \(message ?? "")"
+        case .incorrectTrustAnchorException(let message):
+            return "IncorrectTrustAnchorException: \(message ?? "")"
+        case .invalidAliasNameException(let message):
+            return "InvalidAliasNameException: \(message ?? "")"
+        case .invalidArnException(let message):
+            return "InvalidArnException: \(message ?? "")"
+        case .invalidCiphertextException(let message):
+            return "InvalidCiphertextException: \(message ?? "")"
+        case .invalidGrantIdException(let message):
+            return "InvalidGrantIdException: \(message ?? "")"
+        case .invalidGrantTokenException(let message):
+            return "InvalidGrantTokenException: \(message ?? "")"
+        case .invalidImportTokenException(let message):
+            return "InvalidImportTokenException: \(message ?? "")"
+        case .invalidKeyUsageException(let message):
+            return "InvalidKeyUsageException: \(message ?? "")"
+        case .invalidMarkerException(let message):
+            return "InvalidMarkerException: \(message ?? "")"
+        case .kMSInternalException(let message):
+            return "KMSInternalException: \(message ?? "")"
+        case .kMSInvalidStateException(let message):
+            return "KMSInvalidStateException: \(message ?? "")"
+        case .keyUnavailableException(let message):
+            return "KeyUnavailableException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .malformedPolicyDocumentException(let message):
+            return "MalformedPolicyDocumentException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .tagException(let message):
+            return "TagException: \(message ?? "")"
+        case .unsupportedOperationException(let message):
+            return "UnsupportedOperationException: \(message ?? "")"
+        }
+    }
+}

@@ -51,3 +51,32 @@ extension SMSErrorType {
         }
     }
 }
+
+extension SMSErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalError(let message):
+            return "InternalError: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .missingRequiredParameterException(let message):
+            return "MissingRequiredParameterException: \(message ?? "")"
+        case .noConnectorsAvailableException(let message):
+            return "NoConnectorsAvailableException: \(message ?? "")"
+        case .operationNotPermittedException(let message):
+            return "OperationNotPermittedException: \(message ?? "")"
+        case .replicationJobAlreadyExistsException(let message):
+            return "ReplicationJobAlreadyExistsException: \(message ?? "")"
+        case .replicationJobNotFoundException(let message):
+            return "ReplicationJobNotFoundException: \(message ?? "")"
+        case .replicationRunLimitExceededException(let message):
+            return "ReplicationRunLimitExceededException: \(message ?? "")"
+        case .serverCannotBeReplicatedException(let message):
+            return "ServerCannotBeReplicatedException: \(message ?? "")"
+        case .temporarilyUnavailableException(let message):
+            return "TemporarilyUnavailableException: \(message ?? "")"
+        case .unauthorizedOperationException(let message):
+            return "UnauthorizedOperationException: \(message ?? "")"
+        }
+    }
+}

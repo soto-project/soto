@@ -57,3 +57,36 @@ extension KinesisAnalyticsV2ErrorType {
         }
     }
 }
+
+extension KinesisAnalyticsV2ErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .codeValidationException(let message):
+            return "CodeValidationException: \(message ?? "")"
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .invalidApplicationConfigurationException(let message):
+            return "InvalidApplicationConfigurationException: \(message ?? "")"
+        case .invalidArgumentException(let message):
+            return "InvalidArgumentException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .resourceProvisionedThroughputExceededException(let message):
+            return "ResourceProvisionedThroughputExceededException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        case .unableToDetectSchemaException(let message):
+            return "UnableToDetectSchemaException: \(message ?? "")"
+        case .unsupportedOperationException(let message):
+            return "UnsupportedOperationException: \(message ?? "")"
+        }
+    }
+}

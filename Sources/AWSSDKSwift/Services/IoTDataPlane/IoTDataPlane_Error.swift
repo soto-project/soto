@@ -48,3 +48,30 @@ extension IoTDataPlaneErrorType {
         }
     }
 }
+
+extension IoTDataPlaneErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
+        case .internalFailureException(let message):
+            return "InternalFailureException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .methodNotAllowedException(let message):
+            return "MethodNotAllowedException: \(message ?? "")"
+        case .requestEntityTooLargeException(let message):
+            return "RequestEntityTooLargeException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        case .unauthorizedException(let message):
+            return "UnauthorizedException: \(message ?? "")"
+        case .unsupportedDocumentEncodingException(let message):
+            return "UnsupportedDocumentEncodingException: \(message ?? "")"
+        }
+    }
+}

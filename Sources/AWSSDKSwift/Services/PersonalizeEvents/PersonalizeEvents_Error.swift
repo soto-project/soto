@@ -21,3 +21,12 @@ extension PersonalizeEventsErrorType {
         }
     }
 }
+
+extension PersonalizeEventsErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .invalidInputException(let message):
+            return "InvalidInputException: \(message ?? "")"
+        }
+    }
+}

@@ -51,3 +51,32 @@ extension ServiceDiscoveryErrorType {
         }
     }
 }
+
+extension ServiceDiscoveryErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .customHealthNotFound(let message):
+            return "CustomHealthNotFound: \(message ?? "")"
+        case .duplicateRequest(let message):
+            return "DuplicateRequest: \(message ?? "")"
+        case .instanceNotFound(let message):
+            return "InstanceNotFound: \(message ?? "")"
+        case .invalidInput(let message):
+            return "InvalidInput: \(message ?? "")"
+        case .namespaceAlreadyExists(let message):
+            return "NamespaceAlreadyExists: \(message ?? "")"
+        case .namespaceNotFound(let message):
+            return "NamespaceNotFound: \(message ?? "")"
+        case .operationNotFound(let message):
+            return "OperationNotFound: \(message ?? "")"
+        case .resourceInUse(let message):
+            return "ResourceInUse: \(message ?? "")"
+        case .resourceLimitExceeded(let message):
+            return "ResourceLimitExceeded: \(message ?? "")"
+        case .serviceAlreadyExists(let message):
+            return "ServiceAlreadyExists: \(message ?? "")"
+        case .serviceNotFound(let message):
+            return "ServiceNotFound: \(message ?? "")"
+        }
+    }
+}

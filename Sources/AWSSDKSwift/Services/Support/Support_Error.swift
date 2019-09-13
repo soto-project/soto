@@ -45,3 +45,28 @@ extension SupportErrorType {
         }
     }
 }
+
+extension SupportErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .attachmentIdNotFound(let message):
+            return "AttachmentIdNotFound: \(message ?? "")"
+        case .attachmentLimitExceeded(let message):
+            return "AttachmentLimitExceeded: \(message ?? "")"
+        case .attachmentSetExpired(let message):
+            return "AttachmentSetExpired: \(message ?? "")"
+        case .attachmentSetIdNotFound(let message):
+            return "AttachmentSetIdNotFound: \(message ?? "")"
+        case .attachmentSetSizeLimitExceeded(let message):
+            return "AttachmentSetSizeLimitExceeded: \(message ?? "")"
+        case .caseCreationLimitExceeded(let message):
+            return "CaseCreationLimitExceeded: \(message ?? "")"
+        case .caseIdNotFound(let message):
+            return "CaseIdNotFound: \(message ?? "")"
+        case .describeAttachmentLimitExceeded(let message):
+            return "DescribeAttachmentLimitExceeded: \(message ?? "")"
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        }
+    }
+}

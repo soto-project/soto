@@ -42,3 +42,26 @@ extension MigrationHubErrorType {
         }
     }
 }
+
+extension MigrationHubErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .dryRunOperation(let message):
+            return "DryRunOperation: \(message ?? "")"
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        case .invalidInputException(let message):
+            return "InvalidInputException: \(message ?? "")"
+        case .policyErrorException(let message):
+            return "PolicyErrorException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .unauthorizedOperation(let message):
+            return "UnauthorizedOperation: \(message ?? "")"
+        }
+    }
+}

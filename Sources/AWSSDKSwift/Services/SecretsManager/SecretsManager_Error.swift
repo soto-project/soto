@@ -51,3 +51,32 @@ extension SecretsManagerErrorType {
         }
     }
 }
+
+extension SecretsManagerErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .decryptionFailure(let message):
+            return "DecryptionFailure: \(message ?? "")"
+        case .encryptionFailure(let message):
+            return "EncryptionFailure: \(message ?? "")"
+        case .internalServiceError(let message):
+            return "InternalServiceError: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .malformedPolicyDocumentException(let message):
+            return "MalformedPolicyDocumentException: \(message ?? "")"
+        case .preconditionNotMetException(let message):
+            return "PreconditionNotMetException: \(message ?? "")"
+        case .resourceExistsException(let message):
+            return "ResourceExistsException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        }
+    }
+}

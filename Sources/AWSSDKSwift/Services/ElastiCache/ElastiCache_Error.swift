@@ -165,3 +165,108 @@ extension ElastiCacheErrorType {
         }
     }
 }
+
+extension ElastiCacheErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .aPICallRateForCustomerExceededFault(let message):
+            return "APICallRateForCustomerExceededFault: \(message ?? "")"
+        case .authorizationAlreadyExistsFault(let message):
+            return "AuthorizationAlreadyExistsFault: \(message ?? "")"
+        case .authorizationNotFoundFault(let message):
+            return "AuthorizationNotFoundFault: \(message ?? "")"
+        case .cacheClusterAlreadyExistsFault(let message):
+            return "CacheClusterAlreadyExistsFault: \(message ?? "")"
+        case .cacheClusterNotFoundFault(let message):
+            return "CacheClusterNotFoundFault: \(message ?? "")"
+        case .cacheParameterGroupAlreadyExistsFault(let message):
+            return "CacheParameterGroupAlreadyExistsFault: \(message ?? "")"
+        case .cacheParameterGroupNotFoundFault(let message):
+            return "CacheParameterGroupNotFoundFault: \(message ?? "")"
+        case .cacheParameterGroupQuotaExceededFault(let message):
+            return "CacheParameterGroupQuotaExceededFault: \(message ?? "")"
+        case .cacheSecurityGroupAlreadyExistsFault(let message):
+            return "CacheSecurityGroupAlreadyExistsFault: \(message ?? "")"
+        case .cacheSecurityGroupNotFoundFault(let message):
+            return "CacheSecurityGroupNotFoundFault: \(message ?? "")"
+        case .cacheSecurityGroupQuotaExceededFault(let message):
+            return "CacheSecurityGroupQuotaExceededFault: \(message ?? "")"
+        case .cacheSubnetGroupAlreadyExistsFault(let message):
+            return "CacheSubnetGroupAlreadyExistsFault: \(message ?? "")"
+        case .cacheSubnetGroupInUse(let message):
+            return "CacheSubnetGroupInUse: \(message ?? "")"
+        case .cacheSubnetGroupNotFoundFault(let message):
+            return "CacheSubnetGroupNotFoundFault: \(message ?? "")"
+        case .cacheSubnetGroupQuotaExceededFault(let message):
+            return "CacheSubnetGroupQuotaExceededFault: \(message ?? "")"
+        case .cacheSubnetQuotaExceededFault(let message):
+            return "CacheSubnetQuotaExceededFault: \(message ?? "")"
+        case .clusterQuotaForCustomerExceededFault(let message):
+            return "ClusterQuotaForCustomerExceededFault: \(message ?? "")"
+        case .insufficientCacheClusterCapacityFault(let message):
+            return "InsufficientCacheClusterCapacityFault: \(message ?? "")"
+        case .invalidARNFault(let message):
+            return "InvalidARNFault: \(message ?? "")"
+        case .invalidCacheClusterStateFault(let message):
+            return "InvalidCacheClusterStateFault: \(message ?? "")"
+        case .invalidCacheParameterGroupStateFault(let message):
+            return "InvalidCacheParameterGroupStateFault: \(message ?? "")"
+        case .invalidCacheSecurityGroupStateFault(let message):
+            return "InvalidCacheSecurityGroupStateFault: \(message ?? "")"
+        case .invalidParameterCombinationException(let message):
+            return "InvalidParameterCombinationException: \(message ?? "")"
+        case .invalidParameterValueException(let message):
+            return "InvalidParameterValueException: \(message ?? "")"
+        case .invalidReplicationGroupStateFault(let message):
+            return "InvalidReplicationGroupStateFault: \(message ?? "")"
+        case .invalidSnapshotStateFault(let message):
+            return "InvalidSnapshotStateFault: \(message ?? "")"
+        case .invalidSubnet(let message):
+            return "InvalidSubnet: \(message ?? "")"
+        case .invalidVPCNetworkStateFault(let message):
+            return "InvalidVPCNetworkStateFault: \(message ?? "")"
+        case .noOperationFault(let message):
+            return "NoOperationFault: \(message ?? "")"
+        case .nodeGroupNotFoundFault(let message):
+            return "NodeGroupNotFoundFault: \(message ?? "")"
+        case .nodeGroupsPerReplicationGroupQuotaExceededFault(let message):
+            return "NodeGroupsPerReplicationGroupQuotaExceededFault: \(message ?? "")"
+        case .nodeQuotaForClusterExceededFault(let message):
+            return "NodeQuotaForClusterExceededFault: \(message ?? "")"
+        case .nodeQuotaForCustomerExceededFault(let message):
+            return "NodeQuotaForCustomerExceededFault: \(message ?? "")"
+        case .replicationGroupAlreadyExistsFault(let message):
+            return "ReplicationGroupAlreadyExistsFault: \(message ?? "")"
+        case .replicationGroupNotFoundFault(let message):
+            return "ReplicationGroupNotFoundFault: \(message ?? "")"
+        case .reservedCacheNodeAlreadyExistsFault(let message):
+            return "ReservedCacheNodeAlreadyExistsFault: \(message ?? "")"
+        case .reservedCacheNodeNotFoundFault(let message):
+            return "ReservedCacheNodeNotFoundFault: \(message ?? "")"
+        case .reservedCacheNodeQuotaExceededFault(let message):
+            return "ReservedCacheNodeQuotaExceededFault: \(message ?? "")"
+        case .reservedCacheNodesOfferingNotFoundFault(let message):
+            return "ReservedCacheNodesOfferingNotFoundFault: \(message ?? "")"
+        case .serviceLinkedRoleNotFoundFault(let message):
+            return "ServiceLinkedRoleNotFoundFault: \(message ?? "")"
+        case .serviceUpdateNotFoundFault(let message):
+            return "ServiceUpdateNotFoundFault: \(message ?? "")"
+        case .snapshotAlreadyExistsFault(let message):
+            return "SnapshotAlreadyExistsFault: \(message ?? "")"
+        case .snapshotFeatureNotSupportedFault(let message):
+            return "SnapshotFeatureNotSupportedFault: \(message ?? "")"
+        case .snapshotNotFoundFault(let message):
+            return "SnapshotNotFoundFault: \(message ?? "")"
+        case .snapshotQuotaExceededFault(let message):
+            return "SnapshotQuotaExceededFault: \(message ?? "")"
+        case .subnetInUse(let message):
+            return "SubnetInUse: \(message ?? "")"
+        case .tagNotFoundFault(let message):
+            return "TagNotFoundFault: \(message ?? "")"
+        case .tagQuotaPerResourceExceeded(let message):
+            return "TagQuotaPerResourceExceeded: \(message ?? "")"
+        case .testFailoverNotAvailableFault(let message):
+            return "TestFailoverNotAvailableFault: \(message ?? "")"
+        }
+    }
+}

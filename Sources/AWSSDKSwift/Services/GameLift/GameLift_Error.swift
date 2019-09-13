@@ -57,3 +57,36 @@ extension GameLiftErrorType {
         }
     }
 }
+
+extension GameLiftErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
+        case .fleetCapacityExceededException(let message):
+            return "FleetCapacityExceededException: \(message ?? "")"
+        case .gameSessionFullException(let message):
+            return "GameSessionFullException: \(message ?? "")"
+        case .idempotentParameterMismatchException(let message):
+            return "IdempotentParameterMismatchException: \(message ?? "")"
+        case .internalServiceException(let message):
+            return "InternalServiceException: \(message ?? "")"
+        case .invalidFleetStatusException(let message):
+            return "InvalidFleetStatusException: \(message ?? "")"
+        case .invalidGameSessionStatusException(let message):
+            return "InvalidGameSessionStatusException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .terminalRoutingStrategyException(let message):
+            return "TerminalRoutingStrategyException: \(message ?? "")"
+        case .unauthorizedException(let message):
+            return "UnauthorizedException: \(message ?? "")"
+        case .unsupportedRegionException(let message):
+            return "UnsupportedRegionException: \(message ?? "")"
+        }
+    }
+}

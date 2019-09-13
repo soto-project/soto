@@ -48,3 +48,30 @@ extension PinpointEmailErrorType {
         }
     }
 }
+
+extension PinpointEmailErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accountSuspendedException(let message):
+            return "AccountSuspendedException: \(message ?? "")"
+        case .alreadyExistsException(let message):
+            return "AlreadyExistsException: \(message ?? "")"
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .mailFromDomainNotVerifiedException(let message):
+            return "MailFromDomainNotVerifiedException: \(message ?? "")"
+        case .messageRejected(let message):
+            return "MessageRejected: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
+        case .sendingPausedException(let message):
+            return "SendingPausedException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        }
+    }
+}

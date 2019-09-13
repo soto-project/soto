@@ -11,10 +11,11 @@ public struct CodeBuild {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
+            sessionToken: sessionToken,
             region: region,
             amzTarget: "CodeBuild_20161006",
             service: "codebuild",
@@ -22,7 +23,7 @@ public struct CodeBuild {
             apiVersion: "2016-10-06",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1-fips": "codebuild-fips.us-east-1.amazonaws.com", "us-east-2-fips": "codebuild-fips.us-east-2.amazonaws.com", "us-west-1-fips": "codebuild-fips.us-west-1.amazonaws.com", "us-west-2-fips": "codebuild-fips.us-west-2.amazonaws.com"],
-            middlewares: [],
+            middlewares: middlewares,
             possibleErrorTypes: [CodeBuildErrorType.self]
         )
     }

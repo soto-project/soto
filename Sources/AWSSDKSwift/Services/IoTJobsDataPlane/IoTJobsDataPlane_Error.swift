@@ -39,3 +39,24 @@ extension IoTJobsDataPlaneErrorType {
         }
     }
 }
+
+extension IoTJobsDataPlaneErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .certificateValidationException(let message):
+            return "CertificateValidationException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .invalidStateTransitionException(let message):
+            return "InvalidStateTransitionException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serviceUnavailableException(let message):
+            return "ServiceUnavailableException: \(message ?? "")"
+        case .terminalStateException(let message):
+            return "TerminalStateException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        }
+    }
+}

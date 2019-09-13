@@ -27,3 +27,16 @@ extension XRayErrorType {
         }
     }
 }
+
+extension XRayErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .ruleLimitExceededException(let message):
+            return "RuleLimitExceededException: \(message ?? "")"
+        case .throttledException(let message):
+            return "ThrottledException: \(message ?? "")"
+        }
+    }
+}

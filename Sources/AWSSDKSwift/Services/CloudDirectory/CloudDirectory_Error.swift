@@ -123,3 +123,80 @@ extension CloudDirectoryErrorType {
         }
     }
 }
+
+extension CloudDirectoryErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .batchWriteException(let message):
+            return "BatchWriteException: \(message ?? "")"
+        case .cannotListParentOfRootException(let message):
+            return "CannotListParentOfRootException: \(message ?? "")"
+        case .directoryAlreadyExistsException(let message):
+            return "DirectoryAlreadyExistsException: \(message ?? "")"
+        case .directoryDeletedException(let message):
+            return "DirectoryDeletedException: \(message ?? "")"
+        case .directoryNotDisabledException(let message):
+            return "DirectoryNotDisabledException: \(message ?? "")"
+        case .directoryNotEnabledException(let message):
+            return "DirectoryNotEnabledException: \(message ?? "")"
+        case .facetAlreadyExistsException(let message):
+            return "FacetAlreadyExistsException: \(message ?? "")"
+        case .facetInUseException(let message):
+            return "FacetInUseException: \(message ?? "")"
+        case .facetNotFoundException(let message):
+            return "FacetNotFoundException: \(message ?? "")"
+        case .facetValidationException(let message):
+            return "FacetValidationException: \(message ?? "")"
+        case .incompatibleSchemaException(let message):
+            return "IncompatibleSchemaException: \(message ?? "")"
+        case .indexedAttributeMissingException(let message):
+            return "IndexedAttributeMissingException: \(message ?? "")"
+        case .internalServiceException(let message):
+            return "InternalServiceException: \(message ?? "")"
+        case .invalidArnException(let message):
+            return "InvalidArnException: \(message ?? "")"
+        case .invalidAttachmentException(let message):
+            return "InvalidAttachmentException: \(message ?? "")"
+        case .invalidFacetUpdateException(let message):
+            return "InvalidFacetUpdateException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidRuleException(let message):
+            return "InvalidRuleException: \(message ?? "")"
+        case .invalidSchemaDocException(let message):
+            return "InvalidSchemaDocException: \(message ?? "")"
+        case .invalidTaggingRequestException(let message):
+            return "InvalidTaggingRequestException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .linkNameAlreadyInUseException(let message):
+            return "LinkNameAlreadyInUseException: \(message ?? "")"
+        case .notIndexException(let message):
+            return "NotIndexException: \(message ?? "")"
+        case .notNodeException(let message):
+            return "NotNodeException: \(message ?? "")"
+        case .notPolicyException(let message):
+            return "NotPolicyException: \(message ?? "")"
+        case .objectAlreadyDetachedException(let message):
+            return "ObjectAlreadyDetachedException: \(message ?? "")"
+        case .objectNotDetachedException(let message):
+            return "ObjectNotDetachedException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .retryableConflictException(let message):
+            return "RetryableConflictException: \(message ?? "")"
+        case .schemaAlreadyExistsException(let message):
+            return "SchemaAlreadyExistsException: \(message ?? "")"
+        case .schemaAlreadyPublishedException(let message):
+            return "SchemaAlreadyPublishedException: \(message ?? "")"
+        case .stillContainsLinksException(let message):
+            return "StillContainsLinksException: \(message ?? "")"
+        case .unsupportedIndexTypeException(let message):
+            return "UnsupportedIndexTypeException: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
+        }
+    }
+}

@@ -45,3 +45,28 @@ extension SnowballErrorType {
         }
     }
 }
+
+extension SnowballErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .clusterLimitExceededException(let message):
+            return "ClusterLimitExceededException: \(message ?? "")"
+        case .ec2RequestFailedException(let message):
+            return "Ec2RequestFailedException: \(message ?? "")"
+        case .invalidAddressException(let message):
+            return "InvalidAddressException: \(message ?? "")"
+        case .invalidInputCombinationException(let message):
+            return "InvalidInputCombinationException: \(message ?? "")"
+        case .invalidJobStateException(let message):
+            return "InvalidJobStateException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidResourceException(let message):
+            return "InvalidResourceException: \(message ?? "")"
+        case .kMSRequestFailedException(let message):
+            return "KMSRequestFailedException: \(message ?? "")"
+        case .unsupportedAddressException(let message):
+            return "UnsupportedAddressException: \(message ?? "")"
+        }
+    }
+}

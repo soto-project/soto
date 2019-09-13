@@ -54,3 +54,34 @@ extension GlobalAcceleratorErrorType {
         }
     }
 }
+
+extension GlobalAcceleratorErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .acceleratorNotDisabledException(let message):
+            return "AcceleratorNotDisabledException: \(message ?? "")"
+        case .acceleratorNotFoundException(let message):
+            return "AcceleratorNotFoundException: \(message ?? "")"
+        case .associatedEndpointGroupFoundException(let message):
+            return "AssociatedEndpointGroupFoundException: \(message ?? "")"
+        case .associatedListenerFoundException(let message):
+            return "AssociatedListenerFoundException: \(message ?? "")"
+        case .endpointGroupAlreadyExistsException(let message):
+            return "EndpointGroupAlreadyExistsException: \(message ?? "")"
+        case .endpointGroupNotFoundException(let message):
+            return "EndpointGroupNotFoundException: \(message ?? "")"
+        case .internalServiceErrorException(let message):
+            return "InternalServiceErrorException: \(message ?? "")"
+        case .invalidArgumentException(let message):
+            return "InvalidArgumentException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidPortRangeException(let message):
+            return "InvalidPortRangeException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .listenerNotFoundException(let message):
+            return "ListenerNotFoundException: \(message ?? "")"
+        }
+    }
+}

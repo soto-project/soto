@@ -81,3 +81,52 @@ extension ECSErrorType {
         }
     }
 }
+
+extension ECSErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .attributeLimitExceededException(let message):
+            return "AttributeLimitExceededException: \(message ?? "")"
+        case .blockedException(let message):
+            return "BlockedException: \(message ?? "")"
+        case .clientException(let message):
+            return "ClientException: \(message ?? "")"
+        case .clusterContainsContainerInstancesException(let message):
+            return "ClusterContainsContainerInstancesException: \(message ?? "")"
+        case .clusterContainsServicesException(let message):
+            return "ClusterContainsServicesException: \(message ?? "")"
+        case .clusterContainsTasksException(let message):
+            return "ClusterContainsTasksException: \(message ?? "")"
+        case .clusterNotFoundException(let message):
+            return "ClusterNotFoundException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .missingVersionException(let message):
+            return "MissingVersionException: \(message ?? "")"
+        case .noUpdateAvailableException(let message):
+            return "NoUpdateAvailableException: \(message ?? "")"
+        case .platformTaskDefinitionIncompatibilityException(let message):
+            return "PlatformTaskDefinitionIncompatibilityException: \(message ?? "")"
+        case .platformUnknownException(let message):
+            return "PlatformUnknownException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .serverException(let message):
+            return "ServerException: \(message ?? "")"
+        case .serviceNotActiveException(let message):
+            return "ServiceNotActiveException: \(message ?? "")"
+        case .serviceNotFoundException(let message):
+            return "ServiceNotFoundException: \(message ?? "")"
+        case .targetNotFoundException(let message):
+            return "TargetNotFoundException: \(message ?? "")"
+        case .taskSetNotFoundException(let message):
+            return "TaskSetNotFoundException: \(message ?? "")"
+        case .unsupportedFeatureException(let message):
+            return "UnsupportedFeatureException: \(message ?? "")"
+        case .updateInProgressException(let message):
+            return "UpdateInProgressException: \(message ?? "")"
+        }
+    }
+}

@@ -57,3 +57,36 @@ extension CodeStarErrorType {
         }
     }
 }
+
+extension CodeStarErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidServiceRoleException(let message):
+            return "InvalidServiceRoleException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .projectAlreadyExistsException(let message):
+            return "ProjectAlreadyExistsException: \(message ?? "")"
+        case .projectConfigurationException(let message):
+            return "ProjectConfigurationException: \(message ?? "")"
+        case .projectCreationFailedException(let message):
+            return "ProjectCreationFailedException: \(message ?? "")"
+        case .projectNotFoundException(let message):
+            return "ProjectNotFoundException: \(message ?? "")"
+        case .teamMemberAlreadyAssociatedException(let message):
+            return "TeamMemberAlreadyAssociatedException: \(message ?? "")"
+        case .teamMemberNotFoundException(let message):
+            return "TeamMemberNotFoundException: \(message ?? "")"
+        case .userProfileAlreadyExistsException(let message):
+            return "UserProfileAlreadyExistsException: \(message ?? "")"
+        case .userProfileNotFoundException(let message):
+            return "UserProfileNotFoundException: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
+        }
+    }
+}

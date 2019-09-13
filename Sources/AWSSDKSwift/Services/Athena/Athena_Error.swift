@@ -30,3 +30,18 @@ extension AthenaErrorType {
         }
     }
 }
+
+extension AthenaErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalServerException(let message):
+            return "InternalServerException: \(message ?? "")"
+        case .invalidRequestException(let message):
+            return "InvalidRequestException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .tooManyRequestsException(let message):
+            return "TooManyRequestsException: \(message ?? "")"
+        }
+    }
+}

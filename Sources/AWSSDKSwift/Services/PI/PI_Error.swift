@@ -27,3 +27,16 @@ extension PIErrorType {
         }
     }
 }
+
+extension PIErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .internalServiceError(let message):
+            return "InternalServiceError: \(message ?? "")"
+        case .invalidArgumentException(let message):
+            return "InvalidArgumentException: \(message ?? "")"
+        case .notAuthorizedException(let message):
+            return "NotAuthorizedException: \(message ?? "")"
+        }
+    }
+}

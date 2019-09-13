@@ -21,3 +21,12 @@ extension MobileAnalyticsErrorType {
         }
     }
 }
+
+extension MobileAnalyticsErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
+        }
+    }
+}

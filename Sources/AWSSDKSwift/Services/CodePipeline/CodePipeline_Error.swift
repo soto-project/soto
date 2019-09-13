@@ -111,3 +111,72 @@ extension CodePipelineErrorType {
         }
     }
 }
+
+extension CodePipelineErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .actionNotFoundException(let message):
+            return "ActionNotFoundException: \(message ?? "")"
+        case .actionTypeNotFoundException(let message):
+            return "ActionTypeNotFoundException: \(message ?? "")"
+        case .approvalAlreadyCompletedException(let message):
+            return "ApprovalAlreadyCompletedException: \(message ?? "")"
+        case .concurrentModificationException(let message):
+            return "ConcurrentModificationException: \(message ?? "")"
+        case .invalidActionDeclarationException(let message):
+            return "InvalidActionDeclarationException: \(message ?? "")"
+        case .invalidApprovalTokenException(let message):
+            return "InvalidApprovalTokenException: \(message ?? "")"
+        case .invalidArnException(let message):
+            return "InvalidArnException: \(message ?? "")"
+        case .invalidBlockerDeclarationException(let message):
+            return "InvalidBlockerDeclarationException: \(message ?? "")"
+        case .invalidClientTokenException(let message):
+            return "InvalidClientTokenException: \(message ?? "")"
+        case .invalidJobException(let message):
+            return "InvalidJobException: \(message ?? "")"
+        case .invalidJobStateException(let message):
+            return "InvalidJobStateException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidNonceException(let message):
+            return "InvalidNonceException: \(message ?? "")"
+        case .invalidStageDeclarationException(let message):
+            return "InvalidStageDeclarationException: \(message ?? "")"
+        case .invalidStructureException(let message):
+            return "InvalidStructureException: \(message ?? "")"
+        case .invalidTagsException(let message):
+            return "InvalidTagsException: \(message ?? "")"
+        case .invalidWebhookAuthenticationParametersException(let message):
+            return "InvalidWebhookAuthenticationParametersException: \(message ?? "")"
+        case .invalidWebhookFilterPatternException(let message):
+            return "InvalidWebhookFilterPatternException: \(message ?? "")"
+        case .jobNotFoundException(let message):
+            return "JobNotFoundException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .notLatestPipelineExecutionException(let message):
+            return "NotLatestPipelineExecutionException: \(message ?? "")"
+        case .pipelineExecutionNotFoundException(let message):
+            return "PipelineExecutionNotFoundException: \(message ?? "")"
+        case .pipelineNameInUseException(let message):
+            return "PipelineNameInUseException: \(message ?? "")"
+        case .pipelineNotFoundException(let message):
+            return "PipelineNotFoundException: \(message ?? "")"
+        case .pipelineVersionNotFoundException(let message):
+            return "PipelineVersionNotFoundException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .stageNotFoundException(let message):
+            return "StageNotFoundException: \(message ?? "")"
+        case .stageNotRetryableException(let message):
+            return "StageNotRetryableException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
+        case .webhookNotFoundException(let message):
+            return "WebhookNotFoundException: \(message ?? "")"
+        }
+    }
+}

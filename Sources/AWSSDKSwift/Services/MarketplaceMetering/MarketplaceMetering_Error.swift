@@ -63,3 +63,40 @@ extension MarketplaceMeteringErrorType {
         }
     }
 }
+
+extension MarketplaceMeteringErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .customerNotEntitledException(let message):
+            return "CustomerNotEntitledException: \(message ?? "")"
+        case .disabledApiException(let message):
+            return "DisabledApiException: \(message ?? "")"
+        case .duplicateRequestException(let message):
+            return "DuplicateRequestException: \(message ?? "")"
+        case .expiredTokenException(let message):
+            return "ExpiredTokenException: \(message ?? "")"
+        case .internalServiceErrorException(let message):
+            return "InternalServiceErrorException: \(message ?? "")"
+        case .invalidCustomerIdentifierException(let message):
+            return "InvalidCustomerIdentifierException: \(message ?? "")"
+        case .invalidEndpointRegionException(let message):
+            return "InvalidEndpointRegionException: \(message ?? "")"
+        case .invalidProductCodeException(let message):
+            return "InvalidProductCodeException: \(message ?? "")"
+        case .invalidPublicKeyVersionException(let message):
+            return "InvalidPublicKeyVersionException: \(message ?? "")"
+        case .invalidRegionException(let message):
+            return "InvalidRegionException: \(message ?? "")"
+        case .invalidTokenException(let message):
+            return "InvalidTokenException: \(message ?? "")"
+        case .invalidUsageDimensionException(let message):
+            return "InvalidUsageDimensionException: \(message ?? "")"
+        case .platformNotSupportedException(let message):
+            return "PlatformNotSupportedException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
+        case .timestampOutOfBoundsException(let message):
+            return "TimestampOutOfBoundsException: \(message ?? "")"
+        }
+    }
+}

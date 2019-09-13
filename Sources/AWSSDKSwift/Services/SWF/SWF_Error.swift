@@ -48,3 +48,30 @@ extension SWFErrorType {
         }
     }
 }
+
+extension SWFErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .defaultUndefinedFault(let message):
+            return "DefaultUndefinedFault: \(message ?? "")"
+        case .domainAlreadyExistsFault(let message):
+            return "DomainAlreadyExistsFault: \(message ?? "")"
+        case .domainDeprecatedFault(let message):
+            return "DomainDeprecatedFault: \(message ?? "")"
+        case .limitExceededFault(let message):
+            return "LimitExceededFault: \(message ?? "")"
+        case .operationNotPermittedFault(let message):
+            return "OperationNotPermittedFault: \(message ?? "")"
+        case .tooManyTagsFault(let message):
+            return "TooManyTagsFault: \(message ?? "")"
+        case .typeAlreadyExistsFault(let message):
+            return "TypeAlreadyExistsFault: \(message ?? "")"
+        case .typeDeprecatedFault(let message):
+            return "TypeDeprecatedFault: \(message ?? "")"
+        case .unknownResourceFault(let message):
+            return "UnknownResourceFault: \(message ?? "")"
+        case .workflowExecutionAlreadyStartedFault(let message):
+            return "WorkflowExecutionAlreadyStartedFault: \(message ?? "")"
+        }
+    }
+}

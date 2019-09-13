@@ -66,3 +66,42 @@ extension CloudFormationErrorType {
         }
     }
 }
+
+extension CloudFormationErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .alreadyExistsException(let message):
+            return "AlreadyExistsException: \(message ?? "")"
+        case .changeSetNotFoundException(let message):
+            return "ChangeSetNotFoundException: \(message ?? "")"
+        case .createdButModifiedException(let message):
+            return "CreatedButModifiedException: \(message ?? "")"
+        case .insufficientCapabilitiesException(let message):
+            return "InsufficientCapabilitiesException: \(message ?? "")"
+        case .invalidChangeSetStatusException(let message):
+            return "InvalidChangeSetStatusException: \(message ?? "")"
+        case .invalidOperationException(let message):
+            return "InvalidOperationException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .nameAlreadyExistsException(let message):
+            return "NameAlreadyExistsException: \(message ?? "")"
+        case .operationIdAlreadyExistsException(let message):
+            return "OperationIdAlreadyExistsException: \(message ?? "")"
+        case .operationInProgressException(let message):
+            return "OperationInProgressException: \(message ?? "")"
+        case .operationNotFoundException(let message):
+            return "OperationNotFoundException: \(message ?? "")"
+        case .stackInstanceNotFoundException(let message):
+            return "StackInstanceNotFoundException: \(message ?? "")"
+        case .stackSetNotEmptyException(let message):
+            return "StackSetNotEmptyException: \(message ?? "")"
+        case .stackSetNotFoundException(let message):
+            return "StackSetNotFoundException: \(message ?? "")"
+        case .staleRequestException(let message):
+            return "StaleRequestException: \(message ?? "")"
+        case .tokenAlreadyExistsException(let message):
+            return "TokenAlreadyExistsException: \(message ?? "")"
+        }
+    }
+}

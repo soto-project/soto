@@ -437,8 +437,8 @@ extension ApiGatewayV2 {
         }
 
         public func validate(name: String) throws {
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", parent: name, max: 3600)
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", parent: name, min: 0)
+            try validate(self.authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", parent: name, max: 3600)
+            try validate(self.authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -661,8 +661,8 @@ extension ApiGatewayV2 {
         }
 
         public func validate(name: String) throws {
-            try validate(timeoutInMillis, name:"timeoutInMillis", parent: name, max: 29000)
-            try validate(timeoutInMillis, name:"timeoutInMillis", parent: name, min: 50)
+            try validate(self.timeoutInMillis, name:"timeoutInMillis", parent: name, max: 29000)
+            try validate(self.timeoutInMillis, name:"timeoutInMillis", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3584,8 +3584,8 @@ extension ApiGatewayV2 {
         }
 
         public func validate(name: String) throws {
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", parent: name, max: 3600)
-            try validate(authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", parent: name, min: 0)
+            try validate(self.authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", parent: name, max: 3600)
+            try validate(self.authorizerResultTtlInSeconds, name:"authorizerResultTtlInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3804,8 +3804,8 @@ extension ApiGatewayV2 {
         }
 
         public func validate(name: String) throws {
-            try validate(timeoutInMillis, name:"timeoutInMillis", parent: name, max: 29000)
-            try validate(timeoutInMillis, name:"timeoutInMillis", parent: name, min: 50)
+            try validate(self.timeoutInMillis, name:"timeoutInMillis", parent: name, max: 29000)
+            try validate(self.timeoutInMillis, name:"timeoutInMillis", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {

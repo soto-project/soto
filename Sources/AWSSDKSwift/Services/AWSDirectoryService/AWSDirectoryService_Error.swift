@@ -87,3 +87,56 @@ extension AWSDirectoryServiceErrorType {
         }
     }
 }
+
+extension AWSDirectoryServiceErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .authenticationFailedException(let message):
+            return "AuthenticationFailedException: \(message ?? "")"
+        case .clientException(let message):
+            return "ClientException: \(message ?? "")"
+        case .directoryAlreadySharedException(let message):
+            return "DirectoryAlreadySharedException: \(message ?? "")"
+        case .directoryLimitExceededException(let message):
+            return "DirectoryLimitExceededException: \(message ?? "")"
+        case .directoryNotSharedException(let message):
+            return "DirectoryNotSharedException: \(message ?? "")"
+        case .directoryUnavailableException(let message):
+            return "DirectoryUnavailableException: \(message ?? "")"
+        case .domainControllerLimitExceededException(let message):
+            return "DomainControllerLimitExceededException: \(message ?? "")"
+        case .entityAlreadyExistsException(let message):
+            return "EntityAlreadyExistsException: \(message ?? "")"
+        case .entityDoesNotExistException(let message):
+            return "EntityDoesNotExistException: \(message ?? "")"
+        case .insufficientPermissionsException(let message):
+            return "InsufficientPermissionsException: \(message ?? "")"
+        case .invalidNextTokenException(let message):
+            return "InvalidNextTokenException: \(message ?? "")"
+        case .invalidParameterException(let message):
+            return "InvalidParameterException: \(message ?? "")"
+        case .invalidPasswordException(let message):
+            return "InvalidPasswordException: \(message ?? "")"
+        case .invalidTargetException(let message):
+            return "InvalidTargetException: \(message ?? "")"
+        case .ipRouteLimitExceededException(let message):
+            return "IpRouteLimitExceededException: \(message ?? "")"
+        case .organizationsException(let message):
+            return "OrganizationsException: \(message ?? "")"
+        case .serviceException(let message):
+            return "ServiceException: \(message ?? "")"
+        case .shareLimitExceededException(let message):
+            return "ShareLimitExceededException: \(message ?? "")"
+        case .snapshotLimitExceededException(let message):
+            return "SnapshotLimitExceededException: \(message ?? "")"
+        case .tagLimitExceededException(let message):
+            return "TagLimitExceededException: \(message ?? "")"
+        case .unsupportedOperationException(let message):
+            return "UnsupportedOperationException: \(message ?? "")"
+        case .userDoesNotExistException(let message):
+            return "UserDoesNotExistException: \(message ?? "")"
+        }
+    }
+}

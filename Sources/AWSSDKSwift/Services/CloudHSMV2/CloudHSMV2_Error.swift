@@ -33,3 +33,20 @@ extension CloudHSMV2ErrorType {
         }
     }
 }
+
+extension CloudHSMV2ErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .cloudHsmAccessDeniedException(let message):
+            return "CloudHsmAccessDeniedException: \(message ?? "")"
+        case .cloudHsmInternalFailureException(let message):
+            return "CloudHsmInternalFailureException: \(message ?? "")"
+        case .cloudHsmInvalidRequestException(let message):
+            return "CloudHsmInvalidRequestException: \(message ?? "")"
+        case .cloudHsmResourceNotFoundException(let message):
+            return "CloudHsmResourceNotFoundException: \(message ?? "")"
+        case .cloudHsmServiceException(let message):
+            return "CloudHsmServiceException: \(message ?? "")"
+        }
+    }
+}

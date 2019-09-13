@@ -33,3 +33,20 @@ extension DynamoDBStreamsErrorType {
         }
     }
 }
+
+extension DynamoDBStreamsErrorType : CustomStringConvertible {
+    public var description : String {
+        switch self {
+        case .expiredIteratorException(let message):
+            return "ExpiredIteratorException: \(message ?? "")"
+        case .internalServerError(let message):
+            return "InternalServerError: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
+        case .trimmedDataAccessException(let message):
+            return "TrimmedDataAccessException: \(message ?? "")"
+        }
+    }
+}
