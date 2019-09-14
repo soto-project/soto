@@ -28,17 +28,17 @@ public struct CostandUsageReportService {
     }
 
     ///  Deletes the specified report.
-    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest) throws -> Future<DeleteReportDefinitionResponse> {
-        return try client.send(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", input: input)
+    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest) -> Future<DeleteReportDefinitionResponse> {
+        return client.send(operation: "DeleteReportDefinition", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the AWS Cost and Usage reports available to this account.
-    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest) throws -> Future<DescribeReportDefinitionsResponse> {
-        return try client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input)
+    public func describeReportDefinitions(_ input: DescribeReportDefinitionsRequest) -> Future<DescribeReportDefinitionsResponse> {
+        return client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new report using the description that you provide.
-    public func putReportDefinition(_ input: PutReportDefinitionRequest) throws -> Future<PutReportDefinitionResponse> {
-        return try client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input)
+    public func putReportDefinition(_ input: PutReportDefinitionRequest) -> Future<PutReportDefinitionResponse> {
+        return client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input)
     }
 }

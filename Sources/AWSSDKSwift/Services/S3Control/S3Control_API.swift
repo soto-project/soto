@@ -29,40 +29,40 @@ public struct S3Control {
     }
 
     ///  Creates an Amazon S3 batch operations job.
-    public func createJob(_ input: CreateJobRequest) throws -> Future<CreateJobResult> {
-        return try client.send(operation: "CreateJob", path: "/v20180820/jobs", httpMethod: "POST", input: input)
+    public func createJob(_ input: CreateJobRequest) -> Future<CreateJobResult> {
+        return client.send(operation: "CreateJob", path: "/v20180820/jobs", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the block public access configuration for the specified account.
-    @discardableResult public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) throws -> Future<Void> {
-        return try client.send(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "DELETE", input: input)
+    @discardableResult public func deletePublicAccessBlock(_ input: DeletePublicAccessBlockRequest) -> Future<Void> {
+        return client.send(operation: "DeletePublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "DELETE", input: input)
     }
 
     ///  Retrieves the configuration parameters and status for a batch operations job.
-    public func describeJob(_ input: DescribeJobRequest) throws -> Future<DescribeJobResult> {
-        return try client.send(operation: "DescribeJob", path: "/v20180820/jobs/{id}", httpMethod: "GET", input: input)
+    public func describeJob(_ input: DescribeJobRequest) -> Future<DescribeJobResult> {
+        return client.send(operation: "DescribeJob", path: "/v20180820/jobs/{id}", httpMethod: "GET", input: input)
     }
 
-    public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest) throws -> Future<GetPublicAccessBlockOutput> {
-        return try client.send(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "GET", input: input)
+    public func getPublicAccessBlock(_ input: GetPublicAccessBlockRequest) -> Future<GetPublicAccessBlockOutput> {
+        return client.send(operation: "GetPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "GET", input: input)
     }
 
     ///  Lists current jobs and jobs that have ended within the last 30 days for the AWS account making the request.
-    public func listJobs(_ input: ListJobsRequest) throws -> Future<ListJobsResult> {
-        return try client.send(operation: "ListJobs", path: "/v20180820/jobs", httpMethod: "GET", input: input)
+    public func listJobs(_ input: ListJobsRequest) -> Future<ListJobsResult> {
+        return client.send(operation: "ListJobs", path: "/v20180820/jobs", httpMethod: "GET", input: input)
     }
 
-    @discardableResult public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest) throws -> Future<Void> {
-        return try client.send(operation: "PutPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "PUT", input: input)
+    @discardableResult public func putPublicAccessBlock(_ input: PutPublicAccessBlockRequest) -> Future<Void> {
+        return client.send(operation: "PutPublicAccessBlock", path: "/v20180820/configuration/publicAccessBlock", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing job's priority.
-    public func updateJobPriority(_ input: UpdateJobPriorityRequest) throws -> Future<UpdateJobPriorityResult> {
-        return try client.send(operation: "UpdateJobPriority", path: "/v20180820/jobs/{id}/priority", httpMethod: "POST", input: input)
+    public func updateJobPriority(_ input: UpdateJobPriorityRequest) -> Future<UpdateJobPriorityResult> {
+        return client.send(operation: "UpdateJobPriority", path: "/v20180820/jobs/{id}/priority", httpMethod: "POST", input: input)
     }
 
     ///  Updates the status for the specified job. Use this operation to confirm that you want to run a job or to cancel an existing job.
-    public func updateJobStatus(_ input: UpdateJobStatusRequest) throws -> Future<UpdateJobStatusResult> {
-        return try client.send(operation: "UpdateJobStatus", path: "/v20180820/jobs/{id}/status", httpMethod: "POST", input: input)
+    public func updateJobStatus(_ input: UpdateJobStatusRequest) -> Future<UpdateJobStatusResult> {
+        return client.send(operation: "UpdateJobStatus", path: "/v20180820/jobs/{id}/status", httpMethod: "POST", input: input)
     }
 }

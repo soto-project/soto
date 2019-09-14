@@ -124,35 +124,29 @@ The recommended manner to interact with futures is chaining.
 import S3 //ensure this module is specified as a dependency in your package.swift
 import NIO
 
-do {
-    let bucket = "my-bucket"
+let bucket = "my-bucket"
 
-    let s3 = S3(
-        accessKeyId: "Your-Access-Key",
-        secretAccessKey: "Your-Secret-Key",
-        region: .uswest2
-    )
+let s3 = S3(
+    accessKeyId: "Your-Access-Key",
+    secretAccessKey: "Your-Secret-Key",
+    region: .uswest2
+)
 
-    // Create Bucket, Put an Object, Get the Object
-    let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
+// Create Bucket, Put an Object, Get the Object
+let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
 
-    try s3.createBucket(createBucketRequest).thenThrowing { response -> Future<S3.PutObjectOutput> in
-        // Upload text file to the s3
-        let bodyData = "hello world".data(using: .utf8)!
-        let putObjectRequest = S3.PutObjectRequest(acl: .publicRead, bucket: bucket, contentLength: Int64(bodyData.count), body: bodyData, key: "hello.txt")
-        return try s3.putObject(putObjectRequest)
-    }.thenThrowing { response -> Future<S3.GetObjectOutput> in
-        let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
-        return try s3.getObject(getObjectRequest)
-    }.whenSuccess { futureResponse in
-        futureResponse.whenSuccess { response in
-          if let body = response.body {
-              print(String(data: body, encoding: .utf8))
-          }
-        }
+s3.createBucket(createBucketRequest).then { response -> Future<S3.PutObjectOutput> in
+    // Upload text file to the s3
+    let bodyData = "hello world".data(using: .utf8)!
+    let putObjectRequest = S3.PutObjectRequest(acl: .publicRead, bucket: bucket, contentLength: Int64(bodyData.count), body: bodyData, key: "hello.txt")
+    return s3.putObject(putObjectRequest)
+}.then { response -> Future<S3.GetObjectOutput> in
+    let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
+    return s3.getObject(getObjectRequest)
+}.whenSuccess { response in
+    if let body = response.body {
+        print(String(data: body, encoding: .utf8))
     }
-} catch {
-    print(error)
 }
 ```
 
@@ -162,37 +156,30 @@ Or you can use the nested method
 ```swift
 import S3 //ensure this module is specified as a dependency in your package.swift
 
-do {
-    let bucket = "my-bucket"
+let bucket = "my-bucket"
 
-    let s3 = S3(
-        accessKeyId: "Your-Access-Key",
-        secretAccessKey: "Your-Secret-Key",
-        region: .uswest1
-    )
+let s3 = S3(
+    accessKeyId: "Your-Access-Key",
+    secretAccessKey: "Your-Secret-Key",
+    region: .uswest1
+)
 
-    // Create Bucket, Put an Object, Get the Object
-    let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
+// Create Bucket, Put an Object, Get the Object
+let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
 
-    try s3.createBucket(createBucketRequest).whenSuccess { response in
-        do {
-            let bodyData = "hello world".data(using: .utf8)!
-            let putObjectRequest = S3.PutObjectRequest(acl: .publicRead, key: "hello.txt", body: bodyData, contentLength: Int64(bodyData.count), bucket: bucket)
+s3.createBucket(createBucketRequest).whenSuccess { response in
+    let bodyData = "hello world".data(using: .utf8)!
+    let putObjectRequest = S3.PutObjectRequest(acl: .publicRead, key: "hello.txt", body: bodyData, contentLength: Int64(bodyData.count), bucket: bucket)
 
-            try s3.putObject(putObjectRequest).whenSuccess { response in
-                do {
-                    let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
-                    try s3.getObject(getObjectRequest).whenSuccess { response in
-                        if let body = response.body {
-                            print(String(data: body, encoding: .utf8))
-                        }
-                    }
-                } catch { print(error) }
+    s3.putObject(putObjectRequest).whenSuccess { response in
+        let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
+        s3.getObject(getObjectRequest).whenSuccess { response in
+            if let body = response.body {
+                print(String(data: body, encoding: .utf8))
             }
-
-        } catch { print(error) }
-     }
-} catch { print(error) }
+        }
+    }
+}
 ```
 ## upgrading from <3.0.x
 
@@ -216,27 +203,22 @@ final class MyController {
           return try req.content.decode(EmailData.self).map { emailData in
               return emailData
           }.flatMap(to: HTTPStatus.self) { emailData -> Future<HTTPStatus> in
-              do {
-                  let client = SES(
-                      accessKeyId: "Your-Access-Key",
-                      secretAccessKey: "Your-Secret-Key",
-                      region: .uswest1
-                  )
+              let client = SES(
+                  accessKeyId: "Your-Access-Key",
+                  secretAccessKey: "Your-Secret-Key",
+                  region: .uswest1
+              )
 
-                  let sendEmailRequest = SES.SendEmailRequest(
-                      destination: emailData.address,
-                      message: emailData.message
-                  )
+              let sendEmailRequest = SES.SendEmailRequest(
+                  destination: emailData.address,
+                  message: emailData.message
+              )
 
-                  return try client.sendEmail(sendEmailRequest)
-                    .hopTo(eventLoop: req.eventLoop)
-                    .map { response -> HTTPResponseStatus in
-                      // print(response)
-                      return HTTPStatus.ok
-                  }
-              } catch {
-                  // print(error)
-                  return req.eventLoop.newSucceededFuture(result: HTTPStatus.internalServerError)
+              return client.sendEmail(sendEmailRequest)
+                .hopTo(eventLoop: req.eventLoop)
+                .map { response -> HTTPResponseStatus in
+                  // print(response)
+                  return HTTPStatus.ok
               }
           }
      }
@@ -253,22 +235,20 @@ $ swift -I .build/debug -L/usr/local/Cellar/libressl/2.7.2/lib -lssl -lcrypto -I
 1> import Foundation
 2> import S3
 
-do {
-    let bucket = "my-bucket"
+let bucket = "my-bucket"
 
-    let s3 = S3(
-        accessKeyId: "Your-Access-Key",
-        secretAccessKey: "Your-Secret-Key",
-        region: .uswest1
-    )
+let s3 = S3(
+    accessKeyId: "Your-Access-Key",
+    secretAccessKey: "Your-Secret-Key",
+    region: .uswest1
+)
 
-    // Create Bucket, Put an Object, Get the Object
-    let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
+// Create Bucket, Put an Object, Get the Object
+let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
 
-    try s3.createBucket(createBucketRequest).whenSuccess { response in
-        print(response)
-    }
-} catch { print(error) }
+s3.createBucket(createBucketRequest).whenSuccess { response in
+    print(response)
+}
 
 ```
 
