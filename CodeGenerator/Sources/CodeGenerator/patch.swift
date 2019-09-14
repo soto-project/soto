@@ -41,6 +41,7 @@ let servicePatches : [String: [Patch]] = [
     "S3": [
         Patch(.replace, entry:["shapes","ReplicationStatus","enum",0], value:"COMPLETED", originalValue:"COMPLETE"),
         Patch(.replace, entry:["shapes","Size","type"], value:"long", originalValue:"integer"),
+        // Add additional location constraints
         Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"us-east-2"),
         Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-west-2"),
         Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"eu-west-3"),
@@ -50,7 +51,9 @@ let servicePatches : [String: [Patch]] = [
         Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ap-northeast-3"),
         Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ca-central-1"),
         Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"cn-northwest-1"),
-        Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"me-south-1")
+        Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"me-south-1"),
+        // Add validation check for bucket name. To ensure we aren't creating buckets containing '.' in their name
+        Patch(.add, entry:["shapes", "BucketName"], key:"pattern", value:"^[a-z0-9][a-z0-9-]+[a-z0-9]$")
     ]
 ]
 
@@ -62,15 +65,17 @@ struct Patch {
         case remove
     }
 
-    init(_ operation: Operation, entry: [JSONSubscriptType], value: String, originalValue: String? = nil) {
+    init(_ operation: Operation, entry: [JSONSubscriptType], key: String? = nil, value: String, originalValue: String? = nil) {
         self.operation = operation
         self.entry = entry
+        self.key = key
         self.value = value
         self.originalValue = originalValue
     }
 
     let operation : Operation
     let entry : [JSONSubscriptType]
+    let key : String?
     let value : CustomStringConvertible
     let originalValue : CustomStringConvertible?
 }
@@ -98,18 +103,23 @@ func patch(_ apiJSON: JSON) -> JSON {
             patchedJSON[patch.entry].object = patch.value
             
         case .add:
-            guard let array = field.array else {
+            if let array = field.array {
+                guard array.first(where:{$0.stringValue == patch.value.description}) == nil else {
+                    fatalError("Attempting to add field \"\(patch.value)\" to array \(patch.entry) that aleady exists.")
+                }
+                
+                var newArray = field.arrayObject!
+                newArray.append(patch.value)
+                patchedJSON[patch.entry].arrayObject = newArray
+            } else if let _ = field.dictionary {
+                guard let key = patch.key else {
+                    fatalError("Attempting to add to dictionary \(patch.entry) without supplying a key value")
+                }
+                let entry : [JSONSubscriptType] = patch.entry + [key]
+                patchedJSON[entry].object = patch.value
+            } else {
                 fatalError("Attempting to add a field to \(patch.entry) that cannot be added to.")
             }
-
-            guard array.first(where:{$0.stringValue == patch.value.description}) == nil else {
-                fatalError("Attempting to add field \"\(patch.value)\" to array \(patch.entry) that aleady exists.")
-            }
-
-            var newArray = field.arrayObject!
-            newArray.append(patch.value)
-            patchedJSON[patch.entry].arrayObject = newArray
-
         case .remove:
             if let array = field.array {
                 guard let firstIndex = array.firstIndex(where:{$0.stringValue == patch.value.description}) else {
