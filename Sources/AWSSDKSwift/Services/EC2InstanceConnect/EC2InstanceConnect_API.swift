@@ -28,7 +28,7 @@ public struct EC2InstanceConnect {
     }
 
     ///  Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 seconds.
-    public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest) throws -> Future<SendSSHPublicKeyResponse> {
-        return try client.send(operation: "SendSSHPublicKey", path: "/", httpMethod: "POST", input: input)
+    public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest) -> Future<SendSSHPublicKeyResponse> {
+        return client.send(operation: "SendSSHPublicKey", path: "/", httpMethod: "POST", input: input)
     }
 }

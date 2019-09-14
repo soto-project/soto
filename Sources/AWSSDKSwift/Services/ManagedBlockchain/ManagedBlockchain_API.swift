@@ -27,92 +27,92 @@ public struct ManagedBlockchain {
     }
 
     ///  Creates a member within a Managed Blockchain network.
-    public func createMember(_ input: CreateMemberInput) throws -> Future<CreateMemberOutput> {
-        return try client.send(operation: "CreateMember", path: "/networks/{networkId}/members", httpMethod: "POST", input: input)
+    public func createMember(_ input: CreateMemberInput) -> Future<CreateMemberOutput> {
+        return client.send(operation: "CreateMember", path: "/networks/{networkId}/members", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new blockchain network using Amazon Managed Blockchain.
-    public func createNetwork(_ input: CreateNetworkInput) throws -> Future<CreateNetworkOutput> {
-        return try client.send(operation: "CreateNetwork", path: "/networks", httpMethod: "POST", input: input)
+    public func createNetwork(_ input: CreateNetworkInput) -> Future<CreateNetworkOutput> {
+        return client.send(operation: "CreateNetwork", path: "/networks", httpMethod: "POST", input: input)
     }
 
     ///  Creates a peer node in a member.
-    public func createNode(_ input: CreateNodeInput) throws -> Future<CreateNodeOutput> {
-        return try client.send(operation: "CreateNode", path: "/networks/{networkId}/members/{memberId}/nodes", httpMethod: "POST", input: input)
+    public func createNode(_ input: CreateNodeInput) -> Future<CreateNodeOutput> {
+        return client.send(operation: "CreateNode", path: "/networks/{networkId}/members/{memberId}/nodes", httpMethod: "POST", input: input)
     }
 
     ///  Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal.
-    public func createProposal(_ input: CreateProposalInput) throws -> Future<CreateProposalOutput> {
-        return try client.send(operation: "CreateProposal", path: "/networks/{networkId}/proposals", httpMethod: "POST", input: input)
+    public func createProposal(_ input: CreateProposalInput) -> Future<CreateProposalOutput> {
+        return client.send(operation: "CreateProposal", path: "/networks/{networkId}/proposals", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the AWS account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last AWS account, the network is deleted also.
-    public func deleteMember(_ input: DeleteMemberInput) throws -> Future<DeleteMemberOutput> {
-        return try client.send(operation: "DeleteMember", path: "/networks/{networkId}/members/{memberId}", httpMethod: "DELETE", input: input)
+    public func deleteMember(_ input: DeleteMemberInput) -> Future<DeleteMemberOutput> {
+        return client.send(operation: "DeleteMember", path: "/networks/{networkId}/members/{memberId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a peer node from a member that your AWS account owns. All data on the node is lost and cannot be recovered.
-    public func deleteNode(_ input: DeleteNodeInput) throws -> Future<DeleteNodeOutput> {
-        return try client.send(operation: "DeleteNode", path: "/networks/{networkId}/members/{memberId}/nodes/{nodeId}", httpMethod: "DELETE", input: input)
+    public func deleteNode(_ input: DeleteNodeInput) -> Future<DeleteNodeOutput> {
+        return client.send(operation: "DeleteNode", path: "/networks/{networkId}/members/{memberId}/nodes/{nodeId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns detailed information about a member.
-    public func getMember(_ input: GetMemberInput) throws -> Future<GetMemberOutput> {
-        return try client.send(operation: "GetMember", path: "/networks/{networkId}/members/{memberId}", httpMethod: "GET", input: input)
+    public func getMember(_ input: GetMemberInput) -> Future<GetMemberOutput> {
+        return client.send(operation: "GetMember", path: "/networks/{networkId}/members/{memberId}", httpMethod: "GET", input: input)
     }
 
     ///  Returns detailed information about a network.
-    public func getNetwork(_ input: GetNetworkInput) throws -> Future<GetNetworkOutput> {
-        return try client.send(operation: "GetNetwork", path: "/networks/{networkId}", httpMethod: "GET", input: input)
+    public func getNetwork(_ input: GetNetworkInput) -> Future<GetNetworkOutput> {
+        return client.send(operation: "GetNetwork", path: "/networks/{networkId}", httpMethod: "GET", input: input)
     }
 
     ///  Returns detailed information about a peer node.
-    public func getNode(_ input: GetNodeInput) throws -> Future<GetNodeOutput> {
-        return try client.send(operation: "GetNode", path: "/networks/{networkId}/members/{memberId}/nodes/{nodeId}", httpMethod: "GET", input: input)
+    public func getNode(_ input: GetNodeInput) -> Future<GetNodeOutput> {
+        return client.send(operation: "GetNode", path: "/networks/{networkId}/members/{memberId}/nodes/{nodeId}", httpMethod: "GET", input: input)
     }
 
     ///  Returns detailed information about a proposal.
-    public func getProposal(_ input: GetProposalInput) throws -> Future<GetProposalOutput> {
-        return try client.send(operation: "GetProposal", path: "/networks/{networkId}/proposals/{proposalId}", httpMethod: "GET", input: input)
+    public func getProposal(_ input: GetProposalInput) -> Future<GetProposalOutput> {
+        return client.send(operation: "GetProposal", path: "/networks/{networkId}/proposals/{proposalId}", httpMethod: "GET", input: input)
     }
 
     ///  Returns a listing of all invitations made on the specified network.
-    public func listInvitations(_ input: ListInvitationsInput) throws -> Future<ListInvitationsOutput> {
-        return try client.send(operation: "ListInvitations", path: "/invitations", httpMethod: "GET", input: input)
+    public func listInvitations(_ input: ListInvitationsInput) -> Future<ListInvitationsOutput> {
+        return client.send(operation: "ListInvitations", path: "/invitations", httpMethod: "GET", input: input)
     }
 
     ///  Returns a listing of the members in a network and properties of their configurations.
-    public func listMembers(_ input: ListMembersInput) throws -> Future<ListMembersOutput> {
-        return try client.send(operation: "ListMembers", path: "/networks/{networkId}/members", httpMethod: "GET", input: input)
+    public func listMembers(_ input: ListMembersInput) -> Future<ListMembersOutput> {
+        return client.send(operation: "ListMembers", path: "/networks/{networkId}/members", httpMethod: "GET", input: input)
     }
 
     ///  Returns information about the networks in which the current AWS account has members.
-    public func listNetworks(_ input: ListNetworksInput) throws -> Future<ListNetworksOutput> {
-        return try client.send(operation: "ListNetworks", path: "/networks", httpMethod: "GET", input: input)
+    public func listNetworks(_ input: ListNetworksInput) -> Future<ListNetworksOutput> {
+        return client.send(operation: "ListNetworks", path: "/networks", httpMethod: "GET", input: input)
     }
 
     ///  Returns information about the nodes within a network.
-    public func listNodes(_ input: ListNodesInput) throws -> Future<ListNodesOutput> {
-        return try client.send(operation: "ListNodes", path: "/networks/{networkId}/members/{memberId}/nodes", httpMethod: "GET", input: input)
+    public func listNodes(_ input: ListNodesInput) -> Future<ListNodesOutput> {
+        return client.send(operation: "ListNodes", path: "/networks/{networkId}/members/{memberId}/nodes", httpMethod: "GET", input: input)
     }
 
     ///  Returns the listing of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote.
-    public func listProposalVotes(_ input: ListProposalVotesInput) throws -> Future<ListProposalVotesOutput> {
-        return try client.send(operation: "ListProposalVotes", path: "/networks/{networkId}/proposals/{proposalId}/votes", httpMethod: "GET", input: input)
+    public func listProposalVotes(_ input: ListProposalVotesInput) -> Future<ListProposalVotesOutput> {
+        return client.send(operation: "ListProposalVotes", path: "/networks/{networkId}/proposals/{proposalId}/votes", httpMethod: "GET", input: input)
     }
 
     ///  Returns a listing of proposals for the network.
-    public func listProposals(_ input: ListProposalsInput) throws -> Future<ListProposalsOutput> {
-        return try client.send(operation: "ListProposals", path: "/networks/{networkId}/proposals", httpMethod: "GET", input: input)
+    public func listProposals(_ input: ListProposalsInput) -> Future<ListProposalsOutput> {
+        return client.send(operation: "ListProposals", path: "/networks/{networkId}/proposals", httpMethod: "GET", input: input)
     }
 
     ///  Rejects an invitation to join a network. This action can be called by a principal in an AWS account that has received an invitation to create a member and join a network.
-    public func rejectInvitation(_ input: RejectInvitationInput) throws -> Future<RejectInvitationOutput> {
-        return try client.send(operation: "RejectInvitation", path: "/invitations/{invitationId}", httpMethod: "DELETE", input: input)
+    public func rejectInvitation(_ input: RejectInvitationInput) -> Future<RejectInvitationOutput> {
+        return client.send(operation: "RejectInvitation", path: "/invitations/{invitationId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId, must be in the same AWS account as the principal that calls the action.
-    public func voteOnProposal(_ input: VoteOnProposalInput) throws -> Future<VoteOnProposalOutput> {
-        return try client.send(operation: "VoteOnProposal", path: "/networks/{networkId}/proposals/{proposalId}/votes", httpMethod: "POST", input: input)
+    public func voteOnProposal(_ input: VoteOnProposalInput) -> Future<VoteOnProposalOutput> {
+        return client.send(operation: "VoteOnProposal", path: "/networks/{networkId}/proposals/{proposalId}/votes", httpMethod: "POST", input: input)
     }
 }

@@ -27,62 +27,62 @@ public struct MediaPackageVod {
     }
 
     ///  Creates a new MediaPackage VOD Asset resource.
-    public func createAsset(_ input: CreateAssetRequest) throws -> Future<CreateAssetResponse> {
-        return try client.send(operation: "CreateAsset", path: "/assets", httpMethod: "POST", input: input)
+    public func createAsset(_ input: CreateAssetRequest) -> Future<CreateAssetResponse> {
+        return client.send(operation: "CreateAsset", path: "/assets", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new MediaPackage VOD PackagingConfiguration resource.
-    public func createPackagingConfiguration(_ input: CreatePackagingConfigurationRequest) throws -> Future<CreatePackagingConfigurationResponse> {
-        return try client.send(operation: "CreatePackagingConfiguration", path: "/packaging_configurations", httpMethod: "POST", input: input)
+    public func createPackagingConfiguration(_ input: CreatePackagingConfigurationRequest) -> Future<CreatePackagingConfigurationResponse> {
+        return client.send(operation: "CreatePackagingConfiguration", path: "/packaging_configurations", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new MediaPackage VOD PackagingGroup resource.
-    public func createPackagingGroup(_ input: CreatePackagingGroupRequest) throws -> Future<CreatePackagingGroupResponse> {
-        return try client.send(operation: "CreatePackagingGroup", path: "/packaging_groups", httpMethod: "POST", input: input)
+    public func createPackagingGroup(_ input: CreatePackagingGroupRequest) -> Future<CreatePackagingGroupResponse> {
+        return client.send(operation: "CreatePackagingGroup", path: "/packaging_groups", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an existing MediaPackage VOD Asset resource.
-    public func deleteAsset(_ input: DeleteAssetRequest) throws -> Future<DeleteAssetResponse> {
-        return try client.send(operation: "DeleteAsset", path: "/assets/{id}", httpMethod: "DELETE", input: input)
+    public func deleteAsset(_ input: DeleteAssetRequest) -> Future<DeleteAssetResponse> {
+        return client.send(operation: "DeleteAsset", path: "/assets/{id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a MediaPackage VOD PackagingConfiguration resource.
-    public func deletePackagingConfiguration(_ input: DeletePackagingConfigurationRequest) throws -> Future<DeletePackagingConfigurationResponse> {
-        return try client.send(operation: "DeletePackagingConfiguration", path: "/packaging_configurations/{id}", httpMethod: "DELETE", input: input)
+    public func deletePackagingConfiguration(_ input: DeletePackagingConfigurationRequest) -> Future<DeletePackagingConfigurationResponse> {
+        return client.send(operation: "DeletePackagingConfiguration", path: "/packaging_configurations/{id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a MediaPackage VOD PackagingGroup resource.
-    public func deletePackagingGroup(_ input: DeletePackagingGroupRequest) throws -> Future<DeletePackagingGroupResponse> {
-        return try client.send(operation: "DeletePackagingGroup", path: "/packaging_groups/{id}", httpMethod: "DELETE", input: input)
+    public func deletePackagingGroup(_ input: DeletePackagingGroupRequest) -> Future<DeletePackagingGroupResponse> {
+        return client.send(operation: "DeletePackagingGroup", path: "/packaging_groups/{id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns a description of a MediaPackage VOD Asset resource.
-    public func describeAsset(_ input: DescribeAssetRequest) throws -> Future<DescribeAssetResponse> {
-        return try client.send(operation: "DescribeAsset", path: "/assets/{id}", httpMethod: "GET", input: input)
+    public func describeAsset(_ input: DescribeAssetRequest) -> Future<DescribeAssetResponse> {
+        return client.send(operation: "DescribeAsset", path: "/assets/{id}", httpMethod: "GET", input: input)
     }
 
     ///  Returns a description of a MediaPackage VOD PackagingConfiguration resource.
-    public func describePackagingConfiguration(_ input: DescribePackagingConfigurationRequest) throws -> Future<DescribePackagingConfigurationResponse> {
-        return try client.send(operation: "DescribePackagingConfiguration", path: "/packaging_configurations/{id}", httpMethod: "GET", input: input)
+    public func describePackagingConfiguration(_ input: DescribePackagingConfigurationRequest) -> Future<DescribePackagingConfigurationResponse> {
+        return client.send(operation: "DescribePackagingConfiguration", path: "/packaging_configurations/{id}", httpMethod: "GET", input: input)
     }
 
     ///  Returns a description of a MediaPackage VOD PackagingGroup resource.
-    public func describePackagingGroup(_ input: DescribePackagingGroupRequest) throws -> Future<DescribePackagingGroupResponse> {
-        return try client.send(operation: "DescribePackagingGroup", path: "/packaging_groups/{id}", httpMethod: "GET", input: input)
+    public func describePackagingGroup(_ input: DescribePackagingGroupRequest) -> Future<DescribePackagingGroupResponse> {
+        return client.send(operation: "DescribePackagingGroup", path: "/packaging_groups/{id}", httpMethod: "GET", input: input)
     }
 
     ///  Returns a collection of MediaPackage VOD Asset resources.
-    public func listAssets(_ input: ListAssetsRequest) throws -> Future<ListAssetsResponse> {
-        return try client.send(operation: "ListAssets", path: "/assets", httpMethod: "GET", input: input)
+    public func listAssets(_ input: ListAssetsRequest) -> Future<ListAssetsResponse> {
+        return client.send(operation: "ListAssets", path: "/assets", httpMethod: "GET", input: input)
     }
 
     ///  Returns a collection of MediaPackage VOD PackagingConfiguration resources.
-    public func listPackagingConfigurations(_ input: ListPackagingConfigurationsRequest) throws -> Future<ListPackagingConfigurationsResponse> {
-        return try client.send(operation: "ListPackagingConfigurations", path: "/packaging_configurations", httpMethod: "GET", input: input)
+    public func listPackagingConfigurations(_ input: ListPackagingConfigurationsRequest) -> Future<ListPackagingConfigurationsResponse> {
+        return client.send(operation: "ListPackagingConfigurations", path: "/packaging_configurations", httpMethod: "GET", input: input)
     }
 
     ///  Returns a collection of MediaPackage VOD PackagingGroup resources.
-    public func listPackagingGroups(_ input: ListPackagingGroupsRequest) throws -> Future<ListPackagingGroupsResponse> {
-        return try client.send(operation: "ListPackagingGroups", path: "/packaging_groups", httpMethod: "GET", input: input)
+    public func listPackagingGroups(_ input: ListPackagingGroupsRequest) -> Future<ListPackagingGroupsResponse> {
+        return client.send(operation: "ListPackagingGroups", path: "/packaging_groups", httpMethod: "GET", input: input)
     }
 }

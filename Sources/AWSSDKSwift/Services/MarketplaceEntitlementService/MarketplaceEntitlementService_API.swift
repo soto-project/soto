@@ -29,7 +29,7 @@ public struct MarketplaceEntitlementService {
     }
 
     ///  GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier or product dimensions.
-    public func getEntitlements(_ input: GetEntitlementsRequest) throws -> Future<GetEntitlementsResult> {
-        return try client.send(operation: "GetEntitlements", path: "/", httpMethod: "POST", input: input)
+    public func getEntitlements(_ input: GetEntitlementsRequest) -> Future<GetEntitlementsResult> {
+        return client.send(operation: "GetEntitlements", path: "/", httpMethod: "POST", input: input)
     }
 }

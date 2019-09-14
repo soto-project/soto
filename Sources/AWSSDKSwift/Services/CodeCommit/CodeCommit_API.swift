@@ -29,267 +29,267 @@ public struct CodeCommit {
     }
 
     ///  Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
-    public func batchDescribeMergeConflicts(_ input: BatchDescribeMergeConflictsInput) throws -> Future<BatchDescribeMergeConflictsOutput> {
-        return try client.send(operation: "BatchDescribeMergeConflicts", path: "/", httpMethod: "POST", input: input)
+    public func batchDescribeMergeConflicts(_ input: BatchDescribeMergeConflictsInput) -> Future<BatchDescribeMergeConflictsOutput> {
+        return client.send(operation: "BatchDescribeMergeConflicts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about one or more repositories.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
-    public func batchGetRepositories(_ input: BatchGetRepositoriesInput) throws -> Future<BatchGetRepositoriesOutput> {
-        return try client.send(operation: "BatchGetRepositories", path: "/", httpMethod: "POST", input: input)
+    public func batchGetRepositories(_ input: BatchGetRepositoriesInput) -> Future<BatchGetRepositoriesOutput> {
+        return client.send(operation: "BatchGetRepositories", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new branch in a repository and points the branch to a commit.  Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation. 
-    @discardableResult public func createBranch(_ input: CreateBranchInput) throws -> Future<Void> {
-        return try client.send(operation: "CreateBranch", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func createBranch(_ input: CreateBranchInput) -> Future<Void> {
+        return client.send(operation: "CreateBranch", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a commit for a repository on the tip of a specified branch.
-    public func createCommit(_ input: CreateCommitInput) throws -> Future<CreateCommitOutput> {
-        return try client.send(operation: "CreateCommit", path: "/", httpMethod: "POST", input: input)
+    public func createCommit(_ input: CreateCommitInput) -> Future<CreateCommitOutput> {
+        return client.send(operation: "CreateCommit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a pull request in the specified repository.
-    public func createPullRequest(_ input: CreatePullRequestInput) throws -> Future<CreatePullRequestOutput> {
-        return try client.send(operation: "CreatePullRequest", path: "/", httpMethod: "POST", input: input)
+    public func createPullRequest(_ input: CreatePullRequestInput) -> Future<CreatePullRequestOutput> {
+        return client.send(operation: "CreatePullRequest", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new, empty repository.
-    public func createRepository(_ input: CreateRepositoryInput) throws -> Future<CreateRepositoryOutput> {
-        return try client.send(operation: "CreateRepository", path: "/", httpMethod: "POST", input: input)
+    public func createRepository(_ input: CreateRepositoryInput) -> Future<CreateRepositoryOutput> {
+        return client.send(operation: "CreateRepository", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy, as that strategy does not create a merge commit.  This unreferenced merge commit can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it. 
-    public func createUnreferencedMergeCommit(_ input: CreateUnreferencedMergeCommitInput) throws -> Future<CreateUnreferencedMergeCommitOutput> {
-        return try client.send(operation: "CreateUnreferencedMergeCommit", path: "/", httpMethod: "POST", input: input)
+    public func createUnreferencedMergeCommit(_ input: CreateUnreferencedMergeCommitInput) -> Future<CreateUnreferencedMergeCommitOutput> {
+        return client.send(operation: "CreateUnreferencedMergeCommit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a branch from a repository, unless that branch is the default branch for the repository. 
-    public func deleteBranch(_ input: DeleteBranchInput) throws -> Future<DeleteBranchOutput> {
-        return try client.send(operation: "DeleteBranch", path: "/", httpMethod: "POST", input: input)
+    public func deleteBranch(_ input: DeleteBranchInput) -> Future<DeleteBranchOutput> {
+        return client.send(operation: "DeleteBranch", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the content of a comment made on a change, file, or commit in a repository.
-    public func deleteCommentContent(_ input: DeleteCommentContentInput) throws -> Future<DeleteCommentContentOutput> {
-        return try client.send(operation: "DeleteCommentContent", path: "/", httpMethod: "POST", input: input)
+    public func deleteCommentContent(_ input: DeleteCommentContentInput) -> Future<DeleteCommentContentOutput> {
+        return client.send(operation: "DeleteCommentContent", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified file from a specified branch. A commit is created on the branch that contains the revision. The file will still exist in the commits prior to the commit that contains the deletion.
-    public func deleteFile(_ input: DeleteFileInput) throws -> Future<DeleteFileOutput> {
-        return try client.send(operation: "DeleteFile", path: "/", httpMethod: "POST", input: input)
+    public func deleteFile(_ input: DeleteFileInput) -> Future<DeleteFileOutput> {
+        return client.send(operation: "DeleteFile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a repository. If a specified repository was already deleted, a null repository ID will be returned.  Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository will fail. 
-    public func deleteRepository(_ input: DeleteRepositoryInput) throws -> Future<DeleteRepositoryOutput> {
-        return try client.send(operation: "DeleteRepository", path: "/", httpMethod: "POST", input: input)
+    public func deleteRepository(_ input: DeleteRepositoryInput) -> Future<DeleteRepositoryOutput> {
+        return client.send(operation: "DeleteRepository", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception will be thrown.
-    public func describeMergeConflicts(_ input: DescribeMergeConflictsInput) throws -> Future<DescribeMergeConflictsOutput> {
-        return try client.send(operation: "DescribeMergeConflicts", path: "/", httpMethod: "POST", input: input)
+    public func describeMergeConflicts(_ input: DescribeMergeConflictsInput) -> Future<DescribeMergeConflictsOutput> {
+        return client.send(operation: "DescribeMergeConflicts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about one or more pull request events.
-    public func describePullRequestEvents(_ input: DescribePullRequestEventsInput) throws -> Future<DescribePullRequestEventsOutput> {
-        return try client.send(operation: "DescribePullRequestEvents", path: "/", httpMethod: "POST", input: input)
+    public func describePullRequestEvents(_ input: DescribePullRequestEventsInput) -> Future<DescribePullRequestEventsOutput> {
+        return client.send(operation: "DescribePullRequestEvents", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the base-64 encoded content of an individual blob within a repository.
-    public func getBlob(_ input: GetBlobInput) throws -> Future<GetBlobOutput> {
-        return try client.send(operation: "GetBlob", path: "/", httpMethod: "POST", input: input)
+    public func getBlob(_ input: GetBlobInput) -> Future<GetBlobOutput> {
+        return client.send(operation: "GetBlob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a repository branch, including its name and the last commit ID.
-    public func getBranch(_ input: GetBranchInput) throws -> Future<GetBranchOutput> {
-        return try client.send(operation: "GetBranch", path: "/", httpMethod: "POST", input: input)
+    public func getBranch(_ input: GetBranchInput) -> Future<GetBranchOutput> {
+        return client.send(operation: "GetBranch", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the content of a comment made on a change, file, or commit in a repository.
-    public func getComment(_ input: GetCommentInput) throws -> Future<GetCommentOutput> {
-        return try client.send(operation: "GetComment", path: "/", httpMethod: "POST", input: input)
+    public func getComment(_ input: GetCommentInput) -> Future<GetCommentOutput> {
+        return client.send(operation: "GetComment", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about comments made on the comparison between two commits.
-    public func getCommentsForComparedCommit(_ input: GetCommentsForComparedCommitInput) throws -> Future<GetCommentsForComparedCommitOutput> {
-        return try client.send(operation: "GetCommentsForComparedCommit", path: "/", httpMethod: "POST", input: input)
+    public func getCommentsForComparedCommit(_ input: GetCommentsForComparedCommitInput) -> Future<GetCommentsForComparedCommitOutput> {
+        return client.send(operation: "GetCommentsForComparedCommit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns comments made on a pull request.
-    public func getCommentsForPullRequest(_ input: GetCommentsForPullRequestInput) throws -> Future<GetCommentsForPullRequestOutput> {
-        return try client.send(operation: "GetCommentsForPullRequest", path: "/", httpMethod: "POST", input: input)
+    public func getCommentsForPullRequest(_ input: GetCommentsForPullRequestInput) -> Future<GetCommentsForPullRequestOutput> {
+        return client.send(operation: "GetCommentsForPullRequest", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a commit, including commit message and committer information.
-    public func getCommit(_ input: GetCommitInput) throws -> Future<GetCommitOutput> {
-        return try client.send(operation: "GetCommit", path: "/", httpMethod: "POST", input: input)
+    public func getCommit(_ input: GetCommitInput) -> Future<GetCommitOutput> {
+        return client.send(operation: "GetCommit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID or other fully qualified reference). Results can be limited to a specified path.
-    public func getDifferences(_ input: GetDifferencesInput) throws -> Future<GetDifferencesOutput> {
-        return try client.send(operation: "GetDifferences", path: "/", httpMethod: "POST", input: input)
+    public func getDifferences(_ input: GetDifferencesInput) -> Future<GetDifferencesOutput> {
+        return client.send(operation: "GetDifferences", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the base-64 encoded contents of a specified file and its metadata.
-    public func getFile(_ input: GetFileInput) throws -> Future<GetFileOutput> {
-        return try client.send(operation: "GetFile", path: "/", httpMethod: "POST", input: input)
+    public func getFile(_ input: GetFileInput) -> Future<GetFileOutput> {
+        return client.send(operation: "GetFile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the contents of a specified folder in a repository.
-    public func getFolder(_ input: GetFolderInput) throws -> Future<GetFolderOutput> {
-        return try client.send(operation: "GetFolder", path: "/", httpMethod: "POST", input: input)
+    public func getFolder(_ input: GetFolderInput) -> Future<GetFolderOutput> {
+        return client.send(operation: "GetFolder", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a specified merge commit.
-    public func getMergeCommit(_ input: GetMergeCommitInput) throws -> Future<GetMergeCommitOutput> {
-        return try client.send(operation: "GetMergeCommit", path: "/", httpMethod: "POST", input: input)
+    public func getMergeCommit(_ input: GetMergeCommitInput) -> Future<GetMergeCommitOutput> {
+        return client.send(operation: "GetMergeCommit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
-    public func getMergeConflicts(_ input: GetMergeConflictsInput) throws -> Future<GetMergeConflictsOutput> {
-        return try client.send(operation: "GetMergeConflicts", path: "/", httpMethod: "POST", input: input)
+    public func getMergeConflicts(_ input: GetMergeConflictsInput) -> Future<GetMergeConflictsOutput> {
+        return client.send(operation: "GetMergeConflicts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the merge options available for merging two specified branches. For details about why a particular merge option is not available, use GetMergeConflicts or DescribeMergeConflicts.
-    public func getMergeOptions(_ input: GetMergeOptionsInput) throws -> Future<GetMergeOptionsOutput> {
-        return try client.send(operation: "GetMergeOptions", path: "/", httpMethod: "POST", input: input)
+    public func getMergeOptions(_ input: GetMergeOptionsInput) -> Future<GetMergeOptionsOutput> {
+        return client.send(operation: "GetMergeOptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a pull request in a specified repository.
-    public func getPullRequest(_ input: GetPullRequestInput) throws -> Future<GetPullRequestOutput> {
-        return try client.send(operation: "GetPullRequest", path: "/", httpMethod: "POST", input: input)
+    public func getPullRequest(_ input: GetPullRequestInput) -> Future<GetPullRequestOutput> {
+        return client.send(operation: "GetPullRequest", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about a repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
-    public func getRepository(_ input: GetRepositoryInput) throws -> Future<GetRepositoryOutput> {
-        return try client.send(operation: "GetRepository", path: "/", httpMethod: "POST", input: input)
+    public func getRepository(_ input: GetRepositoryInput) -> Future<GetRepositoryOutput> {
+        return client.send(operation: "GetRepository", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about triggers configured for a repository.
-    public func getRepositoryTriggers(_ input: GetRepositoryTriggersInput) throws -> Future<GetRepositoryTriggersOutput> {
-        return try client.send(operation: "GetRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
+    public func getRepositoryTriggers(_ input: GetRepositoryTriggersInput) -> Future<GetRepositoryTriggersOutput> {
+        return client.send(operation: "GetRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more branches in a repository.
-    public func listBranches(_ input: ListBranchesInput) throws -> Future<ListBranchesOutput> {
-        return try client.send(operation: "ListBranches", path: "/", httpMethod: "POST", input: input)
+    public func listBranches(_ input: ListBranchesInput) -> Future<ListBranchesOutput> {
+        return client.send(operation: "ListBranches", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of pull requests for a specified repository. The return list can be refined by pull request status or pull request author ARN.
-    public func listPullRequests(_ input: ListPullRequestsInput) throws -> Future<ListPullRequestsOutput> {
-        return try client.send(operation: "ListPullRequests", path: "/", httpMethod: "POST", input: input)
+    public func listPullRequests(_ input: ListPullRequestsInput) -> Future<ListPullRequestsOutput> {
+        return client.send(operation: "ListPullRequests", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about one or more repositories.
-    public func listRepositories(_ input: ListRepositoriesInput) throws -> Future<ListRepositoriesOutput> {
-        return try client.send(operation: "ListRepositories", path: "/", httpMethod: "POST", input: input)
+    public func listRepositories(_ input: ListRepositoriesInput) -> Future<ListRepositoriesOutput> {
+        return client.send(operation: "ListRepositories", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
-    public func listTagsForResource(_ input: ListTagsForResourceInput) throws -> Future<ListTagsForResourceOutput> {
-        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceInput) -> Future<ListTagsForResourceOutput> {
+        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Merges two branches using the fast-forward merge strategy.
-    public func mergeBranchesByFastForward(_ input: MergeBranchesByFastForwardInput) throws -> Future<MergeBranchesByFastForwardOutput> {
-        return try client.send(operation: "MergeBranchesByFastForward", path: "/", httpMethod: "POST", input: input)
+    public func mergeBranchesByFastForward(_ input: MergeBranchesByFastForwardInput) -> Future<MergeBranchesByFastForwardOutput> {
+        return client.send(operation: "MergeBranchesByFastForward", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Merges two branches using the squash merge strategy.
-    public func mergeBranchesBySquash(_ input: MergeBranchesBySquashInput) throws -> Future<MergeBranchesBySquashOutput> {
-        return try client.send(operation: "MergeBranchesBySquash", path: "/", httpMethod: "POST", input: input)
+    public func mergeBranchesBySquash(_ input: MergeBranchesBySquashInput) -> Future<MergeBranchesBySquashOutput> {
+        return client.send(operation: "MergeBranchesBySquash", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Merges two specified branches using the three-way merge strategy.
-    public func mergeBranchesByThreeWay(_ input: MergeBranchesByThreeWayInput) throws -> Future<MergeBranchesByThreeWayOutput> {
-        return try client.send(operation: "MergeBranchesByThreeWay", path: "/", httpMethod: "POST", input: input)
+    public func mergeBranchesByThreeWay(_ input: MergeBranchesByThreeWayInput) -> Future<MergeBranchesByThreeWayOutput> {
+        return client.send(operation: "MergeBranchesByThreeWay", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
-    public func mergePullRequestByFastForward(_ input: MergePullRequestByFastForwardInput) throws -> Future<MergePullRequestByFastForwardOutput> {
-        return try client.send(operation: "MergePullRequestByFastForward", path: "/", httpMethod: "POST", input: input)
+    public func mergePullRequestByFastForward(_ input: MergePullRequestByFastForwardInput) -> Future<MergePullRequestByFastForwardOutput> {
+        return client.send(operation: "MergePullRequestByFastForward", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
-    public func mergePullRequestBySquash(_ input: MergePullRequestBySquashInput) throws -> Future<MergePullRequestBySquashOutput> {
-        return try client.send(operation: "MergePullRequestBySquash", path: "/", httpMethod: "POST", input: input)
+    public func mergePullRequestBySquash(_ input: MergePullRequestBySquashInput) -> Future<MergePullRequestBySquashOutput> {
+        return client.send(operation: "MergePullRequestBySquash", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
-    public func mergePullRequestByThreeWay(_ input: MergePullRequestByThreeWayInput) throws -> Future<MergePullRequestByThreeWayOutput> {
-        return try client.send(operation: "MergePullRequestByThreeWay", path: "/", httpMethod: "POST", input: input)
+    public func mergePullRequestByThreeWay(_ input: MergePullRequestByThreeWayInput) -> Future<MergePullRequestByThreeWayOutput> {
+        return client.send(operation: "MergePullRequestByThreeWay", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Posts a comment on the comparison between two commits.
-    public func postCommentForComparedCommit(_ input: PostCommentForComparedCommitInput) throws -> Future<PostCommentForComparedCommitOutput> {
-        return try client.send(operation: "PostCommentForComparedCommit", path: "/", httpMethod: "POST", input: input)
+    public func postCommentForComparedCommit(_ input: PostCommentForComparedCommitInput) -> Future<PostCommentForComparedCommitOutput> {
+        return client.send(operation: "PostCommentForComparedCommit", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Posts a comment on a pull request.
-    public func postCommentForPullRequest(_ input: PostCommentForPullRequestInput) throws -> Future<PostCommentForPullRequestOutput> {
-        return try client.send(operation: "PostCommentForPullRequest", path: "/", httpMethod: "POST", input: input)
+    public func postCommentForPullRequest(_ input: PostCommentForPullRequestInput) -> Future<PostCommentForPullRequestOutput> {
+        return client.send(operation: "PostCommentForPullRequest", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
-    public func postCommentReply(_ input: PostCommentReplyInput) throws -> Future<PostCommentReplyOutput> {
-        return try client.send(operation: "PostCommentReply", path: "/", httpMethod: "POST", input: input)
+    public func postCommentReply(_ input: PostCommentReplyInput) -> Future<PostCommentReplyOutput> {
+        return client.send(operation: "PostCommentReply", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds or updates a file in a branch in an AWS CodeCommit repository, and generates a commit for the addition in the specified branch.
-    public func putFile(_ input: PutFileInput) throws -> Future<PutFileOutput> {
-        return try client.send(operation: "PutFile", path: "/", httpMethod: "POST", input: input)
+    public func putFile(_ input: PutFileInput) -> Future<PutFileOutput> {
+        return client.send(operation: "PutFile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Replaces all triggers for a repository. This can be used to create or delete triggers.
-    public func putRepositoryTriggers(_ input: PutRepositoryTriggersInput) throws -> Future<PutRepositoryTriggersOutput> {
-        return try client.send(operation: "PutRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
+    public func putRepositoryTriggers(_ input: PutRepositoryTriggersInput) -> Future<PutRepositoryTriggersOutput> {
+        return client.send(operation: "PutRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds or updates tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
-    @discardableResult public func tagResource(_ input: TagResourceInput) throws -> Future<Void> {
-        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func tagResource(_ input: TagResourceInput) -> Future<Void> {
+        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Tests the functionality of repository triggers by sending information to the trigger target. If real data is available in the repository, the test will send data from the last commit. If no data is available, sample data will be generated.
-    public func testRepositoryTriggers(_ input: TestRepositoryTriggersInput) throws -> Future<TestRepositoryTriggersOutput> {
-        return try client.send(operation: "TestRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
+    public func testRepositoryTriggers(_ input: TestRepositoryTriggersInput) -> Future<TestRepositoryTriggersOutput> {
+        return client.send(operation: "TestRepositoryTriggers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
-    @discardableResult public func untagResource(_ input: UntagResourceInput) throws -> Future<Void> {
-        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func untagResource(_ input: UntagResourceInput) -> Future<Void> {
+        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Replaces the contents of a comment.
-    public func updateComment(_ input: UpdateCommentInput) throws -> Future<UpdateCommentOutput> {
-        return try client.send(operation: "UpdateComment", path: "/", httpMethod: "POST", input: input)
+    public func updateComment(_ input: UpdateCommentInput) -> Future<UpdateCommentOutput> {
+        return client.send(operation: "UpdateComment", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets or changes the default branch name for the specified repository.  If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change. 
-    @discardableResult public func updateDefaultBranch(_ input: UpdateDefaultBranchInput) throws -> Future<Void> {
-        return try client.send(operation: "UpdateDefaultBranch", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateDefaultBranch(_ input: UpdateDefaultBranchInput) -> Future<Void> {
+        return client.send(operation: "UpdateDefaultBranch", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Replaces the contents of the description of a pull request.
-    public func updatePullRequestDescription(_ input: UpdatePullRequestDescriptionInput) throws -> Future<UpdatePullRequestDescriptionOutput> {
-        return try client.send(operation: "UpdatePullRequestDescription", path: "/", httpMethod: "POST", input: input)
+    public func updatePullRequestDescription(_ input: UpdatePullRequestDescriptionInput) -> Future<UpdatePullRequestDescriptionOutput> {
+        return client.send(operation: "UpdatePullRequestDescription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the status of a pull request. 
-    public func updatePullRequestStatus(_ input: UpdatePullRequestStatusInput) throws -> Future<UpdatePullRequestStatusOutput> {
-        return try client.send(operation: "UpdatePullRequestStatus", path: "/", httpMethod: "POST", input: input)
+    public func updatePullRequestStatus(_ input: UpdatePullRequestStatusInput) -> Future<UpdatePullRequestStatusOutput> {
+        return client.send(operation: "UpdatePullRequestStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Replaces the title of a pull request.
-    public func updatePullRequestTitle(_ input: UpdatePullRequestTitleInput) throws -> Future<UpdatePullRequestTitleOutput> {
-        return try client.send(operation: "UpdatePullRequestTitle", path: "/", httpMethod: "POST", input: input)
+    public func updatePullRequestTitle(_ input: UpdatePullRequestTitleInput) -> Future<UpdatePullRequestTitleOutput> {
+        return client.send(operation: "UpdatePullRequestTitle", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets or changes the comment or description for a repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
-    @discardableResult public func updateRepositoryDescription(_ input: UpdateRepositoryDescriptionInput) throws -> Future<Void> {
-        return try client.send(operation: "UpdateRepositoryDescription", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateRepositoryDescription(_ input: UpdateRepositoryDescriptionInput) -> Future<Void> {
+        return client.send(operation: "UpdateRepositoryDescription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Renames a repository. The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix ".git" is prohibited. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide.
-    @discardableResult public func updateRepositoryName(_ input: UpdateRepositoryNameInput) throws -> Future<Void> {
-        return try client.send(operation: "UpdateRepositoryName", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func updateRepositoryName(_ input: UpdateRepositoryNameInput) -> Future<Void> {
+        return client.send(operation: "UpdateRepositoryName", path: "/", httpMethod: "POST", input: input)
     }
 }

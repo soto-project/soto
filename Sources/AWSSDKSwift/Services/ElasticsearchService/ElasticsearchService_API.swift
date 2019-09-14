@@ -28,117 +28,117 @@ public struct ElasticsearchService {
     }
 
     ///  Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See  Tagging Amazon Elasticsearch Service Domains for more information.
-    @discardableResult public func addTags(_ input: AddTagsRequest) throws -> Future<Void> {
-        return try client.send(operation: "AddTags", path: "/2015-01-01/tags", httpMethod: "POST", input: input)
+    @discardableResult public func addTags(_ input: AddTagsRequest) -> Future<Void> {
+        return client.send(operation: "AddTags", path: "/2015-01-01/tags", httpMethod: "POST", input: input)
     }
 
     ///  Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
-    public func cancelElasticsearchServiceSoftwareUpdate(_ input: CancelElasticsearchServiceSoftwareUpdateRequest) throws -> Future<CancelElasticsearchServiceSoftwareUpdateResponse> {
-        return try client.send(operation: "CancelElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/cancel", httpMethod: "POST", input: input)
+    public func cancelElasticsearchServiceSoftwareUpdate(_ input: CancelElasticsearchServiceSoftwareUpdateRequest) -> Future<CancelElasticsearchServiceSoftwareUpdateResponse> {
+        return client.send(operation: "CancelElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/cancel", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new Elasticsearch domain. For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide.
-    public func createElasticsearchDomain(_ input: CreateElasticsearchDomainRequest) throws -> Future<CreateElasticsearchDomainResponse> {
-        return try client.send(operation: "CreateElasticsearchDomain", path: "/2015-01-01/es/domain", httpMethod: "POST", input: input)
+    public func createElasticsearchDomain(_ input: CreateElasticsearchDomainRequest) -> Future<CreateElasticsearchDomainResponse> {
+        return client.send(operation: "CreateElasticsearchDomain", path: "/2015-01-01/es/domain", httpMethod: "POST", input: input)
     }
 
     ///  Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
-    public func deleteElasticsearchDomain(_ input: DeleteElasticsearchDomainRequest) throws -> Future<DeleteElasticsearchDomainResponse> {
-        return try client.send(operation: "DeleteElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: "DELETE", input: input)
+    public func deleteElasticsearchDomain(_ input: DeleteElasticsearchDomainRequest) -> Future<DeleteElasticsearchDomainResponse> {
+        return client.send(operation: "DeleteElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in VPC Endpoints for Amazon Elasticsearch Service Domains.
-    @discardableResult public func deleteElasticsearchServiceRole() throws -> Future<Void> {
-        return try client.send(operation: "DeleteElasticsearchServiceRole", path: "/2015-01-01/es/role", httpMethod: "DELETE")
+    @discardableResult public func deleteElasticsearchServiceRole() -> Future<Void> {
+        return client.send(operation: "DeleteElasticsearchServiceRole", path: "/2015-01-01/es/role", httpMethod: "DELETE")
     }
 
     ///  Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
-    public func describeElasticsearchDomain(_ input: DescribeElasticsearchDomainRequest) throws -> Future<DescribeElasticsearchDomainResponse> {
-        return try client.send(operation: "DescribeElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: "GET", input: input)
+    public func describeElasticsearchDomain(_ input: DescribeElasticsearchDomainRequest) -> Future<DescribeElasticsearchDomainResponse> {
+        return client.send(operation: "DescribeElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: "GET", input: input)
     }
 
     ///  Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
-    public func describeElasticsearchDomainConfig(_ input: DescribeElasticsearchDomainConfigRequest) throws -> Future<DescribeElasticsearchDomainConfigResponse> {
-        return try client.send(operation: "DescribeElasticsearchDomainConfig", path: "/2015-01-01/es/domain/{DomainName}/config", httpMethod: "GET", input: input)
+    public func describeElasticsearchDomainConfig(_ input: DescribeElasticsearchDomainConfigRequest) -> Future<DescribeElasticsearchDomainConfigResponse> {
+        return client.send(operation: "DescribeElasticsearchDomainConfig", path: "/2015-01-01/es/domain/{DomainName}/config", httpMethod: "GET", input: input)
     }
 
     ///  Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
-    public func describeElasticsearchDomains(_ input: DescribeElasticsearchDomainsRequest) throws -> Future<DescribeElasticsearchDomainsResponse> {
-        return try client.send(operation: "DescribeElasticsearchDomains", path: "/2015-01-01/es/domain-info", httpMethod: "POST", input: input)
+    public func describeElasticsearchDomains(_ input: DescribeElasticsearchDomainsRequest) -> Future<DescribeElasticsearchDomainsResponse> {
+        return client.send(operation: "DescribeElasticsearchDomains", path: "/2015-01-01/es/domain-info", httpMethod: "POST", input: input)
     }
 
     ///   Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the  DomainName  to know what Limits are supported for modifying. 
-    public func describeElasticsearchInstanceTypeLimits(_ input: DescribeElasticsearchInstanceTypeLimitsRequest) throws -> Future<DescribeElasticsearchInstanceTypeLimitsResponse> {
-        return try client.send(operation: "DescribeElasticsearchInstanceTypeLimits", path: "/2015-01-01/es/instanceTypeLimits/{ElasticsearchVersion}/{InstanceType}", httpMethod: "GET", input: input)
+    public func describeElasticsearchInstanceTypeLimits(_ input: DescribeElasticsearchInstanceTypeLimitsRequest) -> Future<DescribeElasticsearchInstanceTypeLimitsResponse> {
+        return client.send(operation: "DescribeElasticsearchInstanceTypeLimits", path: "/2015-01-01/es/instanceTypeLimits/{ElasticsearchVersion}/{InstanceType}", httpMethod: "GET", input: input)
     }
 
     ///  Lists available reserved Elasticsearch instance offerings.
-    public func describeReservedElasticsearchInstanceOfferings(_ input: DescribeReservedElasticsearchInstanceOfferingsRequest) throws -> Future<DescribeReservedElasticsearchInstanceOfferingsResponse> {
-        return try client.send(operation: "DescribeReservedElasticsearchInstanceOfferings", path: "/2015-01-01/es/reservedInstanceOfferings", httpMethod: "GET", input: input)
+    public func describeReservedElasticsearchInstanceOfferings(_ input: DescribeReservedElasticsearchInstanceOfferingsRequest) -> Future<DescribeReservedElasticsearchInstanceOfferingsResponse> {
+        return client.send(operation: "DescribeReservedElasticsearchInstanceOfferings", path: "/2015-01-01/es/reservedInstanceOfferings", httpMethod: "GET", input: input)
     }
 
     ///  Returns information about reserved Elasticsearch instances for this account.
-    public func describeReservedElasticsearchInstances(_ input: DescribeReservedElasticsearchInstancesRequest) throws -> Future<DescribeReservedElasticsearchInstancesResponse> {
-        return try client.send(operation: "DescribeReservedElasticsearchInstances", path: "/2015-01-01/es/reservedInstances", httpMethod: "GET", input: input)
+    public func describeReservedElasticsearchInstances(_ input: DescribeReservedElasticsearchInstancesRequest) -> Future<DescribeReservedElasticsearchInstancesResponse> {
+        return client.send(operation: "DescribeReservedElasticsearchInstances", path: "/2015-01-01/es/reservedInstances", httpMethod: "GET", input: input)
     }
 
     ///   Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a  DomainName  to get all upgrade compatible Elasticsearch versions for that specific domain. 
-    public func getCompatibleElasticsearchVersions(_ input: GetCompatibleElasticsearchVersionsRequest) throws -> Future<GetCompatibleElasticsearchVersionsResponse> {
-        return try client.send(operation: "GetCompatibleElasticsearchVersions", path: "/2015-01-01/es/compatibleVersions", httpMethod: "GET", input: input)
+    public func getCompatibleElasticsearchVersions(_ input: GetCompatibleElasticsearchVersionsRequest) -> Future<GetCompatibleElasticsearchVersionsResponse> {
+        return client.send(operation: "GetCompatibleElasticsearchVersions", path: "/2015-01-01/es/compatibleVersions", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the complete history of the last 10 upgrades that were performed on the domain.
-    public func getUpgradeHistory(_ input: GetUpgradeHistoryRequest) throws -> Future<GetUpgradeHistoryResponse> {
-        return try client.send(operation: "GetUpgradeHistory", path: "/2015-01-01/es/upgradeDomain/{DomainName}/history", httpMethod: "GET", input: input)
+    public func getUpgradeHistory(_ input: GetUpgradeHistoryRequest) -> Future<GetUpgradeHistoryResponse> {
+        return client.send(operation: "GetUpgradeHistory", path: "/2015-01-01/es/upgradeDomain/{DomainName}/history", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
-    public func getUpgradeStatus(_ input: GetUpgradeStatusRequest) throws -> Future<GetUpgradeStatusResponse> {
-        return try client.send(operation: "GetUpgradeStatus", path: "/2015-01-01/es/upgradeDomain/{DomainName}/status", httpMethod: "GET", input: input)
+    public func getUpgradeStatus(_ input: GetUpgradeStatusRequest) -> Future<GetUpgradeStatusResponse> {
+        return client.send(operation: "GetUpgradeStatus", path: "/2015-01-01/es/upgradeDomain/{DomainName}/status", httpMethod: "GET", input: input)
     }
 
     ///  Returns the name of all Elasticsearch domains owned by the current user's account. 
-    public func listDomainNames() throws -> Future<ListDomainNamesResponse> {
-        return try client.send(operation: "ListDomainNames", path: "/2015-01-01/domain", httpMethod: "GET")
+    public func listDomainNames() -> Future<ListDomainNamesResponse> {
+        return client.send(operation: "ListDomainNames", path: "/2015-01-01/domain", httpMethod: "GET")
     }
 
     ///  List all Elasticsearch instance types that are supported for given ElasticsearchVersion
-    public func listElasticsearchInstanceTypes(_ input: ListElasticsearchInstanceTypesRequest) throws -> Future<ListElasticsearchInstanceTypesResponse> {
-        return try client.send(operation: "ListElasticsearchInstanceTypes", path: "/2015-01-01/es/instanceTypes/{ElasticsearchVersion}", httpMethod: "GET", input: input)
+    public func listElasticsearchInstanceTypes(_ input: ListElasticsearchInstanceTypesRequest) -> Future<ListElasticsearchInstanceTypesResponse> {
+        return client.send(operation: "ListElasticsearchInstanceTypes", path: "/2015-01-01/es/instanceTypes/{ElasticsearchVersion}", httpMethod: "GET", input: input)
     }
 
     ///  List all supported Elasticsearch versions
-    public func listElasticsearchVersions(_ input: ListElasticsearchVersionsRequest) throws -> Future<ListElasticsearchVersionsResponse> {
-        return try client.send(operation: "ListElasticsearchVersions", path: "/2015-01-01/es/versions", httpMethod: "GET", input: input)
+    public func listElasticsearchVersions(_ input: ListElasticsearchVersionsRequest) -> Future<ListElasticsearchVersionsResponse> {
+        return client.send(operation: "ListElasticsearchVersions", path: "/2015-01-01/es/versions", httpMethod: "GET", input: input)
     }
 
     ///  Returns all tags for the given Elasticsearch domain.
-    public func listTags(_ input: ListTagsRequest) throws -> Future<ListTagsResponse> {
-        return try client.send(operation: "ListTags", path: "/2015-01-01/tags/", httpMethod: "GET", input: input)
+    public func listTags(_ input: ListTagsRequest) -> Future<ListTagsResponse> {
+        return client.send(operation: "ListTags", path: "/2015-01-01/tags/", httpMethod: "GET", input: input)
     }
 
     ///  Allows you to purchase reserved Elasticsearch instances.
-    public func purchaseReservedElasticsearchInstanceOffering(_ input: PurchaseReservedElasticsearchInstanceOfferingRequest) throws -> Future<PurchaseReservedElasticsearchInstanceOfferingResponse> {
-        return try client.send(operation: "PurchaseReservedElasticsearchInstanceOffering", path: "/2015-01-01/es/purchaseReservedInstanceOffering", httpMethod: "POST", input: input)
+    public func purchaseReservedElasticsearchInstanceOffering(_ input: PurchaseReservedElasticsearchInstanceOfferingRequest) -> Future<PurchaseReservedElasticsearchInstanceOfferingResponse> {
+        return client.send(operation: "PurchaseReservedElasticsearchInstanceOffering", path: "/2015-01-01/es/purchaseReservedInstanceOffering", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified set of tags from the specified Elasticsearch domain.
-    @discardableResult public func removeTags(_ input: RemoveTagsRequest) throws -> Future<Void> {
-        return try client.send(operation: "RemoveTags", path: "/2015-01-01/tags-removal", httpMethod: "POST", input: input)
+    @discardableResult public func removeTags(_ input: RemoveTagsRequest) -> Future<Void> {
+        return client.send(operation: "RemoveTags", path: "/2015-01-01/tags-removal", httpMethod: "POST", input: input)
     }
 
     ///  Schedules a service software update for an Amazon ES domain.
-    public func startElasticsearchServiceSoftwareUpdate(_ input: StartElasticsearchServiceSoftwareUpdateRequest) throws -> Future<StartElasticsearchServiceSoftwareUpdateResponse> {
-        return try client.send(operation: "StartElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/start", httpMethod: "POST", input: input)
+    public func startElasticsearchServiceSoftwareUpdate(_ input: StartElasticsearchServiceSoftwareUpdateRequest) -> Future<StartElasticsearchServiceSoftwareUpdateResponse> {
+        return client.send(operation: "StartElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/start", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances. 
-    public func updateElasticsearchDomainConfig(_ input: UpdateElasticsearchDomainConfigRequest) throws -> Future<UpdateElasticsearchDomainConfigResponse> {
-        return try client.send(operation: "UpdateElasticsearchDomainConfig", path: "/2015-01-01/es/domain/{DomainName}/config", httpMethod: "POST", input: input)
+    public func updateElasticsearchDomainConfig(_ input: UpdateElasticsearchDomainConfigRequest) -> Future<UpdateElasticsearchDomainConfigResponse> {
+        return client.send(operation: "UpdateElasticsearchDomainConfig", path: "/2015-01-01/es/domain/{DomainName}/config", httpMethod: "POST", input: input)
     }
 
     ///  Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
-    public func upgradeElasticsearchDomain(_ input: UpgradeElasticsearchDomainRequest) throws -> Future<UpgradeElasticsearchDomainResponse> {
-        return try client.send(operation: "UpgradeElasticsearchDomain", path: "/2015-01-01/es/upgradeDomain", httpMethod: "POST", input: input)
+    public func upgradeElasticsearchDomain(_ input: UpgradeElasticsearchDomainRequest) -> Future<UpgradeElasticsearchDomainResponse> {
+        return client.send(operation: "UpgradeElasticsearchDomain", path: "/2015-01-01/es/upgradeDomain", httpMethod: "POST", input: input)
     }
 }

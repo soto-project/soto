@@ -28,12 +28,12 @@ public struct ComprehendMedical {
     }
 
     ///   Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information .
-    public func detectEntities(_ input: DetectEntitiesRequest) throws -> Future<DetectEntitiesResponse> {
-        return try client.send(operation: "DetectEntities", path: "/", httpMethod: "POST", input: input)
+    public func detectEntities(_ input: DetectEntitiesRequest) -> Future<DetectEntitiesResponse> {
+        return client.send(operation: "DetectEntities", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Inspects the clinical text for personal health information (PHI) entities and entity category, location, and confidence score on that information.
-    public func detectPHI(_ input: DetectPHIRequest) throws -> Future<DetectPHIResponse> {
-        return try client.send(operation: "DetectPHI", path: "/", httpMethod: "POST", input: input)
+    public func detectPHI(_ input: DetectPHIRequest) -> Future<DetectPHIResponse> {
+        return client.send(operation: "DetectPHI", path: "/", httpMethod: "POST", input: input)
     }
 }

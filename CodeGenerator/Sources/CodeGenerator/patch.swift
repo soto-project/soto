@@ -16,6 +16,10 @@ let servicePatches : [String: [Patch]] = [
         // Backup clashes with a macOS framework, so need to rename the framework
         Patch(.replace, entry:["serviceName"], value:"AWSBackup", originalValue:"Backup")
     ],
+    "CloudFront" : [
+        Patch(.replace, entry:["shapes", "HttpVersion", "enum", 0], value:"HTTP1_1", originalValue:"http1.1"),
+        Patch(.replace, entry:["shapes", "HttpVersion", "enum", 1], value:"HTTP2", originalValue:"http2")
+    ],
     "DirectoryService" : [
         // DirectoryService clashes with a macOS framework, so need to rename the framework
         Patch(.replace, entry:["serviceName"], value:"AWSDirectoryService", originalValue:"DirectoryService")
