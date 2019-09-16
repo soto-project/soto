@@ -5,6 +5,29 @@ import AWSSDKSwiftCore
 
 extension CloudWatchEvents {
 
+    public struct ActivateEventSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// The name of the partner event source to activate.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public enum AssignPublicIp: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
@@ -20,7 +43,7 @@ extension CloudWatchEvents {
 
         /// Specifies whether the task's elastic network interface receives a public IP address. You can specify ENABLED only when LaunchType in EcsParameters is set to FARGATE.
         public let assignPublicIp: AssignPublicIp?
-        /// Specifies the security groups associated with the task. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
+        /// Specifies the security groups associated with the task. These security groups must all be in the same VPC. You can specify as many as five security groups. If you don't specify a security group, the default security group for the VPC is used.
         public let securityGroups: [String]?
         /// Specifies the subnets associated with the task. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
         public let subnets: [String]
@@ -69,7 +92,7 @@ extension CloudWatchEvents {
         public let jobDefinition: String
         /// The name to use for this execution of the job, if the target is an AWS Batch job.
         public let jobName: String
-        /// The retry strategy to use for failed jobs, if the target is an AWS Batch job. The retry strategy is the number of times to retry the failed job execution. Valid values are 1–10. When you specify a retry strategy here, it overrides the retry strategy defined in the job definition.
+        /// The retry strategy to use for failed jobs if the target is an AWS Batch job. The retry strategy is the number of times to retry the failed job execution. Valid values are 1–10. When you specify a retry strategy here, it overrides the retry strategy defined in the job definition.
         public let retryStrategy: BatchRetryStrategy?
 
         public init(arrayProperties: BatchArrayProperties? = nil, jobDefinition: String, jobName: String, retryStrategy: BatchRetryStrategy? = nil) {
@@ -111,11 +134,11 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
 
-        /// Specifies the key for the condition. Currently the only supported key is aws:PrincipalOrgID.
+        /// The key for the condition. Currently, the only supported key is aws:PrincipalOrgID.
         public let key: String
-        /// Specifies the type of condition. Currently the only supported value is StringEquals.
+        /// The type of condition. Currently, the only supported value is StringEquals.
         public let `type`: String
-        /// Specifies the value for the key. Currently, this must be the ID of the organization.
+        /// The value for the key. Currently, this must be the ID of the organization.
         public let value: String
 
         public init(key: String, type: String, value: String) {
@@ -131,40 +154,236 @@ extension CloudWatchEvents {
         }
     }
 
+    public struct CreateEventBusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSourceName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// If you're creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
+        public let eventSourceName: String?
+        /// The name of the new event bus.  The names of custom event buses can't contain the / character. You can't use the name default for a custom event bus because this name is already used for your account's default event bus. If this is a partner event bus, the name must exactly match the name of the partner event source that this event bus is matched to. This name will include the / character.
+        public let name: String
+
+        public init(eventSourceName: String? = nil, name: String) {
+            self.eventSourceName = eventSourceName
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.eventSourceName, name:"eventSourceName", parent: name, max: 256)
+            try validate(self.eventSourceName, name:"eventSourceName", parent: name, min: 1)
+            try validate(self.eventSourceName, name:"eventSourceName", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSourceName = "EventSourceName"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateEventBusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventBusArn", required: false, type: .string)
+        ]
+
+        /// The ARN of the new event bus.
+        public let eventBusArn: String?
+
+        public init(eventBusArn: String? = nil) {
+            self.eventBusArn = eventBusArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventBusArn = "EventBusArn"
+        }
+    }
+
+    public struct CreatePartnerEventSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Account", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// The AWS account ID of the customer who is permitted to create a matching partner event bus for this partner event source.
+        public let account: String
+        /// The name of the partner event source. This name must be unique and must be in the format  partner_name/event_namespace/event_name . The AWS account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source.
+        public let name: String
+
+        public init(account: String, name: String) {
+            self.account = account
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.account, name:"account", parent: name, max: 12)
+            try validate(self.account, name:"account", parent: name, min: 12)
+            try validate(self.account, name:"account", parent: name, pattern: "\\d{12}")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+            case name = "Name"
+        }
+    }
+
+    public struct CreatePartnerEventSourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSourceArn", required: false, type: .string)
+        ]
+
+        /// The ARN of the partner event source.
+        public let eventSourceArn: String?
+
+        public init(eventSourceArn: String? = nil) {
+            self.eventSourceArn = eventSourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSourceArn = "EventSourceArn"
+        }
+    }
+
+    public struct DeactivateEventSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// The name of the partner event source to deactivate.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteEventBusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// The name of the event bus to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeletePartnerEventSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Account", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// The AWS account ID of the AWS customer that the event source was created for.
+        public let account: String
+        /// The name of the event source to delete.
+        public let name: String
+
+        public init(account: String, name: String) {
+            self.account = account
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.account, name:"account", parent: name, max: 12)
+            try validate(self.account, name:"account", parent: name, min: 12)
+            try validate(self.account, name:"account", parent: name, pattern: "\\d{12}")
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+            case name = "Name"
+        }
+    }
+
     public struct DeleteRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "Force", required: false, type: .boolean), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
+        /// The event bus associated with the rule. If you omit this, the default event bus is used.
+        public let eventBusName: String?
         /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
         public let force: Bool?
         /// The name of the rule.
         public let name: String
 
-        public init(force: Bool? = nil, name: String) {
+        public init(eventBusName: String? = nil, force: Bool? = nil, name: String) {
+            self.eventBusName = eventBusName
             self.force = force
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
             try validate(self.name, name:"name", parent: name, max: 64)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventBusName = "EventBusName"
             case force = "Force"
             case name = "Name"
         }
     }
 
     public struct DescribeEventBusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
 
+        /// The name of the event bus to show details for. If you omit this, the default event bus is displayed.
+        public let name: String?
 
-        public init() {
+        public init(name: String? = nil) {
+            self.name = name
         }
 
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
     }
 
     public struct DescribeEventBusResponse: AWSShape {
@@ -194,12 +413,12 @@ extension CloudWatchEvents {
         }
     }
 
-    public struct DescribeRuleRequest: AWSShape {
+    public struct DescribeEventSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
-        /// The name of the rule.
+        /// The name of the partner event source to display the details of.
         public let name: String
 
         public init(name: String) {
@@ -207,12 +426,130 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DescribeEventSourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+
+        /// The ARN of the partner event source.
+        public let arn: String?
+        /// The name of the SaaS partner that created the event source.
+        public let createdBy: String?
+        /// The date and time that the event source was created.
+        public let creationTime: TimeStamp?
+        /// The date and time that the event source will expire if you don't create a matching event bus.
+        public let expirationTime: TimeStamp?
+        /// The name of the partner event source.
+        public let name: String?
+        /// The state of the event source. If it's ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it's PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it's DELETED, you have created a matching event bus, but the event source has since been deleted.
+        public let state: EventSourceState?
+
+        public init(arn: String? = nil, createdBy: String? = nil, creationTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, name: String? = nil, state: EventSourceState? = nil) {
+            self.arn = arn
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.expirationTime = expirationTime
+            self.name = name
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case expirationTime = "ExpirationTime"
+            case name = "Name"
+            case state = "State"
+        }
+    }
+
+    public struct DescribePartnerEventSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// The name of the event source to display.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 256)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DescribePartnerEventSourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// The ARN of the event source.
+        public let arn: String?
+        /// The name of the event source.
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+        }
+    }
+
+    public struct DescribeRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// The event bus associated with the rule. If you omit this, the default event bus is used.
+        public let eventBusName: String?
+        /// The name of the rule.
+        public let name: String
+
+        public init(eventBusName: String? = nil, name: String) {
+            self.eventBusName = eventBusName
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
             try validate(self.name, name:"name", parent: name, max: 64)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventBusName = "EventBusName"
             case name = "Name"
         }
     }
@@ -221,6 +558,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "EventPattern", required: false, type: .string), 
             AWSShapeMember(label: "ManagedBy", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -233,7 +571,9 @@ extension CloudWatchEvents {
         public let arn: String?
         /// The description of the rule.
         public let description: String?
-        /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
+        /// The event bus associated with the rule.
+        public let eventBusName: String?
+        /// The event pattern. For more information, see Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
         /// If this is a managed rule, created by an AWS service on your behalf, this field displays the principal name of the AWS service that created the rule.
         public let managedBy: String?
@@ -241,14 +581,15 @@ extension CloudWatchEvents {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
         public let roleArn: String?
-        /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
+        /// The scheduling expression: for example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
         public let scheduleExpression: String?
         /// Specifies whether the rule is enabled or disabled.
         public let state: RuleState?
 
-        public init(arn: String? = nil, description: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, name: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
+        public init(arn: String? = nil, description: String? = nil, eventBusName: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, name: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
             self.arn = arn
             self.description = description
+            self.eventBusName = eventBusName
             self.eventPattern = eventPattern
             self.managedBy = managedBy
             self.name = name
@@ -260,6 +601,7 @@ extension CloudWatchEvents {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case description = "Description"
+            case eventBusName = "EventBusName"
             case eventPattern = "EventPattern"
             case managedBy = "ManagedBy"
             case name = "Name"
@@ -271,23 +613,31 @@ extension CloudWatchEvents {
 
     public struct DisableRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
+        /// The event bus associated with the rule. If you omit this, the default event bus is used.
+        public let eventBusName: String?
         /// The name of the rule.
         public let name: String
 
-        public init(name: String) {
+        public init(eventBusName: String? = nil, name: String) {
+            self.eventBusName = eventBusName
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
             try validate(self.name, name:"name", parent: name, max: 64)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventBusName = "EventBusName"
             case name = "Name"
         }
     }
@@ -306,7 +656,7 @@ extension CloudWatchEvents {
         public let group: String?
         /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where AWS Fargate with Amazon ECS is supported. For more information, see AWS Fargate on Amazon ECS in the Amazon Elastic Container Service Developer Guide.
         public let launchType: LaunchType?
-        /// Use this structure if the ECS task uses the awsvpc network mode. This structure specifies the VPC subnets and security groups associated with the task, and whether a public IP address is to be used. This structure is required if LaunchType is FARGATE because the awsvpc mode is required for Fargate tasks. If you specify NetworkConfiguration when the target ECS task does not use the awsvpc network mode, the task fails.
+        /// Use this structure if the ECS task uses the awsvpc network mode. This structure specifies the VPC subnets and security groups associated with the task and whether a public IP address is to be used. This structure is required if LaunchType is FARGATE because the awsvpc mode is required for Fargate tasks. If you specify NetworkConfiguration when the target ECS task doesn't use the awsvpc network mode, the task fails.
         public let networkConfiguration: NetworkConfiguration?
         /// Specifies the platform version for the task. Specify only the numeric portion of the platform version, such as 1.1.0. This structure is used only if LaunchType is FARGATE. For more information about valid platform versions, see AWS Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
         public let platformVersion: String?
@@ -342,25 +692,109 @@ extension CloudWatchEvents {
 
     public struct EnableRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
+        /// The event bus associated with the rule. If you omit this, the default event bus is used.
+        public let eventBusName: String?
         /// The name of the rule.
         public let name: String
 
-        public init(name: String) {
+        public init(eventBusName: String? = nil, name: String) {
+            self.eventBusName = eventBusName
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
             try validate(self.name, name:"name", parent: name, max: 64)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventBusName = "EventBusName"
             case name = "Name"
         }
+    }
+
+    public struct EventBus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Policy", required: false, type: .string)
+        ]
+
+        /// The ARN of the event bus.
+        public let arn: String?
+        /// The name of the event bus.
+        public let name: String?
+        /// The permissions policy of the event bus, describing which other AWS accounts can write events to this event bus.
+        public let policy: String?
+
+        public init(arn: String? = nil, name: String? = nil, policy: String? = nil) {
+            self.arn = arn
+            self.name = name
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+            case policy = "Policy"
+        }
+    }
+
+    public struct EventSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+
+        /// The ARN of the event source.
+        public let arn: String?
+        /// The name of the partner that created the event source.
+        public let createdBy: String?
+        /// The date and time when the event source was created.
+        public let creationTime: TimeStamp?
+        /// The date and time when the event source will expire if the AWS account doesn't create a matching event bus for it.
+        public let expirationTime: TimeStamp?
+        /// The name of the event source.
+        public let name: String?
+        /// The state of the event source. If it's ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it's PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it's DELETED, you have created a matching event bus, but the event source has since been deleted.
+        public let state: EventSourceState?
+
+        public init(arn: String? = nil, createdBy: String? = nil, creationTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, name: String? = nil, state: EventSourceState? = nil) {
+            self.arn = arn
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.expirationTime = expirationTime
+            self.name = name
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case expirationTime = "ExpirationTime"
+            case name = "Name"
+            case state = "State"
+        }
+    }
+
+    public enum EventSourceState: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
     }
 
     public struct InputTransformer: AWSShape {
@@ -369,9 +803,9 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "InputTemplate", required: true, type: .string)
         ]
 
-        /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 10 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "AWS." 
+        /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 10 key-value pairs. You must use JSON dot notation, not bracket notation. The keys can't start with "AWS".
         public let inputPathsMap: [String: String]?
-        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: &lt;value&gt; The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   Object values cannot include quote marks.   The following example shows the syntax for using InputPathsMap and InputTemplate.   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state &lt;status&gt;"   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state \"&lt;status&gt;\""   } 
+        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: &lt;value&gt;. The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder can't be used as an object key   Object values can't include quote marks   The following example shows the syntax for using InputPathsMap and InputTemplate.   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state &lt;status&gt;"   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state \"&lt;status&gt;\""   } 
         public let inputTemplate: String
 
         public init(inputPathsMap: [String: String]? = nil, inputTemplate: String) {
@@ -423,13 +857,252 @@ extension CloudWatchEvents {
         public var description: String { return self.rawValue }
     }
 
+    public struct ListEventBusesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken that you can use in a subsequent operation to retrieve the next set of results.
+        public let limit: Int?
+        /// Specifying this limits the results to only those event buses with names that start with the specified prefix.
+        public let namePrefix: String?
+        /// The token returned by a previous call to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.namePrefix = namePrefix
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.namePrefix, name:"namePrefix", parent: name, max: 256)
+            try validate(self.namePrefix, name:"namePrefix", parent: name, min: 1)
+            try validate(self.namePrefix, name:"namePrefix", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case namePrefix = "NamePrefix"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEventBusesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventBuses", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// This list of event buses.
+        public let eventBuses: [EventBus]?
+        /// A token you can use in a subsequent operation to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(eventBuses: [EventBus]? = nil, nextToken: String? = nil) {
+            self.eventBuses = eventBuses
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventBuses = "EventBuses"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEventSourcesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken that you can use in a subsequent operation to retrieve the next set of results.
+        public let limit: Int?
+        /// Specifying this limits the results to only those partner event sources with names that start with the specified prefix.
+        public let namePrefix: String?
+        /// The token returned by a previous call to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
+            self.limit = limit
+            self.namePrefix = namePrefix
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.namePrefix, name:"namePrefix", parent: name, max: 256)
+            try validate(self.namePrefix, name:"namePrefix", parent: name, min: 1)
+            try validate(self.namePrefix, name:"namePrefix", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case namePrefix = "NamePrefix"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEventSourcesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSources", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The list of event sources.
+        public let eventSources: [EventSource]?
+        /// A token you can use in a subsequent operation to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(eventSources: [EventSource]? = nil, nextToken: String? = nil) {
+            self.eventSources = eventSources
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSources = "EventSources"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPartnerEventSourceAccountsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSourceName", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The name of the partner event source to display account information about.
+        public let eventSourceName: String
+        /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken that you can use in a subsequent operation to retrieve the next set of results.
+        public let limit: Int?
+        /// The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
+        public let nextToken: String?
+
+        public init(eventSourceName: String, limit: Int? = nil, nextToken: String? = nil) {
+            self.eventSourceName = eventSourceName
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.eventSourceName, name:"eventSourceName", parent: name, max: 256)
+            try validate(self.eventSourceName, name:"eventSourceName", parent: name, min: 1)
+            try validate(self.eventSourceName, name:"eventSourceName", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSourceName = "EventSourceName"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPartnerEventSourceAccountsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PartnerEventSourceAccounts", required: false, type: .list)
+        ]
+
+        /// A token you can use in a subsequent operation to retrieve the next set of results.
+        public let nextToken: String?
+        /// The list of partner event sources returned by the operation.
+        public let partnerEventSourceAccounts: [PartnerEventSourceAccount]?
+
+        public init(nextToken: String? = nil, partnerEventSourceAccounts: [PartnerEventSourceAccount]? = nil) {
+            self.nextToken = nextToken
+            self.partnerEventSourceAccounts = partnerEventSourceAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case partnerEventSourceAccounts = "PartnerEventSourceAccounts"
+        }
+    }
+
+    public struct ListPartnerEventSourcesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NamePrefix", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// pecifying this limits the number of results returned by this operation. The operation also returns a NextToken that you can use in a subsequent operation to retrieve the next set of results.
+        public let limit: Int?
+        /// If you specify this, the results are limited to only those partner event sources that start with the string you specify.
+        public let namePrefix: String
+        /// The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
+        public let nextToken: String?
+
+        public init(limit: Int? = nil, namePrefix: String, nextToken: String? = nil) {
+            self.limit = limit
+            self.namePrefix = namePrefix
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+            try validate(self.namePrefix, name:"namePrefix", parent: name, max: 256)
+            try validate(self.namePrefix, name:"namePrefix", parent: name, min: 1)
+            try validate(self.namePrefix, name:"namePrefix", parent: name, pattern: "aws\\.partner/[\\.\\-_A-Za-z0-9]+/[/\\.\\-_A-Za-z0-9]*")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case namePrefix = "NamePrefix"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPartnerEventSourcesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PartnerEventSources", required: false, type: .list)
+        ]
+
+        /// A token you can use in a subsequent operation to retrieve the next set of results.
+        public let nextToken: String?
+        /// The list of partner event sources returned by the operation.
+        public let partnerEventSources: [PartnerEventSource]?
+
+        public init(nextToken: String? = nil, partnerEventSources: [PartnerEventSource]? = nil) {
+            self.nextToken = nextToken
+            self.partnerEventSources = partnerEventSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case partnerEventSources = "PartnerEventSources"
+        }
+    }
+
     public struct ListRuleNamesByTargetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "TargetArn", required: true, type: .string)
         ]
 
+        /// Limits the results to show only the rules associated with the specified event bus.
+        public let eventBusName: String?
         /// The maximum number of results to return.
         public let limit: Int?
         /// The token returned by a previous call to retrieve the next set of results.
@@ -437,13 +1110,17 @@ extension CloudWatchEvents {
         /// The Amazon Resource Name (ARN) of the target resource.
         public let targetArn: String
 
-        public init(limit: Int? = nil, nextToken: String? = nil, targetArn: String) {
+        public init(eventBusName: String? = nil, limit: Int? = nil, nextToken: String? = nil, targetArn: String) {
+            self.eventBusName = eventBusName
             self.limit = limit
             self.nextToken = nextToken
             self.targetArn = targetArn
         }
 
         public func validate(name: String) throws {
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
@@ -453,6 +1130,7 @@ extension CloudWatchEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventBusName = "EventBusName"
             case limit = "Limit"
             case nextToken = "NextToken"
             case targetArn = "TargetArn"
@@ -483,11 +1161,14 @@ extension CloudWatchEvents {
 
     public struct ListRulesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
+        /// Limits the results to show only the rules associated with the specified event bus.
+        public let eventBusName: String?
         /// The maximum number of results to return.
         public let limit: Int?
         /// The prefix matching the rule name.
@@ -495,13 +1176,17 @@ extension CloudWatchEvents {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
+        public init(eventBusName: String? = nil, limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
+            self.eventBusName = eventBusName
             self.limit = limit
             self.namePrefix = namePrefix
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 1)
             try validate(self.namePrefix, name:"namePrefix", parent: name, max: 64)
@@ -512,6 +1197,7 @@ extension CloudWatchEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventBusName = "EventBusName"
             case limit = "Limit"
             case namePrefix = "NamePrefix"
             case nextToken = "NextToken"
@@ -545,7 +1231,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "ResourceARN", required: true, type: .string)
         ]
 
-        /// The ARN of the CloudWatch Events rule for which you want to view tags.
+        /// The ARN of the rule for which you want to view tags.
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -567,7 +1253,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// The list of tag keys and values associated with the rule you specified
+        /// The list of tag keys and values associated with the rule that you specified.
         public let tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
@@ -581,11 +1267,14 @@ extension CloudWatchEvents {
 
     public struct ListTargetsByRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "Limit", required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
             AWSShapeMember(label: "Rule", required: true, type: .string)
         ]
 
+        /// The event bus associated with the rule. If you omit this, the default event bus is used.
+        public let eventBusName: String?
         /// The maximum number of results to return.
         public let limit: Int?
         /// The token returned by a previous call to retrieve the next set of results.
@@ -593,13 +1282,17 @@ extension CloudWatchEvents {
         /// The name of the rule.
         public let rule: String
 
-        public init(limit: Int? = nil, nextToken: String? = nil, rule: String) {
+        public init(eventBusName: String? = nil, limit: Int? = nil, nextToken: String? = nil, rule: String) {
+            self.eventBusName = eventBusName
             self.limit = limit
             self.nextToken = nextToken
             self.rule = rule
         }
 
         public func validate(name: String) throws {
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 2048)
@@ -610,6 +1303,7 @@ extension CloudWatchEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventBusName = "EventBusName"
             case limit = "Limit"
             case nextToken = "NextToken"
             case rule = "Rule"
@@ -643,7 +1337,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "awsvpcConfiguration", required: false, type: .structure)
         ]
 
-        /// Use this structure to specify the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
+        /// Use this structure to specify the VPC subnets and security groups for the task and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public let awsvpcConfiguration: AwsVpcConfiguration?
 
         public init(awsvpcConfiguration: AwsVpcConfiguration? = nil) {
@@ -652,6 +1346,60 @@ extension CloudWatchEvents {
 
         private enum CodingKeys: String, CodingKey {
             case awsvpcConfiguration = "awsvpcConfiguration"
+        }
+    }
+
+    public struct PartnerEventSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// The ARN of the partner event source.
+        public let arn: String?
+        /// The name of the partner event source.
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+        }
+    }
+
+    public struct PartnerEventSourceAccount: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Account", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+
+        /// The AWS account ID that the partner event source was offered to.
+        public let account: String?
+        /// The date and time when the event source was created.
+        public let creationTime: TimeStamp?
+        /// The date and time when the event source will expire if the AWS account doesn't create a matching event bus for it.
+        public let expirationTime: TimeStamp?
+        /// The state of the event source. If it's ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it's PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it's DELETED, you have created a matching event bus, but the event source has since been deleted.
+        public let state: EventSourceState?
+
+        public init(account: String? = nil, creationTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, state: EventSourceState? = nil) {
+            self.account = account
+            self.creationTime = creationTime
+            self.expirationTime = expirationTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+            case creationTime = "CreationTime"
+            case expirationTime = "ExpirationTime"
+            case state = "State"
         }
     }
 
@@ -668,6 +1416,9 @@ extension CloudWatchEvents {
         }
 
         public func validate(name: String) throws {
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
             try validate(self.entries, name:"entries", parent: name, max: 10)
             try validate(self.entries, name:"entries", parent: name, min: 1)
         }
@@ -681,33 +1432,44 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Detail", required: false, type: .string), 
             AWSShapeMember(label: "DetailType", required: false, type: .string), 
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "Resources", required: false, type: .list), 
             AWSShapeMember(label: "Source", required: false, type: .string), 
             AWSShapeMember(label: "Time", required: false, type: .timestamp)
         ]
 
-        /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
+        /// A valid JSON string. There is no other schema imposed. The JSON string can contain fields and nested subobjects.
         public let detail: String?
-        /// Free-form string used to decide what fields to expect in the event detail.
+        /// Free-form string used to decide which fields to expect in the event detail.
         public let detailType: String?
-        /// AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
+        /// The event bus that will receive the event. Only the rules that are associated with this event bus can match the event.
+        public let eventBusName: String?
+        /// AWS resources, identified by Amazon Resource Name (ARN), that the event primarily concerns. Any number, including zero, can be present.
         public let resources: [String]?
         /// The source of the event. This field is required.
         public let source: String?
-        /// The time stamp of the event, per RFC3339. If no time stamp is provided, the time stamp of the PutEvents call is used.
+        /// The timestamp of the event, per RFC3339. If no timestamp is provided, the timestamp of the PutEvents call is used.
         public let time: TimeStamp?
 
-        public init(detail: String? = nil, detailType: String? = nil, resources: [String]? = nil, source: String? = nil, time: TimeStamp? = nil) {
+        public init(detail: String? = nil, detailType: String? = nil, eventBusName: String? = nil, resources: [String]? = nil, source: String? = nil, time: TimeStamp? = nil) {
             self.detail = detail
             self.detailType = detailType
+            self.eventBusName = eventBusName
             self.resources = resources
             self.source = source
             self.time = time
         }
 
+        public func validate(name: String) throws {
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case detail = "Detail"
             case detailType = "DetailType"
+            case eventBusName = "EventBusName"
             case resources = "Resources"
             case source = "Source"
             case time = "Time"
@@ -763,26 +1525,138 @@ extension CloudWatchEvents {
         }
     }
 
+    public struct PutPartnerEventsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entries", required: true, type: .list)
+        ]
+
+        /// The list of events to write to the event bus.
+        public let entries: [PutPartnerEventsRequestEntry]
+
+        public init(entries: [PutPartnerEventsRequestEntry]) {
+            self.entries = entries
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.entries, name:"entries", parent: name, max: 20)
+            try validate(self.entries, name:"entries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
+        }
+    }
+
+    public struct PutPartnerEventsRequestEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Detail", required: false, type: .string), 
+            AWSShapeMember(label: "DetailType", required: false, type: .string), 
+            AWSShapeMember(label: "Resources", required: false, type: .list), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "Time", required: false, type: .timestamp)
+        ]
+
+        /// A valid JSON string. There is no other schema imposed. The JSON string can contain fields and nested subobjects.
+        public let detail: String?
+        /// A free-form string used to decide which fields to expect in the event detail.
+        public let detailType: String?
+        /// AWS resources, identified by Amazon Resource Name (ARN), that the event primarily concerns. Any number, including zero, can be present.
+        public let resources: [String]?
+        /// The event source that is generating the evntry.
+        public let source: String?
+        /// The date and time of the event.
+        public let time: TimeStamp?
+
+        public init(detail: String? = nil, detailType: String? = nil, resources: [String]? = nil, source: String? = nil, time: TimeStamp? = nil) {
+            self.detail = detail
+            self.detailType = detailType
+            self.resources = resources
+            self.source = source
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detail = "Detail"
+            case detailType = "DetailType"
+            case resources = "Resources"
+            case source = "Source"
+            case time = "Time"
+        }
+    }
+
+    public struct PutPartnerEventsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entries", required: false, type: .list), 
+            AWSShapeMember(label: "FailedEntryCount", required: false, type: .integer)
+        ]
+
+        /// The list of events from this operation that were successfully written to the partner event bus.
+        public let entries: [PutPartnerEventsResultEntry]?
+        /// The number of events from this operation that couldn't be written to the partner event bus.
+        public let failedEntryCount: Int?
+
+        public init(entries: [PutPartnerEventsResultEntry]? = nil, failedEntryCount: Int? = nil) {
+            self.entries = entries
+            self.failedEntryCount = failedEntryCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
+            case failedEntryCount = "FailedEntryCount"
+        }
+    }
+
+    public struct PutPartnerEventsResultEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "EventId", required: false, type: .string)
+        ]
+
+        /// The error code that indicates why the event submission failed.
+        public let errorCode: String?
+        /// The error message that explains why the event submission failed.
+        public let errorMessage: String?
+        /// The ID of the event.
+        public let eventId: String?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, eventId: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.eventId = eventId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case eventId = "EventId"
+        }
+    }
+
     public struct PutPermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Action", required: true, type: .string), 
             AWSShapeMember(label: "Condition", required: false, type: .structure), 
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "Principal", required: true, type: .string), 
             AWSShapeMember(label: "StatementId", required: true, type: .string)
         ]
 
-        /// The action that you are enabling the other account to perform. Currently, this must be events:PutEvents.
+        /// The action that you're enabling the other account to perform. Currently, this must be events:PutEvents.
         public let action: String
-        /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
+        /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations? in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string that must contain Type, Key, and Value fields.
         public let condition: Condition?
-        /// The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
+        /// The event bus associated with the rule. If you omit this, the default event bus is used.
+        public let eventBusName: String?
+        /// The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition, avoid creating rules that might match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID to receive events from. Rules with an account field don't match any events sent from other accounts.
         public let principal: String
-        /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
+        /// An identifier string for the external account that you're granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
         public let statementId: String
 
-        public init(action: String, condition: Condition? = nil, principal: String, statementId: String) {
+        public init(action: String, condition: Condition? = nil, eventBusName: String? = nil, principal: String, statementId: String) {
             self.action = action
             self.condition = condition
+            self.eventBusName = eventBusName
             self.principal = principal
             self.statementId = statementId
         }
@@ -791,6 +1665,9 @@ extension CloudWatchEvents {
             try validate(self.action, name:"action", parent: name, max: 64)
             try validate(self.action, name:"action", parent: name, min: 1)
             try validate(self.action, name:"action", parent: name, pattern: "events:[a-zA-Z]+")
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
             try validate(self.principal, name:"principal", parent: name, max: 12)
             try validate(self.principal, name:"principal", parent: name, min: 1)
             try validate(self.principal, name:"principal", parent: name, pattern: "(\\d{12}|\\*)")
@@ -802,6 +1679,7 @@ extension CloudWatchEvents {
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case condition = "Condition"
+            case eventBusName = "EventBusName"
             case principal = "Principal"
             case statementId = "StatementId"
         }
@@ -810,6 +1688,7 @@ extension CloudWatchEvents {
     public struct PutRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "EventPattern", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
@@ -820,21 +1699,24 @@ extension CloudWatchEvents {
 
         /// A description of the rule.
         public let description: String?
-        /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
+        /// The event bus to associate with this rule. If you omit this, the default event bus is used.
+        public let eventBusName: String?
+        /// The event pattern. For more information, see Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
-        /// The name of the rule that you are creating or updating.
+        /// The name of the rule that you're creating or updating.
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
         public let roleArn: String?
-        /// The scheduling expression. For example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
+        /// The scheduling expression: for example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
         public let scheduleExpression: String?
         /// Indicates whether the rule is enabled or disabled.
         public let state: RuleState?
         /// The list of key-value pairs to associate with the rule.
         public let tags: [Tag]?
 
-        public init(description: String? = nil, eventPattern: String? = nil, name: String, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil, tags: [Tag]? = nil) {
+        public init(description: String? = nil, eventBusName: String? = nil, eventPattern: String? = nil, name: String, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil, tags: [Tag]? = nil) {
             self.description = description
+            self.eventBusName = eventBusName
             self.eventPattern = eventPattern
             self.name = name
             self.roleArn = roleArn
@@ -845,6 +1727,9 @@ extension CloudWatchEvents {
 
         public func validate(name: String) throws {
             try validate(self.description, name:"description", parent: name, max: 512)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
             try validate(self.name, name:"name", parent: name, max: 64)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -858,6 +1743,7 @@ extension CloudWatchEvents {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case eventBusName = "EventBusName"
             case eventPattern = "EventPattern"
             case name = "Name"
             case roleArn = "RoleArn"
@@ -886,21 +1772,28 @@ extension CloudWatchEvents {
 
     public struct PutTargetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "Rule", required: true, type: .string), 
             AWSShapeMember(label: "Targets", required: true, type: .list)
         ]
 
+        /// The name of the event bus associated with the rule. If you omit this, the default event bus is used.
+        public let eventBusName: String?
         /// The name of the rule.
         public let rule: String
         /// The targets to update or add to the rule.
         public let targets: [Target]
 
-        public init(rule: String, targets: [Target]) {
+        public init(eventBusName: String? = nil, rule: String, targets: [Target]) {
+            self.eventBusName = eventBusName
             self.rule = rule
             self.targets = targets
         }
 
         public func validate(name: String) throws {
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
             try validate(self.rule, name:"rule", parent: name, max: 64)
             try validate(self.rule, name:"rule", parent: name, min: 1)
             try validate(self.rule, name:"rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -912,6 +1805,7 @@ extension CloudWatchEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventBusName = "EventBusName"
             case rule = "Rule"
             case targets = "Targets"
         }
@@ -968,48 +1862,63 @@ extension CloudWatchEvents {
 
     public struct RemovePermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "StatementId", required: true, type: .string)
         ]
 
+        /// The name of the event bus to revoke permissions for. If you omit this, the default event bus is used.
+        public let eventBusName: String?
         /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
         public let statementId: String
 
-        public init(statementId: String) {
+        public init(eventBusName: String? = nil, statementId: String) {
+            self.eventBusName = eventBusName
             self.statementId = statementId
         }
 
         public func validate(name: String) throws {
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
             try validate(self.statementId, name:"statementId", parent: name, max: 64)
             try validate(self.statementId, name:"statementId", parent: name, min: 1)
             try validate(self.statementId, name:"statementId", parent: name, pattern: "[a-zA-Z0-9-_]+")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventBusName = "EventBusName"
             case statementId = "StatementId"
         }
     }
 
     public struct RemoveTargetsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "Force", required: false, type: .boolean), 
             AWSShapeMember(label: "Ids", required: true, type: .list), 
             AWSShapeMember(label: "Rule", required: true, type: .string)
         ]
 
-        /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
+        /// The name of the event bus associated with the rule.
+        public let eventBusName: String?
+        /// If this is a managed rule created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that aren't managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
         public let force: Bool?
         /// The IDs of the targets to remove from the rule.
         public let ids: [String]
         /// The name of the rule.
         public let rule: String
 
-        public init(force: Bool? = nil, ids: [String], rule: String) {
+        public init(eventBusName: String? = nil, force: Bool? = nil, ids: [String], rule: String) {
+            self.eventBusName = eventBusName
             self.force = force
             self.ids = ids
             self.rule = rule
         }
 
         public func validate(name: String) throws {
+            try validate(self.eventBusName, name:"eventBusName", parent: name, max: 256)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, min: 1)
+            try validate(self.eventBusName, name:"eventBusName", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
             try self.ids.forEach {
                 try validate($0, name: "ids[]", parent: name, max: 64)
                 try validate($0, name: "ids[]", parent: name, min: 1)
@@ -1023,6 +1932,7 @@ extension CloudWatchEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventBusName = "EventBusName"
             case force = "Force"
             case ids = "Ids"
             case rule = "Rule"
@@ -1082,6 +1992,7 @@ extension CloudWatchEvents {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EventBusName", required: false, type: .string), 
             AWSShapeMember(label: "EventPattern", required: false, type: .string), 
             AWSShapeMember(label: "ManagedBy", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -1094,22 +2005,25 @@ extension CloudWatchEvents {
         public let arn: String?
         /// The description of the rule.
         public let description: String?
-        /// The event pattern of the rule. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
+        /// The event bus associated with the rule.
+        public let eventBusName: String?
+        /// The event pattern of the rule. For more information, see Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
-        /// If the rule was created on behalf of your account by an AWS service, this field displays the principal name of the service that created the rule.
+        /// If an AWS service created the rule on behalf of your account, this field displays the principal name of the service that created the rule.
         public let managedBy: String?
         /// The name of the rule.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the role that is used for target invocation.
         public let roleArn: String?
-        /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
+        /// The scheduling expression: for example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
         public let scheduleExpression: String?
         /// The state of the rule.
         public let state: RuleState?
 
-        public init(arn: String? = nil, description: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, name: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
+        public init(arn: String? = nil, description: String? = nil, eventBusName: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, name: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
             self.arn = arn
             self.description = description
+            self.eventBusName = eventBusName
             self.eventPattern = eventPattern
             self.managedBy = managedBy
             self.name = name
@@ -1121,6 +2035,7 @@ extension CloudWatchEvents {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case description = "Description"
+            case eventBusName = "EventBusName"
             case eventPattern = "EventPattern"
             case managedBy = "ManagedBy"
             case name = "Name"
@@ -1218,7 +2133,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
 
-        /// A string you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
+        /// A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
         public let key: String
         /// The value for the specified tag key.
         public let value: String
@@ -1247,7 +2162,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
 
-        /// The ARN of the CloudWatch Events rule that you're adding tags to.
+        /// The ARN of the rule that you're adding tags to.
         public let resourceARN: String
         /// The list of key-value pairs to associate with the rule.
         public let tags: [Tag]
@@ -1298,7 +2213,7 @@ extension CloudWatchEvents {
         public let arn: String
         /// If the event target is an AWS Batch job, this contains the job definition, job name, and other parameters. For more information, see Jobs in the AWS Batch User Guide.
         public let batchParameters: BatchParameters?
-        /// Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
+        /// Contains the Amazon ECS task definition and task count to be used if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
         public let ecsParameters: EcsParameters?
         /// The ID of the target.
         public let id: String
@@ -1308,7 +2223,7 @@ extension CloudWatchEvents {
         public let inputPath: String?
         /// Settings to enable you to provide custom input to a target based on certain event data. You can extract one or more key-value pairs from the event and then use that data to send customized input to the target.
         public let inputTransformer: InputTransformer?
-        /// The custom parameter you can use to control the shard assignment, when the target is a Kinesis data stream. If you do not include this parameter, the default is to use the eventId as the partition key.
+        /// The custom parameter that you can use to control the shard assignment when the target is a Kinesis data stream. If you don't include this parameter, the default is to use the eventId as the partition key.
         public let kinesisParameters: KinesisParameters?
         /// The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. If one rule triggers multiple targets, you can use a different IAM role for each target.
         public let roleArn: String?
@@ -1370,7 +2285,7 @@ extension CloudWatchEvents {
 
         /// The event, in JSON format, to test against the event pattern.
         public let event: String
-        /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
+        /// The event pattern. For more information, see Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String
 
         public init(event: String, eventPattern: String) {
@@ -1407,7 +2322,7 @@ extension CloudWatchEvents {
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
 
-        /// The ARN of the CloudWatch Events rule from which you are removing tags.
+        /// The ARN of the rule that you're removing tags from.
         public let resourceARN: String
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]

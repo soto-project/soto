@@ -115,6 +115,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.imageIds.forEach {
+                try $0.validate(name: "\(name).imageIds[]")
+            }
             try validate(self.imageIds, name:"imageIds", parent: name, max: 100)
             try validate(self.imageIds, name:"imageIds", parent: name, min: 1)
             try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
@@ -179,6 +182,9 @@ extension ECR {
         public func validate(name: String) throws {
             try validate(self.acceptedMediaTypes, name:"acceptedMediaTypes", parent: name, max: 100)
             try validate(self.acceptedMediaTypes, name:"acceptedMediaTypes", parent: name, min: 1)
+            try self.imageIds.forEach {
+                try $0.validate(name: "\(name).imageIds[]")
+            }
             try validate(self.imageIds, name:"imageIds", parent: name, max: 100)
             try validate(self.imageIds, name:"imageIds", parent: name, min: 1)
             try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
@@ -296,15 +302,20 @@ extension ECR {
 
     public struct CreateRepositoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageTagMutability", required: false, type: .enum), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
+        /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+        public let imageTagMutability: ImageTagMutability?
         /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
         public let repositoryName: String
+        /// The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
 
-        public init(repositoryName: String, tags: [Tag]? = nil) {
+        public init(imageTagMutability: ImageTagMutability? = nil, repositoryName: String, tags: [Tag]? = nil) {
+            self.imageTagMutability = imageTagMutability
             self.repositoryName = repositoryName
             self.tags = tags
         }
@@ -316,6 +327,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case imageTagMutability = "imageTagMutability"
             case repositoryName = "repositoryName"
             case tags = "tags"
         }
@@ -543,7 +555,7 @@ extension ECR {
         public let nextToken: String?
         /// The AWS account ID associated with the registry that contains the repository in which to describe images. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
-        /// A list of repositories to describe.
+        /// The repository that contains the images to describe.
         public let repositoryName: String
 
         public init(filter: DescribeImagesFilter? = nil, imageIds: [ImageIdentifier]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
@@ -556,6 +568,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.imageIds?.forEach {
+                try $0.validate(name: "\(name).imageIds[]")
+            }
             try validate(self.imageIds, name:"imageIds", parent: name, max: 100)
             try validate(self.imageIds, name:"imageIds", parent: name, min: 1)
             try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
@@ -797,6 +812,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.imageIds?.forEach {
+                try $0.validate(name: "\(name).imageIds[]")
+            }
             try validate(self.imageIds, name:"imageIds", parent: name, max: 100)
             try validate(self.imageIds, name:"imageIds", parent: name, min: 1)
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
@@ -1112,10 +1130,21 @@ extension ECR {
             self.imageTag = imageTag
         }
 
+        public func validate(name: String) throws {
+            try validate(self.imageTag, name:"imageTag", parent: name, max: 300)
+            try validate(self.imageTag, name:"imageTag", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case imageDigest = "imageDigest"
             case imageTag = "imageTag"
         }
+    }
+
+    public enum ImageTagMutability: String, CustomStringConvertible, Codable {
+        case mutable = "MUTABLE"
+        case immutable = "IMMUTABLE"
+        public var description: String { return self.rawValue }
     }
 
     public struct InitiateLayerUploadRequest: AWSShape {
@@ -1480,6 +1509,8 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try validate(self.imageTag, name:"imageTag", parent: name, max: 300)
+            try validate(self.imageTag, name:"imageTag", parent: name, min: 1)
             try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
             try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
             try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
@@ -1508,6 +1539,67 @@ extension ECR {
 
         private enum CodingKeys: String, CodingKey {
             case image = "image"
+        }
+    }
+
+    public struct PutImageTagMutabilityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageTagMutability", required: true, type: .enum), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+
+        /// The tag mutability setting for the repository. If MUTABLE is specified, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+        public let imageTagMutability: ImageTagMutability
+        /// The AWS account ID associated with the registry that contains the repository in which to update the image tag mutability settings. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The name of the repository in which to update the image tag mutability settings.
+        public let repositoryName: String
+
+        public init(imageTagMutability: ImageTagMutability, registryId: String? = nil, repositoryName: String) {
+            self.imageTagMutability = imageTagMutability
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageTagMutability = "imageTagMutability"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct PutImageTagMutabilityResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageTagMutability", required: false, type: .enum), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
+        ]
+
+        /// The image tag mutability setting for the repository.
+        public let imageTagMutability: ImageTagMutability?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+
+        public init(imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+            self.imageTagMutability = imageTagMutability
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageTagMutability = "imageTagMutability"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1577,6 +1669,7 @@ extension ECR {
     public struct Repository: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "imageTagMutability", required: false, type: .enum), 
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryArn", required: false, type: .string), 
             AWSShapeMember(label: "repositoryName", required: false, type: .string), 
@@ -1585,6 +1678,8 @@ extension ECR {
 
         /// The date and time, in JavaScript date format, when the repository was created.
         public let createdAt: TimeStamp?
+        /// The tag mutability setting for the repository.
+        public let imageTagMutability: ImageTagMutability?
         /// The AWS account ID associated with the registry that contains the repository.
         public let registryId: String?
         /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, AWS account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
@@ -1594,8 +1689,9 @@ extension ECR {
         /// The URI for the repository. You can use this URI for Docker push or pull operations.
         public let repositoryUri: String?
 
-        public init(createdAt: TimeStamp? = nil, registryId: String? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, repositoryUri: String? = nil) {
+        public init(createdAt: TimeStamp? = nil, imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, repositoryUri: String? = nil) {
             self.createdAt = createdAt
+            self.imageTagMutability = imageTagMutability
             self.registryId = registryId
             self.repositoryArn = repositoryArn
             self.repositoryName = repositoryName
@@ -1604,6 +1700,7 @@ extension ECR {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case imageTagMutability = "imageTagMutability"
             case registryId = "registryId"
             case repositoryArn = "repositoryArn"
             case repositoryName = "repositoryName"
@@ -1621,7 +1718,7 @@ extension ECR {
 
         /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
         public let force: Bool?
-        /// The JSON repository policy text to apply to the repository.
+        /// The JSON repository policy text to apply to the repository. For more information, see Amazon ECR Repository Policy Examples in the Amazon Elastic Container Registry User Guide.
         public let policyText: String
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?

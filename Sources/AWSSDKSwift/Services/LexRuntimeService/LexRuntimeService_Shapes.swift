@@ -27,8 +27,141 @@ extension LexRuntimeService {
         }
     }
 
+    public enum ConfirmationStatus: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case confirmed = "Confirmed"
+        case denied = "Denied"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContentType: String, CustomStringConvertible, Codable {
         case applicationVndAmazonawsCardGeneric = "application/vnd.amazonaws.card.generic"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteSessionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
+        ]
+
+        /// The alias in use for the bot that contains the session data.
+        public let botAlias: String
+        /// The name of the bot that contains the session data.
+        public let botName: String
+        /// The identifier of the user associated with the session data.
+        public let userId: String
+
+        public init(botAlias: String, botName: String, userId: String) {
+            self.botAlias = botAlias
+            self.botName = botName
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.userId, name:"userId", parent: name, max: 100)
+            try validate(self.userId, name:"userId", parent: name, min: 2)
+            try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAlias = "botAlias"
+            case botName = "botName"
+            case userId = "userId"
+        }
+    }
+
+    public struct DeleteSessionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botAlias", required: false, type: .string), 
+            AWSShapeMember(label: "botName", required: false, type: .string), 
+            AWSShapeMember(label: "sessionId", required: false, type: .string), 
+            AWSShapeMember(label: "userId", required: false, type: .string)
+        ]
+
+        /// The alias in use for the bot associated with the session data.
+        public let botAlias: String?
+        /// The name of the bot associated with the session data.
+        public let botName: String?
+        /// The unique identifier for the session.
+        public let sessionId: String?
+        /// The ID of the client application user.
+        public let userId: String?
+
+        public init(botAlias: String? = nil, botName: String? = nil, sessionId: String? = nil, userId: String? = nil) {
+            self.botAlias = botAlias
+            self.botName = botName
+            self.sessionId = sessionId
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAlias = "botAlias"
+            case botName = "botName"
+            case sessionId = "sessionId"
+            case userId = "userId"
+        }
+    }
+
+    public struct DialogAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fulfillmentState", required: false, type: .enum), 
+            AWSShapeMember(label: "intentName", required: false, type: .string), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "messageFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "slots", required: false, type: .map), 
+            AWSShapeMember(label: "slotToElicit", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+
+        /// The fulfillment state of the intent. The possible values are:    Failed - The Lambda function associated with the intent failed to fulfill the intent.    Fulfilled - The intent has fulfilled by the Lambda function associated with the intent.     ReadyForFulfillment - All of the information necessary for the intent is present and the intent ready to be fulfilled by the client application.  
+        public let fulfillmentState: FulfillmentState?
+        /// The name of the intent.
+        public let intentName: String?
+        /// The message that should be shown to the user. If you don't specify a message, Amazon Lex will use the message configured for the intent.
+        public let message: String?
+        ///    PlainText - The message contains plain UTF-8 text.    CustomPayload - The message is a custom format for the client.    SSML - The message contains text formatted for voice output.    Composite - The message contains an escaped JSON object containing one or more messages. For more information, see Message Groups.   
+        public let messageFormat: MessageFormatType?
+        /// Map of the slots that have been gathered and their values. 
+        public let slots: [String: String]?
+        /// The name of the slot that should be elicited from the user.
+        public let slotToElicit: String?
+        /// The next action that the bot should take in its interaction with the user. The possible values are:    ConfirmIntent - The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Close - Indicates that the there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    Delegate - The next action is determined by Amazon Lex.    ElicitIntent - The next action is to determine the intent that the user wants to fulfill.    ElicitSlot - The next action is to elicit a slot value from the user.  
+        public let `type`: DialogActionType
+
+        public init(fulfillmentState: FulfillmentState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil, type: DialogActionType) {
+            self.fulfillmentState = fulfillmentState
+            self.intentName = intentName
+            self.message = message
+            self.messageFormat = messageFormat
+            self.slots = slots
+            self.slotToElicit = slotToElicit
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.message, name:"message", parent: name, max: 1024)
+            try validate(self.message, name:"message", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fulfillmentState = "fulfillmentState"
+            case intentName = "intentName"
+            case message = "message"
+            case messageFormat = "messageFormat"
+            case slots = "slots"
+            case slotToElicit = "slotToElicit"
+            case `type` = "type"
+        }
+    }
+
+    public enum DialogActionType: String, CustomStringConvertible, Codable {
+        case elicitintent = "ElicitIntent"
+        case confirmintent = "ConfirmIntent"
+        case elicitslot = "ElicitSlot"
+        case close = "Close"
+        case delegate = "Delegate"
         public var description: String { return self.rawValue }
     }
 
@@ -39,6 +172,13 @@ extension LexRuntimeService {
         case fulfilled = "Fulfilled"
         case readyforfulfillment = "ReadyForFulfillment"
         case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FulfillmentState: String, CustomStringConvertible, Codable {
+        case fulfilled = "Fulfilled"
+        case failed = "Failed"
+        case readyforfulfillment = "ReadyForFulfillment"
         public var description: String { return self.rawValue }
     }
 
@@ -79,6 +219,113 @@ extension LexRuntimeService {
         }
     }
 
+    public struct GetSessionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
+        ]
+
+        /// The alias in use for the bot that contains the session data.
+        public let botAlias: String
+        /// The name of the bot that contains the session data.
+        public let botName: String
+        /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. 
+        public let userId: String
+
+        public init(botAlias: String, botName: String, userId: String) {
+            self.botAlias = botAlias
+            self.botName = botName
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.userId, name:"userId", parent: name, max: 100)
+            try validate(self.userId, name:"userId", parent: name, min: 2)
+            try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAlias = "botAlias"
+            case botName = "botName"
+            case userId = "userId"
+        }
+    }
+
+    public struct GetSessionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dialogAction", required: false, type: .structure), 
+            AWSShapeMember(label: "recentIntentSummaryView", required: false, type: .list), 
+            AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
+            AWSShapeMember(label: "sessionId", required: false, type: .string)
+        ]
+
+        /// Describes the current state of the bot.
+        public let dialogAction: DialogAction?
+        /// An array of information about the intents used in the session. The array can contain a maximum of three summaries. If more than three intents are used in the session, the recentIntentSummaryView operation contains information about the last three intents used.
+        public let recentIntentSummaryView: [IntentSummary]?
+        /// Map of key/value pairs representing the session-specific context information. It contains application information passed between Amazon Lex and a client application.
+        public let sessionAttributes: [String: String]?
+        /// A unique identifier for the session.
+        public let sessionId: String?
+
+        public init(dialogAction: DialogAction? = nil, recentIntentSummaryView: [IntentSummary]? = nil, sessionAttributes: [String: String]? = nil, sessionId: String? = nil) {
+            self.dialogAction = dialogAction
+            self.recentIntentSummaryView = recentIntentSummaryView
+            self.sessionAttributes = sessionAttributes
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dialogAction = "dialogAction"
+            case recentIntentSummaryView = "recentIntentSummaryView"
+            case sessionAttributes = "sessionAttributes"
+            case sessionId = "sessionId"
+        }
+    }
+
+    public struct IntentSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "confirmationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "dialogActionType", required: true, type: .enum), 
+            AWSShapeMember(label: "fulfillmentState", required: false, type: .enum), 
+            AWSShapeMember(label: "intentName", required: false, type: .string), 
+            AWSShapeMember(label: "slots", required: false, type: .map), 
+            AWSShapeMember(label: "slotToElicit", required: false, type: .string)
+        ]
+
+        /// The status of the intent after the user responds to the confirmation prompt. If the user confirms the intent, Amazon Lex sets this field to Confirmed. If the user denies the intent, Amazon Lex sets this value to Denied. The possible values are:    Confirmed - The user has responded "Yes" to the confirmation prompt, confirming that the intent is complete and that it is ready to be fulfilled.    Denied - The user has responded "No" to the confirmation prompt.    None - The user has never been prompted for confirmation; or, the user was prompted but did not confirm or deny the prompt.  
+        public let confirmationStatus: ConfirmationStatus?
+        /// The next action that the bot should take in its interaction with the user. The possible values are:    ConfirmIntent - The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Close - Indicates that the there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    ElicitIntent - The next action is to determine the intent that the user wants to fulfill.    ElicitSlot - The next action is to elicit a slot value from the user.  
+        public let dialogActionType: DialogActionType
+        /// The fulfillment state of the intent. The possible values are:    Failed - The Lambda function associated with the intent failed to fulfill the intent.    Fulfilled - The intent has fulfilled by the Lambda function associated with the intent.     ReadyForFulfillment - All of the information necessary for the intent is present and the intent ready to be fulfilled by the client application.  
+        public let fulfillmentState: FulfillmentState?
+        /// The name of the intent.
+        public let intentName: String?
+        /// Map of the slots that have been gathered and their values. 
+        public let slots: [String: String]?
+        /// The next slot to elicit from the user. If there is not slot to elicit, the field is blank.
+        public let slotToElicit: String?
+
+        public init(confirmationStatus: ConfirmationStatus? = nil, dialogActionType: DialogActionType, fulfillmentState: FulfillmentState? = nil, intentName: String? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil) {
+            self.confirmationStatus = confirmationStatus
+            self.dialogActionType = dialogActionType
+            self.fulfillmentState = fulfillmentState
+            self.intentName = intentName
+            self.slots = slots
+            self.slotToElicit = slotToElicit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confirmationStatus = "confirmationStatus"
+            case dialogActionType = "dialogActionType"
+            case fulfillmentState = "fulfillmentState"
+            case intentName = "intentName"
+            case slots = "slots"
+            case slotToElicit = "slotToElicit"
+        }
+    }
+
     public enum MessageFormatType: String, CustomStringConvertible, Codable {
         case plaintext = "PlainText"
         case custompayload = "CustomPayload"
@@ -101,7 +348,7 @@ extension LexRuntimeService {
             AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
         ]
 
-        ///  You pass this value as the Accept HTTP header.   The message Amazon Lex returns in the response can be either text or speech based on the Accept HTTP header value in the request.     If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.     If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech (using the configuration you specified in the Accept header). For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format. The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm   text/plain; charset=utf-8   audio/* (defaults to mpeg)    
+        ///  You pass this value as the Accept HTTP header.   The message Amazon Lex returns in the response can be either text or speech based on the Accept HTTP header value in the request.     If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.     If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech (using the configuration you specified in the Accept header). For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm in 16-bit, little endian format.    The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm   text/plain; charset=utf-8   audio/* (defaults to mpeg)    
         public let accept: String?
         /// Alias of the Amazon Lex bot.
         public let botAlias: String
@@ -173,13 +420,13 @@ extension LexRuntimeService {
         public let inputTranscript: String?
         /// Current user intent that Amazon Lex is aware of.
         public let intentName: String?
-        /// The message to convey to the user. The message can come from the bot's configuration or from a Lambda function. If the intent is not configured with a Lambda function, or if the Lambda function returned Delegate as the dialogAction.type its response, Amazon Lex decides on the next course of action and selects an appropriate message from the bot's configuration based on the current interaction context. For example, if Amazon Lex isn't able to understand user input, it uses a clarification prompt message. When you create an intent you can assign messages to groups. When messages are assigned to groups Amazon Lex returns one message from each group in the response. The message field is an escaped JSON string containing the messages. For more information about the structure of the JSON string returned, see msg-prompts-formats. If the Lambda function returns a message, Amazon Lex passes it to the client in its response.
+        /// The message to convey to the user. The message can come from the bot's configuration or from a Lambda function. If the intent is not configured with a Lambda function, or if the Lambda function returned Delegate as the dialogAction.type in its response, Amazon Lex decides on the next course of action and selects an appropriate message from the bot's configuration based on the current interaction context. For example, if Amazon Lex isn't able to understand user input, it uses a clarification prompt message. When you create an intent you can assign messages to groups. When messages are assigned to groups Amazon Lex returns one message from each group in the response. The message field is an escaped JSON string containing the messages. For more information about the structure of the JSON string returned, see msg-prompts-formats. If the Lambda function returns a message, Amazon Lex passes it to the client in its response.
         public let message: String?
         /// The format of the response message. One of the following values:    PlainText - The message contains plain UTF-8 text.    CustomPayload - The message is a custom format for the client.    SSML - The message contains text formatted for voice output.    Composite - The message contains an escaped JSON object containing one or more messages from the groups that messages were assigned to when the intent was created.  
         public let messageFormat: MessageFormatType?
         ///  Map of key/value pairs representing the session-specific context information. 
         public let sessionAttributes: String?
-        /// Map of zero or more intent slots (name/value pairs) Amazon Lex detected from the user input during the conversation. Amazon Lex creates a resolution list containing likely values for a slot. The value that it returns is determined by the valueSelectionStrategy selected when the slot type was created or updated. If valueSelectionStrategy is set to ORIGINAL_VALUE, the value provided by the user is returned, if the user value is similar to the slot values. If valueSelectionStrategy is set to TOP_RESOLUTION Amazon Lex returns the first value in the resolution list or, if there is no resolution list, null. If you don't specify a valueSelectionStrategy, the default is ORIGINAL_VALUE.
+        /// Map of zero or more intent slots (name/value pairs) Amazon Lex detected from the user input during the conversation. The field is base-64 encoded. Amazon Lex creates a resolution list containing likely values for a slot. The value that it returns is determined by the valueSelectionStrategy selected when the slot type was created or updated. If valueSelectionStrategy is set to ORIGINAL_VALUE, the value provided by the user is returned, if the user value is similar to the slot values. If valueSelectionStrategy is set to TOP_RESOLUTION Amazon Lex returns the first value in the resolution list or, if there is no resolution list, null. If you don't specify a valueSelectionStrategy, the default is ORIGINAL_VALUE.
         public let slots: String?
         ///  If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
@@ -310,6 +557,119 @@ extension LexRuntimeService {
             case sessionAttributes = "sessionAttributes"
             case slots = "slots"
             case slotToElicit = "slotToElicit"
+        }
+    }
+
+    public struct PutSessionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accept", location: .header(locationName: "Accept"), required: false, type: .string), 
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
+            AWSShapeMember(label: "dialogAction", required: false, type: .structure), 
+            AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
+        ]
+
+        /// The message that Amazon Lex returns in the response can be either text or speech based depending on the value of this field.   If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.   If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech in the configuration that you specify. For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech is returned as audio/pcm in 16-bit, little endian format.   The following are the accepted values:    audio/mpeg     audio/ogg     audio/pcm     audio/* (defaults to mpeg)    text/plain; charset=utf-8     
+        public let accept: String?
+        /// The alias in use for the bot that contains the session data.
+        public let botAlias: String
+        /// The name of the bot that contains the session data.
+        public let botName: String
+        /// Sets the next action that the bot should take to fulfill the conversation.
+        public let dialogAction: DialogAction?
+        /// Map of key/value pairs representing the session-specific context information. It contains application information passed between Amazon Lex and a client application.
+        public let sessionAttributes: [String: String]?
+        /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. 
+        public let userId: String
+
+        public init(accept: String? = nil, botAlias: String, botName: String, dialogAction: DialogAction? = nil, sessionAttributes: [String: String]? = nil, userId: String) {
+            self.accept = accept
+            self.botAlias = botAlias
+            self.botName = botName
+            self.dialogAction = dialogAction
+            self.sessionAttributes = sessionAttributes
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.dialogAction?.validate(name: "\(name).dialogAction")
+            try validate(self.userId, name:"userId", parent: name, max: 100)
+            try validate(self.userId, name:"userId", parent: name, min: 2)
+            try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accept = "Accept"
+            case botAlias = "botAlias"
+            case botName = "botName"
+            case dialogAction = "dialogAction"
+            case sessionAttributes = "sessionAttributes"
+            case userId = "userId"
+        }
+    }
+
+    public struct PutSessionResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "audioStream"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "audioStream", required: false, type: .blob), 
+            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state"), required: false, type: .enum), 
+            AWSShapeMember(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name"), required: false, type: .string), 
+            AWSShapeMember(label: "message", location: .header(locationName: "x-amz-lex-message"), required: false, type: .string), 
+            AWSShapeMember(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format"), required: false, type: .enum), 
+            AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
+            AWSShapeMember(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id"), required: false, type: .string), 
+            AWSShapeMember(label: "slots", location: .header(locationName: "x-amz-lex-slots"), required: false, type: .string), 
+            AWSShapeMember(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"), required: false, type: .string)
+        ]
+
+        /// The audio version of the message to convey to the user.
+        public let audioStream: Data?
+        /// Content type as specified in the Accept HTTP header in the request.
+        public let contentType: String?
+        ///     ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response to confirm the intent before fulfilling an intent.    ElicitIntent - Amazon Lex wants to elicit the user's intent.    ElicitSlot - Amazon Lex is expecting the value of a slot for the current intent.    Failed - Conveys that the conversation with the user has failed. This can happen for various reasons, including the user does not provide an appropriate response to prompts from the service, or if the Lambda function fails to fulfill the intent.    Fulfilled - Conveys that the Lambda function has sucessfully fulfilled the intent.    ReadyForFulfillment - Conveys that the client has to fulfill the intent.  
+        public let dialogState: DialogState?
+        /// The name of the current intent.
+        public let intentName: String?
+        /// The next message that should be presented to the user.
+        public let message: String?
+        /// The format of the response message. One of the following values:    PlainText - The message contains plain UTF-8 text.    CustomPayload - The message is a custom format for the client.    SSML - The message contains text formatted for voice output.    Composite - The message contains an escaped JSON object containing one or more messages from the groups that messages were assigned to when the intent was created.  
+        public let messageFormat: MessageFormatType?
+        /// Map of key/value pairs representing session-specific context information.
+        public let sessionAttributes: String?
+        /// A unique identifier for the session.
+        public let sessionId: String?
+        /// Map of zero or more intent slots Amazon Lex detected from the user input during the conversation. Amazon Lex creates a resolution list containing likely values for a slot. The value that it returns is determined by the valueSelectionStrategy selected when the slot type was created or updated. If valueSelectionStrategy is set to ORIGINAL_VALUE, the value provided by the user is returned, if the user value is similar to the slot values. If valueSelectionStrategy is set to TOP_RESOLUTION Amazon Lex returns the first value in the resolution list or, if there is no resolution list, null. If you don't specify a valueSelectionStrategy the default is ORIGINAL_VALUE. 
+        public let slots: String?
+        /// If the dialogState is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
+        public let slotToElicit: String?
+
+        public init(audioStream: Data? = nil, contentType: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+            self.audioStream = audioStream
+            self.contentType = contentType
+            self.dialogState = dialogState
+            self.intentName = intentName
+            self.message = message
+            self.messageFormat = messageFormat
+            self.sessionAttributes = sessionAttributes
+            self.sessionId = sessionId
+            self.slots = slots
+            self.slotToElicit = slotToElicit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioStream = "audioStream"
+            case contentType = "Content-Type"
+            case dialogState = "x-amz-lex-dialog-state"
+            case intentName = "x-amz-lex-intent-name"
+            case message = "x-amz-lex-message"
+            case messageFormat = "x-amz-lex-message-format"
+            case sessionAttributes = "x-amz-lex-session-attributes"
+            case sessionId = "x-amz-lex-session-id"
+            case slots = "x-amz-lex-slots"
+            case slotToElicit = "x-amz-lex-slot-to-elicit"
         }
     }
 

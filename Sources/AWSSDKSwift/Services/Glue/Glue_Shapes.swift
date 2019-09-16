@@ -69,7 +69,7 @@ extension Glue {
             AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
 
-        /// The ID of the catalog in which the partion is to be created. Currently, this should be the AWS account ID.
+        /// The ID of the catalog in which the partition is to be created. Currently, this should be the AWS account ID.
         public let catalogId: String?
         /// The name of the metadata database in which the partition is to be created.
         public let databaseName: String
@@ -115,7 +115,7 @@ extension Glue {
             AWSShapeMember(label: "Errors", required: false, type: .list)
         ]
 
-        /// Errors encountered when trying to create the requested partitions.
+        /// The errors encountered when trying to create the requested partitions.
         public let errors: [PartitionError]?
 
         public init(errors: [PartitionError]? = nil) {
@@ -192,13 +192,13 @@ extension Glue {
             AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the partition to be deleted resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the partition to be deleted resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which the table in question resides.
         public let databaseName: String
         /// A list of PartitionInput structures that define the partitions to be deleted.
         public let partitionsToDelete: [PartitionValueList]
-        /// The name of the table where the partitions to be deleted is located.
+        /// The name of the table that contains the partitions to be deleted.
         public let tableName: String
 
         public init(catalogId: String? = nil, databaseName: String, partitionsToDelete: [PartitionValueList], tableName: String) {
@@ -238,7 +238,7 @@ extension Glue {
             AWSShapeMember(label: "Errors", required: false, type: .list)
         ]
 
-        /// Errors encountered when trying to delete the requested partitions.
+        /// The errors encountered when trying to delete the requested partitions.
         public let errors: [PartitionError]?
 
         public init(errors: [PartitionError]? = nil) {
@@ -257,9 +257,9 @@ extension Glue {
             AWSShapeMember(label: "TablesToDelete", required: true, type: .list)
         ]
 
-        /// The ID of the Data Catalog where the table resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
-        /// The name of the catalog database where the tables to delete reside. For Hive compatibility, this name is entirely lowercase.
+        /// The name of the catalog database in which the tables to delete reside. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
         /// A list of the table to delete.
         public let tablesToDelete: [String]
@@ -318,7 +318,7 @@ extension Glue {
             AWSShapeMember(label: "VersionIds", required: true, type: .list)
         ]
 
-        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
@@ -432,7 +432,7 @@ extension Glue {
             AWSShapeMember(label: "DevEndpointNames", required: true, type: .list)
         ]
 
-        /// The list of DevEndpoint names, which may be the names returned from the ListDevEndpoint operation.
+        /// The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation.
         public let devEndpointNames: [String]
 
         public init(devEndpointNames: [String]) {
@@ -575,7 +575,7 @@ extension Glue {
 
         /// A list of the requested partitions.
         public let partitions: [Partition]?
-        /// A list of the partition values in the request for which partions were not returned.
+        /// A list of the partition values in the request for which partitions were not returned.
         public let unprocessedKeys: [PartitionValueList]?
 
         public init(partitions: [Partition]? = nil, unprocessedKeys: [PartitionValueList]? = nil) {
@@ -796,6 +796,64 @@ extension Glue {
         }
     }
 
+    public struct CancelMLTaskRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskRunId", required: true, type: .string), 
+            AWSShapeMember(label: "TransformId", required: true, type: .string)
+        ]
+
+        /// A unique identifier for the task run.
+        public let taskRunId: String
+        /// The unique identifier of the machine learning transform.
+        public let transformId: String
+
+        public init(taskRunId: String, transformId: String) {
+            self.taskRunId = taskRunId
+            self.transformId = transformId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.taskRunId, name:"taskRunId", parent: name, max: 255)
+            try validate(self.taskRunId, name:"taskRunId", parent: name, min: 1)
+            try validate(self.taskRunId, name:"taskRunId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.transformId, name:"transformId", parent: name, max: 255)
+            try validate(self.transformId, name:"transformId", parent: name, min: 1)
+            try validate(self.transformId, name:"transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskRunId = "TaskRunId"
+            case transformId = "TransformId"
+        }
+    }
+
+    public struct CancelMLTaskRunResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskRunId", required: false, type: .string), 
+            AWSShapeMember(label: "TransformId", required: false, type: .string)
+        ]
+
+        /// The status for this run.
+        public let status: TaskStatusType?
+        /// The unique identifier for the task run.
+        public let taskRunId: String?
+        /// The unique identifier of the machine learning transform.
+        public let transformId: String?
+
+        public init(status: TaskStatusType? = nil, taskRunId: String? = nil, transformId: String? = nil) {
+            self.status = status
+            self.taskRunId = taskRunId
+            self.transformId = transformId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case taskRunId = "TaskRunId"
+            case transformId = "TransformId"
+        }
+    }
+
     public enum CatalogEncryptionMode: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case sseKms = "SSE-KMS"
@@ -840,7 +898,7 @@ extension Glue {
             AWSShapeMember(label: "ImportTime", required: false, type: .timestamp)
         ]
 
-        /// True if the migration has completed, or False otherwise.
+        ///  True if the migration has completed, or False otherwise.
         public let importCompleted: Bool?
         /// The name of the person who initiated the migration.
         public let importedBy: String?
@@ -934,7 +992,7 @@ extension Glue {
 
         /// The encryption mode to use for CloudWatch data.
         public let cloudWatchEncryptionMode: CloudWatchEncryptionMode?
-        /// The AWS ARN of the KMS key to be used to encrypt the data.
+        /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
         public let kmsKeyArn: String?
 
         public init(cloudWatchEncryptionMode: CloudWatchEncryptionMode? = nil, kmsKeyArn: String? = nil) {
@@ -1065,19 +1123,23 @@ extension Glue {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Comment", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
 
-        /// Free-form text comment.
+        /// A free-form text comment.
         public let comment: String?
         /// The name of the Column.
         public let name: String
-        /// The datatype of data in the Column.
+        /// These key-value pairs define properties associated with the column.
+        public let parameters: [String: String]?
+        /// The data type of the Column.
         public let `type`: String?
 
-        public init(comment: String? = nil, name: String, type: String? = nil) {
+        public init(comment: String? = nil, name: String, parameters: [String: String]? = nil, type: String? = nil) {
             self.comment = comment
             self.name = name
+            self.parameters = parameters
             self.`type` = `type`
         }
 
@@ -1088,6 +1150,12 @@ extension Glue {
             try validate(self.name, name:"name", parent: name, max: 255)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.parameters?.forEach {
+                try validate($0.key, name:"parameters.key", parent: name, max: 255)
+                try validate($0.key, name:"parameters.key", parent: name, min: 1)
+                try validate($0.key, name:"parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0.value, name:"parameters[\"\($0.key)\"]", parent: name, max: 512000)
+            }
             try validate(self.`type`, name:"`type`", parent: name, max: 131072)
             try validate(self.`type`, name:"`type`", parent: name, min: 0)
             try validate(self.`type`, name:"`type`", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -1096,8 +1164,18 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case name = "Name"
+            case parameters = "Parameters"
             case `type` = "Type"
         }
+    }
+
+    public enum Comparator: String, CustomStringConvertible, Codable {
+        case equals = "EQUALS"
+        case greaterThan = "GREATER_THAN"
+        case lessThan = "LESS_THAN"
+        case greaterThanEquals = "GREATER_THAN_EQUALS"
+        case lessThanEquals = "LESS_THAN_EQUALS"
+        public var description: String { return self.rawValue }
     }
 
     public struct Condition: AWSShape {
@@ -1146,6 +1224,38 @@ extension Glue {
         }
     }
 
+    public struct ConfusionMatrix: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumFalseNegatives", required: false, type: .long), 
+            AWSShapeMember(label: "NumFalsePositives", required: false, type: .long), 
+            AWSShapeMember(label: "NumTrueNegatives", required: false, type: .long), 
+            AWSShapeMember(label: "NumTruePositives", required: false, type: .long)
+        ]
+
+        /// The number of matches in the data that the transform didn't find, in the confusion matrix for your transform.
+        public let numFalseNegatives: Int64?
+        /// The number of nonmatches in the data that the transform incorrectly classified as a match, in the confusion matrix for your transform.
+        public let numFalsePositives: Int64?
+        /// The number of nonmatches in the data that the transform correctly rejected, in the confusion matrix for your transform.
+        public let numTrueNegatives: Int64?
+        /// The number of matches in the data that the transform correctly found, in the confusion matrix for your transform.
+        public let numTruePositives: Int64?
+
+        public init(numFalseNegatives: Int64? = nil, numFalsePositives: Int64? = nil, numTrueNegatives: Int64? = nil, numTruePositives: Int64? = nil) {
+            self.numFalseNegatives = numFalseNegatives
+            self.numFalsePositives = numFalsePositives
+            self.numTrueNegatives = numTrueNegatives
+            self.numTruePositives = numTruePositives
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numFalseNegatives = "NumFalseNegatives"
+            case numFalsePositives = "NumFalsePositives"
+            case numTrueNegatives = "NumTrueNegatives"
+            case numTruePositives = "NumTruePositives"
+        }
+    }
+
     public struct Connection: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConnectionProperties", required: false, type: .map), 
@@ -1159,7 +1269,7 @@ extension Glue {
             AWSShapeMember(label: "PhysicalConnectionRequirements", required: false, type: .structure)
         ]
 
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon S3 path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use).    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for the JDBC connection.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching will be enforced for the JDBC connection on the client. The default is false.  
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for the JDBC connection.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.  
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, only JDBC is supported; SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -1853,9 +1963,9 @@ extension Glue {
             AWSShapeMember(label: "DatabaseInput", required: true, type: .structure)
         ]
 
-        /// The ID of the Data Catalog in which to create the database. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog in which to create the database. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
-        /// A DatabaseInput object defining the metadata database to create in the catalog.
+        /// The metadata for the database.
         public let databaseInput: DatabaseInput
 
         public init(catalogId: String? = nil, databaseInput: DatabaseInput) {
@@ -1891,28 +2001,32 @@ extension Glue {
             AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
             AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "PublicKey", required: false, type: .string), 
             AWSShapeMember(label: "PublicKeys", required: false, type: .list), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "SubnetId", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
+            AWSShapeMember(label: "Tags", required: false, type: .map), 
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
 
         /// A map of arguments used to configure the DevEndpoint.
         public let arguments: [String: String]?
         /// The name to be assigned to the new DevEndpoint.
         public let endpointName: String
-        /// Path to one or more Java Jars in an S3 bucket that should be loaded in your DevEndpoint.
+        /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint.
         public let extraJarsS3Path: String?
-        /// Path(s) to one or more Python libraries in an S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma. Please note that only pure Python libraries can currently be used on a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
+        /// The paths to one or more Python libraries in an Amazon S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported. 
         public let extraPythonLibsS3Path: String?
         /// The number of AWS Glue Data Processing Units (DPUs) to allocate to this DevEndpoint.
         public let numberOfNodes: Int?
-        /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility, as the recommended attribute to use is public keys.
+        /// The number of workers of a defined workerType that are allocated to the development endpoint. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        public let numberOfWorkers: Int?
+        /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility because the recommended attribute to use is public keys.
         public let publicKey: String?
-        /// A list of public keys to be used by the DevEndpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys: call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. 
+        /// A list of public keys to be used by the development endpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys. Call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. 
         public let publicKeys: [String]?
         /// The IAM role for the DevEndpoint.
         public let roleArn: String
@@ -1924,13 +2038,16 @@ extension Glue {
         public let subnetId: String?
         /// The tags to use with this DevEndpoint. You may use tags to limit access to the DevEndpoint. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
         public let tags: [String: String]?
+        /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk. 
+        public let workerType: WorkerType?
 
-        public init(arguments: [String: String]? = nil, endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, numberOfNodes: Int? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [String: String]? = nil) {
+        public init(arguments: [String: String]? = nil, endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [String: String]? = nil, workerType: WorkerType? = nil) {
             self.arguments = arguments
             self.endpointName = endpointName
             self.extraJarsS3Path = extraJarsS3Path
             self.extraPythonLibsS3Path = extraPythonLibsS3Path
             self.numberOfNodes = numberOfNodes
+            self.numberOfWorkers = numberOfWorkers
             self.publicKey = publicKey
             self.publicKeys = publicKeys
             self.roleArn = roleArn
@@ -1938,6 +2055,7 @@ extension Glue {
             self.securityGroupIds = securityGroupIds
             self.subnetId = subnetId
             self.tags = tags
+            self.workerType = workerType
         }
 
         public func validate(name: String) throws {
@@ -1960,6 +2078,7 @@ extension Glue {
             case extraJarsS3Path = "ExtraJarsS3Path"
             case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
             case numberOfNodes = "NumberOfNodes"
+            case numberOfWorkers = "NumberOfWorkers"
             case publicKey = "PublicKey"
             case publicKeys = "PublicKeys"
             case roleArn = "RoleArn"
@@ -1967,6 +2086,7 @@ extension Glue {
             case securityGroupIds = "SecurityGroupIds"
             case subnetId = "SubnetId"
             case tags = "Tags"
+            case workerType = "WorkerType"
         }
     }
 
@@ -1980,33 +2100,37 @@ extension Glue {
             AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "SubnetId", required: false, type: .string), 
             AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum), 
             AWSShapeMember(label: "YarnEndpointAddress", required: false, type: .string), 
             AWSShapeMember(label: "ZeppelinRemoteSparkInterpreterPort", required: false, type: .integer)
         ]
 
         /// The map of arguments used to configure this DevEndpoint.
         public let arguments: [String: String]?
-        /// The AWS availability zone where this DevEndpoint is located.
+        /// The AWS Availability Zone where this DevEndpoint is located.
         public let availabilityZone: String?
         /// The point in time at which this DevEndpoint was created.
         public let createdTimestamp: TimeStamp?
         /// The name assigned to the new DevEndpoint.
         public let endpointName: String?
-        /// Path to one or more Java Jars in an S3 bucket that will be loaded in your DevEndpoint.
+        /// Path to one or more Java .jar files in an S3 bucket that will be loaded in your DevEndpoint.
         public let extraJarsS3Path: String?
-        /// Path(s) to one or more Python libraries in an S3 bucket that will be loaded in your DevEndpoint.
+        /// The paths to one or more Python libraries in an S3 bucket that will be loaded in your DevEndpoint.
         public let extraPythonLibsS3Path: String?
         /// The reason for a current failure in this DevEndpoint.
         public let failureReason: String?
         /// The number of AWS Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
         public let numberOfNodes: Int?
-        /// The AWS ARN of the role assigned to the new DevEndpoint.
+        /// The number of workers of a defined workerType that are allocated to the development endpoint.
+        public let numberOfWorkers: Int?
+        /// The Amazon Resource Name (ARN) of the role assigned to the new DevEndpoint.
         public let roleArn: String?
         /// The name of the SecurityConfiguration structure being used with this DevEndpoint.
         public let securityConfiguration: String?
@@ -2016,14 +2140,16 @@ extension Glue {
         public let status: String?
         /// The subnet ID assigned to the new DevEndpoint.
         public let subnetId: String?
-        /// The ID of the VPC used by this DevEndpoint.
+        /// The ID of the virtual private cloud (VPC) used by this DevEndpoint.
         public let vpcId: String?
+        /// The type of predefined worker that is allocated to the development endpoint. May be a value of Standard, G.1X, or G.2X.
+        public let workerType: WorkerType?
         /// The address of the YARN endpoint used by this DevEndpoint.
         public let yarnEndpointAddress: String?
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
         public let zeppelinRemoteSparkInterpreterPort: Int?
 
-        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, numberOfNodes: Int? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
+        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, workerType: WorkerType? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
             self.createdTimestamp = createdTimestamp
@@ -2032,12 +2158,14 @@ extension Glue {
             self.extraPythonLibsS3Path = extraPythonLibsS3Path
             self.failureReason = failureReason
             self.numberOfNodes = numberOfNodes
+            self.numberOfWorkers = numberOfWorkers
             self.roleArn = roleArn
             self.securityConfiguration = securityConfiguration
             self.securityGroupIds = securityGroupIds
             self.status = status
             self.subnetId = subnetId
             self.vpcId = vpcId
+            self.workerType = workerType
             self.yarnEndpointAddress = yarnEndpointAddress
             self.zeppelinRemoteSparkInterpreterPort = zeppelinRemoteSparkInterpreterPort
         }
@@ -2051,12 +2179,14 @@ extension Glue {
             case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
             case failureReason = "FailureReason"
             case numberOfNodes = "NumberOfNodes"
+            case numberOfWorkers = "NumberOfWorkers"
             case roleArn = "RoleArn"
             case securityConfiguration = "SecurityConfiguration"
             case securityGroupIds = "SecurityGroupIds"
             case status = "Status"
             case subnetId = "SubnetId"
             case vpcId = "VpcId"
+            case workerType = "WorkerType"
             case yarnEndpointAddress = "YarnEndpointAddress"
             case zeppelinRemoteSparkInterpreterPort = "ZeppelinRemoteSparkInterpreterPort"
         }
@@ -2113,6 +2243,7 @@ extension Glue {
             AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
             AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
             AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
@@ -2123,7 +2254,7 @@ extension Glue {
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .string)
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
 
         /// The JobCommand that executes this job.
@@ -2136,6 +2267,8 @@ extension Glue {
         public let description: String?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
+        /// Glue version determines the versions of Apache Spark and Python that AWS Glue supports. The Python version indicates the version supported for jobs of type Spark.  For more information about the available AWS Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+        public let glueVersion: String?
         /// This field is reserved for future use.
         public let logUri: String?
         /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
@@ -2157,14 +2290,15 @@ extension Glue {
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
-        public let workerType: String?
+        public let workerType: WorkerType?
 
-        public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: String? = nil) {
+        public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
             self.description = description
             self.executionProperty = executionProperty
+            self.glueVersion = glueVersion
             self.logUri = logUri
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
@@ -2183,6 +2317,9 @@ extension Glue {
             try validate(self.description, name:"description", parent: name, max: 2048)
             try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.description, name:"description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.glueVersion, name:"glueVersion", parent: name, max: 255)
+            try validate(self.glueVersion, name:"glueVersion", parent: name, min: 1)
+            try validate(self.glueVersion, name:"glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
             try validate(self.name, name:"name", parent: name, max: 255)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -2197,9 +2334,6 @@ extension Glue {
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, min: 0)
             }
             try validate(self.timeout, name:"timeout", parent: name, min: 1)
-            try validate(self.workerType, name:"workerType", parent: name, max: 255)
-            try validate(self.workerType, name:"workerType", parent: name, min: 1)
-            try validate(self.workerType, name:"workerType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2208,6 +2342,7 @@ extension Glue {
             case defaultArguments = "DefaultArguments"
             case description = "Description"
             case executionProperty = "ExecutionProperty"
+            case glueVersion = "GlueVersion"
             case logUri = "LogUri"
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
@@ -2267,6 +2402,101 @@ extension Glue {
         }
     }
 
+    public struct CreateMLTransformRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "InputRecordTables", required: true, type: .list), 
+            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
+            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
+            AWSShapeMember(label: "Parameters", required: true, type: .structure), 
+            AWSShapeMember(label: "Role", required: true, type: .string), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
+        ]
+
+        /// A description of the machine learning transform that is being defined. The default is an empty string.
+        public let description: String?
+        /// A list of AWS Glue table definitions used by the transform.
+        public let inputRecordTables: [GlueTable]
+        /// The number of AWS Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.  When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
+        public let maxCapacity: Double?
+        /// The maximum number of times to retry a task for this transform after a task run fails.
+        public let maxRetries: Int?
+        /// The unique name that you give the transform when you create it.
+        public let name: String
+        /// The number of workers of a defined workerType that are allocated when this task runs.
+        public let numberOfWorkers: Int?
+        /// The algorithmic parameters that are specific to the transform type used. Conditionally dependent on the transform type.
+        public let parameters: TransformParameters
+        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. Ensure that this role has permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries that are used by the task run for this transform.
+        public let role: String
+        /// The timeout of the task run for this transform in minutes. This is the maximum time that a task run for this transform can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        public let timeout: Int?
+        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        public let workerType: WorkerType?
+
+        public init(description: String? = nil, inputRecordTables: [GlueTable], maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, numberOfWorkers: Int? = nil, parameters: TransformParameters, role: String, timeout: Int? = nil, workerType: WorkerType? = nil) {
+            self.description = description
+            self.inputRecordTables = inputRecordTables
+            self.maxCapacity = maxCapacity
+            self.maxRetries = maxRetries
+            self.name = name
+            self.numberOfWorkers = numberOfWorkers
+            self.parameters = parameters
+            self.role = role
+            self.timeout = timeout
+            self.workerType = workerType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name:"description", parent: name, max: 2048)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.inputRecordTables.forEach {
+                try $0.validate(name: "\(name).inputRecordTables[]")
+            }
+            try validate(self.inputRecordTables, name:"inputRecordTables", parent: name, max: 10)
+            try validate(self.inputRecordTables, name:"inputRecordTables", parent: name, min: 0)
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.parameters.validate(name: "\(name).parameters")
+            try validate(self.timeout, name:"timeout", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case inputRecordTables = "InputRecordTables"
+            case maxCapacity = "MaxCapacity"
+            case maxRetries = "MaxRetries"
+            case name = "Name"
+            case numberOfWorkers = "NumberOfWorkers"
+            case parameters = "Parameters"
+            case role = "Role"
+            case timeout = "Timeout"
+            case workerType = "WorkerType"
+        }
+    }
+
+    public struct CreateMLTransformResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TransformId", required: false, type: .string)
+        ]
+
+        /// A unique identifier that is generated for the transform.
+        public let transformId: String?
+
+        public init(transformId: String? = nil) {
+            self.transformId = transformId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformId = "TransformId"
+        }
+    }
+
     public struct CreatePartitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
@@ -2275,7 +2505,7 @@ extension Glue {
             AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
 
-        /// The ID of the catalog in which the partion is to be created. Currently, this should be the AWS account ID.
+        /// The AWS account ID of the catalog in which the partition is to be created.
         public let catalogId: String?
         /// The name of the metadata database in which the partition is to be created.
         public let databaseName: String
@@ -2577,7 +2807,7 @@ extension Glue {
             AWSShapeMember(label: "FunctionInput", required: true, type: .structure)
         ]
 
-        /// The ID of the Data Catalog in which to create the function. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog in which to create the function. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which to create the function.
         public let databaseName: String
@@ -2810,8 +3040,31 @@ extension Glue {
         }
     }
 
+    public struct DataLakePrincipal: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataLakePrincipalIdentifier", required: false, type: .string)
+        ]
+
+        /// An identifier for the AWS Lake Formation principal.
+        public let dataLakePrincipalIdentifier: String?
+
+        public init(dataLakePrincipalIdentifier: String? = nil) {
+            self.dataLakePrincipalIdentifier = dataLakePrincipalIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.dataLakePrincipalIdentifier, name:"dataLakePrincipalIdentifier", parent: name, max: 255)
+            try validate(self.dataLakePrincipalIdentifier, name:"dataLakePrincipalIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataLakePrincipalIdentifier = "DataLakePrincipalIdentifier"
+        }
+    }
+
     public struct Database: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateTableDefaultPermissions", required: false, type: .list), 
             AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "LocationUri", required: false, type: .string), 
@@ -2819,18 +3072,21 @@ extension Glue {
             AWSShapeMember(label: "Parameters", required: false, type: .map)
         ]
 
+        /// Creates a set of default permissions on the table for principals. 
+        public let createTableDefaultPermissions: [PrincipalPermissions]?
         /// The time at which the metadata database was created in the catalog.
         public let createTime: TimeStamp?
-        /// Description of the database.
+        /// A description of the database.
         public let description: String?
         /// The location of the database (for example, an HDFS path).
         public let locationUri: String?
-        /// Name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
+        /// The name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
         public let name: String
         /// These key-value pairs define parameters and properties of the database.
         public let parameters: [String: String]?
 
-        public init(createTime: TimeStamp? = nil, description: String? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil) {
+        public init(createTableDefaultPermissions: [PrincipalPermissions]? = nil, createTime: TimeStamp? = nil, description: String? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil) {
+            self.createTableDefaultPermissions = createTableDefaultPermissions
             self.createTime = createTime
             self.description = description
             self.locationUri = locationUri
@@ -2839,6 +3095,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createTableDefaultPermissions = "CreateTableDefaultPermissions"
             case createTime = "CreateTime"
             case description = "Description"
             case locationUri = "LocationUri"
@@ -2849,22 +3106,26 @@ extension Glue {
 
     public struct DatabaseInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateTableDefaultPermissions", required: false, type: .list), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "LocationUri", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .map)
         ]
 
-        /// Description of the database
+        /// Creates a set of default permissions on the table for principals. 
+        public let createTableDefaultPermissions: [PrincipalPermissions]?
+        /// A description of the database.
         public let description: String?
-        /// The location of the database (for example, an HDFS path).
+        /// The location of the database (for example, an HDFS path). 
         public let locationUri: String?
-        /// Name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
+        /// The name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
         public let name: String
-        /// Thes key-value pairs define parameters and properties of the database.
+        /// These key-value pairs define parameters and properties of the database. These key-value pairs define parameters and properties of the database.
         public let parameters: [String: String]?
 
-        public init(description: String? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil) {
+        public init(createTableDefaultPermissions: [PrincipalPermissions]? = nil, description: String? = nil, locationUri: String? = nil, name: String, parameters: [String: String]? = nil) {
+            self.createTableDefaultPermissions = createTableDefaultPermissions
             self.description = description
             self.locationUri = locationUri
             self.name = name
@@ -2872,6 +3133,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.createTableDefaultPermissions?.forEach {
+                try $0.validate(name: "\(name).createTableDefaultPermissions[]")
+            }
             try validate(self.description, name:"description", parent: name, max: 2048)
             try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.description, name:"description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -2890,6 +3154,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createTableDefaultPermissions = "CreateTableDefaultPermissions"
             case description = "Description"
             case locationUri = "LocationUri"
             case name = "Name"
@@ -3011,9 +3276,9 @@ extension Glue {
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog in which the database resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog in which the database resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
-        /// The name of the Database to delete. For Hive compatibility, this must be all lowercase.
+        /// The name of the database to delete. For Hive compatibility, this must be all lowercase.
         public let name: String
 
         public init(catalogId: String? = nil, name: String) {
@@ -3109,6 +3374,46 @@ extension Glue {
         }
     }
 
+    public struct DeleteMLTransformRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TransformId", required: true, type: .string)
+        ]
+
+        /// The unique identifier of the transform to delete.
+        public let transformId: String
+
+        public init(transformId: String) {
+            self.transformId = transformId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.transformId, name:"transformId", parent: name, max: 255)
+            try validate(self.transformId, name:"transformId", parent: name, min: 1)
+            try validate(self.transformId, name:"transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformId = "TransformId"
+        }
+    }
+
+    public struct DeleteMLTransformResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TransformId", required: false, type: .string)
+        ]
+
+        /// The unique identifier of the transform that was deleted.
+        public let transformId: String?
+
+        public init(transformId: String? = nil) {
+            self.transformId = transformId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformId = "TransformId"
+        }
+    }
+
     public struct DeletePartitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
@@ -3117,13 +3422,13 @@ extension Glue {
             AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the partition to be deleted resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the partition to be deleted resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which the table in question resides.
         public let databaseName: String
         /// The values that define the partition.
         public let partitionValues: [String]
-        /// The name of the table where the partition to be deleted is located.
+        /// The name of the table that contains the partition to be deleted.
         public let tableName: String
 
         public init(catalogId: String? = nil, databaseName: String, partitionValues: [String], tableName: String) {
@@ -3233,7 +3538,7 @@ extension Glue {
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the table resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
@@ -3281,7 +3586,7 @@ extension Glue {
             AWSShapeMember(label: "VersionId", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
@@ -3467,6 +3772,7 @@ extension Glue {
             AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastUpdateStatus", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "PrivateAddress", required: false, type: .string), 
             AWSShapeMember(label: "PublicAddress", required: false, type: .string), 
             AWSShapeMember(label: "PublicKey", required: false, type: .string), 
@@ -3477,21 +3783,22 @@ extension Glue {
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "SubnetId", required: false, type: .string), 
             AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum), 
             AWSShapeMember(label: "YarnEndpointAddress", required: false, type: .string), 
             AWSShapeMember(label: "ZeppelinRemoteSparkInterpreterPort", required: false, type: .integer)
         ]
 
-        /// A map of arguments used to configure the DevEndpoint. Note that currently, we only support "--enable-glue-datacatalog": "" as a valid argument.
+        /// A map of arguments used to configure the DevEndpoint. Currently, only "--enable-glue-datacatalog": "" is supported as a valid argument.
         public let arguments: [String: String]?
-        /// The AWS availability zone where this DevEndpoint is located.
+        /// The AWS Availability Zone where this DevEndpoint is located.
         public let availabilityZone: String?
         /// The point in time at which this DevEndpoint was created.
         public let createdTimestamp: TimeStamp?
         /// The name of the DevEndpoint.
         public let endpointName: String?
-        /// Path to one or more Java Jars in an S3 bucket that should be loaded in your DevEndpoint. Please note that only pure Java/Scala libraries can currently be used on a DevEndpoint.
+        /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint.  You can only use pure Java/Scala libraries with a DevEndpoint. 
         public let extraJarsS3Path: String?
-        /// Path(s) to one or more Python libraries in an S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma. Please note that only pure Python libraries can currently be used on a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
+        /// The paths to one or more Python libraries in an Amazon S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not currently supported. 
         public let extraPythonLibsS3Path: String?
         /// The reason for a current failure in this DevEndpoint.
         public let failureReason: String?
@@ -3501,15 +3808,17 @@ extension Glue {
         public let lastUpdateStatus: String?
         /// The number of AWS Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
         public let numberOfNodes: Int?
-        /// A private IP address to access the DevEndpoint within a VPC, if the DevEndpoint is created within one. The PrivateAddress field is present only when you create the DevEndpoint within your virtual private cloud (VPC).
+        /// The number of workers of a defined workerType that are allocated to the development endpoint. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        public let numberOfWorkers: Int?
+        /// A private IP address to access the DevEndpoint within a VPC if the DevEndpoint is created within one. The PrivateAddress field is present only when you create the DevEndpoint within your VPC.
         public let privateAddress: String?
-        /// The public IP address used by this DevEndpoint. The PublicAddress field is present only when you create a non-VPC (virtual private cloud) DevEndpoint.
+        /// The public IP address used by this DevEndpoint. The PublicAddress field is present only when you create a non-virtual private cloud (VPC) DevEndpoint.
         public let publicAddress: String?
-        /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility, as the recommended attribute to use is public keys.
+        /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility because the recommended attribute to use is public keys.
         public let publicKey: String?
-        /// A list of public keys to be used by the DevEndpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys: call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. 
+        /// A list of public keys to be used by the DevEndpoints for authentication. Using this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys. Call the UpdateDevEndpoint API operation with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. 
         public let publicKeys: [String]?
-        /// The AWS ARN of the IAM role used in this DevEndpoint.
+        /// The Amazon Resource Name (ARN) of the IAM role used in this DevEndpoint.
         public let roleArn: String?
         /// The name of the SecurityConfiguration structure to be used with this DevEndpoint.
         public let securityConfiguration: String?
@@ -3521,12 +3830,14 @@ extension Glue {
         public let subnetId: String?
         /// The ID of the virtual private cloud (VPC) used by this DevEndpoint.
         public let vpcId: String?
+        /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk. 
+        public let workerType: WorkerType?
         /// The YARN endpoint address used by this DevEndpoint.
         public let yarnEndpointAddress: String?
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
         public let zeppelinRemoteSparkInterpreterPort: Int?
 
-        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
+        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, workerType: WorkerType? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
             self.createdTimestamp = createdTimestamp
@@ -3537,6 +3848,7 @@ extension Glue {
             self.lastModifiedTimestamp = lastModifiedTimestamp
             self.lastUpdateStatus = lastUpdateStatus
             self.numberOfNodes = numberOfNodes
+            self.numberOfWorkers = numberOfWorkers
             self.privateAddress = privateAddress
             self.publicAddress = publicAddress
             self.publicKey = publicKey
@@ -3547,6 +3859,7 @@ extension Glue {
             self.status = status
             self.subnetId = subnetId
             self.vpcId = vpcId
+            self.workerType = workerType
             self.yarnEndpointAddress = yarnEndpointAddress
             self.zeppelinRemoteSparkInterpreterPort = zeppelinRemoteSparkInterpreterPort
         }
@@ -3562,6 +3875,7 @@ extension Glue {
             case lastModifiedTimestamp = "LastModifiedTimestamp"
             case lastUpdateStatus = "LastUpdateStatus"
             case numberOfNodes = "NumberOfNodes"
+            case numberOfWorkers = "NumberOfWorkers"
             case privateAddress = "PrivateAddress"
             case publicAddress = "PublicAddress"
             case publicKey = "PublicKey"
@@ -3572,6 +3886,7 @@ extension Glue {
             case status = "Status"
             case subnetId = "SubnetId"
             case vpcId = "VpcId"
+            case workerType = "WorkerType"
             case yarnEndpointAddress = "YarnEndpointAddress"
             case zeppelinRemoteSparkInterpreterPort = "ZeppelinRemoteSparkInterpreterPort"
         }
@@ -3583,9 +3898,9 @@ extension Glue {
             AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string)
         ]
 
-        /// Path to one or more Java Jars in an S3 bucket that should be loaded in your DevEndpoint. Please note that only pure Java/Scala libraries can currently be used on a DevEndpoint.
+        /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint.  You can only use pure Java/Scala libraries with a DevEndpoint. 
         public let extraJarsS3Path: String?
-        /// Path(s) to one or more Python libraries in an S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma. Please note that only pure Python libraries can currently be used on a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
+        /// The paths to one or more Python libraries in an Amazon Simple Storage Service (Amazon S3) bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not currently supported. 
         public let extraPythonLibsS3Path: String?
 
         public init(extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil) {
@@ -3673,11 +3988,11 @@ extension Glue {
             AWSShapeMember(label: "S3Encryption", required: false, type: .list)
         ]
 
-        /// The encryption configuration for CloudWatch.
+        /// The encryption configuration for Amazon CloudWatch.
         public let cloudWatchEncryption: CloudWatchEncryption?
-        /// The encryption configuration for Job Bookmarks.
+        /// The encryption configuration for job bookmarks.
         public let jobBookmarksEncryption: JobBookmarksEncryption?
-        /// The encryption configuration for S3 data.
+        /// The encryption configuration for Amazon Simple Storage Service (Amazon S3) data.
         public let s3Encryption: [S3Encryption]?
 
         public init(cloudWatchEncryption: CloudWatchEncryption? = nil, jobBookmarksEncryption: JobBookmarksEncryption? = nil, s3Encryption: [S3Encryption]? = nil) {
@@ -3723,6 +4038,28 @@ extension Glue {
         }
     }
 
+    public struct EvaluationMetrics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FindMatchesMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "TransformType", required: true, type: .enum)
+        ]
+
+        /// The evaluation metrics for the find matches algorithm.
+        public let findMatchesMetrics: FindMatchesMetrics?
+        /// The type of machine learning transform.
+        public let transformType: TransformType
+
+        public init(findMatchesMetrics: FindMatchesMetrics? = nil, transformType: TransformType) {
+            self.findMatchesMetrics = findMatchesMetrics
+            self.transformType = transformType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findMatchesMetrics = "FindMatchesMetrics"
+            case transformType = "TransformType"
+        }
+    }
+
     public struct ExecutionProperty: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxConcurrentRuns", required: false, type: .integer)
@@ -3745,6 +4082,129 @@ extension Glue {
         case notExist = "NOT_EXIST"
         case none = "NONE"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ExportLabelsTaskRunProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputS3Path", required: false, type: .string)
+        ]
+
+        /// The Amazon Simple Storage Service (Amazon S3) path where you will export the labels.
+        public let outputS3Path: String?
+
+        public init(outputS3Path: String? = nil) {
+            self.outputS3Path = outputS3Path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputS3Path = "OutputS3Path"
+        }
+    }
+
+    public struct FindMatchesMetrics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AreaUnderPRCurve", required: false, type: .double), 
+            AWSShapeMember(label: "ConfusionMatrix", required: false, type: .structure), 
+            AWSShapeMember(label: "F1", required: false, type: .double), 
+            AWSShapeMember(label: "Precision", required: false, type: .double), 
+            AWSShapeMember(label: "Recall", required: false, type: .double)
+        ]
+
+        /// The area under the precision/recall curve (AUPRC) is a single number measuring the overall quality of the transform, that is independent of the choice made for precision vs. recall. Higher values indicate that you have a more attractive precision vs. recall tradeoff. For more information, see Precision and recall in Wikipedia.
+        public let areaUnderPRCurve: Double?
+        /// The confusion matrix shows you what your transform is predicting accurately and what types of errors it is making. For more information, see Confusion matrix in Wikipedia.
+        public let confusionMatrix: ConfusionMatrix?
+        /// The maximum F1 metric indicates the transform's accuracy between 0 and 1, where 1 is the best accuracy. For more information, see F1 score in Wikipedia.
+        public let f1: Double?
+        /// The precision metric indicates when often your transform is correct when it predicts a match. Specifically, it measures how well the transform finds true positives from the total true positives possible. For more information, see Precision and recall in Wikipedia.
+        public let precision: Double?
+        /// The recall metric indicates that for an actual match, how often your transform predicts the match. Specifically, it measures how well the transform finds true positives from the total records in the source data. For more information, see Precision and recall in Wikipedia.
+        public let recall: Double?
+
+        public init(areaUnderPRCurve: Double? = nil, confusionMatrix: ConfusionMatrix? = nil, f1: Double? = nil, precision: Double? = nil, recall: Double? = nil) {
+            self.areaUnderPRCurve = areaUnderPRCurve
+            self.confusionMatrix = confusionMatrix
+            self.f1 = f1
+            self.precision = precision
+            self.recall = recall
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case areaUnderPRCurve = "AreaUnderPRCurve"
+            case confusionMatrix = "ConfusionMatrix"
+            case f1 = "F1"
+            case precision = "Precision"
+            case recall = "Recall"
+        }
+    }
+
+    public struct FindMatchesParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccuracyCostTradeoff", required: false, type: .double), 
+            AWSShapeMember(label: "EnforceProvidedLabels", required: false, type: .boolean), 
+            AWSShapeMember(label: "PrecisionRecallTradeoff", required: false, type: .double), 
+            AWSShapeMember(label: "PrimaryKeyColumnName", required: false, type: .string)
+        ]
+
+        /// The value that is selected when tuning your transform for a balance between accuracy and cost. A value of 0.5 means that the system balances accuracy and cost concerns. A value of 1.0 means a bias purely for accuracy, which typically results in a higher cost, sometimes substantially higher. A value of 0.0 means a bias purely for cost, which results in a less accurate FindMatches transform, sometimes with unacceptable accuracy. Accuracy measures how well the transform finds true positives and true negatives. Increasing accuracy requires more machine resources and cost. But it also results in increased recall.  Cost measures how many compute resources, and thus money, are consumed to run the transform.
+        public let accuracyCostTradeoff: Double?
+        /// The value to switch on or off to force the output to match the provided labels from users. If the value is True, the find matches transform forces the output to match the provided labels. The results override the normal conflation results. If the value is False, the find matches transform does not ensure all the labels provided are respected, and the results rely on the trained model. Note that setting this value to true may increase the conflation execution time.
+        public let enforceProvidedLabels: Bool?
+        /// The value selected when tuning your transform for a balance between precision and recall. A value of 0.5 means no preference; a value of 1.0 means a bias purely for precision, and a value of 0.0 means a bias for recall. Because this is a tradeoff, choosing values close to 1.0 means very low recall, and choosing values close to 0.0 results in very low precision. The precision metric indicates how often your model is correct when it predicts a match.  The recall metric indicates that for an actual match, how often your model predicts the match.
+        public let precisionRecallTradeoff: Double?
+        /// The name of a column that uniquely identifies rows in the source table. Used to help identify matching records.
+        public let primaryKeyColumnName: String?
+
+        public init(accuracyCostTradeoff: Double? = nil, enforceProvidedLabels: Bool? = nil, precisionRecallTradeoff: Double? = nil, primaryKeyColumnName: String? = nil) {
+            self.accuracyCostTradeoff = accuracyCostTradeoff
+            self.enforceProvidedLabels = enforceProvidedLabels
+            self.precisionRecallTradeoff = precisionRecallTradeoff
+            self.primaryKeyColumnName = primaryKeyColumnName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accuracyCostTradeoff, name:"accuracyCostTradeoff", parent: name, max: 1)
+            try validate(self.accuracyCostTradeoff, name:"accuracyCostTradeoff", parent: name, min: 0)
+            try validate(self.precisionRecallTradeoff, name:"precisionRecallTradeoff", parent: name, max: 1)
+            try validate(self.precisionRecallTradeoff, name:"precisionRecallTradeoff", parent: name, min: 0)
+            try validate(self.primaryKeyColumnName, name:"primaryKeyColumnName", parent: name, max: 1024)
+            try validate(self.primaryKeyColumnName, name:"primaryKeyColumnName", parent: name, min: 1)
+            try validate(self.primaryKeyColumnName, name:"primaryKeyColumnName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accuracyCostTradeoff = "AccuracyCostTradeoff"
+            case enforceProvidedLabels = "EnforceProvidedLabels"
+            case precisionRecallTradeoff = "PrecisionRecallTradeoff"
+            case primaryKeyColumnName = "PrimaryKeyColumnName"
+        }
+    }
+
+    public struct FindMatchesTaskRunProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "JobRunId", required: false, type: .string)
+        ]
+
+        /// The job ID for the Find Matches task run.
+        public let jobId: String?
+        /// The name assigned to the job for the Find Matches task run.
+        public let jobName: String?
+        /// The job run ID for the Find Matches task run.
+        public let jobRunId: String?
+
+        public init(jobId: String? = nil, jobName: String? = nil, jobRunId: String? = nil) {
+            self.jobId = jobId
+            self.jobName = jobName
+            self.jobRunId = jobRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case jobName = "JobName"
+            case jobRunId = "JobRunId"
+        }
     }
 
     public struct GetCatalogImportStatusRequest: AWSShape {
@@ -3885,7 +4345,7 @@ extension Glue {
 
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
-        /// Allows you to retrieve the connection metadata without returning the password. For instance, the AWS Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the AWS KMS key to decrypt the password, but does have permission to access the rest of the connection properties.
+        /// Allows you to retrieve the connection metadata without returning the password. For instance, the AWS Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the AWS KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
         public let hidePassword: Bool?
         /// The name of the connection definition to retrieve.
         public let name: String
@@ -3972,9 +4432,9 @@ extension Glue {
 
         /// The ID of the Data Catalog in which the connections reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
-        /// A filter that controls which connections will be returned.
+        /// A filter that controls which connections are returned.
         public let filter: GetConnectionsFilter?
-        /// Allows you to retrieve the connection metadata without returning the password. For instance, the AWS Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the AWS KMS key to decrypt the password, but does have permission to access the rest of the connection properties.
+        /// Allows you to retrieve the connection metadata without returning the password. For instance, the AWS Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the AWS KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
         public let hidePassword: Bool?
         /// The maximum number of connections to return in one response.
         public let maxResults: Int?
@@ -4184,7 +4644,7 @@ extension Glue {
             AWSShapeMember(label: "CatalogId", required: false, type: .string)
         ]
 
-        /// The ID of the Data Catalog for which to retrieve the security configuration. If none is provided, the AWS account ID is used by default.
+        /// The ID of the Data Catalog to retrieve the security configuration for. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
 
         public init(catalogId: String? = nil) {
@@ -4225,7 +4685,7 @@ extension Glue {
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog in which the database resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog in which the database resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the database to retrieve. For Hive compatibility, this should be all lowercase.
         public let name: String
@@ -4255,7 +4715,7 @@ extension Glue {
             AWSShapeMember(label: "Database", required: false, type: .structure)
         ]
 
-        /// The definition of the specified database in the catalog.
+        /// The definition of the specified database in the Data Catalog.
         public let database: Database?
 
         public init(database: Database? = nil) {
@@ -4274,7 +4734,7 @@ extension Glue {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// The ID of the Data Catalog from which to retrieve Databases. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog from which to retrieve Databases. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The maximum number of databases to return in one response.
         public let maxResults: Int?
@@ -4368,7 +4828,7 @@ extension Glue {
             AWSShapeMember(label: "EndpointName", required: true, type: .string)
         ]
 
-        /// Name of the DevEndpoint for which to retrieve information.
+        /// Name of the DevEndpoint to retrieve information for.
         public let endpointName: String
 
         public init(endpointName: String) {
@@ -4443,6 +4903,45 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case devEndpoints = "DevEndpoints"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetJobBookmarkRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobName", required: true, type: .string), 
+            AWSShapeMember(label: "RunId", required: false, type: .string)
+        ]
+
+        /// The name of the job in question.
+        public let jobName: String
+        /// The unique run identifier associated with this job run.
+        public let runId: String?
+
+        public init(jobName: String, runId: String? = nil) {
+            self.jobName = jobName
+            self.runId = runId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+            case runId = "RunId"
+        }
+    }
+
+    public struct GetJobBookmarkResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobBookmarkEntry", required: false, type: .structure)
+        ]
+
+        /// A structure that defines a point that a job can resume processing.
+        public let jobBookmarkEntry: JobBookmarkEntry?
+
+        public init(jobBookmarkEntry: JobBookmarkEntry? = nil) {
+            self.jobBookmarkEntry = jobBookmarkEntry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobBookmarkEntry = "JobBookmarkEntry"
         }
     }
 
@@ -4645,6 +5144,346 @@ extension Glue {
         }
     }
 
+    public struct GetMLTaskRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskRunId", required: true, type: .string), 
+            AWSShapeMember(label: "TransformId", required: true, type: .string)
+        ]
+
+        /// The unique identifier of the task run.
+        public let taskRunId: String
+        /// The unique identifier of the machine learning transform.
+        public let transformId: String
+
+        public init(taskRunId: String, transformId: String) {
+            self.taskRunId = taskRunId
+            self.transformId = transformId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.taskRunId, name:"taskRunId", parent: name, max: 255)
+            try validate(self.taskRunId, name:"taskRunId", parent: name, min: 1)
+            try validate(self.taskRunId, name:"taskRunId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.transformId, name:"transformId", parent: name, max: 255)
+            try validate(self.transformId, name:"transformId", parent: name, min: 1)
+            try validate(self.transformId, name:"transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskRunId = "TaskRunId"
+            case transformId = "TransformId"
+        }
+    }
+
+    public struct GetMLTaskRunResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ErrorString", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionTime", required: false, type: .integer), 
+            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Properties", required: false, type: .structure), 
+            AWSShapeMember(label: "StartedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskRunId", required: false, type: .string), 
+            AWSShapeMember(label: "TransformId", required: false, type: .string)
+        ]
+
+        /// The date and time when this task run was completed.
+        public let completedOn: TimeStamp?
+        /// The error strings that are associated with the task run.
+        public let errorString: String?
+        /// The amount of time (in seconds) that the task run consumed resources.
+        public let executionTime: Int?
+        /// The date and time when this task run was last modified.
+        public let lastModifiedOn: TimeStamp?
+        /// The names of the log groups that are associated with the task run.
+        public let logGroupName: String?
+        /// The list of properties that are associated with the task run.
+        public let properties: TaskRunProperties?
+        /// The date and time when this task run started.
+        public let startedOn: TimeStamp?
+        /// The status for this task run.
+        public let status: TaskStatusType?
+        /// The unique run identifier associated with this run.
+        public let taskRunId: String?
+        /// The unique identifier of the task run.
+        public let transformId: String?
+
+        public init(completedOn: TimeStamp? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, properties: TaskRunProperties? = nil, startedOn: TimeStamp? = nil, status: TaskStatusType? = nil, taskRunId: String? = nil, transformId: String? = nil) {
+            self.completedOn = completedOn
+            self.errorString = errorString
+            self.executionTime = executionTime
+            self.lastModifiedOn = lastModifiedOn
+            self.logGroupName = logGroupName
+            self.properties = properties
+            self.startedOn = startedOn
+            self.status = status
+            self.taskRunId = taskRunId
+            self.transformId = transformId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedOn = "CompletedOn"
+            case errorString = "ErrorString"
+            case executionTime = "ExecutionTime"
+            case lastModifiedOn = "LastModifiedOn"
+            case logGroupName = "LogGroupName"
+            case properties = "Properties"
+            case startedOn = "StartedOn"
+            case status = "Status"
+            case taskRunId = "TaskRunId"
+            case transformId = "TransformId"
+        }
+    }
+
+    public struct GetMLTaskRunsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Sort", required: false, type: .structure), 
+            AWSShapeMember(label: "TransformId", required: true, type: .string)
+        ]
+
+        /// The filter criteria, in the TaskRunFilterCriteria structure, for the task run.
+        public let filter: TaskRunFilterCriteria?
+        /// The maximum number of results to return. 
+        public let maxResults: Int?
+        /// A token for pagination of the results. The default is empty.
+        public let nextToken: String?
+        /// The sorting criteria, in the TaskRunSortCriteria structure, for the task run.
+        public let sort: TaskRunSortCriteria?
+        /// The unique identifier of the machine learning transform.
+        public let transformId: String
+
+        public init(filter: TaskRunFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: TaskRunSortCriteria? = nil, transformId: String) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sort = sort
+            self.transformId = transformId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.transformId, name:"transformId", parent: name, max: 255)
+            try validate(self.transformId, name:"transformId", parent: name, min: 1)
+            try validate(self.transformId, name:"transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sort = "Sort"
+            case transformId = "TransformId"
+        }
+    }
+
+    public struct GetMLTaskRunsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TaskRuns", required: false, type: .list)
+        ]
+
+        /// A pagination token, if more results are available.
+        public let nextToken: String?
+        /// A list of task runs that are associated with the transform.
+        public let taskRuns: [TaskRun]?
+
+        public init(nextToken: String? = nil, taskRuns: [TaskRun]? = nil) {
+            self.nextToken = nextToken
+            self.taskRuns = taskRuns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case taskRuns = "TaskRuns"
+        }
+    }
+
+    public struct GetMLTransformRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TransformId", required: true, type: .string)
+        ]
+
+        /// The unique identifier of the transform, generated at the time that the transform was created.
+        public let transformId: String
+
+        public init(transformId: String) {
+            self.transformId = transformId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.transformId, name:"transformId", parent: name, max: 255)
+            try validate(self.transformId, name:"transformId", parent: name, min: 1)
+            try validate(self.transformId, name:"transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformId = "TransformId"
+        }
+    }
+
+    public struct GetMLTransformResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluationMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "InputRecordTables", required: false, type: .list), 
+            AWSShapeMember(label: "LabelCount", required: false, type: .integer), 
+            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
+            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
+            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "Schema", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "TransformId", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
+        ]
+
+        /// The date and time when the transform was created.
+        public let createdOn: TimeStamp?
+        /// A description of the transform.
+        public let description: String?
+        /// The latest evaluation metrics.
+        public let evaluationMetrics: EvaluationMetrics?
+        /// A list of AWS Glue table definitions used by the transform.
+        public let inputRecordTables: [GlueTable]?
+        /// The number of labels available for this transform.
+        public let labelCount: Int?
+        /// The date and time when the transform was last modified.
+        public let lastModifiedOn: TimeStamp?
+        /// The number of AWS Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.  When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
+        public let maxCapacity: Double?
+        /// The maximum number of times to retry a task for this transform after a task run fails.
+        public let maxRetries: Int?
+        /// The unique name given to the transform when it was created.
+        public let name: String?
+        /// The number of workers of a defined workerType that are allocated when this task runs.
+        public let numberOfWorkers: Int?
+        /// The configuration parameters that are specific to the algorithm used.
+        public let parameters: TransformParameters?
+        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions.
+        public let role: String?
+        /// The Map&lt;Column, Type&gt; object that represents the schema that this transform accepts. Has an upper bound of 100 columns.
+        public let schema: [SchemaColumn]?
+        /// The last known status of the transform (to indicate whether it can be used or not). One of "NOT_READY", "READY", or "DELETING".
+        public let status: TransformStatusType?
+        /// The timeout for a task run for this transform in minutes. This is the maximum time that a task run for this transform can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        public let timeout: Int?
+        /// The unique identifier of the transform, generated at the time that the transform was created.
+        public let transformId: String?
+        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        public let workerType: WorkerType?
+
+        public init(createdOn: TimeStamp? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: TimeStamp? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
+            self.createdOn = createdOn
+            self.description = description
+            self.evaluationMetrics = evaluationMetrics
+            self.inputRecordTables = inputRecordTables
+            self.labelCount = labelCount
+            self.lastModifiedOn = lastModifiedOn
+            self.maxCapacity = maxCapacity
+            self.maxRetries = maxRetries
+            self.name = name
+            self.numberOfWorkers = numberOfWorkers
+            self.parameters = parameters
+            self.role = role
+            self.schema = schema
+            self.status = status
+            self.timeout = timeout
+            self.transformId = transformId
+            self.workerType = workerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdOn = "CreatedOn"
+            case description = "Description"
+            case evaluationMetrics = "EvaluationMetrics"
+            case inputRecordTables = "InputRecordTables"
+            case labelCount = "LabelCount"
+            case lastModifiedOn = "LastModifiedOn"
+            case maxCapacity = "MaxCapacity"
+            case maxRetries = "MaxRetries"
+            case name = "Name"
+            case numberOfWorkers = "NumberOfWorkers"
+            case parameters = "Parameters"
+            case role = "Role"
+            case schema = "Schema"
+            case status = "Status"
+            case timeout = "Timeout"
+            case transformId = "TransformId"
+            case workerType = "WorkerType"
+        }
+    }
+
+    public struct GetMLTransformsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Sort", required: false, type: .structure)
+        ]
+
+        /// The filter transformation criteria.
+        public let filter: TransformFilterCriteria?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A paginated token to offset the results.
+        public let nextToken: String?
+        /// The sorting criteria.
+        public let sort: TransformSortCriteria?
+
+        public init(filter: TransformFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: TransformSortCriteria? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sort = sort
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sort = "Sort"
+        }
+    }
+
+    public struct GetMLTransformsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Transforms", required: true, type: .list)
+        ]
+
+        /// A pagination token, if more results are available.
+        public let nextToken: String?
+        /// A list of machine learning transforms.
+        public let transforms: [MLTransform]
+
+        public init(nextToken: String? = nil, transforms: [MLTransform]) {
+            self.nextToken = nextToken
+            self.transforms = transforms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case transforms = "Transforms"
+        }
+    }
+
     public struct GetMappingRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Location", required: false, type: .structure), 
@@ -4705,7 +5544,7 @@ extension Glue {
             AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the partition in question resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the partition in question resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the partition resides.
         public let databaseName: String
@@ -4772,11 +5611,11 @@ extension Glue {
             AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the partitions in question reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the partitions reside.
         public let databaseName: String
-        /// An expression filtering the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression.   Operators: The following are the operators that you can use in the Expression API call:  =  Checks if the values of the two operands are equal or not; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20.  (a = b) is not true.  &lt; &gt;  Checks if the values of two operands are equal or not; if the values are not equal, then the condition becomes true. Example: (a &lt; &gt; b) is true.  &gt;  Checks if the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a &gt; b) is not true.  &lt;  Checks if the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a &lt; b) is true.  &gt;=  Checks if the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &gt;= b) is not true.  &lt;=  Checks if the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &lt;= b) is true.  AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key Types: The following are the the supported partition keys.    string     date     timestamp     int     bigint     long     tinyint     smallint     decimal    If an invalid type is encountered, an exception is thrown.  The following list shows the valid operators on each type. When you define a crawler, the partitionKey type is created as a STRING, to be compatible with the catalog partitions.   Sample API Call: 
+        /// An expression that filters the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression.   Operators: The following are the operators that you can use in the Expression API call:  =  Checks whether the values of the two operands are equal; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20.  (a = b) is not true.  &lt; &gt;  Checks whether the values of two operands are equal; if the values are not equal, then the condition becomes true. Example: (a &lt; &gt; b) is true.  &gt;  Checks whether the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a &gt; b) is not true.  &lt;  Checks whether the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a &lt; b) is true.  &gt;=  Checks whether the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &gt;= b) is not true.  &lt;=  Checks whether the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &lt;= b) is true.  AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key Types: The following are the supported partition keys.    string     date     timestamp     int     bigint     long     tinyint     smallint     decimal    If an invalid type is encountered, an exception is thrown.  The following list shows the valid operators on each type. When you define a crawler, the partitionKey type is created as a STRING, to be compatible with the catalog partitions.   Sample API Call: 
         public let expression: String?
         /// The maximum number of partitions to return in a single response.
         public let maxResults: Int?
@@ -4832,7 +5671,7 @@ extension Glue {
             AWSShapeMember(label: "Partitions", required: false, type: .list)
         ]
 
-        /// A continuation token, if the returned list of partitions does not does not include the last one.
+        /// A continuation token, if the returned list of partitions does not include the last one.
         public let nextToken: String?
         /// A list of requested partitions.
         public let partitions: [Partition]?
@@ -4983,7 +5822,7 @@ extension Glue {
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .structure)
         ]
 
-        /// The requested security configuration
+        /// The requested security configuration.
         public let securityConfiguration: SecurityConfiguration?
 
         public init(securityConfiguration: SecurityConfiguration? = nil) {
@@ -5051,7 +5890,7 @@ extension Glue {
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the table resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
@@ -5108,7 +5947,7 @@ extension Glue {
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
@@ -5173,7 +6012,7 @@ extension Glue {
             AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
@@ -5246,7 +6085,7 @@ extension Glue {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the tables reside. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog whose tables to list. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
@@ -5454,7 +6293,7 @@ extension Glue {
             AWSShapeMember(label: "FunctionName", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the function to be retrieved is located. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the function to be retrieved is located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the function is located.
         public let databaseName: String
@@ -5512,7 +6351,7 @@ extension Glue {
             AWSShapeMember(label: "Pattern", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the functions to be retrieved are located. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the functions to be retrieved are located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the functions are located.
         public let databaseName: String
@@ -5784,6 +6623,53 @@ extension Glue {
         }
     }
 
+    public struct GlueTable: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectionName", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+
+        /// A unique identifier for the AWS Glue Data Catalog.
+        public let catalogId: String?
+        /// The name of the connection to the AWS Glue Data Catalog.
+        public let connectionName: String?
+        /// A database name in the AWS Glue Data Catalog.
+        public let databaseName: String
+        /// A table name in the AWS Glue Data Catalog.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, connectionName: String? = nil, databaseName: String, tableName: String) {
+            self.catalogId = catalogId
+            self.connectionName = connectionName
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogId, name:"catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name:"catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name:"catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.connectionName, name:"connectionName", parent: name, max: 255)
+            try validate(self.connectionName, name:"connectionName", parent: name, min: 1)
+            try validate(self.connectionName, name:"connectionName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.databaseName, name:"databaseName", parent: name, max: 255)
+            try validate(self.databaseName, name:"databaseName", parent: name, min: 1)
+            try validate(self.databaseName, name:"databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.tableName, name:"tableName", parent: name, max: 255)
+            try validate(self.tableName, name:"tableName", parent: name, min: 1)
+            try validate(self.tableName, name:"tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case connectionName = "ConnectionName"
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+        }
+    }
+
     public struct GrokClassifier: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Classification", required: true, type: .string), 
@@ -5862,6 +6748,28 @@ extension Glue {
 
     }
 
+    public struct ImportLabelsTaskRunProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputS3Path", required: false, type: .string), 
+            AWSShapeMember(label: "Replace", required: false, type: .boolean)
+        ]
+
+        /// The Amazon Simple Storage Service (Amazon S3) path from where you will import the labels.
+        public let inputS3Path: String?
+        /// Indicates whether to overwrite your existing labels.
+        public let replace: Bool?
+
+        public init(inputS3Path: String? = nil, replace: Bool? = nil) {
+            self.inputS3Path = inputS3Path
+            self.replace = replace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputS3Path = "InputS3Path"
+            case replace = "Replace"
+        }
+    }
+
     public struct JdbcTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConnectionName", required: false, type: .string), 
@@ -5897,6 +6805,7 @@ extension Glue {
             AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
             AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
@@ -5922,6 +6831,8 @@ extension Glue {
         public let description: String?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
+        /// Glue version determines the versions of Apache Spark and Python that AWS Glue supports. The Python version indicates the version supported for jobs of type Spark.  For more information about the available AWS Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+        public let glueVersion: String?
         /// The last point in time when this job definition was modified.
         public let lastModifiedOn: TimeStamp?
         /// This field is reserved for future use.
@@ -5945,13 +6856,14 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
 
-        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: TimeStamp? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: TimeStamp? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.createdOn = createdOn
             self.defaultArguments = defaultArguments
             self.description = description
             self.executionProperty = executionProperty
+            self.glueVersion = glueVersion
             self.lastModifiedOn = lastModifiedOn
             self.logUri = logUri
             self.maxCapacity = maxCapacity
@@ -5972,6 +6884,7 @@ extension Glue {
             case defaultArguments = "DefaultArguments"
             case description = "Description"
             case executionProperty = "ExecutionProperty"
+            case glueVersion = "GlueVersion"
             case lastModifiedOn = "LastModifiedOn"
             case logUri = "LogUri"
             case maxCapacity = "MaxCapacity"
@@ -5991,7 +6904,9 @@ extension Glue {
             AWSShapeMember(label: "Attempt", required: false, type: .integer), 
             AWSShapeMember(label: "JobBookmark", required: false, type: .string), 
             AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "PreviousRunId", required: false, type: .string), 
             AWSShapeMember(label: "Run", required: false, type: .integer), 
+            AWSShapeMember(label: "RunId", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
 
@@ -5999,18 +6914,24 @@ extension Glue {
         public let attempt: Int?
         /// The bookmark itself.
         public let jobBookmark: String?
-        /// Name of the job in question.
+        /// The name of the job in question.
         public let jobName: String?
+        /// The unique run identifier associated with the previous job run.
+        public let previousRunId: String?
         /// The run ID number.
         public let run: Int?
-        /// Version of the job.
+        /// The run ID number.
+        public let runId: String?
+        /// The version of the job.
         public let version: Int?
 
-        public init(attempt: Int? = nil, jobBookmark: String? = nil, jobName: String? = nil, run: Int? = nil, version: Int? = nil) {
+        public init(attempt: Int? = nil, jobBookmark: String? = nil, jobName: String? = nil, previousRunId: String? = nil, run: Int? = nil, runId: String? = nil, version: Int? = nil) {
             self.attempt = attempt
             self.jobBookmark = jobBookmark
             self.jobName = jobName
+            self.previousRunId = previousRunId
             self.run = run
+            self.runId = runId
             self.version = version
         }
 
@@ -6018,7 +6939,9 @@ extension Glue {
             case attempt = "Attempt"
             case jobBookmark = "JobBookmark"
             case jobName = "JobName"
+            case previousRunId = "PreviousRunId"
             case run = "Run"
+            case runId = "RunId"
             case version = "Version"
         }
     }
@@ -6029,9 +6952,9 @@ extension Glue {
             AWSShapeMember(label: "KmsKeyArn", required: false, type: .string)
         ]
 
-        /// The encryption mode to use for Job bookmarks data.
+        /// The encryption mode to use for job bookmarks data.
         public let jobBookmarksEncryptionMode: JobBookmarksEncryptionMode?
-        /// The AWS ARN of the KMS key to be used to encrypt the data.
+        /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
         public let kmsKeyArn: String?
 
         public init(jobBookmarksEncryptionMode: JobBookmarksEncryptionMode? = nil, kmsKeyArn: String? = nil) {
@@ -6110,6 +7033,7 @@ extension Glue {
             AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ExecutionTime", required: false, type: .integer), 
+            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "JobName", required: false, type: .string), 
             AWSShapeMember(label: "JobRunState", required: false, type: .enum), 
@@ -6137,6 +7061,8 @@ extension Glue {
         public let errorMessage: String?
         /// The amount of time (in seconds) that the job run consumed resources.
         public let executionTime: Int?
+        /// Glue version determines the versions of Apache Spark and Python that AWS Glue supports. The Python version indicates the version supported for jobs of type Spark.  For more information about the available AWS Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+        public let glueVersion: String?
         /// The ID of this job run.
         public let id: String?
         /// The name of the job definition being used in this run.
@@ -6168,12 +7094,13 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
         public let workerType: WorkerType?
 
-        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: TimeStamp? = nil, errorMessage: String? = nil, executionTime: Int? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: TimeStamp? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: TimeStamp? = nil, errorMessage: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: TimeStamp? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.arguments = arguments
             self.attempt = attempt
             self.completedOn = completedOn
             self.errorMessage = errorMessage
             self.executionTime = executionTime
+            self.glueVersion = glueVersion
             self.id = id
             self.jobName = jobName
             self.jobRunState = jobRunState
@@ -6197,6 +7124,7 @@ extension Glue {
             case completedOn = "CompletedOn"
             case errorMessage = "ErrorMessage"
             case executionTime = "ExecutionTime"
+            case glueVersion = "GlueVersion"
             case id = "Id"
             case jobName = "JobName"
             case jobRunState = "JobRunState"
@@ -6233,6 +7161,7 @@ extension Glue {
             AWSShapeMember(label: "DefaultArguments", required: false, type: .map), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ExecutionProperty", required: false, type: .structure), 
+            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
             AWSShapeMember(label: "LogUri", required: false, type: .string), 
             AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
             AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
@@ -6254,6 +7183,8 @@ extension Glue {
         public let description: String?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
+        /// Glue version determines the versions of Apache Spark and Python that AWS Glue supports. The Python version indicates the version supported for jobs of type Spark.  For more information about the available AWS Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide.
+        public let glueVersion: String?
         /// This field is reserved for future use.
         public let logUri: String?
         /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
@@ -6273,12 +7204,13 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
         public let workerType: WorkerType?
 
-        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
             self.description = description
             self.executionProperty = executionProperty
+            self.glueVersion = glueVersion
             self.logUri = logUri
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
@@ -6295,6 +7227,9 @@ extension Glue {
             try validate(self.description, name:"description", parent: name, max: 2048)
             try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.description, name:"description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.glueVersion, name:"glueVersion", parent: name, max: 255)
+            try validate(self.glueVersion, name:"glueVersion", parent: name, min: 1)
+            try validate(self.glueVersion, name:"glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
             try self.notificationProperty?.validate(name: "\(name).notificationProperty")
             try validate(self.securityConfiguration, name:"securityConfiguration", parent: name, max: 255)
             try validate(self.securityConfiguration, name:"securityConfiguration", parent: name, min: 1)
@@ -6308,6 +7243,7 @@ extension Glue {
             case defaultArguments = "DefaultArguments"
             case description = "Description"
             case executionProperty = "ExecutionProperty"
+            case glueVersion = "GlueVersion"
             case logUri = "LogUri"
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
@@ -6354,6 +7290,23 @@ extension Glue {
             case lastUpdated = "LastUpdated"
             case name = "Name"
             case version = "Version"
+        }
+    }
+
+    public struct LabelingSetGenerationTaskRunProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputS3Path", required: false, type: .string)
+        ]
+
+        /// The Amazon Simple Storage Service (Amazon S3) path where you will generate the labeling set.
+        public let outputS3Path: String?
+
+        public init(outputS3Path: String? = nil) {
+            self.outputS3Path = outputS3Path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputS3Path = "OutputS3Path"
         }
     }
 
@@ -6756,6 +7709,103 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public struct MLTransform: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluationMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "InputRecordTables", required: false, type: .list), 
+            AWSShapeMember(label: "LabelCount", required: false, type: .integer), 
+            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
+            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
+            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "Schema", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "TransformId", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
+        ]
+
+        /// A timestamp. The time and date that this machine learning transform was created.
+        public let createdOn: TimeStamp?
+        /// A user-defined, long-form description text for the machine learning transform. Descriptions are not guaranteed to be unique and can be changed at any time.
+        public let description: String?
+        /// An EvaluationMetrics object. Evaluation metrics provide an estimate of the quality of your machine learning transform.
+        public let evaluationMetrics: EvaluationMetrics?
+        /// A list of AWS Glue table definitions used by the transform.
+        public let inputRecordTables: [GlueTable]?
+        /// A count identifier for the labeling files generated by AWS Glue for this transform. As you create a better transform, you can iteratively download, label, and upload the labeling file.
+        public let labelCount: Int?
+        /// A timestamp. The last point in time when this machine learning transform was modified.
+        public let lastModifiedOn: TimeStamp?
+        /// The number of AWS Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.  When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
+        public let maxCapacity: Double?
+        /// The maximum number of times to retry after an MLTaskRun of the machine learning transform fails.
+        public let maxRetries: Int?
+        /// A user-defined name for the machine learning transform. Names are not guaranteed unique and can be changed at any time.
+        public let name: String?
+        /// The number of workers of a defined workerType that are allocated when a task of the transform runs.
+        public let numberOfWorkers: Int?
+        /// A TransformParameters object. You can use parameters to tune (customize) the behavior of the machine learning transform by specifying what data it learns from and your preference on various tradeoffs (such as precious vs. recall, or accuracy vs. cost).
+        public let parameters: TransformParameters?
+        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.
+        public let role: String?
+        /// A map of key-value pairs representing the columns and data types that this transform can run against. Has an upper bound of 100 columns.
+        public let schema: [SchemaColumn]?
+        /// The current status of the machine learning transform.
+        public let status: TransformStatusType?
+        /// The timeout in minutes of the machine learning transform.
+        public let timeout: Int?
+        /// The unique transform ID that is generated for the machine learning transform. The ID is guaranteed to be unique and does not change.
+        public let transformId: String?
+        /// The type of predefined worker that is allocated when a task of this transform runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        public let workerType: WorkerType?
+
+        public init(createdOn: TimeStamp? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: TimeStamp? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
+            self.createdOn = createdOn
+            self.description = description
+            self.evaluationMetrics = evaluationMetrics
+            self.inputRecordTables = inputRecordTables
+            self.labelCount = labelCount
+            self.lastModifiedOn = lastModifiedOn
+            self.maxCapacity = maxCapacity
+            self.maxRetries = maxRetries
+            self.name = name
+            self.numberOfWorkers = numberOfWorkers
+            self.parameters = parameters
+            self.role = role
+            self.schema = schema
+            self.status = status
+            self.timeout = timeout
+            self.transformId = transformId
+            self.workerType = workerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdOn = "CreatedOn"
+            case description = "Description"
+            case evaluationMetrics = "EvaluationMetrics"
+            case inputRecordTables = "InputRecordTables"
+            case labelCount = "LabelCount"
+            case lastModifiedOn = "LastModifiedOn"
+            case maxCapacity = "MaxCapacity"
+            case maxRetries = "MaxRetries"
+            case name = "Name"
+            case numberOfWorkers = "NumberOfWorkers"
+            case parameters = "Parameters"
+            case role = "Role"
+            case schema = "Schema"
+            case status = "Status"
+            case timeout = "Timeout"
+            case transformId = "TransformId"
+            case workerType = "WorkerType"
+        }
+    }
+
     public struct MappingEntry: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SourcePath", required: false, type: .string), 
@@ -6912,7 +7962,7 @@ extension Glue {
 
         /// The time at which the partition was created.
         public let creationTime: TimeStamp?
-        /// The name of the catalog database where the table in question is located.
+        /// The name of the catalog database in which to create the partition.
         public let databaseName: String?
         /// The last time at which the partition was accessed.
         public let lastAccessTime: TimeStamp?
@@ -6922,7 +7972,7 @@ extension Glue {
         public let parameters: [String: String]?
         /// Provides information about the physical location where the partition is stored.
         public let storageDescriptor: StorageDescriptor?
-        /// The name of the table in question.
+        /// The name of the database table in which to create the partition.
         public let tableName: String?
         /// The values of the partition.
         public let values: [String]?
@@ -6956,7 +8006,7 @@ extension Glue {
             AWSShapeMember(label: "PartitionValues", required: false, type: .list)
         ]
 
-        /// Details about the partition error.
+        /// The details about the partition error.
         public let errorDetail: ErrorDetail?
         /// The values that define the partition.
         public let partitionValues: [String]?
@@ -7043,6 +8093,19 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case values = "Values"
         }
+    }
+
+    public enum Permission: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case select = "SELECT"
+        case alter = "ALTER"
+        case drop = "DROP"
+        case delete = "DELETE"
+        case insert = "INSERT"
+        case createDatabase = "CREATE_DATABASE"
+        case createTable = "CREATE_TABLE"
+        case dataLocationAccess = "DATA_LOCATION_ACCESS"
+        public var description: String { return self.rawValue }
     }
 
     public struct PhysicalConnectionRequirements: AWSShape {
@@ -7138,11 +8201,69 @@ extension Glue {
         }
     }
 
+    public struct PrincipalPermissions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "Principal", required: false, type: .structure)
+        ]
+
+        /// The permissions that are granted to the principal.
+        public let permissions: [Permission]?
+        /// The principal who is granted permissions.
+        public let principal: DataLakePrincipal?
+
+        public init(permissions: [Permission]? = nil, principal: DataLakePrincipal? = nil) {
+            self.permissions = permissions
+            self.principal = principal
+        }
+
+        public func validate(name: String) throws {
+            try self.principal?.validate(name: "\(name).principal")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "Permissions"
+            case principal = "Principal"
+        }
+    }
+
     public enum PrincipalType: String, CustomStringConvertible, Codable {
         case user = "USER"
         case role = "ROLE"
         case group = "GROUP"
         public var description: String { return self.rawValue }
+    }
+
+    public struct PropertyPredicate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comparator", required: false, type: .enum), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+
+        /// The comparator used to compare this property to others.
+        public let comparator: Comparator?
+        /// The key of the property.
+        public let key: String?
+        /// The value of the property.
+        public let value: String?
+
+        public init(comparator: Comparator? = nil, key: String? = nil, value: String? = nil) {
+            self.comparator = comparator
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 1024)
+            try validate(self.value, name:"value", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparator = "Comparator"
+            case key = "Key"
+            case value = "Value"
+        }
     }
 
     public struct PutDataCatalogEncryptionSettingsRequest: AWSShape {
@@ -7151,7 +8272,7 @@ extension Glue {
             AWSShapeMember(label: "DataCatalogEncryptionSettings", required: true, type: .structure)
         ]
 
-        /// The ID of the Data Catalog for which to set the security configuration. If none is provided, the AWS account ID is used by default.
+        /// The ID of the Data Catalog to set the security configuration for. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The security configuration to set.
         public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings
@@ -7285,18 +8406,23 @@ extension Glue {
 
     public struct ResetJobBookmarkRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "JobName", required: true, type: .string)
+            AWSShapeMember(label: "JobName", required: true, type: .string), 
+            AWSShapeMember(label: "RunId", required: false, type: .string)
         ]
 
         /// The name of the job in question.
         public let jobName: String
+        /// The unique run identifier associated with this job run.
+        public let runId: String?
 
-        public init(jobName: String) {
+        public init(jobName: String, runId: String? = nil) {
             self.jobName = jobName
+            self.runId = runId
         }
 
         private enum CodingKeys: String, CodingKey {
             case jobName = "JobName"
+            case runId = "RunId"
         }
     }
 
@@ -7358,9 +8484,9 @@ extension Glue {
             AWSShapeMember(label: "S3EncryptionMode", required: false, type: .enum)
         ]
 
-        /// The AWS ARN of the KMS key to be used to encrypt the data.
+        /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
         public let kmsKeyArn: String?
-        /// The encryption mode to use for S3 data.
+        /// The encryption mode to use for Amazon S3 data.
         public let s3EncryptionMode: S3EncryptionMode?
 
         public init(kmsKeyArn: String? = nil, s3EncryptionMode: S3EncryptionMode? = nil) {
@@ -7458,6 +8584,118 @@ extension Glue {
         }
     }
 
+    public struct SchemaColumn: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// The type of data in the column.
+        public let dataType: String?
+        /// The name of the column.
+        public let name: String?
+
+        public init(dataType: String? = nil, name: String? = nil) {
+            self.dataType = dataType
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.dataType, name:"dataType", parent: name, max: 131072)
+            try validate(self.dataType, name:"dataType", parent: name, min: 0)
+            try validate(self.dataType, name:"dataType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.name, name:"name", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "DataType"
+            case name = "Name"
+        }
+    }
+
+    public struct SearchTablesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SearchText", required: false, type: .string), 
+            AWSShapeMember(label: "SortCriteria", required: false, type: .list)
+        ]
+
+        /// A unique identifier, consisting of  account_id/datalake.
+        public let catalogId: String?
+        /// A list of key-value pairs, and a comparator used to filter the search results. Returns all entities matching the predicate.
+        public let filters: [PropertyPredicate]?
+        /// The maximum number of tables to return in a single response.
+        public let maxResults: Int?
+        /// A continuation token, included if this is a continuation call.
+        public let nextToken: String?
+        /// A string used for a text search. Specifying a value in quotes filters based on an exact match to the value.
+        public let searchText: String?
+        /// A list of criteria for sorting the results by a field name, in an ascending or descending order.
+        public let sortCriteria: [SortCriterion]?
+
+        public init(catalogId: String? = nil, filters: [PropertyPredicate]? = nil, maxResults: Int? = nil, nextToken: String? = nil, searchText: String? = nil, sortCriteria: [SortCriterion]? = nil) {
+            self.catalogId = catalogId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchText = searchText
+            self.sortCriteria = sortCriteria
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogId, name:"catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name:"catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name:"catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.searchText, name:"searchText", parent: name, max: 1024)
+            try self.sortCriteria?.forEach {
+                try $0.validate(name: "\(name).sortCriteria[]")
+            }
+            try validate(self.sortCriteria, name:"sortCriteria", parent: name, max: 1)
+            try validate(self.sortCriteria, name:"sortCriteria", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchText = "SearchText"
+            case sortCriteria = "SortCriteria"
+        }
+    }
+
+    public struct SearchTablesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TableList", required: false, type: .list)
+        ]
+
+        /// A continuation token, present if the current list segment is not the last.
+        public let nextToken: String?
+        /// A list of the requested Table objects. The SearchTables response returns only the tables that you have access to.
+        public let tableList: [Table]?
+
+        public init(nextToken: String? = nil, tableList: [Table]? = nil) {
+            self.nextToken = nextToken
+            self.tableList = tableList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tableList = "TableList"
+        }
+    }
+
     public struct SecurityConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedTimeStamp", required: false, type: .timestamp), 
@@ -7491,9 +8729,9 @@ extension Glue {
             AWSShapeMember(label: "TotalSegments", required: true, type: .integer)
         ]
 
-        /// The zero-based index number of the this segment. For example, if the total number of segments is 4, SegmentNumber values will range from zero through three.
+        /// The zero-based index number of the segment. For example, if the total number of segments is 4, SegmentNumber values range from 0 through 3.
         public let segmentNumber: Int
-        /// The total numer of segments.
+        /// The total number of segments.
         public let totalSegments: Int
 
         public init(segmentNumber: Int, totalSegments: Int) {
@@ -7524,7 +8762,7 @@ extension Glue {
         public let name: String?
         /// These key-value pairs define initialization parameters for the SerDe.
         public let parameters: [String: String]?
-        /// Usually the class that implements the SerDe. An example is: org.apache.hadoop.hive.serde2.columnar.ColumnarSerDe.
+        /// Usually the class that implements the SerDe. An example is org.apache.hadoop.hive.serde2.columnar.ColumnarSerDe.
         public let serializationLibrary: String?
 
         public init(name: String? = nil, parameters: [String: String]? = nil, serializationLibrary: String? = nil) {
@@ -7590,6 +8828,42 @@ extension Glue {
         }
     }
 
+    public enum Sort: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct SortCriterion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FieldName", required: false, type: .string), 
+            AWSShapeMember(label: "Sort", required: false, type: .enum)
+        ]
+
+        public let fieldName: String?
+        public let sort: Sort?
+
+        public init(fieldName: String? = nil, sort: Sort? = nil) {
+            self.fieldName = fieldName
+            self.sort = sort
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.fieldName, name:"fieldName", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case sort = "Sort"
+        }
+    }
+
+    public enum SortDirectionType: String, CustomStringConvertible, Codable {
+        case descending = "DESCENDING"
+        case ascending = "ASCENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StartCrawlerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
@@ -7652,6 +8926,101 @@ extension Glue {
 
     }
 
+    public struct StartExportLabelsTaskRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputS3Path", required: true, type: .string), 
+            AWSShapeMember(label: "TransformId", required: true, type: .string)
+        ]
+
+        /// The Amazon S3 path where you export the labels.
+        public let outputS3Path: String
+        /// The unique identifier of the machine learning transform.
+        public let transformId: String
+
+        public init(outputS3Path: String, transformId: String) {
+            self.outputS3Path = outputS3Path
+            self.transformId = transformId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.transformId, name:"transformId", parent: name, max: 255)
+            try validate(self.transformId, name:"transformId", parent: name, min: 1)
+            try validate(self.transformId, name:"transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputS3Path = "OutputS3Path"
+            case transformId = "TransformId"
+        }
+    }
+
+    public struct StartExportLabelsTaskRunResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskRunId", required: false, type: .string)
+        ]
+
+        /// The unique identifier for the task run.
+        public let taskRunId: String?
+
+        public init(taskRunId: String? = nil) {
+            self.taskRunId = taskRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskRunId = "TaskRunId"
+        }
+    }
+
+    public struct StartImportLabelsTaskRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputS3Path", required: true, type: .string), 
+            AWSShapeMember(label: "ReplaceAllLabels", required: false, type: .boolean), 
+            AWSShapeMember(label: "TransformId", required: true, type: .string)
+        ]
+
+        /// The Amazon Simple Storage Service (Amazon S3) path from where you import the labels.
+        public let inputS3Path: String
+        /// Indicates whether to overwrite your existing labels.
+        public let replaceAllLabels: Bool?
+        /// The unique identifier of the machine learning transform.
+        public let transformId: String
+
+        public init(inputS3Path: String, replaceAllLabels: Bool? = nil, transformId: String) {
+            self.inputS3Path = inputS3Path
+            self.replaceAllLabels = replaceAllLabels
+            self.transformId = transformId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.transformId, name:"transformId", parent: name, max: 255)
+            try validate(self.transformId, name:"transformId", parent: name, min: 1)
+            try validate(self.transformId, name:"transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputS3Path = "InputS3Path"
+            case replaceAllLabels = "ReplaceAllLabels"
+            case transformId = "TransformId"
+        }
+    }
+
+    public struct StartImportLabelsTaskRunResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskRunId", required: false, type: .string)
+        ]
+
+        /// The unique identifier for the task run.
+        public let taskRunId: String?
+
+        public init(taskRunId: String? = nil) {
+            self.taskRunId = taskRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskRunId = "TaskRunId"
+        }
+    }
+
     public struct StartJobRunRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arguments", required: false, type: .map), 
@@ -7662,7 +9031,7 @@ extension Glue {
             AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "Timeout", required: false, type: .integer), 
-            AWSShapeMember(label: "WorkerType", required: false, type: .string)
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
         ]
 
         /// The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
@@ -7682,9 +9051,9 @@ extension Glue {
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
         public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
-        public let workerType: String?
+        public let workerType: WorkerType?
 
-        public init(arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: String? = nil) {
+        public init(arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.arguments = arguments
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -7708,9 +9077,6 @@ extension Glue {
             try validate(self.securityConfiguration, name:"securityConfiguration", parent: name, min: 1)
             try validate(self.securityConfiguration, name:"securityConfiguration", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try validate(self.timeout, name:"timeout", parent: name, min: 1)
-            try validate(self.workerType, name:"workerType", parent: name, max: 255)
-            try validate(self.workerType, name:"workerType", parent: name, min: 1)
-            try validate(self.workerType, name:"workerType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7740,6 +9106,91 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case jobRunId = "JobRunId"
+        }
+    }
+
+    public struct StartMLEvaluationTaskRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TransformId", required: true, type: .string)
+        ]
+
+        /// The unique identifier of the machine learning transform.
+        public let transformId: String
+
+        public init(transformId: String) {
+            self.transformId = transformId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.transformId, name:"transformId", parent: name, max: 255)
+            try validate(self.transformId, name:"transformId", parent: name, min: 1)
+            try validate(self.transformId, name:"transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformId = "TransformId"
+        }
+    }
+
+    public struct StartMLEvaluationTaskRunResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskRunId", required: false, type: .string)
+        ]
+
+        /// The unique identifier associated with this run.
+        public let taskRunId: String?
+
+        public init(taskRunId: String? = nil) {
+            self.taskRunId = taskRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskRunId = "TaskRunId"
+        }
+    }
+
+    public struct StartMLLabelingSetGenerationTaskRunRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputS3Path", required: true, type: .string), 
+            AWSShapeMember(label: "TransformId", required: true, type: .string)
+        ]
+
+        /// The Amazon Simple Storage Service (Amazon S3) path where you generate the labeling set.
+        public let outputS3Path: String
+        /// The unique identifier of the machine learning transform.
+        public let transformId: String
+
+        public init(outputS3Path: String, transformId: String) {
+            self.outputS3Path = outputS3Path
+            self.transformId = transformId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.transformId, name:"transformId", parent: name, max: 255)
+            try validate(self.transformId, name:"transformId", parent: name, min: 1)
+            try validate(self.transformId, name:"transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputS3Path = "OutputS3Path"
+            case transformId = "TransformId"
+        }
+    }
+
+    public struct StartMLLabelingSetGenerationTaskRunResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskRunId", required: false, type: .string)
+        ]
+
+        /// The unique run identifier that is associated with this task run.
+        public let taskRunId: String?
+
+        public init(taskRunId: String? = nil) {
+            self.taskRunId = taskRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskRunId = "TaskRunId"
         }
     }
 
@@ -7945,25 +9396,25 @@ extension Glue {
         public let bucketColumns: [String]?
         /// A list of the Columns in the table.
         public let columns: [Column]?
-        /// True if the data in the table is compressed, or False if not.
+        ///  True if the data in the table is compressed, or False if not.
         public let compressed: Bool?
         /// The input format: SequenceFileInputFormat (binary), or TextInputFormat, or a custom format.
         public let inputFormat: String?
-        /// The physical location of the table. By default this takes the form of the warehouse location, followed by the database location in the warehouse, followed by the table name.
+        /// The physical location of the table. By default, this takes the form of the warehouse location, followed by the database location in the warehouse, followed by the table name.
         public let location: String?
         /// Must be specified if the table contains any dimension columns.
         public let numberOfBuckets: Int?
         /// The output format: SequenceFileOutputFormat (binary), or IgnoreKeyTextOutputFormat, or a custom format.
         public let outputFormat: String?
-        /// User-supplied properties in key-value form.
+        /// The user-supplied properties in key-value form.
         public let parameters: [String: String]?
-        /// Serialization/deserialization (SerDe) information.
+        /// The serialization/deserialization (SerDe) information.
         public let serdeInfo: SerDeInfo?
-        /// Information about values that appear very frequently in a column (skewed values).
+        /// The information about values that appear frequently in a column (skewed values).
         public let skewedInfo: SkewedInfo?
         /// A list specifying the sort order of each bucket in the table.
         public let sortColumns: [Order]?
-        /// True if the table data is stored in subdirectories, or False if not.
+        ///  True if the table data is stored in subdirectories, or False if not.
         public let storedAsSubDirectories: Bool?
 
         public init(bucketColumns: [String]? = nil, columns: [Column]? = nil, compressed: Bool? = nil, inputFormat: String? = nil, location: String? = nil, numberOfBuckets: Int? = nil, outputFormat: String? = nil, parameters: [String: String]? = nil, serdeInfo: SerDeInfo? = nil, skewedInfo: SkewedInfo? = nil, sortColumns: [Order]? = nil, storedAsSubDirectories: Bool? = nil) {
@@ -8031,6 +9482,7 @@ extension Glue {
             AWSShapeMember(label: "CreateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "IsRegisteredWithLakeFormation", required: false, type: .boolean), 
             AWSShapeMember(label: "LastAccessTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastAnalyzedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -8045,44 +9497,47 @@ extension Glue {
             AWSShapeMember(label: "ViewOriginalText", required: false, type: .string)
         ]
 
-        /// Person or entity who created the table.
+        /// The person or entity who created the table.
         public let createdBy: String?
-        /// Time when the table definition was created in the Data Catalog.
+        /// The time when the table definition was created in the Data Catalog.
         public let createTime: TimeStamp?
-        /// Name of the metadata database where the table metadata resides. For Hive compatibility, this must be all lowercase.
+        /// The name of the database where the table metadata resides. For Hive compatibility, this must be all lowercase.
         public let databaseName: String?
-        /// Description of the table.
+        /// A description of the table.
         public let description: String?
-        /// Last time the table was accessed. This is usually taken from HDFS, and may not be reliable.
+        /// Indicates whether the table has been registered with AWS Lake Formation.
+        public let isRegisteredWithLakeFormation: Bool?
+        /// The last time that the table was accessed. This is usually taken from HDFS, and might not be reliable.
         public let lastAccessTime: TimeStamp?
-        /// Last time column statistics were computed for this table.
+        /// The last time that column statistics were computed for this table.
         public let lastAnalyzedTime: TimeStamp?
-        /// Name of the table. For Hive compatibility, this must be entirely lowercase.
+        /// The table name. For Hive compatibility, this must be entirely lowercase.
         public let name: String
-        /// Owner of the table.
+        /// The owner of the table.
         public let owner: String?
         /// These key-value pairs define properties associated with the table.
         public let parameters: [String: String]?
-        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When creating a table used by Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": [] 
+        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When you create a table used by Amazon Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": [] 
         public let partitionKeys: [Column]?
-        /// Retention time for this table.
+        /// The retention time for this table.
         public let retention: Int?
         /// A storage descriptor containing information about the physical storage of this table.
         public let storageDescriptor: StorageDescriptor?
         /// The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.).
         public let tableType: String?
-        /// Last time the table was updated.
+        /// The last time that the table was updated.
         public let updateTime: TimeStamp?
         /// If the table is a view, the expanded text of the view; otherwise null.
         public let viewExpandedText: String?
         /// If the table is a view, the original text of the view; otherwise null.
         public let viewOriginalText: String?
 
-        public init(createdBy: String? = nil, createTime: TimeStamp? = nil, databaseName: String? = nil, description: String? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, updateTime: TimeStamp? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(createdBy: String? = nil, createTime: TimeStamp? = nil, databaseName: String? = nil, description: String? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, updateTime: TimeStamp? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.createdBy = createdBy
             self.createTime = createTime
             self.databaseName = databaseName
             self.description = description
+            self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
             self.name = name
@@ -8102,6 +9557,7 @@ extension Glue {
             case createTime = "CreateTime"
             case databaseName = "DatabaseName"
             case description = "Description"
+            case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
             case lastAccessTime = "LastAccessTime"
             case lastAnalyzedTime = "LastAnalyzedTime"
             case name = "Name"
@@ -8123,9 +9579,9 @@ extension Glue {
             AWSShapeMember(label: "TableName", required: false, type: .string)
         ]
 
-        /// Detail about the error.
+        /// The details about the error.
         public let errorDetail: ErrorDetail?
-        /// Name of the table. For Hive compatibility, this must be entirely lowercase.
+        /// The name of the table. For Hive compatibility, this must be entirely lowercase.
         public let tableName: String?
 
         public init(errorDetail: ErrorDetail? = nil, tableName: String? = nil) {
@@ -8155,21 +9611,21 @@ extension Glue {
             AWSShapeMember(label: "ViewOriginalText", required: false, type: .string)
         ]
 
-        /// Description of the table.
+        /// A description of the table.
         public let description: String?
-        /// Last time the table was accessed.
+        /// The last time that the table was accessed.
         public let lastAccessTime: TimeStamp?
-        /// Last time column statistics were computed for this table.
+        /// The last time that column statistics were computed for this table.
         public let lastAnalyzedTime: TimeStamp?
-        /// Name of the table. For Hive compatibility, this is folded to lowercase when it is stored.
+        /// The table name. For Hive compatibility, this is folded to lowercase when it is stored.
         public let name: String
-        /// Owner of the table.
+        /// The table owner.
         public let owner: String?
         /// These key-value pairs define properties associated with the table.
         public let parameters: [String: String]?
-        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When creating a table used by Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": [] 
+        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When you create a table used by Amazon Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": [] 
         public let partitionKeys: [Column]?
-        /// Retention time for this table.
+        /// The retention time for this table.
         public let retention: Int?
         /// A storage descriptor containing information about the physical storage of this table.
         public let storageDescriptor: StorageDescriptor?
@@ -8243,7 +9699,7 @@ extension Glue {
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
 
-        /// The table in question
+        /// The table in question.
         public let table: Table?
         /// The ID value that identifies this table version. A VersionId is a string representation of an integer. Each version is incremented by 1.
         public let versionId: String?
@@ -8266,7 +9722,7 @@ extension Glue {
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
 
-        /// Detail about the error.
+        /// The details about the error.
         public let errorDetail: ErrorDetail?
         /// The name of the table in question.
         public let tableName: String?
@@ -8326,6 +9782,317 @@ extension Glue {
         public init() {
         }
 
+    }
+
+    public struct TaskRun: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompletedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ErrorString", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionTime", required: false, type: .integer), 
+            AWSShapeMember(label: "LastModifiedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Properties", required: false, type: .structure), 
+            AWSShapeMember(label: "StartedOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskRunId", required: false, type: .string), 
+            AWSShapeMember(label: "TransformId", required: false, type: .string)
+        ]
+
+        /// The last point in time that the requested task run was completed.
+        public let completedOn: TimeStamp?
+        /// The list of error strings associated with this task run.
+        public let errorString: String?
+        /// The amount of time (in seconds) that the task run consumed resources.
+        public let executionTime: Int?
+        /// The last point in time that the requested task run was updated.
+        public let lastModifiedOn: TimeStamp?
+        /// The names of the log group for secure logging, associated with this task run.
+        public let logGroupName: String?
+        /// Specifies configuration properties associated with this task run.
+        public let properties: TaskRunProperties?
+        /// The date and time that this task run started.
+        public let startedOn: TimeStamp?
+        /// The current status of the requested task run.
+        public let status: TaskStatusType?
+        /// The unique identifier for this task run.
+        public let taskRunId: String?
+        /// The unique identifier for the transform.
+        public let transformId: String?
+
+        public init(completedOn: TimeStamp? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: TimeStamp? = nil, logGroupName: String? = nil, properties: TaskRunProperties? = nil, startedOn: TimeStamp? = nil, status: TaskStatusType? = nil, taskRunId: String? = nil, transformId: String? = nil) {
+            self.completedOn = completedOn
+            self.errorString = errorString
+            self.executionTime = executionTime
+            self.lastModifiedOn = lastModifiedOn
+            self.logGroupName = logGroupName
+            self.properties = properties
+            self.startedOn = startedOn
+            self.status = status
+            self.taskRunId = taskRunId
+            self.transformId = transformId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedOn = "CompletedOn"
+            case errorString = "ErrorString"
+            case executionTime = "ExecutionTime"
+            case lastModifiedOn = "LastModifiedOn"
+            case logGroupName = "LogGroupName"
+            case properties = "Properties"
+            case startedOn = "StartedOn"
+            case status = "Status"
+            case taskRunId = "TaskRunId"
+            case transformId = "TransformId"
+        }
+    }
+
+    public struct TaskRunFilterCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartedAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartedBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskRunType", required: false, type: .enum)
+        ]
+
+        /// Filter on task runs started after this date.
+        public let startedAfter: TimeStamp?
+        /// Filter on task runs started before this date.
+        public let startedBefore: TimeStamp?
+        /// The current status of the task run.
+        public let status: TaskStatusType?
+        /// The type of task run.
+        public let taskRunType: TaskType?
+
+        public init(startedAfter: TimeStamp? = nil, startedBefore: TimeStamp? = nil, status: TaskStatusType? = nil, taskRunType: TaskType? = nil) {
+            self.startedAfter = startedAfter
+            self.startedBefore = startedBefore
+            self.status = status
+            self.taskRunType = taskRunType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startedAfter = "StartedAfter"
+            case startedBefore = "StartedBefore"
+            case status = "Status"
+            case taskRunType = "TaskRunType"
+        }
+    }
+
+    public struct TaskRunProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportLabelsTaskRunProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "FindMatchesTaskRunProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "ImportLabelsTaskRunProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "LabelingSetGenerationTaskRunProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "TaskType", required: false, type: .enum)
+        ]
+
+        /// The configuration properties for an exporting labels task run.
+        public let exportLabelsTaskRunProperties: ExportLabelsTaskRunProperties?
+        /// The configuration properties for a find matches task run.
+        public let findMatchesTaskRunProperties: FindMatchesTaskRunProperties?
+        /// The configuration properties for an importing labels task run.
+        public let importLabelsTaskRunProperties: ImportLabelsTaskRunProperties?
+        /// The configuration properties for a labeling set generation task run.
+        public let labelingSetGenerationTaskRunProperties: LabelingSetGenerationTaskRunProperties?
+        /// The type of task run.
+        public let taskType: TaskType?
+
+        public init(exportLabelsTaskRunProperties: ExportLabelsTaskRunProperties? = nil, findMatchesTaskRunProperties: FindMatchesTaskRunProperties? = nil, importLabelsTaskRunProperties: ImportLabelsTaskRunProperties? = nil, labelingSetGenerationTaskRunProperties: LabelingSetGenerationTaskRunProperties? = nil, taskType: TaskType? = nil) {
+            self.exportLabelsTaskRunProperties = exportLabelsTaskRunProperties
+            self.findMatchesTaskRunProperties = findMatchesTaskRunProperties
+            self.importLabelsTaskRunProperties = importLabelsTaskRunProperties
+            self.labelingSetGenerationTaskRunProperties = labelingSetGenerationTaskRunProperties
+            self.taskType = taskType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportLabelsTaskRunProperties = "ExportLabelsTaskRunProperties"
+            case findMatchesTaskRunProperties = "FindMatchesTaskRunProperties"
+            case importLabelsTaskRunProperties = "ImportLabelsTaskRunProperties"
+            case labelingSetGenerationTaskRunProperties = "LabelingSetGenerationTaskRunProperties"
+            case taskType = "TaskType"
+        }
+    }
+
+    public enum TaskRunSortColumnType: String, CustomStringConvertible, Codable {
+        case taskRunType = "TASK_RUN_TYPE"
+        case status = "STATUS"
+        case started = "STARTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TaskRunSortCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Column", required: true, type: .enum), 
+            AWSShapeMember(label: "SortDirection", required: true, type: .enum)
+        ]
+
+        /// The column to be used to sort the list of task runs for the machine learning transform.
+        public let column: TaskRunSortColumnType
+        /// The sort direction to be used to sort the list of task runs for the machine learning transform.
+        public let sortDirection: SortDirectionType
+
+        public init(column: TaskRunSortColumnType, sortDirection: SortDirectionType) {
+            self.column = column
+            self.sortDirection = sortDirection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case sortDirection = "SortDirection"
+        }
+    }
+
+    public enum TaskStatusType: String, CustomStringConvertible, Codable {
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        case timeout = "TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskType: String, CustomStringConvertible, Codable {
+        case evaluation = "EVALUATION"
+        case labelingSetGeneration = "LABELING_SET_GENERATION"
+        case importLabels = "IMPORT_LABELS"
+        case exportLabels = "EXPORT_LABELS"
+        case findMatches = "FIND_MATCHES"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TransformFilterCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Schema", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TransformType", required: false, type: .enum)
+        ]
+
+        /// The time and date after which the transforms were created.
+        public let createdAfter: TimeStamp?
+        /// The time and date before which the transforms were created.
+        public let createdBefore: TimeStamp?
+        /// Filter on transforms last modified after this date.
+        public let lastModifiedAfter: TimeStamp?
+        /// Filter on transforms last modified before this date.
+        public let lastModifiedBefore: TimeStamp?
+        /// A unique transform name that is used to filter the machine learning transforms.
+        public let name: String?
+        /// Filters on datasets with a specific schema. The Map&lt;Column, Type&gt; object is an array of key-value pairs representing the schema this transform accepts, where Column is the name of a column, and Type is the type of the data such as an integer or string. Has an upper bound of 100 columns.
+        public let schema: [SchemaColumn]?
+        /// Filters the list of machine learning transforms by the last known status of the transforms (to indicate whether a transform can be used or not). One of "NOT_READY", "READY", or "DELETING".
+        public let status: TransformStatusType?
+        /// The type of machine learning transform that is used to filter the machine learning transforms.
+        public let transformType: TransformType?
+
+        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, lastModifiedAfter: TimeStamp? = nil, lastModifiedBefore: TimeStamp? = nil, name: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, transformType: TransformType? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.lastModifiedAfter = lastModifiedAfter
+            self.lastModifiedBefore = lastModifiedBefore
+            self.name = name
+            self.schema = schema
+            self.status = status
+            self.transformType = transformType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.schema?.forEach {
+                try $0.validate(name: "\(name).schema[]")
+            }
+            try validate(self.schema, name:"schema", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case lastModifiedAfter = "LastModifiedAfter"
+            case lastModifiedBefore = "LastModifiedBefore"
+            case name = "Name"
+            case schema = "Schema"
+            case status = "Status"
+            case transformType = "TransformType"
+        }
+    }
+
+    public struct TransformParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FindMatchesParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "TransformType", required: true, type: .enum)
+        ]
+
+        /// The parameters for the find matches algorithm.
+        public let findMatchesParameters: FindMatchesParameters?
+        /// The type of machine learning transform. For information about the types of machine learning transforms, see Creating Machine Learning Transforms.
+        public let transformType: TransformType
+
+        public init(findMatchesParameters: FindMatchesParameters? = nil, transformType: TransformType) {
+            self.findMatchesParameters = findMatchesParameters
+            self.transformType = transformType
+        }
+
+        public func validate(name: String) throws {
+            try self.findMatchesParameters?.validate(name: "\(name).findMatchesParameters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findMatchesParameters = "FindMatchesParameters"
+            case transformType = "TransformType"
+        }
+    }
+
+    public enum TransformSortColumnType: String, CustomStringConvertible, Codable {
+        case name = "NAME"
+        case transformType = "TRANSFORM_TYPE"
+        case status = "STATUS"
+        case created = "CREATED"
+        case lastModified = "LAST_MODIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TransformSortCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Column", required: true, type: .enum), 
+            AWSShapeMember(label: "SortDirection", required: true, type: .enum)
+        ]
+
+        /// The column to be used in the sorting criteria that are associated with the machine learning transform.
+        public let column: TransformSortColumnType
+        /// The sort direction to be used in the sorting criteria that are associated with the machine learning transform.
+        public let sortDirection: SortDirectionType
+
+        public init(column: TransformSortColumnType, sortDirection: SortDirectionType) {
+            self.column = column
+            self.sortDirection = sortDirection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case sortDirection = "SortDirection"
+        }
+    }
+
+    public enum TransformStatusType: String, CustomStringConvertible, Codable {
+        case notReady = "NOT_READY"
+        case ready = "READY"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransformType: String, CustomStringConvertible, Codable {
+        case findMatches = "FIND_MATCHES"
+        public var description: String { return self.rawValue }
     }
 
     public struct Trigger: AWSShape {
@@ -8812,7 +10579,7 @@ extension Glue {
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog in which the metadata database resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog in which the metadata database resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// A DatabaseInput object specifying the new definition of the metadata database in the catalog.
         public let databaseInput: DatabaseInput
@@ -8876,7 +10643,7 @@ extension Glue {
         public let endpointName: String
         /// The public key for the DevEndpoint to use.
         public let publicKey: String?
-        /// True if the list of custom libraries to be loaded in the development endpoint needs to be updated, or False otherwise.
+        ///  True if the list of custom libraries to be loaded in the development endpoint needs to be updated, or False if otherwise.
         public let updateEtlLibraries: Bool?
 
         public init(addArguments: [String: String]? = nil, addPublicKeys: [String]? = nil, customLibraries: DevEndpointCustomLibraries? = nil, deleteArguments: [String]? = nil, deletePublicKeys: [String]? = nil, endpointName: String, publicKey: String? = nil, updateEtlLibraries: Bool? = nil) {
@@ -9033,6 +10800,99 @@ extension Glue {
         }
     }
 
+    public struct UpdateMLTransformRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "MaxCapacity", required: false, type: .double), 
+            AWSShapeMember(label: "MaxRetries", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
+            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "TransformId", required: true, type: .string), 
+            AWSShapeMember(label: "WorkerType", required: false, type: .enum)
+        ]
+
+        /// A description of the transform. The default is an empty string.
+        public let description: String?
+        /// The number of AWS Glue data processing units (DPUs) that are allocated to task runs for this transform. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page.  When the WorkerType field is set to a value other than Standard, the MaxCapacity field is set automatically and becomes read-only.
+        public let maxCapacity: Double?
+        /// The maximum number of times to retry a task for this transform after a task run fails.
+        public let maxRetries: Int?
+        /// The unique name that you gave the transform when you created it.
+        public let name: String?
+        /// The number of workers of a defined workerType that are allocated when this task runs.
+        public let numberOfWorkers: Int?
+        /// The configuration parameters that are specific to the transform type (algorithm) used. Conditionally dependent on the transform type.
+        public let parameters: TransformParameters?
+        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions.
+        public let role: String?
+        /// The timeout for a task run for this transform in minutes. This is the maximum time that a task run for this transform can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        public let timeout: Int?
+        /// A unique identifier that was generated when the transform was created.
+        public let transformId: String
+        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        public let workerType: WorkerType?
+
+        public init(description: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, timeout: Int? = nil, transformId: String, workerType: WorkerType? = nil) {
+            self.description = description
+            self.maxCapacity = maxCapacity
+            self.maxRetries = maxRetries
+            self.name = name
+            self.numberOfWorkers = numberOfWorkers
+            self.parameters = parameters
+            self.role = role
+            self.timeout = timeout
+            self.transformId = transformId
+            self.workerType = workerType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name:"description", parent: name, max: 2048)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try validate(self.name, name:"name", parent: name, max: 255)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.parameters?.validate(name: "\(name).parameters")
+            try validate(self.timeout, name:"timeout", parent: name, min: 1)
+            try validate(self.transformId, name:"transformId", parent: name, max: 255)
+            try validate(self.transformId, name:"transformId", parent: name, min: 1)
+            try validate(self.transformId, name:"transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case maxCapacity = "MaxCapacity"
+            case maxRetries = "MaxRetries"
+            case name = "Name"
+            case numberOfWorkers = "NumberOfWorkers"
+            case parameters = "Parameters"
+            case role = "Role"
+            case timeout = "Timeout"
+            case transformId = "TransformId"
+            case workerType = "WorkerType"
+        }
+    }
+
+    public struct UpdateMLTransformResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TransformId", required: false, type: .string)
+        ]
+
+        /// The unique identifier for the transform that was updated.
+        public let transformId: String?
+
+        public init(transformId: String? = nil) {
+            self.transformId = transformId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformId = "TransformId"
+        }
+    }
+
     public struct UpdatePartitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CatalogId", required: false, type: .string), 
@@ -9042,15 +10902,15 @@ extension Glue {
             AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the partition to be updated resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the partition to be updated resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which the table in question resides.
         public let databaseName: String
-        /// The new partition object to which to update the partition.
+        /// The new partition object to update the partition to.
         public let partitionInput: PartitionInput
         /// A list of the values defining the partition.
         public let partitionValueList: [String]
-        /// The name of the table where the partition to be updated is located.
+        /// The name of the table in which the partition to be updated is located.
         public let tableName: String
 
         public init(catalogId: String? = nil, databaseName: String, partitionInput: PartitionInput, partitionValueList: [String], tableName: String) {
@@ -9104,11 +10964,11 @@ extension Glue {
             AWSShapeMember(label: "TableInput", required: true, type: .structure)
         ]
 
-        /// The ID of the Data Catalog where the table resides. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
-        /// By default, UpdateTable always creates an archived version of the table before updating it. If skipArchive is set to true, however, UpdateTable does not create the archived version.
+        /// By default, UpdateTable always creates an archived version of the table before updating it. However, if skipArchive is set to true, UpdateTable does not create the archived version.
         public let skipArchive: Bool?
         /// An updated TableInput object to define the metadata table in the catalog.
         public let tableInput: TableInput
@@ -9200,11 +11060,11 @@ extension Glue {
             AWSShapeMember(label: "FunctionName", required: true, type: .string)
         ]
 
-        /// The ID of the Data Catalog where the function to be updated is located. If none is supplied, the AWS account ID is used by default.
+        /// The ID of the Data Catalog where the function to be updated is located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the function to be updated is located.
         public let databaseName: String
-        /// A FunctionInput object that re-defines the function in the Data Catalog.
+        /// A FunctionInput object that redefines the function in the Data Catalog.
         public let functionInput: UserDefinedFunctionInput
         /// The name of the function.
         public let functionName: String

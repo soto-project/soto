@@ -602,6 +602,10 @@
     "AddOutputRequest": {
       "type": "structure",
       "members": {
+        "CidrAllowList": {
+          "shape": "__listOf__string",
+          "locationName": "cidrAllowList"
+        },
         "Description": {
           "shape": "__string",
           "locationName": "description"
@@ -630,6 +634,10 @@
           "shape": "Protocol",
           "locationName": "protocol"
         },
+        "RemoteId": {
+          "shape": "__string",
+          "locationName": "remoteId"
+        },
         "SmoothingLatency": {
           "shape": "__integer",
           "locationName": "smoothingLatency"
@@ -640,8 +648,6 @@
         }
       },
       "required": [
-        "Destination",
-        "Port",
         "Protocol"
       ]
     },
@@ -1225,7 +1231,9 @@
       "enum": [
         "zixi-push",
         "rtp-fec",
-        "rtp"
+        "rtp",
+        "zixi-pull",
+        "rist"
       ]
     },
     "RemoveFlowOutputRequest": {
@@ -1518,6 +1526,10 @@
     "Transport": {
       "type": "structure",
       "members": {
+        "CidrAllowList": {
+          "shape": "__listOf__string",
+          "locationName": "cidrAllowList"
+        },
         "MaxBitrate": {
           "shape": "__integer",
           "locationName": "maxBitrate"
@@ -1529,6 +1541,10 @@
         "Protocol": {
           "shape": "Protocol",
           "locationName": "protocol"
+        },
+        "RemoteId": {
+          "shape": "__string",
+          "locationName": "remoteId"
         },
         "SmoothingLatency": {
           "shape": "__integer",
@@ -1650,6 +1666,10 @@
     "UpdateFlowOutputRequest": {
       "type": "structure",
       "members": {
+        "CidrAllowList": {
+          "shape": "__listOf__string",
+          "locationName": "cidrAllowList"
+        },
         "Description": {
           "shape": "__string",
           "locationName": "description"
@@ -1683,6 +1703,10 @@
         "Protocol": {
           "shape": "Protocol",
           "locationName": "protocol"
+        },
+        "RemoteId": {
+          "shape": "__string",
+          "locationName": "remoteId"
         },
         "SmoothingLatency": {
           "shape": "__integer",

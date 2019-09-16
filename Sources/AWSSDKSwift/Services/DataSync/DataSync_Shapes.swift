@@ -78,20 +78,32 @@ extension DataSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActivationKey", required: true, type: .string), 
             AWSShapeMember(label: "AgentName", required: false, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .list)
+            AWSShapeMember(label: "SecurityGroupArns", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetArns", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "VpcEndpointId", required: false, type: .string)
         ]
 
-        /// Your agent activation key. You can get the activation key either by sending an HTTP GET request with redirects that enable you to get the agent IP address (port 80). Alternatively, you can get it from the AWS DataSync console.  The redirect URL returned in the response provides you the activation key for your agent in the query string parameter activationKey. It might also include other activation-related parameters; however, these are merely defaults. The arguments you pass to this API call determine the actual configuration of your agent. For more information, see "https://docs.aws.amazon.com/datasync/latest/userguide/working-with-agents.html#activating-agent" (Activating a Agent) in the AWS DataSync User Guide. 
+        /// Your agent activation key. You can get the activation key either by sending an HTTP GET request with redirects that enable you to get the agent IP address (port 80). Alternatively, you can get it from the AWS DataSync console. The redirect URL returned in the response provides you the activation key for your agent in the query string parameter activationKey. It might also include other activation-related parameters; however, these are merely defaults. The arguments you pass to this API call determine the actual configuration of your agent. For more information, see Activating an Agent in the AWS DataSync User Guide. 
         public let activationKey: String
         /// The name you configured for your agent. This value is a text reference that is used to identify the agent in the console.
         public let agentName: String?
+        /// The ARNs of the security groups used to protect your data transfer task subnets. See CreateAgentRequest$SubnetArns.
+        public let securityGroupArns: [String]?
+        /// The Amazon Resource Names (ARNs) of the subnets in which DataSync will create Elastic Network Interfaces (ENIs) for each data transfer task. The agent that runs a task must be private. When you start a task that is associated with an agent created in a VPC, or one that has access to an IP address in a VPC, then the task is also private. In this case, DataSync creates four ENIs for each task in your subnet. For a data transfer to work, the agent must be able to route to all these four ENIs.
+        public let subnetArns: [String]?
         /// The key-value pair that represents the tag that you want to associate with the agent. The value can be an empty string. This value helps you manage, filter, and search for your agents.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @.  
         public let tags: [TagListEntry]?
+        /// The ID of the VPC (Virtual Private Cloud) endpoint that the agent has access to. This is the client-side VPC endpoint, also called a PrivateLink. If you don't have a PrivateLink VPC endpoint, see Creating a VPC Endpoint Service Configuration in the AWS VPC User Guide. VPC endpoint ID looks like this: vpce-01234d5aff67890e1.
+        public let vpcEndpointId: String?
 
-        public init(activationKey: String, agentName: String? = nil, tags: [TagListEntry]? = nil) {
+        public init(activationKey: String, agentName: String? = nil, securityGroupArns: [String]? = nil, subnetArns: [String]? = nil, tags: [TagListEntry]? = nil, vpcEndpointId: String? = nil) {
             self.activationKey = activationKey
             self.agentName = agentName
+            self.securityGroupArns = securityGroupArns
+            self.subnetArns = subnetArns
             self.tags = tags
+            self.vpcEndpointId = vpcEndpointId
         }
 
         public func validate(name: String) throws {
@@ -100,17 +112,33 @@ extension DataSync {
             try validate(self.agentName, name:"agentName", parent: name, max: 256)
             try validate(self.agentName, name:"agentName", parent: name, min: 1)
             try validate(self.agentName, name:"agentName", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try self.securityGroupArns?.forEach {
+                try validate($0, name: "securityGroupArns[]", parent: name, max: 128)
+                try validate($0, name: "securityGroupArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:security-group/.*$")
+            }
+            try validate(self.securityGroupArns, name:"securityGroupArns", parent: name, max: 1)
+            try validate(self.securityGroupArns, name:"securityGroupArns", parent: name, min: 1)
+            try self.subnetArns?.forEach {
+                try validate($0, name: "subnetArns[]", parent: name, max: 128)
+                try validate($0, name: "subnetArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:subnet/.*$")
+            }
+            try validate(self.subnetArns, name:"subnetArns", parent: name, max: 1)
+            try validate(self.subnetArns, name:"subnetArns", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try validate(self.tags, name:"tags", parent: name, max: 55)
             try validate(self.tags, name:"tags", parent: name, min: 0)
+            try validate(self.vpcEndpointId, name:"vpcEndpointId", parent: name, pattern: "^vpce-[0-9a-f]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case activationKey = "ActivationKey"
             case agentName = "AgentName"
+            case securityGroupArns = "SecurityGroupArns"
+            case subnetArns = "SubnetArns"
             case tags = "Tags"
+            case vpcEndpointId = "VpcEndpointId"
         }
     }
 
@@ -139,7 +167,7 @@ extension DataSync {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// The subnet and security group that the Amazon EFS file system uses. The security group that you provide needs to be able to communicate with the security group on the mount target in the subnet specified. The exact relationship between security group M (of the mount target) and security group S (which you provide for DataSync to use at this stage) is as follows:     Security group M (which you associate with the mount target) must allow inbound access for the Transmission Control Protocol (TCP) on the NFS port (2049) from security group S. You can enable inbound connections either by IP address (CIDR range) or security group.    Security group S (provided to DataSync to access EFS) should have a rule that enables outbound connections to the NFS port on one of the file system’s mount targets. You can enable outbound connections either by IP address (CIDR range) or security group. For information about security groups and mount targets, see "https://docs.aws.amazon.com/efs/latest/ug/security-considerations.html#network-access" (Security Groups for Amazon EC2 Instances and Mount Targets) in the Amazon EFS User Guide.  
+        /// The subnet and security group that the Amazon EFS file system uses. The security group that you provide needs to be able to communicate with the security group on the mount target in the subnet specified. The exact relationship between security group M (of the mount target) and security group S (which you provide for DataSync to use at this stage) is as follows:     Security group M (which you associate with the mount target) must allow inbound access for the Transmission Control Protocol (TCP) on the NFS port (2049) from security group S. You can enable inbound connections either by IP address (CIDR range) or security group.    Security group S (provided to DataSync to access EFS) should have a rule that enables outbound connections to the NFS port on one of the file system’s mount targets. You can enable outbound connections either by IP address (CIDR range) or security group. For information about security groups and mount targets, see Security Groups for Amazon EC2 Instances and Mount Targets in the Amazon EFS User Guide.   
         public let ec2Config: Ec2Config
         /// The Amazon Resource Name (ARN) for the Amazon EFS file system.
         public let efsFilesystemArn: String
@@ -208,7 +236,7 @@ extension DataSync {
         public let onPremConfig: OnPremConfig
         /// The name of the NFS server. This value is the IP address or Domain Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this host name to mount the NFS server in a network.   This name must either be DNS-compliant or must be an IP version 4 (IPv4) address. 
         public let serverHostname: String
-        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network.  To see all the paths exported by your NFS server. run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. For information about NFS export configuration, see "http://web.mit.edu/rhel-doc/5/RHEL-5-manual/Deployment_Guide-en-US/s1-nfs-server-config-exports.html" (18.7. The /etc/exports Configuration File).
+        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network.  To see all the paths exported by your NFS server. run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
         public let subdirectory: String
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
@@ -321,6 +349,99 @@ extension DataSync {
         }
     }
 
+    public struct CreateLocationSmbRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentArns", required: true, type: .list), 
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "MountOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "ServerHostname", required: true, type: .string), 
+            AWSShapeMember(label: "Subdirectory", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "User", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Names (ARNs) of agents to use for a Simple Message Block (SMB) location. 
+        public let agentArns: [String]
+        /// The name of the domain that the SMB server belongs to.
+        public let domain: String?
+        /// The mount options that are available for DataSync to use to access an SMB location.
+        public let mountOptions: SmbMountOptions?
+        /// The password of the user who has permission to access the SMB server.
+        public let password: String
+        /// The name of the SMB server. This value is the IP address or Domain Name Service (DNS) name of the SMB server. An agent that is installed on-premises uses this host name to mount the SMB server in a network.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address. 
+        public let serverHostname: String
+        /// The subdirectory in the SMB file system that is used to read data from the SMB source location or write data to the SMB destination. The SMB path should be a path that's exported by the SMB server, or a subdirectory of that path. The path should be such that it can be mounted by other SMB clients in your network. To transfer all the data in the folder you specified, DataSync needs to have permissions to mount the SMB share, as well as to access all the data in that share. To ensure this, either ensure that the user/password specified belongs to the user who can mount the share, and who has the appropriate permissions for all of the files and directories that you want DataSync to access, or use credentials of a member of the Backup Operators group to mount the share. Doing either enables the agent to access the data. For the agent to access directories, you must additionally enable all execute access.
+        public let subdirectory: String
+        /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
+        public let tags: [TagListEntry]?
+        /// The user who can mount the share, has the permissions to access files and directories in the SMB share.
+        public let user: String
+
+        public init(agentArns: [String], domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil, user: String) {
+            self.agentArns = agentArns
+            self.domain = domain
+            self.mountOptions = mountOptions
+            self.password = password
+            self.serverHostname = serverHostname
+            self.subdirectory = subdirectory
+            self.tags = tags
+            self.user = user
+        }
+
+        public func validate(name: String) throws {
+            try self.agentArns.forEach {
+                try validate($0, name: "agentArns[]", parent: name, max: 128)
+                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            }
+            try validate(self.agentArns, name:"agentArns", parent: name, max: 64)
+            try validate(self.agentArns, name:"agentArns", parent: name, min: 1)
+            try validate(self.domain, name:"domain", parent: name, max: 253)
+            try validate(self.domain, name:"domain", parent: name, pattern: "^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$")
+            try validate(self.password, name:"password", parent: name, max: 104)
+            try validate(self.password, name:"password", parent: name, pattern: "^.{0,104}$")
+            try validate(self.serverHostname, name:"serverHostname", parent: name, max: 255)
+            try validate(self.serverHostname, name:"serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
+            try validate(self.subdirectory, name:"subdirectory", parent: name, max: 4096)
+            try validate(self.subdirectory, name:"subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\./]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 55)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+            try validate(self.user, name:"user", parent: name, max: 104)
+            try validate(self.user, name:"user", parent: name, pattern: "^[^\\\\x5B\\\\x5D\\\\/:;|=,+*?]{1,104}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArns = "AgentArns"
+            case domain = "Domain"
+            case mountOptions = "MountOptions"
+            case password = "Password"
+            case serverHostname = "ServerHostname"
+            case subdirectory = "Subdirectory"
+            case tags = "Tags"
+            case user = "User"
+        }
+    }
+
+    public struct CreateLocationSmbResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocationArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the source SMB file system location that is created.
+        public let locationArn: String?
+
+        public init(locationArn: String? = nil) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
     public struct CreateTaskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CloudWatchLogGroupArn", required: false, type: .string), 
@@ -332,11 +453,11 @@ extension DataSync {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor and log events in the task.  For more information on these groups, see "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html" (Working with Log Groups and Log Streams) in the Amazon CloudWatch User Guide. For more information about how to useCloudWatchLogs with DataSync, see "https://docs.aws.amazon.com/datasync/latest/userguide/monitor-datasync.html" (Monitoring Your Task)
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor and log events in the task.  For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide.  For more information about how to use CloudWatch Logs with DataSync, see Monitoring Your Task in the AWS DataSync User Guide. 
         public let cloudWatchLogGroupArn: String?
         /// The Amazon Resource Name (ARN) of an AWS storage resource's location. 
         public let destinationLocationArn: String
-        ///  A filter that determines which files to exclude from a task based on the specified pattern. Transfers all files in the task’s subdirectory, except files that match the filter that is set. 
+        /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2"   
         public let excludes: [FilterRule]?
         /// The name of a task. This value is a text reference that is used to identify the task in the console. 
         public let name: String?
@@ -524,7 +645,7 @@ extension DataSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AgentArn", required: false, type: .string), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndpointOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
             AWSShapeMember(label: "LastConnectionTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "PrivateLinkConfig", required: false, type: .structure), 
@@ -535,7 +656,8 @@ extension DataSync {
         public let agentArn: String?
         /// The time that the agent was activated (that is, created in your account).
         public let creationTime: TimeStamp?
-        public let endpointOptions: EndpointOptions?
+        /// The type of endpoint that your agent is connected to. If the endpoint is a VPC endpoint, the agent is not accessible over the public Internet. 
+        public let endpointType: EndpointType?
         /// The time that the agent last connected to DataSyc.
         public let lastConnectionTime: TimeStamp?
         /// The name of the agent.
@@ -544,10 +666,10 @@ extension DataSync {
         /// The status of the agent. If the status is ONLINE, then the agent is configured properly and is available to use. The Running status is the normal running status for an agent. If the status is OFFLINE, the agent's VM is turned off or the agent is in an unhealthy state. When the issue that caused the unhealthy state is resolved, the agent returns to ONLINE status.
         public let status: AgentStatus?
 
-        public init(agentArn: String? = nil, creationTime: TimeStamp? = nil, endpointOptions: EndpointOptions? = nil, lastConnectionTime: TimeStamp? = nil, name: String? = nil, privateLinkConfig: PrivateLinkConfig? = nil, status: AgentStatus? = nil) {
+        public init(agentArn: String? = nil, creationTime: TimeStamp? = nil, endpointType: EndpointType? = nil, lastConnectionTime: TimeStamp? = nil, name: String? = nil, privateLinkConfig: PrivateLinkConfig? = nil, status: AgentStatus? = nil) {
             self.agentArn = agentArn
             self.creationTime = creationTime
-            self.endpointOptions = endpointOptions
+            self.endpointType = endpointType
             self.lastConnectionTime = lastConnectionTime
             self.name = name
             self.privateLinkConfig = privateLinkConfig
@@ -557,7 +679,7 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case agentArn = "AgentArn"
             case creationTime = "CreationTime"
-            case endpointOptions = "EndpointOptions"
+            case endpointType = "EndpointType"
             case lastConnectionTime = "LastConnectionTime"
             case name = "Name"
             case privateLinkConfig = "PrivateLinkConfig"
@@ -729,6 +851,75 @@ extension DataSync {
         }
     }
 
+    public struct DescribeLocationSmbRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocationArn", required: true, type: .string)
+        ]
+
+        /// The Amazon resource Name (ARN) of the SMB location to describe.
+        public let locationArn: String
+
+        public init(locationArn: String) {
+            self.locationArn = locationArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.locationArn, name:"locationArn", parent: name, max: 128)
+            try validate(self.locationArn, name:"locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct DescribeLocationSmbResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentArns", required: false, type: .list), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "LocationArn", required: false, type: .string), 
+            AWSShapeMember(label: "LocationUri", required: false, type: .string), 
+            AWSShapeMember(label: "MountOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "User", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the source SMB file system location that is created.
+        public let agentArns: [String]?
+        /// The time that the SMB location was created.
+        public let creationTime: TimeStamp?
+        /// The name of the domain that the SMB server belongs to.
+        public let domain: String?
+        /// The Amazon resource Name (ARN) of the SMB location that was described.
+        public let locationArn: String?
+        /// The URL of the source SBM location that was described.
+        public let locationUri: String?
+        /// The mount options that are available for DataSync to use to access an SMB location.
+        public let mountOptions: SmbMountOptions?
+        /// The user who is logged on the SMB server.
+        public let user: String?
+
+        public init(agentArns: [String]? = nil, creationTime: TimeStamp? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, mountOptions: SmbMountOptions? = nil, user: String? = nil) {
+            self.agentArns = agentArns
+            self.creationTime = creationTime
+            self.domain = domain
+            self.locationArn = locationArn
+            self.locationUri = locationUri
+            self.mountOptions = mountOptions
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArns = "AgentArns"
+            case creationTime = "CreationTime"
+            case domain = "Domain"
+            case locationArn = "LocationArn"
+            case locationUri = "LocationUri"
+            case mountOptions = "MountOptions"
+            case user = "User"
+        }
+    }
+
     public struct DescribeTaskExecutionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TaskExecutionArn", required: true, type: .string)
@@ -775,18 +966,18 @@ extension DataSync {
         public let estimatedBytesToTransfer: Int64?
         /// The expected number of files that is to be transferred over the network. This value is calculated during the PREPARING phase, before the TRANSFERRING phase. This value is the expected number of files to be transferred. It's calculated based on comparing the content of the source and destination locations and finding the delta that needs to be transferred. 
         public let estimatedFilesToTransfer: Int64?
-        ///  Specifies that the task execution excludes files from the transfer based on the specified pattern in the filter. Transfers all files in the task’s subdirectory, except files that match the filter that is set. 
+        /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example: "/folder1|/folder2"   
         public let excludes: [FilterRule]?
         /// The actual number of files that was transferred over the network. This value is calculated and updated on an ongoing basis during the TRANSFERRING phase. It's updated periodically when each file is read from the source and sent over the network.  If failures occur during a transfer, this value can be less than EstimatedFilesToTransfer. This value can also be greater than EstimatedFilesTransferred in some cases. This element is implementation-specific for some location types, so don't use it as an indicator for a correct file number or to monitor your task execution.
         public let filesTransferred: Int64?
-        ///  Specifies that the task execution excludes files in the transfer based on the specified pattern in the filter. When multiple include filters are set, they are interpreted as an OR. 
+        /// A list of filter rules that determines which files to include when running a task. The list should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe), for example: "/folder1|/folder2"   
         public let includes: [FilterRule]?
         public let options: Options?
         /// The result of the task execution.
         public let result: TaskExecutionResultDetail?
         /// The time that the task execution was started.
         public let startTime: TimeStamp?
-        /// The status of the task execution.  For detailed information about task execution statuses, see "https://docs.aws.amazon.com/datasync/latest/userguide/working-with-tasks.html#understand-task-creation-statuses" (Understanding Task Statuses).
+        /// The status of the task execution.  For detailed information about task execution statuses, see Understanding Task Statuses in the AWS DataSync User Guide. 
         public let status: TaskExecutionStatus?
         /// The Amazon Resource Name (ARN) of the task execution that was described. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed.  For example, a TaskExecution value with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2. 
         public let taskExecutionArn: String?
@@ -850,17 +1041,19 @@ extension DataSync {
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "CurrentTaskExecutionArn", required: false, type: .string), 
             AWSShapeMember(label: "DestinationLocationArn", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationNetworkInterfaceArns", required: false, type: .list), 
             AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
             AWSShapeMember(label: "ErrorDetail", required: false, type: .string), 
             AWSShapeMember(label: "Excludes", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Options", required: false, type: .structure), 
             AWSShapeMember(label: "SourceLocationArn", required: false, type: .string), 
+            AWSShapeMember(label: "SourceNetworkInterfaceArns", required: false, type: .list), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "TaskArn", required: false, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that was used to monitor and log events in the task. For more information on these groups, see "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html" (Working with Log Groups and Log Streams) in the Amazon CloudWatch UserGuide.
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that was used to monitor and log events in the task. For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide.
         public let cloudWatchLogGroupArn: String?
         /// The time that the task was created.
         public let creationTime: TimeStamp?
@@ -868,11 +1061,13 @@ extension DataSync {
         public let currentTaskExecutionArn: String?
         /// The Amazon Resource Name (ARN) of the AWS storage resource's location.
         public let destinationLocationArn: String?
+        /// The Amazon Resource Name (ARN) of the destination ENIs (Elastic Network Interface) that was created for your subnet.
+        public let destinationNetworkInterfaceArns: [String]?
         /// Errors that AWS DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
         public let errorCode: String?
         /// Detailed description of an error that was encountered during the task execution. You can use this information to help troubleshoot issues. 
         public let errorDetail: String?
-        ///  Specifies that the task excludes files in the transfer based on the specified pattern in the filter. Transfers all files in the task’s subdirectory, except files that match the filter that is set. 
+        /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example: "/folder1|/folder2"   
         public let excludes: [FilterRule]?
         /// The name of the task that was described.
         public let name: String?
@@ -880,22 +1075,26 @@ extension DataSync {
         public let options: Options?
         /// The Amazon Resource Name (ARN) of the source file system's location.
         public let sourceLocationArn: String?
-        /// The status of the task that was described. For detailed information about task execution statuses, see "https://docs.aws.amazon.com/datasync/latest/userguide/working-with-tasks.html#understand-task-creation-statuses" (Understanding Task Statuses).
+        /// The Amazon Resource Name (ARN) of the source ENIs (Elastic Network Interface) that was created for your subnet.
+        public let sourceNetworkInterfaceArns: [String]?
+        /// The status of the task that was described. For detailed information about task execution statuses, see Understanding Task Statuses in the AWS DataSync User Guide. 
         public let status: TaskStatus?
         /// The Amazon Resource Name (ARN) of the task that was described.
         public let taskArn: String?
 
-        public init(cloudWatchLogGroupArn: String? = nil, creationTime: TimeStamp? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, sourceLocationArn: String? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
+        public init(cloudWatchLogGroupArn: String? = nil, creationTime: TimeStamp? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, destinationNetworkInterfaceArns: [String]? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, name: String? = nil, options: Options? = nil, sourceLocationArn: String? = nil, sourceNetworkInterfaceArns: [String]? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.creationTime = creationTime
             self.currentTaskExecutionArn = currentTaskExecutionArn
             self.destinationLocationArn = destinationLocationArn
+            self.destinationNetworkInterfaceArns = destinationNetworkInterfaceArns
             self.errorCode = errorCode
             self.errorDetail = errorDetail
             self.excludes = excludes
             self.name = name
             self.options = options
             self.sourceLocationArn = sourceLocationArn
+            self.sourceNetworkInterfaceArns = sourceNetworkInterfaceArns
             self.status = status
             self.taskArn = taskArn
         }
@@ -905,12 +1104,14 @@ extension DataSync {
             case creationTime = "CreationTime"
             case currentTaskExecutionArn = "CurrentTaskExecutionArn"
             case destinationLocationArn = "DestinationLocationArn"
+            case destinationNetworkInterfaceArns = "DestinationNetworkInterfaceArns"
             case errorCode = "ErrorCode"
             case errorDetail = "ErrorDetail"
             case excludes = "Excludes"
             case name = "Name"
             case options = "Options"
             case sourceLocationArn = "SourceLocationArn"
+            case sourceNetworkInterfaceArns = "SourceNetworkInterfaceArns"
             case status = "Status"
             case taskArn = "TaskArn"
         }
@@ -949,24 +1150,10 @@ extension DataSync {
         }
     }
 
-    public struct EndpointOptions: AWSShape {
-        public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Fips", required: false, type: .boolean), 
-            AWSShapeMember(label: "PrivateLink", required: false, type: .boolean)
-        ]
-
-        public let fips: Bool?
-        public let privateLink: Bool?
-
-        public init(fips: Bool? = nil, privateLink: Bool? = nil) {
-            self.fips = fips
-            self.privateLink = privateLink
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case fips = "Fips"
-            case privateLink = "PrivateLink"
-        }
+    public enum EndpointType: String, CustomStringConvertible, Codable {
+        case `public` = "PUBLIC"
+        case privateLink = "PRIVATE_LINK"
+        public var description: String { return self.rawValue }
     }
 
     public struct FilterRule: AWSShape {
@@ -975,9 +1162,9 @@ extension DataSync {
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
 
-        ///  Specifies the type of filter rule pattern to apply. DataSync only supports the SIMPLE_PATTERN rule type.
+        /// The type of filter rule to apply. AWS DataSync only supports the SIMPLE_PATTERN rule type.
         public let filterType: FilterType?
-        ///  A pattern that defines the filter. The filter might include or exclude files is a transfer.
+        /// A single filter string that consists of the patterns to include or exclude. The patterns are delimited by "|" (that is, a pipe), for example: /folder1|/folder2   
         public let value: String?
 
         public init(filterType: FilterType? = nil, value: String? = nil) {
@@ -1448,23 +1635,31 @@ extension DataSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PrivateLinkEndpoint", required: false, type: .string), 
             AWSShapeMember(label: "SecurityGroupArns", required: false, type: .list), 
-            AWSShapeMember(label: "SubnetArns", required: false, type: .list)
+            AWSShapeMember(label: "SubnetArns", required: false, type: .list), 
+            AWSShapeMember(label: "VpcEndpointId", required: false, type: .string)
         ]
 
+        /// The private endpoint that is configured for an agent that has access to IP addresses in a PrivateLink. An agent that is configured with this endpoint will not be accessible over the public Internet.
         public let privateLinkEndpoint: String?
+        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the EC2 resource that hosts an agent activated in a VPC or an agent that has access to a VPC endpoint.
         public let securityGroupArns: [String]?
+        /// The Amazon Resource Names (ARNs) of the subnets that are configured for an agent activated in a VPC or an agent that has access to a VPC endpoint.
         public let subnetArns: [String]?
+        /// The ID of the VPC endpoint that is configured for an agent. An agent that is configured with a VPC endpoint will not be accessible over the public Internet.
+        public let vpcEndpointId: String?
 
-        public init(privateLinkEndpoint: String? = nil, securityGroupArns: [String]? = nil, subnetArns: [String]? = nil) {
+        public init(privateLinkEndpoint: String? = nil, securityGroupArns: [String]? = nil, subnetArns: [String]? = nil, vpcEndpointId: String? = nil) {
             self.privateLinkEndpoint = privateLinkEndpoint
             self.securityGroupArns = securityGroupArns
             self.subnetArns = subnetArns
+            self.vpcEndpointId = vpcEndpointId
         }
 
         private enum CodingKeys: String, CodingKey {
             case privateLinkEndpoint = "PrivateLinkEndpoint"
             case securityGroupArns = "SecurityGroupArns"
             case subnetArns = "SubnetArns"
+            case vpcEndpointId = "VpcEndpointId"
         }
     }
 
@@ -1490,6 +1685,30 @@ extension DataSync {
         }
     }
 
+    public struct SmbMountOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .enum)
+        ]
+
+        /// The specific SMB version that you want DataSync to use to mount your SMB share. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the SMB Server server.
+        public let version: SmbVersion?
+
+        public init(version: SmbVersion? = nil) {
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+        }
+    }
+
+    public enum SmbVersion: String, CustomStringConvertible, Codable {
+        case automatic = "AUTOMATIC"
+        case smb2 = "SMB2"
+        case smb3 = "SMB3"
+        public var description: String { return self.rawValue }
+    }
+
     public struct StartTaskExecutionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Includes", required: false, type: .list), 
@@ -1497,7 +1716,7 @@ extension DataSync {
             AWSShapeMember(label: "TaskArn", required: true, type: .string)
         ]
 
-        ///  A filter that determines which files to include in the transfer during a task execution based on the specified pattern in the filter. When multiple include filters are set, they are interpreted as an OR.
+        /// A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe). For example: "/folder1|/folder2"   
         public let includes: [FilterRule]?
         public let overrideOptions: Options?
         /// The Amazon Resource Name (ARN) of the task to start.
@@ -1833,7 +2052,7 @@ extension DataSync {
 
         /// The Amazon Resource Name (ARN) of the resource name of the CloudWatch LogGroup.
         public let cloudWatchLogGroupArn: String?
-        ///  A filter that determines which files to exclude from a task based on the specified pattern in the filter. Transfers all files in the task’s subdirectory, except files that match the filter that is set. 
+        /// A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example: "/folder1|/folder2"   
         public let excludes: [FilterRule]?
         /// The name of the task to update.
         public let name: String?

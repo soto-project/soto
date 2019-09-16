@@ -26,6 +26,16 @@ public struct ApiGatewayManagementApi {
         )
     }
 
+    ///  Delete the connection with the provided id.
+    @discardableResult public func deleteConnection(_ input: DeleteConnectionRequest) -> Future<Void> {
+        return client.send(operation: "DeleteConnection", path: "/@connections/{connectionId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Get information about the connection with the provided id.
+    public func getConnection(_ input: GetConnectionRequest) -> Future<GetConnectionResponse> {
+        return client.send(operation: "GetConnection", path: "/@connections/{connectionId}", httpMethod: "GET", input: input)
+    }
+
     ///  Sends the provided data to the specified connection.
     @discardableResult public func postToConnection(_ input: PostToConnectionRequest) -> Future<Void> {
         return client.send(operation: "PostToConnection", path: "/@connections/{connectionId}", httpMethod: "POST", input: input)

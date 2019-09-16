@@ -175,6 +175,7 @@ extension IoT {
             try self.elasticsearch?.validate(name: "\(name).elasticsearch")
             try self.firehose?.validate(name: "\(name).firehose")
             try self.iotEvents?.validate(name: "\(name).iotEvents")
+            try self.republish?.validate(name: "\(name).republish")
             try self.salesforce?.validate(name: "\(name).salesforce")
         }
 
@@ -354,6 +355,38 @@ extension IoT {
         public init() {
         }
 
+    }
+
+    public struct AddThingsToThingGroupParams: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "overrideDynamicGroups", required: false, type: .boolean), 
+            AWSShapeMember(label: "thingGroupNames", required: true, type: .list)
+        ]
+
+        /// Specifies if this mitigation action can move the things that triggered the mitigation action even if they are part of one or more dynamic things groups.
+        public let overrideDynamicGroups: Bool?
+        /// The list of groups to which you want to add the things that triggered the mitigation action. You can add a thing to a maximum of 10 groups, but you cannot add a thing to more than one group in the same hierarchy.
+        public let thingGroupNames: [String]
+
+        public init(overrideDynamicGroups: Bool? = nil, thingGroupNames: [String]) {
+            self.overrideDynamicGroups = overrideDynamicGroups
+            self.thingGroupNames = thingGroupNames
+        }
+
+        public func validate(name: String) throws {
+            try self.thingGroupNames.forEach {
+                try validate($0, name: "thingGroupNames[]", parent: name, max: 128)
+                try validate($0, name: "thingGroupNames[]", parent: name, min: 1)
+                try validate($0, name: "thingGroupNames[]", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            }
+            try validate(self.thingGroupNames, name:"thingGroupNames", parent: name, max: 10)
+            try validate(self.thingGroupNames, name:"thingGroupNames", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overrideDynamicGroups = "overrideDynamicGroups"
+            case thingGroupNames = "thingGroupNames"
+        }
     }
 
     public struct AlertTarget: AWSShape {
@@ -604,7 +637,7 @@ extension IoT {
 
         /// A JSON string containing up to three key-value pair in JSON format. For example:  {\"attributes\":{\"string1\":\"string2\"}} 
         public let attributes: [String: String]?
-        /// Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value.  The merge attribute is only valid when calling UpdateThing. 
+        /// Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value.  The merge attribute is only valid when calling UpdateThing or UpdateThingGroup. 
         public let merge: Bool?
 
         public init(attributes: [String: String]? = nil, merge: Bool? = nil) {
@@ -654,15 +687,15 @@ extension IoT {
             AWSShapeMember(label: "totalResourcesCount", required: false, type: .long)
         ]
 
-        /// True if the check completed and found all resources compliant.
+        /// True if the check is complete and found all resources compliant.
         public let checkCompliant: Bool?
-        /// The completion status of this check, one of "IN_PROGRESS", "WAITING_FOR_DATA_COLLECTION", "CANCELED", "COMPLETED_COMPLIANT", "COMPLETED_NON_COMPLIANT", or "FAILED".
+        /// The completion status of this check. One of "IN_PROGRESS", "WAITING_FOR_DATA_COLLECTION", "CANCELED", "COMPLETED_COMPLIANT", "COMPLETED_NON_COMPLIANT", or "FAILED".
         public let checkRunStatus: AuditCheckRunStatus?
-        /// The code of any error encountered when performing this check during this audit. One of "INSUFFICIENT_PERMISSIONS", or "AUDIT_CHECK_DISABLED".
+        /// The code of any error encountered when this check is performed during this audit. One of "INSUFFICIENT_PERMISSIONS" or "AUDIT_CHECK_DISABLED".
         public let errorCode: String?
-        /// The message associated with any error encountered when performing this check during this audit.
+        /// The message associated with any error encountered when this check is performed during this audit.
         public let message: String?
-        /// The number of resources that the check found non-compliant.
+        /// The number of resources that were found noncompliant during the check.
         public let nonCompliantResourcesCount: Int64?
         /// The number of resources on which the check was performed.
         public let totalResourcesCount: Int64?
@@ -699,6 +732,7 @@ extension IoT {
     public struct AuditFinding: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "checkName", required: false, type: .string), 
+            AWSShapeMember(label: "findingId", required: false, type: .string), 
             AWSShapeMember(label: "findingTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "nonCompliantResource", required: false, type: .structure), 
             AWSShapeMember(label: "reasonForNonCompliance", required: false, type: .string), 
@@ -711,25 +745,28 @@ extension IoT {
 
         /// The audit check that generated this result.
         public let checkName: String?
+        /// A unique identifier for this set of audit findings. This identifier is used to apply mitigation tasks to one or more sets of findings.
+        public let findingId: String?
         /// The time the result (finding) was discovered.
         public let findingTime: TimeStamp?
-        /// The resource that was found to be non-compliant with the audit check.
+        /// The resource that was found to be noncompliant with the audit check.
         public let nonCompliantResource: NonCompliantResource?
-        /// The reason the resource was non-compliant.
+        /// The reason the resource was noncompliant.
         public let reasonForNonCompliance: String?
-        /// A code which indicates the reason that the resource was non-compliant.
+        /// A code that indicates the reason that the resource was noncompliant.
         public let reasonForNonComplianceCode: String?
         /// The list of related resources.
         public let relatedResources: [RelatedResource]?
         /// The severity of the result (finding).
         public let severity: AuditFindingSeverity?
-        /// The ID of the audit that generated this result (finding)
+        /// The ID of the audit that generated this result (finding).
         public let taskId: String?
         /// The time the audit started.
         public let taskStartTime: TimeStamp?
 
-        public init(checkName: String? = nil, findingTime: TimeStamp? = nil, nonCompliantResource: NonCompliantResource? = nil, reasonForNonCompliance: String? = nil, reasonForNonComplianceCode: String? = nil, relatedResources: [RelatedResource]? = nil, severity: AuditFindingSeverity? = nil, taskId: String? = nil, taskStartTime: TimeStamp? = nil) {
+        public init(checkName: String? = nil, findingId: String? = nil, findingTime: TimeStamp? = nil, nonCompliantResource: NonCompliantResource? = nil, reasonForNonCompliance: String? = nil, reasonForNonComplianceCode: String? = nil, relatedResources: [RelatedResource]? = nil, severity: AuditFindingSeverity? = nil, taskId: String? = nil, taskStartTime: TimeStamp? = nil) {
             self.checkName = checkName
+            self.findingId = findingId
             self.findingTime = findingTime
             self.nonCompliantResource = nonCompliantResource
             self.reasonForNonCompliance = reasonForNonCompliance
@@ -742,6 +779,7 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case checkName = "checkName"
+            case findingId = "findingId"
             case findingTime = "findingTime"
             case nonCompliantResource = "nonCompliantResource"
             case reasonForNonCompliance = "reasonForNonCompliance"
@@ -767,6 +805,152 @@ extension IoT {
         case biweekly = "BIWEEKLY"
         case monthly = "MONTHLY"
         public var description: String { return self.rawValue }
+    }
+
+    public struct AuditMitigationActionExecutionMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionId", required: false, type: .string), 
+            AWSShapeMember(label: "actionName", required: false, type: .string), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "errorCode", required: false, type: .string), 
+            AWSShapeMember(label: "findingId", required: false, type: .string), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "taskId", required: false, type: .string)
+        ]
+
+        /// The unique identifier for the mitigation action being applied by the task.
+        public let actionId: String?
+        /// The friendly name of the mitigation action being applied by the task.
+        public let actionName: String?
+        /// The date and time when the task was completed or canceled. Blank if the task is still running.
+        public let endTime: TimeStamp?
+        /// If an error occurred, the code that indicates which type of error occurred.
+        public let errorCode: String?
+        /// The unique identifier for the findings to which the task and associated mitigation action are applied.
+        public let findingId: String?
+        /// If an error occurred, a message that describes the error.
+        public let message: String?
+        /// The date and time when the task was started.
+        public let startTime: TimeStamp?
+        /// The current status of the task being executed.
+        public let status: AuditMitigationActionsExecutionStatus?
+        /// The unique identifier for the task that applies the mitigation action.
+        public let taskId: String?
+
+        public init(actionId: String? = nil, actionName: String? = nil, endTime: TimeStamp? = nil, errorCode: String? = nil, findingId: String? = nil, message: String? = nil, startTime: TimeStamp? = nil, status: AuditMitigationActionsExecutionStatus? = nil, taskId: String? = nil) {
+            self.actionId = actionId
+            self.actionName = actionName
+            self.endTime = endTime
+            self.errorCode = errorCode
+            self.findingId = findingId
+            self.message = message
+            self.startTime = startTime
+            self.status = status
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionId = "actionId"
+            case actionName = "actionName"
+            case endTime = "endTime"
+            case errorCode = "errorCode"
+            case findingId = "findingId"
+            case message = "message"
+            case startTime = "startTime"
+            case status = "status"
+            case taskId = "taskId"
+        }
+    }
+
+    public enum AuditMitigationActionsExecutionStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case canceled = "CANCELED"
+        case skipped = "SKIPPED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AuditMitigationActionsTaskMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "taskId", required: false, type: .string), 
+            AWSShapeMember(label: "taskStatus", required: false, type: .enum)
+        ]
+
+        /// The time at which the audit mitigation actions task was started.
+        public let startTime: TimeStamp?
+        /// The unique identifier for the task.
+        public let taskId: String?
+        /// The current state of the audit mitigation actions task.
+        public let taskStatus: AuditMitigationActionsTaskStatus?
+
+        public init(startTime: TimeStamp? = nil, taskId: String? = nil, taskStatus: AuditMitigationActionsTaskStatus? = nil) {
+            self.startTime = startTime
+            self.taskId = taskId
+            self.taskStatus = taskStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "startTime"
+            case taskId = "taskId"
+            case taskStatus = "taskStatus"
+        }
+    }
+
+    public enum AuditMitigationActionsTaskStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AuditMitigationActionsTaskTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "auditCheckToReasonCodeFilter", required: false, type: .map), 
+            AWSShapeMember(label: "auditTaskId", required: false, type: .string), 
+            AWSShapeMember(label: "findingIds", required: false, type: .list)
+        ]
+
+        /// Specifies a filter in the form of an audit check and set of reason codes that identify the findings from the audit to which the audit mitigation actions task apply.
+        public let auditCheckToReasonCodeFilter: [String: [String]]?
+        /// If the task will apply a mitigation action to findings from a specific audit, this value uniquely identifies the audit.
+        public let auditTaskId: String?
+        /// If the task will apply a mitigation action to one or more listed findings, this value uniquely identifies those findings.
+        public let findingIds: [String]?
+
+        public init(auditCheckToReasonCodeFilter: [String: [String]]? = nil, auditTaskId: String? = nil, findingIds: [String]? = nil) {
+            self.auditCheckToReasonCodeFilter = auditCheckToReasonCodeFilter
+            self.auditTaskId = auditTaskId
+            self.findingIds = findingIds
+        }
+
+        public func validate(name: String) throws {
+            try self.auditCheckToReasonCodeFilter?.forEach {
+                try validate($0.value, name:"auditCheckToReasonCodeFilter[\"\($0.key)\"]", parent: name, max: 25)
+                try validate($0.value, name:"auditCheckToReasonCodeFilter[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try validate(self.auditTaskId, name:"auditTaskId", parent: name, max: 40)
+            try validate(self.auditTaskId, name:"auditTaskId", parent: name, min: 1)
+            try validate(self.auditTaskId, name:"auditTaskId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try self.findingIds?.forEach {
+                try validate($0, name: "findingIds[]", parent: name, max: 128)
+                try validate($0, name: "findingIds[]", parent: name, min: 1)
+                try validate($0, name: "findingIds[]", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            }
+            try validate(self.findingIds, name:"findingIds", parent: name, max: 25)
+            try validate(self.findingIds, name:"findingIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditCheckToReasonCodeFilter = "auditCheckToReasonCodeFilter"
+            case auditTaskId = "auditTaskId"
+            case findingIds = "findingIds"
+        }
     }
 
     public struct AuditNotificationTarget: AWSShape {
@@ -815,9 +999,9 @@ extension IoT {
 
         /// The ID of this audit.
         public let taskId: String?
-        /// The status of this audit: one of "IN_PROGRESS", "COMPLETED", "FAILED" or "CANCELED".
+        /// The status of this audit. One of "IN_PROGRESS", "COMPLETED", "FAILED", or "CANCELED".
         public let taskStatus: AuditTaskStatus?
-        /// The type of this audit: one of "ON_DEMAND_AUDIT_TASK" or "SCHEDULED_AUDIT_TASK".
+        /// The type of this audit. One of "ON_DEMAND_AUDIT_TASK" or "SCHEDULED_AUDIT_TASK".
         public let taskType: AuditTaskType?
 
         public init(taskId: String? = nil, taskStatus: AuditTaskStatus? = nil, taskType: AuditTaskType? = nil) {
@@ -1248,6 +1432,42 @@ extension IoT {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
+    }
+
+    public enum CACertificateUpdateAction: String, CustomStringConvertible, Codable {
+        case deactivate = "DEACTIVATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CancelAuditMitigationActionsTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        ]
+
+        /// The unique identifier for the task that you want to cancel. 
+        public let taskId: String
+
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.taskId, name:"taskId", parent: name, max: 128)
+            try validate(self.taskId, name:"taskId", parent: name, min: 1)
+            try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
+        }
+    }
+
+    public struct CancelAuditMitigationActionsTaskResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct CancelAuditTaskRequest: AWSShape {
@@ -2210,6 +2430,68 @@ extension IoT {
         }
     }
 
+    public struct CreateMitigationActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionName", location: .uri(locationName: "actionName"), required: true, type: .string), 
+            AWSShapeMember(label: "actionParams", required: true, type: .structure), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
+        ]
+
+        /// A friendly name for the action. Choose a friendly name that accurately describes the action (for example, EnableLoggingAction).
+        public let actionName: String
+        /// Defines the type of action and the parameters for that action.
+        public let actionParams: MitigationActionParams
+        /// The ARN of the IAM role that is used to apply the mitigation action.
+        public let roleArn: String
+        /// Metadata that can be used to manage the mitigation action.
+        public let tags: [Tag]?
+
+        public init(actionName: String, actionParams: MitigationActionParams, roleArn: String, tags: [Tag]? = nil) {
+            self.actionName = actionName
+            self.actionParams = actionParams
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.actionName, name:"actionName", parent: name, max: 128)
+            try validate(self.actionName, name:"actionName", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.actionParams.validate(name: "\(name).actionParams")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "actionName"
+            case actionParams = "actionParams"
+            case roleArn = "roleArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateMitigationActionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionArn", required: false, type: .string), 
+            AWSShapeMember(label: "actionId", required: false, type: .string)
+        ]
+
+        /// The ARN for the new mitigation action.
+        public let actionArn: String?
+        /// A unique identifier for the new mitigation action.
+        public let actionId: String?
+
+        public init(actionArn: String? = nil, actionId: String? = nil) {
+            self.actionArn = actionArn
+            self.actionId = actionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionArn = "actionArn"
+            case actionId = "actionId"
+        }
+    }
+
     public struct CreateOTAUpdateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "additionalParameters", required: false, type: .map), 
@@ -2517,15 +2799,15 @@ extension IoT {
 
         /// The day of the month on which the scheduled audit takes place. Can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to "MONTHLY". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
         public let dayOfMonth: String?
-        /// The day of the week on which the scheduled audit takes place. Can be one of "SUN", "MON", "TUE", "WED", "THU", "FRI" or "SAT". This field is required if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
+        /// The day of the week on which the scheduled audit takes place. Can be one of "SUN", "MON", "TUE", "WED", "THU", "FRI", or "SAT". This field is required if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
         public let dayOfWeek: DayOfWeek?
-        /// How often the scheduled audit takes place. Can be one of "DAILY", "WEEKLY", "BIWEEKLY" or "MONTHLY". The actual start time of each audit is determined by the system.
+        /// How often the scheduled audit takes place. Can be one of "DAILY", "WEEKLY", "BIWEEKLY" or "MONTHLY". The start time of each audit is determined by the system.
         public let frequency: AuditFrequency
         /// The name you want to give to the scheduled audit. (Max. 128 chars)
         public let scheduledAuditName: String
-        /// Metadata which can be used to manage the scheduled audit.
+        /// Metadata that can be used to manage the scheduled audit.
         public let tags: [Tag]?
-        /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.)
+        /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
         public let targetCheckNames: [String]
 
         public init(dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil, frequency: AuditFrequency, scheduledAuditName: String, tags: [Tag]? = nil, targetCheckNames: [String]) {
@@ -2581,7 +2863,7 @@ extension IoT {
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
-        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors but it is also retained for any metric specified here.
+        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
         public let additionalMetricsToRetain: [String]?
         /// Specifies the destinations to which alerts are sent. (Alerts are always sent to the console.) Alerts are generated when a device (thing) violates a behavior.
         public let alertTargets: [AlertTargetType: AlertTarget]?
@@ -2591,7 +2873,7 @@ extension IoT {
         public let securityProfileDescription: String?
         /// The name you are giving to the security profile.
         public let securityProfileName: String
-        /// Metadata which can be used to manage the security profile.
+        /// Metadata that can be used to manage the security profile.
         public let tags: [Tag]?
 
         public init(additionalMetricsToRetain: [String]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, securityProfileDescription: String? = nil, securityProfileName: String, tags: [Tag]? = nil) {
@@ -3146,7 +3428,7 @@ extension IoT {
 
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
-        /// Forces a certificate request to be deleted.
+        /// Forces the deletion of a certificate if it is inactive and is not attached to an IoT thing.
         public let forceDelete: Bool?
 
         public init(certificateId: String, forceDelete: Bool? = nil) {
@@ -3269,6 +3551,36 @@ extension IoT {
             case force = "force"
             case jobId = "jobId"
         }
+    }
+
+    public struct DeleteMitigationActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionName", location: .uri(locationName: "actionName"), required: true, type: .string)
+        ]
+
+        /// The name of the mitigation action that you want to delete.
+        public let actionName: String
+
+        public init(actionName: String) {
+            self.actionName = actionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.actionName, name:"actionName", parent: name, max: 128)
+            try validate(self.actionName, name:"actionName", parent: name, pattern: "[a-zA-Z0-9_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "actionName"
+        }
+    }
+
+    public struct DeleteMitigationActionResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteOTAUpdateRequest: AWSShape {
@@ -3448,7 +3760,7 @@ extension IoT {
             AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
         ]
 
-        /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different than the actual version, a VersionConflictException is thrown.
+        /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown.
         public let expectedVersion: Int64?
         /// The name of the security profile to be deleted.
         public let securityProfileName: String
@@ -3734,7 +4046,7 @@ extension IoT {
         public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
         /// Information about the targets to which audit notifications are sent for this account.
         public let auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]?
-        /// The ARN of the role that grants permission to AWS IoT to access information about your devices, policies, certificates and other items as necessary when performing an audit. On the first call to UpdateAccountAuditConfiguration this parameter is required.
+        /// The ARN of the role that grants permission to AWS IoT to access information about your devices, policies, certificates, and other items as required when performing an audit. On the first call to UpdateAccountAuditConfiguration, this parameter is required.
         public let roleArn: String?
 
         public init(auditCheckConfigurations: [String: AuditCheckConfiguration]? = nil, auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]? = nil, roleArn: String? = nil) {
@@ -3747,6 +4059,115 @@ extension IoT {
             case auditCheckConfigurations = "auditCheckConfigurations"
             case auditNotificationTargetConfigurations = "auditNotificationTargetConfigurations"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct DescribeAuditFindingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "findingId", location: .uri(locationName: "findingId"), required: true, type: .string)
+        ]
+
+        /// A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding.
+        public let findingId: String
+
+        public init(findingId: String) {
+            self.findingId = findingId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.findingId, name:"findingId", parent: name, max: 128)
+            try validate(self.findingId, name:"findingId", parent: name, min: 1)
+            try validate(self.findingId, name:"findingId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingId = "findingId"
+        }
+    }
+
+    public struct DescribeAuditFindingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "finding", required: false, type: .structure)
+        ]
+
+        public let finding: AuditFinding?
+
+        public init(finding: AuditFinding? = nil) {
+            self.finding = finding
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case finding = "finding"
+        }
+    }
+
+    public struct DescribeAuditMitigationActionsTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        ]
+
+        /// The unique identifier for the audit mitigation task.
+        public let taskId: String
+
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.taskId, name:"taskId", parent: name, max: 128)
+            try validate(self.taskId, name:"taskId", parent: name, min: 1)
+            try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
+        }
+    }
+
+    public struct DescribeAuditMitigationActionsTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionsDefinition", required: false, type: .list), 
+            AWSShapeMember(label: "auditCheckToActionsMapping", required: false, type: .map), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "target", required: false, type: .structure), 
+            AWSShapeMember(label: "taskStatistics", required: false, type: .map), 
+            AWSShapeMember(label: "taskStatus", required: false, type: .enum)
+        ]
+
+        /// Specifies the mitigation actions and their parameters that are applied as part of this task.
+        public let actionsDefinition: [MitigationAction]?
+        /// Specifies the mitigation actions that should be applied to specific audit checks.
+        public let auditCheckToActionsMapping: [String: [String]]?
+        /// The date and time when the task was completed or canceled.
+        public let endTime: TimeStamp?
+        /// The date and time when the task was started.
+        public let startTime: TimeStamp?
+        /// Identifies the findings to which the mitigation actions are applied. This can be by audit checks, by audit task, or a set of findings.
+        public let target: AuditMitigationActionsTaskTarget?
+        /// Aggregate counts of the results when the mitigation tasks were applied to the findings for this audit mitigation actions task.
+        public let taskStatistics: [String: TaskStatisticsForAuditCheck]?
+        /// The current status of the task.
+        public let taskStatus: AuditMitigationActionsTaskStatus?
+
+        public init(actionsDefinition: [MitigationAction]? = nil, auditCheckToActionsMapping: [String: [String]]? = nil, endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, target: AuditMitigationActionsTaskTarget? = nil, taskStatistics: [String: TaskStatisticsForAuditCheck]? = nil, taskStatus: AuditMitigationActionsTaskStatus? = nil) {
+            self.actionsDefinition = actionsDefinition
+            self.auditCheckToActionsMapping = auditCheckToActionsMapping
+            self.endTime = endTime
+            self.startTime = startTime
+            self.target = target
+            self.taskStatistics = taskStatistics
+            self.taskStatus = taskStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionsDefinition = "actionsDefinition"
+            case auditCheckToActionsMapping = "auditCheckToActionsMapping"
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case target = "target"
+            case taskStatistics = "taskStatistics"
+            case taskStatus = "taskStatus"
         }
     }
 
@@ -4247,6 +4668,80 @@ extension IoT {
         }
     }
 
+    public struct DescribeMitigationActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionName", location: .uri(locationName: "actionName"), required: true, type: .string)
+        ]
+
+        /// The friendly name that uniquely identifies the mitigation action.
+        public let actionName: String
+
+        public init(actionName: String) {
+            self.actionName = actionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.actionName, name:"actionName", parent: name, max: 128)
+            try validate(self.actionName, name:"actionName", parent: name, pattern: "[a-zA-Z0-9_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "actionName"
+        }
+    }
+
+    public struct DescribeMitigationActionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionArn", required: false, type: .string), 
+            AWSShapeMember(label: "actionId", required: false, type: .string), 
+            AWSShapeMember(label: "actionName", required: false, type: .string), 
+            AWSShapeMember(label: "actionParams", required: false, type: .structure), 
+            AWSShapeMember(label: "actionType", required: false, type: .enum), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string)
+        ]
+
+        /// The ARN that identifies this migration action.
+        public let actionArn: String?
+        /// A unique identifier for this action.
+        public let actionId: String?
+        /// The friendly name that uniquely identifies the mitigation action.
+        public let actionName: String?
+        /// Parameters that control how the mitigation action is applied, specific to the type of mitigation action.
+        public let actionParams: MitigationActionParams?
+        /// The type of mitigation action.
+        public let actionType: MitigationActionType?
+        /// The date and time when the mitigation action was added to your AWS account.
+        public let creationDate: TimeStamp?
+        /// The date and time when the mitigation action was last changed.
+        public let lastModifiedDate: TimeStamp?
+        /// The ARN of the IAM role used to apply this action.
+        public let roleArn: String?
+
+        public init(actionArn: String? = nil, actionId: String? = nil, actionName: String? = nil, actionParams: MitigationActionParams? = nil, actionType: MitigationActionType? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, roleArn: String? = nil) {
+            self.actionArn = actionArn
+            self.actionId = actionId
+            self.actionName = actionName
+            self.actionParams = actionParams
+            self.actionType = actionType
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionArn = "actionArn"
+            case actionId = "actionId"
+            case actionName = "actionName"
+            case actionParams = "actionParams"
+            case actionType = "actionType"
+            case creationDate = "creationDate"
+            case lastModifiedDate = "lastModifiedDate"
+            case roleArn = "roleArn"
+        }
+    }
+
     public struct DescribeRoleAliasRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "roleAlias", location: .uri(locationName: "roleAlias"), required: true, type: .string)
@@ -4322,15 +4817,15 @@ extension IoT {
 
         /// The day of the month on which the scheduled audit takes place. Will be "1" through "31" or "LAST". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
         public let dayOfMonth: String?
-        /// The day of the week on which the scheduled audit takes place. One of "SUN", "MON", "TUE", "WED", "THU", "FRI" or "SAT".
+        /// The day of the week on which the scheduled audit takes place. One of "SUN", "MON", "TUE", "WED", "THU", "FRI", or "SAT".
         public let dayOfWeek: DayOfWeek?
-        /// How often the scheduled audit takes place. One of "DAILY", "WEEKLY", "BIWEEKLY" or "MONTHLY". The actual start time of each audit is determined by the system.
+        /// How often the scheduled audit takes place. One of "DAILY", "WEEKLY", "BIWEEKLY", or "MONTHLY". The start time of each audit is determined by the system.
         public let frequency: AuditFrequency?
         /// The ARN of the scheduled audit.
         public let scheduledAuditArn: String?
         /// The name of the scheduled audit.
         public let scheduledAuditName: String?
-        /// Which checks are performed during the scheduled audit. (Note that checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.)
+        /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
         public let targetCheckNames: [String]?
 
         public init(dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil, frequency: AuditFrequency? = nil, scheduledAuditArn: String? = nil, scheduledAuditName: String? = nil, targetCheckNames: [String]? = nil) {
@@ -4388,7 +4883,7 @@ extension IoT {
             AWSShapeMember(label: "version", required: false, type: .long)
         ]
 
-        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors but it is also retained for any metric specified here.
+        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
         public let additionalMetricsToRetain: [String]?
         /// Where the alerts are sent. (Alerts are always sent to the console.)
         public let alertTargets: [AlertTargetType: AlertTarget]?
@@ -4934,6 +5429,11 @@ extension IoT {
 
     }
 
+    public enum DeviceCertificateUpdateAction: String, CustomStringConvertible, Codable {
+        case deactivate = "DEACTIVATE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DisableTopicRuleRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
@@ -5119,6 +5619,33 @@ extension IoT {
             case index = "index"
             case roleArn = "roleArn"
             case `type` = "type"
+        }
+    }
+
+    public struct EnableIoTLoggingParams: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logLevel", required: true, type: .enum), 
+            AWSShapeMember(label: "roleArnForLogging", required: true, type: .string)
+        ]
+
+        /// Specifies the types of information to be logged.
+        public let logLevel: LogLevel
+        /// The ARN of the IAM role used for logging.
+        public let roleArnForLogging: String
+
+        public init(logLevel: LogLevel, roleArnForLogging: String) {
+            self.logLevel = logLevel
+            self.roleArnForLogging = roleArnForLogging
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.roleArnForLogging, name:"roleArnForLogging", parent: name, max: 2048)
+            try validate(self.roleArnForLogging, name:"roleArnForLogging", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logLevel = "logLevel"
+            case roleArnForLogging = "roleArnForLogging"
         }
     }
 
@@ -6425,7 +6952,6 @@ extension IoT {
             try validate(self.securityProfileName, name:"securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try validate(self.thingName, name:"thingName", parent: name, max: 128)
             try validate(self.thingName, name:"thingName", parent: name, min: 1)
-            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6472,7 +6998,7 @@ extension IoT {
         public let pageSize: Int?
         /// When true, recursively list attached policies.
         public let recursive: Bool?
-        /// The group for which the policies will be listed.
+        /// The group or principal for which the policies will be listed.
         public let target: String
 
         public init(marker: String? = nil, pageSize: Int? = nil, recursive: Bool? = nil, target: String) {
@@ -6537,7 +7063,7 @@ extension IoT {
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
-        /// Information identifying the non-compliant resource.
+        /// Information identifying the noncompliant resource.
         public let resourceIdentifier: ResourceIdentifier?
         /// A filter to limit results to those found after the specified time. You must specify either the startTime and endTime or the taskId, but not both.
         public let startTime: TimeStamp?
@@ -6596,6 +7122,156 @@ extension IoT {
         }
     }
 
+    public struct ListAuditMitigationActionsExecutionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionStatus", location: .querystring(locationName: "actionStatus"), required: false, type: .enum), 
+            AWSShapeMember(label: "findingId", location: .querystring(locationName: "findingId"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "taskId", location: .querystring(locationName: "taskId"), required: true, type: .string)
+        ]
+
+        /// Specify this filter to limit results to those with a specific status.
+        public let actionStatus: AuditMitigationActionsExecutionStatus?
+        /// Specify this filter to limit results to those that were applied to a specific audit finding.
+        public let findingId: String
+        /// The maximum number of results to return at one time. The default is 25.
+        public let maxResults: Int?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// Specify this filter to limit results to actions for a specific audit mitigation actions task.
+        public let taskId: String
+
+        public init(actionStatus: AuditMitigationActionsExecutionStatus? = nil, findingId: String, maxResults: Int? = nil, nextToken: String? = nil, taskId: String) {
+            self.actionStatus = actionStatus
+            self.findingId = findingId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.findingId, name:"findingId", parent: name, max: 128)
+            try validate(self.findingId, name:"findingId", parent: name, min: 1)
+            try validate(self.findingId, name:"findingId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.taskId, name:"taskId", parent: name, max: 128)
+            try validate(self.taskId, name:"taskId", parent: name, min: 1)
+            try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionStatus = "actionStatus"
+            case findingId = "findingId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case taskId = "taskId"
+        }
+    }
+
+    public struct ListAuditMitigationActionsExecutionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionsExecutions", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// A set of task execution results based on the input parameters. Details include the mitigation action applied, start time, and task status.
+        public let actionsExecutions: [AuditMitigationActionExecutionMetadata]?
+        /// The token for the next set of results.
+        public let nextToken: String?
+
+        public init(actionsExecutions: [AuditMitigationActionExecutionMetadata]? = nil, nextToken: String? = nil) {
+            self.actionsExecutions = actionsExecutions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionsExecutions = "actionsExecutions"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAuditMitigationActionsTasksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "auditTaskId", location: .querystring(locationName: "auditTaskId"), required: false, type: .string), 
+            AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: true, type: .timestamp), 
+            AWSShapeMember(label: "findingId", location: .querystring(locationName: "findingId"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "startTime", location: .querystring(locationName: "startTime"), required: true, type: .timestamp), 
+            AWSShapeMember(label: "taskStatus", location: .querystring(locationName: "taskStatus"), required: false, type: .enum)
+        ]
+
+        /// Specify this filter to limit results to tasks that were applied to results for a specific audit.
+        public let auditTaskId: String?
+        /// Specify this filter to limit results to tasks that were completed or canceled on or before a specific date and time.
+        public let endTime: TimeStamp
+        /// Specify this filter to limit results to tasks that were applied to a specific audit finding.
+        public let findingId: String?
+        /// The maximum number of results to return at one time. The default is 25.
+        public let maxResults: Int?
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// Specify this filter to limit results to tasks that began on or after a specific date and time.
+        public let startTime: TimeStamp
+        /// Specify this filter to limit results to tasks that are in a specific state.
+        public let taskStatus: AuditMitigationActionsTaskStatus?
+
+        public init(auditTaskId: String? = nil, endTime: TimeStamp, findingId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp, taskStatus: AuditMitigationActionsTaskStatus? = nil) {
+            self.auditTaskId = auditTaskId
+            self.endTime = endTime
+            self.findingId = findingId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.startTime = startTime
+            self.taskStatus = taskStatus
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.auditTaskId, name:"auditTaskId", parent: name, max: 40)
+            try validate(self.auditTaskId, name:"auditTaskId", parent: name, min: 1)
+            try validate(self.auditTaskId, name:"auditTaskId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try validate(self.findingId, name:"findingId", parent: name, max: 128)
+            try validate(self.findingId, name:"findingId", parent: name, min: 1)
+            try validate(self.findingId, name:"findingId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditTaskId = "auditTaskId"
+            case endTime = "endTime"
+            case findingId = "findingId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case startTime = "startTime"
+            case taskStatus = "taskStatus"
+        }
+    }
+
+    public struct ListAuditMitigationActionsTasksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "tasks", required: false, type: .list)
+        ]
+
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The collection of audit mitigation tasks that matched the filter criteria.
+        public let tasks: [AuditMitigationActionsTaskMetadata]?
+
+        public init(nextToken: String? = nil, tasks: [AuditMitigationActionsTaskMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.tasks = tasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case tasks = "tasks"
+        }
+    }
+
     public struct ListAuditTasksRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "endTime", location: .querystring(locationName: "endTime"), required: true, type: .timestamp), 
@@ -6612,9 +7288,9 @@ extension IoT {
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
-        /// The beginning of the time period. Note that audit information is retained for a limited time (180 days). Requesting a start time prior to what is retained results in an "InvalidRequestException".
+        /// The beginning of the time period. Audit information is retained for a limited time (180 days). Requesting a start time prior to what is retained results in an "InvalidRequestException".
         public let startTime: TimeStamp
-        /// A filter to limit the output to audits with the specified completion status: can be one of "IN_PROGRESS", "COMPLETED", "FAILED" or "CANCELED".
+        /// A filter to limit the output to audits with the specified completion status: can be one of "IN_PROGRESS", "COMPLETED", "FAILED", or "CANCELED".
         public let taskStatus: AuditTaskStatus?
         /// A filter to limit the output to the specified type of audit: can be one of "ON_DEMAND_AUDIT_TASK" or "SCHEDULED__AUDIT_TASK".
         public let taskType: AuditTaskType?
@@ -7203,6 +7879,60 @@ extension IoT {
         }
     }
 
+    public struct ListMitigationActionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionType", location: .querystring(locationName: "actionType"), required: false, type: .enum), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// Specify a value to limit the result to mitigation actions with a specific action type.
+        public let actionType: MitigationActionType?
+        /// The maximum number of results to return at one time. The default is 25.
+        public let maxResults: Int?
+        /// The token for the next set of results.
+        public let nextToken: String?
+
+        public init(actionType: MitigationActionType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.actionType = actionType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "actionType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListMitigationActionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// A set of actions that matched the specified filter criteria.
+        public let actionIdentifiers: [MitigationActionIdentifier]?
+        /// The token for the next set of results.
+        public let nextToken: String?
+
+        public init(actionIdentifiers: [MitigationActionIdentifier]? = nil, nextToken: String? = nil) {
+            self.actionIdentifiers = actionIdentifiers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionIdentifiers = "actionIdentifiers"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListOTAUpdatesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -7700,7 +8430,7 @@ extension IoT {
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
-        /// If true, return child groups as well.
+        /// If true, return child groups too.
         public let recursive: Bool?
         /// The ARN of the target (thing group) whose attached security profiles you want to get.
         public let securityProfileTargetArn: String
@@ -8695,7 +9425,6 @@ extension IoT {
             try validate(self.securityProfileName, name:"securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try validate(self.thingName, name:"thingName", parent: name, max: 128)
             try validate(self.thingName, name:"thingName", parent: name, min: 1)
-            try validate(self.thingName, name:"thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8716,7 +9445,7 @@ extension IoT {
 
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
-        /// The security profile violation alerts issued for this account during the given time frame, potentially filtered by security profile, behavior violated, or thing (device) violating.
+        /// The security profile violation alerts issued for this account during the given time period, potentially filtered by security profile, behavior violated, or thing (device) violating.
         public let violationEvents: [ViolationEvent]?
 
         public init(nextToken: String? = nil, violationEvents: [ViolationEvent]? = nil) {
@@ -8857,6 +9586,123 @@ extension IoT {
         }
     }
 
+    public struct MitigationAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionParams", required: false, type: .structure), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string)
+        ]
+
+        /// The set of parameters for this mitigation action. The parameters vary, depending on the kind of action you apply.
+        public let actionParams: MitigationActionParams?
+        /// A unique identifier for the mitigation action.
+        public let id: String?
+        /// A user-friendly name for the mitigation action.
+        public let name: String?
+        /// The IAM role ARN used to apply this mitigation action.
+        public let roleArn: String?
+
+        public init(actionParams: MitigationActionParams? = nil, id: String? = nil, name: String? = nil, roleArn: String? = nil) {
+            self.actionParams = actionParams
+            self.id = id
+            self.name = name
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionParams = "actionParams"
+            case id = "id"
+            case name = "name"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct MitigationActionIdentifier: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionArn", required: false, type: .string), 
+            AWSShapeMember(label: "actionName", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp)
+        ]
+
+        /// The IAM role ARN used to apply this mitigation action.
+        public let actionArn: String?
+        /// The friendly name of the mitigation action.
+        public let actionName: String?
+        /// The date when this mitigation action was created.
+        public let creationDate: TimeStamp?
+
+        public init(actionArn: String? = nil, actionName: String? = nil, creationDate: TimeStamp? = nil) {
+            self.actionArn = actionArn
+            self.actionName = actionName
+            self.creationDate = creationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionArn = "actionArn"
+            case actionName = "actionName"
+            case creationDate = "creationDate"
+        }
+    }
+
+    public struct MitigationActionParams: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addThingsToThingGroupParams", required: false, type: .structure), 
+            AWSShapeMember(label: "enableIoTLoggingParams", required: false, type: .structure), 
+            AWSShapeMember(label: "publishFindingToSnsParams", required: false, type: .structure), 
+            AWSShapeMember(label: "replaceDefaultPolicyVersionParams", required: false, type: .structure), 
+            AWSShapeMember(label: "updateCACertificateParams", required: false, type: .structure), 
+            AWSShapeMember(label: "updateDeviceCertificateParams", required: false, type: .structure)
+        ]
+
+        /// Parameters to define a mitigation action that moves devices associated with a certificate to one or more specified thing groups, typically for quarantine.
+        public let addThingsToThingGroupParams: AddThingsToThingGroupParams?
+        /// Parameters to define a mitigation action that enables AWS IoT logging at a specified level of detail.
+        public let enableIoTLoggingParams: EnableIoTLoggingParams?
+        /// Parameters to define a mitigation action that publishes findings to Amazon SNS. You can implement your own custom actions in response to the Amazon SNS messages.
+        public let publishFindingToSnsParams: PublishFindingToSnsParams?
+        /// Parameters to define a mitigation action that adds a blank policy to restrict permissions.
+        public let replaceDefaultPolicyVersionParams: ReplaceDefaultPolicyVersionParams?
+        /// Parameters to define a mitigation action that changes the state of the CA certificate to inactive.
+        public let updateCACertificateParams: UpdateCACertificateParams?
+        /// Parameters to define a mitigation action that changes the state of the device certificate to inactive.
+        public let updateDeviceCertificateParams: UpdateDeviceCertificateParams?
+
+        public init(addThingsToThingGroupParams: AddThingsToThingGroupParams? = nil, enableIoTLoggingParams: EnableIoTLoggingParams? = nil, publishFindingToSnsParams: PublishFindingToSnsParams? = nil, replaceDefaultPolicyVersionParams: ReplaceDefaultPolicyVersionParams? = nil, updateCACertificateParams: UpdateCACertificateParams? = nil, updateDeviceCertificateParams: UpdateDeviceCertificateParams? = nil) {
+            self.addThingsToThingGroupParams = addThingsToThingGroupParams
+            self.enableIoTLoggingParams = enableIoTLoggingParams
+            self.publishFindingToSnsParams = publishFindingToSnsParams
+            self.replaceDefaultPolicyVersionParams = replaceDefaultPolicyVersionParams
+            self.updateCACertificateParams = updateCACertificateParams
+            self.updateDeviceCertificateParams = updateDeviceCertificateParams
+        }
+
+        public func validate(name: String) throws {
+            try self.addThingsToThingGroupParams?.validate(name: "\(name).addThingsToThingGroupParams")
+            try self.enableIoTLoggingParams?.validate(name: "\(name).enableIoTLoggingParams")
+            try self.publishFindingToSnsParams?.validate(name: "\(name).publishFindingToSnsParams")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addThingsToThingGroupParams = "addThingsToThingGroupParams"
+            case enableIoTLoggingParams = "enableIoTLoggingParams"
+            case publishFindingToSnsParams = "publishFindingToSnsParams"
+            case replaceDefaultPolicyVersionParams = "replaceDefaultPolicyVersionParams"
+            case updateCACertificateParams = "updateCACertificateParams"
+            case updateDeviceCertificateParams = "updateDeviceCertificateParams"
+        }
+    }
+
+    public enum MitigationActionType: String, CustomStringConvertible, Codable {
+        case updateDeviceCertificate = "UPDATE_DEVICE_CERTIFICATE"
+        case updateCaCertificate = "UPDATE_CA_CERTIFICATE"
+        case addThingsToThingGroup = "ADD_THINGS_TO_THING_GROUP"
+        case replaceDefaultPolicyVersion = "REPLACE_DEFAULT_POLICY_VERSION"
+        case enableIotLogging = "ENABLE_IOT_LOGGING"
+        case publishFindingToSns = "PUBLISH_FINDING_TO_SNS"
+        public var description: String { return self.rawValue }
+    }
+
     public struct NonCompliantResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "additionalInfo", required: false, type: .map), 
@@ -8864,11 +9710,11 @@ extension IoT {
             AWSShapeMember(label: "resourceType", required: false, type: .enum)
         ]
 
-        /// Additional information about the non-compliant resource.
+        /// Other information about the noncompliant resource.
         public let additionalInfo: [String: String]?
-        /// Information identifying the non-compliant resource.
+        /// Information that identifies the noncompliant resource.
         public let resourceIdentifier: ResourceIdentifier?
-        /// The type of the non-compliant resource.
+        /// The type of the noncompliant resource.
         public let resourceType: ResourceType?
 
         public init(additionalInfo: [String: String]? = nil, resourceIdentifier: ResourceIdentifier? = nil, resourceType: ResourceType? = nil) {
@@ -9107,6 +9953,11 @@ extension IoT {
         }
     }
 
+    public enum PolicyTemplateName: String, CustomStringConvertible, Codable {
+        case blankPolicy = "BLANK_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
     public struct PolicyVersion: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "createDate", required: false, type: .timestamp), 
@@ -9192,12 +10043,33 @@ extension IoT {
         }
     }
 
+    public struct PublishFindingToSnsParams: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "topicArn", required: true, type: .string)
+        ]
+
+        /// The ARN of the topic to which you want to publish the findings.
+        public let topicArn: String
+
+        public init(topicArn: String) {
+            self.topicArn = topicArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.topicArn, name:"topicArn", parent: name, max: 350)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "topicArn"
+        }
+    }
+
     public struct PutItemInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tableName", required: true, type: .string)
         ]
 
-        /// The table where the message data will be written
+        /// The table where the message data will be written.
         public let tableName: String
 
         public init(tableName: String) {
@@ -9466,9 +10338,9 @@ extension IoT {
             AWSShapeMember(label: "resourceType", required: false, type: .enum)
         ]
 
-        /// Additional information about the resource.
+        /// Other information about the resource.
         public let additionalInfo: [String: String]?
-        /// Information identifying the resource.
+        /// Information that identifies the resource.
         public let resourceIdentifier: ResourceIdentifier?
         /// The type of resource.
         public let resourceType: ResourceType?
@@ -9584,6 +10456,23 @@ extension IoT {
 
     }
 
+    public struct ReplaceDefaultPolicyVersionParams: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "templateName", required: true, type: .enum)
+        ]
+
+        /// The name of the template to be applied. The only supported value is BLANK_POLICY.
+        public let templateName: PolicyTemplateName
+
+        public init(templateName: PolicyTemplateName) {
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "templateName"
+        }
+    }
+
     public struct ReplaceTopicRuleRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "topicRulePayload"
@@ -9623,21 +10512,31 @@ extension IoT {
 
     public struct RepublishAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "qos", required: false, type: .integer), 
             AWSShapeMember(label: "roleArn", required: true, type: .string), 
             AWSShapeMember(label: "topic", required: true, type: .string)
         ]
 
+        /// The Quality of Service (QoS) level to use when republishing messages.
+        public let qos: Int?
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
         /// The name of the MQTT topic.
         public let topic: String
 
-        public init(roleArn: String, topic: String) {
+        public init(qos: Int? = nil, roleArn: String, topic: String) {
+            self.qos = qos
             self.roleArn = roleArn
             self.topic = topic
         }
 
+        public func validate(name: String) throws {
+            try validate(self.qos, name:"qos", parent: name, max: 1)
+            try validate(self.qos, name:"qos", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case qos = "qos"
             case roleArn = "roleArn"
             case topic = "topic"
         }
@@ -9659,7 +10558,7 @@ extension IoT {
         public let caCertificateId: String?
         /// The client ID.
         public let clientId: String?
-        /// The ID of the Cognito Identity Pool.
+        /// The ID of the Amazon Cognito identity pool.
         public let cognitoIdentityPoolId: String?
         /// The ID of the certificate attached to the resource.
         public let deviceCertificateId: String?
@@ -9886,7 +10785,7 @@ extension IoT {
         public let dayOfMonth: String?
         /// The day of the week on which the scheduled audit is run (if the frequency is "WEEKLY" or "BIWEEKLY").
         public let dayOfWeek: DayOfWeek?
-        /// How often the scheduled audit takes place.
+        /// How often the scheduled audit occurs.
         public let frequency: AuditFrequency?
         /// The ARN of the scheduled audit.
         public let scheduledAuditArn: String?
@@ -10267,12 +11166,75 @@ extension IoT {
         }
     }
 
+    public struct StartAuditMitigationActionsTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "auditCheckToActionsMapping", required: true, type: .map), 
+            AWSShapeMember(label: "clientRequestToken", required: true, type: .string), 
+            AWSShapeMember(label: "target", required: true, type: .structure), 
+            AWSShapeMember(label: "taskId", location: .uri(locationName: "taskId"), required: true, type: .string)
+        ]
+
+        /// For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your AWS account.
+        public let auditCheckToActionsMapping: [String: [String]]
+        /// Each audit mitigation task must have a unique client request token. If you try to start a new task with the same token as a task that already exists, an exception occurs. If you omit this value, a unique client request token is generated automatically.
+        public let clientRequestToken: String
+        /// Specifies the audit findings to which the mitigation actions are applied. You can apply them to a type of audit check, to all findings from an audit, or to a speecific set of findings.
+        public let target: AuditMitigationActionsTaskTarget
+        /// A unique identifier for the task. You can use this identifier to check the status of the task or to cancel it.
+        public let taskId: String
+
+        public init(auditCheckToActionsMapping: [String: [String]], clientRequestToken: String = StartAuditMitigationActionsTaskRequest.idempotencyToken(), target: AuditMitigationActionsTaskTarget, taskId: String) {
+            self.auditCheckToActionsMapping = auditCheckToActionsMapping
+            self.clientRequestToken = clientRequestToken
+            self.target = target
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try self.auditCheckToActionsMapping.forEach {
+                try validate($0.value, name:"auditCheckToActionsMapping[\"\($0.key)\"]", parent: name, max: 5)
+                try validate($0.value, name:"auditCheckToActionsMapping[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.target.validate(name: "\(name).target")
+            try validate(self.taskId, name:"taskId", parent: name, max: 128)
+            try validate(self.taskId, name:"taskId", parent: name, min: 1)
+            try validate(self.taskId, name:"taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditCheckToActionsMapping = "auditCheckToActionsMapping"
+            case clientRequestToken = "clientRequestToken"
+            case target = "target"
+            case taskId = "taskId"
+        }
+    }
+
+    public struct StartAuditMitigationActionsTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskId", required: false, type: .string)
+        ]
+
+        /// The unique identifier for the audit mitigation task. This matches the taskId that you specified in the request.
+        public let taskId: String?
+
+        public init(taskId: String? = nil) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
+        }
+    }
+
     public struct StartOnDemandAuditTaskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "targetCheckNames", required: true, type: .list)
         ]
 
-        /// Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.
+        /// Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.
         public let targetCheckNames: [String]
 
         public init(targetCheckNames: [String]) {
@@ -10710,11 +11672,11 @@ extension IoT {
         public let canceledChecks: Int?
         /// The number of checks that found compliant resources.
         public let compliantChecks: Int?
-        /// The number of checks 
+        /// The number of checks.
         public let failedChecks: Int?
         /// The number of checks in progress.
         public let inProgressChecks: Int?
-        /// The number of checks that found non-compliant resources.
+        /// The number of checks that found noncompliant resources.
         public let nonCompliantChecks: Int?
         /// The number of checks in this audit.
         public let totalChecks: Int?
@@ -10739,6 +11701,43 @@ extension IoT {
             case nonCompliantChecks = "nonCompliantChecks"
             case totalChecks = "totalChecks"
             case waitingForDataCollectionChecks = "waitingForDataCollectionChecks"
+        }
+    }
+
+    public struct TaskStatisticsForAuditCheck: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "canceledFindingsCount", required: false, type: .long), 
+            AWSShapeMember(label: "failedFindingsCount", required: false, type: .long), 
+            AWSShapeMember(label: "skippedFindingsCount", required: false, type: .long), 
+            AWSShapeMember(label: "succeededFindingsCount", required: false, type: .long), 
+            AWSShapeMember(label: "totalFindingsCount", required: false, type: .long)
+        ]
+
+        /// The number of findings to which the mitigation action task was canceled when applied.
+        public let canceledFindingsCount: Int64?
+        /// The number of findings for which at least one of the actions failed when applied.
+        public let failedFindingsCount: Int64?
+        /// The number of findings skipped because of filter conditions provided in the parameters to the command.
+        public let skippedFindingsCount: Int64?
+        /// The number of findings for which all mitigation actions succeeded when applied.
+        public let succeededFindingsCount: Int64?
+        /// The total number of findings to which a task is being applied.
+        public let totalFindingsCount: Int64?
+
+        public init(canceledFindingsCount: Int64? = nil, failedFindingsCount: Int64? = nil, skippedFindingsCount: Int64? = nil, succeededFindingsCount: Int64? = nil, totalFindingsCount: Int64? = nil) {
+            self.canceledFindingsCount = canceledFindingsCount
+            self.failedFindingsCount = failedFindingsCount
+            self.skippedFindingsCount = skippedFindingsCount
+            self.succeededFindingsCount = succeededFindingsCount
+            self.totalFindingsCount = totalFindingsCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canceledFindingsCount = "canceledFindingsCount"
+            case failedFindingsCount = "failedFindingsCount"
+            case skippedFindingsCount = "skippedFindingsCount"
+            case succeededFindingsCount = "succeededFindingsCount"
+            case totalFindingsCount = "totalFindingsCount"
         }
     }
 
@@ -11522,11 +12521,11 @@ extension IoT {
             AWSShapeMember(label: "roleArn", required: false, type: .string)
         ]
 
-        /// Specifies which audit checks are enabled and disabled for this account. Use DescribeAccountAuditConfiguration to see the list of all checks including those that are currently enabled. Note that some data collection may begin immediately when certain checks are enabled. When a check is disabled, any data collected so far in relation to the check is deleted. You cannot disable a check if it is used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration this parameter is required and must specify at least one enabled check.
+        /// Specifies which audit checks are enabled and disabled for this account. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are currently enabled. Some data collection might start immediately when certain checks are enabled. When a check is disabled, any data collected so far in relation to the check is deleted. You cannot disable a check if it is used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration, this parameter is required and must specify at least one enabled check.
         public let auditCheckConfigurations: [String: AuditCheckConfiguration]?
         /// Information about the targets to which audit notifications are sent.
         public let auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]?
-        /// The ARN of the role that grants permission to AWS IoT to access information about your devices, policies, certificates and other items as necessary when performing an audit.
+        /// The ARN of the role that grants permission to AWS IoT to access information about your devices, policies, certificates and other items as required when performing an audit.
         public let roleArn: String?
 
         public init(auditCheckConfigurations: [String: AuditCheckConfiguration]? = nil, auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]? = nil, roleArn: String? = nil) {
@@ -11683,6 +12682,23 @@ extension IoT {
         }
     }
 
+    public struct UpdateCACertificateParams: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "action", required: true, type: .enum)
+        ]
+
+        /// The action that you want to apply to the CA cerrtificate. The only supported value is DEACTIVATE.
+        public let action: CACertificateUpdateAction
+
+        public init(action: CACertificateUpdateAction) {
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+        }
+    }
+
     public struct UpdateCACertificateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string), 
@@ -11700,7 +12716,7 @@ extension IoT {
         public let newStatus: CACertificateStatus?
         /// Information about the registration configuration.
         public let registrationConfig: RegistrationConfig?
-        /// If true, remove auto registration.
+        /// If true, removes auto registration.
         public let removeAutoRegistration: Bool?
 
         public init(certificateId: String, newAutoRegistrationStatus: AutoRegistrationStatus? = nil, newStatus: CACertificateStatus? = nil, registrationConfig: RegistrationConfig? = nil, removeAutoRegistration: Bool? = nil) {
@@ -11752,6 +12768,23 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case certificateId = "certificateId"
             case newStatus = "newStatus"
+        }
+    }
+
+    public struct UpdateDeviceCertificateParams: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "action", required: true, type: .enum)
+        ]
+
+        /// The action that you want to apply to the device cerrtificate. The only supported value is DEACTIVATE.
+        public let action: DeviceCertificateUpdateAction
+
+        public init(action: DeviceCertificateUpdateAction) {
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
         }
     }
 
@@ -11933,6 +12966,63 @@ extension IoT {
         }
     }
 
+    public struct UpdateMitigationActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionName", location: .uri(locationName: "actionName"), required: true, type: .string), 
+            AWSShapeMember(label: "actionParams", required: false, type: .structure), 
+            AWSShapeMember(label: "roleArn", required: false, type: .string)
+        ]
+
+        /// The friendly name for the mitigation action. You can't change the name by using UpdateMitigationAction. Instead, you must delete and re-create the mitigation action with the new name.
+        public let actionName: String
+        /// Defines the type of action and the parameters for that action.
+        public let actionParams: MitigationActionParams?
+        /// The ARN of the IAM role that is used to apply the mitigation action.
+        public let roleArn: String?
+
+        public init(actionName: String, actionParams: MitigationActionParams? = nil, roleArn: String? = nil) {
+            self.actionName = actionName
+            self.actionParams = actionParams
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.actionName, name:"actionName", parent: name, max: 128)
+            try validate(self.actionName, name:"actionName", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.actionParams?.validate(name: "\(name).actionParams")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "actionName"
+            case actionParams = "actionParams"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct UpdateMitigationActionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionArn", required: false, type: .string), 
+            AWSShapeMember(label: "actionId", required: false, type: .string)
+        ]
+
+        /// The ARN for the new mitigation action.
+        public let actionArn: String?
+        /// A unique identifier for the mitigation action.
+        public let actionId: String?
+
+        public init(actionArn: String? = nil, actionId: String? = nil) {
+            self.actionArn = actionArn
+            self.actionId = actionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionArn = "actionArn"
+            case actionId = "actionId"
+        }
+    }
+
     public struct UpdateRoleAliasRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "credentialDurationSeconds", required: false, type: .integer), 
@@ -12003,13 +13093,13 @@ extension IoT {
 
         /// The day of the month on which the scheduled audit takes place. Can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to "MONTHLY". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
         public let dayOfMonth: String?
-        /// The day of the week on which the scheduled audit takes place. Can be one of "SUN", "MON", "TUE", "WED", "THU", "FRI" or "SAT". This field is required if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
+        /// The day of the week on which the scheduled audit takes place. Can be one of "SUN", "MON", "TUE", "WED", "THU", "FRI", or "SAT". This field is required if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
         public let dayOfWeek: DayOfWeek?
-        /// How often the scheduled audit takes place. Can be one of "DAILY", "WEEKLY", "BIWEEKLY" or "MONTHLY". The actual start time of each audit is determined by the system.
+        /// How often the scheduled audit takes place. Can be one of "DAILY", "WEEKLY", "BIWEEKLY", or "MONTHLY". The start time of each audit is determined by the system.
         public let frequency: AuditFrequency?
         /// The name of the scheduled audit. (Max. 128 chars)
         public let scheduledAuditName: String
-        /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.)
+        /// Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
         public let targetCheckNames: [String]?
 
         public init(dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil, frequency: AuditFrequency? = nil, scheduledAuditName: String, targetCheckNames: [String]? = nil) {
@@ -12066,19 +13156,19 @@ extension IoT {
             AWSShapeMember(label: "securityProfileName", location: .uri(locationName: "securityProfileName"), required: true, type: .string)
         ]
 
-        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors but it is also retained for any metric specified here.
+        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
         public let additionalMetricsToRetain: [String]?
         /// Where the alerts are sent. (Alerts are always sent to the console.)
         public let alertTargets: [AlertTargetType: AlertTarget]?
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
         public let behaviors: [Behavior]?
-        /// If true, delete all additionalMetricsToRetain defined for this security profile. If any additionalMetricsToRetain are defined in the current invocation an exception occurs.
+        /// If true, delete all additionalMetricsToRetain defined for this security profile. If any additionalMetricsToRetain are defined in the current invocation, an exception occurs.
         public let deleteAdditionalMetricsToRetain: Bool?
-        /// If true, delete all alertTargets defined for this security profile. If any alertTargets are defined in the current invocation an exception occurs.
+        /// If true, delete all alertTargets defined for this security profile. If any alertTargets are defined in the current invocation, an exception occurs.
         public let deleteAlertTargets: Bool?
-        /// If true, delete all behaviors defined for this security profile. If any behaviors are defined in the current invocation an exception occurs.
+        /// If true, delete all behaviors defined for this security profile. If any behaviors are defined in the current invocation, an exception occurs.
         public let deleteBehaviors: Bool?
-        /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different than the actual version, a VersionConflictException is thrown.
+        /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown.
         public let expectedVersion: Int64?
         /// A description of the security profile.
         public let securityProfileDescription: String?
@@ -12138,7 +13228,7 @@ extension IoT {
             AWSShapeMember(label: "version", required: false, type: .long)
         ]
 
-        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the security profile's behaviors but it is also retained for any metric specified here.
+        /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the security profile's behaviors, but it is also retained for any metric specified here.
         public let additionalMetricsToRetain: [String]?
         /// Where the alerts are sent. (Alerts are always sent to the console.)
         public let alertTargets: [AlertTargetType: AlertTarget]?

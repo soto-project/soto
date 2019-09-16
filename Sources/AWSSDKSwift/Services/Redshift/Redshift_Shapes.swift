@@ -363,6 +363,8 @@ extension Redshift {
             AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
             AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
             AWSShapeMember(label: "EnhancedVpcRouting", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExpectedNextSnapshotScheduleTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExpectedNextSnapshotScheduleTimeStatus", required: false, type: .string), 
             AWSShapeMember(label: "HsmStatus", required: false, type: .structure), 
             AWSShapeMember(label: "IamRoles", required: false, type: .list, encoding: .list(member:"ClusterIamRole")), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
@@ -430,6 +432,10 @@ extension Redshift {
         public let endpoint: Endpoint?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
         public let enhancedVpcRouting: Bool?
+        /// The date and time when the next snapshot is expected to be taken for clusters with a valid snapshot schedule and backups enabled. 
+        public let expectedNextSnapshotScheduleTime: TimeStamp?
+        ///  The status of next expected snapshot for clusters having a valid snapshot schedule and backups enabled. Possible values are the following:   OnTrack - The next snapshot is expected to be taken on time.    Pending - The next snapshot is pending to be taken.   
+        public let expectedNextSnapshotScheduleTimeStatus: String?
         /// A value that reports whether the Amazon Redshift cluster has finished applying any hardware security module (HSM) settings changes specified in a modify cluster command. Values: active, applying
         public let hsmStatus: HsmStatus?
         /// A list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services.
@@ -471,7 +477,7 @@ extension Redshift {
         /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are associated with the cluster. This parameter is returned only if the cluster is in a VPC.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: TimeStamp? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
@@ -495,6 +501,8 @@ extension Redshift {
             self.encrypted = encrypted
             self.endpoint = endpoint
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.expectedNextSnapshotScheduleTime = expectedNextSnapshotScheduleTime
+            self.expectedNextSnapshotScheduleTimeStatus = expectedNextSnapshotScheduleTimeStatus
             self.hsmStatus = hsmStatus
             self.iamRoles = iamRoles
             self.kmsKeyId = kmsKeyId
@@ -541,6 +549,8 @@ extension Redshift {
             case encrypted = "Encrypted"
             case endpoint = "Endpoint"
             case enhancedVpcRouting = "EnhancedVpcRouting"
+            case expectedNextSnapshotScheduleTime = "ExpectedNextSnapshotScheduleTime"
+            case expectedNextSnapshotScheduleTimeStatus = "ExpectedNextSnapshotScheduleTimeStatus"
             case hsmStatus = "HsmStatus"
             case iamRoles = "IamRoles"
             case kmsKeyId = "KmsKeyId"
@@ -4828,7 +4838,7 @@ extension Redshift {
         public let clusterIdentifier: String
         /// The new cluster type for the specified cluster.
         public let clusterType: String?
-        /// The new node type for the nodes you are adding.
+        /// The new node type for the nodes you are adding. If not specified, the cluster's current node type is used.
         public let nodeType: String?
         /// The new number of nodes for the cluster.
         public let numberOfNodes: Int

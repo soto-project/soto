@@ -97,7 +97,7 @@ public struct KinesisAnalytics {
         return client.send(operation: "ListApplications", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the list of key-value tags assigned to the application.
+    ///  Retrieves the list of key-value tags assigned to the application. For more information, see Using Tagging.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -112,12 +112,12 @@ public struct KinesisAnalytics {
         return client.send(operation: "StopApplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
+    ///  Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging.
     public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes one or more tags from a Kinesis Analytics application.
+    ///  Removes one or more tags from a Kinesis Analytics application. For more information, see Using Tagging.
     public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }

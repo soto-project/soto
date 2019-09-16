@@ -98,9 +98,9 @@ extension SecretsManager {
             try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, min: 0)
             try validate(self.name, name:"name", parent: name, max: 512)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.secretBinary, name:"secretBinary", parent: name, max: 7168)
+            try validate(self.secretBinary, name:"secretBinary", parent: name, max: 10240)
             try validate(self.secretBinary, name:"secretBinary", parent: name, min: 0)
-            try validate(self.secretString, name:"secretString", parent: name, max: 7168)
+            try validate(self.secretString, name:"secretString", parent: name, max: 10240)
             try validate(self.secretString, name:"secretString", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -280,6 +280,7 @@ extension SecretsManager {
             AWSShapeMember(label: "LastChangedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastRotatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OwningService", required: false, type: .string), 
             AWSShapeMember(label: "RotationEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "RotationLambdaARN", required: false, type: .string), 
             AWSShapeMember(label: "RotationRules", required: false, type: .structure), 
@@ -303,6 +304,7 @@ extension SecretsManager {
         public let lastRotatedDate: TimeStamp?
         /// The user-provided friendly name of the secret.
         public let name: String?
+        public let owningService: String?
         /// Specifies whether automatic rotation is enabled for this secret. To enable rotation, use RotateSecret with AutomaticallyRotateAfterDays set to a value greater than 0. To disable rotation, use CancelRotateSecret.
         public let rotationEnabled: Bool?
         /// The ARN of a Lambda function that's invoked by Secrets Manager to rotate the secret either automatically per the schedule or manually by a call to RotateSecret.
@@ -314,7 +316,7 @@ extension SecretsManager {
         /// A list of all of the currently assigned VersionStage staging labels and the VersionId that each is attached to. Staging labels are used to keep track of the different versions during the rotation process.  A version that does not have any staging labels attached is considered deprecated and subject to deletion. Such versions are not included in this list. 
         public let versionIdsToStages: [String: [String]]?
 
-        public init(arn: String? = nil, deletedDate: TimeStamp? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: TimeStamp? = nil, lastChangedDate: TimeStamp? = nil, lastRotatedDate: TimeStamp? = nil, name: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, tags: [Tag]? = nil, versionIdsToStages: [String: [String]]? = nil) {
+        public init(arn: String? = nil, deletedDate: TimeStamp? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: TimeStamp? = nil, lastChangedDate: TimeStamp? = nil, lastRotatedDate: TimeStamp? = nil, name: String? = nil, owningService: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, tags: [Tag]? = nil, versionIdsToStages: [String: [String]]? = nil) {
             self.arn = arn
             self.deletedDate = deletedDate
             self.description = description
@@ -323,6 +325,7 @@ extension SecretsManager {
             self.lastChangedDate = lastChangedDate
             self.lastRotatedDate = lastRotatedDate
             self.name = name
+            self.owningService = owningService
             self.rotationEnabled = rotationEnabled
             self.rotationLambdaARN = rotationLambdaARN
             self.rotationRules = rotationRules
@@ -339,6 +342,7 @@ extension SecretsManager {
             case lastChangedDate = "LastChangedDate"
             case lastRotatedDate = "LastRotatedDate"
             case name = "Name"
+            case owningService = "OwningService"
             case rotationEnabled = "RotationEnabled"
             case rotationLambdaARN = "RotationLambdaARN"
             case rotationRules = "RotationRules"
@@ -696,7 +700,7 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try validate(self.resourcePolicy, name:"resourcePolicy", parent: name, max: 4096)
+            try validate(self.resourcePolicy, name:"resourcePolicy", parent: name, max: 20480)
             try validate(self.resourcePolicy, name:"resourcePolicy", parent: name, min: 1)
             try validate(self.secretId, name:"secretId", parent: name, max: 2048)
             try validate(self.secretId, name:"secretId", parent: name, min: 1)
@@ -761,11 +765,11 @@ extension SecretsManager {
         public func validate(name: String) throws {
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 32)
-            try validate(self.secretBinary, name:"secretBinary", parent: name, max: 7168)
+            try validate(self.secretBinary, name:"secretBinary", parent: name, max: 10240)
             try validate(self.secretBinary, name:"secretBinary", parent: name, min: 0)
             try validate(self.secretId, name:"secretId", parent: name, max: 2048)
             try validate(self.secretId, name:"secretId", parent: name, min: 1)
-            try validate(self.secretString, name:"secretString", parent: name, max: 7168)
+            try validate(self.secretString, name:"secretString", parent: name, max: 10240)
             try validate(self.secretString, name:"secretString", parent: name, min: 0)
             try self.versionStages?.forEach {
                 try validate($0, name: "versionStages[]", parent: name, max: 256)
@@ -961,6 +965,7 @@ extension SecretsManager {
             AWSShapeMember(label: "LastChangedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastRotatedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OwningService", required: false, type: .string), 
             AWSShapeMember(label: "RotationEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "RotationLambdaARN", required: false, type: .string), 
             AWSShapeMember(label: "RotationRules", required: false, type: .structure), 
@@ -984,6 +989,7 @@ extension SecretsManager {
         public let lastRotatedDate: TimeStamp?
         /// The friendly name of the secret. You can use forward slashes in the name to represent a path hierarchy. For example, /prod/databases/dbserver1 could represent the secret for a server named dbserver1 in the folder databases in the folder prod. 
         public let name: String?
+        public let owningService: String?
         /// Indicated whether automatic, scheduled rotation is enabled for this secret.
         public let rotationEnabled: Bool?
         /// The ARN of an AWS Lambda function that's invoked by Secrets Manager to rotate and expire the secret either automatically per the schedule or manually by a call to RotateSecret.
@@ -995,7 +1001,7 @@ extension SecretsManager {
         /// The list of user-defined tags that are associated with the secret. To add tags to a secret, use TagResource. To remove tags, use UntagResource.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, deletedDate: TimeStamp? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: TimeStamp? = nil, lastChangedDate: TimeStamp? = nil, lastRotatedDate: TimeStamp? = nil, name: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretVersionsToStages: [String: [String]]? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, deletedDate: TimeStamp? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: TimeStamp? = nil, lastChangedDate: TimeStamp? = nil, lastRotatedDate: TimeStamp? = nil, name: String? = nil, owningService: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretVersionsToStages: [String: [String]]? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.deletedDate = deletedDate
             self.description = description
@@ -1004,6 +1010,7 @@ extension SecretsManager {
             self.lastChangedDate = lastChangedDate
             self.lastRotatedDate = lastRotatedDate
             self.name = name
+            self.owningService = owningService
             self.rotationEnabled = rotationEnabled
             self.rotationLambdaARN = rotationLambdaARN
             self.rotationRules = rotationRules
@@ -1020,6 +1027,7 @@ extension SecretsManager {
             case lastChangedDate = "LastChangedDate"
             case lastRotatedDate = "LastRotatedDate"
             case name = "Name"
+            case owningService = "OwningService"
             case rotationEnabled = "RotationEnabled"
             case rotationLambdaARN = "RotationLambdaARN"
             case rotationRules = "RotationRules"
@@ -1188,11 +1196,11 @@ extension SecretsManager {
             try validate(self.description, name:"description", parent: name, max: 2048)
             try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
             try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, min: 0)
-            try validate(self.secretBinary, name:"secretBinary", parent: name, max: 7168)
+            try validate(self.secretBinary, name:"secretBinary", parent: name, max: 10240)
             try validate(self.secretBinary, name:"secretBinary", parent: name, min: 0)
             try validate(self.secretId, name:"secretId", parent: name, max: 2048)
             try validate(self.secretId, name:"secretId", parent: name, min: 1)
-            try validate(self.secretString, name:"secretString", parent: name, max: 7168)
+            try validate(self.secretString, name:"secretString", parent: name, max: 10240)
             try validate(self.secretString, name:"secretString", parent: name, min: 0)
         }
 

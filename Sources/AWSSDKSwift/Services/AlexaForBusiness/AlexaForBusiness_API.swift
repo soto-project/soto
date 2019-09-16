@@ -137,7 +137,7 @@ public struct AlexaForBusiness {
         return client.send(operation: "DeleteDevice", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  When this action is called for a specified shared device, it allows authorized users to delete the device's entire previous history of voice input data and associated response data. This action can be called once every 24 hours for a specific shared device. When this action is called for a specified shared device, it allows authorized users to delete the device's entire previous history of voice input data. This action can be called once every 24 hours for a specific shared device. 
+    ///  When this action is called for a specified shared device, it allows authorized users to delete the device's entire previous history of voice input data and associated response data. This action can be called once every 24 hours for a specific shared device.
     public func deleteDeviceUsageData(_ input: DeleteDeviceUsageDataRequest) -> Future<DeleteDeviceUsageDataResponse> {
         return client.send(operation: "DeleteDeviceUsageData", path: "/", httpMethod: "POST", input: input)
     }

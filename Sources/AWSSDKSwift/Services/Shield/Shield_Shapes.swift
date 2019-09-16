@@ -10,7 +10,7 @@ extension Shield {
             AWSShapeMember(label: "LogBucket", required: true, type: .string)
         ]
 
-        /// The Amazon S3 bucket that contains your flow logs.
+        /// The Amazon S3 bucket that contains your AWS WAF logs.
         public let logBucket: String
 
         public init(logBucket: String) {
@@ -134,9 +134,9 @@ extension Shield {
             AWSShapeMember(label: "Unit", required: false, type: .enum)
         ]
 
-        /// The type of DDoS event that was observed. NETWORK indicates layer 3 and layer 4 events and APPLICATION indicates layer 7 events.
+        /// The type of distributed denial of service (DDoS) event that was observed. NETWORK indicates layer 3 and layer 4 events and APPLICATION indicates layer 7 events.
         public let attackLayer: AttackLayer?
-        /// Defines the DDoS attack property information that is provided.
+        /// Defines the DDoS attack property information that is provided. The WORDPRESS_PINGBACK_REFLECTOR and WORDPRESS_PINGBACK_SOURCE values are valid only for WordPress reflective pingback DDoS attacks.
         public let attackPropertyIdentifier: AttackPropertyIdentifier?
         /// The array of Contributor objects that includes the top five contributors to an attack. 
         public let topContributors: [Contributor]?
@@ -169,6 +169,8 @@ extension Shield {
         case sourceCountry = "SOURCE_COUNTRY"
         case sourceIpAddress = "SOURCE_IP_ADDRESS"
         case sourceUserAgent = "SOURCE_USER_AGENT"
+        case wordpressPingbackReflector = "WORDPRESS_PINGBACK_REFLECTOR"
+        case wordpressPingbackSource = "WORDPRESS_PINGBACK_SOURCE"
         public var description: String { return self.rawValue }
     }
 
@@ -214,7 +216,7 @@ extension Shield {
             AWSShapeMember(label: "VectorType", required: true, type: .string)
         ]
 
-        /// The attack type. Valid values:   UDP_TRAFFIC   UDP_FRAGMENT   GENERIC_UDP_REFLECTION   DNS_REFLECTION   NTP_REFLECTION   CHARGEN_REFLECTION   SSDP_REFLECTION   PORT_MAPPER   RIP_REFLECTION   SNMP_REFLECTION   MSSQL_REFLECTION   NET_BIOS_REFLECTION   SYN_FLOOD   ACK_FLOOD   REQUEST_FLOOD  
+        /// The attack type. Valid values:   UDP_TRAFFIC   UDP_FRAGMENT   GENERIC_UDP_REFLECTION   DNS_REFLECTION   NTP_REFLECTION   CHARGEN_REFLECTION   SSDP_REFLECTION   PORT_MAPPER   RIP_REFLECTION   SNMP_REFLECTION   MSSQL_REFLECTION   NET_BIOS_REFLECTION   SYN_FLOOD   ACK_FLOOD   REQUEST_FLOOD   HTTP_REFLECTION   UDS_REFLECTION   MEMCACHED_REFLECTION  
         public let vectorType: String
 
         public init(vectorType: String) {
@@ -538,7 +540,7 @@ extension Shield {
             AWSShapeMember(label: "LogBucket", required: true, type: .string)
         ]
 
-        /// The Amazon S3 bucket that contains your flow logs.
+        /// The Amazon S3 bucket that contains your AWS WAF logs.
         public let logBucket: String
 
         public init(logBucket: String) {

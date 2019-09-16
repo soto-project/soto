@@ -763,8 +763,9 @@ extension ConfigService {
             try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
             try validate(self.awsRegion, name:"awsRegion", parent: name, max: 64)
             try validate(self.awsRegion, name:"awsRegion", parent: name, min: 1)
-            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 64)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 128)
             try validate(self.configRuleName, name:"configRuleName", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1322,6 +1323,7 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string)
         ]
 
+        /// The name of organization config rule that you want to delete.
         public let organizationConfigRuleName: String
 
         public init(organizationConfigRuleName: String) {
@@ -1331,6 +1333,7 @@ extension ConfigService {
         public func validate(name: String) throws {
             try validate(self.organizationConfigRuleName, name:"organizationConfigRuleName", parent: name, max: 64)
             try validate(self.organizationConfigRuleName, name:"organizationConfigRuleName", parent: name, min: 1)
+            try validate(self.organizationConfigRuleName, name:"organizationConfigRuleName", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1383,8 +1386,9 @@ extension ConfigService {
         }
 
         public func validate(name: String) throws {
-            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 64)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 128)
             try validate(self.configRuleName, name:"configRuleName", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1399,6 +1403,56 @@ extension ConfigService {
         public init() {
         }
 
+    }
+
+    public struct DeleteRemediationExceptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceKeys", required: true, type: .list)
+        ]
+
+        /// The name of the AWS Config rule for which you want to delete remediation exception configuration.
+        public let configRuleName: String
+        /// An exception list of resource exception keys to be processed with the current request. AWS Config adds exception for each resource key. For example, AWS Config adds 3 exceptions for 3 resource keys. 
+        public let resourceKeys: [RemediationExceptionResourceKey]
+
+        public init(configRuleName: String, resourceKeys: [RemediationExceptionResourceKey]) {
+            self.configRuleName = configRuleName
+            self.resourceKeys = resourceKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 128)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, pattern: ".*\\S.*")
+            try self.resourceKeys.forEach {
+                try $0.validate(name: "\(name).resourceKeys[]")
+            }
+            try validate(self.resourceKeys, name:"resourceKeys", parent: name, max: 100)
+            try validate(self.resourceKeys, name:"resourceKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configRuleName = "ConfigRuleName"
+            case resourceKeys = "ResourceKeys"
+        }
+    }
+
+    public struct DeleteRemediationExceptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedBatches", required: false, type: .list)
+        ]
+
+        /// Returns a list of failed delete remediation exceptions batch objects. Each object in the batch consists of a list of failed items and failure messages.
+        public let failedBatches: [FailedDeleteRemediationExceptionsBatch]?
+
+        public init(failedBatches: [FailedDeleteRemediationExceptionsBatch]? = nil) {
+            self.failedBatches = failedBatches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedBatches = "FailedBatches"
+        }
     }
 
     public struct DeleteRetentionConfigurationRequest: AWSShape {
@@ -1680,8 +1734,9 @@ extension ConfigService {
             try validate(self.complianceTypes, name:"complianceTypes", parent: name, max: 3)
             try validate(self.complianceTypes, name:"complianceTypes", parent: name, min: 0)
             try self.configRuleNames?.forEach {
-                try validate($0, name: "configRuleNames[]", parent: name, max: 64)
+                try validate($0, name: "configRuleNames[]", parent: name, max: 128)
                 try validate($0, name: "configRuleNames[]", parent: name, min: 1)
+                try validate($0, name: "configRuleNames[]", parent: name, pattern: ".*\\S.*")
             }
             try validate(self.configRuleNames, name:"configRuleNames", parent: name, max: 25)
             try validate(self.configRuleNames, name:"configRuleNames", parent: name, min: 0)
@@ -1808,8 +1863,9 @@ extension ConfigService {
 
         public func validate(name: String) throws {
             try self.configRuleNames?.forEach {
-                try validate($0, name: "configRuleNames[]", parent: name, max: 64)
+                try validate($0, name: "configRuleNames[]", parent: name, max: 128)
                 try validate($0, name: "configRuleNames[]", parent: name, min: 1)
+                try validate($0, name: "configRuleNames[]", parent: name, pattern: ".*\\S.*")
             }
             try validate(self.configRuleNames, name:"configRuleNames", parent: name, max: 25)
             try validate(self.configRuleNames, name:"configRuleNames", parent: name, min: 0)
@@ -1864,8 +1920,9 @@ extension ConfigService {
 
         public func validate(name: String) throws {
             try self.configRuleNames?.forEach {
-                try validate($0, name: "configRuleNames[]", parent: name, max: 64)
+                try validate($0, name: "configRuleNames[]", parent: name, max: 128)
                 try validate($0, name: "configRuleNames[]", parent: name, min: 1)
+                try validate($0, name: "configRuleNames[]", parent: name, pattern: ".*\\S.*")
             }
             try validate(self.configRuleNames, name:"configRuleNames", parent: name, max: 25)
             try validate(self.configRuleNames, name:"configRuleNames", parent: name, min: 0)
@@ -2194,8 +2251,11 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRuleNames", required: false, type: .list)
         ]
 
+        /// The maximum number of OrganizationConfigRuleStatuses returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
         public let limit: Int?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
+        /// The names of organization config rules for which you want status details. If you do not specify any names, AWS Config returns details for all your organization AWS Confg rules.
         public let organizationConfigRuleNames: [String]?
 
         public init(limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
@@ -2228,7 +2288,9 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRuleStatuses", required: false, type: .list)
         ]
 
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
+        /// A list of OrganizationConfigRuleStatus objects.
         public let organizationConfigRuleStatuses: [OrganizationConfigRuleStatus]?
 
         public init(nextToken: String? = nil, organizationConfigRuleStatuses: [OrganizationConfigRuleStatus]? = nil) {
@@ -2249,8 +2311,11 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRuleNames", required: false, type: .list)
         ]
 
+        /// The maximum number of organization config rules returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
         public let limit: Int?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
+        /// The names of organization config rules for which you want details. If you do not specify any names, AWS Config returns details for all your organization config rules.
         public let organizationConfigRuleNames: [String]?
 
         public init(limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
@@ -2283,7 +2348,9 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRules", required: false, type: .list)
         ]
 
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
+        /// Retuns a list OrganizationConfigRule objects.
         public let organizationConfigRules: [OrganizationConfigRule]?
 
         public init(nextToken: String? = nil, organizationConfigRules: [OrganizationConfigRule]? = nil) {
@@ -2360,8 +2427,9 @@ extension ConfigService {
 
         public func validate(name: String) throws {
             try self.configRuleNames.forEach {
-                try validate($0, name: "configRuleNames[]", parent: name, max: 64)
+                try validate($0, name: "configRuleNames[]", parent: name, max: 128)
                 try validate($0, name: "configRuleNames[]", parent: name, min: 1)
+                try validate($0, name: "configRuleNames[]", parent: name, pattern: ".*\\S.*")
             }
             try validate(self.configRuleNames, name:"configRuleNames", parent: name, max: 25)
             try validate(self.configRuleNames, name:"configRuleNames", parent: name, min: 0)
@@ -2386,6 +2454,73 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case remediationConfigurations = "RemediationConfigurations"
+        }
+    }
+
+    public struct DescribeRemediationExceptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceKeys", required: false, type: .list)
+        ]
+
+        /// The name of the AWS Config rule.
+        public let configRuleName: String
+        /// The maximum number of RemediationExceptionResourceKey returned on each page. The default is 25. If you specify 0, AWS Config uses the default.
+        public let limit: Int?
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
+        public let nextToken: String?
+        /// An exception list of resource exception keys to be processed with the current request. AWS Config adds exception for each resource key. For example, AWS Config adds 3 exceptions for 3 resource keys. 
+        public let resourceKeys: [RemediationExceptionResourceKey]?
+
+        public init(configRuleName: String, limit: Int? = nil, nextToken: String? = nil, resourceKeys: [RemediationExceptionResourceKey]? = nil) {
+            self.configRuleName = configRuleName
+            self.limit = limit
+            self.nextToken = nextToken
+            self.resourceKeys = resourceKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 128)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, pattern: ".*\\S.*")
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 0)
+            try self.resourceKeys?.forEach {
+                try $0.validate(name: "\(name).resourceKeys[]")
+            }
+            try validate(self.resourceKeys, name:"resourceKeys", parent: name, max: 100)
+            try validate(self.resourceKeys, name:"resourceKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configRuleName = "ConfigRuleName"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case resourceKeys = "ResourceKeys"
+        }
+    }
+
+    public struct DescribeRemediationExceptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RemediationExceptions", required: false, type: .list)
+        ]
+
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
+        public let nextToken: String?
+        /// Returns a list of remediation exception objects.
+        public let remediationExceptions: [RemediationException]?
+
+        public init(nextToken: String? = nil, remediationExceptions: [RemediationException]? = nil) {
+            self.nextToken = nextToken
+            self.remediationExceptions = remediationExceptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case remediationExceptions = "RemediationExceptions"
         }
     }
 
@@ -2414,12 +2549,11 @@ extension ConfigService {
         }
 
         public func validate(name: String) throws {
-            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 64)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 128)
             try validate(self.configRuleName, name:"configRuleName", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, pattern: ".*\\S.*")
             try validate(self.limit, name:"limit", parent: name, max: 100)
             try validate(self.limit, name:"limit", parent: name, min: 0)
-            try validate(self.nextToken, name:"nextToken", parent: name, max: 256)
-            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try self.resourceKeys?.forEach {
                 try $0.validate(name: "\(name).resourceKeys[]")
             }
@@ -2653,6 +2787,49 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
+    public struct ExecutionControls: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SsmControls", required: false, type: .structure)
+        ]
+
+        /// A SsmControls object.
+        public let ssmControls: SsmControls?
+
+        public init(ssmControls: SsmControls? = nil) {
+            self.ssmControls = ssmControls
+        }
+
+        public func validate(name: String) throws {
+            try self.ssmControls?.validate(name: "\(name).ssmControls")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ssmControls = "SsmControls"
+        }
+    }
+
+    public struct FailedDeleteRemediationExceptionsBatch: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedItems", required: false, type: .list), 
+            AWSShapeMember(label: "FailureMessage", required: false, type: .string)
+        ]
+
+        /// Returns remediation exception resource key object of the failed items.
+        public let failedItems: [RemediationExceptionResourceKey]?
+        /// Returns a failure message for delete remediation exception. For example, AWS Config creates an exception due to an internal error.
+        public let failureMessage: String?
+
+        public init(failedItems: [RemediationExceptionResourceKey]? = nil, failureMessage: String? = nil) {
+            self.failedItems = failedItems
+            self.failureMessage = failureMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "FailedItems"
+            case failureMessage = "FailureMessage"
+        }
+    }
+
     public struct FailedRemediationBatch: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FailedItems", required: false, type: .list), 
@@ -2665,6 +2842,28 @@ extension ConfigService {
         public let failureMessage: String?
 
         public init(failedItems: [RemediationConfiguration]? = nil, failureMessage: String? = nil) {
+            self.failedItems = failedItems
+            self.failureMessage = failureMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "FailedItems"
+            case failureMessage = "FailureMessage"
+        }
+    }
+
+    public struct FailedRemediationExceptionBatch: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedItems", required: false, type: .list), 
+            AWSShapeMember(label: "FailureMessage", required: false, type: .string)
+        ]
+
+        /// Returns remediation exception resource key object of the failed items.
+        public let failedItems: [RemediationException]?
+        /// Returns a failure message. For example, the auto-remediation has failed.
+        public let failureMessage: String?
+
+        public init(failedItems: [RemediationException]? = nil, failureMessage: String? = nil) {
             self.failedItems = failedItems
             self.failureMessage = failureMessage
         }
@@ -2732,8 +2931,9 @@ extension ConfigService {
             try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
             try validate(self.awsRegion, name:"awsRegion", parent: name, max: 64)
             try validate(self.awsRegion, name:"awsRegion", parent: name, min: 1)
-            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 64)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 128)
             try validate(self.configRuleName, name:"configRuleName", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, pattern: ".*\\S.*")
             try validate(self.configurationAggregatorName, name:"configurationAggregatorName", parent: name, max: 256)
             try validate(self.configurationAggregatorName, name:"configurationAggregatorName", parent: name, min: 1)
             try validate(self.configurationAggregatorName, name:"configurationAggregatorName", parent: name, pattern: "[\\w\\-]+")
@@ -3230,9 +3430,13 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRuleName", required: true, type: .string)
         ]
 
+        /// A StatusDetailFilters object.
         public let filters: StatusDetailFilters?
+        /// The maximum number of OrganizationConfigRuleDetailedStatus returned on each page. If you do not specify a number, AWS Config uses the default. The default is 100.
         public let limit: Int?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
+        /// The name of organization config rule for which you want status details for member accounts.
         public let organizationConfigRuleName: String
 
         public init(filters: StatusDetailFilters? = nil, limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleName: String) {
@@ -3248,6 +3452,7 @@ extension ConfigService {
             try validate(self.limit, name:"limit", parent: name, min: 0)
             try validate(self.organizationConfigRuleName, name:"organizationConfigRuleName", parent: name, max: 64)
             try validate(self.organizationConfigRuleName, name:"organizationConfigRuleName", parent: name, min: 1)
+            try validate(self.organizationConfigRuleName, name:"organizationConfigRuleName", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3264,7 +3469,9 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRuleDetailedStatus", required: false, type: .list)
         ]
 
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
+        /// A list of MemberAccountStatus objects.
         public let organizationConfigRuleDetailedStatus: [MemberAccountStatus]?
 
         public init(nextToken: String? = nil, organizationConfigRuleDetailedStatus: [MemberAccountStatus]? = nil) {
@@ -3586,6 +3793,9 @@ extension ConfigService {
         case createSuccessful = "CREATE_SUCCESSFUL"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createFailed = "CREATE_FAILED"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updateFailed = "UPDATE_FAILED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
         case deleteSuccessful = "DELETE_SUCCESSFUL"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
@@ -3602,11 +3812,17 @@ extension ConfigService {
             AWSShapeMember(label: "MemberAccountRuleStatus", required: true, type: .enum)
         ]
 
+        /// The 12-digit account ID of a member account.
         public let accountId: String
+        /// The name of config rule deployed in the member account.
         public let configRuleName: String
+        /// An error code that is returned when config rule creation or deletion failed in the member account.
         public let errorCode: String?
+        /// An error message indicating that config rule account creation or deletion has failed due to an error in the member account.
         public let errorMessage: String?
+        /// The timestamp of the last status update.
         public let lastUpdateTime: TimeStamp?
+        /// Indicates deployment status for config rule in the member account. When master account calls PutOrganizationConfigRule action for the first time, config rule status is created in the member account. When master account calls PutOrganizationConfigRule action for the second time, config rule status is updated in the member account. Config rule status is deleted when the master account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com.   AWS Config sets the state of the rule to:    CREATE_SUCCESSFUL when config rule has been created in the member account.     CREATE_IN_PROGRESS when config rule is being created in the member account.    CREATE_FAILED when config rule creation has failed in the member account.    DELETE_FAILED when config rule deletion has failed in the member account.    DELETE_IN_PROGRESS when config rule is being deleted in the member account.    DELETE_SUCCESSFUL when config rule has been deleted in the member account.     UPDATE_SUCCESSFUL when config rule has been updated in the member account.    UPDATE_IN_PROGRESS when config rule is being updated in the member account.    UPDATE_FAILED when config rule deletion has failed in the member account.  
         public let memberAccountRuleStatus: MemberAccountRuleStatus
 
         public init(accountId: String, configRuleName: String, errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, memberAccountRuleStatus: MemberAccountRuleStatus) {
@@ -3677,11 +3893,17 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationManagedRuleMetadata", required: false, type: .structure)
         ]
 
+        /// A comma-separated list of accounts excluded from organization config rule.
         public let excludedAccounts: [String]?
+        /// The timestamp of the last update.
         public let lastUpdateTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of organization config rule.
         public let organizationConfigRuleArn: String
+        /// The name that you assign to organization config rule.
         public let organizationConfigRuleName: String
+        /// An OrganizationCustomRuleMetadata object.
         public let organizationCustomRuleMetadata: OrganizationCustomRuleMetadata?
+        /// An OrganizationManagedRuleMetadata object.
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
 
         public init(excludedAccounts: [String]? = nil, lastUpdateTime: TimeStamp? = nil, organizationConfigRuleArn: String, organizationConfigRuleName: String, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
@@ -3712,10 +3934,15 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationRuleStatus", required: true, type: .enum)
         ]
 
+        /// An error code that is returned when organization config rule creation or deletion has failed.
         public let errorCode: String?
+        /// An error message indicating that organization config rule creation or deletion failed due to an error.
         public let errorMessage: String?
+        /// The timestamp of the last update.
         public let lastUpdateTime: TimeStamp?
+        /// The name that you assign to organization config rule.
         public let organizationConfigRuleName: String
+        /// Indicates deployment status of an organization config rule. When master account calls PutOrganizationConfigRule action for the first time, config rule status is created in all the member accounts. When master account calls PutOrganizationConfigRule action for the second time, config rule status is updated in all the member accounts. Additionally, config rule status is updated when one or more member accounts join or leave an organization. Config rule status is deleted when the master account deletes OrganizationConfigRule in all the member accounts and disables service access for config-multiaccountsetup.amazonaws.com. AWS Config sets the state of the rule to:    CREATE_SUCCESSFUL when an organization config rule has been successfully created in all the member accounts.     CREATE_IN_PROGRESS when an organization config rule creation is in progress.    CREATE_FAILED when an organization config rule creation failed in one or more member accounts within that organization.    DELETE_FAILED when an organization config rule deletion failed in one or more member accounts within that organization.    DELETE_IN_PROGRESS when an organization config rule deletion is in progress.    DELETE_SUCCESSFUL when an organization config rule has been successfully deleted from all the member accounts.    UPDATE_SUCCESSFUL when an organization config rule has been successfully updated in all the member accounts.    UPDATE_IN_PROGRESS when an organization config rule update is in progress.    UPDATE_FAILED when an organization config rule update failed in one or more member accounts within that organization.  
         public let organizationRuleStatus: OrganizationRuleStatus
 
         public init(errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, organizationConfigRuleName: String, organizationRuleStatus: OrganizationRuleStatus) {
@@ -3755,14 +3982,23 @@ extension ConfigService {
             AWSShapeMember(label: "TagValueScope", required: false, type: .string)
         ]
 
+        /// The description that you provide for organization config rule.
         public let description: String?
+        /// A string, in JSON format, that is passed to organization config rule Lambda function.
         public let inputParameters: String?
+        /// The lambda function ARN.
         public let lambdaFunctionArn: String
+        /// The maximum frequency with which AWS Config runs evaluations for a rule. Your custom rule is triggered when AWS Config delivers the configuration snapshot. For more information, see ConfigSnapshotDeliveryProperties.  By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter. 
         public let maximumExecutionFrequency: MaximumExecutionFrequency?
+        /// The type of notification that triggers AWS Config to run an evaluation for a rule. You can specify the following notification types:    ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item as a result of a resource change.    OversizedConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers an oversized configuration item. AWS Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.    ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency.  
         public let organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerType]
+        /// The ID of the AWS resource that was evaluated.
         public let resourceIdScope: String?
+        /// The type of the AWS resource that was evaluated.
         public let resourceTypesScope: [String]?
+        /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. 
         public let tagKeyScope: String?
+        /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). 
         public let tagValueScope: String?
 
         public init(description: String? = nil, inputParameters: String? = nil, lambdaFunctionArn: String, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerType], resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
@@ -3823,13 +4059,21 @@ extension ConfigService {
             AWSShapeMember(label: "TagValueScope", required: false, type: .string)
         ]
 
+        /// The description that you provide for organization config rule.
         public let description: String?
+        /// A string, in JSON format, that is passed to organization config rule Lambda function.
         public let inputParameters: String?
+        /// The maximum frequency with which AWS Config runs evaluations for a rule. You are using an AWS managed rule that is triggered at a periodic frequency.  By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter. 
         public let maximumExecutionFrequency: MaximumExecutionFrequency?
+        /// The ID of the AWS resource that was evaluated.
         public let resourceIdScope: String?
+        /// The type of the AWS resource that was evaluated.
         public let resourceTypesScope: [String]?
+        /// For organization config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using AWS Managed Config Rules.
         public let ruleIdentifier: String
+        /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. 
         public let tagKeyScope: String?
+        /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
         public let tagValueScope: String?
 
         public init(description: String? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, ruleIdentifier: String, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
@@ -3880,6 +4124,9 @@ extension ConfigService {
         case createSuccessful = "CREATE_SUCCESSFUL"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createFailed = "CREATE_FAILED"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updateFailed = "UPDATE_FAILED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
         case deleteSuccessful = "DELETE_SUCCESSFUL"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
@@ -3925,6 +4172,7 @@ extension ConfigService {
         public let authorizedAccountId: String
         /// The region authorized to collect aggregated data.
         public let authorizedAwsRegion: String
+        /// An array of tag object.
         public let tags: [Tag]?
 
         public init(authorizedAccountId: String, authorizedAwsRegion: String, tags: [Tag]? = nil) {
@@ -3976,6 +4224,7 @@ extension ConfigService {
 
         /// The rule that you want to add to your account.
         public let configRule: ConfigRule
+        /// An array of tag object.
         public let tags: [Tag]?
 
         public init(configRule: ConfigRule, tags: [Tag]? = nil) {
@@ -4012,6 +4261,7 @@ extension ConfigService {
         public let configurationAggregatorName: String
         /// An OrganizationAggregationSource object.
         public let organizationAggregationSource: OrganizationAggregationSource?
+        /// An array of tag object.
         public let tags: [Tag]?
 
         public init(accountAggregationSources: [AccountAggregationSource]? = nil, configurationAggregatorName: String, organizationAggregationSource: OrganizationAggregationSource? = nil, tags: [Tag]? = nil) {
@@ -4165,9 +4415,13 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationManagedRuleMetadata", required: false, type: .structure)
         ]
 
+        /// A comma-separated list of accounts that you want to exclude from an organization config rule.
         public let excludedAccounts: [String]?
+        /// The name that you assign to an organization config rule.
         public let organizationConfigRuleName: String
+        /// An OrganizationCustomRuleMetadata object.
         public let organizationCustomRuleMetadata: OrganizationCustomRuleMetadata?
+        /// An OrganizationManagedRuleMetadata object. 
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
 
         public init(excludedAccounts: [String]? = nil, organizationConfigRuleName: String, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
@@ -4185,6 +4439,7 @@ extension ConfigService {
             try validate(self.excludedAccounts, name:"excludedAccounts", parent: name, min: 0)
             try validate(self.organizationConfigRuleName, name:"organizationConfigRuleName", parent: name, max: 64)
             try validate(self.organizationConfigRuleName, name:"organizationConfigRuleName", parent: name, min: 1)
+            try validate(self.organizationConfigRuleName, name:"organizationConfigRuleName", parent: name, pattern: ".*\\S.*")
             try self.organizationCustomRuleMetadata?.validate(name: "\(name).organizationCustomRuleMetadata")
             try self.organizationManagedRuleMetadata?.validate(name: "\(name).organizationManagedRuleMetadata")
         }
@@ -4202,6 +4457,7 @@ extension ConfigService {
             AWSShapeMember(label: "OrganizationConfigRuleArn", required: false, type: .string)
         ]
 
+        /// The Amazon Resource Name (ARN) of an organization config rule.
         public let organizationConfigRuleArn: String?
 
         public init(organizationConfigRuleArn: String? = nil) {
@@ -4247,6 +4503,68 @@ extension ConfigService {
         public let failedBatches: [FailedRemediationBatch]?
 
         public init(failedBatches: [FailedRemediationBatch]? = nil) {
+            self.failedBatches = failedBatches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedBatches = "FailedBatches"
+        }
+    }
+
+    public struct PutRemediationExceptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
+            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceKeys", required: true, type: .list)
+        ]
+
+        /// The name of the AWS Config rule for which you want to create remediation exception.
+        public let configRuleName: String
+        /// The exception is automatically deleted after the expiration date.
+        public let expirationTime: TimeStamp?
+        /// The message contains an explanation of the exception.
+        public let message: String?
+        /// An exception list of resource exception keys to be processed with the current request. AWS Config adds exception for each resource key. For example, AWS Config adds 3 exceptions for 3 resource keys. 
+        public let resourceKeys: [RemediationExceptionResourceKey]
+
+        public init(configRuleName: String, expirationTime: TimeStamp? = nil, message: String? = nil, resourceKeys: [RemediationExceptionResourceKey]) {
+            self.configRuleName = configRuleName
+            self.expirationTime = expirationTime
+            self.message = message
+            self.resourceKeys = resourceKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 128)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, pattern: ".*\\S.*")
+            try validate(self.message, name:"message", parent: name, max: 1024)
+            try validate(self.message, name:"message", parent: name, min: 1)
+            try self.resourceKeys.forEach {
+                try $0.validate(name: "\(name).resourceKeys[]")
+            }
+            try validate(self.resourceKeys, name:"resourceKeys", parent: name, max: 100)
+            try validate(self.resourceKeys, name:"resourceKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configRuleName = "ConfigRuleName"
+            case expirationTime = "ExpirationTime"
+            case message = "Message"
+            case resourceKeys = "ResourceKeys"
+        }
+    }
+
+    public struct PutRemediationExceptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedBatches", required: false, type: .list)
+        ]
+
+        /// Returns a list of failed remediation exceptions batch objects. Each object in the batch consists of a list of failed items and failure messages.
+        public let failedBatches: [FailedRemediationExceptionBatch]?
+
+        public init(failedBatches: [FailedRemediationExceptionBatch]? = nil) {
             self.failedBatches = failedBatches
         }
 
@@ -4379,20 +4697,38 @@ extension ConfigService {
 
     public struct RemediationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Automatic", required: false, type: .boolean), 
             AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
+            AWSShapeMember(label: "CreatedByService", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionControls", required: false, type: .structure), 
+            AWSShapeMember(label: "MaximumAutomaticAttempts", required: false, type: .integer), 
             AWSShapeMember(label: "Parameters", required: false, type: .map), 
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "RetryAttemptSeconds", required: false, type: .long), 
             AWSShapeMember(label: "TargetId", required: true, type: .string), 
             AWSShapeMember(label: "TargetType", required: true, type: .enum), 
             AWSShapeMember(label: "TargetVersion", required: false, type: .string)
         ]
 
+        /// Amazon Resource Name (ARN) of remediation configuration.
+        public let arn: String?
+        /// The remediation is triggered automatically.
+        public let automatic: Bool?
         /// The name of the AWS Config rule.
         public let configRuleName: String
+        /// Name of the service that owns the service linked rule, if applicable.
+        public let createdByService: String?
+        /// An ExecutionControls object.
+        public let executionControls: ExecutionControls?
+        /// The maximum number of failed attempts for auto-remediation. If you do not select a number, the default is 5. For example, if you specify MaximumAutomaticAttempts as 5 with RetryAttemptsSeconds as 50 seconds, AWS Config throws an exception after the 5th failed attempt within 50 seconds.
+        public let maximumAutomaticAttempts: Int?
         /// An object of the RemediationParameterValue.
         public let parameters: [String: RemediationParameterValue]?
         /// The type of a resource. 
         public let resourceType: String?
+        /// Maximum time in seconds that AWS Config runs auto-remediation. If you do not select a number, the default is 60 seconds.  For example, if you specify RetryAttemptsSeconds as 50 seconds and MaximumAutomaticAttempts as 5, AWS Config will run auto-remediations 5 times within 50 seconds before throwing an exception. 
+        public let retryAttemptSeconds: Int64?
         /// Target ID is the name of the public document.
         public let targetId: String
         /// The type of the target. Target executes remediation. For example, SSM document.
@@ -4400,34 +4736,122 @@ extension ConfigService {
         /// Version of the target. For example, version of the SSM document.
         public let targetVersion: String?
 
-        public init(configRuleName: String, parameters: [String: RemediationParameterValue]? = nil, resourceType: String? = nil, targetId: String, targetType: RemediationTargetType, targetVersion: String? = nil) {
+        public init(arn: String? = nil, automatic: Bool? = nil, configRuleName: String, createdByService: String? = nil, executionControls: ExecutionControls? = nil, maximumAutomaticAttempts: Int? = nil, parameters: [String: RemediationParameterValue]? = nil, resourceType: String? = nil, retryAttemptSeconds: Int64? = nil, targetId: String, targetType: RemediationTargetType, targetVersion: String? = nil) {
+            self.arn = arn
+            self.automatic = automatic
             self.configRuleName = configRuleName
+            self.createdByService = createdByService
+            self.executionControls = executionControls
+            self.maximumAutomaticAttempts = maximumAutomaticAttempts
             self.parameters = parameters
             self.resourceType = resourceType
+            self.retryAttemptSeconds = retryAttemptSeconds
             self.targetId = targetId
             self.targetType = targetType
             self.targetVersion = targetVersion
         }
 
         public func validate(name: String) throws {
-            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 64)
+            try validate(self.arn, name:"arn", parent: name, max: 1024)
+            try validate(self.arn, name:"arn", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 128)
             try validate(self.configRuleName, name:"configRuleName", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, pattern: ".*\\S.*")
+            try validate(self.createdByService, name:"createdByService", parent: name, max: 1024)
+            try validate(self.createdByService, name:"createdByService", parent: name, min: 1)
+            try self.executionControls?.validate(name: "\(name).executionControls")
+            try validate(self.maximumAutomaticAttempts, name:"maximumAutomaticAttempts", parent: name, max: 25)
+            try validate(self.maximumAutomaticAttempts, name:"maximumAutomaticAttempts", parent: name, min: 1)
             try self.parameters?.forEach {
                 try validate($0.key, name:"parameters.key", parent: name, max: 256)
                 try validate($0.key, name:"parameters.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
             }
+            try validate(self.retryAttemptSeconds, name:"retryAttemptSeconds", parent: name, max: 2678000)
+            try validate(self.retryAttemptSeconds, name:"retryAttemptSeconds", parent: name, min: 1)
             try validate(self.targetId, name:"targetId", parent: name, max: 256)
             try validate(self.targetId, name:"targetId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case automatic = "Automatic"
             case configRuleName = "ConfigRuleName"
+            case createdByService = "CreatedByService"
+            case executionControls = "ExecutionControls"
+            case maximumAutomaticAttempts = "MaximumAutomaticAttempts"
             case parameters = "Parameters"
             case resourceType = "ResourceType"
+            case retryAttemptSeconds = "RetryAttemptSeconds"
             case targetId = "TargetId"
             case targetType = "TargetType"
             case targetVersion = "TargetVersion"
+        }
+    }
+
+    public struct RemediationException: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
+            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .string)
+        ]
+
+        /// The name of the AWS Config rule.
+        public let configRuleName: String
+        /// The time when the remediation exception will be deleted.
+        public let expirationTime: TimeStamp?
+        /// An explanation of an remediation exception.
+        public let message: String?
+        /// The ID of the resource (for example., sg-xxxxxx).
+        public let resourceId: String
+        /// The type of a resource.
+        public let resourceType: String
+
+        public init(configRuleName: String, expirationTime: TimeStamp? = nil, message: String? = nil, resourceId: String, resourceType: String) {
+            self.configRuleName = configRuleName
+            self.expirationTime = expirationTime
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configRuleName = "ConfigRuleName"
+            case expirationTime = "ExpirationTime"
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct RemediationExceptionResourceKey: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string)
+        ]
+
+        /// The ID of the resource (for example., sg-xxxxxx).
+        public let resourceId: String?
+        /// The type of a resource.
+        public let resourceType: String?
+
+        public init(resourceId: String? = nil, resourceType: String? = nil) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 1024)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(self.resourceType, name:"resourceType", parent: name, max: 256)
+            try validate(self.resourceType, name:"resourceType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -4727,67 +5151,93 @@ extension ConfigService {
         case awsEc2Vpc = "AWS::EC2::VPC"
         case awsEc2Vpnconnection = "AWS::EC2::VPNConnection"
         case awsEc2Vpngateway = "AWS::EC2::VPNGateway"
+        case awsEc2Registeredhainstance = "AWS::EC2::RegisteredHAInstance"
+        case awsEc2Natgateway = "AWS::EC2::NatGateway"
+        case awsEc2Egressonlyinternetgateway = "AWS::EC2::EgressOnlyInternetGateway"
+        case awsEc2Vpcendpoint = "AWS::EC2::VPCEndpoint"
+        case awsEc2Vpcendpointservice = "AWS::EC2::VPCEndpointService"
+        case awsEc2Flowlog = "AWS::EC2::FlowLog"
+        case awsEc2Vpcpeeringconnection = "AWS::EC2::VPCPeeringConnection"
         case awsIamGroup = "AWS::IAM::Group"
         case awsIamPolicy = "AWS::IAM::Policy"
         case awsIamRole = "AWS::IAM::Role"
         case awsIamUser = "AWS::IAM::User"
+        case awsElasticloadbalancingv2Loadbalancer = "AWS::ElasticLoadBalancingV2::LoadBalancer"
         case awsAcmCertificate = "AWS::ACM::Certificate"
         case awsRdsDbinstance = "AWS::RDS::DBInstance"
+        case awsRdsDbparametergroup = "AWS::RDS::DBParameterGroup"
+        case awsRdsDboptiongroup = "AWS::RDS::DBOptionGroup"
         case awsRdsDbsubnetgroup = "AWS::RDS::DBSubnetGroup"
         case awsRdsDbsecuritygroup = "AWS::RDS::DBSecurityGroup"
         case awsRdsDbsnapshot = "AWS::RDS::DBSnapshot"
+        case awsRdsDbcluster = "AWS::RDS::DBCluster"
+        case awsRdsDbclusterparametergroup = "AWS::RDS::DBClusterParameterGroup"
+        case awsRdsDbclustersnapshot = "AWS::RDS::DBClusterSnapshot"
         case awsRdsEventsubscription = "AWS::RDS::EventSubscription"
-        case awsElasticloadbalancingv2Loadbalancer = "AWS::ElasticLoadBalancingV2::LoadBalancer"
         case awsS3Bucket = "AWS::S3::Bucket"
-        case awsSsmManagedinstanceinventory = "AWS::SSM::ManagedInstanceInventory"
+        case awsS3Accountpublicaccessblock = "AWS::S3::AccountPublicAccessBlock"
         case awsRedshiftCluster = "AWS::Redshift::Cluster"
         case awsRedshiftClustersnapshot = "AWS::Redshift::ClusterSnapshot"
         case awsRedshiftClusterparametergroup = "AWS::Redshift::ClusterParameterGroup"
         case awsRedshiftClustersecuritygroup = "AWS::Redshift::ClusterSecurityGroup"
         case awsRedshiftClustersubnetgroup = "AWS::Redshift::ClusterSubnetGroup"
         case awsRedshiftEventsubscription = "AWS::Redshift::EventSubscription"
+        case awsSsmManagedinstanceinventory = "AWS::SSM::ManagedInstanceInventory"
         case awsCloudwatchAlarm = "AWS::CloudWatch::Alarm"
         case awsCloudformationStack = "AWS::CloudFormation::Stack"
-        case awsDynamodbTable = "AWS::DynamoDB::Table"
+        case awsElasticloadbalancingLoadbalancer = "AWS::ElasticLoadBalancing::LoadBalancer"
         case awsAutoscalingAutoscalinggroup = "AWS::AutoScaling::AutoScalingGroup"
         case awsAutoscalingLaunchconfiguration = "AWS::AutoScaling::LaunchConfiguration"
         case awsAutoscalingScalingpolicy = "AWS::AutoScaling::ScalingPolicy"
         case awsAutoscalingScheduledaction = "AWS::AutoScaling::ScheduledAction"
+        case awsDynamodbTable = "AWS::DynamoDB::Table"
         case awsCodebuildProject = "AWS::CodeBuild::Project"
         case awsWafRatebasedrule = "AWS::WAF::RateBasedRule"
         case awsWafRule = "AWS::WAF::Rule"
+        case awsWafRulegroup = "AWS::WAF::RuleGroup"
         case awsWafWebacl = "AWS::WAF::WebACL"
         case awsWafregionalRatebasedrule = "AWS::WAFRegional::RateBasedRule"
         case awsWafregionalRule = "AWS::WAFRegional::Rule"
+        case awsWafregionalRulegroup = "AWS::WAFRegional::RuleGroup"
         case awsWafregionalWebacl = "AWS::WAFRegional::WebACL"
         case awsCloudfrontDistribution = "AWS::CloudFront::Distribution"
         case awsCloudfrontStreamingdistribution = "AWS::CloudFront::StreamingDistribution"
-        case awsWafRulegroup = "AWS::WAF::RuleGroup"
-        case awsWafregionalRulegroup = "AWS::WAFRegional::RuleGroup"
+        case awsLambdaAlias = "AWS::Lambda::Alias"
         case awsLambdaFunction = "AWS::Lambda::Function"
         case awsElasticbeanstalkApplication = "AWS::ElasticBeanstalk::Application"
         case awsElasticbeanstalkApplicationversion = "AWS::ElasticBeanstalk::ApplicationVersion"
         case awsElasticbeanstalkEnvironment = "AWS::ElasticBeanstalk::Environment"
-        case awsElasticloadbalancingLoadbalancer = "AWS::ElasticLoadBalancing::LoadBalancer"
+        case awsMobilehubProject = "AWS::MobileHub::Project"
         case awsXrayEncryptionconfig = "AWS::XRay::EncryptionConfig"
         case awsSsmAssociationcompliance = "AWS::SSM::AssociationCompliance"
         case awsSsmPatchcompliance = "AWS::SSM::PatchCompliance"
         case awsShieldProtection = "AWS::Shield::Protection"
         case awsShieldregionalProtection = "AWS::ShieldRegional::Protection"
         case awsConfigResourcecompliance = "AWS::Config::ResourceCompliance"
+        case awsLicensemanagerLicenseconfiguration = "AWS::LicenseManager::LicenseConfiguration"
+        case awsApigatewayDomainname = "AWS::ApiGateway::DomainName"
+        case awsApigatewayMethod = "AWS::ApiGateway::Method"
+        case awsApigatewayStage = "AWS::ApiGateway::Stage"
+        case awsApigatewayRestapi = "AWS::ApiGateway::RestApi"
+        case awsApigatewayv2Domainname = "AWS::ApiGatewayV2::DomainName"
+        case awsApigatewayv2Stage = "AWS::ApiGatewayV2::Stage"
+        case awsApigatewayv2Api = "AWS::ApiGatewayV2::Api"
         case awsCodepipelinePipeline = "AWS::CodePipeline::Pipeline"
+        case awsServicecatalogCloudformationprovisionedproduct = "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
+        case awsServicecatalogCloudformationproduct = "AWS::ServiceCatalog::CloudFormationProduct"
+        case awsServicecatalogPortfolio = "AWS::ServiceCatalog::Portfolio"
         public var description: String { return self.rawValue }
     }
 
     public struct ResourceValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Value", required: false, type: .enum)
+            AWSShapeMember(label: "Value", required: true, type: .enum)
         ]
 
         /// The value is a resource ID.
-        public let value: ResourceValueType?
+        public let value: ResourceValueType
 
-        public init(value: ResourceValueType? = nil) {
+        public init(value: ResourceValueType) {
             self.value = value
         }
 
@@ -4992,6 +5442,35 @@ extension ConfigService {
         }
     }
 
+    public struct SsmControls: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConcurrentExecutionRatePercentage", required: false, type: .integer), 
+            AWSShapeMember(label: "ErrorPercentage", required: false, type: .integer)
+        ]
+
+        /// The maximum percentage of remediation actions allowed to run in parallel on the non-compliant resources for that specific rule. You can specify a percentage, such as 10%. The default value is 10. 
+        public let concurrentExecutionRatePercentage: Int?
+        /// The percentage of errors that are allowed before SSM stops running automations on non-compliant resources for that specific rule. You can specify a percentage of errors, for example 10%. If you do not specifiy a percentage, the default is 50%. For example, if you set the ErrorPercentage to 40% for 10 non-compliant resources, then SSM stops running the automations when the fifth error is received. 
+        public let errorPercentage: Int?
+
+        public init(concurrentExecutionRatePercentage: Int? = nil, errorPercentage: Int? = nil) {
+            self.concurrentExecutionRatePercentage = concurrentExecutionRatePercentage
+            self.errorPercentage = errorPercentage
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.concurrentExecutionRatePercentage, name:"concurrentExecutionRatePercentage", parent: name, max: 100)
+            try validate(self.concurrentExecutionRatePercentage, name:"concurrentExecutionRatePercentage", parent: name, min: 1)
+            try validate(self.errorPercentage, name:"errorPercentage", parent: name, max: 100)
+            try validate(self.errorPercentage, name:"errorPercentage", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case concurrentExecutionRatePercentage = "ConcurrentExecutionRatePercentage"
+            case errorPercentage = "ErrorPercentage"
+        }
+    }
+
     public struct StartConfigRulesEvaluationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list)
@@ -5065,8 +5544,9 @@ extension ConfigService {
         }
 
         public func validate(name: String) throws {
-            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 64)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, max: 128)
             try validate(self.configRuleName, name:"configRuleName", parent: name, min: 1)
+            try validate(self.configRuleName, name:"configRuleName", parent: name, pattern: ".*\\S.*")
             try self.resourceKeys.forEach {
                 try $0.validate(name: "\(name).resourceKeys[]")
             }
@@ -5104,18 +5584,18 @@ extension ConfigService {
 
     public struct StaticValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Values", required: false, type: .list)
+            AWSShapeMember(label: "Values", required: true, type: .list)
         ]
 
         /// A list of values. For example, the ARN of the assumed role. 
-        public let values: [String]?
+        public let values: [String]
 
-        public init(values: [String]? = nil) {
+        public init(values: [String]) {
             self.values = values
         }
 
         public func validate(name: String) throws {
-            try self.values?.forEach {
+            try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
@@ -5134,7 +5614,9 @@ extension ConfigService {
             AWSShapeMember(label: "MemberAccountRuleStatus", required: false, type: .enum)
         ]
 
+        /// The 12-digit account ID of the member account within an organization.
         public let accountId: String?
+        /// Indicates deployment status for config rule in the member account. When master account calls PutOrganizationConfigRule action for the first time, config rule status is created in the member account. When master account calls PutOrganizationConfigRule action for the second time, config rule status is updated in the member account. Config rule status is deleted when the master account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com.  AWS Config sets the state of the rule to:    CREATE_SUCCESSFUL when config rule has been created in the member account.    CREATE_IN_PROGRESS when config rule is being created in the member account.    CREATE_FAILED when config rule creation has failed in the member account.    DELETE_FAILED when config rule deletion has failed in the member account.    DELETE_IN_PROGRESS when config rule is being deleted in the member account.    DELETE_SUCCESSFUL when config rule has been deleted in the member account.    UPDATE_SUCCESSFUL when config rule has been updated in the member account.    UPDATE_IN_PROGRESS when config rule is being updated in the member account.    UPDATE_FAILED when config rule deletion has failed in the member account.  
         public let memberAccountRuleStatus: MemberAccountRuleStatus?
 
         public init(accountId: String? = nil, memberAccountRuleStatus: MemberAccountRuleStatus? = nil) {

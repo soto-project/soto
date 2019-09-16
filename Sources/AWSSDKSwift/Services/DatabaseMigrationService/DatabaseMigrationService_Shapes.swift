@@ -38,9 +38,9 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
 
-        /// The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be added to. AWS DMS resources include a replication instance, endpoint, and a replication task.
+        /// Identifies the AWS DMS resource to which tags should be added. The value for this parameter is an Amazon Resource Name (ARN). For AWS DMS, you can tag a replication instance, an endpoint, or a replication task.
         public let resourceArn: String
-        /// The tag to be assigned to the DMS resource.
+        /// One or more tags to be assigned to the resource.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -71,7 +71,7 @@ extension DatabaseMigrationService {
 
         /// The pending maintenance action to apply to this resource.
         public let applyAction: String
-        /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate cannot be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.  
+        /// A value that specifies the type of opt-in request, or undoes an opt-in request. You can't undo an opt-in request of type immediate. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.  
         public let optInType: String
         /// The Amazon Resource Name (ARN) of the AWS DMS resource that the pending maintenance action applies to.
         public let replicationInstanceArn: String
@@ -154,13 +154,13 @@ extension DatabaseMigrationService {
         public let certificateArn: String?
         /// The date that the certificate was created.
         public let certificateCreationDate: TimeStamp?
-        /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
+        /// A customer-assigned name for the certificate. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
         public let certificateIdentifier: String?
         /// The owner of the certificate.
         public let certificateOwner: String?
-        /// The contents of the .pem X.509 certificate file for the certificate.
+        /// The contents of a .pem file, which contains an X.509 certificate.
         public let certificatePem: String?
-        /// The location of the imported Oracle Wallet certificate for use with SSL.
+        /// The location of an imported Oracle Wallet certificate for use with SSL.
         public let certificateWallet: Data?
         /// The key length of the cryptographic algorithm being used.
         public let keyLength: Int?
@@ -276,7 +276,7 @@ extension DatabaseMigrationService {
         public let certificateArn: String?
         /// The name of the endpoint database.
         public let databaseName: String?
-        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible attributes include the following:    serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    bucketName - The name of the S3 bucket to use.    compressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.    Shorthand syntax for these attributes is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these attributes is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
+        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible attributes include the following:    serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    bucketName - The name of the S3 bucket to use.    compressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.   Shorthand syntax for these attributes is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these attributes is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
         public let dmsTransferSettings: DmsTransferSettings?
         /// Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see Using Object Mapping to Migrate Data to DynamoDB in the AWS Database Migration Service User Guide. 
         public let dynamoDbSettings: DynamoDbSettings?
@@ -284,17 +284,17 @@ extension DatabaseMigrationService {
         public let elasticsearchSettings: ElasticsearchSettings?
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
         public let endpointIdentifier: String
-        /// The type of endpoint.
+        /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue
-        /// The type of engine for the endpoint. Valid values, depending on the EndPointType value, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, dynamodb, mongodb, and sqlserver.
+        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, dynamodb, mongodb, and sqlserver.
         public let engineName: String
         /// The external table definition. 
         public let externalTableDefinition: String?
-        /// Additional attributes associated with the connection.
+        /// Additional attributes associated with the connection. Each attribute is specified as a name-value pair associated by an equal sign (=). Multiple attributes are separated by a semicolon (;) with no additional white space. For information on the attributes available for connecting your source or target endpoint, see Working with AWS DMS Endpoints in the AWS Database Migration Service User Guide. 
         public let extraConnectionAttributes: String?
         /// Settings in JSON format for the target Amazon Kinesis Data Streams endpoint. For more information about the available settings, see Using Object Mapping to Migrate Data to a Kinesis Data Stream in the AWS Database Migration User Guide. 
         public let kinesisSettings: KinesisSettings?
-        /// The AWS KMS key identifier to use to encrypt the connection parameters. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        /// An AWS KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
         /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the configuration properties section in  Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration Service User Guide. 
         public let mongoDbSettings: MongoDbSettings?
@@ -309,9 +309,9 @@ extension DatabaseMigrationService {
         public let serverName: String?
         ///  The Amazon Resource Name (ARN) for the service access role that you want to use to create the endpoint. 
         public let serviceAccessRoleArn: String?
-        /// The Secure Sockets Layer (SSL) mode to use for the SSL connection. The SSL mode can be one of four values: none, require, verify-ca, verify-full. The default value is none.
+        /// The Secure Sockets Layer (SSL) mode to use for the SSL connection. The default is none 
         public let sslMode: DmsSslModeValue?
-        /// Tags to be added to the endpoint.
+        /// One or more tags to be assigned to the endpoint.
         public let tags: [Tag]?
         /// The user name to be used to log in to the endpoint database.
         public let username: String?
@@ -397,17 +397,17 @@ extension DatabaseMigrationService {
 
         ///  A Boolean value; set to true to activate the subscription, or set to false to create the subscription but not activate it. 
         public let enabled: Bool?
-        ///  A list of event categories for a source type that you want to subscribe to. You can see a list of the categories for a given source type by calling the DescribeEventCategories action or in the topic Working with Events and Notifications in the AWS Database Migration Service User Guide. 
+        /// A list of event categories for a source type that you want to subscribe to. For more information, see Working with Events and Notifications in the AWS Database Migration Service User Guide. 
         public let eventCategories: [String]?
         ///  The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it. 
         public let snsTopicArn: String
-        ///  The list of identifiers of the event sources for which events will be returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens. 
+        /// A list of identifiers for which AWS DMS provides notification events. If you don't specify a value, notifications are provided for all sources. If you specify multiple values, they must be of the same type. For example, if you specify a database instance ID, then all of the other values must be database instance IDs.
         public let sourceIds: [String]?
-        ///  The type of AWS DMS resource that generates the events. For example, if you want to be notified of events generated by a replication instance, you set this parameter to replication-instance. If this value is not specified, all events are returned.  Valid values: replication-instance | migration-task
+        ///  The type of AWS DMS resource that generates the events. For example, if you want to be notified of events generated by a replication instance, you set this parameter to replication-instance. If this value is not specified, all events are returned.  Valid values: replication-instance | replication-task 
         public let sourceType: String?
-        /// The name of the AWS DMS event notification subscription.  Constraints: The name must be less than 255 characters. 
+        /// The name of the AWS DMS event notification subscription. This name must be less than 255 characters.
         public let subscriptionName: String
-        /// A tag to be attached to the event subscription.
+        /// One or more tags to be assigned to the event subscription.
         public let tags: [Tag]?
 
         public init(enabled: Bool? = nil, eventCategories: [String]? = nil, snsTopicArn: String, sourceIds: [String]? = nil, sourceType: String? = nil, subscriptionName: String, tags: [Tag]? = nil) {
@@ -468,19 +468,19 @@ extension DatabaseMigrationService {
 
         /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
         public let allocatedStorage: Int?
-        /// Indicates that minor engine upgrades will be applied automatically to the replication instance during the maintenance window. Default: true 
+        /// Indicates whether minor engine upgrades will be applied automatically to the replication instance during the maintenance window. This parameter defaults to true. Default: true 
         public let autoMinorVersionUpgrade: Bool?
-        /// The EC2 Availability Zone that the replication instance will be created in. Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d 
+        /// The AWS Availability Zone where the replication instance will be created. The default value is a random, system-chosen Availability Zone in the endpoint's AWS Region, for example: us-east-1d 
         public let availabilityZone: String?
         /// A list of DNS name servers supported for the replication instance.
         public let dnsNameServers: String?
         /// The engine version number of the replication instance.
         public let engineVersion: String?
-        /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        /// An AWS KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
-        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
+        ///  Specifies whether the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public let multiAZ: Bool?
-        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
+        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per AWS Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
         public let publiclyAccessible: Bool?
@@ -490,7 +490,7 @@ extension DatabaseMigrationService {
         public let replicationInstanceIdentifier: String
         /// A subnet group to associate with the replication instance.
         public let replicationSubnetGroupIdentifier: String?
-        /// Tags to be associated with the replication instance.
+        /// One or more tags to be assigned to the replication instance.
         public let tags: [Tag]?
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
         public let vpcSecurityGroupIds: [String]?
@@ -559,9 +559,9 @@ extension DatabaseMigrationService {
         public let replicationSubnetGroupDescription: String
         /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup 
         public let replicationSubnetGroupIdentifier: String
-        /// The EC2 subnet IDs for the subnet group.
+        /// One or more subnet IDs to be assigned to the subnet group.
         public let subnetIds: [String]
-        /// The tag to be assigned to the subnet group.
+        /// One or more tags to be assigned to the subnet group.
         public let tags: [Tag]?
 
         public init(replicationSubnetGroupDescription: String, replicationSubnetGroupIdentifier: String, subnetIds: [String], tags: [Tag]? = nil) {
@@ -617,21 +617,21 @@ extension DatabaseMigrationService {
         public let cdcStartTime: TimeStamp?
         /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
         public let cdcStopPosition: String?
-        /// The migration type.
+        /// The migration type. Valid values: full-load | cdc | full-load-and-cdc 
         public let migrationType: MigrationTypeValue
-        /// The Amazon Resource Name (ARN) of the replication instance.
+        /// The Amazon Resource Name (ARN) of a replication instance.
         public let replicationInstanceArn: String
-        /// The replication task identifier. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
+        /// An identifier for the replication task. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let replicationTaskIdentifier: String
-        /// Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks in the AWS Database Migration User Guide. 
+        /// Overall settings for the task, in JSON format. For more information, see Task Settings in the AWS Database Migration User Guide. 
         public let replicationTaskSettings: String?
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        /// An Amazon Resource Name (ARN) that uniquely identifies the source endpoint.
         public let sourceEndpointArn: String
-        /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with "file://". When working with the DMS API, provide the JSON as the parameter value. For example, --table-mappings file://mappingfile.json
+        /// The table mappings for the task, in JSON format. For more information, see Table Mapping in the AWS Database Migration User Guide. 
         public let tableMappings: String
-        /// Tags to be added to the replication instance.
+        /// One or more tags to be assigned to the replication task.
         public let tags: [Tag]?
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        /// An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.
         public let targetEndpointArn: String
 
         public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue, replicationInstanceArn: String, replicationTaskIdentifier: String, replicationTaskSettings: String? = nil, sourceEndpointArn: String, tableMappings: String, tags: [Tag]? = nil, targetEndpointArn: String) {
@@ -891,18 +891,23 @@ extension DatabaseMigrationService {
 
     public struct DescribeAccountAttributesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountQuotas", required: false, type: .list)
+            AWSShapeMember(label: "AccountQuotas", required: false, type: .list), 
+            AWSShapeMember(label: "UniqueAccountIdentifier", required: false, type: .string)
         ]
 
         /// Account quota information.
         public let accountQuotas: [AccountQuota]?
+        /// A unique AWS DMS identifier for an account in a particular AWS Region. The value of this identifier has the following format: c99999999999. DMS uses this identifier to name artifacts. For example, DMS uses this identifier to name the default Amazon S3 bucket for storing task assessment reports in a given AWS Region. The format of this S3 bucket name is the following: dms-AccountNumber-UniqueAccountIdentifier. Here is an example name for this default S3 bucket: dms-111122223333-c44445555666.  AWS DMS supports UniqueAccountIdentifier in versions 3.1.4 and later. 
+        public let uniqueAccountIdentifier: String?
 
-        public init(accountQuotas: [AccountQuota]? = nil) {
+        public init(accountQuotas: [AccountQuota]? = nil, uniqueAccountIdentifier: String? = nil) {
             self.accountQuotas = accountQuotas
+            self.uniqueAccountIdentifier = uniqueAccountIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountQuotas = "AccountQuotas"
+            case uniqueAccountIdentifier = "UniqueAccountIdentifier"
         }
     }
 
@@ -915,7 +920,7 @@ extension DatabaseMigrationService {
 
         /// Filters applied to the certificate described in the form of key-value pairs.
         public let filters: [Filter]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the vlue specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
         public let maxRecords: Int?
@@ -1039,7 +1044,7 @@ extension DatabaseMigrationService {
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
-        /// The type of endpoints that are supported.
+        /// The types of endpoints that are supported.
         public let supportedEndpointTypes: [SupportedEndpointType]?
 
         public init(marker: String? = nil, supportedEndpointTypes: [SupportedEndpointType]? = nil) {
@@ -1110,7 +1115,7 @@ extension DatabaseMigrationService {
 
         /// Filters applied to the action.
         public let filters: [Filter]?
-        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | migration-task
+        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-task
         public let sourceType: String?
 
         public init(filters: [Filter]? = nil, sourceType: String? = nil) {
@@ -1212,7 +1217,7 @@ extension DatabaseMigrationService {
         public let duration: Int?
         /// The end time for the events to be listed.
         public let endTime: TimeStamp?
-        /// A list of event categories for a source type that you want to subscribe to.
+        /// A list of event categories for the source type that you've chosen.
         public let eventCategories: [String]?
         /// Filters applied to the action.
         public let filters: [Filter]?
@@ -1220,9 +1225,9 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        ///  The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens. It cannot end with a hyphen or contain two consecutive hyphens. 
+        ///  The identifier of an event source.
         public let sourceIdentifier: String?
-        /// The type of AWS DMS resource that generates events. Valid values: replication-instance | migration-task
+        /// The type of AWS DMS resource that generates events. Valid values: replication-instance | replication-task
         public let sourceType: SourceType?
         /// The start time for the events to be listed.
         public let startTime: TimeStamp?
@@ -1331,7 +1336,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        /// The ARN of the replication instance.
+        /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String?
 
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, replicationInstanceArn: String? = nil) {
@@ -1625,7 +1630,7 @@ extension DatabaseMigrationService {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        /// Set this flag to avoid returning setting information. Use this to reduce overhead when settings are too large. Choose TRUE to use this flag, otherwise choose FALSE (default).
+        /// An option to set to avoid returning information about settings. Use this to reduce overhead when setting information is too large. To use this option, choose true; otherwise, choose false (the default).
         public let withoutSettings: Bool?
 
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, withoutSettings: Bool? = nil) {
@@ -1828,7 +1833,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "ServiceAccessRoleArn", required: true, type: .string)
         ]
 
-        /// The endpoint for the ElasticSearch cluster.
+        /// The endpoint for the Elasticsearch cluster.
         public let endpointUri: String
         /// The maximum number of seconds that DMS retries failed API requests to the Elasticsearch cluster.
         public let errorRetryDuration: Int?
@@ -1907,11 +1912,11 @@ extension DatabaseMigrationService {
         public let endpointArn: String?
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
         public let endpointIdentifier: String?
-        /// The type of endpoint.
+        /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
         /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
         public let engineDisplayName: String?
-        /// The database engine name. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
+        /// The database engine name. Valid values, depending on the EndpointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, dynamodb, mongodb, and sqlserver.
         public let engineName: String?
         ///  Value returned by a call to CreateEndpoint that can be used for cross-account validation. Use it on a subsequent call to CreateEndpoint to create the endpoint with a cross-account. 
         public let externalId: String?
@@ -1921,13 +1926,13 @@ extension DatabaseMigrationService {
         public let extraConnectionAttributes: String?
         /// The settings for the Amazon Kinesis source endpoint. For more information, see the KinesisSettings structure.
         public let kinesisSettings: KinesisSettings?
-        /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        /// An AWS KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
         /// The settings for the MongoDB source endpoint. For more information, see the MongoDbSettings structure.
         public let mongoDbSettings: MongoDbSettings?
         /// The port value used to access the endpoint.
         public let port: Int?
-        /// Settings for the Amazon Redshift endpoint
+        /// Settings for the Amazon Redshift endpoint.
         public let redshiftSettings: RedshiftSettings?
         /// The settings for the S3 target endpoint. For more information, see the S3Settings structure.
         public let s3Settings: S3Settings?
@@ -1935,7 +1940,7 @@ extension DatabaseMigrationService {
         public let serverName: String?
         /// The Amazon Resource Name (ARN) used by the service access IAM role.
         public let serviceAccessRoleArn: String?
-        /// The SSL mode used to connect to the endpoint. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
+        /// The SSL mode used to connect to the endpoint. The default value is none.
         public let sslMode: DmsSslModeValue?
         /// The status of the endpoint.
         public let status: String?
@@ -2012,9 +2017,9 @@ extension DatabaseMigrationService {
         public let eventCategories: [String]?
         /// The event message.
         public let message: String?
-        ///  The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens.  Constraints:replication instance, endpoint, migration task
+        ///  The identifier of an event source.
         public let sourceIdentifier: String?
-        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | endpoint | migration-task
+        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | endpoint | replication-task
         public let sourceType: SourceType?
 
         public init(date: TimeStamp? = nil, eventCategories: [String]? = nil, message: String? = nil, sourceIdentifier: String? = nil, sourceType: SourceType? = nil) {
@@ -2040,9 +2045,9 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "SourceType", required: false, type: .string)
         ]
 
-        ///  A list of event categories for a SourceType that you want to subscribe to. 
+        ///  A list of event categories from a source type that you've chosen.
         public let eventCategories: [String]?
-        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | migration-task
+        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | replication-task
         public let sourceType: String?
 
         public init(eventCategories: [String]? = nil, sourceType: String? = nil) {
@@ -2081,7 +2086,7 @@ extension DatabaseMigrationService {
         public let snsTopicArn: String?
         /// A list of source Ids for the event subscription.
         public let sourceIdsList: [String]?
-        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | migration-task
+        ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | replication-task
         public let sourceType: String?
         /// The status of the AWS DMS event notification subscription. Constraints: Can be one of the following: creating | modifying | deleting | active | no-permission | topic-not-exist The status "no-permission" indicates that AWS DMS no longer has permission to post to the SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.
         public let status: String?
@@ -2143,11 +2148,11 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
+        /// A customer-assigned name for the certificate. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
         public let certificateIdentifier: String
-        /// The contents of the .pem X.509 certificate file for the certificate.
+        /// The contents of a .pem file, which contains an X.509 certificate.
         public let certificatePem: String?
-        /// The location of the imported Oracle Wallet certificate for use with SSL.
+        /// The location of an imported Oracle Wallet certificate for use with SSL.
         public let certificateWallet: Data?
         /// The tags associated with the certificate.
         public let tags: [Tag]?
@@ -2296,9 +2301,9 @@ extension DatabaseMigrationService {
         public let endpointArn: String
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
         public let endpointIdentifier: String?
-        /// The type of endpoint.
+        /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
-        /// The type of engine for the endpoint. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
+        /// The type of engine for the endpoint. Valid values, depending on the EndpointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, dynamodb, mongodb, and sqlserver.
         public let engineName: String?
         /// The external table definition.
         public let externalTableDefinition: String?
@@ -2319,7 +2324,7 @@ extension DatabaseMigrationService {
         public let serverName: String?
         ///  The Amazon Resource Name (ARN) for the service access role you want to use to modify the endpoint. 
         public let serviceAccessRoleArn: String?
-        /// The SSL mode to be used. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
+        /// The SSL mode used to connect to the endpoint. The default value is none.
         public let sslMode: DmsSslModeValue?
         /// The user name to be used to login to the endpoint database.
         public let username: String?
@@ -2405,7 +2410,7 @@ extension DatabaseMigrationService {
         public let eventCategories: [String]?
         ///  The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
         public let snsTopicArn: String?
-        ///  The type of AWS DMS resource that generates the events you want to subscribe to.  Valid values: replication-instance | migration-task
+        ///  The type of AWS DMS resource that generates the events you want to subscribe to.  Valid values: replication-instance | replication-task
         public let sourceType: String?
         /// The name of the AWS DMS event notification subscription to be modified.
         public let subscriptionName: String
@@ -2461,7 +2466,7 @@ extension DatabaseMigrationService {
 
         /// The amount of storage (in gigabytes) to be allocated for the replication instance.
         public let allocatedStorage: Int?
-        /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
+        /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage, and the change is asynchronously applied as soon as possible. This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
         public let allowMajorVersionUpgrade: Bool?
         /// Indicates whether the changes should be applied immediately or during the next maintenance window.
         public let applyImmediately: Bool?
@@ -2469,7 +2474,7 @@ extension DatabaseMigrationService {
         public let autoMinorVersionUpgrade: Bool?
         /// The engine version number of the replication instance.
         public let engineVersion: String?
-        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
+        ///  Specifies whether the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public let multiAZ: Bool?
         /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
         public let preferredMaintenanceWindow: String?
@@ -2535,7 +2540,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "SubnetIds", required: true, type: .list)
         ]
 
-        /// The description of the replication instance subnet group.
+        /// A description for the replication instance subnet group.
         public let replicationSubnetGroupDescription: String?
         /// The name of the replication instance subnet group.
         public let replicationSubnetGroupIdentifier: String
@@ -2590,7 +2595,7 @@ extension DatabaseMigrationService {
         public let cdcStartTime: TimeStamp?
         /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
         public let cdcStopPosition: String?
-        /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
+        /// The migration type. Valid values: full-load | cdc | full-load-and-cdc 
         public let migrationType: MigrationTypeValue?
         /// The Amazon Resource Name (ARN) of the replication task.
         public let replicationTaskArn: String
@@ -2598,7 +2603,7 @@ extension DatabaseMigrationService {
         public let replicationTaskIdentifier: String?
         /// JSON file that contains settings for the task, such as target metadata settings.
         public let replicationTaskSettings: String?
-        /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with "file://". When working with the DMS API, provide the JSON as the parameter value. For example, --table-mappings file://mappingfile.json
+        /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with file://. When working with the DMS API, provide the JSON as the parameter value, for example: --table-mappings file://mappingfile.json 
         public let tableMappings: String?
 
         public init(cdcStartPosition: String? = nil, cdcStartTime: TimeStamp? = nil, cdcStopPosition: String? = nil, migrationType: MigrationTypeValue? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, tableMappings: String? = nil) {
@@ -2727,11 +2732,12 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "IncludedAllocatedStorage", required: false, type: .integer), 
             AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer), 
             AWSShapeMember(label: "MinAllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "ReleaseStatus", required: false, type: .enum), 
             AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
             AWSShapeMember(label: "StorageType", required: false, type: .string)
         ]
 
-        /// List of availability zones for this replication instance.
+        /// List of Availability Zones for this replication instance.
         public let availabilityZones: [String]?
         /// The default amount of storage (in gigabytes) that is allocated for the replication instance.
         public let defaultAllocatedStorage: Int?
@@ -2743,18 +2749,21 @@ extension DatabaseMigrationService {
         public let maxAllocatedStorage: Int?
         /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
         public let minAllocatedStorage: Int?
+        /// The value returned when the specified EngineVersion of the replication instance is in Beta or test mode. This indicates some features might not work as expected.  AWS DMS supports ReleaseStatus in versions 3.1.4 and later. 
+        public let releaseStatus: ReleaseStatusValues?
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
         public let replicationInstanceClass: String?
         /// The type of storage used by the replication instance.
         public let storageType: String?
 
-        public init(availabilityZones: [String]? = nil, defaultAllocatedStorage: Int? = nil, engineVersion: String? = nil, includedAllocatedStorage: Int? = nil, maxAllocatedStorage: Int? = nil, minAllocatedStorage: Int? = nil, replicationInstanceClass: String? = nil, storageType: String? = nil) {
+        public init(availabilityZones: [String]? = nil, defaultAllocatedStorage: Int? = nil, engineVersion: String? = nil, includedAllocatedStorage: Int? = nil, maxAllocatedStorage: Int? = nil, minAllocatedStorage: Int? = nil, releaseStatus: ReleaseStatusValues? = nil, replicationInstanceClass: String? = nil, storageType: String? = nil) {
             self.availabilityZones = availabilityZones
             self.defaultAllocatedStorage = defaultAllocatedStorage
             self.engineVersion = engineVersion
             self.includedAllocatedStorage = includedAllocatedStorage
             self.maxAllocatedStorage = maxAllocatedStorage
             self.minAllocatedStorage = minAllocatedStorage
+            self.releaseStatus = releaseStatus
             self.replicationInstanceClass = replicationInstanceClass
             self.storageType = storageType
         }
@@ -2766,6 +2775,7 @@ extension DatabaseMigrationService {
             case includedAllocatedStorage = "IncludedAllocatedStorage"
             case maxAllocatedStorage = "MaxAllocatedStorage"
             case minAllocatedStorage = "MinAllocatedStorage"
+            case releaseStatus = "ReleaseStatus"
             case replicationInstanceClass = "ReplicationInstanceClass"
             case storageType = "StorageType"
         }
@@ -2887,55 +2897,55 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "WriteBufferSize", required: false, type: .integer)
         ]
 
-        /// Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be loaded without generating an error. You can choose TRUE or FALSE (default). This parameter applies only to TIMESTAMP and DATE columns. Always use ACCEPTANYDATE with the DATEFORMAT parameter. If the date format for the data does not match the DATEFORMAT specification, Amazon Redshift inserts a NULL value into that field. 
+        /// A value that indicates to allow any date format, including invalid formats such as 00/00/00 00:00:00, to be loaded without generating an error. You can choose true or false (the default). This parameter applies only to TIMESTAMP and DATE columns. Always use ACCEPTANYDATE with the DATEFORMAT parameter. If the date format for the data doesn't match the DATEFORMAT specification, Amazon Redshift inserts a NULL value into that field. 
         public let acceptAnyDate: Bool?
-        /// Code to run after connecting. This should be the code, not a filename.
+        /// Code to run after connecting. This parameter should contain the code itself, not the name of a file containing the code.
         public let afterConnectScript: String?
-        /// The location where the CSV files are stored before being uploaded to the S3 bucket. 
+        /// The location where the comma-separated value (.csv) files are stored before being uploaded to the S3 bucket. 
         public let bucketFolder: String?
         /// The name of the S3 bucket you want to use
         public let bucketName: String?
-        /// Sets the amount of time to wait (in milliseconds) before timing out, beginning from when you initially establish a connection.
+        /// A value that sets the amount of time to wait (in milliseconds) before timing out, beginning from when you initially establish a connection.
         public let connectionTimeout: Int?
-        /// The name of the Amazon Redshift data warehouse (service) you are working with.
+        /// The name of the Amazon Redshift data warehouse (service) that you are working with.
         public let databaseName: String?
-        /// The date format you are using. Valid values are auto (case-sensitive), your date format string enclosed in quotes, or NULL. If this is left unset (NULL), it defaults to a format of 'YYYY-MM-DD'. Using auto recognizes most strings, even some that are not supported when you use a date format string.  If your date and time values use formats different from each other, set this to auto. 
+        /// The date format that you are using. Valid values are auto (case-sensitive), your date format string enclosed in quotes, or NULL. If this parameter is left unset (NULL), it defaults to a format of 'YYYY-MM-DD'. Using auto recognizes most strings, even some that aren't supported when you use a date format string.  If your date and time values use formats different from each other, set this to auto. 
         public let dateFormat: String?
-        /// Specifies whether AWS DMS should migrate empty CHAR and VARCHAR fields as NULL. A value of TRUE sets empty CHAR and VARCHAR fields to null. The default is FALSE.
+        /// A value that specifies whether AWS DMS should migrate empty CHAR and VARCHAR fields as NULL. A value of true sets empty CHAR and VARCHAR fields to null. The default is false.
         public let emptyAsNull: Bool?
-        /// The type of server side encryption you want to use for your data. This is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (default) or SSE_KMS. To use SSE_S3, create an IAM role with a policy that allows "arn:aws:s3:::*" to use the following actions: "s3:PutObject", "s3:ListBucket".
+        /// The type of server-side encryption that you want to use for your data. This encryption type is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (the default) or SSE_KMS. To use SSE_S3, create an AWS Identity and Access Management (IAM) role with a policy that allows "arn:aws:s3:::*" to use the following actions: "s3:PutObject", "s3:ListBucket" 
         public let encryptionMode: EncryptionModeValue?
-        /// Specifies the number of threads used to upload a single file. This accepts a value between 1 and 64. It defaults to 10.
+        /// The number of threads used to upload a single file. This parameter accepts a value from 1 through 64. It defaults to 10.
         public let fileTransferUploadStreams: Int?
-        /// Sets the amount of time to wait (in milliseconds) before timing out, beginning from when you begin loading.
+        /// The amount of time to wait (in milliseconds) before timing out, beginning from when you begin loading.
         public let loadTimeout: Int?
-        /// Specifies the maximum size (in KB) of any CSV file used to transfer data to Amazon Redshift. This accepts a value between 1 and 1048576. It defaults to 32768 KB (32 MB).
+        /// The maximum size (in KB) of any .csv file used to transfer data to Amazon Redshift. This accepts a value from 1 through 1,048,576. It defaults to 32,768 KB (32 MB).
         public let maxFileSize: Int?
         /// The password for the user named in the username property.
         public let password: String?
         /// The port number for Amazon Redshift. The default value is 5439.
         public let port: Int?
-        /// Removes surrounding quotation marks from strings in the incoming data. All characters within the quotation marks, including delimiters, are retained. Choose TRUE to remove quotation marks. The default is FALSE.
+        /// A value that specifies to remove surrounding quotation marks from strings in the incoming data. All characters within the quotation marks, including delimiters, are retained. Choose true to remove quotation marks. The default is false.
         public let removeQuotes: Bool?
-        /// Replaces invalid characters specified in ReplaceInvalidChars, substituting the specified value instead. The default is "?".
+        /// A value that specifies to replaces the invalid characters specified in ReplaceInvalidChars, substituting the specified characters instead. The default is "?".
         public let replaceChars: String?
-        /// A list of chars you want to replace. Use with ReplaceChars.
+        /// A list of characters that you want to replace. Use with ReplaceChars.
         public let replaceInvalidChars: String?
         /// The name of the Amazon Redshift cluster you are using.
         public let serverName: String?
-        /// If you are using SSE_KMS for the EncryptionMode, provide the KMS Key ID. The key you use needs an attached policy that enables IAM user permissions and allows use of the key.
+        /// The AWS KMS key ID. If you are using SSE_KMS for the EncryptionMode, provide this key ID. The key that you use needs an attached policy that enables IAM user permissions and allows use of the key.
         public let serverSideEncryptionKmsKeyId: String?
-        /// The ARN of the role that has access to the Redshift service.
+        /// The Amazon Resource Name (ARN) of the IAM role that has access to the Amazon Redshift service.
         public let serviceAccessRoleArn: String?
-        /// The time format you want to use. Valid values are auto (case-sensitive), 'timeformat_string', 'epochsecs', or 'epochmillisecs'. It defaults to 10. Using auto recognizes most strings, even some that are not supported when you use a time format string.  If your date and time values use formats different from each other, set this to auto. 
+        /// The time format that you want to use. Valid values are auto (case-sensitive), 'timeformat_string', 'epochsecs', or 'epochmillisecs'. It defaults to 10. Using auto recognizes most strings, even some that aren't supported when you use a time format string.  If your date and time values use formats different from each other, set this parameter to auto. 
         public let timeFormat: String?
-        /// Removes the trailing white space characters from a VARCHAR string. This parameter applies only to columns with a VARCHAR data type. Choose TRUE to remove unneeded white space. The default is FALSE.
+        /// A value that specifies to remove the trailing white space characters from a VARCHAR string. This parameter applies only to columns with a VARCHAR data type. Choose true to remove unneeded white space. The default is false.
         public let trimBlanks: Bool?
-        /// Truncates data in columns to the appropriate number of characters, so that it fits in the column. Applies only to columns with a VARCHAR or CHAR data type, and rows with a size of 4 MB or less. Choose TRUE to truncate data. The default is FALSE.
+        /// A value that specifies to truncate data in columns to the appropriate number of characters, so that the data fits in the column. This parameter applies only to columns with a VARCHAR or CHAR data type, and rows with a size of 4 MB or less. Choose true to truncate data. The default is false.
         public let truncateColumns: Bool?
         /// An Amazon Redshift user name for a registered user.
         public let username: String?
-        /// The size of the write buffer to use in rows. Valid values range from 1 to 2048. Defaults to 1024. Use this setting to tune performance. 
+        /// The size of the write buffer to use in rows. Valid values range from 1 through 2,048. The default is 1,024. Use this setting to tune performance. 
         public let writeBufferSize: Int?
 
         public init(acceptAnyDate: Bool? = nil, afterConnectScript: String? = nil, bucketFolder: String? = nil, bucketName: String? = nil, connectionTimeout: Int? = nil, databaseName: String? = nil, dateFormat: String? = nil, emptyAsNull: Bool? = nil, encryptionMode: EncryptionModeValue? = nil, fileTransferUploadStreams: Int? = nil, loadTimeout: Int? = nil, maxFileSize: Int? = nil, password: String? = nil, port: Int? = nil, removeQuotes: Bool? = nil, replaceChars: String? = nil, replaceInvalidChars: String? = nil, serverName: String? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timeFormat: String? = nil, trimBlanks: Bool? = nil, truncateColumns: Bool? = nil, username: String? = nil, writeBufferSize: Int? = nil) {
@@ -3078,6 +3088,11 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReleaseStatusValues: String, CustomStringConvertible, Codable {
+        case beta = "beta"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReloadOptionValue: String, CustomStringConvertible, Codable {
         case dataReload = "data-reload"
         case validateOnly = "validate-only"
@@ -3134,7 +3149,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
 
-        /// &gt;The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be removed from.
+        /// An AWS DMS resource from which you want to remove tag(s). The value for this parameter is an Amazon Resource Name (ARN).
         public let resourceArn: String
         /// The tag key (name) of the tag to be removed.
         public let tagKeys: [String]
@@ -3203,9 +3218,9 @@ extension DatabaseMigrationService {
         public let freeUntil: TimeStamp?
         /// The time the replication instance was created.
         public let instanceCreateTime: TimeStamp?
-        /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        /// An AWS KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
-        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
+        ///  Specifies whether the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public let multiAZ: Bool?
         /// The pending modification values.
         public let pendingModifiedValues: ReplicationPendingModifiedValues?
@@ -3219,9 +3234,9 @@ extension DatabaseMigrationService {
         public let replicationInstanceClass: String?
         /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
         public let replicationInstanceIdentifier: String?
-        /// The private IP address of the replication instance.
+        /// One or more private IP addresses for the replication instance.
         public let replicationInstancePrivateIpAddresses: [String]?
-        /// The public IP address of the replication instance.
+        /// One or more public IP addresses for the replication instance.
         public let replicationInstancePublicIpAddresses: [String]?
         /// The status of the replication instance.
         public let replicationInstanceStatus: String?
@@ -3320,7 +3335,7 @@ extension DatabaseMigrationService {
         public let allocatedStorage: Int?
         /// The engine version number of the replication instance.
         public let engineVersion: String?
-        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
+        ///  Specifies whether the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public let multiAZ: Bool?
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
         public let replicationInstanceClass: String?
@@ -3349,7 +3364,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
 
-        /// The description of the replication subnet group.
+        /// A description for the replication subnet group.
         public let replicationSubnetGroupDescription: String?
         /// The identifier of the replication instance subnet group.
         public let replicationSubnetGroupIdentifier: String?
@@ -3398,7 +3413,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "TargetEndpointArn", required: false, type: .string)
         ]
 
-        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want the CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
         public let cdcStartPosition: String?
         /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
         public let cdcStopPosition: String?
@@ -3571,7 +3586,7 @@ extension DatabaseMigrationService {
 
         /// Detailed information about the pending maintenance action.
         public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
-        /// The Amazon Resource Name (ARN) of the DMS resource that the pending maintenance action applies to. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN) in the DMS documentation.
+        /// The Amazon Resource Name (ARN) of the DMS resource that the pending maintenance action applies to. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN) for AWS DMS in the DMS documentation.
         public let resourceIdentifier: String?
 
         public init(pendingMaintenanceActionDetails: [PendingMaintenanceAction]? = nil, resourceIdentifier: String? = nil) {
@@ -3600,48 +3615,54 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "EncodingType", required: false, type: .enum), 
             AWSShapeMember(label: "EncryptionMode", required: false, type: .enum), 
             AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
+            AWSShapeMember(label: "IncludeOpForFullLoad", required: false, type: .boolean), 
             AWSShapeMember(label: "ParquetVersion", required: false, type: .enum), 
             AWSShapeMember(label: "RowGroupLength", required: false, type: .integer), 
             AWSShapeMember(label: "ServerSideEncryptionKmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string)
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "TimestampColumnName", required: false, type: .string)
         ]
 
-        ///  An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path &lt;bucketFolder&gt;/&lt;schema_name&gt;/&lt;table_name&gt;/. If this parameter is not specified, then the path used is &lt;schema_name&gt;/&lt;table_name&gt;/. 
+        ///  An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path  bucketFolder/schema_name/table_name/. If this parameter is not specified, then the path used is  schema_name/table_name/. 
         public let bucketFolder: String?
         ///  The name of the S3 bucket. 
         public let bucketName: String?
-        /// Option to write only INSERT operations to the comma-separated value (CSV) output files. By default, the first field in a CSV record contains the letter I (insert), U (update) or D (delete) to indicate whether the row was inserted, updated, or deleted at the source database. If cdcInsertsOnly is set to true, then only INSERTs are recorded in the CSV file, without the I annotation on each line. Valid values are TRUE and FALSE.
+        /// A value that enables a change data capture (CDC) load to write only INSERT operations to .csv or columnar storage (.parquet) output files. By default (the false setting), the first field in a .csv or .parquet record contains the letter I (INSERT), U (UPDATE), or D (DELETE). These values indicate whether the row was inserted, updated, or deleted at the source database for a CDC load to the target. If cdcInsertsOnly is set to true or y, only INSERTs from the source database are migrated to the .csv or .parquet file. For .csv format only, how these INSERTs are recorded depends on the value of IncludeOpForFullLoad. If IncludeOpForFullLoad is set to true, the first field of every CDC record is set to I to indicate the INSERT operation at the source. If IncludeOpForFullLoad is set to false, every CDC record is written without a first field to indicate the INSERT operation at the source. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the AWS Database Migration Service User Guide..  AWS DMS supports this interaction between CdcInsertsOnly and IncludeOpForFullLoad in versions 3.1.4 and later.  
         public let cdcInsertsOnly: Bool?
-        ///  An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed. Applies to both CSV and PARQUET data formats. 
+        ///  An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed. Applies to both .csv and .parquet file formats. 
         public let compressionType: CompressionTypeValue?
         ///  The delimiter used to separate columns in the source files. The default is a comma. 
         public let csvDelimiter: String?
         ///  The delimiter used to separate rows in the source files. The default is a carriage return (\n). 
         public let csvRowDelimiter: String?
-        /// The format of the data which you want to use for output. You can choose one of the following:     CSV : This is a row-based format with comma-separated values.     PARQUET : Apache Parquet is a columnar storage format that features efficient compression and provides faster query response.   
+        /// The format of the data that you want to use for output. You can choose one of the following:     csv : This is a row-based file format with comma-separated values (.csv).     parquet : Apache Parquet (.parquet) is a columnar storage file format that features efficient compression and provides faster query response.   
         public let dataFormat: DataFormatValue?
-        /// The size of one data page in bytes. Defaults to 1024 * 1024 bytes (1MiB). For PARQUET format only. 
+        /// The size of one data page in bytes. This parameter defaults to 1024 * 1024 bytes (1 MiB). This number is used for .parquet file format only. 
         public let dataPageSize: Int?
-        /// The maximum size of an encoded dictionary page of a column. If the dictionary page exceeds this, this column is stored using an encoding type of PLAIN. Defaults to 1024 * 1024 bytes (1MiB), the maximum size of a dictionary page before it reverts to PLAIN encoding. For PARQUET format only. 
+        /// The maximum size of an encoded dictionary page of a column. If the dictionary page exceeds this, this column is stored using an encoding type of PLAIN. This parameter defaults to 1024 * 1024 bytes (1 MiB), the maximum size of a dictionary page before it reverts to PLAIN encoding. This size is used for .parquet file format only. 
         public let dictPageSizeLimit: Int?
-        /// Enables statistics for Parquet pages and rowGroups. Choose TRUE to enable statistics, choose FALSE to disable. Statistics include NULL, DISTINCT, MAX, and MIN values. Defaults to TRUE. For PARQUET format only.
+        /// A value that enables statistics for Parquet pages and row groups. Choose true to enable statistics, false to disable. Statistics include NULL, DISTINCT, MAX, and MIN values. This parameter defaults to true. This value is used for .parquet file format only.
         public let enableStatistics: Bool?
-        /// The type of encoding you are using: RLE_DICTIONARY (default), PLAIN, or PLAIN_DICTIONARY.    RLE_DICTIONARY uses a combination of bit-packing and run-length encoding to store repeated values more efficiently.    PLAIN does not use encoding at all. Values are stored as they are.    PLAIN_DICTIONARY builds a dictionary of the values encountered in a given column. The dictionary is stored in a dictionary page for each column chunk.  
+        /// The type of encoding you are using:     RLE_DICTIONARY uses a combination of bit-packing and run-length encoding to store repeated values more efficiently. This is the default.    PLAIN doesn't use encoding at all. Values are stored as they are.    PLAIN_DICTIONARY builds a dictionary of the values encountered in a given column. The dictionary is stored in a dictionary page for each column chunk.  
         public let encodingType: EncodingTypeValue?
-        /// The type of server side encryption you want to use for your data. This is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (default) or SSE_KMS. To use SSE_S3, you need an IAM role with permission to allow "arn:aws:s3:::dms-*" to use the following actions:   s3:CreateBucket   s3:ListBucket   s3:DeleteBucket   s3:GetBucketLocation   s3:GetObject   s3:PutObject   s3:DeleteObject   s3:GetObjectVersion   s3:GetBucketPolicy   s3:PutBucketPolicy   s3:DeleteBucketPolicy  
+        /// The type of server-side encryption that you want to use for your data. This encryption type is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (the default) or SSE_KMS. To use SSE_S3, you need an AWS Identity and Access Management (IAM) role with permission to allow "arn:aws:s3:::dms-*" to use the following actions:    s3:CreateBucket     s3:ListBucket     s3:DeleteBucket     s3:GetBucketLocation     s3:GetObject     s3:PutObject     s3:DeleteObject     s3:GetObjectVersion     s3:GetBucketPolicy     s3:PutBucketPolicy     s3:DeleteBucketPolicy   
         public let encryptionMode: EncryptionModeValue?
         ///  The external table definition. 
         public let externalTableDefinition: String?
-        /// The version of Apache Parquet format you want to use: PARQUET_1_0 (default) or PARQUET_2_0.
+        /// A value that enables a full load to write INSERT operations to the comma-separated value (.csv) output files only to indicate how the rows were added to the source database.  AWS DMS supports IncludeOpForFullLoad in versions 3.1.4 and later.  For full load, records can only be inserted. By default (the false setting), no information is recorded in these output files for a full load to indicate that the rows were inserted at the source database. If IncludeOpForFullLoad is set to true or y, the INSERT is recorded as an I annotation in the first field of the .csv file. This allows the format of your target records from a full load to be consistent with the target records from a CDC load.  This setting works together with CdcInsertsOnly for output to .csv files only. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the AWS Database Migration Service User Guide.. 
+        public let includeOpForFullLoad: Bool?
+        /// The version of the Apache Parquet format that you want to use: parquet_1_0 (the default) or parquet_2_0.
         public let parquetVersion: ParquetVersionValue?
-        /// The number of rows in a row group. A smaller row group size provides faster reads. But as the number of row groups grows, the slower writes become. Defaults to 10,000 (ten thousand) rows. For PARQUET format only.  If you choose a value larger than the maximum, RowGroupLength is set to the max row group length in bytes (64 * 1024 * 1024). 
+        /// The number of rows in a row group. A smaller row group size provides faster reads. But as the number of row groups grows, the slower writes become. This parameter defaults to 10,000 rows. This number is used for .parquet file format only.  If you choose a value larger than the maximum, RowGroupLength is set to the max row group length in bytes (64 * 1024 * 1024). 
         public let rowGroupLength: Int?
-        /// If you are using SSE_KMS for the EncryptionMode, provide the KMS Key ID. The key you use needs an attached policy that enables IAM user permissions and allows use of the key. Here is a CLI example: aws dms create-endpoint --endpoint-identifier &lt;value&gt; --endpoint-type target --engine-name s3 --s3-settings ServiceAccessRoleArn=&lt;value&gt;,BucketFolder=&lt;value&gt;,BucketName=&lt;value&gt;,EncryptionMode=SSE_KMS,ServerSideEncryptionKmsKeyId=&lt;value&gt;  
+        /// If you are using SSE_KMS for the EncryptionMode, provide the AWS KMS key ID. The key that you use needs an attached policy that enables AWS Identity and Access Management (IAM) user permissions and allows use of the key. Here is a CLI example: aws dms create-endpoint --endpoint-identifier value --endpoint-type target --engine-name s3 --s3-settings ServiceAccessRoleArn=value,BucketFolder=value,BucketName=value,EncryptionMode=SSE_KMS,ServerSideEncryptionKmsKeyId=value  
         public let serverSideEncryptionKmsKeyId: String?
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
         public let serviceAccessRoleArn: String?
+        /// A value that includes a timestamp column in the Amazon S3 target endpoint data. AWS DMS includes an additional column in the migrated data when you set timestampColumnName to a non-blank value.   AWS DMS supports TimestampColumnName in versions 3.1.4 and later.  For a full load, each row of the timestamp column contains a timestamp for when the data was transferred from the source to the target by DMS. For a CDC load, each row of the timestamp column contains the timestamp for the commit of that row in the source database. The format for the timestamp column value is yyyy-MM-dd HH:mm:ss.SSSSSS. For CDC, the microsecond precision depends on the commit timestamp supported by DMS for the source database. When the AddColumnName setting is set to true, DMS also includes the name for the timestamp column that you set as the nonblank value of timestampColumnName.
+        public let timestampColumnName: String?
 
-        public init(bucketFolder: String? = nil, bucketName: String? = nil, cdcInsertsOnly: Bool? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, parquetVersion: ParquetVersionValue? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil) {
+        public init(bucketFolder: String? = nil, bucketName: String? = nil, cdcInsertsOnly: Bool? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, includeOpForFullLoad: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil) {
             self.bucketFolder = bucketFolder
             self.bucketName = bucketName
             self.cdcInsertsOnly = cdcInsertsOnly
@@ -3655,10 +3676,12 @@ extension DatabaseMigrationService {
             self.encodingType = encodingType
             self.encryptionMode = encryptionMode
             self.externalTableDefinition = externalTableDefinition
+            self.includeOpForFullLoad = includeOpForFullLoad
             self.parquetVersion = parquetVersion
             self.rowGroupLength = rowGroupLength
             self.serverSideEncryptionKmsKeyId = serverSideEncryptionKmsKeyId
             self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.timestampColumnName = timestampColumnName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3675,10 +3698,12 @@ extension DatabaseMigrationService {
             case encodingType = "EncodingType"
             case encryptionMode = "EncryptionMode"
             case externalTableDefinition = "ExternalTableDefinition"
+            case includeOpForFullLoad = "IncludeOpForFullLoad"
             case parquetVersion = "ParquetVersion"
             case rowGroupLength = "RowGroupLength"
             case serverSideEncryptionKmsKeyId = "ServerSideEncryptionKmsKeyId"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case timestampColumnName = "TimestampColumnName"
         }
     }
 
@@ -3851,11 +3876,11 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "SupportsCDC", required: false, type: .boolean)
         ]
 
-        /// The type of endpoint.
+        /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
         /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora," this value would be "Amazon Aurora MySQL."
         public let engineDisplayName: String?
-        /// The database engine name. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
+        /// The database engine name. Valid values, depending on the EndpointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, dynamodb, mongodb, and sqlserver.
         public let engineName: String?
         /// Indicates if Change Data Capture (CDC) is supported.
         public let supportsCDC: Bool?

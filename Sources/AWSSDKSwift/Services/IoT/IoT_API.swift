@@ -58,7 +58,7 @@ public struct IoT {
         return client.send(operation: "AttachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: "PUT", input: input)
     }
 
-    ///  Associates a Device Defender security profile with a thing group or with this account. Each thing group or account can have up to five security profiles associated with it.
+    ///  Associates a Device Defender security profile with a thing group or this account. Each thing group or account can have up to five security profiles associated with it.
     public func attachSecurityProfile(_ input: AttachSecurityProfileRequest) -> Future<AttachSecurityProfileResponse> {
         return client.send(operation: "AttachSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: "PUT", input: input)
     }
@@ -66,6 +66,11 @@ public struct IoT {
     ///  Attaches the specified principal to the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
     public func attachThingPrincipal(_ input: AttachThingPrincipalRequest) -> Future<AttachThingPrincipalResponse> {
         return client.send(operation: "AttachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: "PUT", input: input)
+    }
+
+    ///  Cancels a mitigation action task that is in progress. If the task is not in progress, an InvalidRequestException occurs.
+    public func cancelAuditMitigationActionsTask(_ input: CancelAuditMitigationActionsTaskRequest) -> Future<CancelAuditMitigationActionsTaskResponse> {
+        return client.send(operation: "CancelAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}/cancel", httpMethod: "PUT", input: input)
     }
 
     ///  Cancels an audit that is in progress. The audit can be either scheduled or on-demand. If the audit is not in progress, an "InvalidRequestException" occurs.
@@ -121,6 +126,11 @@ public struct IoT {
     ///  Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key.  Note This is the only time AWS IoT issues the private key for this certificate, so it is important to keep it in a secure location.
     public func createKeysAndCertificate(_ input: CreateKeysAndCertificateRequest) -> Future<CreateKeysAndCertificateResponse> {
         return client.send(operation: "CreateKeysAndCertificate", path: "/keys-and-certificate", httpMethod: "POST", input: input)
+    }
+
+    ///  Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Each mitigation action can apply only one type of change.
+    public func createMitigationAction(_ input: CreateMitigationActionRequest) -> Future<CreateMitigationActionResponse> {
+        return client.send(operation: "CreateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: "POST", input: input)
     }
 
     ///  Creates an AWS IoT OTAUpdate on a target group of things or groups.
@@ -198,7 +208,7 @@ public struct IoT {
         return client.send(operation: "DeleteCACertificate", path: "/cacertificate/{caCertificateId}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes the specified certificate. A certificate cannot be deleted if it has a policy attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate API to set the certificate to the INACTIVE status.
+    ///  Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate API to set the certificate to the INACTIVE status.
     @discardableResult public func deleteCertificate(_ input: DeleteCertificateRequest) -> Future<Void> {
         return client.send(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: "DELETE", input: input)
     }
@@ -216,6 +226,11 @@ public struct IoT {
     ///  Deletes a job execution.
     @discardableResult public func deleteJobExecution(_ input: DeleteJobExecutionRequest) -> Future<Void> {
         return client.send(operation: "DeleteJobExecution", path: "/things/{thingName}/jobs/{jobId}/executionNumber/{executionNumber}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes a defined mitigation action from your AWS account.
+    public func deleteMitigationAction(_ input: DeleteMitigationActionRequest) -> Future<DeleteMitigationActionResponse> {
+        return client.send(operation: "DeleteMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: "DELETE", input: input)
     }
 
     ///  Delete an OTA update.
@@ -293,6 +308,16 @@ public struct IoT {
         return client.send(operation: "DescribeAccountAuditConfiguration", path: "/audit/configuration", httpMethod: "GET", input: input)
     }
 
+    ///  Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and when the audit that returned the finding was started.
+    public func describeAuditFinding(_ input: DescribeAuditFindingRequest) -> Future<DescribeAuditFindingResponse> {
+        return client.send(operation: "DescribeAuditFinding", path: "/audit/findings/{findingId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
+    public func describeAuditMitigationActionsTask(_ input: DescribeAuditMitigationActionsTaskRequest) -> Future<DescribeAuditMitigationActionsTaskResponse> {
+        return client.send(operation: "DescribeAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: "GET", input: input)
+    }
+
     ///  Gets information about a Device Defender audit.
     public func describeAuditTask(_ input: DescribeAuditTaskRequest) -> Future<DescribeAuditTaskResponse> {
         return client.send(operation: "DescribeAuditTask", path: "/audit/tasks/{taskId}", httpMethod: "GET", input: input)
@@ -346,6 +371,11 @@ public struct IoT {
     ///  Describes a job execution.
     public func describeJobExecution(_ input: DescribeJobExecutionRequest) -> Future<DescribeJobExecutionResponse> {
         return client.send(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets information about a mitigation action.
+    public func describeMitigationAction(_ input: DescribeMitigationActionRequest) -> Future<DescribeMitigationActionResponse> {
+        return client.send(operation: "DescribeMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: "GET", input: input)
     }
 
     ///  Describes a role alias.
@@ -489,6 +519,16 @@ public struct IoT {
         return client.send(operation: "ListAuditFindings", path: "/audit/findings", httpMethod: "POST", input: input)
     }
 
+    ///  Gets the status of audit mitigation action tasks that were executed.
+    public func listAuditMitigationActionsExecutions(_ input: ListAuditMitigationActionsExecutionsRequest) -> Future<ListAuditMitigationActionsExecutionsResponse> {
+        return client.send(operation: "ListAuditMitigationActionsExecutions", path: "/audit/mitigationactions/executions", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a list of audit mitigation action tasks that match the specified filters.
+    public func listAuditMitigationActionsTasks(_ input: ListAuditMitigationActionsTasksRequest) -> Future<ListAuditMitigationActionsTasksResponse> {
+        return client.send(operation: "ListAuditMitigationActionsTasks", path: "/audit/mitigationactions/tasks", httpMethod: "GET", input: input)
+    }
+
     ///  Lists the Device Defender audits that have been performed during a given time period.
     public func listAuditTasks(_ input: ListAuditTasksRequest) -> Future<ListAuditTasksResponse> {
         return client.send(operation: "ListAuditTasks", path: "/audit/tasks", httpMethod: "GET", input: input)
@@ -537,6 +577,11 @@ public struct IoT {
     ///  Lists jobs.
     public func listJobs(_ input: ListJobsRequest) -> Future<ListJobsResponse> {
         return client.send(operation: "ListJobs", path: "/jobs", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a list of all mitigation actions that match the specified filter criteria.
+    public func listMitigationActions(_ input: ListMitigationActionsRequest) -> Future<ListMitigationActionsResponse> {
+        return client.send(operation: "ListMitigationActions", path: "/mitigationactions/actions", httpMethod: "GET", input: input)
     }
 
     ///  Lists OTA updates.
@@ -671,7 +716,7 @@ public struct IoT {
         return client.send(operation: "ListV2LoggingLevels", path: "/v2LoggingLevel", httpMethod: "GET", input: input)
     }
 
-    ///  Lists the Device Defender security profile violations discovered during the given time period. You can use filters to limit the results to those alerts issued for a particular security profile, behavior or thing (device).
+    ///  Lists the Device Defender security profile violations discovered during the given time period. You can use filters to limit the results to those alerts issued for a particular security profile, behavior, or thing (device).
     public func listViolationEvents(_ input: ListViolationEventsRequest) -> Future<ListViolationEventsResponse> {
         return client.send(operation: "ListViolationEvents", path: "/violation-events", httpMethod: "GET", input: input)
     }
@@ -739,6 +784,11 @@ public struct IoT {
     ///  Sets the logging options for the V2 logging service.
     @discardableResult public func setV2LoggingOptions(_ input: SetV2LoggingOptionsRequest) -> Future<Void> {
         return client.send(operation: "SetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts a task that applies a set of mitigation actions to the specified target.
+    public func startAuditMitigationActionsTask(_ input: StartAuditMitigationActionsTaskRequest) -> Future<StartAuditMitigationActionsTaskResponse> {
+        return client.send(operation: "StartAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: "POST", input: input)
     }
 
     ///  Starts an on-demand Device Defender audit.
@@ -826,12 +876,17 @@ public struct IoT {
         return client.send(operation: "UpdateJob", path: "/jobs/{jobId}", httpMethod: "PATCH", input: input)
     }
 
+    ///  Updates the definition for the specified mitigation action.
+    public func updateMitigationAction(_ input: UpdateMitigationActionRequest) -> Future<UpdateMitigationActionResponse> {
+        return client.send(operation: "UpdateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: "PATCH", input: input)
+    }
+
     ///  Updates a role alias.
     public func updateRoleAlias(_ input: UpdateRoleAliasRequest) -> Future<UpdateRoleAliasResponse> {
         return client.send(operation: "UpdateRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates a scheduled audit, including what checks are performed and how often the audit takes place.
+    ///  Updates a scheduled audit, including which checks are performed and how often the audit takes place.
     public func updateScheduledAudit(_ input: UpdateScheduledAuditRequest) -> Future<UpdateScheduledAuditResponse> {
         return client.send(operation: "UpdateScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: "PATCH", input: input)
     }

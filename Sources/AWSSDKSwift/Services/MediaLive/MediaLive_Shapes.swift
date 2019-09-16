@@ -527,7 +527,8 @@ extension MediaLive {
 
         /// Specifies the group to which the audio Rendition belongs.
         public let audioGroupId: String?
-        /// For use with an audio only Stream. Must be a .jpg or .png file. If given, this image will be used as the cover-art for the audio only output. Ideally, it should be formatted for an iPhone screen for two reasons. The iPhone does not resize the image, it crops a centered image on the top/bottom and left/right. Additionally, this image file gets saved bit-for-bit into every 10-second segment file, so will increase bandwidth by {image file size} * {segment count} * {user count.}.
+        /// Optional. Specifies the .jpg or .png image to use as the cover art for an audio-only output. We recommend a low bit-size file because the image increases the output audio bandwidth.
+        /// The image is attached to the audio as an ID3 tag, frame type APIC, picture type 0x10, as per the "ID3 tag version 2.4.0 - Native Frames" standard.
         public let audioOnlyImage: InputLocation?
         /// Four types of audio-only tracks are supported:
         /// Audio-Only Variant Stream
@@ -1287,6 +1288,7 @@ extension MediaLive {
             AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure), 
             AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelineDetails", location: .body(locationName: "pipelineDetails"), required: false, type: .list), 
             AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
@@ -1313,6 +1315,8 @@ extension MediaLive {
         public let logLevel: LogLevel?
         /// The name of the channel. (user-mutable)
         public let name: String?
+        /// Runtime details for the pipelines of a running channel.
+        public let pipelineDetails: [PipelineDetail]?
         /// The number of currently healthy pipelines.
         public let pipelinesRunningCount: Int?
         /// The Amazon Resource Name (ARN) of the role assumed when running the Channel.
@@ -1321,7 +1325,7 @@ extension MediaLive {
         /// A collection of key-value pairs.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -1332,6 +1336,7 @@ extension MediaLive {
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
             self.name = name
+            self.pipelineDetails = pipelineDetails
             self.pipelinesRunningCount = pipelinesRunningCount
             self.roleArn = roleArn
             self.state = state
@@ -1349,6 +1354,7 @@ extension MediaLive {
             case inputSpecification = "inputSpecification"
             case logLevel = "logLevel"
             case name = "name"
+            case pipelineDetails = "pipelineDetails"
             case pipelinesRunningCount = "pipelinesRunningCount"
             case roleArn = "roleArn"
             case state = "state"
@@ -1469,6 +1475,14 @@ extension MediaLive {
             case state = "state"
             case tags = "tags"
         }
+    }
+
+    public struct ColorSpacePassthroughSettings: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateChannelRequest: AWSShape {
@@ -1701,6 +1715,7 @@ extension MediaLive {
             AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure), 
             AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelineDetails", location: .body(locationName: "pipelineDetails"), required: false, type: .list), 
             AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
@@ -1717,12 +1732,13 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         public let logLevel: LogLevel?
         public let name: String?
+        public let pipelineDetails: [PipelineDetail]?
         public let pipelinesRunningCount: Int?
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -1733,6 +1749,7 @@ extension MediaLive {
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
             self.name = name
+            self.pipelineDetails = pipelineDetails
             self.pipelinesRunningCount = pipelinesRunningCount
             self.roleArn = roleArn
             self.state = state
@@ -1750,6 +1767,7 @@ extension MediaLive {
             case inputSpecification = "inputSpecification"
             case logLevel = "logLevel"
             case name = "name"
+            case pipelineDetails = "pipelineDetails"
             case pipelinesRunningCount = "pipelinesRunningCount"
             case roleArn = "roleArn"
             case state = "state"
@@ -1977,6 +1995,7 @@ extension MediaLive {
             AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure), 
             AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelineDetails", location: .body(locationName: "pipelineDetails"), required: false, type: .list), 
             AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
@@ -1993,12 +2012,13 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         public let logLevel: LogLevel?
         public let name: String?
+        public let pipelineDetails: [PipelineDetail]?
         public let pipelinesRunningCount: Int?
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -2009,6 +2029,7 @@ extension MediaLive {
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
             self.name = name
+            self.pipelineDetails = pipelineDetails
             self.pipelinesRunningCount = pipelinesRunningCount
             self.roleArn = roleArn
             self.state = state
@@ -2026,6 +2047,7 @@ extension MediaLive {
             case inputSpecification = "inputSpecification"
             case logLevel = "logLevel"
             case name = "name"
+            case pipelineDetails = "pipelineDetails"
             case pipelinesRunningCount = "pipelinesRunningCount"
             case roleArn = "roleArn"
             case state = "state"
@@ -2056,6 +2078,7 @@ extension MediaLive {
             AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "InputClass", location: .body(locationName: "inputClass"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputSourceType", location: .body(locationName: "inputSourceType"), required: false, type: .enum), 
             AWSShapeMember(label: "MediaConnectFlows", location: .body(locationName: "mediaConnectFlows"), required: false, type: .list), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
@@ -2071,6 +2094,7 @@ extension MediaLive {
         public let destinations: [InputDestination]?
         public let id: String?
         public let inputClass: InputClass?
+        public let inputSourceType: InputSourceType?
         public let mediaConnectFlows: [MediaConnectFlow]?
         public let name: String?
         public let roleArn: String?
@@ -2080,12 +2104,13 @@ extension MediaLive {
         public let tags: [String: String]?
         public let `type`: InputType?
 
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
             self.id = id
             self.inputClass = inputClass
+            self.inputSourceType = inputSourceType
             self.mediaConnectFlows = mediaConnectFlows
             self.name = name
             self.roleArn = roleArn
@@ -2102,6 +2127,7 @@ extension MediaLive {
             case destinations = "destinations"
             case id = "id"
             case inputClass = "inputClass"
+            case inputSourceType = "inputSourceType"
             case mediaConnectFlows = "mediaConnectFlows"
             case name = "name"
             case roleArn = "roleArn"
@@ -3276,6 +3302,30 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public struct H264ColorSpaceSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColorSpacePassthroughSettings", location: .body(locationName: "colorSpacePassthroughSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Rec601Settings", location: .body(locationName: "rec601Settings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Rec709Settings", location: .body(locationName: "rec709Settings"), required: false, type: .structure)
+        ]
+
+        public let colorSpacePassthroughSettings: ColorSpacePassthroughSettings?
+        public let rec601Settings: Rec601Settings?
+        public let rec709Settings: Rec709Settings?
+
+        public init(colorSpacePassthroughSettings: ColorSpacePassthroughSettings? = nil, rec601Settings: Rec601Settings? = nil, rec709Settings: Rec709Settings? = nil) {
+            self.colorSpacePassthroughSettings = colorSpacePassthroughSettings
+            self.rec601Settings = rec601Settings
+            self.rec709Settings = rec709Settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorSpacePassthroughSettings = "colorSpacePassthroughSettings"
+            case rec601Settings = "rec601Settings"
+            case rec709Settings = "rec709Settings"
+        }
+    }
+
     public enum H264EntropyEncoding: String, CustomStringConvertible, Codable {
         case cabac = "CABAC"
         case cavlc = "CAVLC"
@@ -3352,6 +3402,7 @@ extension MediaLive {
 
     public enum H264RateControlMode: String, CustomStringConvertible, Codable {
         case cbr = "CBR"
+        case multiplex = "MULTIPLEX"
         case qvbr = "QVBR"
         case vbr = "VBR"
         public var description: String { return self.rawValue }
@@ -3377,6 +3428,7 @@ extension MediaLive {
             AWSShapeMember(label: "BufFillPct", location: .body(locationName: "bufFillPct"), required: false, type: .integer), 
             AWSShapeMember(label: "BufSize", location: .body(locationName: "bufSize"), required: false, type: .integer), 
             AWSShapeMember(label: "ColorMetadata", location: .body(locationName: "colorMetadata"), required: false, type: .enum), 
+            AWSShapeMember(label: "ColorSpaceSettings", location: .body(locationName: "colorSpaceSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "EntropyEncoding", location: .body(locationName: "entropyEncoding"), required: false, type: .enum), 
             AWSShapeMember(label: "FixedAfd", location: .body(locationName: "fixedAfd"), required: false, type: .enum), 
             AWSShapeMember(label: "FlickerAq", location: .body(locationName: "flickerAq"), required: false, type: .enum), 
@@ -3418,10 +3470,12 @@ extension MediaLive {
         public let bitrate: Int?
         /// Percentage of the buffer that should initially be filled (HRD buffer model).
         public let bufFillPct: Int?
-        /// Size of buffer (HRD buffer model) in bits/second.
+        /// Size of buffer (HRD buffer model) in bits.
         public let bufSize: Int?
         /// Includes colorspace metadata in the output.
         public let colorMetadata: H264ColorMetadata?
+        /// Color Space settings
+        public let colorSpaceSettings: H264ColorSpaceSettings?
         /// Entropy encoding mode.  Use cabac (must be in Main or High profile) or cavlc.
         public let entropyEncoding: H264EntropyEncoding?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
@@ -3448,7 +3502,7 @@ extension MediaLive {
         public let level: H264Level?
         /// Amount of lookahead. A value of low can decrease latency and memory usage, while high can produce better quality for certain content.
         public let lookAheadRateControl: H264LookAheadRateControl?
-        /// For QVBR: See the tooltip for Quality level 
+        /// For QVBR: See the tooltip for Quality level
         /// For VBR: Set the maximum bitrate in order to accommodate expected spikes in the complexity of the video.
         public let maxBitrate: Int?
         /// Only meaningful if sceneChangeDetect is set to enabled.  Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
@@ -3468,7 +3522,7 @@ extension MediaLive {
         /// - PC or tablet: Quality level: 7. Max bitrate: 1.5M to 3M
         /// - Smartphone: Quality level: 6. Max bitrate: 1M to 1.5M
         public let qvbrQualityLevel: Int?
-        /// Rate control mode. 
+        /// Rate control mode.
         /// QVBR: Quality will match the specified quality level except when it is constrained by the
         /// maximum bitrate.  Recommended if you or your viewers pay for bandwidth.
         /// VBR: Quality and bitrate vary, depending on the video complexity. Recommended instead of QVBR
@@ -3500,13 +3554,14 @@ extension MediaLive {
         /// - 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public let timecodeInsertion: H264TimecodeInsertionBehavior?
 
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, entropyEncoding: H264EntropyEncoding? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.bitrate = bitrate
             self.bufFillPct = bufFillPct
             self.bufSize = bufSize
             self.colorMetadata = colorMetadata
+            self.colorSpaceSettings = colorSpaceSettings
             self.entropyEncoding = entropyEncoding
             self.fixedAfd = fixedAfd
             self.flickerAq = flickerAq
@@ -3571,6 +3626,7 @@ extension MediaLive {
             case bufFillPct = "bufFillPct"
             case bufSize = "bufSize"
             case colorMetadata = "colorMetadata"
+            case colorSpaceSettings = "colorSpaceSettings"
             case entropyEncoding = "entropyEncoding"
             case fixedAfd = "fixedAfd"
             case flickerAq = "flickerAq"
@@ -3633,6 +3689,349 @@ extension MediaLive {
         case disabled = "DISABLED"
         case picTimingSei = "PIC_TIMING_SEI"
         public var description: String { return self.rawValue }
+    }
+
+    public enum H265AdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case high = "HIGH"
+        case higher = "HIGHER"
+        case low = "LOW"
+        case max = "MAX"
+        case medium = "MEDIUM"
+        case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265AlternativeTransferFunction: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case omit = "OMIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265ColorMetadata: String, CustomStringConvertible, Codable {
+        case ignore = "IGNORE"
+        case insert = "INSERT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct H265ColorSpaceSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColorSpacePassthroughSettings", location: .body(locationName: "colorSpacePassthroughSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Hdr10Settings", location: .body(locationName: "hdr10Settings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Rec601Settings", location: .body(locationName: "rec601Settings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Rec709Settings", location: .body(locationName: "rec709Settings"), required: false, type: .structure)
+        ]
+
+        public let colorSpacePassthroughSettings: ColorSpacePassthroughSettings?
+        public let hdr10Settings: Hdr10Settings?
+        public let rec601Settings: Rec601Settings?
+        public let rec709Settings: Rec709Settings?
+
+        public init(colorSpacePassthroughSettings: ColorSpacePassthroughSettings? = nil, hdr10Settings: Hdr10Settings? = nil, rec601Settings: Rec601Settings? = nil, rec709Settings: Rec709Settings? = nil) {
+            self.colorSpacePassthroughSettings = colorSpacePassthroughSettings
+            self.hdr10Settings = hdr10Settings
+            self.rec601Settings = rec601Settings
+            self.rec709Settings = rec709Settings
+        }
+
+        public func validate(name: String) throws {
+            try self.hdr10Settings?.validate(name: "\(name).hdr10Settings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorSpacePassthroughSettings = "colorSpacePassthroughSettings"
+            case hdr10Settings = "hdr10Settings"
+            case rec601Settings = "rec601Settings"
+            case rec709Settings = "rec709Settings"
+        }
+    }
+
+    public enum H265FlickerAq: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265GopSizeUnits: String, CustomStringConvertible, Codable {
+        case frames = "FRAMES"
+        case seconds = "SECONDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265Level: String, CustomStringConvertible, Codable {
+        case h265Level1 = "H265_LEVEL_1"
+        case h265Level2 = "H265_LEVEL_2"
+        case h265Level21 = "H265_LEVEL_2_1"
+        case h265Level3 = "H265_LEVEL_3"
+        case h265Level31 = "H265_LEVEL_3_1"
+        case h265Level4 = "H265_LEVEL_4"
+        case h265Level41 = "H265_LEVEL_4_1"
+        case h265Level5 = "H265_LEVEL_5"
+        case h265Level51 = "H265_LEVEL_5_1"
+        case h265Level52 = "H265_LEVEL_5_2"
+        case h265Level6 = "H265_LEVEL_6"
+        case h265Level61 = "H265_LEVEL_6_1"
+        case h265Level62 = "H265_LEVEL_6_2"
+        case h265LevelAuto = "H265_LEVEL_AUTO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265LookAheadRateControl: String, CustomStringConvertible, Codable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265Profile: String, CustomStringConvertible, Codable {
+        case main = "MAIN"
+        case main10Bit = "MAIN_10BIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265RateControlMode: String, CustomStringConvertible, Codable {
+        case cbr = "CBR"
+        case qvbr = "QVBR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265ScanType: String, CustomStringConvertible, Codable {
+        case progressive = "PROGRESSIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265SceneChangeDetect: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct H265Settings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdaptiveQuantization", location: .body(locationName: "adaptiveQuantization"), required: false, type: .enum), 
+            AWSShapeMember(label: "AfdSignaling", location: .body(locationName: "afdSignaling"), required: false, type: .enum), 
+            AWSShapeMember(label: "AlternativeTransferFunction", location: .body(locationName: "alternativeTransferFunction"), required: false, type: .enum), 
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
+            AWSShapeMember(label: "BufSize", location: .body(locationName: "bufSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "ColorMetadata", location: .body(locationName: "colorMetadata"), required: false, type: .enum), 
+            AWSShapeMember(label: "ColorSpaceSettings", location: .body(locationName: "colorSpaceSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "FixedAfd", location: .body(locationName: "fixedAfd"), required: false, type: .enum), 
+            AWSShapeMember(label: "FlickerAq", location: .body(locationName: "flickerAq"), required: false, type: .enum), 
+            AWSShapeMember(label: "FramerateDenominator", location: .body(locationName: "framerateDenominator"), required: true, type: .integer), 
+            AWSShapeMember(label: "FramerateNumerator", location: .body(locationName: "framerateNumerator"), required: true, type: .integer), 
+            AWSShapeMember(label: "GopClosedCadence", location: .body(locationName: "gopClosedCadence"), required: false, type: .integer), 
+            AWSShapeMember(label: "GopSize", location: .body(locationName: "gopSize"), required: false, type: .double), 
+            AWSShapeMember(label: "GopSizeUnits", location: .body(locationName: "gopSizeUnits"), required: false, type: .enum), 
+            AWSShapeMember(label: "Level", location: .body(locationName: "level"), required: false, type: .enum), 
+            AWSShapeMember(label: "LookAheadRateControl", location: .body(locationName: "lookAheadRateControl"), required: false, type: .enum), 
+            AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate"), required: false, type: .integer), 
+            AWSShapeMember(label: "MinIInterval", location: .body(locationName: "minIInterval"), required: false, type: .integer), 
+            AWSShapeMember(label: "ParDenominator", location: .body(locationName: "parDenominator"), required: false, type: .integer), 
+            AWSShapeMember(label: "ParNumerator", location: .body(locationName: "parNumerator"), required: false, type: .integer), 
+            AWSShapeMember(label: "Profile", location: .body(locationName: "profile"), required: false, type: .enum), 
+            AWSShapeMember(label: "QvbrQualityLevel", location: .body(locationName: "qvbrQualityLevel"), required: false, type: .integer), 
+            AWSShapeMember(label: "RateControlMode", location: .body(locationName: "rateControlMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "ScanType", location: .body(locationName: "scanType"), required: false, type: .enum), 
+            AWSShapeMember(label: "SceneChangeDetect", location: .body(locationName: "sceneChangeDetect"), required: false, type: .enum), 
+            AWSShapeMember(label: "Slices", location: .body(locationName: "slices"), required: false, type: .integer), 
+            AWSShapeMember(label: "Tier", location: .body(locationName: "tier"), required: false, type: .enum), 
+            AWSShapeMember(label: "TimecodeInsertion", location: .body(locationName: "timecodeInsertion"), required: false, type: .enum)
+        ]
+
+        /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
+        public let adaptiveQuantization: H265AdaptiveQuantization?
+        /// Indicates that AFD values will be written into the output stream.  If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
+        public let afdSignaling: AfdSignaling?
+        /// Whether or not EML should insert an Alternative Transfer Function SEI message to support backwards compatibility with non-HDR decoders and displays.
+        public let alternativeTransferFunction: H265AlternativeTransferFunction?
+        /// Average bitrate in bits/second. Required when the rate control mode is VBR or CBR. Not used for QVBR. In an MS Smooth output group, each output must have a unique value when its bitrate is rounded down to the nearest multiple of 1000.
+        public let bitrate: Int?
+        /// Size of buffer (HRD buffer model) in bits.
+        public let bufSize: Int?
+        /// Includes colorspace metadata in the output.
+        public let colorMetadata: H265ColorMetadata?
+        /// Color Space settings
+        public let colorSpaceSettings: H265ColorSpaceSettings?
+        /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
+        public let fixedAfd: FixedAfd?
+        /// If set to enabled, adjust quantization within each frame to reduce flicker or 'pop' on I-frames.
+        public let flickerAq: H265FlickerAq?
+        /// Framerate denominator.
+        public let framerateDenominator: Int
+        /// Framerate numerator - framerate is a fraction, e.g. 24000 / 1001 = 23.976 fps.
+        public let framerateNumerator: Int
+        /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
+        public let gopClosedCadence: Int?
+        /// GOP size (keyframe interval) in units of either frames or seconds per gopSizeUnits. Must be greater than zero.
+        public let gopSize: Double?
+        /// Indicates if the gopSize is specified in frames or seconds. If seconds the system will convert the gopSize into a frame count at run time.
+        public let gopSizeUnits: H265GopSizeUnits?
+        /// H.265 Level.
+        public let level: H265Level?
+        /// Amount of lookahead. A value of low can decrease latency and memory usage, while high can produce better quality for certain content.
+        public let lookAheadRateControl: H265LookAheadRateControl?
+        /// For QVBR: See the tooltip for Quality level
+        public let maxBitrate: Int?
+        /// Only meaningful if sceneChangeDetect is set to enabled.  Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
+        public let minIInterval: Int?
+        /// Pixel Aspect Ratio denominator.
+        public let parDenominator: Int?
+        /// Pixel Aspect Ratio numerator.
+        public let parNumerator: Int?
+        /// H.265 Profile.
+        public let profile: H265Profile?
+        /// Controls the target quality for the video encode. Applies only when the rate control mode is QVBR. Set values for the QVBR quality level field and Max bitrate field that suit your most important viewing devices. Recommended values are:
+        /// - Primary screen: Quality level: 8 to 10. Max bitrate: 4M
+        /// - PC or tablet: Quality level: 7. Max bitrate: 1.5M to 3M
+        /// - Smartphone: Quality level: 6. Max bitrate: 1M to 1.5M
+        public let qvbrQualityLevel: Int?
+        /// Rate control mode.
+        /// QVBR: Quality will match the specified quality level except when it is constrained by the
+        /// maximum bitrate.  Recommended if you or your viewers pay for bandwidth.
+        /// CBR: Quality varies, depending on the video complexity. Recommended only if you distribute
+        /// your assets to devices that cannot handle variable bitrates.
+        public let rateControlMode: H265RateControlMode?
+        /// Sets the scan type of the output to progressive or top-field-first interlaced.
+        public let scanType: H265ScanType?
+        /// Scene change detection.
+        public let sceneChangeDetect: H265SceneChangeDetect?
+        /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
+        /// This field is optional; when no value is specified the encoder will choose the number of slices based on encode resolution.
+        public let slices: Int?
+        /// H.265 Tier.
+        public let tier: H265Tier?
+        /// Determines how timecodes should be inserted into the video elementary stream.
+        /// - 'disabled': Do not include timecodes
+        /// - 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
+        public let timecodeInsertion: H265TimecodeInsertionBehavior?
+
+        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, alternativeTransferFunction: H265AlternativeTransferFunction? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorMetadata: H265ColorMetadata? = nil, colorSpaceSettings: H265ColorSpaceSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H265FlickerAq? = nil, framerateDenominator: Int, framerateNumerator: Int, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, level: H265Level? = nil, lookAheadRateControl: H265LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H265Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H265RateControlMode? = nil, scanType: H265ScanType? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, tier: H265Tier? = nil, timecodeInsertion: H265TimecodeInsertionBehavior? = nil) {
+            self.adaptiveQuantization = adaptiveQuantization
+            self.afdSignaling = afdSignaling
+            self.alternativeTransferFunction = alternativeTransferFunction
+            self.bitrate = bitrate
+            self.bufSize = bufSize
+            self.colorMetadata = colorMetadata
+            self.colorSpaceSettings = colorSpaceSettings
+            self.fixedAfd = fixedAfd
+            self.flickerAq = flickerAq
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
+            self.gopClosedCadence = gopClosedCadence
+            self.gopSize = gopSize
+            self.gopSizeUnits = gopSizeUnits
+            self.level = level
+            self.lookAheadRateControl = lookAheadRateControl
+            self.maxBitrate = maxBitrate
+            self.minIInterval = minIInterval
+            self.parDenominator = parDenominator
+            self.parNumerator = parNumerator
+            self.profile = profile
+            self.qvbrQualityLevel = qvbrQualityLevel
+            self.rateControlMode = rateControlMode
+            self.scanType = scanType
+            self.sceneChangeDetect = sceneChangeDetect
+            self.slices = slices
+            self.tier = tier
+            self.timecodeInsertion = timecodeInsertion
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bitrate, name:"bitrate", parent: name, max: 40000000)
+            try validate(self.bitrate, name:"bitrate", parent: name, min: 100000)
+            try validate(self.bufSize, name:"bufSize", parent: name, max: 80000000)
+            try validate(self.bufSize, name:"bufSize", parent: name, min: 100000)
+            try self.colorSpaceSettings?.validate(name: "\(name).colorSpaceSettings")
+            try validate(self.framerateDenominator, name:"framerateDenominator", parent: name, max: 3003)
+            try validate(self.framerateDenominator, name:"framerateDenominator", parent: name, min: 1)
+            try validate(self.framerateNumerator, name:"framerateNumerator", parent: name, min: 1)
+            try validate(self.gopClosedCadence, name:"gopClosedCadence", parent: name, min: 0)
+            try validate(self.maxBitrate, name:"maxBitrate", parent: name, max: 40000000)
+            try validate(self.maxBitrate, name:"maxBitrate", parent: name, min: 100000)
+            try validate(self.minIInterval, name:"minIInterval", parent: name, max: 30)
+            try validate(self.minIInterval, name:"minIInterval", parent: name, min: 0)
+            try validate(self.parDenominator, name:"parDenominator", parent: name, min: 1)
+            try validate(self.parNumerator, name:"parNumerator", parent: name, min: 1)
+            try validate(self.qvbrQualityLevel, name:"qvbrQualityLevel", parent: name, max: 10)
+            try validate(self.qvbrQualityLevel, name:"qvbrQualityLevel", parent: name, min: 1)
+            try validate(self.slices, name:"slices", parent: name, max: 16)
+            try validate(self.slices, name:"slices", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adaptiveQuantization = "adaptiveQuantization"
+            case afdSignaling = "afdSignaling"
+            case alternativeTransferFunction = "alternativeTransferFunction"
+            case bitrate = "bitrate"
+            case bufSize = "bufSize"
+            case colorMetadata = "colorMetadata"
+            case colorSpaceSettings = "colorSpaceSettings"
+            case fixedAfd = "fixedAfd"
+            case flickerAq = "flickerAq"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopClosedCadence = "gopClosedCadence"
+            case gopSize = "gopSize"
+            case gopSizeUnits = "gopSizeUnits"
+            case level = "level"
+            case lookAheadRateControl = "lookAheadRateControl"
+            case maxBitrate = "maxBitrate"
+            case minIInterval = "minIInterval"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case profile = "profile"
+            case qvbrQualityLevel = "qvbrQualityLevel"
+            case rateControlMode = "rateControlMode"
+            case scanType = "scanType"
+            case sceneChangeDetect = "sceneChangeDetect"
+            case slices = "slices"
+            case tier = "tier"
+            case timecodeInsertion = "timecodeInsertion"
+        }
+    }
+
+    public enum H265Tier: String, CustomStringConvertible, Codable {
+        case high = "HIGH"
+        case main = "MAIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265TimecodeInsertionBehavior: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case picTimingSei = "PIC_TIMING_SEI"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Hdr10Settings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxCll", location: .body(locationName: "maxCll"), required: false, type: .integer), 
+            AWSShapeMember(label: "MaxFall", location: .body(locationName: "maxFall"), required: false, type: .integer)
+        ]
+
+        /// Maximum Content Light Level
+        /// An integer metadata value defining the maximum light level, in nits,
+        /// of any single pixel within an encoded HDR video stream or file.
+        public let maxCll: Int?
+        /// Maximum Frame Average Light Level
+        /// An integer metadata value defining the maximum average light level, in nits,
+        /// for any single frame within an encoded HDR video stream or file.
+        public let maxFall: Int?
+
+        public init(maxCll: Int? = nil, maxFall: Int? = nil) {
+            self.maxCll = maxCll
+            self.maxFall = maxFall
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxCll, name:"maxCll", parent: name, max: 32768)
+            try validate(self.maxCll, name:"maxCll", parent: name, min: 0)
+            try validate(self.maxFall, name:"maxFall", parent: name, max: 32768)
+            try validate(self.maxFall, name:"maxFall", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCll = "maxCll"
+            case maxFall = "maxFall"
+        }
     }
 
     public enum HlsAdMarkers: String, CustomStringConvertible, Codable {
@@ -4330,6 +4729,14 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public struct ImmediateModeScheduleActionStartSettings: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct Input: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
@@ -4337,6 +4744,7 @@ extension MediaLive {
             AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "InputClass", location: .body(locationName: "inputClass"), required: false, type: .enum), 
+            AWSShapeMember(label: "InputSourceType", location: .body(locationName: "inputSourceType"), required: false, type: .enum), 
             AWSShapeMember(label: "MediaConnectFlows", location: .body(locationName: "mediaConnectFlows"), required: false, type: .list), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
@@ -4358,6 +4766,9 @@ extension MediaLive {
         /// STANDARD - MediaLive expects two sources to be connected to this input. If the channel is also STANDARD, both sources will be ingested. If the channel is SINGLE_PIPELINE, only the first source will be ingested; the second source will always be ignored, even if the first source fails.
         /// SINGLE_PIPELINE - You can connect only one source to this input. If the ChannelClass is also  SINGLE_PIPELINE, this value is valid. If the ChannelClass is STANDARD, this value is not valid because the channel requires two sources in the input.
         public let inputClass: InputClass?
+        /// Certain pull input sources can be dynamic, meaning that they can have their URL's dynamically changes
+        /// during input switch actions. Presently, this functionality only works with MP4_FILE inputs.
+        public let inputSourceType: InputSourceType?
         /// A list of MediaConnect Flows for this input.
         public let mediaConnectFlows: [MediaConnectFlow]?
         /// The user-assigned name (This is a mutable value).
@@ -4373,12 +4784,13 @@ extension MediaLive {
         public let tags: [String: String]?
         public let `type`: InputType?
 
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
             self.id = id
             self.inputClass = inputClass
+            self.inputSourceType = inputSourceType
             self.mediaConnectFlows = mediaConnectFlows
             self.name = name
             self.roleArn = roleArn
@@ -4395,6 +4807,7 @@ extension MediaLive {
             case destinations = "destinations"
             case id = "id"
             case inputClass = "inputClass"
+            case inputSourceType = "inputSourceType"
             case mediaConnectFlows = "mediaConnectFlows"
             case name = "name"
             case roleArn = "roleArn"
@@ -4470,6 +4883,33 @@ extension MediaLive {
         case standard = "STANDARD"
         case singlePipeline = "SINGLE_PIPELINE"
         public var description: String { return self.rawValue }
+    }
+
+    public struct InputClippingSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputTimecodeSource", location: .body(locationName: "inputTimecodeSource"), required: true, type: .enum), 
+            AWSShapeMember(label: "StartTimecode", location: .body(locationName: "startTimecode"), required: false, type: .structure), 
+            AWSShapeMember(label: "StopTimecode", location: .body(locationName: "stopTimecode"), required: false, type: .structure)
+        ]
+
+        /// The source of the timecodes in the source being clipped.
+        public let inputTimecodeSource: InputTimecodeSource
+        /// Settings to identify the start of the clip.
+        public let startTimecode: StartTimecode?
+        /// Settings to identify the end of the clip.
+        public let stopTimecode: StopTimecode?
+
+        public init(inputTimecodeSource: InputTimecodeSource, startTimecode: StartTimecode? = nil, stopTimecode: StopTimecode? = nil) {
+            self.inputTimecodeSource = inputTimecodeSource
+            self.startTimecode = startTimecode
+            self.stopTimecode = stopTimecode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputTimecodeSource = "inputTimecodeSource"
+            case startTimecode = "startTimecode"
+            case stopTimecode = "stopTimecode"
+        }
     }
 
     public enum InputCodec: String, CustomStringConvertible, Codable {
@@ -4874,6 +5314,12 @@ extension MediaLive {
         }
     }
 
+    public enum InputSourceType: String, CustomStringConvertible, Codable {
+        case `static` = "STATIC"
+        case dynamic = "DYNAMIC"
+        public var description: String { return self.rawValue }
+    }
+
     public struct InputSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Codec", location: .body(locationName: "codec"), required: false, type: .enum), 
@@ -4912,19 +5358,35 @@ extension MediaLive {
 
     public struct InputSwitchScheduleActionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InputAttachmentNameReference", location: .body(locationName: "inputAttachmentNameReference"), required: true, type: .string)
+            AWSShapeMember(label: "InputAttachmentNameReference", location: .body(locationName: "inputAttachmentNameReference"), required: true, type: .string), 
+            AWSShapeMember(label: "InputClippingSettings", location: .body(locationName: "inputClippingSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "UrlPath", location: .body(locationName: "urlPath"), required: false, type: .list)
         ]
 
-        /// The name of the input attachment that should be switched to by this action.
+        /// The name of the input attachment (not the name of the input!) to switch to. The name is specified in the channel configuration.
         public let inputAttachmentNameReference: String
+        /// Settings to let you create a clip of the file input, in order to set up the input to ingest only a portion of the file.
+        public let inputClippingSettings: InputClippingSettings?
+        /// The value for the variable portion of the URL for the dynamic input, for this instance of the input. Each time you use the same dynamic input in an input switch action, you can provide a different value, in order to connect the input to a different content source.
+        public let urlPath: [String]?
 
-        public init(inputAttachmentNameReference: String) {
+        public init(inputAttachmentNameReference: String, inputClippingSettings: InputClippingSettings? = nil, urlPath: [String]? = nil) {
             self.inputAttachmentNameReference = inputAttachmentNameReference
+            self.inputClippingSettings = inputClippingSettings
+            self.urlPath = urlPath
         }
 
         private enum CodingKeys: String, CodingKey {
             case inputAttachmentNameReference = "inputAttachmentNameReference"
+            case inputClippingSettings = "inputClippingSettings"
+            case urlPath = "urlPath"
         }
+    }
+
+    public enum InputTimecodeSource: String, CustomStringConvertible, Codable {
+        case zerobased = "ZEROBASED"
+        case embedded = "EMBEDDED"
+        public var description: String { return self.rawValue }
     }
 
     public enum InputType: String, CustomStringConvertible, Codable {
@@ -5014,6 +5476,12 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case staticKeySettings = "staticKeySettings"
         }
+    }
+
+    public enum LastFrameClippingBehavior: String, CustomStringConvertible, Codable {
+        case excludeLastFrame = "EXCLUDE_LAST_FRAME"
+        case includeLastFrame = "INCLUDE_LAST_FRAME"
+        public var description: String { return self.rawValue }
     }
 
     public struct ListChannelsRequest: AWSShape {
@@ -6087,19 +6555,31 @@ extension MediaLive {
         }
     }
 
+    public enum MsSmoothH265PackagingType: String, CustomStringConvertible, Codable {
+        case hev1 = "HEV1"
+        case hvc1 = "HVC1"
+        public var description: String { return self.rawValue }
+    }
+
     public struct MsSmoothOutputSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "H265PackagingType", location: .body(locationName: "h265PackagingType"), required: false, type: .enum), 
             AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string)
         ]
 
+        /// Only applicable when this output is referencing an H.265 video description.
+        /// Specifies whether MP4 segments should be packaged as HEV1 or HVC1.
+        public let h265PackagingType: MsSmoothH265PackagingType?
         /// String concatenated to the end of the destination filename.  Required for multiple outputs of the same type.
         public let nameModifier: String?
 
-        public init(nameModifier: String? = nil) {
+        public init(h265PackagingType: MsSmoothH265PackagingType? = nil, nameModifier: String? = nil) {
+            self.h265PackagingType = h265PackagingType
             self.nameModifier = nameModifier
         }
 
         private enum CodingKeys: String, CodingKey {
+            case h265PackagingType = "h265PackagingType"
             case nameModifier = "nameModifier"
         }
     }
@@ -6490,6 +6970,33 @@ extension MediaLive {
         }
     }
 
+    public struct PipelineDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActiveInputAttachmentName", location: .body(locationName: "activeInputAttachmentName"), required: false, type: .string), 
+            AWSShapeMember(label: "ActiveInputSwitchActionName", location: .body(locationName: "activeInputSwitchActionName"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelineId", location: .body(locationName: "pipelineId"), required: false, type: .string)
+        ]
+
+        /// The name of the active input attachment currently being ingested by this pipeline.
+        public let activeInputAttachmentName: String?
+        /// The name of the input switch schedule action that occurred most recently and that resulted in the switch to the current input attachment for this pipeline.
+        public let activeInputSwitchActionName: String?
+        /// Pipeline ID
+        public let pipelineId: String?
+
+        public init(activeInputAttachmentName: String? = nil, activeInputSwitchActionName: String? = nil, pipelineId: String? = nil) {
+            self.activeInputAttachmentName = activeInputAttachmentName
+            self.activeInputSwitchActionName = activeInputSwitchActionName
+            self.pipelineId = pipelineId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeInputAttachmentName = "activeInputAttachmentName"
+            case activeInputSwitchActionName = "activeInputSwitchActionName"
+            case pipelineId = "pipelineId"
+        }
+    }
+
     public enum PipelineId: String, CustomStringConvertible, Codable {
         case pipeline0 = "PIPELINE_0"
         case pipeline1 = "PIPELINE_1"
@@ -6567,6 +7074,22 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case reservation = "reservation"
         }
+    }
+
+    public struct Rec601Settings: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct Rec709Settings: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct RemixSettings: AWSShape {
@@ -7024,22 +7547,27 @@ extension MediaLive {
     public struct ScheduleActionStartSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FixedModeScheduleActionStartSettings", location: .body(locationName: "fixedModeScheduleActionStartSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "FollowModeScheduleActionStartSettings", location: .body(locationName: "followModeScheduleActionStartSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "FollowModeScheduleActionStartSettings", location: .body(locationName: "followModeScheduleActionStartSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "ImmediateModeScheduleActionStartSettings", location: .body(locationName: "immediateModeScheduleActionStartSettings"), required: false, type: .structure)
         ]
 
-        /// Holds the start time for the action.
+        /// Option for specifying the start time for an action.
         public let fixedModeScheduleActionStartSettings: FixedModeScheduleActionStartSettings?
-        /// Specifies an action to follow for scheduling this action.
+        /// Option for specifying an action as relative to another action.
         public let followModeScheduleActionStartSettings: FollowModeScheduleActionStartSettings?
+        /// Option for specifying an action that should be applied immediately.
+        public let immediateModeScheduleActionStartSettings: ImmediateModeScheduleActionStartSettings?
 
-        public init(fixedModeScheduleActionStartSettings: FixedModeScheduleActionStartSettings? = nil, followModeScheduleActionStartSettings: FollowModeScheduleActionStartSettings? = nil) {
+        public init(fixedModeScheduleActionStartSettings: FixedModeScheduleActionStartSettings? = nil, followModeScheduleActionStartSettings: FollowModeScheduleActionStartSettings? = nil, immediateModeScheduleActionStartSettings: ImmediateModeScheduleActionStartSettings? = nil) {
             self.fixedModeScheduleActionStartSettings = fixedModeScheduleActionStartSettings
             self.followModeScheduleActionStartSettings = followModeScheduleActionStartSettings
+            self.immediateModeScheduleActionStartSettings = immediateModeScheduleActionStartSettings
         }
 
         private enum CodingKeys: String, CodingKey {
             case fixedModeScheduleActionStartSettings = "fixedModeScheduleActionStartSettings"
             case followModeScheduleActionStartSettings = "followModeScheduleActionStartSettings"
+            case immediateModeScheduleActionStartSettings = "immediateModeScheduleActionStartSettings"
         }
     }
 
@@ -7581,6 +8109,7 @@ extension MediaLive {
             AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure), 
             AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelineDetails", location: .body(locationName: "pipelineDetails"), required: false, type: .list), 
             AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
@@ -7597,12 +8126,13 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         public let logLevel: LogLevel?
         public let name: String?
+        public let pipelineDetails: [PipelineDetail]?
         public let pipelinesRunningCount: Int?
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -7613,6 +8143,7 @@ extension MediaLive {
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
             self.name = name
+            self.pipelineDetails = pipelineDetails
             self.pipelinesRunningCount = pipelinesRunningCount
             self.roleArn = roleArn
             self.state = state
@@ -7630,10 +8161,28 @@ extension MediaLive {
             case inputSpecification = "inputSpecification"
             case logLevel = "logLevel"
             case name = "name"
+            case pipelineDetails = "pipelineDetails"
             case pipelinesRunningCount = "pipelinesRunningCount"
             case roleArn = "roleArn"
             case state = "state"
             case tags = "tags"
+        }
+    }
+
+    public struct StartTimecode: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timecode", location: .body(locationName: "timecode"), required: false, type: .string)
+        ]
+
+        /// The timecode for the frame where you want to start the clip. Optional; if not specified, the clip starts at first frame in the file. Enter the timecode as HH:MM:SS:FF or HH:MM:SS;FF.
+        public let timecode: String?
+
+        public init(timecode: String? = nil) {
+            self.timecode = timecode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timecode = "timecode"
         }
     }
 
@@ -7796,6 +8345,7 @@ extension MediaLive {
             AWSShapeMember(label: "InputSpecification", location: .body(locationName: "inputSpecification"), required: false, type: .structure), 
             AWSShapeMember(label: "LogLevel", location: .body(locationName: "logLevel"), required: false, type: .enum), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelineDetails", location: .body(locationName: "pipelineDetails"), required: false, type: .list), 
             AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
             AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: false, type: .string), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
@@ -7812,12 +8362,13 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         public let logLevel: LogLevel?
         public let name: String?
+        public let pipelineDetails: [PipelineDetail]?
         public let pipelinesRunningCount: Int?
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelClass = channelClass
             self.destinations = destinations
@@ -7828,6 +8379,7 @@ extension MediaLive {
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
             self.name = name
+            self.pipelineDetails = pipelineDetails
             self.pipelinesRunningCount = pipelinesRunningCount
             self.roleArn = roleArn
             self.state = state
@@ -7845,10 +8397,33 @@ extension MediaLive {
             case inputSpecification = "inputSpecification"
             case logLevel = "logLevel"
             case name = "name"
+            case pipelineDetails = "pipelineDetails"
             case pipelinesRunningCount = "pipelinesRunningCount"
             case roleArn = "roleArn"
             case state = "state"
             case tags = "tags"
+        }
+    }
+
+    public struct StopTimecode: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastFrameClippingBehavior", location: .body(locationName: "lastFrameClippingBehavior"), required: false, type: .enum), 
+            AWSShapeMember(label: "Timecode", location: .body(locationName: "timecode"), required: false, type: .string)
+        ]
+
+        /// If you specify a StopTimecode in an input (in order to clip the file), you can specify if you want the clip to exclude (the default) or include the frame specified by the timecode.
+        public let lastFrameClippingBehavior: LastFrameClippingBehavior?
+        /// The timecode for the frame where you want to stop the clip. Optional; if not specified, the clip continues to the end of the file. Enter the timecode as HH:MM:SS:FF or HH:MM:SS;FF.
+        public let timecode: String?
+
+        public init(lastFrameClippingBehavior: LastFrameClippingBehavior? = nil, timecode: String? = nil) {
+            self.lastFrameClippingBehavior = lastFrameClippingBehavior
+            self.timecode = timecode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastFrameClippingBehavior = "lastFrameClippingBehavior"
+            case timecode = "timecode"
         }
     }
 
@@ -8284,25 +8859,30 @@ extension MediaLive {
     public struct VideoCodecSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FrameCaptureSettings", location: .body(locationName: "frameCaptureSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "H264Settings", location: .body(locationName: "h264Settings"), required: false, type: .structure)
+            AWSShapeMember(label: "H264Settings", location: .body(locationName: "h264Settings"), required: false, type: .structure), 
+            AWSShapeMember(label: "H265Settings", location: .body(locationName: "h265Settings"), required: false, type: .structure)
         ]
 
         public let frameCaptureSettings: FrameCaptureSettings?
         public let h264Settings: H264Settings?
+        public let h265Settings: H265Settings?
 
-        public init(frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil) {
+        public init(frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil) {
             self.frameCaptureSettings = frameCaptureSettings
             self.h264Settings = h264Settings
+            self.h265Settings = h265Settings
         }
 
         public func validate(name: String) throws {
             try self.frameCaptureSettings?.validate(name: "\(name).frameCaptureSettings")
             try self.h264Settings?.validate(name: "\(name).h264Settings")
+            try self.h265Settings?.validate(name: "\(name).h265Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case frameCaptureSettings = "frameCaptureSettings"
             case h264Settings = "h264Settings"
+            case h265Settings = "h265Settings"
         }
     }
 
@@ -8379,7 +8959,7 @@ extension MediaLive {
             AWSShapeMember(label: "SelectorSettings", location: .body(locationName: "selectorSettings"), required: false, type: .structure)
         ]
 
-        /// Specifies the colorspace of an input. This setting works in tandem with colorSpaceConversion to determine if any conversion will be performed.
+        /// Specifies the color space of an input. This setting works in tandem with colorSpaceUsage and a video description's colorSpaceSettingsChoice to determine if any conversion will be performed.
         public let colorSpace: VideoSelectorColorSpace?
         /// Applies only if colorSpace is a value other than follow. This field controls how the value in the colorSpace field will be used. fallback means that when the input does include color space data, that data will be used, but when the input has no color space data, the value in colorSpace will be used. Choose fallback if your input is sometimes missing color space data, but when it does have color space data, that data is correct. force means to always use the value in colorSpace. Choose force if your input usually has no color space data or might have unreliable color space data.
         public let colorSpaceUsage: VideoSelectorColorSpaceUsage?

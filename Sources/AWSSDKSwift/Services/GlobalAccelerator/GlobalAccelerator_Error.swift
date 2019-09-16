@@ -6,6 +6,7 @@ import AWSSDKSwiftCore
 public enum GlobalAcceleratorErrorType: AWSErrorType {
     case acceleratorNotDisabledException(message: String?)
     case acceleratorNotFoundException(message: String?)
+    case accessDeniedException(message: String?)
     case associatedEndpointGroupFoundException(message: String?)
     case associatedListenerFoundException(message: String?)
     case endpointGroupAlreadyExistsException(message: String?)
@@ -29,6 +30,8 @@ extension GlobalAcceleratorErrorType {
             self = .acceleratorNotDisabledException(message: message)
         case "AcceleratorNotFoundException":
             self = .acceleratorNotFoundException(message: message)
+        case "AccessDeniedException":
+            self = .accessDeniedException(message: message)
         case "AssociatedEndpointGroupFoundException":
             self = .associatedEndpointGroupFoundException(message: message)
         case "AssociatedListenerFoundException":
@@ -62,6 +65,8 @@ extension GlobalAcceleratorErrorType : CustomStringConvertible {
             return "AcceleratorNotDisabledException: \(message ?? "")"
         case .acceleratorNotFoundException(let message):
             return "AcceleratorNotFoundException: \(message ?? "")"
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
         case .associatedEndpointGroupFoundException(let message):
             return "AssociatedEndpointGroupFoundException: \(message ?? "")"
         case .associatedListenerFoundException(let message):

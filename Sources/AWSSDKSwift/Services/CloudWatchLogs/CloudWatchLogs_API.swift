@@ -37,7 +37,7 @@ public struct CloudWatchLogs {
         return client.send(operation: "CancelExportTask", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an export task, which allows you to efficiently export data from a log group to an Amazon S3 bucket. This is an asynchronous call. If all the required information is provided, this operation initiates an export task and responds with the ID of the task. After the task has started, you can use DescribeExportTasks to get the status of the export task. Each account can only have one active (RUNNING or PENDING) export task at a time. To cancel an export task, use CancelExportTask. You can export logs from multiple log groups or multiple time ranges to the same S3 bucket. To separate out log data for each export task, you can specify a prefix to be used as the Amazon S3 key prefix for all exported objects.
+    ///  Creates an export task, which allows you to efficiently export data from a log group to an Amazon S3 bucket. This is an asynchronous call. If all the required information is provided, this operation initiates an export task and responds with the ID of the task. After the task has started, you can use DescribeExportTasks to get the status of the export task. Each account can only have one active (RUNNING or PENDING) export task at a time. To cancel an export task, use CancelExportTask. You can export logs from multiple log groups or multiple time ranges to the same S3 bucket. To separate out log data for each export task, you can specify a prefix to be used as the Amazon S3 key prefix for all exported objects. Exporting to S3 buckets that are encrypted with AES-256 is supported. Exporting to S3 buckets encrypted with SSE-KMS is not supported. 
     public func createExportTask(_ input: CreateExportTaskRequest) -> Future<CreateExportTaskResponse> {
         return client.send(operation: "CreateExportTask", path: "/", httpMethod: "POST", input: input)
     }
@@ -152,7 +152,7 @@ public struct CloudWatchLogs {
         return client.send(operation: "GetLogRecord", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the results from the specified query. If the query is in progress, partial results of that current execution are returned. Only the fields requested in the query are returned, along with a @ptr field which is the identifier for the log record. You can use the value of @ptr in a operation to get the full log record.  GetQueryResults does not start a query execution. To run a query, use .
+    ///  Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field which is the identifier for the log record. You can use the value of @ptr in a operation to get the full log record.  GetQueryResults does not start a query execution. To run a query, use . If the value of the Status field in the output is Running, this operation returns only partial results. If you see a value of Scheduled or Running for the status, you can retry the operation later to see the final results. 
     public func getQueryResults(_ input: GetQueryResultsRequest) -> Future<GetQueryResultsResponse> {
         return client.send(operation: "GetQueryResults", path: "/", httpMethod: "POST", input: input)
     }
@@ -162,7 +162,7 @@ public struct CloudWatchLogs {
         return client.send(operation: "ListTagsLogGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates or updates a destination. A destination encapsulates a physical resource (such as an Amazon Kinesis stream) and enables you to subscribe to a real-time stream of log events for a different account, ingested using PutLogEvents. Currently, the only supported physical resource is a Kinesis stream belonging to the same account as the destination. Through an access policy, a destination controls what is written to its Kinesis stream. By default, PutDestination does not set any access policy with the destination, which means a cross-account user cannot call PutSubscriptionFilter against this destination. To enable this, the destination owner must call PutDestinationPolicy after PutDestination.
+    ///  Creates or updates a destination. A destination encapsulates a physical resource (such as an Amazon Kinesis stream) and enables you to subscribe to a real-time stream of log events for a different account, ingested using PutLogEvents. A destination can be an Amazon Kinesis stream, Amazon Kinesis Data Firehose strea, or an AWS Lambda function. Through an access policy, a destination controls what is written to it. By default, PutDestination does not set any access policy with the destination, which means a cross-account user cannot call PutSubscriptionFilter against this destination. To enable this, the destination owner must call PutDestinationPolicy after PutDestination.
     public func putDestination(_ input: PutDestinationRequest) -> Future<PutDestinationResponse> {
         return client.send(operation: "PutDestination", path: "/", httpMethod: "POST", input: input)
     }
