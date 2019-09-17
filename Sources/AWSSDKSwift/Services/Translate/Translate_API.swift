@@ -29,27 +29,27 @@ public struct Translate {
     }
 
     ///  A synchronous action that deletes a custom terminology.
-    @discardableResult public func deleteTerminology(_ input: DeleteTerminologyRequest) throws -> Future<Void> {
-        return try client.send(operation: "DeleteTerminology", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteTerminology(_ input: DeleteTerminologyRequest) -> Future<Void> {
+        return client.send(operation: "DeleteTerminology", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves a custom terminology.
-    public func getTerminology(_ input: GetTerminologyRequest) throws -> Future<GetTerminologyResponse> {
-        return try client.send(operation: "GetTerminology", path: "/", httpMethod: "POST", input: input)
+    public func getTerminology(_ input: GetTerminologyRequest) -> Future<GetTerminologyResponse> {
+        return client.send(operation: "GetTerminology", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates or updates a custom terminology, depending on whether or not one already exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. Currently, the only supported merge strategy is OVERWRITE, and so the imported terminology will overwrite an existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology take up to 10 minutes to fully propagate and be available for use in a translation due to cache policies with the DataPlane service that performs the translations.
-    public func importTerminology(_ input: ImportTerminologyRequest) throws -> Future<ImportTerminologyResponse> {
-        return try client.send(operation: "ImportTerminology", path: "/", httpMethod: "POST", input: input)
+    public func importTerminology(_ input: ImportTerminologyRequest) -> Future<ImportTerminologyResponse> {
+        return client.send(operation: "ImportTerminology", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides a list of custom terminologies associated with your account.
-    public func listTerminologies(_ input: ListTerminologiesRequest) throws -> Future<ListTerminologiesResponse> {
-        return try client.send(operation: "ListTerminologies", path: "/", httpMethod: "POST", input: input)
+    public func listTerminologies(_ input: ListTerminologiesRequest) -> Future<ListTerminologiesResponse> {
+        return client.send(operation: "ListTerminologies", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Translates input text from the source language to the target language. It is not necessary to use English (en) as either the source or the target language but not all language combinations are supported by Amazon Translate. For more information, see Supported Language Pairs.   Arabic (ar)   Chinese (Simplified) (zh)   Chinese (Traditional) (zh-TW)   Czech (cs)   Danish (da)   Dutch (nl)   English (en)   Finnish (fi)   French (fr)   German (de)   Hebrew (he)   Indonesian (id)   Italian (it)   Japanese (ja)   Korean (ko)   Polish (pl)   Portuguese (pt)   Russian (ru)   Spanish (es)   Swedish (sv)   Turkish (tr)   To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
-    public func translateText(_ input: TranslateTextRequest) throws -> Future<TranslateTextResponse> {
-        return try client.send(operation: "TranslateText", path: "/", httpMethod: "POST", input: input)
+    public func translateText(_ input: TranslateTextRequest) -> Future<TranslateTextResponse> {
+        return client.send(operation: "TranslateText", path: "/", httpMethod: "POST", input: input)
     }
 }

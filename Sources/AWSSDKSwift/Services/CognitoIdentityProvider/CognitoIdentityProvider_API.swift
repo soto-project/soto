@@ -28,501 +28,501 @@ public struct CognitoIdentityProvider {
     }
 
     ///  Adds additional user attributes to the user pool schema.
-    public func addCustomAttributes(_ input: AddCustomAttributesRequest) throws -> Future<AddCustomAttributesResponse> {
-        return try client.send(operation: "AddCustomAttributes", path: "/", httpMethod: "POST", input: input)
+    public func addCustomAttributes(_ input: AddCustomAttributesRequest) -> Future<AddCustomAttributesResponse> {
+        return client.send(operation: "AddCustomAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Adds the specified user to the specified group. Requires developer credentials.
-    @discardableResult public func adminAddUserToGroup(_ input: AdminAddUserToGroupRequest) throws -> Future<Void> {
-        return try client.send(operation: "AdminAddUserToGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func adminAddUserToGroup(_ input: AdminAddUserToGroupRequest) -> Future<Void> {
+        return client.send(operation: "AdminAddUserToGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Confirms user registration as an admin without using a confirmation code. Works on any user. Requires developer credentials.
-    public func adminConfirmSignUp(_ input: AdminConfirmSignUpRequest) throws -> Future<AdminConfirmSignUpResponse> {
-        return try client.send(operation: "AdminConfirmSignUp", path: "/", httpMethod: "POST", input: input)
+    public func adminConfirmSignUp(_ input: AdminConfirmSignUpRequest) -> Future<AdminConfirmSignUpResponse> {
+        return client.send(operation: "AdminConfirmSignUp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new user in the specified user pool. If MessageAction is not set, the default is to send a welcome message via email or phone (SMS).  This message is based on a template that you configured in your call to or . This template includes your custom sign-up instructions and placeholders for user name and temporary password.  Alternatively, you can call AdminCreateUser with “SUPPRESS” for the MessageAction parameter, and Amazon Cognito will not send any email.  In either case, the user will be in the FORCE_CHANGE_PASSWORD state until they sign in and change their password. AdminCreateUser requires developer credentials.
-    public func adminCreateUser(_ input: AdminCreateUserRequest) throws -> Future<AdminCreateUserResponse> {
-        return try client.send(operation: "AdminCreateUser", path: "/", httpMethod: "POST", input: input)
+    public func adminCreateUser(_ input: AdminCreateUserRequest) -> Future<AdminCreateUserResponse> {
+        return client.send(operation: "AdminCreateUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a user as an administrator. Works on any user. Requires developer credentials.
-    @discardableResult public func adminDeleteUser(_ input: AdminDeleteUserRequest) throws -> Future<Void> {
-        return try client.send(operation: "AdminDeleteUser", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func adminDeleteUser(_ input: AdminDeleteUserRequest) -> Future<Void> {
+        return client.send(operation: "AdminDeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the user attributes in a user pool as an administrator. Works on any user. Requires developer credentials.
-    public func adminDeleteUserAttributes(_ input: AdminDeleteUserAttributesRequest) throws -> Future<AdminDeleteUserAttributesResponse> {
-        return try client.send(operation: "AdminDeleteUserAttributes", path: "/", httpMethod: "POST", input: input)
+    public func adminDeleteUserAttributes(_ input: AdminDeleteUserAttributesRequest) -> Future<AdminDeleteUserAttributesResponse> {
+        return client.send(operation: "AdminDeleteUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables the user from signing in with the specified external (SAML or social) identity provider. If the user to disable is a Cognito User Pools native username + password user, they are not permitted to use their password to sign-in. If the user to disable is a linked external IdP user, any link between that user and an existing user is removed. The next time the external user (no longer attached to the previously linked DestinationUser) signs in, they must create a new user account. See . This action is enabled only for admin access and requires developer credentials. The ProviderName must match the value specified when creating an IdP for the pool.  To disable a native username + password user, the ProviderName value must be Cognito and the ProviderAttributeName must be Cognito_Subject, with the ProviderAttributeValue being the name that is used in the user pool for the user. The ProviderAttributeName must always be Cognito_Subject for social identity providers. The ProviderAttributeValue must always be the exact subject that was used when the user was originally linked as a source user. For de-linking a SAML identity, there are two scenarios. If the linked identity has not yet been used to sign-in, the ProviderAttributeName and ProviderAttributeValue must be the same values that were used for the SourceUser when the identities were originally linked in the call. (If the linking was done with ProviderAttributeName set to Cognito_Subject, the same applies here). However, if the user has already signed in, the ProviderAttributeName must be Cognito_Subject and ProviderAttributeValue must be the subject of the SAML assertion.
-    public func adminDisableProviderForUser(_ input: AdminDisableProviderForUserRequest) throws -> Future<AdminDisableProviderForUserResponse> {
-        return try client.send(operation: "AdminDisableProviderForUser", path: "/", httpMethod: "POST", input: input)
+    public func adminDisableProviderForUser(_ input: AdminDisableProviderForUserRequest) -> Future<AdminDisableProviderForUserResponse> {
+        return client.send(operation: "AdminDisableProviderForUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disables the specified user as an administrator. Works on any user. Requires developer credentials.
-    public func adminDisableUser(_ input: AdminDisableUserRequest) throws -> Future<AdminDisableUserResponse> {
-        return try client.send(operation: "AdminDisableUser", path: "/", httpMethod: "POST", input: input)
+    public func adminDisableUser(_ input: AdminDisableUserRequest) -> Future<AdminDisableUserResponse> {
+        return client.send(operation: "AdminDisableUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Enables the specified user as an administrator. Works on any user. Requires developer credentials.
-    public func adminEnableUser(_ input: AdminEnableUserRequest) throws -> Future<AdminEnableUserResponse> {
-        return try client.send(operation: "AdminEnableUser", path: "/", httpMethod: "POST", input: input)
+    public func adminEnableUser(_ input: AdminEnableUserRequest) -> Future<AdminEnableUserResponse> {
+        return client.send(operation: "AdminEnableUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Forgets the device, as an administrator. Requires developer credentials.
-    @discardableResult public func adminForgetDevice(_ input: AdminForgetDeviceRequest) throws -> Future<Void> {
-        return try client.send(operation: "AdminForgetDevice", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func adminForgetDevice(_ input: AdminForgetDeviceRequest) -> Future<Void> {
+        return client.send(operation: "AdminForgetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the device, as an administrator. Requires developer credentials.
-    public func adminGetDevice(_ input: AdminGetDeviceRequest) throws -> Future<AdminGetDeviceResponse> {
-        return try client.send(operation: "AdminGetDevice", path: "/", httpMethod: "POST", input: input)
+    public func adminGetDevice(_ input: AdminGetDeviceRequest) -> Future<AdminGetDeviceResponse> {
+        return client.send(operation: "AdminGetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the specified user by user name in a user pool as an administrator. Works on any user. Requires developer credentials.
-    public func adminGetUser(_ input: AdminGetUserRequest) throws -> Future<AdminGetUserResponse> {
-        return try client.send(operation: "AdminGetUser", path: "/", httpMethod: "POST", input: input)
+    public func adminGetUser(_ input: AdminGetUserRequest) -> Future<AdminGetUserResponse> {
+        return client.send(operation: "AdminGetUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Initiates the authentication flow, as an administrator. Requires developer credentials.
-    public func adminInitiateAuth(_ input: AdminInitiateAuthRequest) throws -> Future<AdminInitiateAuthResponse> {
-        return try client.send(operation: "AdminInitiateAuth", path: "/", httpMethod: "POST", input: input)
+    public func adminInitiateAuth(_ input: AdminInitiateAuthRequest) -> Future<AdminInitiateAuthResponse> {
+        return client.send(operation: "AdminInitiateAuth", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Links an existing user account in a user pool (DestinationUser) to an identity from an external identity provider (SourceUser) based on a specified attribute name and value from the external identity provider. This allows you to create a link from the existing user account to an external federated user identity that has not yet been used to sign in, so that the federated user identity can be used to sign in as the existing user account.   For example, if there is an existing user with a username and password, this API links that user to a federated user identity, so that when the federated user identity is used, the user signs in as the existing user account.   Because this API allows a user with an external federated identity to sign in as an existing user in the user pool, it is critical that it only be used with external identity providers and provider attributes that have been trusted by the application owner.  See also . This action is enabled only for admin access and requires developer credentials.
-    public func adminLinkProviderForUser(_ input: AdminLinkProviderForUserRequest) throws -> Future<AdminLinkProviderForUserResponse> {
-        return try client.send(operation: "AdminLinkProviderForUser", path: "/", httpMethod: "POST", input: input)
+    public func adminLinkProviderForUser(_ input: AdminLinkProviderForUserRequest) -> Future<AdminLinkProviderForUserResponse> {
+        return client.send(operation: "AdminLinkProviderForUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists devices, as an administrator. Requires developer credentials.
-    public func adminListDevices(_ input: AdminListDevicesRequest) throws -> Future<AdminListDevicesResponse> {
-        return try client.send(operation: "AdminListDevices", path: "/", httpMethod: "POST", input: input)
+    public func adminListDevices(_ input: AdminListDevicesRequest) -> Future<AdminListDevicesResponse> {
+        return client.send(operation: "AdminListDevices", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the groups that the user belongs to. Requires developer credentials.
-    public func adminListGroupsForUser(_ input: AdminListGroupsForUserRequest) throws -> Future<AdminListGroupsForUserResponse> {
-        return try client.send(operation: "AdminListGroupsForUser", path: "/", httpMethod: "POST", input: input)
+    public func adminListGroupsForUser(_ input: AdminListGroupsForUserRequest) -> Future<AdminListGroupsForUserResponse> {
+        return client.send(operation: "AdminListGroupsForUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists a history of user activity and any risks detected as part of Amazon Cognito advanced security.
-    public func adminListUserAuthEvents(_ input: AdminListUserAuthEventsRequest) throws -> Future<AdminListUserAuthEventsResponse> {
-        return try client.send(operation: "AdminListUserAuthEvents", path: "/", httpMethod: "POST", input: input)
+    public func adminListUserAuthEvents(_ input: AdminListUserAuthEventsRequest) -> Future<AdminListUserAuthEventsResponse> {
+        return client.send(operation: "AdminListUserAuthEvents", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified user from the specified group. Requires developer credentials.
-    @discardableResult public func adminRemoveUserFromGroup(_ input: AdminRemoveUserFromGroupRequest) throws -> Future<Void> {
-        return try client.send(operation: "AdminRemoveUserFromGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func adminRemoveUserFromGroup(_ input: AdminRemoveUserFromGroupRequest) -> Future<Void> {
+        return client.send(operation: "AdminRemoveUserFromGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resets the specified user's password in a user pool as an administrator. Works on any user. When a developer calls this API, the current password is invalidated, so it must be changed. If a user tries to sign in after the API is called, the app will get a PasswordResetRequiredException exception back and should direct the user down the flow to reset the password, which is the same as the forgot password flow. In addition, if the user pool has phone verification selected and a verified phone number exists for the user, or if email verification is selected and a verified email exists for the user, calling this API will also result in sending a message to the end user with the code to change their password. Requires developer credentials.
-    public func adminResetUserPassword(_ input: AdminResetUserPasswordRequest) throws -> Future<AdminResetUserPasswordResponse> {
-        return try client.send(operation: "AdminResetUserPassword", path: "/", httpMethod: "POST", input: input)
+    public func adminResetUserPassword(_ input: AdminResetUserPasswordRequest) -> Future<AdminResetUserPasswordResponse> {
+        return client.send(operation: "AdminResetUserPassword", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Responds to an authentication challenge, as an administrator. Requires developer credentials.
-    public func adminRespondToAuthChallenge(_ input: AdminRespondToAuthChallengeRequest) throws -> Future<AdminRespondToAuthChallengeResponse> {
-        return try client.send(operation: "AdminRespondToAuthChallenge", path: "/", httpMethod: "POST", input: input)
+    public func adminRespondToAuthChallenge(_ input: AdminRespondToAuthChallengeRequest) -> Future<AdminRespondToAuthChallengeResponse> {
+        return client.send(operation: "AdminRespondToAuthChallenge", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the user's multi-factor authentication (MFA) preference.
-    public func adminSetUserMFAPreference(_ input: AdminSetUserMFAPreferenceRequest) throws -> Future<AdminSetUserMFAPreferenceResponse> {
-        return try client.send(operation: "AdminSetUserMFAPreference", path: "/", httpMethod: "POST", input: input)
+    public func adminSetUserMFAPreference(_ input: AdminSetUserMFAPreferenceRequest) -> Future<AdminSetUserMFAPreferenceResponse> {
+        return client.send(operation: "AdminSetUserMFAPreference", path: "/", httpMethod: "POST", input: input)
     }
 
-    public func adminSetUserPassword(_ input: AdminSetUserPasswordRequest) throws -> Future<AdminSetUserPasswordResponse> {
-        return try client.send(operation: "AdminSetUserPassword", path: "/", httpMethod: "POST", input: input)
+    public func adminSetUserPassword(_ input: AdminSetUserPasswordRequest) -> Future<AdminSetUserPasswordResponse> {
+        return client.send(operation: "AdminSetUserPassword", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets all the user settings for a specified user name. Works on any user. Requires developer credentials.
-    public func adminSetUserSettings(_ input: AdminSetUserSettingsRequest) throws -> Future<AdminSetUserSettingsResponse> {
-        return try client.send(operation: "AdminSetUserSettings", path: "/", httpMethod: "POST", input: input)
+    public func adminSetUserSettings(_ input: AdminSetUserSettingsRequest) -> Future<AdminSetUserSettingsResponse> {
+        return client.send(operation: "AdminSetUserSettings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides feedback for an authentication event as to whether it was from a valid user. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.
-    public func adminUpdateAuthEventFeedback(_ input: AdminUpdateAuthEventFeedbackRequest) throws -> Future<AdminUpdateAuthEventFeedbackResponse> {
-        return try client.send(operation: "AdminUpdateAuthEventFeedback", path: "/", httpMethod: "POST", input: input)
+    public func adminUpdateAuthEventFeedback(_ input: AdminUpdateAuthEventFeedbackRequest) -> Future<AdminUpdateAuthEventFeedbackResponse> {
+        return client.send(operation: "AdminUpdateAuthEventFeedback", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the device status as an administrator. Requires developer credentials.
-    public func adminUpdateDeviceStatus(_ input: AdminUpdateDeviceStatusRequest) throws -> Future<AdminUpdateDeviceStatusResponse> {
-        return try client.send(operation: "AdminUpdateDeviceStatus", path: "/", httpMethod: "POST", input: input)
+    public func adminUpdateDeviceStatus(_ input: AdminUpdateDeviceStatusRequest) -> Future<AdminUpdateDeviceStatusResponse> {
+        return client.send(operation: "AdminUpdateDeviceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the specified user's attributes, including developer attributes, as an administrator. Works on any user. For custom attributes, you must prepend the custom: prefix to the attribute name. In addition to updating user attributes, this API can also be used to mark phone and email as verified. Requires developer credentials.
-    public func adminUpdateUserAttributes(_ input: AdminUpdateUserAttributesRequest) throws -> Future<AdminUpdateUserAttributesResponse> {
-        return try client.send(operation: "AdminUpdateUserAttributes", path: "/", httpMethod: "POST", input: input)
+    public func adminUpdateUserAttributes(_ input: AdminUpdateUserAttributesRequest) -> Future<AdminUpdateUserAttributesResponse> {
+        return client.send(operation: "AdminUpdateUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Signs out users from all devices, as an administrator. Requires developer credentials.
-    public func adminUserGlobalSignOut(_ input: AdminUserGlobalSignOutRequest) throws -> Future<AdminUserGlobalSignOutResponse> {
-        return try client.send(operation: "AdminUserGlobalSignOut", path: "/", httpMethod: "POST", input: input)
+    public func adminUserGlobalSignOut(_ input: AdminUserGlobalSignOutRequest) -> Future<AdminUserGlobalSignOutResponse> {
+        return client.send(operation: "AdminUserGlobalSignOut", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a unique generated shared secret key code for the user account. The request takes an access token or a session string, but not both.
-    public func associateSoftwareToken(_ input: AssociateSoftwareTokenRequest) throws -> Future<AssociateSoftwareTokenResponse> {
-        return try client.send(operation: "AssociateSoftwareToken", path: "/", httpMethod: "POST", input: input)
+    public func associateSoftwareToken(_ input: AssociateSoftwareTokenRequest) -> Future<AssociateSoftwareTokenResponse> {
+        return client.send(operation: "AssociateSoftwareToken", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Changes the password for a specified user in a user pool.
-    public func changePassword(_ input: ChangePasswordRequest) throws -> Future<ChangePasswordResponse> {
-        return try client.send(operation: "ChangePassword", path: "/", httpMethod: "POST", input: input)
+    public func changePassword(_ input: ChangePasswordRequest) -> Future<ChangePasswordResponse> {
+        return client.send(operation: "ChangePassword", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Confirms tracking of the device. This API call is the call that begins device tracking.
-    public func confirmDevice(_ input: ConfirmDeviceRequest) throws -> Future<ConfirmDeviceResponse> {
-        return try client.send(operation: "ConfirmDevice", path: "/", httpMethod: "POST", input: input)
+    public func confirmDevice(_ input: ConfirmDeviceRequest) -> Future<ConfirmDeviceResponse> {
+        return client.send(operation: "ConfirmDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows a user to enter a confirmation code to reset a forgotten password.
-    public func confirmForgotPassword(_ input: ConfirmForgotPasswordRequest) throws -> Future<ConfirmForgotPasswordResponse> {
-        return try client.send(operation: "ConfirmForgotPassword", path: "/", httpMethod: "POST", input: input)
+    public func confirmForgotPassword(_ input: ConfirmForgotPasswordRequest) -> Future<ConfirmForgotPasswordResponse> {
+        return client.send(operation: "ConfirmForgotPassword", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Confirms registration of a user and handles the existing alias from a previous user.
-    public func confirmSignUp(_ input: ConfirmSignUpRequest) throws -> Future<ConfirmSignUpResponse> {
-        return try client.send(operation: "ConfirmSignUp", path: "/", httpMethod: "POST", input: input)
+    public func confirmSignUp(_ input: ConfirmSignUpRequest) -> Future<ConfirmSignUpResponse> {
+        return client.send(operation: "ConfirmSignUp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new group in the specified user pool. Requires developer credentials.
-    public func createGroup(_ input: CreateGroupRequest) throws -> Future<CreateGroupResponse> {
-        return try client.send(operation: "CreateGroup", path: "/", httpMethod: "POST", input: input)
+    public func createGroup(_ input: CreateGroupRequest) -> Future<CreateGroupResponse> {
+        return client.send(operation: "CreateGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an identity provider for a user pool.
-    public func createIdentityProvider(_ input: CreateIdentityProviderRequest) throws -> Future<CreateIdentityProviderResponse> {
-        return try client.send(operation: "CreateIdentityProvider", path: "/", httpMethod: "POST", input: input)
+    public func createIdentityProvider(_ input: CreateIdentityProviderRequest) -> Future<CreateIdentityProviderResponse> {
+        return client.send(operation: "CreateIdentityProvider", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new OAuth2.0 resource server and defines custom scopes in it.
-    public func createResourceServer(_ input: CreateResourceServerRequest) throws -> Future<CreateResourceServerResponse> {
-        return try client.send(operation: "CreateResourceServer", path: "/", httpMethod: "POST", input: input)
+    public func createResourceServer(_ input: CreateResourceServerRequest) -> Future<CreateResourceServerResponse> {
+        return client.send(operation: "CreateResourceServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates the user import job.
-    public func createUserImportJob(_ input: CreateUserImportJobRequest) throws -> Future<CreateUserImportJobResponse> {
-        return try client.send(operation: "CreateUserImportJob", path: "/", httpMethod: "POST", input: input)
+    public func createUserImportJob(_ input: CreateUserImportJobRequest) -> Future<CreateUserImportJobResponse> {
+        return client.send(operation: "CreateUserImportJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new Amazon Cognito user pool and sets the password policy for the pool.
-    public func createUserPool(_ input: CreateUserPoolRequest) throws -> Future<CreateUserPoolResponse> {
-        return try client.send(operation: "CreateUserPool", path: "/", httpMethod: "POST", input: input)
+    public func createUserPool(_ input: CreateUserPoolRequest) -> Future<CreateUserPoolResponse> {
+        return client.send(operation: "CreateUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates the user pool client.
-    public func createUserPoolClient(_ input: CreateUserPoolClientRequest) throws -> Future<CreateUserPoolClientResponse> {
-        return try client.send(operation: "CreateUserPoolClient", path: "/", httpMethod: "POST", input: input)
+    public func createUserPoolClient(_ input: CreateUserPoolClientRequest) -> Future<CreateUserPoolClientResponse> {
+        return client.send(operation: "CreateUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new domain for a user pool.
-    public func createUserPoolDomain(_ input: CreateUserPoolDomainRequest) throws -> Future<CreateUserPoolDomainResponse> {
-        return try client.send(operation: "CreateUserPoolDomain", path: "/", httpMethod: "POST", input: input)
+    public func createUserPoolDomain(_ input: CreateUserPoolDomainRequest) -> Future<CreateUserPoolDomainResponse> {
+        return client.send(operation: "CreateUserPoolDomain", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a group. Currently only groups with no members can be deleted. Requires developer credentials.
-    @discardableResult public func deleteGroup(_ input: DeleteGroupRequest) throws -> Future<Void> {
-        return try client.send(operation: "DeleteGroup", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteGroup(_ input: DeleteGroupRequest) -> Future<Void> {
+        return client.send(operation: "DeleteGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an identity provider for a user pool.
-    @discardableResult public func deleteIdentityProvider(_ input: DeleteIdentityProviderRequest) throws -> Future<Void> {
-        return try client.send(operation: "DeleteIdentityProvider", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteIdentityProvider(_ input: DeleteIdentityProviderRequest) -> Future<Void> {
+        return client.send(operation: "DeleteIdentityProvider", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a resource server.
-    @discardableResult public func deleteResourceServer(_ input: DeleteResourceServerRequest) throws -> Future<Void> {
-        return try client.send(operation: "DeleteResourceServer", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteResourceServer(_ input: DeleteResourceServerRequest) -> Future<Void> {
+        return client.send(operation: "DeleteResourceServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows a user to delete himself or herself.
-    @discardableResult public func deleteUser(_ input: DeleteUserRequest) throws -> Future<Void> {
-        return try client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteUser(_ input: DeleteUserRequest) -> Future<Void> {
+        return client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the attributes for a user.
-    public func deleteUserAttributes(_ input: DeleteUserAttributesRequest) throws -> Future<DeleteUserAttributesResponse> {
-        return try client.send(operation: "DeleteUserAttributes", path: "/", httpMethod: "POST", input: input)
+    public func deleteUserAttributes(_ input: DeleteUserAttributesRequest) -> Future<DeleteUserAttributesResponse> {
+        return client.send(operation: "DeleteUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified Amazon Cognito user pool.
-    @discardableResult public func deleteUserPool(_ input: DeleteUserPoolRequest) throws -> Future<Void> {
-        return try client.send(operation: "DeleteUserPool", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteUserPool(_ input: DeleteUserPoolRequest) -> Future<Void> {
+        return client.send(operation: "DeleteUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows the developer to delete the user pool client.
-    @discardableResult public func deleteUserPoolClient(_ input: DeleteUserPoolClientRequest) throws -> Future<Void> {
-        return try client.send(operation: "DeleteUserPoolClient", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func deleteUserPoolClient(_ input: DeleteUserPoolClientRequest) -> Future<Void> {
+        return client.send(operation: "DeleteUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a domain for a user pool.
-    public func deleteUserPoolDomain(_ input: DeleteUserPoolDomainRequest) throws -> Future<DeleteUserPoolDomainResponse> {
-        return try client.send(operation: "DeleteUserPoolDomain", path: "/", httpMethod: "POST", input: input)
+    public func deleteUserPoolDomain(_ input: DeleteUserPoolDomainRequest) -> Future<DeleteUserPoolDomainResponse> {
+        return client.send(operation: "DeleteUserPoolDomain", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a specific identity provider.
-    public func describeIdentityProvider(_ input: DescribeIdentityProviderRequest) throws -> Future<DescribeIdentityProviderResponse> {
-        return try client.send(operation: "DescribeIdentityProvider", path: "/", httpMethod: "POST", input: input)
+    public func describeIdentityProvider(_ input: DescribeIdentityProviderRequest) -> Future<DescribeIdentityProviderResponse> {
+        return client.send(operation: "DescribeIdentityProvider", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes a resource server.
-    public func describeResourceServer(_ input: DescribeResourceServerRequest) throws -> Future<DescribeResourceServerResponse> {
-        return try client.send(operation: "DescribeResourceServer", path: "/", httpMethod: "POST", input: input)
+    public func describeResourceServer(_ input: DescribeResourceServerRequest) -> Future<DescribeResourceServerResponse> {
+        return client.send(operation: "DescribeResourceServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the risk configuration.
-    public func describeRiskConfiguration(_ input: DescribeRiskConfigurationRequest) throws -> Future<DescribeRiskConfigurationResponse> {
-        return try client.send(operation: "DescribeRiskConfiguration", path: "/", httpMethod: "POST", input: input)
+    public func describeRiskConfiguration(_ input: DescribeRiskConfigurationRequest) -> Future<DescribeRiskConfigurationResponse> {
+        return client.send(operation: "DescribeRiskConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the user import job.
-    public func describeUserImportJob(_ input: DescribeUserImportJobRequest) throws -> Future<DescribeUserImportJobResponse> {
-        return try client.send(operation: "DescribeUserImportJob", path: "/", httpMethod: "POST", input: input)
+    public func describeUserImportJob(_ input: DescribeUserImportJobRequest) -> Future<DescribeUserImportJobResponse> {
+        return client.send(operation: "DescribeUserImportJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the configuration information and metadata of the specified user pool.
-    public func describeUserPool(_ input: DescribeUserPoolRequest) throws -> Future<DescribeUserPoolResponse> {
-        return try client.send(operation: "DescribeUserPool", path: "/", httpMethod: "POST", input: input)
+    public func describeUserPool(_ input: DescribeUserPoolRequest) -> Future<DescribeUserPoolResponse> {
+        return client.send(operation: "DescribeUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Client method for returning the configuration information and metadata of the specified user pool app client.
-    public func describeUserPoolClient(_ input: DescribeUserPoolClientRequest) throws -> Future<DescribeUserPoolClientResponse> {
-        return try client.send(operation: "DescribeUserPoolClient", path: "/", httpMethod: "POST", input: input)
+    public func describeUserPoolClient(_ input: DescribeUserPoolClientRequest) -> Future<DescribeUserPoolClientResponse> {
+        return client.send(operation: "DescribeUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a domain.
-    public func describeUserPoolDomain(_ input: DescribeUserPoolDomainRequest) throws -> Future<DescribeUserPoolDomainResponse> {
-        return try client.send(operation: "DescribeUserPoolDomain", path: "/", httpMethod: "POST", input: input)
+    public func describeUserPoolDomain(_ input: DescribeUserPoolDomainRequest) -> Future<DescribeUserPoolDomainResponse> {
+        return client.send(operation: "DescribeUserPoolDomain", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Forgets the specified device.
-    @discardableResult public func forgetDevice(_ input: ForgetDeviceRequest) throws -> Future<Void> {
-        return try client.send(operation: "ForgetDevice", path: "/", httpMethod: "POST", input: input)
+    @discardableResult public func forgetDevice(_ input: ForgetDeviceRequest) -> Future<Void> {
+        return client.send(operation: "ForgetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. If a verified phone number exists for the user, the confirmation code is sent to the phone number. Otherwise, if a verified email exists, the confirmation code is sent to the email. If neither a verified phone number nor a verified email exists, InvalidParameterException is thrown. To use the confirmation code for resetting the password, call .
-    public func forgotPassword(_ input: ForgotPasswordRequest) throws -> Future<ForgotPasswordResponse> {
-        return try client.send(operation: "ForgotPassword", path: "/", httpMethod: "POST", input: input)
+    public func forgotPassword(_ input: ForgotPasswordRequest) -> Future<ForgotPasswordResponse> {
+        return client.send(operation: "ForgotPassword", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the header information for the .csv file to be used as input for the user import job.
-    public func getCSVHeader(_ input: GetCSVHeaderRequest) throws -> Future<GetCSVHeaderResponse> {
-        return try client.send(operation: "GetCSVHeader", path: "/", httpMethod: "POST", input: input)
+    public func getCSVHeader(_ input: GetCSVHeaderRequest) -> Future<GetCSVHeaderResponse> {
+        return client.send(operation: "GetCSVHeader", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the device.
-    public func getDevice(_ input: GetDeviceRequest) throws -> Future<GetDeviceResponse> {
-        return try client.send(operation: "GetDevice", path: "/", httpMethod: "POST", input: input)
+    public func getDevice(_ input: GetDeviceRequest) -> Future<GetDeviceResponse> {
+        return client.send(operation: "GetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a group. Requires developer credentials.
-    public func getGroup(_ input: GetGroupRequest) throws -> Future<GetGroupResponse> {
-        return try client.send(operation: "GetGroup", path: "/", httpMethod: "POST", input: input)
+    public func getGroup(_ input: GetGroupRequest) -> Future<GetGroupResponse> {
+        return client.send(operation: "GetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the specified identity provider.
-    public func getIdentityProviderByIdentifier(_ input: GetIdentityProviderByIdentifierRequest) throws -> Future<GetIdentityProviderByIdentifierResponse> {
-        return try client.send(operation: "GetIdentityProviderByIdentifier", path: "/", httpMethod: "POST", input: input)
+    public func getIdentityProviderByIdentifier(_ input: GetIdentityProviderByIdentifierRequest) -> Future<GetIdentityProviderByIdentifierResponse> {
+        return client.send(operation: "GetIdentityProviderByIdentifier", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  This method takes a user pool ID, and returns the signing certificate.
-    public func getSigningCertificate(_ input: GetSigningCertificateRequest) throws -> Future<GetSigningCertificateResponse> {
-        return try client.send(operation: "GetSigningCertificate", path: "/", httpMethod: "POST", input: input)
+    public func getSigningCertificate(_ input: GetSigningCertificateRequest) -> Future<GetSigningCertificateResponse> {
+        return client.send(operation: "GetSigningCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the UI Customization information for a particular app client's app UI, if there is something set. If nothing is set for the particular client, but there is an existing pool level customization (app clientId will be ALL), then that is returned. If nothing is present, then an empty shape is returned.
-    public func getUICustomization(_ input: GetUICustomizationRequest) throws -> Future<GetUICustomizationResponse> {
-        return try client.send(operation: "GetUICustomization", path: "/", httpMethod: "POST", input: input)
+    public func getUICustomization(_ input: GetUICustomizationRequest) -> Future<GetUICustomizationResponse> {
+        return client.send(operation: "GetUICustomization", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the user attributes and metadata for a user.
-    public func getUser(_ input: GetUserRequest) throws -> Future<GetUserResponse> {
-        return try client.send(operation: "GetUser", path: "/", httpMethod: "POST", input: input)
+    public func getUser(_ input: GetUserRequest) -> Future<GetUserResponse> {
+        return client.send(operation: "GetUser", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the user attribute verification code for the specified attribute name.
-    public func getUserAttributeVerificationCode(_ input: GetUserAttributeVerificationCodeRequest) throws -> Future<GetUserAttributeVerificationCodeResponse> {
-        return try client.send(operation: "GetUserAttributeVerificationCode", path: "/", httpMethod: "POST", input: input)
+    public func getUserAttributeVerificationCode(_ input: GetUserAttributeVerificationCodeRequest) -> Future<GetUserAttributeVerificationCodeResponse> {
+        return client.send(operation: "GetUserAttributeVerificationCode", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the user pool multi-factor authentication (MFA) configuration.
-    public func getUserPoolMfaConfig(_ input: GetUserPoolMfaConfigRequest) throws -> Future<GetUserPoolMfaConfigResponse> {
-        return try client.send(operation: "GetUserPoolMfaConfig", path: "/", httpMethod: "POST", input: input)
+    public func getUserPoolMfaConfig(_ input: GetUserPoolMfaConfigRequest) -> Future<GetUserPoolMfaConfigResponse> {
+        return client.send(operation: "GetUserPoolMfaConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Signs out users from all devices.
-    public func globalSignOut(_ input: GlobalSignOutRequest) throws -> Future<GlobalSignOutResponse> {
-        return try client.send(operation: "GlobalSignOut", path: "/", httpMethod: "POST", input: input)
+    public func globalSignOut(_ input: GlobalSignOutRequest) -> Future<GlobalSignOutResponse> {
+        return client.send(operation: "GlobalSignOut", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Initiates the authentication flow.
-    public func initiateAuth(_ input: InitiateAuthRequest) throws -> Future<InitiateAuthResponse> {
-        return try client.send(operation: "InitiateAuth", path: "/", httpMethod: "POST", input: input)
+    public func initiateAuth(_ input: InitiateAuthRequest) -> Future<InitiateAuthResponse> {
+        return client.send(operation: "InitiateAuth", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the devices.
-    public func listDevices(_ input: ListDevicesRequest) throws -> Future<ListDevicesResponse> {
-        return try client.send(operation: "ListDevices", path: "/", httpMethod: "POST", input: input)
+    public func listDevices(_ input: ListDevicesRequest) -> Future<ListDevicesResponse> {
+        return client.send(operation: "ListDevices", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the groups associated with a user pool. Requires developer credentials.
-    public func listGroups(_ input: ListGroupsRequest) throws -> Future<ListGroupsResponse> {
-        return try client.send(operation: "ListGroups", path: "/", httpMethod: "POST", input: input)
+    public func listGroups(_ input: ListGroupsRequest) -> Future<ListGroupsResponse> {
+        return client.send(operation: "ListGroups", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists information about all identity providers for a user pool.
-    public func listIdentityProviders(_ input: ListIdentityProvidersRequest) throws -> Future<ListIdentityProvidersResponse> {
-        return try client.send(operation: "ListIdentityProviders", path: "/", httpMethod: "POST", input: input)
+    public func listIdentityProviders(_ input: ListIdentityProvidersRequest) -> Future<ListIdentityProvidersResponse> {
+        return client.send(operation: "ListIdentityProviders", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the resource servers for a user pool.
-    public func listResourceServers(_ input: ListResourceServersRequest) throws -> Future<ListResourceServersResponse> {
-        return try client.send(operation: "ListResourceServers", path: "/", httpMethod: "POST", input: input)
+    public func listResourceServers(_ input: ListResourceServersRequest) -> Future<ListResourceServersResponse> {
+        return client.send(operation: "ListResourceServers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the tags that are assigned to an Amazon Cognito user pool. A tag is a label that you can apply to user pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. You can use this action up to 10 times per second, per account.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
-        return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the user import jobs.
-    public func listUserImportJobs(_ input: ListUserImportJobsRequest) throws -> Future<ListUserImportJobsResponse> {
-        return try client.send(operation: "ListUserImportJobs", path: "/", httpMethod: "POST", input: input)
+    public func listUserImportJobs(_ input: ListUserImportJobsRequest) -> Future<ListUserImportJobsResponse> {
+        return client.send(operation: "ListUserImportJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the clients that have been created for the specified user pool.
-    public func listUserPoolClients(_ input: ListUserPoolClientsRequest) throws -> Future<ListUserPoolClientsResponse> {
-        return try client.send(operation: "ListUserPoolClients", path: "/", httpMethod: "POST", input: input)
+    public func listUserPoolClients(_ input: ListUserPoolClientsRequest) -> Future<ListUserPoolClientsResponse> {
+        return client.send(operation: "ListUserPoolClients", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the user pools associated with an AWS account.
-    public func listUserPools(_ input: ListUserPoolsRequest) throws -> Future<ListUserPoolsResponse> {
-        return try client.send(operation: "ListUserPools", path: "/", httpMethod: "POST", input: input)
+    public func listUserPools(_ input: ListUserPoolsRequest) -> Future<ListUserPoolsResponse> {
+        return client.send(operation: "ListUserPools", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the users in the Amazon Cognito user pool.
-    public func listUsers(_ input: ListUsersRequest) throws -> Future<ListUsersResponse> {
-        return try client.send(operation: "ListUsers", path: "/", httpMethod: "POST", input: input)
+    public func listUsers(_ input: ListUsersRequest) -> Future<ListUsersResponse> {
+        return client.send(operation: "ListUsers", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the users in the specified group. Requires developer credentials.
-    public func listUsersInGroup(_ input: ListUsersInGroupRequest) throws -> Future<ListUsersInGroupResponse> {
-        return try client.send(operation: "ListUsersInGroup", path: "/", httpMethod: "POST", input: input)
+    public func listUsersInGroup(_ input: ListUsersInGroupRequest) -> Future<ListUsersInGroupResponse> {
+        return client.send(operation: "ListUsersInGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Resends the confirmation (for confirmation of registration) to a specific user in the user pool.
-    public func resendConfirmationCode(_ input: ResendConfirmationCodeRequest) throws -> Future<ResendConfirmationCodeResponse> {
-        return try client.send(operation: "ResendConfirmationCode", path: "/", httpMethod: "POST", input: input)
+    public func resendConfirmationCode(_ input: ResendConfirmationCodeRequest) -> Future<ResendConfirmationCodeResponse> {
+        return client.send(operation: "ResendConfirmationCode", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Responds to the authentication challenge.
-    public func respondToAuthChallenge(_ input: RespondToAuthChallengeRequest) throws -> Future<RespondToAuthChallengeResponse> {
-        return try client.send(operation: "RespondToAuthChallenge", path: "/", httpMethod: "POST", input: input)
+    public func respondToAuthChallenge(_ input: RespondToAuthChallengeRequest) -> Future<RespondToAuthChallengeResponse> {
+        return client.send(operation: "RespondToAuthChallenge", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Configures actions on detected risks. To delete the risk configuration for UserPoolId or ClientId, pass null values for all four configuration types. To enable Amazon Cognito advanced security features, update the user pool to include the UserPoolAddOns keyAdvancedSecurityMode. See .
-    public func setRiskConfiguration(_ input: SetRiskConfigurationRequest) throws -> Future<SetRiskConfigurationResponse> {
-        return try client.send(operation: "SetRiskConfiguration", path: "/", httpMethod: "POST", input: input)
+    public func setRiskConfiguration(_ input: SetRiskConfigurationRequest) -> Future<SetRiskConfigurationResponse> {
+        return client.send(operation: "SetRiskConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the UI customization information for a user pool's built-in app UI. You can specify app UI customization settings for a single client (with a specific clientId) or for all clients (by setting the clientId to ALL). If you specify ALL, the default configuration will be used for every client that has no UI customization set previously. If you specify UI customization settings for a particular client, it will no longer fall back to the ALL configuration.   To use this API, your user pool must have a domain associated with it. Otherwise, there is no place to host the app's pages, and the service will throw an error. 
-    public func setUICustomization(_ input: SetUICustomizationRequest) throws -> Future<SetUICustomizationResponse> {
-        return try client.send(operation: "SetUICustomization", path: "/", httpMethod: "POST", input: input)
+    public func setUICustomization(_ input: SetUICustomizationRequest) -> Future<SetUICustomizationResponse> {
+        return client.send(operation: "SetUICustomization", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Set the user's multi-factor authentication (MFA) method preference.
-    public func setUserMFAPreference(_ input: SetUserMFAPreferenceRequest) throws -> Future<SetUserMFAPreferenceResponse> {
-        return try client.send(operation: "SetUserMFAPreference", path: "/", httpMethod: "POST", input: input)
+    public func setUserMFAPreference(_ input: SetUserMFAPreferenceRequest) -> Future<SetUserMFAPreferenceResponse> {
+        return client.send(operation: "SetUserMFAPreference", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Set the user pool MFA configuration.
-    public func setUserPoolMfaConfig(_ input: SetUserPoolMfaConfigRequest) throws -> Future<SetUserPoolMfaConfigResponse> {
-        return try client.send(operation: "SetUserPoolMfaConfig", path: "/", httpMethod: "POST", input: input)
+    public func setUserPoolMfaConfig(_ input: SetUserPoolMfaConfigRequest) -> Future<SetUserPoolMfaConfigResponse> {
+        return client.send(operation: "SetUserPoolMfaConfig", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sets the user settings like multi-factor authentication (MFA). If MFA is to be removed for a particular attribute pass the attribute with code delivery as null. If null list is passed, all MFA options are removed.
-    public func setUserSettings(_ input: SetUserSettingsRequest) throws -> Future<SetUserSettingsResponse> {
-        return try client.send(operation: "SetUserSettings", path: "/", httpMethod: "POST", input: input)
+    public func setUserSettings(_ input: SetUserSettingsRequest) -> Future<SetUserSettingsResponse> {
+        return client.send(operation: "SetUserSettings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Registers the user in the specified user pool and creates a user name, password, and user attributes.
-    public func signUp(_ input: SignUpRequest) throws -> Future<SignUpResponse> {
-        return try client.send(operation: "SignUp", path: "/", httpMethod: "POST", input: input)
+    public func signUp(_ input: SignUpRequest) -> Future<SignUpResponse> {
+        return client.send(operation: "SignUp", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts the user import.
-    public func startUserImportJob(_ input: StartUserImportJobRequest) throws -> Future<StartUserImportJobResponse> {
-        return try client.send(operation: "StartUserImportJob", path: "/", httpMethod: "POST", input: input)
+    public func startUserImportJob(_ input: StartUserImportJobRequest) -> Future<StartUserImportJobResponse> {
+        return client.send(operation: "StartUserImportJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops the user import job.
-    public func stopUserImportJob(_ input: StopUserImportJobRequest) throws -> Future<StopUserImportJobResponse> {
-        return try client.send(operation: "StopUserImportJob", path: "/", httpMethod: "POST", input: input)
+    public func stopUserImportJob(_ input: StopUserImportJobRequest) -> Future<StopUserImportJobResponse> {
+        return client.send(operation: "StopUserImportJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of a user pool, one for testing and another for production, you might assign an Environment tag key to both user pools. The value of this key might be Test for one user pool and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your user pools. In an IAM policy, you can constrain permissions for user pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. A user pool can have as many as 50 tags.
-    public func tagResource(_ input: TagResourceRequest) throws -> Future<TagResourceResponse> {
-        return try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified tags from an Amazon Cognito user pool. You can use this action up to 5 times per second, per account
-    public func untagResource(_ input: UntagResourceRequest) throws -> Future<UntagResourceResponse> {
-        return try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides the feedback for an authentication event whether it was from a valid user or not. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.
-    public func updateAuthEventFeedback(_ input: UpdateAuthEventFeedbackRequest) throws -> Future<UpdateAuthEventFeedbackResponse> {
-        return try client.send(operation: "UpdateAuthEventFeedback", path: "/", httpMethod: "POST", input: input)
+    public func updateAuthEventFeedback(_ input: UpdateAuthEventFeedbackRequest) -> Future<UpdateAuthEventFeedbackResponse> {
+        return client.send(operation: "UpdateAuthEventFeedback", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the device status.
-    public func updateDeviceStatus(_ input: UpdateDeviceStatusRequest) throws -> Future<UpdateDeviceStatusResponse> {
-        return try client.send(operation: "UpdateDeviceStatus", path: "/", httpMethod: "POST", input: input)
+    public func updateDeviceStatus(_ input: UpdateDeviceStatusRequest) -> Future<UpdateDeviceStatusResponse> {
+        return client.send(operation: "UpdateDeviceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the specified group with the specified attributes. Requires developer credentials.
-    public func updateGroup(_ input: UpdateGroupRequest) throws -> Future<UpdateGroupResponse> {
-        return try client.send(operation: "UpdateGroup", path: "/", httpMethod: "POST", input: input)
+    public func updateGroup(_ input: UpdateGroupRequest) -> Future<UpdateGroupResponse> {
+        return client.send(operation: "UpdateGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates identity provider information for a user pool.
-    public func updateIdentityProvider(_ input: UpdateIdentityProviderRequest) throws -> Future<UpdateIdentityProviderResponse> {
-        return try client.send(operation: "UpdateIdentityProvider", path: "/", httpMethod: "POST", input: input)
+    public func updateIdentityProvider(_ input: UpdateIdentityProviderRequest) -> Future<UpdateIdentityProviderResponse> {
+        return client.send(operation: "UpdateIdentityProvider", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the name and scopes of resource server. All other fields are read-only.
-    public func updateResourceServer(_ input: UpdateResourceServerRequest) throws -> Future<UpdateResourceServerResponse> {
-        return try client.send(operation: "UpdateResourceServer", path: "/", httpMethod: "POST", input: input)
+    public func updateResourceServer(_ input: UpdateResourceServerRequest) -> Future<UpdateResourceServerResponse> {
+        return client.send(operation: "UpdateResourceServer", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows a user to update a specific attribute (one at a time).
-    public func updateUserAttributes(_ input: UpdateUserAttributesRequest) throws -> Future<UpdateUserAttributesResponse> {
-        return try client.send(operation: "UpdateUserAttributes", path: "/", httpMethod: "POST", input: input)
+    public func updateUserAttributes(_ input: UpdateUserAttributesRequest) -> Future<UpdateUserAttributesResponse> {
+        return client.send(operation: "UpdateUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the specified user pool with the specified attributes. If you don't provide a value for an attribute, it will be set to the default value. You can get a list of the current user pool settings with .
-    public func updateUserPool(_ input: UpdateUserPoolRequest) throws -> Future<UpdateUserPoolResponse> {
-        return try client.send(operation: "UpdateUserPool", path: "/", httpMethod: "POST", input: input)
+    public func updateUserPool(_ input: UpdateUserPoolRequest) -> Future<UpdateUserPoolResponse> {
+        return client.send(operation: "UpdateUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the specified user pool app client with the specified attributes. If you don't provide a value for an attribute, it will be set to the default value. You can get a list of the current user pool app client settings with .
-    public func updateUserPoolClient(_ input: UpdateUserPoolClientRequest) throws -> Future<UpdateUserPoolClientResponse> {
-        return try client.send(operation: "UpdateUserPoolClient", path: "/", httpMethod: "POST", input: input)
+    public func updateUserPoolClient(_ input: UpdateUserPoolClientRequest) -> Future<UpdateUserPoolClientResponse> {
+        return client.send(operation: "UpdateUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the Secure Sockets Layer (SSL) certificate for the custom domain for your user pool. You can use this operation to provide the Amazon Resource Name (ARN) of a new certificate to Amazon Cognito. You cannot use it to change the domain for a user pool. A custom domain is used to host the Amazon Cognito hosted UI, which provides sign-up and sign-in pages for your application. When you set up a custom domain, you provide a certificate that you manage with AWS Certificate Manager (ACM). When necessary, you can use this operation to change the certificate that you applied to your custom domain. Usually, this is unnecessary following routine certificate renewal with ACM. When you renew your existing certificate in ACM, the ARN for your certificate remains the same, and your custom domain uses the new certificate automatically. However, if you replace your existing certificate with a new one, ACM gives the new certificate a new ARN. To apply the new certificate to your custom domain, you must provide this ARN to Amazon Cognito. When you add your new certificate in ACM, you must choose US East (N. Virginia) as the AWS Region. After you submit your request, Amazon Cognito requires up to 1 hour to distribute your new certificate to your custom domain. For more information about adding a custom domain to your user pool, see Using Your Own Domain for the Hosted UI.
-    public func updateUserPoolDomain(_ input: UpdateUserPoolDomainRequest) throws -> Future<UpdateUserPoolDomainResponse> {
-        return try client.send(operation: "UpdateUserPoolDomain", path: "/", httpMethod: "POST", input: input)
+    public func updateUserPoolDomain(_ input: UpdateUserPoolDomainRequest) -> Future<UpdateUserPoolDomainResponse> {
+        return client.send(operation: "UpdateUserPoolDomain", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Use this API to register a user's entered TOTP code and mark the user's software token MFA status as "verified" if successful. The request takes an access token or a session string, but not both.
-    public func verifySoftwareToken(_ input: VerifySoftwareTokenRequest) throws -> Future<VerifySoftwareTokenResponse> {
-        return try client.send(operation: "VerifySoftwareToken", path: "/", httpMethod: "POST", input: input)
+    public func verifySoftwareToken(_ input: VerifySoftwareTokenRequest) -> Future<VerifySoftwareTokenResponse> {
+        return client.send(operation: "VerifySoftwareToken", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Verifies the specified user attributes in the user pool.
-    public func verifyUserAttribute(_ input: VerifyUserAttributeRequest) throws -> Future<VerifyUserAttributeResponse> {
-        return try client.send(operation: "VerifyUserAttribute", path: "/", httpMethod: "POST", input: input)
+    public func verifyUserAttribute(_ input: VerifyUserAttributeRequest) -> Future<VerifyUserAttributeResponse> {
+        return client.send(operation: "VerifyUserAttribute", path: "/", httpMethod: "POST", input: input)
     }
 }

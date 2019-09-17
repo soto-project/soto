@@ -29,6 +29,7 @@ extension EKS {
             AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "identity", required: false, type: .structure), 
             AWSShapeMember(label: "logging", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "platformVersion", required: false, type: .string), 
@@ -48,6 +49,8 @@ extension EKS {
         public let createdAt: TimeStamp?
         /// The endpoint for your Kubernetes API server.
         public let endpoint: String?
+        /// The identity provider information for the cluster.
+        public let identity: Identity?
         /// The logging configuration for your cluster.
         public let logging: Logging?
         /// The name of the cluster.
@@ -63,12 +66,13 @@ extension EKS {
         /// The Kubernetes server version for the cluster.
         public let version: String?
 
-        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, endpoint: String? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, version: String? = nil) {
+        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, endpoint: String? = nil, identity: Identity? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, version: String? = nil) {
             self.arn = arn
             self.certificateAuthority = certificateAuthority
             self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
             self.endpoint = endpoint
+            self.identity = identity
             self.logging = logging
             self.name = name
             self.platformVersion = platformVersion
@@ -84,6 +88,7 @@ extension EKS {
             case clientRequestToken = "clientRequestToken"
             case createdAt = "createdAt"
             case endpoint = "endpoint"
+            case identity = "identity"
             case logging = "logging"
             case name = "name"
             case platformVersion = "platformVersion"
@@ -313,6 +318,23 @@ extension EKS {
         }
     }
 
+    public struct Identity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "oidc", required: false, type: .structure)
+        ]
+
+        /// The OpenID Connect identity provider information for the cluster.
+        public let oidc: OIDC?
+
+        public init(oidc: OIDC? = nil) {
+            self.oidc = oidc
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oidc = "oidc"
+        }
+    }
+
     public struct ListClustersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -461,6 +483,23 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case clusterLogging = "clusterLogging"
+        }
+    }
+
+    public struct OIDC: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "issuer", required: false, type: .string)
+        ]
+
+        /// The issuer URL for the OpenID Connect identity provider.
+        public let issuer: String?
+
+        public init(issuer: String? = nil) {
+            self.issuer = issuer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case issuer = "issuer"
         }
     }
 

@@ -448,6 +448,46 @@ extension STS {
         }
     }
 
+    public struct GetAccessKeyInfoRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessKeyId", required: true, type: .string)
+        ]
+
+        /// The identifier of an access key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper- or lowercased letter or digit.
+        public let accessKeyId: String
+
+        public init(accessKeyId: String) {
+            self.accessKeyId = accessKeyId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accessKeyId, name:"accessKeyId", parent: name, max: 128)
+            try validate(self.accessKeyId, name:"accessKeyId", parent: name, min: 16)
+            try validate(self.accessKeyId, name:"accessKeyId", parent: name, pattern: "[\\w]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "AccessKeyId"
+        }
+    }
+
+    public struct GetAccessKeyInfoResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Account", required: false, type: .string)
+        ]
+
+        /// The number used to identify the AWS account.
+        public let account: String?
+
+        public init(account: String? = nil) {
+            self.account = account
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+        }
+    }
+
     public struct GetCallerIdentityRequest: AWSShape {
 
 

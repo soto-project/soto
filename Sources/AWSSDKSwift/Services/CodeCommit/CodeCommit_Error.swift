@@ -23,8 +23,11 @@ public enum CodeCommitErrorType: AWSErrorType {
     case commitDoesNotExistException(message: String?)
     case commitIdDoesNotExistException(message: String?)
     case commitIdRequiredException(message: String?)
+    case commitIdsLimitExceededException(message: String?)
+    case commitIdsListRequiredException(message: String?)
     case commitMessageLengthExceededException(message: String?)
     case commitRequiredException(message: String?)
+    case concurrentReferenceUpdateException(message: String?)
     case defaultBranchCannotBeDeletedException(message: String?)
     case directoryNameConflictsWithFileNameException(message: String?)
     case encryptionIntegrityChecksFailedException(message: String?)
@@ -198,10 +201,16 @@ extension CodeCommitErrorType {
             self = .commitIdDoesNotExistException(message: message)
         case "CommitIdRequiredException":
             self = .commitIdRequiredException(message: message)
+        case "CommitIdsLimitExceededException":
+            self = .commitIdsLimitExceededException(message: message)
+        case "CommitIdsListRequiredException":
+            self = .commitIdsListRequiredException(message: message)
         case "CommitMessageLengthExceededException":
             self = .commitMessageLengthExceededException(message: message)
         case "CommitRequiredException":
             self = .commitRequiredException(message: message)
+        case "ConcurrentReferenceUpdateException":
+            self = .concurrentReferenceUpdateException(message: message)
         case "DefaultBranchCannotBeDeletedException":
             self = .defaultBranchCannotBeDeletedException(message: message)
         case "DirectoryNameConflictsWithFileNameException":
@@ -501,10 +510,16 @@ extension CodeCommitErrorType : CustomStringConvertible {
             return "CommitIdDoesNotExistException: \(message ?? "")"
         case .commitIdRequiredException(let message):
             return "CommitIdRequiredException: \(message ?? "")"
+        case .commitIdsLimitExceededException(let message):
+            return "CommitIdsLimitExceededException: \(message ?? "")"
+        case .commitIdsListRequiredException(let message):
+            return "CommitIdsListRequiredException: \(message ?? "")"
         case .commitMessageLengthExceededException(let message):
             return "CommitMessageLengthExceededException: \(message ?? "")"
         case .commitRequiredException(let message):
             return "CommitRequiredException: \(message ?? "")"
+        case .concurrentReferenceUpdateException(let message):
+            return "ConcurrentReferenceUpdateException: \(message ?? "")"
         case .defaultBranchCannotBeDeletedException(let message):
             return "DefaultBranchCannotBeDeletedException: \(message ?? "")"
         case .directoryNameConflictsWithFileNameException(let message):

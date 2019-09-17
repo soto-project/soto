@@ -26,6 +26,7 @@ public enum ElastiCacheErrorType: AWSErrorType {
     case invalidCacheClusterStateFault(message: String?)
     case invalidCacheParameterGroupStateFault(message: String?)
     case invalidCacheSecurityGroupStateFault(message: String?)
+    case invalidKMSKeyFault(message: String?)
     case invalidParameterCombinationException(message: String?)
     case invalidParameterValueException(message: String?)
     case invalidReplicationGroupStateFault(message: String?)
@@ -106,6 +107,8 @@ extension ElastiCacheErrorType {
             self = .invalidCacheParameterGroupStateFault(message: message)
         case "InvalidCacheSecurityGroupStateFault":
             self = .invalidCacheSecurityGroupStateFault(message: message)
+        case "InvalidKMSKeyFault":
+            self = .invalidKMSKeyFault(message: message)
         case "InvalidParameterCombinationException":
             self = .invalidParameterCombinationException(message: message)
         case "InvalidParameterValueException":
@@ -213,6 +216,8 @@ extension ElastiCacheErrorType : CustomStringConvertible {
             return "InvalidCacheParameterGroupStateFault: \(message ?? "")"
         case .invalidCacheSecurityGroupStateFault(let message):
             return "InvalidCacheSecurityGroupStateFault: \(message ?? "")"
+        case .invalidKMSKeyFault(let message):
+            return "InvalidKMSKeyFault: \(message ?? "")"
         case .invalidParameterCombinationException(let message):
             return "InvalidParameterCombinationException: \(message ?? "")"
         case .invalidParameterValueException(let message):

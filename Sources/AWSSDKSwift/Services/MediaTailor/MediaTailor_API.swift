@@ -28,37 +28,37 @@ public struct MediaTailor {
     }
 
     ///  Deletes the playback configuration for the specified name. 
-    public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest) throws -> Future<DeletePlaybackConfigurationResponse> {
-        return try client.send(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "DELETE", input: input)
+    public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest) -> Future<DeletePlaybackConfigurationResponse> {
+        return client.send(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "DELETE", input: input)
     }
 
     ///  Returns the playback configuration for the specified name. 
-    public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest) throws -> Future<GetPlaybackConfigurationResponse> {
-        return try client.send(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "GET", input: input)
+    public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest) -> Future<GetPlaybackConfigurationResponse> {
+        return client.send(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of the playback configurations defined in AWS Elemental MediaTailor. You can specify a maximum number of configurations to return at a time. The default maximum is 50. Results are returned in pagefuls. If MediaTailor has more configurations than the specified maximum, it provides parameters in the response that you can use to retrieve the next pageful. 
-    public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest) throws -> Future<ListPlaybackConfigurationsResponse> {
-        return try client.send(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: "GET", input: input)
+    public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest) -> Future<ListPlaybackConfigurationsResponse> {
+        return client.send(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of the tags assigned to the specified playback configuration resource. 
-    public func listTagsForResource(_ input: ListTagsForResourceRequest) throws -> Future<ListTagsForResourceResponse> {
-        return try client.send(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: "GET", input: input)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: "GET", input: input)
     }
 
     ///  Adds a new playback configuration to AWS Elemental MediaTailor. 
-    public func putPlaybackConfiguration(_ input: PutPlaybackConfigurationRequest) throws -> Future<PutPlaybackConfigurationResponse> {
-        return try client.send(operation: "PutPlaybackConfiguration", path: "/playbackConfiguration", httpMethod: "PUT", input: input)
+    public func putPlaybackConfiguration(_ input: PutPlaybackConfigurationRequest) -> Future<PutPlaybackConfigurationResponse> {
+        return client.send(operation: "PutPlaybackConfiguration", path: "/playbackConfiguration", httpMethod: "PUT", input: input)
     }
 
     ///  Adds tags to the specified playback configuration resource. You can specify one or more tags to add. 
-    @discardableResult public func tagResource(_ input: TagResourceRequest) throws -> Future<Void> {
-        return try client.send(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: "POST", input: input)
+    @discardableResult public func tagResource(_ input: TagResourceRequest) -> Future<Void> {
+        return client.send(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: "POST", input: input)
     }
 
     ///  Removes tags from the specified playback configuration resource. You can specify one or more tags to remove. 
-    @discardableResult public func untagResource(_ input: UntagResourceRequest) throws -> Future<Void> {
-        return try client.send(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: "DELETE", input: input)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
+        return client.send(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: "DELETE", input: input)
     }
 }

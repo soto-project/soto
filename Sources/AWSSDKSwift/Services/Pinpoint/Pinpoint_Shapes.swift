@@ -927,6 +927,48 @@ extension Pinpoint {
         }
     }
 
+    public struct ApplicationDateRangeKpiResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "KpiName", required: true, type: .string), 
+            AWSShapeMember(label: "KpiResult", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
+        ]
+
+        /// The unique identifier for the application that the metric applies to.
+        public let applicationId: String
+        /// The last date or date and time of the date range that was used to filter the query results, in ISO 8601 format. The date range is inclusive.
+        public let endTime: TimeStamp
+        /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of valid values, see the Amazon Pinpoint Developer Guide.
+        public let kpiName: String
+        /// An array of objects that contains the results of the query. Each object contains the value for the metric and metadata about that value.
+        public let kpiResult: BaseKpiResult
+        /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the App Metrics resource. The App Metrics resource returns all results in a single page.
+        public let nextToken: String?
+        /// The first date or date and time of the date range that was used to filter the query results, in ISO 8601 format. The date range is inclusive.
+        public let startTime: TimeStamp
+
+        public init(applicationId: String, endTime: TimeStamp, kpiName: String, kpiResult: BaseKpiResult, nextToken: String? = nil, startTime: TimeStamp) {
+            self.applicationId = applicationId
+            self.endTime = endTime
+            self.kpiName = kpiName
+            self.kpiResult = kpiResult
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case endTime = "EndTime"
+            case kpiName = "KpiName"
+            case kpiResult = "KpiResult"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
+        }
+    }
+
     public struct ApplicationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: true, type: .string), 
@@ -1246,6 +1288,70 @@ extension Pinpoint {
             case timeToLive = "TimeToLive"
             case title = "Title"
             case url = "Url"
+        }
+    }
+
+    public struct BaseKpiResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rows", required: true, type: .list)
+        ]
+
+        /// An array of objects that provides the results of a query that retrieved the data for a standard metric that applies to an application or campaign.
+        public let rows: [ResultRow]
+
+        public init(rows: [ResultRow]) {
+            self.rows = rows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rows = "Rows"
+        }
+    }
+
+    public struct CampaignDateRangeKpiResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
+            AWSShapeMember(label: "CampaignId", required: true, type: .string), 
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "KpiName", required: true, type: .string), 
+            AWSShapeMember(label: "KpiResult", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
+        ]
+
+        /// The unique identifier for the application that the metric applies to.
+        public let applicationId: String
+        /// The unique identifier for the campaign that the metric applies to.
+        public let campaignId: String
+        /// The last date or date and time of the date range that was used to filter the query results, in ISO 8601 format. The date range is inclusive.
+        public let endTime: TimeStamp
+        /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of valid values, see the Amazon Pinpoint Developer Guide.
+        public let kpiName: String
+        /// An array of objects that contains the results of the query. Each object contains the value for the metric and metadata about that value.
+        public let kpiResult: BaseKpiResult
+        /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the Campaign Metrics resource. The Campaign Metrics resource returns all results in a single page.
+        public let nextToken: String?
+        /// The first date or date and time of the date range that was used to filter the query results, in ISO 8601 format. The date range is inclusive.
+        public let startTime: TimeStamp
+
+        public init(applicationId: String, campaignId: String, endTime: TimeStamp, kpiName: String, kpiResult: BaseKpiResult, nextToken: String? = nil, startTime: TimeStamp) {
+            self.applicationId = applicationId
+            self.campaignId = campaignId
+            self.endTime = endTime
+            self.kpiName = kpiName
+            self.kpiResult = kpiResult
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case campaignId = "CampaignId"
+            case endTime = "EndTime"
+            case kpiName = "KpiName"
+            case kpiResult = "KpiResult"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
         }
     }
 
@@ -4056,6 +4162,60 @@ extension Pinpoint {
         }
     }
 
+    public struct GetApplicationDateRangeKpiRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "EndTime", location: .querystring(locationName: "end-time"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "KpiName", location: .uri(locationName: "kpi-name"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", location: .querystring(locationName: "start-time"), required: false, type: .timestamp)
+        ]
+
+        public let applicationId: String
+        public let endTime: TimeStamp?
+        public let kpiName: String
+        public let nextToken: String?
+        public let pageSize: String?
+        public let startTime: TimeStamp?
+
+        public init(applicationId: String, endTime: TimeStamp? = nil, kpiName: String, nextToken: String? = nil, pageSize: String? = nil, startTime: TimeStamp? = nil) {
+            self.applicationId = applicationId
+            self.endTime = endTime
+            self.kpiName = kpiName
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case endTime = "end-time"
+            case kpiName = "kpi-name"
+            case nextToken = "next-token"
+            case pageSize = "page-size"
+            case startTime = "start-time"
+        }
+    }
+
+    public struct GetApplicationDateRangeKpiResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "ApplicationDateRangeKpiResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationDateRangeKpiResponse", required: true, type: .structure)
+        ]
+
+        public let applicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse
+
+        public init(applicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse) {
+            self.applicationDateRangeKpiResponse = applicationDateRangeKpiResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationDateRangeKpiResponse = "ApplicationDateRangeKpiResponse"
+        }
+    }
+
     public struct GetApplicationSettingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string)
@@ -4205,6 +4365,64 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case activitiesResponse = "ActivitiesResponse"
+        }
+    }
+
+    public struct GetCampaignDateRangeKpiRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "CampaignId", location: .uri(locationName: "campaign-id"), required: true, type: .string), 
+            AWSShapeMember(label: "EndTime", location: .querystring(locationName: "end-time"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "KpiName", location: .uri(locationName: "kpi-name"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", location: .querystring(locationName: "start-time"), required: false, type: .timestamp)
+        ]
+
+        public let applicationId: String
+        public let campaignId: String
+        public let endTime: TimeStamp?
+        public let kpiName: String
+        public let nextToken: String?
+        public let pageSize: String?
+        public let startTime: TimeStamp?
+
+        public init(applicationId: String, campaignId: String, endTime: TimeStamp? = nil, kpiName: String, nextToken: String? = nil, pageSize: String? = nil, startTime: TimeStamp? = nil) {
+            self.applicationId = applicationId
+            self.campaignId = campaignId
+            self.endTime = endTime
+            self.kpiName = kpiName
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case campaignId = "campaign-id"
+            case endTime = "end-time"
+            case kpiName = "kpi-name"
+            case nextToken = "next-token"
+            case pageSize = "page-size"
+            case startTime = "start-time"
+        }
+    }
+
+    public struct GetCampaignDateRangeKpiResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "CampaignDateRangeKpiResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CampaignDateRangeKpiResponse", required: true, type: .structure)
+        ]
+
+        public let campaignDateRangeKpiResponse: CampaignDateRangeKpiResponse
+
+        public init(campaignDateRangeKpiResponse: CampaignDateRangeKpiResponse) {
+            self.campaignDateRangeKpiResponse = campaignDateRangeKpiResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case campaignDateRangeKpiResponse = "CampaignDateRangeKpiResponse"
         }
     }
 
@@ -5674,7 +5892,7 @@ extension Pinpoint {
             AWSShapeMember(label: "ZipCode", required: false, type: .string)
         ]
 
-        /// The carrier or service provider that the phone number is currently registered with.
+        /// The carrier or service provider that the phone number is currently registered with. In some countries and regions, this value may be the carrier or service provider that the phone number was originally registered with.
         public let carrier: String?
         /// The name of the city where the phone number was originally registered.
         public let city: String?
@@ -6030,6 +6248,55 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case attributesResource = "AttributesResource"
+        }
+    }
+
+    public struct ResultRow: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupedBys", required: true, type: .list), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
+        ]
+
+        ///  An array of objects that defines the field and field values that were used to group data in a result set that contains multiple results. This value is null if the data in a result set isn’t grouped.
+        public let groupedBys: [ResultRowValue]
+        ///  An array of objects that provides pre-aggregated values for a standard metric that applies to an application or campaign.
+        public let values: [ResultRowValue]
+
+        public init(groupedBys: [ResultRowValue], values: [ResultRowValue]) {
+            self.groupedBys = groupedBys
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupedBys = "GroupedBys"
+            case values = "Values"
+        }
+    }
+
+    public struct ResultRowValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+
+        ///  The name of the field that Amazon Pinpoint uses to store the value specified by the Value property.
+        public let key: String
+        ///  The data type of the value specified by the Value property.
+        public let `type`: String
+        ///  In a Values object, the value for the metric that the query retrieved data for. In a GroupedBys object, the value for the field that was used to group data in a result set that contains multiple results (Values objects).
+        public let value: String
+
+        public init(key: String, type: String, value: String) {
+            self.key = key
+            self.`type` = `type`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case `type` = "Type"
+            case value = "Value"
         }
     }
 
@@ -7593,6 +7860,7 @@ extension Pinpoint {
             AWSShapeMember(label: "IsArchived", required: false, type: .boolean), 
             AWSShapeMember(label: "LastModifiedBy", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "OriginationNumber", required: false, type: .string), 
             AWSShapeMember(label: "Platform", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
@@ -7613,12 +7881,13 @@ extension Pinpoint {
         public let lastModifiedBy: String?
         /// The date and time, in ISO 8601 format, when the voice channel was last modified.
         public let lastModifiedDate: String?
+        public let originationNumber: String?
         /// The type of messaging or notification platform for the channel. For the voice channel, this value is VOICE.
         public let platform: String
         /// The current version of the voice channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, originationNumber: String? = nil, platform: String, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -7627,6 +7896,7 @@ extension Pinpoint {
             self.isArchived = isArchived
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedDate = lastModifiedDate
+            self.originationNumber = originationNumber
             self.platform = platform
             self.version = version
         }
@@ -7640,6 +7910,7 @@ extension Pinpoint {
             case isArchived = "IsArchived"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedDate = "LastModifiedDate"
+            case originationNumber = "OriginationNumber"
             case platform = "Platform"
             case version = "Version"
         }

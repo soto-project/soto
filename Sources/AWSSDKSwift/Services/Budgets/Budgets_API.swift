@@ -30,72 +30,72 @@ public struct Budgets {
     }
 
     ///  Creates a budget and, if included, notifications and subscribers.   Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
-    public func createBudget(_ input: CreateBudgetRequest) throws -> Future<CreateBudgetResponse> {
-        return try client.send(operation: "CreateBudget", path: "/", httpMethod: "POST", input: input)
+    public func createBudget(_ input: CreateBudgetRequest) -> Future<CreateBudgetResponse> {
+        return client.send(operation: "CreateBudget", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a notification. You must create the budget before you create the associated notification.
-    public func createNotification(_ input: CreateNotificationRequest) throws -> Future<CreateNotificationResponse> {
-        return try client.send(operation: "CreateNotification", path: "/", httpMethod: "POST", input: input)
+    public func createNotification(_ input: CreateNotificationRequest) -> Future<CreateNotificationResponse> {
+        return client.send(operation: "CreateNotification", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
-    public func createSubscriber(_ input: CreateSubscriberRequest) throws -> Future<CreateSubscriberResponse> {
-        return try client.send(operation: "CreateSubscriber", path: "/", httpMethod: "POST", input: input)
+    public func createSubscriber(_ input: CreateSubscriberRequest) -> Future<CreateSubscriberResponse> {
+        return client.send(operation: "CreateSubscriber", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a budget. You can delete your budget at any time.  Deleting a budget also deletes the notifications and subscribers that are associated with that budget. 
-    public func deleteBudget(_ input: DeleteBudgetRequest) throws -> Future<DeleteBudgetResponse> {
-        return try client.send(operation: "DeleteBudget", path: "/", httpMethod: "POST", input: input)
+    public func deleteBudget(_ input: DeleteBudgetRequest) -> Future<DeleteBudgetResponse> {
+        return client.send(operation: "DeleteBudget", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a notification.  Deleting a notification also deletes the subscribers that are associated with the notification. 
-    public func deleteNotification(_ input: DeleteNotificationRequest) throws -> Future<DeleteNotificationResponse> {
-        return try client.send(operation: "DeleteNotification", path: "/", httpMethod: "POST", input: input)
+    public func deleteNotification(_ input: DeleteNotificationRequest) -> Future<DeleteNotificationResponse> {
+        return client.send(operation: "DeleteNotification", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a subscriber.  Deleting the last subscriber to a notification also deletes the notification. 
-    public func deleteSubscriber(_ input: DeleteSubscriberRequest) throws -> Future<DeleteSubscriberResponse> {
-        return try client.send(operation: "DeleteSubscriber", path: "/", httpMethod: "POST", input: input)
+    public func deleteSubscriber(_ input: DeleteSubscriberRequest) -> Future<DeleteSubscriberResponse> {
+        return client.send(operation: "DeleteSubscriber", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes a budget.  The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
-    public func describeBudget(_ input: DescribeBudgetRequest) throws -> Future<DescribeBudgetResponse> {
-        return try client.send(operation: "DescribeBudget", path: "/", httpMethod: "POST", input: input)
+    public func describeBudget(_ input: DescribeBudgetRequest) -> Future<DescribeBudgetResponse> {
+        return client.send(operation: "DescribeBudget", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
-    public func describeBudgetPerformanceHistory(_ input: DescribeBudgetPerformanceHistoryRequest) throws -> Future<DescribeBudgetPerformanceHistoryResponse> {
-        return try client.send(operation: "DescribeBudgetPerformanceHistory", path: "/", httpMethod: "POST", input: input)
+    public func describeBudgetPerformanceHistory(_ input: DescribeBudgetPerformanceHistoryRequest) -> Future<DescribeBudgetPerformanceHistoryResponse> {
+        return client.send(operation: "DescribeBudgetPerformanceHistory", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the budgets that are associated with an account.  The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
-    public func describeBudgets(_ input: DescribeBudgetsRequest) throws -> Future<DescribeBudgetsResponse> {
-        return try client.send(operation: "DescribeBudgets", path: "/", httpMethod: "POST", input: input)
+    public func describeBudgets(_ input: DescribeBudgetsRequest) -> Future<DescribeBudgetsResponse> {
+        return client.send(operation: "DescribeBudgets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the notifications that are associated with a budget.
-    public func describeNotificationsForBudget(_ input: DescribeNotificationsForBudgetRequest) throws -> Future<DescribeNotificationsForBudgetResponse> {
-        return try client.send(operation: "DescribeNotificationsForBudget", path: "/", httpMethod: "POST", input: input)
+    public func describeNotificationsForBudget(_ input: DescribeNotificationsForBudgetRequest) -> Future<DescribeNotificationsForBudgetResponse> {
+        return client.send(operation: "DescribeNotificationsForBudget", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the subscribers that are associated with a notification.
-    public func describeSubscribersForNotification(_ input: DescribeSubscribersForNotificationRequest) throws -> Future<DescribeSubscribersForNotificationResponse> {
-        return try client.send(operation: "DescribeSubscribersForNotification", path: "/", httpMethod: "POST", input: input)
+    public func describeSubscribersForNotification(_ input: DescribeSubscribersForNotificationRequest) -> Future<DescribeSubscribersForNotificationResponse> {
+        return client.send(operation: "DescribeSubscribersForNotification", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until AWS has new usage data to use for forecasting.  Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
-    public func updateBudget(_ input: UpdateBudgetRequest) throws -> Future<UpdateBudgetResponse> {
-        return try client.send(operation: "UpdateBudget", path: "/", httpMethod: "POST", input: input)
+    public func updateBudget(_ input: UpdateBudgetRequest) -> Future<UpdateBudgetResponse> {
+        return client.send(operation: "UpdateBudget", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a notification.
-    public func updateNotification(_ input: UpdateNotificationRequest) throws -> Future<UpdateNotificationResponse> {
-        return try client.send(operation: "UpdateNotification", path: "/", httpMethod: "POST", input: input)
+    public func updateNotification(_ input: UpdateNotificationRequest) -> Future<UpdateNotificationResponse> {
+        return client.send(operation: "UpdateNotification", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a subscriber.
-    public func updateSubscriber(_ input: UpdateSubscriberRequest) throws -> Future<UpdateSubscriberResponse> {
-        return try client.send(operation: "UpdateSubscriber", path: "/", httpMethod: "POST", input: input)
+    public func updateSubscriber(_ input: UpdateSubscriberRequest) -> Future<UpdateSubscriberResponse> {
+        return client.send(operation: "UpdateSubscriber", path: "/", httpMethod: "POST", input: input)
     }
 }

@@ -100,7 +100,7 @@ extension Comprehend {
             AWSShapeMember(label: "TextList", required: true, type: .list)
         ]
 
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer than 5,000 bytes of UTF-8 encoded characters.
         public let textList: [String]
@@ -172,7 +172,7 @@ extension Comprehend {
             AWSShapeMember(label: "TextList", required: true, type: .list)
         ]
 
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let textList: [String]
@@ -249,7 +249,7 @@ extension Comprehend {
             AWSShapeMember(label: "TextList", required: true, type: .list)
         ]
 
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let textList: [String]
@@ -321,7 +321,7 @@ extension Comprehend {
             AWSShapeMember(label: "TextList", required: true, type: .list)
         ]
 
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: SyntaxLanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let textList: [String]
@@ -477,7 +477,7 @@ extension Comprehend {
         public let documentClassifierName: String
         /// Specifies the format and location of the input data for the job.
         public let inputDataConfig: DocumentClassifierInputDataConfig
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: LanguageCode
         /// Enables the addition of output results configuration parameters for custom classifier jobs.
         public let outputDataConfig: DocumentClassifierOutputDataConfig?
@@ -1056,7 +1056,7 @@ extension Comprehend {
             AWSShapeMember(label: "Text", required: true, type: .string)
         ]
 
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let text: String
@@ -1099,7 +1099,7 @@ extension Comprehend {
             AWSShapeMember(label: "Text", required: true, type: .string)
         ]
 
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let text: String
@@ -1142,7 +1142,7 @@ extension Comprehend {
             AWSShapeMember(label: "Text", required: true, type: .string)
         ]
 
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let text: String
@@ -1190,7 +1190,7 @@ extension Comprehend {
             AWSShapeMember(label: "Text", required: true, type: .string)
         ]
 
-        /// The language code of the input documents. You can specify English ("en") or Spanish ("es").
+        /// The language code of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt").
         public let languageCode: SyntaxLanguageCode
         /// A UTF-8 string. Each string must contain fewer that 5,000 bytes of UTF encoded characters.
         public let text: String
@@ -1909,7 +1909,7 @@ extension Comprehend {
         public let documents: EntityRecognizerDocuments
         /// S3 location of the entity list for an entity recognizer.
         public let entityList: EntityRecognizerEntityList?
-        /// The entity types in the input data for an entity recognizer.
+        /// The entity types in the input data for an entity recognizer. A maximum of 12 entity types can be used at one time to train an entity recognizer.
         public let entityTypes: [EntityTypesListItem]
 
         public init(annotations: EntityRecognizerAnnotations? = nil, documents: EntityRecognizerDocuments, entityList: EntityRecognizerEntityList? = nil, entityTypes: [EntityTypesListItem]) {
@@ -1946,7 +1946,7 @@ extension Comprehend {
 
         /// Entity types from the metadata of an entity recognizer.
         public let entityTypes: [EntityRecognizerMetadataEntityTypesListItem]?
-        ///  Detailed information about the accuracy of an entity recognizer.
+        /// Detailed information about the accuracy of an entity recognizer.
         public let evaluationMetrics: EntityRecognizerEvaluationMetrics?
         ///  The number of documents in the input data that were used to test the entity recognizer. Typically this is 10 to 20 percent of the input documents.
         public let numberOfTestDocuments: Int?
@@ -1970,17 +1970,27 @@ extension Comprehend {
 
     public struct EntityRecognizerMetadataEntityTypesListItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "NumberOfTrainMentions", required: false, type: .integer), 
             AWSShapeMember(label: "Type", required: false, type: .string)
         ]
 
+        /// Detailed information about the accuracy of the entity recognizer for a specific item on the list of entity types. 
+        public let evaluationMetrics: EntityTypesEvaluationMetrics?
+        /// indicates the number of times the given entity name was seen in the training data. 
+        public let numberOfTrainMentions: Int?
         /// Type of entity from the list of entity types in the metadata of an entity recognizer. 
         public let `type`: String?
 
-        public init(type: String? = nil) {
+        public init(evaluationMetrics: EntityTypesEvaluationMetrics? = nil, numberOfTrainMentions: Int? = nil, type: String? = nil) {
+            self.evaluationMetrics = evaluationMetrics
+            self.numberOfTrainMentions = numberOfTrainMentions
             self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
+            case evaluationMetrics = "EvaluationMetrics"
+            case numberOfTrainMentions = "NumberOfTrainMentions"
             case `type` = "Type"
         }
     }
@@ -2073,6 +2083,33 @@ extension Comprehend {
         case title = "TITLE"
         case other = "OTHER"
         public var description: String { return self.rawValue }
+    }
+
+    public struct EntityTypesEvaluationMetrics: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "F1Score", required: false, type: .double), 
+            AWSShapeMember(label: "Precision", required: false, type: .double), 
+            AWSShapeMember(label: "Recall", required: false, type: .double)
+        ]
+
+        /// A measure of how accurate the recognizer results are for for a specific entity type in the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0. 
+        public let f1Score: Double?
+        /// A measure of the usefulness of the recognizer results for a specific entity type in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones. 
+        public let precision: Double?
+        /// A measure of how complete the recognizer results are for a specific entity type in the test data. High recall means that the recognizer returned most of the relevant results.
+        public let recall: Double?
+
+        public init(f1Score: Double? = nil, precision: Double? = nil, recall: Double? = nil) {
+            self.f1Score = f1Score
+            self.precision = precision
+            self.recall = recall
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case f1Score = "F1Score"
+            case precision = "Precision"
+            case recall = "Recall"
+        }
     }
 
     public struct EntityTypesListItem: AWSShape {
@@ -3309,7 +3346,7 @@ extension Comprehend {
         public let inputDataConfig: InputDataConfig
         /// The identifier of the job.
         public let jobName: String?
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
@@ -3399,7 +3436,7 @@ extension Comprehend {
         public let inputDataConfig: InputDataConfig
         /// The identifier of the job.
         public let jobName: String?
-        /// The language of the input documents. You can specify English ("en") or Spanish ("es"). All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: LanguageCode
         /// Specifies where to send the output files. 
         public let outputDataConfig: OutputDataConfig

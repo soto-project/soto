@@ -7,9 +7,11 @@ public enum CloudWatchEventsErrorType: AWSErrorType {
     case concurrentModificationException(message: String?)
     case internalException(message: String?)
     case invalidEventPatternException(message: String?)
+    case invalidStateException(message: String?)
     case limitExceededException(message: String?)
     case managedRuleException(message: String?)
     case policyLengthExceededException(message: String?)
+    case resourceAlreadyExistsException(message: String?)
     case resourceNotFoundException(message: String?)
 }
 
@@ -26,12 +28,16 @@ extension CloudWatchEventsErrorType {
             self = .internalException(message: message)
         case "InvalidEventPatternException":
             self = .invalidEventPatternException(message: message)
+        case "InvalidStateException":
+            self = .invalidStateException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "ManagedRuleException":
             self = .managedRuleException(message: message)
         case "PolicyLengthExceededException":
             self = .policyLengthExceededException(message: message)
+        case "ResourceAlreadyExistsException":
+            self = .resourceAlreadyExistsException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
         default:
@@ -49,12 +55,16 @@ extension CloudWatchEventsErrorType : CustomStringConvertible {
             return "InternalException: \(message ?? "")"
         case .invalidEventPatternException(let message):
             return "InvalidEventPatternException: \(message ?? "")"
+        case .invalidStateException(let message):
+            return "InvalidStateException: \(message ?? "")"
         case .limitExceededException(let message):
             return "LimitExceededException: \(message ?? "")"
         case .managedRuleException(let message):
             return "ManagedRuleException: \(message ?? "")"
         case .policyLengthExceededException(let message):
             return "PolicyLengthExceededException: \(message ?? "")"
+        case .resourceAlreadyExistsException(let message):
+            return "ResourceAlreadyExistsException: \(message ?? "")"
         case .resourceNotFoundException(let message):
             return "ResourceNotFoundException: \(message ?? "")"
         }

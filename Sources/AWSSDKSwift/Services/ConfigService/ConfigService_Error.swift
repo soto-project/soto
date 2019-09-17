@@ -36,6 +36,7 @@ public enum ConfigServiceErrorType: AWSErrorType {
     case noSuchDeliveryChannelException(message: String?)
     case noSuchOrganizationConfigRuleException(message: String?)
     case noSuchRemediationConfigurationException(message: String?)
+    case noSuchRemediationExceptionException(message: String?)
     case noSuchRetentionConfigurationException(message: String?)
     case organizationAccessDeniedException(message: String?)
     case organizationAllFeaturesNotEnabledException(message: String?)
@@ -119,6 +120,8 @@ extension ConfigServiceErrorType {
             self = .noSuchOrganizationConfigRuleException(message: message)
         case "NoSuchRemediationConfigurationException":
             self = .noSuchRemediationConfigurationException(message: message)
+        case "NoSuchRemediationExceptionException":
+            self = .noSuchRemediationExceptionException(message: message)
         case "NoSuchRetentionConfigurationException":
             self = .noSuchRetentionConfigurationException(message: message)
         case "OrganizationAccessDeniedException":
@@ -212,6 +215,8 @@ extension ConfigServiceErrorType : CustomStringConvertible {
             return "NoSuchOrganizationConfigRuleException: \(message ?? "")"
         case .noSuchRemediationConfigurationException(let message):
             return "NoSuchRemediationConfigurationException: \(message ?? "")"
+        case .noSuchRemediationExceptionException(let message):
+            return "NoSuchRemediationExceptionException: \(message ?? "")"
         case .noSuchRetentionConfigurationException(let message):
             return "NoSuchRetentionConfigurationException: \(message ?? "")"
         case .organizationAccessDeniedException(let message):

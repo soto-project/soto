@@ -91,7 +91,7 @@ extension SageMaker {
             try self.metricDefinitions?.forEach {
                 try $0.validate(name: "\(name).metricDefinitions[]")
             }
-            try validate(self.metricDefinitions, name:"metricDefinitions", parent: name, max: 20)
+            try validate(self.metricDefinitions, name:"metricDefinitions", parent: name, max: 40)
             try validate(self.metricDefinitions, name:"metricDefinitions", parent: name, min: 0)
             try validate(self.trainingImage, name:"trainingImage", parent: name, max: 255)
             try validate(self.trainingImage, name:"trainingImage", parent: name, pattern: ".*")
@@ -273,7 +273,7 @@ extension SageMaker {
             AWSShapeMember(label: "AnnotationConsolidationLambdaArn", required: true, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation. For the built-in bounding box, image classification, semantic segmentation, and text classification task types, Amazon SageMaker Ground Truth provides the following Lambda functions:    Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.  arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox   arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox   arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox   arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation   arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation   arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass    For more information, see Annotation Consolidation.
+        /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation. For the built-in bounding box, image classification, semantic segmentation, and text classification task types, Amazon SageMaker Ground Truth provides the following Lambda functions:    Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.  arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox   arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox   arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox   arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox   arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox   arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox   arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox   arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass   arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass   arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass   arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass   arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation   arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation   arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation   arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass   arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass   arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass   arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass   arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Named entity eecognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition   arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition   arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition   arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition     Named entity eecognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition   arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition   arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition    For more information, see Annotation Consolidation.
         public let annotationConsolidationLambdaArn: String
 
         public init(annotationConsolidationLambdaArn: String) {
@@ -475,6 +475,35 @@ extension SageMaker {
             case supportedCompressionTypes = "SupportedCompressionTypes"
             case supportedContentTypes = "SupportedContentTypes"
             case supportedInputModes = "SupportedInputModes"
+        }
+    }
+
+    public struct CheckpointConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocalPath", required: false, type: .string), 
+            AWSShapeMember(label: "S3Uri", required: true, type: .string)
+        ]
+
+        /// (Optional) The local directory where checkpoints are written. The default directory is /opt/ml/checkpoints/. 
+        public let localPath: String?
+        /// Identifies the S3 path where you want Amazon SageMaker to store checkpoints. For example, s3://bucket-name/key-name-prefix.
+        public let s3Uri: String
+
+        public init(localPath: String? = nil, s3Uri: String) {
+            self.localPath = localPath
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.localPath, name:"localPath", parent: name, max: 4096)
+            try validate(self.localPath, name:"localPath", parent: name, pattern: ".*")
+            try validate(self.s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(self.s3Uri, name:"s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localPath = "LocalPath"
+            case s3Uri = "S3Uri"
         }
     }
 
@@ -980,6 +1009,7 @@ extension SageMaker {
             try self.productionVariants.forEach {
                 try $0.validate(name: "\(name).productionVariants[]")
             }
+            try validate(self.productionVariants, name:"productionVariants", parent: name, max: 10)
             try validate(self.productionVariants, name:"productionVariants", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -1427,7 +1457,7 @@ extension SageMaker {
         public let lifecycleConfigName: String?
         /// The name of the new notebook instance.
         public let notebookInstanceName: String
-        ///  When you send any requests to AWS resources from the notebook instance, Amazon SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so Amazon SageMaker can perform these tasks. The policy must allow the Amazon SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. 
+        ///  When you send any requests to AWS resources from the notebook instance, Amazon SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so Amazon SageMaker can perform these tasks. The policy must allow the Amazon SageMaker service principal (sagemaker.amazonaws.com) permissionsto to assume this role. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. 
         public let roleArn: String
         /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  Lifecycle configurations need root access to be able to set up a notebook instance. Because of this, lifecycle configurations associated with a notebook instance always run with root access even if you disable root access for users. 
         public let rootAccess: RootAccess?
@@ -1633,7 +1663,9 @@ extension SageMaker {
     public struct CreateTrainingJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "CheckpointConfig", required: false, type: .structure), 
             AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnableManagedSpotTraining", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
             AWSShapeMember(label: "HyperParameters", required: false, type: .map), 
             AWSShapeMember(label: "InputDataConfig", required: false, type: .list), 
@@ -1648,15 +1680,19 @@ extension SageMaker {
 
         /// The registry path of the Docker image that contains the training algorithm and algorithm-specific metadata, including the input mode. For more information about algorithms provided by Amazon SageMaker, see Algorithms. For information about providing your own algorithms, see Using Your Own Algorithms with Amazon SageMaker. 
         public let algorithmSpecification: AlgorithmSpecification
+        /// Contains information about the output location for managed spot training checkpoint data.
+        public let checkpointConfig: CheckpointConfig?
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithm in distributed training. For more information, see Protect Communications Between ML Compute Instances in a Distributed Training Job.
         public let enableInterContainerTrafficEncryption: Bool?
+        /// To train models using managed spot training, choose True. Managed spot training provides a fully managed and scalable infrastructure for training machine learning models. this option is useful when training jobs can be interrupted and when there is flexibility when the training job is run.  The complete and intermediate results of jobs are stored in an Amazon S3 bucket, and can be used as a starting point to train models incrementally. Amazon SageMaker provides metrics and logs in CloudWatch. They can be used to see when managed spot training jobs are running, interrupted, resumed, or completed. 
+        public let enableManagedSpotTraining: Bool?
         /// Isolates the training container. No inbound or outbound network calls can be made, except for calls between peers within a training cluster for distributed training. If you enable network isolation for training jobs that are configured to use a VPC, Amazon SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.  The Semantic Segmentation built-in algorithm does not support network isolation. 
         public let enableNetworkIsolation: Bool?
         /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. For a list of hyperparameters for each training algorithm provided by Amazon SageMaker, see Algorithms.  You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair. Each key and value is limited to 256 characters, as specified by the Length Constraint. 
         public let hyperParameters: [String: String]?
-        /// An array of Channel objects. Each channel is a named input source. InputDataConfig describes the input data and its location.  Algorithms can accept input data from one or more channels. For example, an algorithm might have two channels of input data, training_data and validation_data. The configuration for each channel provides the S3 location where the input data is stored. It also provides information about the stored data: the MIME type, compression method, and whether the data is wrapped in RecordIO format.  Depending on the input mode that the algorithm supports, Amazon SageMaker either copies input data files from an S3 bucket to a local directory in the Docker container, or makes it available as input streams. 
+        /// An array of Channel objects. Each channel is a named input source. InputDataConfig describes the input data and its location.  Algorithms can accept input data from one or more channels. For example, an algorithm might have two channels of input data, training_data and validation_data. The configuration for each channel provides the S3, EFS, or FSx location where the input data is stored. It also provides information about the stored data: the MIME type, compression method, and whether the data is wrapped in RecordIO format.  Depending on the input mode that the algorithm supports, Amazon SageMaker either copies input data files from an S3 bucket to a local directory in the Docker container, or makes it available as input streams. For example, if you specify an EFS location, input data files will be made available as input streams. They do not need to be downloaded.
         public let inputDataConfig: [Channel]?
-        /// Specifies the path to the S3 bucket where you want to store model artifacts. Amazon SageMaker creates subfolders for the artifacts. 
+        /// Specifies the path to the S3 location where you want to store model artifacts. Amazon SageMaker creates subfolders for the artifacts. 
         public let outputDataConfig: OutputDataConfig
         /// The resources, including the ML compute instances and ML storage volumes, to use for model training.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use ML storage volumes for scratch space. If you want Amazon SageMaker to use the ML storage volume to store the training data, choose File as the TrainingInputMode in the algorithm specification. For distributed training algorithms, specify an instance count greater than 1.
         public let resourceConfig: ResourceConfig
@@ -1671,9 +1707,11 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that you want your training job to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification, enableInterContainerTrafficEncryption: Bool? = nil, enableNetworkIsolation: Bool? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
+            self.checkpointConfig = checkpointConfig
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
+            self.enableManagedSpotTraining = enableManagedSpotTraining
             self.enableNetworkIsolation = enableNetworkIsolation
             self.hyperParameters = hyperParameters
             self.inputDataConfig = inputDataConfig
@@ -1688,6 +1726,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.algorithmSpecification.validate(name: "\(name).algorithmSpecification")
+            try self.checkpointConfig?.validate(name: "\(name).checkpointConfig")
             try self.hyperParameters?.forEach {
                 try validate($0.key, name:"hyperParameters.key", parent: name, max: 256)
                 try validate($0.key, name:"hyperParameters.key", parent: name, pattern: ".*")
@@ -1718,7 +1757,9 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case algorithmSpecification = "AlgorithmSpecification"
+            case checkpointConfig = "CheckpointConfig"
             case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
+            case enableManagedSpotTraining = "EnableManagedSpotTraining"
             case enableNetworkIsolation = "EnableNetworkIsolation"
             case hyperParameters = "HyperParameters"
             case inputDataConfig = "InputDataConfig"
@@ -1766,7 +1807,7 @@ extension SageMaker {
 
         /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record  is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.  To enable the batch strategy, you must set SplitType to Line, RecordIO, or TFRecord. To use only one record when making an HTTP invocation request to a container, set BatchStrategy to SingleRecord and SplitType to Line. To fit as many records in a mini-batch as can fit within the MaxPayloadInMB limit, set BatchStrategy to MultiRecord and SplitType to Line.
         public let batchStrategy: BatchStrategy?
-        /// The data structure used for combining the input data and inference in the output file. For more information, see Batch Transform I/O Join.
+        /// The data structure used to specify the data to be used for inference in a batch transform job and to associate the data that is relevant to the prediction results in the output. The input filter provided allows you to exclude input data that is not needed for inference in a batch transform job. The output filter provided allows you to include input data relevant to interpreting the predictions in the output from the job. For more information, see Associate Prediction Results with their Corresponding Input Records.
         public let dataProcessing: DataProcessing?
         /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
         public let environment: [String: String]?
@@ -1873,6 +1914,7 @@ extension SageMaker {
         public let memberDefinitions: [MemberDefinition]
         /// Configures notification of workers regarding available or expiring work items.
         public let notificationConfiguration: NotificationConfiguration?
+        /// An array of key-value pairs. For more information, see Resource Tag and Using Cost Allocation Tags in the  AWS Billing and Cost Management User Guide.
         public let tags: [Tag]?
         /// The name of the work team. Use this name to identify the work team.
         public let workteamName: String
@@ -1940,9 +1982,9 @@ extension SageMaker {
 
         /// A JSONPath expression used to select a portion of the input data to pass to the algorithm. Use the InputFilter parameter to exclude fields, such as an ID column, from the input. If you want Amazon SageMaker to pass the entire input dataset to the algorithm, accept the default value $. Examples: "$", "$[1:]", "$.features" 
         public let inputFilter: String?
-        /// Specifies the source of the data to join with the transformed data. The valid values are None and Input The default value is None which specifies not to join the input with the transformed data. If you want the batch transform job to join the original input data with the transformed data, set JoinSource to Input. To join input and output, the batch transform job must satisfy the Requirements for Using Batch Transform I/O Join. For JSON or JSONLines objects, such as a JSON array, Amazon SageMaker adds the transformed data to the input JSON object in an attribute called SageMakerOutput. The joined result for JSON must be a key-value pair object. If the input is not a key-value pair object, Amazon SageMaker creates a new JSON file. In the new JSON file, and the input data is stored under the SageMakerInput key and the results are stored in SageMakerOutput. For CSV files, Amazon SageMaker combines the transformed data with the input data at the end of the input data and stores it in the output file. The joined data has the joined input data followed by the transformed data and the output is a CSV file. 
+        /// Specifies the source of the data to join with the transformed data. The valid values are None and Input The default value is None which specifies not to join the input with the transformed data. If you want the batch transform job to join the original input data with the transformed data, set JoinSource to Input.  For JSON or JSONLines objects, such as a JSON array, Amazon SageMaker adds the transformed data to the input JSON object in an attribute called SageMakerOutput. The joined result for JSON must be a key-value pair object. If the input is not a key-value pair object, Amazon SageMaker creates a new JSON file. In the new JSON file, and the input data is stored under the SageMakerInput key and the results are stored in SageMakerOutput. For CSV files, Amazon SageMaker combines the transformed data with the input data at the end of the input data and stores it in the output file. The joined data has the joined input data followed by the transformed data and the output is a CSV file. 
         public let joinSource: JoinSource?
-        /// A JSONPath expression used to select a portion of the joined dataset to save in the output file for a batch transform job. If you want Amazon SageMaker to store the entire input dataset in the output file, leave the default value, $. If you specify indexes that aren't within the dimension size of the joined dataset, you get an error. Examples: "$", "$[0,5:]", "$.['id','SageMakerOutput']" 
+        /// A JSONPath expression used to select a portion of the joined dataset to save in the output file for a batch transform job. If you want Amazon SageMaker to store the entire input dataset in the output file, leave the default value, $. If you specify indexes that aren't within the dimension size of the joined dataset, you get an error. Examples: "$", "$[0,5:]", "$['id','SageMakerOutput']" 
         public let outputFilter: String?
 
         public init(inputFilter: String? = nil, joinSource: JoinSource? = nil, outputFilter: String? = nil) {
@@ -1967,21 +2009,27 @@ extension SageMaker {
 
     public struct DataSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemDataSource", required: false, type: .structure), 
             AWSShapeMember(label: "S3DataSource", required: false, type: .structure)
         ]
 
+        /// The file system that is associated with a channel.
+        public let fileSystemDataSource: FileSystemDataSource?
         /// The S3 location of the data source that is associated with a channel.
         public let s3DataSource: S3DataSource?
 
-        public init(s3DataSource: S3DataSource? = nil) {
+        public init(fileSystemDataSource: FileSystemDataSource? = nil, s3DataSource: S3DataSource? = nil) {
+            self.fileSystemDataSource = fileSystemDataSource
             self.s3DataSource = s3DataSource
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemDataSource?.validate(name: "\(name).fileSystemDataSource")
             try self.s3DataSource?.validate(name: "\(name).s3DataSource")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case fileSystemDataSource = "FileSystemDataSource"
             case s3DataSource = "S3DataSource"
         }
     }
@@ -3309,8 +3357,11 @@ extension SageMaker {
     public struct DescribeTrainingJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "BillableTimeInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "CheckpointConfig", required: false, type: .structure), 
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnableManagedSpotTraining", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
             AWSShapeMember(label: "FinalMetricDataList", required: false, type: .list), 
@@ -3330,16 +3381,22 @@ extension SageMaker {
             AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
             AWSShapeMember(label: "TrainingJobStatus", required: true, type: .enum), 
             AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrainingTimeInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "TuningJobArn", required: false, type: .string), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
 
         /// Information about the algorithm used for training, and algorithm metadata. 
         public let algorithmSpecification: AlgorithmSpecification
+        /// The billable time in seconds. You can calculate the savings from using managed spot training using the formula (1 - BillableTimeInSeconds / TrainingTimeInSeconds) * 100. For example, if BillableTimeInSeconds is 100 and TrainingTimeInSeconds is 500, the savings is 80%.
+        public let billableTimeInSeconds: Int?
+        public let checkpointConfig: CheckpointConfig?
         /// A timestamp that indicates when the training job was created.
         public let creationTime: TimeStamp
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithms in distributed training.
         public let enableInterContainerTrafficEncryption: Bool?
+        /// A Boolean indicating whether managed spot training is enabled (True) or not (False).
+        public let enableManagedSpotTraining: Bool?
         /// If you want to allow inbound or outbound network calls, except for calls between peers within a training cluster for distributed training, choose True. If you enable network isolation for training jobs that are configured to use a VPC, Amazon SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.  The Semantic Segmentation built-in algorithm does not support network isolation. 
         public let enableNetworkIsolation: Bool?
         /// If the training job failed, the reason it failed. 
@@ -3362,11 +3419,11 @@ extension SageMaker {
         public let resourceConfig: ResourceConfig
         /// The AWS Identity and Access Management (IAM) role configured for the training job. 
         public let roleArn: String?
-        ///  Provides detailed information about the state of the training job. For detailed information on the secondary status of the training job, see StatusMessage under SecondaryStatusTransition. Amazon SageMaker provides primary statuses and secondary statuses that apply to each of them:  InProgress     Starting - Starting the training job.    Downloading - An optional stage for algorithms that support File training input mode. It indicates that data is being downloaded to the ML storage volumes.    Training - Training is in progress.    Uploading - Training is complete and the model artifacts are being uploaded to the S3 location.    Completed     Completed - The training job has completed.    Failed     Failed - The training job has failed. The reason for the failure is returned in the FailureReason field of DescribeTrainingJobResponse.    Stopped     MaxRuntimeExceeded - The job stopped because it exceeded the maximum allowed runtime.    Stopped - The training job has stopped.    Stopping     Stopping - Stopping the training job.      Valid values for SecondaryStatus are subject to change.   We no longer support the following secondary statuses:    LaunchingMLInstances     PreparingTrainingStack     DownloadingTrainingImage   
+        ///  Provides detailed information about the state of the training job. For detailed information on the secondary status of the training job, see StatusMessage under SecondaryStatusTransition. Amazon SageMaker provides primary statuses and secondary statuses that apply to each of them:  InProgress     Starting - Starting the training job.    Downloading - An optional stage for algorithms that support File training input mode. It indicates that data is being downloaded to the ML storage volumes.    Training - Training is in progress.    Uploading - Training is complete and the model artifacts are being uploaded to the S3 location.    Completed     Completed - The training job has completed.    Failed     Failed - The training job has failed. The reason for the failure is returned in the FailureReason field of DescribeTrainingJobResponse.    Stopped     MaxRuntimeExceeded - The job stopped because it exceeded the maximum allowed runtime.    MaxWaitTmeExceeded - The job stopped because it exceeded the maximum allowed wait time.    Interrupted - The job stopped because the managed spot training instances were interrupted.     Stopped - The training job has stopped.    Stopping     Stopping - Stopping the training job.      Valid values for SecondaryStatus are subject to change.   We no longer support the following secondary statuses:    LaunchingMLInstances     PreparingTrainingStack     DownloadingTrainingImage   
         public let secondaryStatus: SecondaryStatus
         /// A history of all of the secondary statuses that the training job has transitioned through.
         public let secondaryStatusTransitions: [SecondaryStatusTransition]?
-        /// Specifies a limit to how long a model training job can run. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost. 
+        /// Specifies a limit to how long a model training job can run. It also specifies the maximum time to wait for a spot instance. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost. 
         public let stoppingCondition: StoppingCondition
         /// Indicates the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when Amazon SageMaker detects a job failure.
         public let trainingEndTime: TimeStamp?
@@ -3378,15 +3435,20 @@ extension SageMaker {
         public let trainingJobStatus: TrainingJobStatus
         /// Indicates the time when the training job starts on training instances. You are billed for the time interval between this time and the value of TrainingEndTime. The start time in CloudWatch Logs might be later than this time. The difference is due to the time it takes to download the training data and to the size of the training container.
         public let trainingStartTime: TimeStamp?
+        /// The training time in seconds.
+        public let trainingTimeInSeconds: Int?
         /// The Amazon Resource Name (ARN) of the associated hyperparameter tuning job if the training job was launched by a hyperparameter tuning job.
         public let tuningJobArn: String?
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification, creationTime: TimeStamp, enableInterContainerTrafficEncryption: Bool? = nil, enableNetworkIsolation: Bool? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: TimeStamp? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, trainingEndTime: TimeStamp? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: TimeStamp? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: TimeStamp, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: TimeStamp? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, trainingEndTime: TimeStamp? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: TimeStamp? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
+            self.billableTimeInSeconds = billableTimeInSeconds
+            self.checkpointConfig = checkpointConfig
             self.creationTime = creationTime
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
+            self.enableManagedSpotTraining = enableManagedSpotTraining
             self.enableNetworkIsolation = enableNetworkIsolation
             self.failureReason = failureReason
             self.finalMetricDataList = finalMetricDataList
@@ -3406,14 +3468,18 @@ extension SageMaker {
             self.trainingJobName = trainingJobName
             self.trainingJobStatus = trainingJobStatus
             self.trainingStartTime = trainingStartTime
+            self.trainingTimeInSeconds = trainingTimeInSeconds
             self.tuningJobArn = tuningJobArn
             self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case algorithmSpecification = "AlgorithmSpecification"
+            case billableTimeInSeconds = "BillableTimeInSeconds"
+            case checkpointConfig = "CheckpointConfig"
             case creationTime = "CreationTime"
             case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
+            case enableManagedSpotTraining = "EnableManagedSpotTraining"
             case enableNetworkIsolation = "EnableNetworkIsolation"
             case failureReason = "FailureReason"
             case finalMetricDataList = "FinalMetricDataList"
@@ -3433,6 +3499,7 @@ extension SageMaker {
             case trainingJobName = "TrainingJobName"
             case trainingJobStatus = "TrainingJobStatus"
             case trainingStartTime = "TrainingStartTime"
+            case trainingTimeInSeconds = "TrainingTimeInSeconds"
             case tuningJobArn = "TuningJobArn"
             case vpcConfig = "VpcConfig"
         }
@@ -3742,6 +3809,57 @@ extension SageMaker {
         }
     }
 
+    public enum FileSystemAccessMode: String, CustomStringConvertible, Codable {
+        case rw = "rw"
+        case ro = "ro"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct FileSystemDataSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryPath", required: true, type: .string), 
+            AWSShapeMember(label: "FileSystemAccessMode", required: true, type: .enum), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "FileSystemType", required: true, type: .enum)
+        ]
+
+        /// The full path to the directory to associate with the channel.
+        public let directoryPath: String
+        /// The access mode of the mount of the directory associated with the channel. A directory can be mounted either in ro (read-only) or rw (read-write).
+        public let fileSystemAccessMode: FileSystemAccessMode
+        /// The file system id.
+        public let fileSystemId: String
+        /// The file system type. 
+        public let fileSystemType: FileSystemType
+
+        public init(directoryPath: String, fileSystemAccessMode: FileSystemAccessMode, fileSystemId: String, fileSystemType: FileSystemType) {
+            self.directoryPath = directoryPath
+            self.fileSystemAccessMode = fileSystemAccessMode
+            self.fileSystemId = fileSystemId
+            self.fileSystemType = fileSystemType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.directoryPath, name:"directoryPath", parent: name, max: 4096)
+            try validate(self.directoryPath, name:"directoryPath", parent: name, pattern: ".*")
+            try validate(self.fileSystemId, name:"fileSystemId", parent: name, min: 11)
+            try validate(self.fileSystemId, name:"fileSystemId", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryPath = "DirectoryPath"
+            case fileSystemAccessMode = "FileSystemAccessMode"
+            case fileSystemId = "FileSystemId"
+            case fileSystemType = "FileSystemType"
+        }
+    }
+
+    public enum FileSystemType: String, CustomStringConvertible, Codable {
+        case efs = "EFS"
+        case fsxlustre = "FSxLustre"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Filter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -3939,11 +4057,11 @@ extension SageMaker {
         public let maxConcurrentTaskCount: Int?
         /// The number of human workers that will label an object. 
         public let numberOfHumanWorkersPerDataObject: Int
-        /// The Amazon Resource Name (ARN) of a Lambda function that is run before a data object is sent to a human worker. Use this function to provide input to a custom labeling job. For the built-in bounding box, image classification, semantic segmentation, and text classification task types, Amazon SageMaker Ground Truth provides the following Lambda functions:  US East (Northern Virginia) (us-east-1):     arn:aws:lambda:us-east-1:432418664414:function:PRE-BoundingBox     arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-1:432418664414:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClass     US East (Ohio) (us-east-2):     arn:aws:lambda:us-east-2:266458841044:function:PRE-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClass     US West (Oregon) (us-west-2):     arn:aws:lambda:us-west-2:081040173940:function:PRE-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClass     EU (Ireland) (eu-west-1):     arn:aws:lambda:eu-west-1:568282634449:function:PRE-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClass     Asia Pacific (Tokyo) (ap-northeast-1):     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClass     Asia Pacific (Sydney) (ap-southeast-1):     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClass   
+        /// The Amazon Resource Name (ARN) of a Lambda function that is run before a data object is sent to a human worker. Use this function to provide input to a custom labeling job. For the built-in bounding box, image classification, semantic segmentation, and text classification task types, Amazon SageMaker Ground Truth provides the following Lambda functions:  US East (Northern Virginia) (us-east-1):     arn:aws:lambda:us-east-1:432418664414:function:PRE-BoundingBox     arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-1:432418664414:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClass     arn:aws:lambda:us-east-1:432418664414:function:PRE-NamedEntityRecognition     US East (Ohio) (us-east-2):     arn:aws:lambda:us-east-2:266458841044:function:PRE-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-NamedEntityRecognition     US West (Oregon) (us-west-2):     arn:aws:lambda:us-west-2:081040173940:function:PRE-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-NamedEntityRecognition     Canada (Central) (ca-central-1):     arn:awslambda:ca-central-1:918755190332:function:PRE-BoundingBox     arn:awslambda:ca-central-1:918755190332:function:PRE-ImageMultiClass     arn:awslambda:ca-central-1:918755190332:function:PRE-SemanticSegmentation     arn:awslambda:ca-central-1:918755190332:function:PRE-TextMultiClass     arn:awslambda:ca-central-1:918755190332:function:PRE-NamedEntityRecognition     EU (Ireland) (eu-west-1):     arn:aws:lambda:eu-west-1:568282634449:function:PRE-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-NamedEntityRecognition     EU (London) (eu-west-2):     arn:awslambda:eu-west-2:487402164563:function:PRE-BoundingBox     arn:awslambda:eu-west-2:487402164563:function:PRE-ImageMultiClass     arn:awslambda:eu-west-2:487402164563:function:PRE-SemanticSegmentation     arn:awslambda:eu-west-2:487402164563:function:PRE-TextMultiClass     arn:awslambda:eu-west-2:487402164563:function:PRE-NamedEntityRecognition     EU Frankfurt (eu-central-1):     arn:awslambda:eu-central-1:203001061592:function:PRE-BoundingBox     arn:awslambda:eu-central-1:203001061592:function:PRE-ImageMultiClass     arn:awslambda:eu-central-1:203001061592:function:PRE-SemanticSegmentation     arn:awslambda:eu-central-1:203001061592:function:PRE-TextMultiClass     arn:awslambda:eu-central-1:203001061592:function:PRE-NamedEntityRecognition     Asia Pacific (Tokyo) (ap-northeast-1):     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-NamedEntityRecognition     Asia Pacific (Seoul) (ap-northeast-2):     arn:awslambda:ap-northeast-2:845288260483:function:PRE-BoundingBox     arn:awslambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClass     arn:awslambda:ap-northeast-2:845288260483:function:PRE-SemanticSegmentation     arn:awslambda:ap-northeast-2:845288260483:function:PRE-TextMultiClass     arn:awslambda:ap-northeast-2:845288260483:function:PRE-NamedEntityRecognition     Asia Pacific (Mumbai) (ap-south-1):     arn:awslambda:ap-south-1:565803892007:function:PRE-BoundingBox     arn:awslambda:ap-south-1:565803892007:function:PRE-ImageMultiClass     arn:awslambda:ap-south-1:565803892007:function:PRE-SemanticSegmentation     arn:awslambda:ap-south-1:565803892007:function:PRE-TextMultiClass     arn:awslambda:ap-south-1:565803892007:function:PRE-NamedEntityRecognition     Asia Pacific (Singapore) (ap-southeast-1):     arn:awslambda:ap-southeast-1:377565633583:function:PRE-BoundingBox     arn:awslambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClass     arn:awslambda:ap-southeast-1:377565633583:function:PRE-SemanticSegmentation     arn:awslambda:ap-southeast-1:377565633583:function:PRE-TextMultiClass     arn:awslambda:ap-southeast-1:377565633583:function:PRE-NamedEntityRecognition     Asia Pacific (Sydney) (ap-southeast-2):     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-NamedEntityRecognition   
         public let preHumanTaskLambdaArn: String
-        /// The price that you pay for each task performed by a public worker.
+        /// The price that you pay for each task performed by an Amazon Mechanical Turk worker.
         public let publicWorkforceTaskPrice: PublicWorkforceTaskPrice?
-        /// The length of time that a task remains available for labelling by human workers.
+        /// The length of time that a task remains available for labeling by human workers. If you choose the Amazon Mechanical Turk workforce, the maximum is 12 hours (43200). For private and vendor workforces, the maximum is as listed.
         public let taskAvailabilityLifetimeInSeconds: Int?
         /// A description of the task for your human workers.
         public let taskDescription: String
@@ -3995,7 +4113,7 @@ extension SageMaker {
             try validate(self.taskKeywords, name:"taskKeywords", parent: name, max: 5)
             try validate(self.taskKeywords, name:"taskKeywords", parent: name, min: 1)
             try validate(self.taskTimeLimitInSeconds, name:"taskTimeLimitInSeconds", parent: name, max: 28800)
-            try validate(self.taskTimeLimitInSeconds, name:"taskTimeLimitInSeconds", parent: name, min: 1)
+            try validate(self.taskTimeLimitInSeconds, name:"taskTimeLimitInSeconds", parent: name, min: 30)
             try validate(self.taskTitle, name:"taskTitle", parent: name, max: 128)
             try validate(self.taskTitle, name:"taskTitle", parent: name, min: 1)
             try validate(self.taskTitle, name:"taskTitle", parent: name, pattern: "^[\\t\\n\\r -\\uD7FF\\uE000-\\uFFFD]*$")
@@ -4051,7 +4169,7 @@ extension SageMaker {
             try self.metricDefinitions?.forEach {
                 try $0.validate(name: "\(name).metricDefinitions[]")
             }
-            try validate(self.metricDefinitions, name:"metricDefinitions", parent: name, max: 20)
+            try validate(self.metricDefinitions, name:"metricDefinitions", parent: name, max: 40)
             try validate(self.metricDefinitions, name:"metricDefinitions", parent: name, min: 0)
             try validate(self.trainingImage, name:"trainingImage", parent: name, max: 255)
             try validate(self.trainingImage, name:"trainingImage", parent: name, pattern: ".*")
@@ -4133,7 +4251,9 @@ extension SageMaker {
     public struct HyperParameterTrainingJobDefinition: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "CheckpointConfig", required: false, type: .structure), 
             AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnableManagedSpotTraining", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
             AWSShapeMember(label: "InputDataConfig", required: false, type: .list), 
             AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
@@ -4146,8 +4266,11 @@ extension SageMaker {
 
         /// The HyperParameterAlgorithmSpecification object that specifies the resource algorithm to use for the training jobs that the tuning job launches.
         public let algorithmSpecification: HyperParameterAlgorithmSpecification
+        public let checkpointConfig: CheckpointConfig?
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithm in distributed training.
         public let enableInterContainerTrafficEncryption: Bool?
+        /// A Boolean indicating whether managed spot training is enabled (True) or not (False).
+        public let enableManagedSpotTraining: Bool?
         /// Isolates the training container. No inbound or outbound network calls can be made, except for calls between peers within a training cluster for distributed training. If network isolation is used for training jobs that are configured to use a VPC, Amazon SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.  The Semantic Segmentation built-in algorithm does not support network isolation. 
         public let enableNetworkIsolation: Bool?
         /// An array of Channel objects that specify the input for the training jobs that the tuning job launches.
@@ -4160,14 +4283,16 @@ extension SageMaker {
         public let roleArn: String
         /// Specifies the values of hyperparameters that do not change for the tuning job.
         public let staticHyperParameters: [String: String]?
-        /// Specifies a limit to how long a model hyperparameter training job can run. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs.
+        /// Specifies a limit to how long a model hyperparameter training job can run. It also specifies how long you are willing to wait for a managed spot training job to complete. When the job reaches the a limit, Amazon SageMaker ends the training job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition
         /// The VpcConfig object that specifies the VPC that you want the training jobs that this hyperparameter tuning job launches to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: HyperParameterAlgorithmSpecification, enableInterContainerTrafficEncryption: Bool? = nil, enableNetworkIsolation: Bool? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, roleArn: String, staticHyperParameters: [String: String]? = nil, stoppingCondition: StoppingCondition, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: HyperParameterAlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, roleArn: String, staticHyperParameters: [String: String]? = nil, stoppingCondition: StoppingCondition, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
+            self.checkpointConfig = checkpointConfig
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
+            self.enableManagedSpotTraining = enableManagedSpotTraining
             self.enableNetworkIsolation = enableNetworkIsolation
             self.inputDataConfig = inputDataConfig
             self.outputDataConfig = outputDataConfig
@@ -4180,6 +4305,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.algorithmSpecification.validate(name: "\(name).algorithmSpecification")
+            try self.checkpointConfig?.validate(name: "\(name).checkpointConfig")
             try self.inputDataConfig?.forEach {
                 try $0.validate(name: "\(name).inputDataConfig[]")
             }
@@ -4202,7 +4328,9 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case algorithmSpecification = "AlgorithmSpecification"
+            case checkpointConfig = "CheckpointConfig"
             case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
+            case enableManagedSpotTraining = "EnableManagedSpotTraining"
             case enableNetworkIsolation = "EnableNetworkIsolation"
             case inputDataConfig = "InputDataConfig"
             case outputDataConfig = "OutputDataConfig"
@@ -4758,7 +4886,7 @@ extension SageMaker {
 
         /// At the end of an auto-label job Amazon SageMaker Ground Truth sends the Amazon Resource Nam (ARN) of the final model used for auto-labeling. You can use this model as the starting point for subsequent similar jobs by providing the ARN of the model here. 
         public let initialActiveLearningModelArn: String?
-        /// Specifies the Amazon Resource Name (ARN) of the algorithm used for auto-labeling. You must select one of the following ARNs:    Image classification   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/image-classification     Text classification   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/text-classification     Object detection   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/object-detection   
+        /// Specifies the Amazon Resource Name (ARN) of the algorithm used for auto-labeling. You must select one of the following ARNs:    Image classification   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/image-classification     Text classification   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/text-classification     Object detection   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/object-detection     Semantic Segmentation   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/semantic-segmentation   
         public let labelingJobAlgorithmSpecificationArn: String
         /// Provides configuration information for a labeling job.
         public let labelingJobResourceConfig: LabelingJobResourceConfig?
@@ -4951,7 +5079,7 @@ extension SageMaker {
             AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string)
         ]
 
-        /// The AWS Key Management Service key ID for the key used to encrypt the output data, if any.
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job. The VolumeKmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
 
         public init(volumeKmsKeyId: String? = nil) {
@@ -6973,7 +7101,7 @@ extension SageMaker {
 
         /// A list of filters. Each filter acts on a property. Filters must contain at least one Filters value. For example, a NestedFilters call might include a filter on the PropertyName parameter of the InputDataConfig property: InputDataConfig.DataSource.S3DataSource.S3Uri.
         public let filters: [Filter]
-        /// The name of the property to use in the nested filters. The value must match a listed property name, such as InputDataConfig.
+        /// The name of the property to use in the nested filters. The value must match a listed property name, such as InputDataConfig .
         public let nestedPropertyName: String
 
         public init(filters: [Filter], nestedPropertyName: String) {
@@ -7406,7 +7534,7 @@ extension SageMaker {
             AWSShapeMember(label: "VariantName", required: true, type: .string)
         ]
 
-        /// The size of the Elastic Inference (EI) instance to use for the production variant. EI instances provide on-demand GPU computing for inference. For more information, see Using Elastic Inference in Amazon SageMaker. For more information, see Using Elastic Inference in Amazon SageMaker.
+        /// The size of the Elastic Inference (EI) instance to use for the production variant. EI instances provide on-demand GPU computing for inference. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorType: ProductionVariantAcceleratorType?
         /// Number of instances to launch initially.
         public let initialInstanceCount: Int
@@ -7577,7 +7705,7 @@ extension SageMaker {
             AWSShapeMember(label: "AmountInUsd", required: false, type: .structure)
         ]
 
-        /// Defines the amount of money paid to a worker in United States dollars.
+        /// Defines the amount of money paid to an Amazon Mechanical Turk worker in United States dollars.
         public let amountInUsd: USD?
 
         public init(amountInUsd: USD? = nil) {
@@ -7995,6 +8123,8 @@ extension SageMaker {
         case maxruntimeexceeded = "MaxRuntimeExceeded"
         case completed = "Completed"
         case failed = "Failed"
+        case interrupted = "Interrupted"
+        case maxwaittimeexceeded = "MaxWaitTimeExceeded"
         public var description: String { return self.rawValue }
     }
 
@@ -8284,22 +8414,28 @@ extension SageMaker {
 
     public struct StoppingCondition: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxRuntimeInSeconds", required: false, type: .integer)
+            AWSShapeMember(label: "MaxRuntimeInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxWaitTimeInSeconds", required: false, type: .integer)
         ]
 
         /// The maximum length of time, in seconds, that the training or compilation job can run. If job does not complete during this time, Amazon SageMaker ends the job. If value is not specified, default value is 1 day. The maximum value is 28 days.
         public let maxRuntimeInSeconds: Int?
+        /// The maximum length of time, in seconds, how long you are willing to wait for a managed spot training job to complete. It is the amount of time spent waiting for Spot capacity plus the amount of time the training job runs. It must be equal to or greater than MaxRuntimeInSeconds. 
+        public let maxWaitTimeInSeconds: Int?
 
-        public init(maxRuntimeInSeconds: Int? = nil) {
+        public init(maxRuntimeInSeconds: Int? = nil, maxWaitTimeInSeconds: Int? = nil) {
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
+            self.maxWaitTimeInSeconds = maxWaitTimeInSeconds
         }
 
         public func validate(name: String) throws {
             try validate(self.maxRuntimeInSeconds, name:"maxRuntimeInSeconds", parent: name, min: 1)
+            try validate(self.maxWaitTimeInSeconds, name:"maxWaitTimeInSeconds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxRuntimeInSeconds = "MaxRuntimeInSeconds"
+            case maxWaitTimeInSeconds = "MaxWaitTimeInSeconds"
         }
     }
 
@@ -8406,7 +8542,10 @@ extension SageMaker {
         case deeplens = "deeplens"
         case rk3399 = "rk3399"
         case rk3288 = "rk3288"
+        case aisage = "aisage"
         case sbeC = "sbe_c"
+        case qcs605 = "qcs605"
+        case qcs603 = "qcs603"
         public var description: String { return self.rawValue }
     }
 
@@ -8443,6 +8582,7 @@ extension SageMaker {
         case mlC54Xlarge = "ml.c5.4xlarge"
         case mlC59Xlarge = "ml.c5.9xlarge"
         case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlP3Dn24Xlarge = "ml.p3dn.24xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -8788,7 +8928,7 @@ extension SageMaker {
             try self.metricDefinitions?.forEach {
                 try $0.validate(name: "\(name).metricDefinitions[]")
             }
-            try validate(self.metricDefinitions, name:"metricDefinitions", parent: name, max: 20)
+            try validate(self.metricDefinitions, name:"metricDefinitions", parent: name, max: 40)
             try validate(self.metricDefinitions, name:"metricDefinitions", parent: name, min: 0)
             try self.supportedHyperParameters?.forEach {
                 try $0.validate(name: "\(name).supportedHyperParameters[]")
@@ -9077,7 +9217,7 @@ extension SageMaker {
 
         /// The number of ML compute instances to use in the transform job. For distributed transform jobs, specify a value greater than 1. The default value is 1.
         public let instanceCount: Int
-        /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.largeinstance types.
+        /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.large instance types.
         public let instanceType: TransformInstanceType
         /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the batch transform job. The VolumeKmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
@@ -9456,9 +9596,9 @@ extension SageMaker {
 
         /// The name of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigName: String
-        /// The shell script that runs only once, when you create a notebook instance
+        /// The shell script that runs only once, when you create a notebook instance. The shell script must be a base64-encoded string.
         public let onCreate: [NotebookInstanceLifecycleHook]?
-        /// The shell script that runs every time you start a notebook instance, including when you create the notebook instance.
+        /// The shell script that runs every time you start a notebook instance, including when you create the notebook instance. The shell script must be a base64-encoded string.
         public let onStart: [NotebookInstanceLifecycleHook]?
 
         public init(notebookInstanceLifecycleConfigName: String, onCreate: [NotebookInstanceLifecycleHook]? = nil, onStart: [NotebookInstanceLifecycleHook]? = nil) {
@@ -9625,6 +9765,7 @@ extension SageMaker {
         public let lastUpdatedDate: TimeStamp?
         /// The Amazon Cognito user groups that make up the work team.
         public let memberDefinitions: [MemberDefinition]
+        /// Configures SNS notifications of available or expiring work items for work teams.
         public let notificationConfiguration: NotificationConfiguration?
         /// The Amazon Marketplace identifier for a vendor's work team.
         public let productListingIds: [String]?

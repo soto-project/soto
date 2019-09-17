@@ -493,8 +493,7 @@ extension Kafka {
         ///             The version of Apache Kafka.
         ///
         public let kafkaVersion: String
-        ///             The number of broker nodes in the cluster.
-        ///
+        /// The number of Kafka broker nodes in the Amazon MSK cluster.
         public let numberOfBrokerNodes: Int
         ///             Create tags when creating the cluster.
         ///

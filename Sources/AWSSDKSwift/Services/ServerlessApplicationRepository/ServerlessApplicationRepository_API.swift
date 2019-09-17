@@ -46,70 +46,70 @@ public struct ServerlessApplicationRepository {
     }
 
     ///  Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
-    public func createApplication(_ input: CreateApplicationRequest) throws -> Future<CreateApplicationResponse> {
-        return try client.send(operation: "CreateApplication", path: "/applications", httpMethod: "POST", input: input)
+    public func createApplication(_ input: CreateApplicationRequest) -> Future<CreateApplicationResponse> {
+        return client.send(operation: "CreateApplication", path: "/applications", httpMethod: "POST", input: input)
     }
 
     ///  Creates an application version.
-    public func createApplicationVersion(_ input: CreateApplicationVersionRequest) throws -> Future<CreateApplicationVersionResponse> {
-        return try client.send(operation: "CreateApplicationVersion", path: "/applications/{applicationId}/versions/{semanticVersion}", httpMethod: "PUT", input: input)
+    public func createApplicationVersion(_ input: CreateApplicationVersionRequest) -> Future<CreateApplicationVersionResponse> {
+        return client.send(operation: "CreateApplicationVersion", path: "/applications/{applicationId}/versions/{semanticVersion}", httpMethod: "PUT", input: input)
     }
 
     ///  Creates an AWS CloudFormation change set for the given application.
-    public func createCloudFormationChangeSet(_ input: CreateCloudFormationChangeSetRequest) throws -> Future<CreateCloudFormationChangeSetResponse> {
-        return try client.send(operation: "CreateCloudFormationChangeSet", path: "/applications/{applicationId}/changesets", httpMethod: "POST", input: input)
+    public func createCloudFormationChangeSet(_ input: CreateCloudFormationChangeSetRequest) -> Future<CreateCloudFormationChangeSetResponse> {
+        return client.send(operation: "CreateCloudFormationChangeSet", path: "/applications/{applicationId}/changesets", httpMethod: "POST", input: input)
     }
 
     ///  Creates an AWS CloudFormation template.
-    public func createCloudFormationTemplate(_ input: CreateCloudFormationTemplateRequest) throws -> Future<CreateCloudFormationTemplateResponse> {
-        return try client.send(operation: "CreateCloudFormationTemplate", path: "/applications/{applicationId}/templates", httpMethod: "POST", input: input)
+    public func createCloudFormationTemplate(_ input: CreateCloudFormationTemplateRequest) -> Future<CreateCloudFormationTemplateResponse> {
+        return client.send(operation: "CreateCloudFormationTemplate", path: "/applications/{applicationId}/templates", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified application.
-    @discardableResult public func deleteApplication(_ input: DeleteApplicationRequest) throws -> Future<Void> {
-        return try client.send(operation: "DeleteApplication", path: "/applications/{applicationId}", httpMethod: "DELETE", input: input)
+    @discardableResult public func deleteApplication(_ input: DeleteApplicationRequest) -> Future<Void> {
+        return client.send(operation: "DeleteApplication", path: "/applications/{applicationId}", httpMethod: "DELETE", input: input)
     }
 
     ///  Gets the specified application.
-    public func getApplication(_ input: GetApplicationRequest) throws -> Future<GetApplicationResponse> {
-        return try client.send(operation: "GetApplication", path: "/applications/{applicationId}", httpMethod: "GET", input: input)
+    public func getApplication(_ input: GetApplicationRequest) -> Future<GetApplicationResponse> {
+        return client.send(operation: "GetApplication", path: "/applications/{applicationId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the policy for the application.
-    public func getApplicationPolicy(_ input: GetApplicationPolicyRequest) throws -> Future<GetApplicationPolicyResponse> {
-        return try client.send(operation: "GetApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: "GET", input: input)
+    public func getApplicationPolicy(_ input: GetApplicationPolicyRequest) -> Future<GetApplicationPolicyResponse> {
+        return client.send(operation: "GetApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: "GET", input: input)
     }
 
     ///  Gets the specified AWS CloudFormation template.
-    public func getCloudFormationTemplate(_ input: GetCloudFormationTemplateRequest) throws -> Future<GetCloudFormationTemplateResponse> {
-        return try client.send(operation: "GetCloudFormationTemplate", path: "/applications/{applicationId}/templates/{templateId}", httpMethod: "GET", input: input)
+    public func getCloudFormationTemplate(_ input: GetCloudFormationTemplateRequest) -> Future<GetCloudFormationTemplateResponse> {
+        return client.send(operation: "GetCloudFormationTemplate", path: "/applications/{applicationId}/templates/{templateId}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves the list of applications nested in the containing application.
-    public func listApplicationDependencies(_ input: ListApplicationDependenciesRequest) throws -> Future<ListApplicationDependenciesResponse> {
-        return try client.send(operation: "ListApplicationDependencies", path: "/applications/{applicationId}/dependencies", httpMethod: "GET", input: input)
+    public func listApplicationDependencies(_ input: ListApplicationDependenciesRequest) -> Future<ListApplicationDependenciesResponse> {
+        return client.send(operation: "ListApplicationDependencies", path: "/applications/{applicationId}/dependencies", httpMethod: "GET", input: input)
     }
 
     ///  Lists versions for the specified application.
-    public func listApplicationVersions(_ input: ListApplicationVersionsRequest) throws -> Future<ListApplicationVersionsResponse> {
-        return try client.send(operation: "ListApplicationVersions", path: "/applications/{applicationId}/versions", httpMethod: "GET", input: input)
+    public func listApplicationVersions(_ input: ListApplicationVersionsRequest) -> Future<ListApplicationVersionsResponse> {
+        return client.send(operation: "ListApplicationVersions", path: "/applications/{applicationId}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Lists applications owned by the requester.
-    public func listApplications(_ input: ListApplicationsRequest) throws -> Future<ListApplicationsResponse> {
-        return try client.send(operation: "ListApplications", path: "/applications", httpMethod: "GET", input: input)
+    public func listApplications(_ input: ListApplicationsRequest) -> Future<ListApplicationsResponse> {
+        return client.send(operation: "ListApplications", path: "/applications", httpMethod: "GET", input: input)
     }
 
     ///  Sets the permission policy for an application. For the list of actions supported for this operation, see
     ///   Application 
     ///   Permissions
     ///   .
-    public func putApplicationPolicy(_ input: PutApplicationPolicyRequest) throws -> Future<PutApplicationPolicyResponse> {
-        return try client.send(operation: "PutApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: "PUT", input: input)
+    public func putApplicationPolicy(_ input: PutApplicationPolicyRequest) -> Future<PutApplicationPolicyResponse> {
+        return client.send(operation: "PutApplicationPolicy", path: "/applications/{applicationId}/policy", httpMethod: "PUT", input: input)
     }
 
     ///  Updates the specified application.
-    public func updateApplication(_ input: UpdateApplicationRequest) throws -> Future<UpdateApplicationResponse> {
-        return try client.send(operation: "UpdateApplication", path: "/applications/{applicationId}", httpMethod: "PATCH", input: input)
+    public func updateApplication(_ input: UpdateApplicationRequest) -> Future<UpdateApplicationResponse> {
+        return client.send(operation: "UpdateApplication", path: "/applications/{applicationId}", httpMethod: "PATCH", input: input)
     }
 }

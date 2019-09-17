@@ -26,6 +26,7 @@ public enum IoTErrorType: AWSErrorType {
     case resourceRegistrationFailureException(message: String?)
     case serviceUnavailableException(message: String?)
     case sqlParseException(message: String?)
+    case taskAlreadyExistsException(message: String?)
     case throttlingException(message: String?)
     case transferAlreadyCompletedException(message: String?)
     case transferConflictException(message: String?)
@@ -85,6 +86,8 @@ extension IoTErrorType {
             self = .serviceUnavailableException(message: message)
         case "SqlParseException":
             self = .sqlParseException(message: message)
+        case "TaskAlreadyExistsException":
+            self = .taskAlreadyExistsException(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
         case "TransferAlreadyCompletedException":
@@ -150,6 +153,8 @@ extension IoTErrorType : CustomStringConvertible {
             return "ServiceUnavailableException: \(message ?? "")"
         case .sqlParseException(let message):
             return "SqlParseException: \(message ?? "")"
+        case .taskAlreadyExistsException(let message):
+            return "TaskAlreadyExistsException: \(message ?? "")"
         case .throttlingException(let message):
             return "ThrottlingException: \(message ?? "")"
         case .transferAlreadyCompletedException(let message):

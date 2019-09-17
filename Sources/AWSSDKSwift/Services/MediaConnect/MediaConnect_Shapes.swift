@@ -50,21 +50,25 @@ extension MediaConnect {
 
     public struct AddOutputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CidrAllowList", location: .body(locationName: "cidrAllowList"), required: false, type: .list), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .string), 
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
             AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency"), required: false, type: .integer), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
-            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: true, type: .integer), 
+            AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer), 
             AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: true, type: .enum), 
+            AWSShapeMember(label: "RemoteId", location: .body(locationName: "remoteId"), required: false, type: .string), 
             AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
             AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string)
         ]
 
+        /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        public let cidrAllowList: [String]?
         /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
         public let description: String?
         /// The IP address from which video will be sent to output destinations.
-        public let destination: String
+        public let destination: String?
         /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
         public let encryption: Encryption?
         /// The maximum latency in milliseconds for Zixi-based streams.
@@ -72,15 +76,18 @@ extension MediaConnect {
         /// The name of the output. This value must be unique within the current flow.
         public let name: String?
         /// The port to use when content is distributed to this output.
-        public let port: Int
+        public let port: Int?
         /// The protocol to use for the output.
         public let `protocol`: Protocol
-        /// The smoothing latency in milliseconds for RTP and RTP-FEC streams.
+        /// The remote ID for the Zixi-pull output stream.
+        public let remoteId: String?
+        /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
         public let smoothingLatency: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
 
-        public init(description: String? = nil, destination: String, encryption: Encryption? = nil, maxLatency: Int? = nil, name: String? = nil, port: Int, protocol: Protocol, smoothingLatency: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
+            self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
             self.encryption = encryption
@@ -88,11 +95,13 @@ extension MediaConnect {
             self.name = name
             self.port = port
             self.`protocol` = `protocol`
+            self.remoteId = remoteId
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cidrAllowList = "cidrAllowList"
             case description = "description"
             case destination = "destination"
             case encryption = "encryption"
@@ -100,6 +109,7 @@ extension MediaConnect {
             case name = "name"
             case port = "port"
             case `protocol` = "protocol"
+            case remoteId = "remoteId"
             case smoothingLatency = "smoothingLatency"
             case streamId = "streamId"
         }
@@ -738,6 +748,8 @@ extension MediaConnect {
         case zixiPush = "zixi-push"
         case rtpFec = "rtp-fec"
         case rtp = "rtp"
+        case zixiPull = "zixi-pull"
+        case rist = "rist"
         public var description: String { return self.rawValue }
     }
 
@@ -847,9 +859,9 @@ extension MediaConnect {
         public let entitlementArn: String?
         /// The port that the flow will be listening on for incoming content.
         public let ingestPort: Int?
-        /// The smoothing max bitrate for RTP and RTP-FEC streams.
+        /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
         public let maxBitrate: Int?
-        /// The maximum latency in milliseconds for Zixi-based streams.
+        /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
         /// The name of the source.
         public let name: String?
@@ -857,7 +869,7 @@ extension MediaConnect {
         public let `protocol`: Protocol?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
-        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
         public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, name: String? = nil, protocol: Protocol? = nil, streamId: String? = nil, whitelistCidr: String? = nil) {
@@ -916,7 +928,7 @@ extension MediaConnect {
         public let sourceArn: String
         /// Attributes related to the transport stream that are used in the source.
         public let transport: Transport?
-        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
         public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, name: String, sourceArn: String, transport: Transport? = nil, whitelistCidr: String? = nil) {
@@ -1060,36 +1072,46 @@ extension MediaConnect {
 
     public struct Transport: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CidrAllowList", location: .body(locationName: "cidrAllowList"), required: false, type: .list), 
             AWSShapeMember(label: "MaxBitrate", location: .body(locationName: "maxBitrate"), required: false, type: .integer), 
             AWSShapeMember(label: "MaxLatency", location: .body(locationName: "maxLatency"), required: false, type: .integer), 
             AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: true, type: .enum), 
+            AWSShapeMember(label: "RemoteId", location: .body(locationName: "remoteId"), required: false, type: .string), 
             AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
             AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string)
         ]
 
-        /// The smoothing max bitrate for RTP and RTP-FEC streams.
+        /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        public let cidrAllowList: [String]?
+        /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
         public let maxBitrate: Int?
-        /// The maximum latency in milliseconds for Zixi-based streams.
+        /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
         /// The protocol that is used by the source or output.
         public let `protocol`: Protocol
-        /// The smoothing latency in milliseconds for RTP and RTP-FEC streams.
+        /// The remote ID for the Zixi-pull stream.
+        public let remoteId: String?
+        /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
         public let smoothingLatency: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
 
-        public init(maxBitrate: Int? = nil, maxLatency: Int? = nil, protocol: Protocol, smoothingLatency: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
+            self.cidrAllowList = cidrAllowList
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
             self.`protocol` = `protocol`
+            self.remoteId = remoteId
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cidrAllowList = "cidrAllowList"
             case maxBitrate = "maxBitrate"
             case maxLatency = "maxLatency"
             case `protocol` = "protocol"
+            case remoteId = "remoteId"
             case smoothingLatency = "smoothingLatency"
             case streamId = "streamId"
         }
@@ -1230,6 +1252,7 @@ extension MediaConnect {
 
     public struct UpdateFlowOutputRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CidrAllowList", location: .body(locationName: "cidrAllowList"), required: false, type: .list), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
@@ -1238,10 +1261,13 @@ extension MediaConnect {
             AWSShapeMember(label: "OutputArn", location: .uri(locationName: "outputArn"), required: true, type: .string), 
             AWSShapeMember(label: "Port", location: .body(locationName: "port"), required: false, type: .integer), 
             AWSShapeMember(label: "Protocol", location: .body(locationName: "protocol"), required: false, type: .enum), 
+            AWSShapeMember(label: "RemoteId", location: .body(locationName: "remoteId"), required: false, type: .string), 
             AWSShapeMember(label: "SmoothingLatency", location: .body(locationName: "smoothingLatency"), required: false, type: .integer), 
             AWSShapeMember(label: "StreamId", location: .body(locationName: "streamId"), required: false, type: .string)
         ]
 
+        /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        public let cidrAllowList: [String]?
         /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
         public let description: String?
         /// The IP address where you want to send the output.
@@ -1256,12 +1282,15 @@ extension MediaConnect {
         public let port: Int?
         /// The protocol to use for the output.
         public let `protocol`: Protocol?
-        /// The smoothing latency in milliseconds for RTP and RTP-FEC streams.
+        /// The remote ID for the Zixi-pull stream.
+        public let remoteId: String?
+        /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
         public let smoothingLatency: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
 
-        public init(description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: Protocol? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: Protocol? = nil, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
+            self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
             self.encryption = encryption
@@ -1270,11 +1299,13 @@ extension MediaConnect {
             self.outputArn = outputArn
             self.port = port
             self.`protocol` = `protocol`
+            self.remoteId = remoteId
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cidrAllowList = "cidrAllowList"
             case description = "description"
             case destination = "destination"
             case encryption = "encryption"
@@ -1283,6 +1314,7 @@ extension MediaConnect {
             case outputArn = "outputArn"
             case port = "port"
             case `protocol` = "protocol"
+            case remoteId = "remoteId"
             case smoothingLatency = "smoothingLatency"
             case streamId = "streamId"
         }
@@ -1333,16 +1365,16 @@ extension MediaConnect {
         public let flowArn: String
         /// The port that the flow will be listening on for incoming content.
         public let ingestPort: Int?
-        /// The smoothing max bitrate for RTP and RTP-FEC streams.
+        /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
         public let maxBitrate: Int?
-        /// The maximum latency in milliseconds for Zixi-based streams.
+        /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
         /// The protocol that is used by the source.
         public let `protocol`: Protocol?
         public let sourceArn: String
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
-        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
         public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, protocol: Protocol? = nil, sourceArn: String, streamId: String? = nil, whitelistCidr: String? = nil) {
