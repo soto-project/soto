@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Amazon Elastic Container Registry (Amazon ECR) is a managed Docker registry service. Customers can use the familiar Docker CLI to push, pull, and manage images. Amazon ECR provides a secure, scalable, and reliable registry. Amazon ECR supports private Docker repositories with resource-based permissions using IAM so that specific users or Amazon EC2 instances can access repositories and images. Developers can use the Docker CLI to author and manage images.
+Amazon Elastic Container Registry Amazon Elastic Container Registry (Amazon ECR) is a managed Docker registry service. Customers can use the familiar Docker CLI to push, pull, and manage images. Amazon ECR provides a secure, scalable, and reliable registry. Amazon ECR supports private Docker repositories with resource-based permissions using IAM so that specific users or Amazon EC2 instances can access repositories and images. Developers can use the Docker CLI to author and manage images.
 */
 public struct ECR {
 
@@ -23,7 +23,7 @@ public struct ECR {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-09-21",
             endpoint: endpoint,
-            serviceEndpoints: ["ap-east-1": "api.ecr.ap-east-1.amazonaws.com", "ap-northeast-1": "api.ecr.ap-northeast-1.amazonaws.com", "ap-northeast-2": "api.ecr.ap-northeast-2.amazonaws.com", "ap-south-1": "api.ecr.ap-south-1.amazonaws.com", "ap-southeast-1": "api.ecr.ap-southeast-1.amazonaws.com", "ap-southeast-2": "api.ecr.ap-southeast-2.amazonaws.com", "ca-central-1": "api.ecr.ca-central-1.amazonaws.com", "eu-central-1": "api.ecr.eu-central-1.amazonaws.com", "eu-north-1": "api.ecr.eu-north-1.amazonaws.com", "eu-west-1": "api.ecr.eu-west-1.amazonaws.com", "eu-west-2": "api.ecr.eu-west-2.amazonaws.com", "eu-west-3": "api.ecr.eu-west-3.amazonaws.com", "sa-east-1": "api.ecr.sa-east-1.amazonaws.com", "us-east-1": "api.ecr.us-east-1.amazonaws.com", "us-east-2": "api.ecr.us-east-2.amazonaws.com", "us-west-1": "api.ecr.us-west-1.amazonaws.com", "us-west-2": "api.ecr.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["ap-east-1": "api.ecr.ap-east-1.amazonaws.com", "ap-northeast-1": "api.ecr.ap-northeast-1.amazonaws.com", "ap-northeast-2": "api.ecr.ap-northeast-2.amazonaws.com", "ap-south-1": "api.ecr.ap-south-1.amazonaws.com", "ap-southeast-1": "api.ecr.ap-southeast-1.amazonaws.com", "ap-southeast-2": "api.ecr.ap-southeast-2.amazonaws.com", "ca-central-1": "api.ecr.ca-central-1.amazonaws.com", "eu-central-1": "api.ecr.eu-central-1.amazonaws.com", "eu-north-1": "api.ecr.eu-north-1.amazonaws.com", "eu-west-1": "api.ecr.eu-west-1.amazonaws.com", "eu-west-2": "api.ecr.eu-west-2.amazonaws.com", "eu-west-3": "api.ecr.eu-west-3.amazonaws.com", "me-south-1": "api.ecr.me-south-1.amazonaws.com", "sa-east-1": "api.ecr.sa-east-1.amazonaws.com", "us-east-1": "api.ecr.us-east-1.amazonaws.com", "us-east-2": "api.ecr.us-east-2.amazonaws.com", "us-west-1": "api.ecr.us-west-1.amazonaws.com", "us-west-2": "api.ecr.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [ECRErrorType.self]
         )
@@ -124,12 +124,17 @@ public struct ECR {
         return client.send(operation: "PutImage", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Updates the image tag mutability settings for a repository.
+    public func putImageTagMutability(_ input: PutImageTagMutabilityRequest) -> Future<PutImageTagMutabilityResponse> {
+        return client.send(operation: "PutImageTagMutability", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates or updates a lifecycle policy. For information about lifecycle policy syntax, see Lifecycle Policy Template.
     public func putLifecyclePolicy(_ input: PutLifecyclePolicyRequest) -> Future<PutLifecyclePolicyResponse> {
         return client.send(operation: "PutLifecyclePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Applies a repository policy on a specified repository to control access permissions.
+    ///  Applies a repository policy on a specified repository to control access permissions. For more information, see Amazon ECR Repository Policies in the Amazon Elastic Container Registry User Guide.
     public func setRepositoryPolicy(_ input: SetRepositoryPolicyRequest) -> Future<SetRepositoryPolicyResponse> {
         return client.send(operation: "SetRepositoryPolicy", path: "/", httpMethod: "POST", input: input)
     }

@@ -27,7 +27,7 @@ public struct Shield {
         )
     }
 
-    ///  Authorizes the DDoS Response team (DRT) to access the specified Amazon S3 bucket containing your flow logs. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the DRT and make an AssociateDRTLogBucket request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
+    ///  Authorizes the DDoS Response team (DRT) to access the specified Amazon S3 bucket containing your AWS WAF logs. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the DRT and make an AssociateDRTLogBucket request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
     public func associateDRTLogBucket(_ input: AssociateDRTLogBucketRequest) -> Future<AssociateDRTLogBucketResponse> {
         return client.send(operation: "AssociateDRTLogBucket", path: "/", httpMethod: "POST", input: input)
     }
@@ -42,7 +42,7 @@ public struct Shield {
         return client.send(operation: "CreateProtection", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Activates AWS Shield Advanced for an account. As part of this request you can specify EmergencySettings that automaticaly grant the DDoS response team (DRT) needed permissions to assist you during a suspected DDoS attack. For more information see Authorize the DDoS Response Team to Create Rules and Web ACLs on Your Behalf. When you initally create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. 
+    ///  Activates AWS Shield Advanced for an account. As part of this request you can specify EmergencySettings that automaticaly grant the DDoS response team (DRT) needed permissions to assist you during a suspected DDoS attack. For more information see Authorize the DDoS Response Team to Create Rules and Web ACLs on Your Behalf. To use the services of the DRT, you must be subscribed to the Business Support plan or the Enterprise Support plan. When you initally create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. 
     public func createSubscription(_ input: CreateSubscriptionRequest) -> Future<CreateSubscriptionResponse> {
         return client.send(operation: "CreateSubscription", path: "/", httpMethod: "POST", input: input)
     }
@@ -83,7 +83,7 @@ public struct Shield {
         return client.send(operation: "DescribeSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes the DDoS Response team's (DRT) access to the specified Amazon S3 bucket containing your flow logs. To make a DisassociateDRTLogBucket request, you must be subscribed to the Business Support plan or the Enterprise Support plan. However, if you are not subscribed to one of these support plans, but had been previously and had granted the DRT access to your account, you can submit a DisassociateDRTLogBucket request to remove this access.
+    ///  Removes the DDoS Response team's (DRT) access to the specified Amazon S3 bucket containing your AWS WAF logs. To make a DisassociateDRTLogBucket request, you must be subscribed to the Business Support plan or the Enterprise Support plan. However, if you are not subscribed to one of these support plans, but had been previously and had granted the DRT access to your account, you can submit a DisassociateDRTLogBucket request to remove this access.
     public func disassociateDRTLogBucket(_ input: DisassociateDRTLogBucketRequest) -> Future<DisassociateDRTLogBucketResponse> {
         return client.send(operation: "DisassociateDRTLogBucket", path: "/", httpMethod: "POST", input: input)
     }

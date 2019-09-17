@@ -736,7 +736,7 @@ extension RDS {
         public let dBClusterEndpointIdentifier: String
         /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
         public let dBClusterIdentifier: String
-        /// The type of the endpoint. One of: READER, ANY. 
+        /// The type of the endpoint. One of: READER, WRITER, ANY.
         public let endpointType: String
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
         public let excludedMembers: [String]?
@@ -773,6 +773,7 @@ extension RDS {
             AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "EnableHttpEndpoint", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
             AWSShapeMember(label: "Engine", required: true, type: .string), 
             AWSShapeMember(label: "EngineMode", required: false, type: .string), 
@@ -815,13 +816,15 @@ extension RDS {
         public let deletionProtection: Bool?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
         public let enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled.
+        /// A value that indicates whether to enable the HTTP endpoint for an Aurora Serverless DB cluster. By default, the HTTP endpoint is disabled. When enabled, the HTTP endpoint provides a connectionless web service API for running SQL queries on the Aurora Serverless DB cluster. You can also query your database from inside the RDS console with the query editor. For more information, see Using the Data API for Aurora Serverless in the Amazon Aurora User Guide.
+        public let enableHttpEndpoint: Bool?
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for this DB cluster. Valid Values: aurora (for MySQL 5.6-compatible Aurora), aurora-mysql (for MySQL 5.7-compatible Aurora), and aurora-postgresql 
         public let engine: String
-        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, or global.
+        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster.
         public let engineMode: String?
-        /// The version number of the database engine to use.  Aurora MySQL  Example: 5.6.10a, 5.7.12   Aurora PostgreSQL  Example: 9.6.3 
+        /// The version number of the database engine to use. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7 
         public let engineVersion: String?
         ///  The global cluster ID of an Aurora cluster that becomes the primary cluster in the new global database cluster. 
         public let globalClusterIdentifier: String?
@@ -852,7 +855,7 @@ extension RDS {
         /// A list of EC2 VPC security groups to associate with this DB cluster.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineMode: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineMode: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backtrackWindow = backtrackWindow
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -864,6 +867,7 @@ extension RDS {
             self.dBSubnetGroupName = dBSubnetGroupName
             self.deletionProtection = deletionProtection
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
+            self.enableHttpEndpoint = enableHttpEndpoint
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.engine = engine
             self.engineMode = engineMode
@@ -896,6 +900,7 @@ extension RDS {
             case dBSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
+            case enableHttpEndpoint = "EnableHttpEndpoint"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case engine = "Engine"
             case engineMode = "EngineMode"
@@ -1094,7 +1099,7 @@ extension RDS {
         public let dBInstanceIdentifier: String
         /// The meaning of this parameter differs according to the database engine you use.  MySQL  The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Can't be a word reserved by the specified database engine    MariaDB  The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Can't be a word reserved by the specified database engine    PostgreSQL  The name of the database to create when the DB instance is created. If this parameter is not specified, the default "postgres" database is created in the DB instance. Constraints:   Must contain 1 to 63 letters, numbers, or underscores.   Must begin with a letter or an underscore. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    Oracle  The Oracle System ID (SID) of the created DB instance. If you specify null, the default value ORCL is used. You can't specify the string NULL, or any other reserved word, for DBName.  Default: ORCL  Constraints:   Can't be longer than 8 characters    SQL Server  Not applicable. Must be null.  Amazon Aurora  The name of the database to create when the primary instance of the DB cluster is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Can't be a word reserved by the specified database engine  
         public let dBName: String?
-        /// The name of the DB parameter group to associate with this DB instance. If this argument is omitted, the default DBParameterGroup for the specified engine is used. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens  
+        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup for the specified DB engine is used. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens  
         public let dBParameterGroupName: String?
         /// A list of DB security groups to associate with this DB instance. Default: The default DB security group for the database engine.
         public let dBSecurityGroups: [String]?
@@ -1108,7 +1113,7 @@ extension RDS {
         public let domainIAMRoleName: String?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon Relational Database Service User Guide.
         public let enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. You can enable IAM database authentication for the following database engines:  Amazon Aurora  Not applicable. Mapping AWS IAM accounts to database accounts is managed by the DB cluster.  MySQL    For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher  
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. You can enable IAM database authentication for the following database engines:  Amazon Aurora  Not applicable. Mapping AWS IAM accounts to database accounts is managed by the DB cluster.  MySQL    For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   For MySQL 8.0, minor version 8.0.16 or higher    PostgreSQL    For PostgreSQL 9.5, minor version 9.5.15 or higher   For PostgreSQL 9.6, minor version 9.6.11 or higher   PostgreSQL 10.6, 10.7, and 10.9   For more information, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// A value that indicates whether to enable Performance Insights for the DB instance.  For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide. 
         public let enablePerformanceInsights: Bool?
@@ -1116,7 +1121,7 @@ extension RDS {
         public let engine: String
         /// The version number of the database engine to use. For a list of valid engine versions, use the DescribeDBEngineVersions action. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every AWS Region.  Amazon Aurora  Not applicable. The version number of the database engine to be used by the DB instance is managed by the DB cluster.  MariaDB  See MariaDB on Amazon RDS Versions in the Amazon RDS User Guide.   Microsoft SQL Server  See Version and Feature Support on Amazon RDS in the Amazon RDS User Guide.   MySQL  See MySQL on Amazon RDS Versions in the Amazon RDS User Guide.   Oracle  See Oracle Database Engine Release Notes in the Amazon RDS User Guide.   PostgreSQL  See Supported PostgreSQL Database Versions in the Amazon RDS User Guide. 
         public let engineVersion: String?
-        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. For information about valid Iops values, see see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide.  Constraints: Must be a multiple between 1 and 50 of the storage amount for the DB instance. 
+        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. For information about valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide.  Constraints: Must be a multiple between 1 and 50 of the storage amount for the DB instance. 
         public let iops: Int?
         /// The AWS KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key.  Amazon Aurora  Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
@@ -1273,6 +1278,7 @@ extension RDS {
             AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
             AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
             AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
@@ -1307,13 +1313,15 @@ extension RDS {
         public let dBInstanceClass: String?
         /// The DB instance identifier of the Read Replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
         public let dBInstanceIdentifier: String
+        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of source DB instance for a same region Read Replica, or the default DBParameterGroup for the specified DB engine for a cross region Read Replica. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens  
+        public let dBParameterGroupName: String?
         /// Specifies a DB subnet group for the DB instance. The new DB instance is created in the VPC associated with the DB subnet group. If no DB subnet group is specified, then the new DB instance is not created in a VPC. Constraints:   Can only be specified if the source DB instance identifier specifies a DB instance in another AWS Region.   If supplied, must match the name of an existing DBSubnetGroup.   The specified DB subnet group must be in the same AWS Region in which the operation is running.   All Read Replicas in one AWS Region that are created from the same source DB instance must either:&gt;   Specify DB subnet groups from the same VPC. All these Read Replicas are created in the same VPC.   Not specify a DB subnet group. All these Read Replicas are created outside of any VPC.     Example: mySubnetgroup 
         public let dBSubnetGroupName: String?
         /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
         public let deletionProtection: Bool?
         /// The list of logs that the new DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon RDS User Guide.
         public let enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. You can enable IAM database authentication for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora MySQL 5.6 or higher  
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// A value that indicates whether to enable Performance Insights for the Read Replica.  For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide. 
         public let enablePerformanceInsights: Bool?
@@ -1351,12 +1359,13 @@ extension RDS {
         ///  A list of EC2 VPC security groups to associate with the Read Replica.   Default: The default EC2 VPC security group for the DB subnet group's VPC. 
         public let vpcSecurityGroupIds: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preSignedUrl: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, sourceDBInstanceIdentifier: String, storageType: String? = nil, tags: [Tag]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preSignedUrl: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, sourceDBInstanceIdentifier: String, storageType: String? = nil, tags: [Tag]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dBInstanceClass = dBInstanceClass
             self.dBInstanceIdentifier = dBInstanceIdentifier
+            self.dBParameterGroupName = dBParameterGroupName
             self.dBSubnetGroupName = dBSubnetGroupName
             self.deletionProtection = deletionProtection
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
@@ -1387,6 +1396,7 @@ extension RDS {
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dBInstanceClass = "DBInstanceClass"
             case dBInstanceIdentifier = "DBInstanceIdentifier"
+            case dBParameterGroupName = "DBParameterGroupName"
             case dBSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
@@ -1920,7 +1930,7 @@ extension RDS {
         public let endpoint: String?
         /// Provides the name of the database engine to be used for this DB cluster.
         public let engine: String?
-        /// The DB engine mode of the DB cluster, either provisioned, serverless, or parallelquery.
+        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster.
         public let engineMode: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
@@ -2184,7 +2194,7 @@ extension RDS {
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
 
-        /// The type associated with a custom endpoint. One of: READER, ANY.
+        /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
         public let customEndpointType: String?
         /// The Amazon Resource Name (ARN) for the endpoint.
         public let dBClusterEndpointArn: String?
@@ -2266,7 +2276,7 @@ extension RDS {
         public let dBClusterParameterGroupStatus: String?
         /// Specifies the instance identifier for this member of the DB cluster.
         public let dBInstanceIdentifier: String?
-        /// A value that indicates whehter the cluster member is the primary instance for the DB cluster.
+        /// Value that is true if the cluster member is the primary instance for the DB cluster and false otherwise.
         public let isClusterWriter: Bool?
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster in the Amazon Aurora User Guide. 
         public let promotionTier: Int?
@@ -3346,7 +3356,7 @@ extension RDS {
             AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string)
         ]
 
-        /// The name of the DP parameter group.
+        /// The name of the DB parameter group.
         public let dBParameterGroupName: String?
         /// The status of parameter updates.
         public let parameterApplyStatus: String?
@@ -4347,7 +4357,7 @@ extension RDS {
         public let dBClusterIdentifier: String?
         /// A specific DB cluster snapshot identifier to describe. This parameter can't be used in conjunction with the DBClusterIdentifier parameter. This value is stored as a lowercase string.  Constraints:   If supplied, must match the identifier of an existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
         public let dBClusterSnapshotIdentifier: String?
-        /// This parameter is not currently supported.
+        /// A filter that specifies one or more DB cluster snapshots to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs).    db-cluster-snapshot-id - Accepts DB cluster snapshot identifiers.    snapshot-type - Accepts types of DB cluster snapshots.    engine - Accepts names of database engines.  
         public let filters: [Filter]?
         /// A value that indicates whether to include manual DB cluster snapshots that are public and can be copied or restored by any AWS account. By default, the public snapshots are not included. You can share a manual DB cluster snapshot as public by using the ModifyDBClusterSnapshotAttribute API action.
         public let includePublic: Bool?
@@ -4529,7 +4539,7 @@ extension RDS {
 
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String?
-        /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.  
+        /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.    dbi-resource-id - Accepts DB instance resource identifiers. The results list will only include information about the DB instances identified by these resource identifiers.  
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeDBInstances request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -4800,7 +4810,7 @@ extension RDS {
         public let dbiResourceId: String?
         ///  A specific DB snapshot identifier to describe. This parameter can't be used in conjunction with DBInstanceIdentifier. This value is stored as a lowercase string.  Constraints:   If supplied, must match the identifier of an existing DBSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
         public let dBSnapshotIdentifier: String?
-        /// This parameter is not currently supported.
+        /// A filter that specifies one or more DB snapshots to describe. Supported filters:    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs).    db-snapshot-id - Accepts DB snapshot identifiers.    dbi-resource-id - Accepts identifiers of source DB instances.    snapshot-type - Accepts types of DB snapshots.    engine - Accepts names of database engines.  
         public let filters: [Filter]?
         /// A value that indicates whether to include manual DB cluster snapshots that are public and can be copied or restored by any AWS account. By default, the public snapshots are not included. You can share a manual DB snapshot as public by using the ModifyDBSnapshotAttribute API.
         public let includePublic: Bool?
@@ -6121,7 +6131,7 @@ extension RDS {
 
         /// The identifier of the endpoint to modify. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String
-        /// The type of the endpoint. One of: READER, ANY. 
+        /// The type of the endpoint. One of: READER, WRITER, ANY.
         public let endpointType: String?
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
         public let excludedMembers: [String]?
@@ -6190,9 +6200,9 @@ extension RDS {
         public let deletionProtection: Bool?
         /// A value that indicates whether to enable the HTTP endpoint for an Aurora Serverless DB cluster. By default, the HTTP endpoint is disabled. When enabled, the HTTP endpoint provides a connectionless web service API for running SQL queries on the Aurora Serverless DB cluster. You can also query your database from inside the RDS console with the query editor. For more information, see Using the Data API for Aurora Serverless in the Amazon Aurora User Guide.
         public let enableHttpEndpoint: Bool?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled.
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. For a list of valid engine versions, use DescribeDBEngineVersions.
+        /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" 
         public let engineVersion: String?
         /// The new password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
         public let masterUserPassword: String?
@@ -6425,7 +6435,7 @@ extension RDS {
         public let domain: String?
         /// The name of the IAM role to use when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. You can enable IAM database authentication for the following database engines  Amazon Aurora  Not applicable. Mapping AWS IAM accounts to database accounts is managed by the DB cluster. For more information, see ModifyDBCluster.  MySQL    For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher  
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// A value that indicates whether to enable Performance Insights for the DB instance. For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide. 
         public let enablePerformanceInsights: Bool?
@@ -7568,13 +7578,13 @@ extension RDS {
 
         /// The type of pending maintenance action that is available for the resource. Valid actions are system-update, db-upgrade, and hardware-maintenance.
         public let action: String?
-        /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
+        /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
         public let autoAppliedAfterDate: TimeStamp?
         /// The effective date when the pending maintenance action is applied to the resource. This date takes into account opt-in requests received from the ApplyPendingMaintenanceAction API, the AutoAppliedAfterDate, and the ForcedApplyDate. This value is blank if an opt-in request has not been received and nothing has been specified as AutoAppliedAfterDate or ForcedApplyDate.
         public let currentApplyDate: TimeStamp?
         /// A description providing more detail about the maintenance action.
         public let description: String?
-        /// The date when the maintenance action is automatically applied. The maintenance action is applied to the resource on this date regardless of the maintenance window for the resource. If this date is specified, any immediate opt-in requests are ignored.
+        /// The date when the maintenance action is automatically applied. The maintenance action is applied to the resource on this date regardless of the maintenance window for the resource.
         public let forcedApplyDate: TimeStamp?
         /// Indicates the type of opt-in request that has been received for the resource.
         public let optInStatus: String?
@@ -7768,7 +7778,7 @@ extension RDS {
             AWSShapeMember(label: "PreferredBackupWindow", required: false, type: .string)
         ]
 
-        /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 8  
+        /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 35.   Can't be set to 0 if the DB instance is a source to Read Replicas.  
         public let backupRetentionPeriod: Int?
         /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing Read Replica DB instance.   Example: mydbinstance 
         public let dBInstanceIdentifier: String
@@ -8414,11 +8424,11 @@ extension RDS {
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
         public let enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled.
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for the restored DB cluster. Valid Values: aurora, aurora-postgresql 
         public let engine: String
-        /// The version number of the database engine to use.  Aurora MySQL  Example: 5.6.10a   Aurora PostgreSQL  Example: 9.6.3 
+        /// The version number of the database engine to use. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7 
         public let engineVersion: String?
         /// The AWS KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KM encryption key. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
@@ -8573,13 +8583,13 @@ extension RDS {
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon Aurora User Guide.
         public let enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled.
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
         public let engine: String
-        /// The DB engine mode of the DB cluster, either provisioned, serverless, or parallelquery.
+        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster.
         public let engineMode: String?
-        /// The version of the database engine to use for the new DB cluster.
+        /// The version of the database engine to use for the new DB cluster. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7 
         public let engineVersion: String?
         /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you don't specify a value for the KmsKeyId parameter, then the following occurs:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB snapshot or DB cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.  
         public let kmsKeyId: String?
@@ -8694,7 +8704,7 @@ extension RDS {
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
         public let enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled.
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you don't specify a value for the KmsKeyId parameter, then the following occurs:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
         public let kmsKeyId: String?
@@ -8815,7 +8825,7 @@ extension RDS {
         public let dBInstanceIdentifier: String
         /// The database name for the restored DB instance.  This parameter doesn't apply to the MySQL, PostgreSQL, or MariaDB engines. 
         public let dBName: String?
-        /// The name of the DB parameter group to associate with this DB instance. If this argument is omitted, the default DBParameterGroup for the specified engine is used. Constraints:   If supplied, must match the name of an existing DBParameterGroup.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.  
+        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup for the specified DB engine is used. Constraints:   If supplied, must match the name of an existing DBParameterGroup.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.  
         public let dBParameterGroupName: String?
         /// The identifier for the DB snapshot to restore from. Constraints:   Must match the identifier of an existing DBSnapshot.   If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.  
         public let dBSnapshotIdentifier: String
@@ -8829,7 +8839,7 @@ extension RDS {
         public let domainIAMRoleName: String?
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
         public let enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. You can enable IAM database authentication for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher  
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source. For example, you can restore a MariaDB 10.1 DB instance from a MySQL 5.6 snapshot. Valid Values:    mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
         public let engine: String?
@@ -9001,7 +9011,7 @@ extension RDS {
         public let dBInstanceIdentifier: String
         /// The name of the database to create when the DB instance is created. Follow the naming rules specified in CreateDBInstance. 
         public let dBName: String?
-        /// The name of the DB parameter group to associate with this DB instance. If this argument is omitted, the default parameter group for the specified engine is used. 
+        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup for the specified DB engine is used.
         public let dBParameterGroupName: String?
         /// A list of DB security groups to associate with this DB instance. Default: The default DB security group for the database engine.
         public let dBSecurityGroups: [String]?
@@ -9011,7 +9021,7 @@ extension RDS {
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide.
         public let enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled.
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// A value that indicates whether to enable Performance Insights for the DB instance.  For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide. 
         public let enablePerformanceInsights: Bool?
@@ -9019,7 +9029,7 @@ extension RDS {
         public let engine: String
         /// The version number of the database engine to use. Choose the latest minor version of your database engine. For information about engine versions, see CreateDBInstance, or call DescribeDBEngineVersions. 
         public let engineVersion: String?
-        /// The amount of Provisioned IOPS (input/output operations per second) to allocate initially for the DB instance. For information about valid Iops values, see see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide. 
+        /// The amount of Provisioned IOPS (input/output operations per second) to allocate initially for the DB instance. For information about valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide. 
         public let iops: Int?
         /// The AWS KMS key identifier for an encrypted DB instance.  The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key.  If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region. 
         public let kmsKeyId: String?
@@ -9226,7 +9236,7 @@ extension RDS {
         public let dBInstanceClass: String?
         /// The database name for the restored DB instance.  This parameter is not used for the MySQL or MariaDB engines. 
         public let dBName: String?
-        /// The name of the DB parameter group to associate with this DB instance. If this argument is omitted, the default DBParameterGroup for the specified engine is used. Constraints:   If supplied, must match the name of an existing DBParameterGroup.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.  
+        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup for the specified DB engine is used. Constraints:   If supplied, must match the name of an existing DBParameterGroup.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.  
         public let dBParameterGroupName: String?
         /// The DB subnet group name to use for the new instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
         public let dBSubnetGroupName: String?
@@ -9238,7 +9248,7 @@ extension RDS {
         public let domainIAMRoleName: String?
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide.
         public let enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. You can enable IAM database authentication for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher  
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source Valid Values:    mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
         public let engine: String?

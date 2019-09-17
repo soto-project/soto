@@ -51,7 +51,7 @@ public struct QuickSight {
         return client.send(operation: "DeleteUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes a user after locating the user by its principal ID.
+    ///  Deletes a user identified by its principal ID.  The permission resource is arn:aws:quicksight:us-east-1:&lt;aws-account-id&gt;:user/default/&lt;user-name&gt;  .  CLI Sample:   aws quicksight delete-user-by-principal-id --aws-account-id=111122223333 --namespace=default --principal-id=ABCDEFJA26JLI7EUUOEHS  
     public func deleteUserByPrincipalId(_ input: DeleteUserByPrincipalIdRequest) -> Future<DeleteUserByPrincipalIdResponse> {
         return client.send(operation: "DeleteUserByPrincipalId", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/user-principals/{PrincipalId}", httpMethod: "DELETE", input: input)
     }

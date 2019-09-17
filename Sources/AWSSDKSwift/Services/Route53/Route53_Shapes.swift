@@ -406,6 +406,7 @@ extension Route53 {
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
         case apEast1 = "ap-east-1"
+        case meSouth1 = "me-south-1"
         case apSouth1 = "ap-south-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
@@ -2640,7 +2641,7 @@ extension Route53 {
         public let hostedZoneId: String
         /// (Optional) The maximum number of resource records sets to include in the response body for this request. If the response includes more than maxitems resource record sets, the value of the IsTruncated element in the response is true, and the values of the NextRecordName and NextRecordType elements in the response identify the first resource record set in the next group of maxitems resource record sets.
         public let maxItems: String?
-        ///  Weighted resource record sets only: If results were truncated for a given DNS name and type, specify the value of NextRecordIdentifier from the previous response to get the next resource record set that has the current DNS name and type.
+        ///  Resource record sets that have a routing policy other than simple: If results were truncated for a given DNS name and type, specify the value of NextRecordIdentifier from the previous response to get the next resource record set that has the current DNS name and type.
         public let startRecordIdentifier: String?
         /// The first name in the lexicographic ordering of resource record sets that you want to list.
         public let startRecordName: String?
@@ -3489,6 +3490,7 @@ extension Route53 {
         case cnNorth1 = "cn-north-1"
         case cnNorthwest1 = "cn-northwest-1"
         case apEast1 = "ap-east-1"
+        case meSouth1 = "me-south-1"
         case apSouth1 = "ap-south-1"
         public var description: String { return self.rawValue }
     }
@@ -4171,6 +4173,7 @@ extension Route53 {
         case euWest3 = "eu-west-3"
         case euCentral1 = "eu-central-1"
         case apEast1 = "ap-east-1"
+        case meSouth1 = "me-south-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
         case apSouth1 = "ap-south-1"

@@ -16,6 +16,7 @@ extension CostandUsageReportService {
         case apNortheast1 = "ap-northeast-1"
         case euNorth1 = "eu-north-1"
         case apNortheast3 = "ap-northeast-3"
+        case apEast1 = "ap-east-1"
         public var description: String { return self.rawValue }
     }
 
@@ -114,6 +115,40 @@ extension CostandUsageReportService {
             case nextToken = "NextToken"
             case reportDefinitions = "ReportDefinitions"
         }
+    }
+
+    public struct ModifyReportDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReportDefinition", required: true, type: .structure), 
+            AWSShapeMember(label: "ReportName", required: true, type: .string)
+        ]
+
+        public let reportDefinition: ReportDefinition
+        public let reportName: String
+
+        public init(reportDefinition: ReportDefinition, reportName: String) {
+            self.reportDefinition = reportDefinition
+            self.reportName = reportName
+        }
+
+        public func validate(name: String) throws {
+            try self.reportDefinition.validate(name: "\(name).reportDefinition")
+            try validate(self.reportName, name:"reportName", parent: name, max: 256)
+            try validate(self.reportName, name:"reportName", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportDefinition = "ReportDefinition"
+            case reportName = "ReportName"
+        }
+    }
+
+    public struct ModifyReportDefinitionResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct PutReportDefinitionRequest: AWSShape {

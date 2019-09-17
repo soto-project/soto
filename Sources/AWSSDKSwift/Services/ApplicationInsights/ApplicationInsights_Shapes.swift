@@ -40,25 +40,35 @@ extension ApplicationInsights {
     public struct ApplicationInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LifeCycle", required: false, type: .string), 
+            AWSShapeMember(label: "OpsCenterEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "OpsItemSNSTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "Remarks", required: false, type: .string), 
             AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
         ]
 
         /// The lifecycle of the application. 
         public let lifeCycle: String?
-        /// The issues on the user side that are blocking Application Insights from fully monitoring the application.
+        ///  Indicates whether Application Insights will create opsItems for any problem detected by Application Insights for an application. 
+        public let opsCenterEnabled: Bool?
+        ///  The SNS topic provided to Application Insights that is associated to the created opsItems to receive SNS notifications for opsItem updates. 
+        public let opsItemSNSTopicArn: String?
+        /// The issues on the user side that block Application Insights from successfully monitoring an application.
         public let remarks: String?
         /// The name of the resource group used for the application.
         public let resourceGroupName: String?
 
-        public init(lifeCycle: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
+        public init(lifeCycle: String? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
             self.lifeCycle = lifeCycle
+            self.opsCenterEnabled = opsCenterEnabled
+            self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.remarks = remarks
             self.resourceGroupName = resourceGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
             case lifeCycle = "LifeCycle"
+            case opsCenterEnabled = "OpsCenterEnabled"
+            case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
             case remarks = "Remarks"
             case resourceGroupName = "ResourceGroupName"
         }
@@ -66,17 +76,27 @@ extension ApplicationInsights {
 
     public struct CreateApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpsCenterEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "OpsItemSNSTopicArn", required: false, type: .string), 
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
         ]
 
+        ///  When set to true, creates opsItems for any problems detected on an application. 
+        public let opsCenterEnabled: Bool?
+        ///  The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem. 
+        public let opsItemSNSTopicArn: String?
         /// The name of the resource group.
         public let resourceGroupName: String
 
-        public init(resourceGroupName: String) {
+        public init(opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String) {
+            self.opsCenterEnabled = opsCenterEnabled
+            self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.resourceGroupName = resourceGroupName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case opsCenterEnabled = "OpsCenterEnabled"
+            case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
             case resourceGroupName = "ResourceGroupName"
         }
     }
@@ -233,7 +253,7 @@ extension ApplicationInsights {
         public let componentName: String
         /// The name of the resource group.
         public let resourceGroupName: String
-        /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB_TIER, SQL_SERVER, and DEFAULT.
+        /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT.
         public let tier: String
 
         public init(componentName: String, resourceGroupName: String, tier: String) {
@@ -299,7 +319,7 @@ extension ApplicationInsights {
         public let componentConfiguration: String?
         /// Indicates whether the application component is monitored.
         public let monitor: Bool?
-        /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB_TIER, SQL_SERVER, and DEFAULT 
+        /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT 
         public let tier: String?
 
         public init(componentConfiguration: String? = nil, monitor: Bool? = nil, tier: String? = nil) {
@@ -816,6 +836,55 @@ extension ApplicationInsights {
         public var description: String { return self.rawValue }
     }
 
+    public struct UpdateApplicationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpsCenterEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "OpsItemSNSTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "RemoveSNSTopic", required: false, type: .boolean), 
+            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
+        ]
+
+        ///  When set to true, creates opsItems for any problems detected on an application. 
+        public let opsCenterEnabled: Bool?
+        ///  The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem.
+        public let opsItemSNSTopicArn: String?
+        ///  Disassociates the SNS topic from the opsItem created for detected problems.
+        public let removeSNSTopic: Bool?
+        /// The name of the resource group.
+        public let resourceGroupName: String
+
+        public init(opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, removeSNSTopic: Bool? = nil, resourceGroupName: String) {
+            self.opsCenterEnabled = opsCenterEnabled
+            self.opsItemSNSTopicArn = opsItemSNSTopicArn
+            self.removeSNSTopic = removeSNSTopic
+            self.resourceGroupName = resourceGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case opsCenterEnabled = "OpsCenterEnabled"
+            case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
+            case removeSNSTopic = "RemoveSNSTopic"
+            case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
+    public struct UpdateApplicationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationInfo", required: false, type: .structure)
+        ]
+
+        /// Information about the application. 
+        public let applicationInfo: ApplicationInfo?
+
+        public init(applicationInfo: ApplicationInfo? = nil) {
+            self.applicationInfo = applicationInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationInfo = "ApplicationInfo"
+        }
+    }
+
     public struct UpdateComponentConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComponentConfiguration", required: false, type: .string), 
@@ -833,7 +902,7 @@ extension ApplicationInsights {
         public let monitor: Bool?
         /// The name of the resource group.
         public let resourceGroupName: String
-        /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB_TIER, SQL_SERVER, and DEFAULT.
+        /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT.
         public let tier: String?
 
         public init(componentConfiguration: String? = nil, componentName: String, monitor: Bool? = nil, resourceGroupName: String, tier: String? = nil) {

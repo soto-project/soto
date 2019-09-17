@@ -38,7 +38,7 @@ extension SFN {
         public let activityArn: String
         /// The date the activity is created.
         public let creationDate: TimeStamp
-        /// The name of the activity. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the activity. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
 
         public init(activityArn: String, creationDate: TimeStamp, name: String) {
@@ -170,9 +170,9 @@ extension SFN {
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
-        /// The name of the activity to create. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the activity to create. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
-        /// The list of tags to add to a resource.
+        /// The list of tags to add to a resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
         public init(name: String, tags: [Tag]? = nil) {
@@ -226,11 +226,11 @@ extension SFN {
 
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
-        /// The name of the state machine.  A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the state machine.  A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
         public let roleArn: String
-        /// Tags to be added when creating a state machine.
+        /// Tags to be added when creating a state machine. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
         public init(definition: String, name: String, roleArn: String, tags: [Tag]? = nil) {
@@ -375,7 +375,7 @@ extension SFN {
         public let activityArn: String
         /// The date the activity is created.
         public let creationDate: TimeStamp
-        /// The name of the activity. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the activity. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
 
         public init(activityArn: String, creationDate: TimeStamp, name: String) {
@@ -429,7 +429,7 @@ extension SFN {
         public let executionArn: String
         /// The string that contains the JSON input data of the execution.
         public let input: String
-        /// The name of the execution. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the execution. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String?
         /// The JSON output data of the execution.  This field is set only if the execution succeeds. If the execution fails, this field is null. 
         public let output: String?
@@ -560,7 +560,7 @@ extension SFN {
         public let creationDate: TimeStamp
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
-        /// The name of the state machine. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the state machine. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role used when creating this state machine. (The IAM role maintains security by granting Step Functions access to AWS resources.)
         public let roleArn: String
@@ -644,7 +644,7 @@ extension SFN {
 
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
-        /// The name of the execution. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the execution. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
         /// The date the execution started.
         public let startDate: TimeStamp
@@ -878,6 +878,11 @@ extension SFN {
             AWSShapeMember(label: "lambdaFunctionStartFailedEventDetails", required: false, type: .structure), 
             AWSShapeMember(label: "lambdaFunctionSucceededEventDetails", required: false, type: .structure), 
             AWSShapeMember(label: "lambdaFunctionTimedOutEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "mapIterationAbortedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "mapIterationFailedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "mapIterationStartedEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "mapIterationSucceededEventDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "mapStateStartedEventDetails", required: false, type: .structure), 
             AWSShapeMember(label: "previousEventId", required: false, type: .long), 
             AWSShapeMember(label: "stateEnteredEventDetails", required: false, type: .structure), 
             AWSShapeMember(label: "stateExitedEventDetails", required: false, type: .structure), 
@@ -915,6 +920,16 @@ extension SFN {
         /// Contains details about a lambda function that terminated successfully during an execution.
         public let lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails?
         public let lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails?
+        /// Contains details about an iteration of a Map state that was aborted.
+        public let mapIterationAbortedEventDetails: MapIterationEventDetails?
+        /// Contains details about an iteration of a Map state that failed.
+        public let mapIterationFailedEventDetails: MapIterationEventDetails?
+        /// Contains details about an iteration of a Map state that was started.
+        public let mapIterationStartedEventDetails: MapIterationEventDetails?
+        /// Contains details about an iteration of a Map state that succeeded.
+        public let mapIterationSucceededEventDetails: MapIterationEventDetails?
+        /// Contains details about Map state that was started.
+        public let mapStateStartedEventDetails: MapStateStartedEventDetails?
         /// The id of the previous event.
         public let previousEventId: Int64?
         public let stateEnteredEventDetails: StateEnteredEventDetails?
@@ -940,7 +955,7 @@ extension SFN {
         /// The type of the event.
         public let `type`: HistoryEventType
 
-        public init(activityFailedEventDetails: ActivityFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, id: Int64, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, previousEventId: Int64? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, taskFailedEventDetails: TaskFailedEventDetails? = nil, taskScheduledEventDetails: TaskScheduledEventDetails? = nil, taskStartedEventDetails: TaskStartedEventDetails? = nil, taskStartFailedEventDetails: TaskStartFailedEventDetails? = nil, taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails? = nil, taskSubmittedEventDetails: TaskSubmittedEventDetails? = nil, taskSucceededEventDetails: TaskSucceededEventDetails? = nil, taskTimedOutEventDetails: TaskTimedOutEventDetails? = nil, timestamp: TimeStamp, type: HistoryEventType) {
+        public init(activityFailedEventDetails: ActivityFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, id: Int64, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, mapIterationAbortedEventDetails: MapIterationEventDetails? = nil, mapIterationFailedEventDetails: MapIterationEventDetails? = nil, mapIterationStartedEventDetails: MapIterationEventDetails? = nil, mapIterationSucceededEventDetails: MapIterationEventDetails? = nil, mapStateStartedEventDetails: MapStateStartedEventDetails? = nil, previousEventId: Int64? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, taskFailedEventDetails: TaskFailedEventDetails? = nil, taskScheduledEventDetails: TaskScheduledEventDetails? = nil, taskStartedEventDetails: TaskStartedEventDetails? = nil, taskStartFailedEventDetails: TaskStartFailedEventDetails? = nil, taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails? = nil, taskSubmittedEventDetails: TaskSubmittedEventDetails? = nil, taskSucceededEventDetails: TaskSucceededEventDetails? = nil, taskTimedOutEventDetails: TaskTimedOutEventDetails? = nil, timestamp: TimeStamp, type: HistoryEventType) {
             self.activityFailedEventDetails = activityFailedEventDetails
             self.activityScheduledEventDetails = activityScheduledEventDetails
             self.activityScheduleFailedEventDetails = activityScheduleFailedEventDetails
@@ -959,6 +974,11 @@ extension SFN {
             self.lambdaFunctionStartFailedEventDetails = lambdaFunctionStartFailedEventDetails
             self.lambdaFunctionSucceededEventDetails = lambdaFunctionSucceededEventDetails
             self.lambdaFunctionTimedOutEventDetails = lambdaFunctionTimedOutEventDetails
+            self.mapIterationAbortedEventDetails = mapIterationAbortedEventDetails
+            self.mapIterationFailedEventDetails = mapIterationFailedEventDetails
+            self.mapIterationStartedEventDetails = mapIterationStartedEventDetails
+            self.mapIterationSucceededEventDetails = mapIterationSucceededEventDetails
+            self.mapStateStartedEventDetails = mapStateStartedEventDetails
             self.previousEventId = previousEventId
             self.stateEnteredEventDetails = stateEnteredEventDetails
             self.stateExitedEventDetails = stateExitedEventDetails
@@ -993,6 +1013,11 @@ extension SFN {
             case lambdaFunctionStartFailedEventDetails = "lambdaFunctionStartFailedEventDetails"
             case lambdaFunctionSucceededEventDetails = "lambdaFunctionSucceededEventDetails"
             case lambdaFunctionTimedOutEventDetails = "lambdaFunctionTimedOutEventDetails"
+            case mapIterationAbortedEventDetails = "mapIterationAbortedEventDetails"
+            case mapIterationFailedEventDetails = "mapIterationFailedEventDetails"
+            case mapIterationStartedEventDetails = "mapIterationStartedEventDetails"
+            case mapIterationSucceededEventDetails = "mapIterationSucceededEventDetails"
+            case mapStateStartedEventDetails = "mapStateStartedEventDetails"
             case previousEventId = "previousEventId"
             case stateEnteredEventDetails = "stateEnteredEventDetails"
             case stateExitedEventDetails = "stateExitedEventDetails"
@@ -1011,47 +1036,57 @@ extension SFN {
 
     public enum HistoryEventType: String, CustomStringConvertible, Codable {
         case activityfailed = "ActivityFailed"
-        case activityschedulefailed = "ActivityScheduleFailed"
         case activityscheduled = "ActivityScheduled"
+        case activityschedulefailed = "ActivityScheduleFailed"
         case activitystarted = "ActivityStarted"
         case activitysucceeded = "ActivitySucceeded"
         case activitytimedout = "ActivityTimedOut"
         case choicestateentered = "ChoiceStateEntered"
         case choicestateexited = "ChoiceStateExited"
-        case taskfailed = "TaskFailed"
-        case taskscheduled = "TaskScheduled"
-        case taskstartfailed = "TaskStartFailed"
-        case taskstarted = "TaskStarted"
-        case tasksubmitfailed = "TaskSubmitFailed"
-        case tasksubmitted = "TaskSubmitted"
-        case tasksucceeded = "TaskSucceeded"
-        case tasktimedout = "TaskTimedOut"
+        case executionaborted = "ExecutionAborted"
         case executionfailed = "ExecutionFailed"
         case executionstarted = "ExecutionStarted"
         case executionsucceeded = "ExecutionSucceeded"
-        case executionaborted = "ExecutionAborted"
         case executiontimedout = "ExecutionTimedOut"
         case failstateentered = "FailStateEntered"
         case lambdafunctionfailed = "LambdaFunctionFailed"
-        case lambdafunctionschedulefailed = "LambdaFunctionScheduleFailed"
         case lambdafunctionscheduled = "LambdaFunctionScheduled"
-        case lambdafunctionstartfailed = "LambdaFunctionStartFailed"
+        case lambdafunctionschedulefailed = "LambdaFunctionScheduleFailed"
         case lambdafunctionstarted = "LambdaFunctionStarted"
+        case lambdafunctionstartfailed = "LambdaFunctionStartFailed"
         case lambdafunctionsucceeded = "LambdaFunctionSucceeded"
         case lambdafunctiontimedout = "LambdaFunctionTimedOut"
-        case succeedstateentered = "SucceedStateEntered"
-        case succeedstateexited = "SucceedStateExited"
-        case taskstateaborted = "TaskStateAborted"
-        case taskstateentered = "TaskStateEntered"
-        case taskstateexited = "TaskStateExited"
-        case passstateentered = "PassStateEntered"
-        case passstateexited = "PassStateExited"
+        case mapiterationaborted = "MapIterationAborted"
+        case mapiterationfailed = "MapIterationFailed"
+        case mapiterationstarted = "MapIterationStarted"
+        case mapiterationsucceeded = "MapIterationSucceeded"
+        case mapstateaborted = "MapStateAborted"
+        case mapstateentered = "MapStateEntered"
+        case mapstateexited = "MapStateExited"
+        case mapstatefailed = "MapStateFailed"
+        case mapstatestarted = "MapStateStarted"
+        case mapstatesucceeded = "MapStateSucceeded"
         case parallelstateaborted = "ParallelStateAborted"
         case parallelstateentered = "ParallelStateEntered"
         case parallelstateexited = "ParallelStateExited"
         case parallelstatefailed = "ParallelStateFailed"
         case parallelstatestarted = "ParallelStateStarted"
         case parallelstatesucceeded = "ParallelStateSucceeded"
+        case passstateentered = "PassStateEntered"
+        case passstateexited = "PassStateExited"
+        case succeedstateentered = "SucceedStateEntered"
+        case succeedstateexited = "SucceedStateExited"
+        case taskfailed = "TaskFailed"
+        case taskscheduled = "TaskScheduled"
+        case taskstarted = "TaskStarted"
+        case taskstartfailed = "TaskStartFailed"
+        case taskstateaborted = "TaskStateAborted"
+        case taskstateentered = "TaskStateEntered"
+        case taskstateexited = "TaskStateExited"
+        case tasksubmitfailed = "TaskSubmitFailed"
+        case tasksubmitted = "TaskSubmitted"
+        case tasksucceeded = "TaskSucceeded"
+        case tasktimedout = "TaskTimedOut"
         case waitstateaborted = "WaitStateAborted"
         case waitstateentered = "WaitStateEntered"
         case waitstateexited = "WaitStateExited"
@@ -1268,7 +1303,7 @@ extension SFN {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
-            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 3096)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.stateMachineArn, name:"stateMachineArn", parent: name, max: 256)
             try validate(self.stateMachineArn, name:"stateMachineArn", parent: name, min: 1)
@@ -1393,6 +1428,45 @@ extension SFN {
         }
     }
 
+    public struct MapIterationEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "index", required: false, type: .integer), 
+            AWSShapeMember(label: "name", required: false, type: .string)
+        ]
+
+        /// The index of the array belonging to the Map state iteration.
+        public let index: Int?
+        /// The name of the iteration’s parent Map state.
+        public let name: String?
+
+        public init(index: Int? = nil, name: String? = nil) {
+            self.index = index
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index = "index"
+            case name = "name"
+        }
+    }
+
+    public struct MapStateStartedEventDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "length", required: false, type: .integer)
+        ]
+
+        /// The size of the array for Map state iterations.
+        public let length: Int?
+
+        public init(length: Int? = nil) {
+            self.length = length
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case length = "length"
+        }
+    }
+
     public struct SendTaskFailureInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cause", required: false, type: .string), 
@@ -1404,7 +1478,7 @@ extension SFN {
         public let cause: String?
         /// The error code of the failure.
         public let error: String?
-        /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
+        /// The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput$taskToken.
         public let taskToken: String
 
         public init(cause: String? = nil, error: String? = nil, taskToken: String) {
@@ -1442,7 +1516,7 @@ extension SFN {
             AWSShapeMember(label: "taskToken", required: true, type: .string)
         ]
 
-        /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTaskOutput$taskToken).
+        /// The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput$taskToken.
         public let taskToken: String
 
         public init(taskToken: String) {
@@ -1475,7 +1549,7 @@ extension SFN {
 
         /// The JSON output of the task.
         public let output: String
-        /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTaskOutput$taskToken).
+        /// The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput$taskToken.
         public let taskToken: String
 
         public init(output: String, taskToken: String) {
@@ -1512,7 +1586,7 @@ extension SFN {
 
         /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"  
         public let input: String?
-        /// The name of the execution. This name must be unique for your AWS account, region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the execution. This name must be unique for your AWS account, region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String?
         /// The Amazon Resource Name (ARN) of the state machine to execute.
         public let stateMachineArn: String
@@ -1588,7 +1662,7 @@ extension SFN {
             AWSShapeMember(label: "output", required: false, type: .string)
         ]
 
-        /// The name of the state. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the state. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
         /// The JSON output data of the state.
         public let output: String?
@@ -1613,7 +1687,7 @@ extension SFN {
 
         /// The date the state machine is created.
         public let creationDate: TimeStamp
-        /// The name of the state machine. A name must not contain:   whitespace   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
+        /// The name of the state machine. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)  
         public let name: String
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
@@ -1727,7 +1801,7 @@ extension SFN {
 
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
-        /// The list of tags to add to a resource. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @.
+        /// The list of tags to add to a resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {

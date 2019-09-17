@@ -350,6 +350,56 @@ extension EMR {
         }
     }
 
+    public struct BlockPublicAccessConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlockPublicSecurityGroupRules", required: true, type: .boolean), 
+            AWSShapeMember(label: "PermittedPublicSecurityGroupRuleRanges", required: false, type: .list)
+        ]
+
+        /// Indicates whether EMR block public access is enabled (true) or disabled (false). By default, the value is false for accounts that have created EMR clusters before July 2019. For accounts created after this, the default is true.
+        public let blockPublicSecurityGroupRules: Bool
+        /// Specifies ports and port ranges that are permitted to have security group rules that allow inbound traffic from all public sources. For example, if Port 23 (Telnet) is specified for PermittedPublicSecurityGroupRuleRanges, Amazon EMR allows cluster creation if a security group associated with the cluster has a rule that allows inbound traffic on Port 23 from IPv4 0.0.0.0/0 or IPv6 port ::/0 as the source. By default, Port 22, which is used for SSH access to the cluster EC2 instances, is in the list of PermittedPublicSecurityGroupRuleRanges.
+        public let permittedPublicSecurityGroupRuleRanges: [PortRange]?
+
+        public init(blockPublicSecurityGroupRules: Bool, permittedPublicSecurityGroupRuleRanges: [PortRange]? = nil) {
+            self.blockPublicSecurityGroupRules = blockPublicSecurityGroupRules
+            self.permittedPublicSecurityGroupRuleRanges = permittedPublicSecurityGroupRuleRanges
+        }
+
+        public func validate(name: String) throws {
+            try self.permittedPublicSecurityGroupRuleRanges?.forEach {
+                try $0.validate(name: "\(name).permittedPublicSecurityGroupRuleRanges[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockPublicSecurityGroupRules = "BlockPublicSecurityGroupRules"
+            case permittedPublicSecurityGroupRuleRanges = "PermittedPublicSecurityGroupRuleRanges"
+        }
+    }
+
+    public struct BlockPublicAccessConfigurationMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedByArn", required: true, type: .string), 
+            AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp)
+        ]
+
+        /// The Amazon Resource Name that created or last modified the configuration.
+        public let createdByArn: String
+        /// The date and time that the configuration was created.
+        public let creationDateTime: TimeStamp
+
+        public init(createdByArn: String, creationDateTime: TimeStamp) {
+            self.createdByArn = createdByArn
+            self.creationDateTime = creationDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdByArn = "CreatedByArn"
+            case creationDateTime = "CreationDateTime"
+        }
+    }
+
     public struct BootstrapActionConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -597,7 +647,7 @@ extension EMR {
         public let name: String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
         public let normalizedInstanceHours: Int?
-        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
+        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version such as emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases version 4.0 and later. Earlier versions use AmiVersion.
         public let releaseLabel: String?
         /// Applies only when CustomAmiID is used. Specifies the type of updates that are applied from the Amazon Linux AMI package repositories when an instance boots using the AMI.
         public let repoUpgradeOnBoot: RepoUpgradeOnBoot?
@@ -617,7 +667,7 @@ extension EMR {
         public let tags: [Tag]?
         /// Indicates whether Amazon EMR will lock the cluster to prevent the EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
         public let terminationProtected: Bool?
-        /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and manage the cluster if they have the proper policy permissions set. If this value is false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
+        ///  This member will be deprecated.  Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and manage the cluster if they have the proper policy permissions set. If this value is false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
         public let visibleToAllUsers: Bool?
 
         public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
@@ -1242,7 +1292,7 @@ extension EMR {
         public let ec2AvailabilityZone: String?
         /// The name of the Amazon EC2 key pair to use when connecting with SSH into the master node as a user named "hadoop".
         public let ec2KeyName: String?
-        /// To launch the cluster in Amazon VPC, set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster is launched in the normal AWS cloud, outside of a VPC. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus, you cannot specify the cc1.4xlarge instance type for nodes of a cluster launched in a VPC.
+        /// Set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, and your account supports EC2-Classic, the cluster launches in EC2-Classic.
         public let ec2SubnetId: String?
         /// The identifier of the Amazon EC2 security group for the master node.
         public let emrManagedMasterSecurityGroup: String?
@@ -1252,7 +1302,7 @@ extension EMR {
         public let iamInstanceProfile: String?
         /// Applies to clusters configured with the instance fleets option. Specifies one or more Availability Zones in which to launch EC2 cluster instances when the EC2-Classic network configuration is supported. Amazon EMR chooses the Availability Zone with the best fit from among the list of RequestedEc2AvailabilityZones, and then launches all cluster instances within that Availability Zone. If you do not specify this value, Amazon EMR chooses the Availability Zone for you. RequestedEc2SubnetIDs and RequestedEc2AvailabilityZones cannot be specified together.
         public let requestedEc2AvailabilityZones: [String]?
-        /// Applies to clusters configured with the instance fleets option. Specifies the unique identifier of one or more Amazon EC2 subnets in which to launch EC2 cluster instances. Subnets must exist within the same VPC. Amazon EMR chooses the EC2 subnet with the best fit from among the list of RequestedEc2SubnetIds, and then launches all cluster instances within that Subnet. If this value is not specified, and the account and region support EC2-Classic networks, the cluster launches instances in the EC2-Classic network and uses RequestedEc2AvailabilityZones instead of this setting. If EC2-Classic is not supported, and no Subnet is specified, Amazon EMR chooses the subnet for you. RequestedEc2SubnetIDs and RequestedEc2AvailabilityZones cannot be specified together.
+        /// Applies to clusters configured with the instance fleets option. Specifies the unique identifier of one or more Amazon EC2 subnets in which to launch EC2 cluster instances. Subnets must exist within the same VPC. Amazon EMR chooses the EC2 subnet with the best fit from among the list of RequestedEc2SubnetIds, and then launches all cluster instances within that Subnet. If this value is not specified, and the account and Region support EC2-Classic networks, the cluster launches instances in the EC2-Classic network and uses RequestedEc2AvailabilityZones instead of this setting. If EC2-Classic is not supported, and no Subnet is specified, Amazon EMR chooses the subnet for you. RequestedEc2SubnetIDs and RequestedEc2AvailabilityZones cannot be specified together.
         public let requestedEc2SubnetIds: [String]?
         /// The identifier of the Amazon EC2 security group for the Amazon EMR service to access clusters in VPC private subnets.
         public let serviceAccessSecurityGroup: String?
@@ -1310,6 +1360,36 @@ extension EMR {
             case logFile = "LogFile"
             case message = "Message"
             case reason = "Reason"
+        }
+    }
+
+    public struct GetBlockPublicAccessConfigurationInput: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct GetBlockPublicAccessConfigurationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlockPublicAccessConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "BlockPublicAccessConfigurationMetadata", required: true, type: .structure)
+        ]
+
+        /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating the block public access configuration to remove the exception.
+        public let blockPublicAccessConfiguration: BlockPublicAccessConfiguration
+        /// Properties that describe the AWS principal that created the BlockPublicAccessConfiguration using the PutBlockPublicAccessConfiguration action as well as the date and time that the configuration was created. Each time a configuration for block public access is updated, Amazon EMR updates this metadata.
+        public let blockPublicAccessConfigurationMetadata: BlockPublicAccessConfigurationMetadata
+
+        public init(blockPublicAccessConfiguration: BlockPublicAccessConfiguration, blockPublicAccessConfigurationMetadata: BlockPublicAccessConfigurationMetadata) {
+            self.blockPublicAccessConfiguration = blockPublicAccessConfiguration
+            self.blockPublicAccessConfigurationMetadata = blockPublicAccessConfigurationMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockPublicAccessConfiguration = "BlockPublicAccessConfiguration"
+            case blockPublicAccessConfigurationMetadata = "BlockPublicAccessConfigurationMetadata"
         }
     }
 
@@ -2413,7 +2493,7 @@ extension EMR {
         public let steps: [StepDetail]?
         /// A list of strings set by third party software when the job flow is launched. If you are not using third party software to manage the job flow this value is empty.
         public let supportedProducts: [String]?
-        /// Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
+        ///  This member will be deprecated.  Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
         public let visibleToAllUsers: Bool?
 
         public init(amiVersion: String? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionDetail]? = nil, executionStatusDetail: JobFlowExecutionStatusDetail, instances: JobFlowInstancesDetail, jobFlowId: String, jobFlowRole: String? = nil, logUri: String? = nil, name: String, scaleDownBehavior: ScaleDownBehavior? = nil, serviceRole: String? = nil, steps: [StepDetail]? = nil, supportedProducts: [String]? = nil, visibleToAllUsers: Bool? = nil) {
@@ -2532,7 +2612,7 @@ extension EMR {
         public let additionalSlaveSecurityGroups: [String]?
         /// The name of the EC2 key pair that can be used to ssh to the master node as the user called "hadoop."
         public let ec2KeyName: String?
-        /// Applies to clusters that use the uniform instance group configuration. To launch the cluster in Amazon Virtual Private Cloud (Amazon VPC), set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster launches in the normal Amazon Web Services cloud, outside of an Amazon VPC, if the account launching the cluster supports EC2 Classic networks in the region where the cluster launches. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus you cannot specify the cc1.4xlarge instance type for clusters launched in an Amazon VPC.
+        /// Applies to clusters that use the uniform instance group configuration. To launch the cluster in Amazon Virtual Private Cloud (Amazon VPC), set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value and your account supports EC2-Classic, the cluster launches in EC2-Classic.
         public let ec2SubnetId: String?
         /// Applies to clusters that use the instance fleet configuration. When multiple EC2 subnet IDs are specified, Amazon EMR evaluates them and launches instances in the optimal subnet.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
         public let ec2SubnetIds: [String]?
@@ -3285,6 +3365,35 @@ extension EMR {
         }
     }
 
+    public struct PortRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRange", required: false, type: .integer), 
+            AWSShapeMember(label: "MinRange", required: true, type: .integer)
+        ]
+
+        /// The smallest port number in a specified range of port numbers.
+        public let maxRange: Int?
+        /// The smallest port number in a specified range of port numbers.
+        public let minRange: Int
+
+        public init(maxRange: Int? = nil, minRange: Int) {
+            self.maxRange = maxRange
+            self.minRange = minRange
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxRange, name:"maxRange", parent: name, max: 65535)
+            try validate(self.maxRange, name:"maxRange", parent: name, min: 0)
+            try validate(self.minRange, name:"minRange", parent: name, max: 65535)
+            try validate(self.minRange, name:"minRange", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRange = "MaxRange"
+            case minRange = "MinRange"
+        }
+    }
+
     public struct PutAutoScalingPolicyInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AutoScalingPolicy", required: true, type: .structure), 
@@ -3341,6 +3450,35 @@ extension EMR {
             case clusterId = "ClusterId"
             case instanceGroupId = "InstanceGroupId"
         }
+    }
+
+    public struct PutBlockPublicAccessConfigurationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlockPublicAccessConfiguration", required: true, type: .structure)
+        ]
+
+        /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating BlockPublicSecurityGroupRules to remove the exception.
+        public let blockPublicAccessConfiguration: BlockPublicAccessConfiguration
+
+        public init(blockPublicAccessConfiguration: BlockPublicAccessConfiguration) {
+            self.blockPublicAccessConfiguration = blockPublicAccessConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.blockPublicAccessConfiguration.validate(name: "\(name).blockPublicAccessConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockPublicAccessConfiguration = "BlockPublicAccessConfiguration"
+        }
+    }
+
+    public struct PutBlockPublicAccessConfigurationOutput: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct RemoveAutoScalingPolicyInput: AWSShape {
@@ -3464,7 +3602,7 @@ extension EMR {
         public let name: String
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.  
         public let newSupportedProducts: [SupportedProductConfig]?
-        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version, for example, emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases versions 4.x and later. Earlier versions use AmiVersion.
+        /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version such as emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases version 4.0 and later. Earlier versions use AmiVersion.
         public let releaseLabel: String?
         /// Applies only when CustomAmiID is used. Specifies which updates from the Amazon Linux AMI package repositories to apply automatically when the instance boots using the AMI. If omitted, the default is SECURITY, which indicates that only security updates are applied. If NONE is specified, no updates are applied, and all updates must be applied manually.
         public let repoUpgradeOnBoot: RepoUpgradeOnBoot?
@@ -3480,7 +3618,7 @@ extension EMR {
         public let supportedProducts: [String]?
         /// A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
         public let tags: [Tag]?
-        /// Whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it.
+        ///  This member will be deprecated.  Whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it.
         public let visibleToAllUsers: Bool?
 
         public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logUri: String? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
@@ -3802,7 +3940,7 @@ extension EMR {
 
         /// Identifiers of the job flows to receive the new visibility setting.
         public let jobFlowIds: [String]
-        /// Whether the specified clusters are visible to all IAM users of the AWS account associated with the cluster. If this value is set to True, all IAM users of that AWS account can view and, if they have the proper IAM policy permissions set, manage the clusters. If it is set to False, only the IAM user that created a cluster can view and manage it.
+        ///  This member will be deprecated.  Whether the specified clusters are visible to all IAM users of the AWS account associated with the cluster. If this value is set to True, all IAM users of that AWS account can view and, if they have the proper IAM policy permissions set, manage the clusters. If it is set to False, only the IAM user that created a cluster can view and manage it.
         public let visibleToAllUsers: Bool
 
         public init(jobFlowIds: [String], visibleToAllUsers: Bool) {

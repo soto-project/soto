@@ -97,6 +97,11 @@ public struct ApplicationInsights {
         return client.send(operation: "ListProblems", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Updates the application.
+    public func updateApplication(_ input: UpdateApplicationRequest) -> Future<UpdateApplicationResponse> {
+        return client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Updates the custom component name and/or the list of resources that make up the component.
     public func updateComponent(_ input: UpdateComponentRequest) -> Future<UpdateComponentResponse> {
         return client.send(operation: "UpdateComponent", path: "/", httpMethod: "POST", input: input)

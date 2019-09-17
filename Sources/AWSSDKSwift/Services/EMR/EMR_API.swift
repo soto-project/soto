@@ -83,6 +83,11 @@ public struct EMR {
         return client.send(operation: "DescribeStep", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns the Amazon EMR block public access configuration for your AWS account in the current Region. For more information see Configure Block Public Access for Amazon EMR in the Amazon EMR Management Guide.
+    public func getBlockPublicAccessConfiguration(_ input: GetBlockPublicAccessConfigurationInput) -> Future<GetBlockPublicAccessConfigurationOutput> {
+        return client.send(operation: "GetBlockPublicAccessConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Provides information about the bootstrap actions associated with a cluster.
     public func listBootstrapActions(_ input: ListBootstrapActionsInput) -> Future<ListBootstrapActionsOutput> {
         return client.send(operation: "ListBootstrapActions", path: "/", httpMethod: "POST", input: input)
@@ -133,6 +138,11 @@ public struct EMR {
         return client.send(operation: "PutAutoScalingPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates or updates an Amazon EMR block public access configuration for your AWS account in the current Region. For more information see Configure Block Public Access for Amazon EMR in the Amazon EMR Management Guide.
+    public func putBlockPublicAccessConfiguration(_ input: PutBlockPublicAccessConfigurationInput) -> Future<PutBlockPublicAccessConfigurationOutput> {
+        return client.send(operation: "PutBlockPublicAccessConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Removes an automatic scaling policy from a specified instance group within an EMR cluster.
     public func removeAutoScalingPolicy(_ input: RemoveAutoScalingPolicyInput) -> Future<RemoveAutoScalingPolicyOutput> {
         return client.send(operation: "RemoveAutoScalingPolicy", path: "/", httpMethod: "POST", input: input)
@@ -153,7 +163,7 @@ public struct EMR {
         return client.send(operation: "SetTerminationProtection", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets whether all AWS Identity and Access Management (IAM) users under your account can access the specified clusters (job flows). This action works on running clusters. You can also set the visibility of a cluster when you launch it using the VisibleToAllUsers parameter of RunJobFlow. The SetVisibleToAllUsers action can be called only by an IAM user who created the cluster or the AWS account that owns the cluster.
+    ///   This member will be deprecated.  Sets whether all AWS Identity and Access Management (IAM) users under your account can access the specified clusters (job flows). This action works on running clusters. You can also set the visibility of a cluster when you launch it using the VisibleToAllUsers parameter of RunJobFlow. The SetVisibleToAllUsers action can be called only by an IAM user who created the cluster or the AWS account that owns the cluster.
     @discardableResult public func setVisibleToAllUsers(_ input: SetVisibleToAllUsersInput) -> Future<Void> {
         return client.send(operation: "SetVisibleToAllUsers", path: "/", httpMethod: "POST", input: input)
     }

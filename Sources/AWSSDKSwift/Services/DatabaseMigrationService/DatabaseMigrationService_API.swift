@@ -92,7 +92,7 @@ public struct DatabaseMigrationService {
         return client.send(operation: "DeleteReplicationTask", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists all of the AWS DMS attributes for a customer account. The attributes include AWS DMS quotas for the account, such as the number of replication instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. This command does not take any parameters.
+    ///  Lists all of the AWS DMS attributes for a customer account. These attributes include AWS DMS quotas for the account and a unique account identifier in a particular DMS region. DMS quotas include a list of resource quotas supported by the account, such as the number of replication instances allowed. The description for each resource quota, includes the quota name, current usage toward that quota, and the quota's maximum value. DMS uses the unique account identifier to name each artifact used by DMS in the given region. This command does not take any parameters.
     public func describeAccountAttributes(_ input: DescribeAccountAttributesMessage) -> Future<DescribeAccountAttributesResponse> {
         return client.send(operation: "DescribeAccountAttributes", path: "/", httpMethod: "POST", input: input)
     }

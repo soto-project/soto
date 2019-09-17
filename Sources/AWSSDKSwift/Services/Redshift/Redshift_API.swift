@@ -286,7 +286,7 @@ public struct Redshift {
         return client.send(operation: "DescribeSnapshotSchedules", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the total amount of snapshot usage and provisioned storage for a user in megabytes.
+    ///  Returns the total amount of snapshot usage and provisioned storage in megabytes.
     public func describeStorage() -> Future<CustomerStorageMessage> {
         return client.send(operation: "DescribeStorage", path: "/", httpMethod: "POST")
     }

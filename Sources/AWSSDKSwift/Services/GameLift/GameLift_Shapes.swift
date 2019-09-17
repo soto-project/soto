@@ -234,6 +234,28 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
+    public struct CertificateConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateType", required: true, type: .enum)
+        ]
+
+        public let certificateType: CertificateType
+
+        public init(certificateType: CertificateType) {
+            self.certificateType = certificateType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateType = "CertificateType"
+        }
+    }
+
+    public enum CertificateType: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case generated = "GENERATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComparisonOperatorType: String, CustomStringConvertible, Codable {
         case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
         case greaterthanthreshold = "GreaterThanThreshold"
@@ -365,6 +387,7 @@ extension GameLift {
     public struct CreateFleetInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BuildId", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "EC2InboundPermissions", required: false, type: .list), 
             AWSShapeMember(label: "EC2InstanceType", required: true, type: .enum), 
@@ -385,6 +408,7 @@ extension GameLift {
 
         /// Unique identifier for a build to be deployed on the new fleet. The custom game server build must have been successfully uploaded to Amazon GameLift and be in a READY status. This fleet setting cannot be changed once the fleet is created.
         public let buildId: String?
+        public let certificateConfiguration: CertificateConfiguration?
         /// Human-readable description of a fleet.
         public let description: String?
         /// Range of IP addresses and port settings that permit inbound traffic to access game sessions that running on the fleet. For fleets using a custom game build, this parameter is required before game sessions running on the fleet can accept connections. For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges for use by the Realtime servers. You can specify multiple permission settings or add more by updating the fleet.
@@ -418,8 +442,9 @@ extension GameLift {
         /// This parameter is no longer used. Instead, specify a server launch path using the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a run-time configuration will continue to work.)
         public let serverLaunchPath: String?
 
-        public init(buildId: String? = nil, description: String? = nil, eC2InboundPermissions: [IpPermission]? = nil, eC2InstanceType: EC2InstanceType, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil) {
+        public init(buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, description: String? = nil, eC2InboundPermissions: [IpPermission]? = nil, eC2InstanceType: EC2InstanceType, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil) {
             self.buildId = buildId
+            self.certificateConfiguration = certificateConfiguration
             self.description = description
             self.eC2InboundPermissions = eC2InboundPermissions
             self.eC2InstanceType = eC2InstanceType
@@ -473,6 +498,7 @@ extension GameLift {
 
         private enum CodingKeys: String, CodingKey {
             case buildId = "BuildId"
+            case certificateConfiguration = "CertificateConfiguration"
             case description = "Description"
             case eC2InboundPermissions = "EC2InboundPermissions"
             case eC2InstanceType = "EC2InstanceType"
@@ -2758,6 +2784,7 @@ extension GameLift {
     public struct FleetAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BuildId", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "FleetArn", required: false, type: .string), 
@@ -2781,6 +2808,7 @@ extension GameLift {
 
         /// Unique identifier for a build.
         public let buildId: String?
+        public let certificateConfiguration: CertificateConfiguration?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
         /// Human-readable description of the fleet.
@@ -2820,8 +2848,9 @@ extension GameLift {
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: TimeStamp?
 
-        public init(buildId: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, operatingSystem: OperatingSystem? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, status: FleetStatus? = nil, stoppedActions: [FleetAction]? = nil, terminationTime: TimeStamp? = nil) {
+        public init(buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, creationTime: TimeStamp? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, operatingSystem: OperatingSystem? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, status: FleetStatus? = nil, stoppedActions: [FleetAction]? = nil, terminationTime: TimeStamp? = nil) {
             self.buildId = buildId
+            self.certificateConfiguration = certificateConfiguration
             self.creationTime = creationTime
             self.description = description
             self.fleetArn = fleetArn
@@ -2845,6 +2874,7 @@ extension GameLift {
 
         private enum CodingKeys: String, CodingKey {
             case buildId = "BuildId"
+            case certificateConfiguration = "CertificateConfiguration"
             case creationTime = "CreationTime"
             case description = "Description"
             case fleetArn = "FleetArn"
@@ -2982,6 +3012,7 @@ extension GameLift {
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "CreatorId", required: false, type: .string), 
             AWSShapeMember(label: "CurrentPlayerSessionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "DnsName", required: false, type: .string), 
             AWSShapeMember(label: "FleetId", required: false, type: .string), 
             AWSShapeMember(label: "GameProperties", required: false, type: .list), 
             AWSShapeMember(label: "GameSessionData", required: false, type: .string), 
@@ -3003,6 +3034,7 @@ extension GameLift {
         public let creatorId: String?
         /// Number of players currently in the game session.
         public let currentPlayerSessionCount: Int?
+        public let dnsName: String?
         /// Unique identifier for a fleet that the game session is running on.
         public let fleetId: String?
         /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). You can search for active game sessions based on this custom data with SearchGameSessions.
@@ -3030,10 +3062,11 @@ extension GameLift {
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: TimeStamp?
 
-        public init(creationTime: TimeStamp? = nil, creatorId: String? = nil, currentPlayerSessionCount: Int? = nil, fleetId: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, name: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, port: Int? = nil, status: GameSessionStatus? = nil, statusReason: GameSessionStatusReason? = nil, terminationTime: TimeStamp? = nil) {
+        public init(creationTime: TimeStamp? = nil, creatorId: String? = nil, currentPlayerSessionCount: Int? = nil, dnsName: String? = nil, fleetId: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, name: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, port: Int? = nil, status: GameSessionStatus? = nil, statusReason: GameSessionStatusReason? = nil, terminationTime: TimeStamp? = nil) {
             self.creationTime = creationTime
             self.creatorId = creatorId
             self.currentPlayerSessionCount = currentPlayerSessionCount
+            self.dnsName = dnsName
             self.fleetId = fleetId
             self.gameProperties = gameProperties
             self.gameSessionData = gameSessionData
@@ -3053,6 +3086,7 @@ extension GameLift {
             case creationTime = "CreationTime"
             case creatorId = "CreatorId"
             case currentPlayerSessionCount = "CurrentPlayerSessionCount"
+            case dnsName = "DnsName"
             case fleetId = "FleetId"
             case gameProperties = "GameProperties"
             case gameSessionData = "GameSessionData"
@@ -3071,12 +3105,14 @@ extension GameLift {
 
     public struct GameSessionConnectionInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DnsName", required: false, type: .string), 
             AWSShapeMember(label: "GameSessionArn", required: false, type: .string), 
             AWSShapeMember(label: "IpAddress", required: false, type: .string), 
             AWSShapeMember(label: "MatchedPlayerSessions", required: false, type: .list), 
             AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
 
+        public let dnsName: String?
         /// Amazon Resource Name (ARN) that is assigned to a game session and uniquely identifies it.
         public let gameSessionArn: String?
         /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
@@ -3086,7 +3122,8 @@ extension GameLift {
         /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public let port: Int?
 
-        public init(gameSessionArn: String? = nil, ipAddress: String? = nil, matchedPlayerSessions: [MatchedPlayerSession]? = nil, port: Int? = nil) {
+        public init(dnsName: String? = nil, gameSessionArn: String? = nil, ipAddress: String? = nil, matchedPlayerSessions: [MatchedPlayerSession]? = nil, port: Int? = nil) {
+            self.dnsName = dnsName
             self.gameSessionArn = gameSessionArn
             self.ipAddress = ipAddress
             self.matchedPlayerSessions = matchedPlayerSessions
@@ -3094,6 +3131,7 @@ extension GameLift {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dnsName = "DnsName"
             case gameSessionArn = "GameSessionArn"
             case ipAddress = "IpAddress"
             case matchedPlayerSessions = "MatchedPlayerSessions"
@@ -3125,6 +3163,7 @@ extension GameLift {
 
     public struct GameSessionPlacement: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DnsName", required: false, type: .string), 
             AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "GameProperties", required: false, type: .list), 
             AWSShapeMember(label: "GameSessionArn", required: false, type: .string), 
@@ -3144,6 +3183,7 @@ extension GameLift {
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
 
+        public let dnsName: String?
         /// Time stamp indicating when this request was completed, canceled, or timed out.
         public let endTime: TimeStamp?
         /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
@@ -3179,7 +3219,8 @@ extension GameLift {
         /// Current status of the game session placement request.    PENDING -- The placement request is currently in the queue waiting to be processed.    FULFILLED -- A new game session and player sessions (if requested) have been successfully created. Values for GameSessionArn and GameSessionRegion are available.     CANCELLED -- The placement request was canceled with a call to StopGameSessionPlacement.    TIMED_OUT -- A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.  
         public let status: GameSessionPlacementState?
 
-        public init(endTime: TimeStamp? = nil, gameProperties: [GameProperty]? = nil, gameSessionArn: String? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String? = nil, gameSessionRegion: String? = nil, ipAddress: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, placedPlayerSessions: [PlacedPlayerSession]? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, port: Int? = nil, startTime: TimeStamp? = nil, status: GameSessionPlacementState? = nil) {
+        public init(dnsName: String? = nil, endTime: TimeStamp? = nil, gameProperties: [GameProperty]? = nil, gameSessionArn: String? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String? = nil, gameSessionRegion: String? = nil, ipAddress: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, placedPlayerSessions: [PlacedPlayerSession]? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, port: Int? = nil, startTime: TimeStamp? = nil, status: GameSessionPlacementState? = nil) {
+            self.dnsName = dnsName
             self.endTime = endTime
             self.gameProperties = gameProperties
             self.gameSessionArn = gameSessionArn
@@ -3200,6 +3241,7 @@ extension GameLift {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dnsName = "DnsName"
             case endTime = "EndTime"
             case gameProperties = "GameProperties"
             case gameSessionArn = "GameSessionArn"
@@ -3225,6 +3267,7 @@ extension GameLift {
         case fulfilled = "FULFILLED"
         case cancelled = "CANCELLED"
         case timedOut = "TIMED_OUT"
+        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -3389,6 +3432,7 @@ extension GameLift {
     public struct Instance: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DnsName", required: false, type: .string), 
             AWSShapeMember(label: "FleetId", required: false, type: .string), 
             AWSShapeMember(label: "InstanceId", required: false, type: .string), 
             AWSShapeMember(label: "IpAddress", required: false, type: .string), 
@@ -3399,6 +3443,7 @@ extension GameLift {
 
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
+        public let dnsName: String?
         /// Unique identifier for a fleet that the instance is in.
         public let fleetId: String?
         /// Unique identifier for an instance.
@@ -3412,8 +3457,9 @@ extension GameLift {
         /// EC2 instance type that defines the computing resources of this instance. 
         public let `type`: EC2InstanceType?
 
-        public init(creationTime: TimeStamp? = nil, fleetId: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil, status: InstanceStatus? = nil, type: EC2InstanceType? = nil) {
+        public init(creationTime: TimeStamp? = nil, dnsName: String? = nil, fleetId: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil, status: InstanceStatus? = nil, type: EC2InstanceType? = nil) {
             self.creationTime = creationTime
+            self.dnsName = dnsName
             self.fleetId = fleetId
             self.instanceId = instanceId
             self.ipAddress = ipAddress
@@ -3424,6 +3470,7 @@ extension GameLift {
 
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
+            case dnsName = "DnsName"
             case fleetId = "FleetId"
             case instanceId = "InstanceId"
             case ipAddress = "IpAddress"
@@ -4130,6 +4177,7 @@ extension GameLift {
     public struct PlayerSession: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DnsName", required: false, type: .string), 
             AWSShapeMember(label: "FleetId", required: false, type: .string), 
             AWSShapeMember(label: "GameSessionId", required: false, type: .string), 
             AWSShapeMember(label: "IpAddress", required: false, type: .string), 
@@ -4143,6 +4191,7 @@ extension GameLift {
 
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: TimeStamp?
+        public let dnsName: String?
         /// Unique identifier for a fleet that the player's game session is running on.
         public let fleetId: String?
         /// Unique identifier for the game session that the player session is connected to.
@@ -4162,8 +4211,9 @@ extension GameLift {
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: TimeStamp?
 
-        public init(creationTime: TimeStamp? = nil, fleetId: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, playerId: String? = nil, playerSessionId: String? = nil, port: Int? = nil, status: PlayerSessionStatus? = nil, terminationTime: TimeStamp? = nil) {
+        public init(creationTime: TimeStamp? = nil, dnsName: String? = nil, fleetId: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, playerId: String? = nil, playerSessionId: String? = nil, port: Int? = nil, status: PlayerSessionStatus? = nil, terminationTime: TimeStamp? = nil) {
             self.creationTime = creationTime
+            self.dnsName = dnsName
             self.fleetId = fleetId
             self.gameSessionId = gameSessionId
             self.ipAddress = ipAddress
@@ -4177,6 +4227,7 @@ extension GameLift {
 
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
+            case dnsName = "DnsName"
             case fleetId = "FleetId"
             case gameSessionId = "GameSessionId"
             case ipAddress = "IpAddress"

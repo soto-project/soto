@@ -2335,6 +2335,56 @@ extension ServiceCatalog {
         }
     }
 
+    public struct DescribeServiceActionExecutionParametersInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductId", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceActionId", required: true, type: .string)
+        ]
+
+        public let acceptLanguage: String?
+        public let provisionedProductId: String
+        public let serviceActionId: String
+
+        public init(acceptLanguage: String? = nil, provisionedProductId: String, serviceActionId: String) {
+            self.acceptLanguage = acceptLanguage
+            self.provisionedProductId = provisionedProductId
+            self.serviceActionId = serviceActionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.acceptLanguage, name:"acceptLanguage", parent: name, max: 100)
+            try validate(self.provisionedProductId, name:"provisionedProductId", parent: name, max: 100)
+            try validate(self.provisionedProductId, name:"provisionedProductId", parent: name, min: 1)
+            try validate(self.provisionedProductId, name:"provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.serviceActionId, name:"serviceActionId", parent: name, max: 100)
+            try validate(self.serviceActionId, name:"serviceActionId", parent: name, min: 1)
+            try validate(self.serviceActionId, name:"serviceActionId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case provisionedProductId = "ProvisionedProductId"
+            case serviceActionId = "ServiceActionId"
+        }
+    }
+
+    public struct DescribeServiceActionExecutionParametersOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceActionParameters", required: false, type: .list)
+        ]
+
+        public let serviceActionParameters: [ExecutionParameter]?
+
+        public init(serviceActionParameters: [ExecutionParameter]? = nil) {
+            self.serviceActionParameters = serviceActionParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceActionParameters = "ServiceActionParameters"
+        }
+    }
+
     public struct DescribeServiceActionInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
@@ -2731,6 +2781,7 @@ extension ServiceCatalog {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
             AWSShapeMember(label: "ExecuteToken", required: true, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
             AWSShapeMember(label: "ProvisionedProductId", required: true, type: .string), 
             AWSShapeMember(label: "ServiceActionId", required: true, type: .string)
         ]
@@ -2739,14 +2790,16 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// An idempotency token that uniquely identifies the execute request.
         public let executeToken: String
+        public let parameters: [String: [String]]?
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
 
-        public init(acceptLanguage: String? = nil, executeToken: String = ExecuteProvisionedProductServiceActionInput.idempotencyToken(), provisionedProductId: String, serviceActionId: String) {
+        public init(acceptLanguage: String? = nil, executeToken: String = ExecuteProvisionedProductServiceActionInput.idempotencyToken(), parameters: [String: [String]]? = nil, provisionedProductId: String, serviceActionId: String) {
             self.acceptLanguage = acceptLanguage
             self.executeToken = executeToken
+            self.parameters = parameters
             self.provisionedProductId = provisionedProductId
             self.serviceActionId = serviceActionId
         }
@@ -2756,6 +2809,12 @@ extension ServiceCatalog {
             try validate(self.executeToken, name:"executeToken", parent: name, max: 128)
             try validate(self.executeToken, name:"executeToken", parent: name, min: 1)
             try validate(self.executeToken, name:"executeToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.parameters?.forEach {
+                try validate($0.key, name:"parameters.key", parent: name, max: 50)
+                try validate($0.key, name:"parameters.key", parent: name, min: 1)
+                try validate($0.value, name:"parameters[\"\($0.key)\"]", parent: name, max: 25)
+                try validate($0.value, name:"parameters[\"\($0.key)\"]", parent: name, min: 0)
+            }
             try validate(self.provisionedProductId, name:"provisionedProductId", parent: name, max: 100)
             try validate(self.provisionedProductId, name:"provisionedProductId", parent: name, min: 1)
             try validate(self.provisionedProductId, name:"provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -2767,6 +2826,7 @@ extension ServiceCatalog {
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case executeToken = "ExecuteToken"
+            case parameters = "Parameters"
             case provisionedProductId = "ProvisionedProductId"
             case serviceActionId = "ServiceActionId"
         }
@@ -2786,6 +2846,30 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case recordDetail = "RecordDetail"
+        }
+    }
+
+    public struct ExecutionParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultValues", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+
+        public let defaultValues: [String]?
+        public let name: String?
+        public let `type`: String?
+
+        public init(defaultValues: [String]? = nil, name: String? = nil, type: String? = nil) {
+            self.defaultValues = defaultValues
+            self.name = name
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValues = "DefaultValues"
+            case name = "Name"
+            case `type` = "Type"
         }
     }
 

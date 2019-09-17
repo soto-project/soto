@@ -2043,7 +2043,7 @@ extension SSM {
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The document version you want to associate with the target(s). Can be a specific version or the default version.
         public let documentVersion: String?
-        /// The instance ID.
+        /// The instance ID.   InstanceId has been deprecated. To specify an instance ID for an association, use the Targets parameter. If you use the parameter InstanceId, you cannot use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter. 
         public let instanceId: String?
         /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
@@ -2057,7 +2057,7 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// A cron expression when the association will be applied to the target(s).
         public let scheduleExpression: String?
-        /// The targets (either instances or tags) for the association.
+        /// The targets (either instances or tags) for the association. You must specify a value for Targets if you don't specify a value for InstanceId.
         public let targets: [Target]?
 
         public init(associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
@@ -2649,11 +2649,11 @@ extension SSM {
             AWSShapeMember(label: "VersionName", required: false, type: .string)
         ]
 
-        /// (Optional) The version of the document that you want to delete. If not provided, all versions of the document are deleted.
+        /// The version of the document that you want to delete. If not provided, all versions of the document are deleted.
         public let documentVersion: String?
         /// The name of the document.
         public let name: String
-        /// (Optional) The version name of the document that you want to delete. If not provided, all versions of the document are deleted.
+        /// The version name of the document that you want to delete. If not provided, all versions of the document are deleted.
         public let versionName: String?
 
         public init(documentVersion: String? = nil, name: String, versionName: String? = nil) {
@@ -4054,7 +4054,7 @@ extension SSM {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// Each entry in the array is a structure containing: Key (string, between 1 and 128 characters) Values (array of strings, each string between 1 and 256 characters)
+        /// An array of structures. Each entry in the array is a structure containing a Key, Value combination. Valid values for Key are Classification | KBId | Severity | State.
         public let filters: [PatchOrchestratorFilter]?
         /// The ID of the instance whose patch state information should be retrieved.
         public let instanceId: String
@@ -6328,7 +6328,7 @@ extension SSM {
         public let statusDetails: String?
         /// The task execution ID.
         public let taskExecutionId: String?
-        /// Retrieves the task type for a maintenance window. Task types include the following: LAMBDA, STEP_FUNCTION, AUTOMATION, RUN_COMMAND.
+        /// Retrieves the task type for a maintenance window. Task types include the following: LAMBDA, STEP_FUNCTIONS, AUTOMATION, RUN_COMMAND.
         public let taskType: MaintenanceWindowTaskType?
         /// The maintenance window execution ID.
         public let windowExecutionId: String?
@@ -6644,7 +6644,7 @@ extension SSM {
         public let serviceRoleArn: String?
         /// The targets where the task should run.
         public let targets: [Target]?
-        /// The resource that the task used during execution. For RUN_COMMAND and AUTOMATION task types, the TaskArn is the Systems Manager Document name/ARN. For LAMBDA tasks, the value is the function name/ARN. For STEP_FUNCTION tasks, the value is the state machine ARN.
+        /// The resource that the task used during execution. For RUN_COMMAND and AUTOMATION task types, the TaskArn is the Systems Manager Document name/ARN. For LAMBDA tasks, the value is the function name/ARN. For STEP_FUNCTIONS tasks, the value is the state machine ARN.
         public let taskArn: String?
         /// The parameters to pass to the task when it runs.
         public let taskInvocationParameters: MaintenanceWindowTaskInvocationParameters?
@@ -7744,7 +7744,7 @@ extension SSM {
             try self.groups?.forEach {
                 try $0.validate(name: "\(name).groups[]")
             }
-            try validate(self.groups, name:"groups", parent: name, max: 10)
+            try validate(self.groups, name:"groups", parent: name, max: 15)
             try validate(self.groups, name:"groups", parent: name, min: 1)
         }
 
@@ -9343,6 +9343,7 @@ extension SSM {
 
     public enum MaintenanceWindowResourceType: String, CustomStringConvertible, Codable {
         case instance = "INSTANCE"
+        case resourceGroup = "RESOURCE_GROUP"
         public var description: String { return self.rawValue }
     }
 
@@ -9419,9 +9420,9 @@ extension SSM {
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
 
-        /// The inputs for the STEP_FUNCTION task.
+        /// The inputs for the STEP_FUNCTIONS task.
         public let input: String?
-        /// The name of the STEP_FUNCTION task.
+        /// The name of the STEP_FUNCTIONS task.
         public let name: String?
 
         public init(input: String? = nil, name: String? = nil) {
@@ -9521,11 +9522,11 @@ extension SSM {
         public let serviceRoleArn: String?
         /// The targets (either instances or tags). Instances are specified using Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;. Tags are specified using Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
         public let targets: [Target]?
-        /// The resource that the task uses during execution. For RUN_COMMAND and AUTOMATION task types, TaskArn is the Systems Manager document name or ARN. For LAMBDA tasks, it's the function name or ARN. For STEP_FUNCTION tasks, it's the state machine ARN.
+        /// The resource that the task uses during execution. For RUN_COMMAND and AUTOMATION task types, TaskArn is the Systems Manager document name or ARN. For LAMBDA tasks, it's the function name or ARN. For STEP_FUNCTIONS tasks, it's the state machine ARN.
         public let taskArn: String?
         /// The parameters that should be passed to the task when it is run.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
         public let taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]?
-        /// The type of task. The type can be one of the following: RUN_COMMAND, AUTOMATION, LAMBDA, or STEP_FUNCTION.
+        /// The type of task. The type can be one of the following: RUN_COMMAND, AUTOMATION, LAMBDA, or STEP_FUNCTIONS.
         public let `type`: MaintenanceWindowTaskType?
         /// The ID of the maintenance window where the task is registered.
         public let windowId: String?
@@ -9579,7 +9580,7 @@ extension SSM {
         public let lambda: MaintenanceWindowLambdaParameters?
         /// The parameters for a RUN_COMMAND task type.
         public let runCommand: MaintenanceWindowRunCommandParameters?
-        /// The parameters for a STEP_FUNCTION task type.
+        /// The parameters for a STEP_FUNCTIONS task type.
         public let stepFunctions: MaintenanceWindowStepFunctionsParameters?
 
         public init(automation: MaintenanceWindowAutomationParameters? = nil, lambda: MaintenanceWindowLambdaParameters? = nil, runCommand: MaintenanceWindowRunCommandParameters? = nil, stepFunctions: MaintenanceWindowStepFunctionsParameters? = nil) {
@@ -10441,6 +10442,7 @@ extension SSM {
     public enum ParameterTier: String, CustomStringConvertible, Codable {
         case standard = "Standard"
         case advanced = "Advanced"
+        case intelligentTiering = "Intelligent-Tiering"
         public var description: String { return self.rawValue }
     }
 
@@ -10907,7 +10909,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(self.configuration, name:"configuration", parent: name, max: 512)
+            try validate(self.configuration, name:"configuration", parent: name, max: 1024)
             try validate(self.configuration, name:"configuration", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,50}$")
             try self.products.forEach {
@@ -11145,7 +11147,7 @@ extension SSM {
         public let policies: String?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a Systems Manager parameter to identify the type of resource to which it applies, the environment, or the type of configuration data referenced by the parameter. In this case, you could specify the following key name/value pairs:    Key=Resource,Value=S3bucket     Key=OS,Value=Windows     Key=ParameterType,Value=LicenseKey     To add tags to an existing Systems Manager parameter, use the AddTagsToResource action. 
         public let tags: [Tag]?
-        /// Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a value limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters per account and per Region. Standard parameters are offered at no additional cost. Advanced parameters have a value limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters per account and per Region. Advanced parameters incur a charge. If you don't specify a parameter tier when you create a new parameter, the parameter defaults to using the standard tier. You can change a standard parameter to an advanced parameter at any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters. If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter. For more information, see About Advanced Parameters in the AWS Systems Manager User Guide.
+        /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an AWS account. Standard parameters are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an AWS account. Advanced parameters incur a charge. For more information, see About Advanced Parameters in the AWS Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters.  If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter.   Using the Default Tier Configuration  In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you do not specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:    Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine if the parameter is standard or advanced.  If the request doesn't include any options that require an advanced parameter, the parameter is created in the standard-parameter tier. If one or more options requiring an advanced parameter are included in the request, Parameter Store create a parameter in the advanced-parameter tier. This approach helps control your parameter-related costs by always creating standard parameters unless an advanced parameter is necessary.    Options that require an advanced parameter include the following:   The content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters already exist in your AWS account in the current Region.   For more information about configuring the default tier option, see Specifying a Default Parameter Tier in the AWS Systems Manager User Guide.
         public let tier: ParameterTier?
         /// The type of parameter that you want to add to the system. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.   SecureString is not currently supported for AWS CloudFormation templates or in the China Regions. 
         public let `type`: ParameterType
@@ -11328,7 +11330,7 @@ extension SSM {
         public let ownerInformation: String?
         /// The type of target being registered with the maintenance window.
         public let resourceType: MaintenanceWindowResourceType
-        /// The targets to register with the maintenance window. In other words, the instances to run commands on when the maintenance window runs. You can specify targets using either instance IDs or tags that have been applied to instances.  Example 1: Specify instance IDs  Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3    Example 2: Use tag key-pairs applied to instances  Key=tag:my-tag-key,Values=my-tag-value-1,my-tag-value-2    Example 3: Use tag-keys applied to instances  Key=tag-key,Values=my-tag-key-1,my-tag-key-2   For more information about these examples formats, including the best use case for each one, see Examples: Register Targets with a Maintenance Window in the AWS Systems Manager User Guide.
+        /// The targets to register with the maintenance window. In other words, the instances to run commands on when the maintenance window runs. You can specify targets using instance IDs, resource group names, or tags that have been applied to instances.  Example 1: Specify instance IDs  Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3    Example 2: Use tag key-pairs applied to instances  Key=tag:my-tag-key,Values=my-tag-value-1,my-tag-value-2    Example 3: Use tag-keys applied to instances  Key=tag-key,Values=my-tag-key-1,my-tag-key-2    Example 4: Use resource group names  Key=resource-groups:Name,Values=resource-group-name    Example 5: Use filters for resource group types  Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2    For Key=resource-groups:ResourceTypeFilters, specify resource types in the following format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC    For more information about these examples formats, including the best use case for each one, see Examples: Register Targets with a Maintenance Window in the AWS Systems Manager User Guide.
         public let targets: [Target]
         /// The ID of the maintenance window the target should be registered with.
         public let windowId: String
@@ -11425,7 +11427,7 @@ extension SSM {
         public let priority: Int?
         /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Service-Linked Role Permissions for Systems Manager     Should I Use a Service-Linked Role or a Custom Service Role to Run Maintenance Window Tasks?    
         public let serviceRoleArn: String?
-        /// The targets (either instances or maintenance window targets). Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=&lt;WindowTargetIds&gt;,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt; 
+        /// The targets (either instances or maintenance window targets). Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=WindowTargetIds;,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt; 
         public let targets: [Target]
         /// The ARN of the task to run.
         public let taskArn: String
@@ -11548,9 +11550,9 @@ extension SSM {
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
 
-        /// The resource ID for which you want to remove tags. Use the ID of the resource. Here are some examples: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
+        /// The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. Specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
         public let resourceId: String
-        /// The type of resource of which you want to remove a tag.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
+        /// The type of resource from which you want to remove a tag.  The ManagedInstance type for this API action is only for on-premises managed instances. Specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f. 
         public let resourceType: ResourceTypeForTagging
         /// Tag keys that you want to remove from the specified resource.
         public let tagKeys: [String]
@@ -11869,7 +11871,7 @@ extension SSM {
 
         /// The ID of the session.
         public let sessionId: String?
-        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssm-messages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output).  region represents the Region identifier for an AWS Region supported by AWS Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in the AWS Systems Manager table of regions and endpoints in the AWS General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
+        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output).  region represents the Region identifier for an AWS Region supported by AWS Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in the AWS Systems Manager table of regions and endpoints in the AWS General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
         public let streamUrl: String?
         /// An encrypted token value containing session and caller information. Used to authenticate the connection to the instance.
         public let tokenValue: String?
@@ -12578,7 +12580,7 @@ extension SSM {
 
         /// The ID of the session.
         public let sessionId: String?
-        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssm-messages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output)   region represents the Region identifier for an AWS Region supported by AWS Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in the AWS Systems Manager table of regions and endpoints in the AWS General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
+        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output)   region represents the Region identifier for an AWS Region supported by AWS Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in the AWS Systems Manager table of regions and endpoints in the AWS General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
         public let streamUrl: String?
         /// An encrypted token value containing session and caller information. Used to authenticate the connection to the instance.
         public let tokenValue: String?
@@ -12837,9 +12839,9 @@ extension SSM {
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
 
-        /// User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:&lt;Amazon EC2 tag&gt; or InstanceIds. For more information about how to send commands that target instances using Key,Value parameters, see Using Targets and Rate Controls to Send Commands to a Fleet in the AWS Systems Manager User Guide.
+        /// User-defined criteria for sending commands that target instances that meet the criteria.
         public let key: String?
-        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to run a command on instances that include Amazon EC2 tags of ServerRole,WebServer. For more information about how to send commands that target instances using Key,Value parameters, see Using Targets and Rate Controls to Send Commands to a Fleet in the AWS Systems Manager User Guide.
+        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to run a command on instances that include Amazon EC2 tags of ServerRole,WebServer. 
         public let values: [String]?
 
         public init(key: String? = nil, values: [String]? = nil) {
@@ -12848,9 +12850,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, max: 163)
             try validate(self.key, name:"key", parent: name, min: 1)
-            try validate(self.key, name:"key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=\\-@]*$")
+            try validate(self.key, name:"key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=\\-@]*$|resource-groups:ResourceTypeFilters|resource-groups:Name")
             try validate(self.values, name:"values", parent: name, max: 50)
             try validate(self.values, name:"values", parent: name, min: 0)
         }
@@ -13181,7 +13183,7 @@ extension SSM {
         public let content: String
         /// Specify the document format for the new document version. Systems Manager supports JSON and YAML documents. JSON is the default format.
         public let documentFormat: DocumentFormat?
-        /// The version of the document that you want to update.
+        /// (Required) The version of the document that you want to update. 
         public let documentVersion: String?
         /// The name of the document that you want to update.
         public let name: String

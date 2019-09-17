@@ -927,6 +927,7 @@ extension CodeBuild {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authType", required: true, type: .enum), 
             AWSShapeMember(label: "serverType", required: true, type: .enum), 
+            AWSShapeMember(label: "shouldOverwrite", required: false, type: .boolean), 
             AWSShapeMember(label: "token", required: true, type: .string), 
             AWSShapeMember(label: "username", required: false, type: .string)
         ]
@@ -935,14 +936,17 @@ extension CodeBuild {
         public let authType: AuthType
         ///  The source provider used for this project. 
         public let serverType: ServerType
+        ///  Set to false to prevent overwriting the repository source credentials. Set to true to overwrite the repository source credentials. The default value is true. 
+        public let shouldOverwrite: Bool?
         ///  For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is the app password. 
         public let token: String
         ///  The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections. 
         public let username: String?
 
-        public init(authType: AuthType, serverType: ServerType, token: String, username: String? = nil) {
+        public init(authType: AuthType, serverType: ServerType, shouldOverwrite: Bool? = nil, token: String, username: String? = nil) {
             self.authType = authType
             self.serverType = serverType
+            self.shouldOverwrite = shouldOverwrite
             self.token = token
             self.username = username
         }
@@ -955,6 +959,7 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case authType = "authType"
             case serverType = "serverType"
+            case shouldOverwrite = "shouldOverwrite"
             case token = "token"
             case username = "username"
         }
@@ -1592,7 +1597,7 @@ extension CodeBuild {
         public let image: String
         ///  The type of credentials AWS CodeBuild uses to pull images in your build. There are two valid values:     CODEBUILD specifies that AWS CodeBuild uses its own credentials. This requires that you modify your ECR repository policy to trust AWS CodeBuild's service principal.     SERVICE_ROLE specifies that AWS CodeBuild uses your build project's service role.     When you use a cross-account or private registry image, you must use SERVICE_ROLE credentials. When you use an AWS CodeBuild curated image, you must use CODEBUILD credentials. 
         public let imagePullCredentialsType: ImagePullCredentialsType?
-        /// Enables running the Docker daemon inside a Docker container. Set to true only if the build project is be used to build Docker images, and the specified build environment image is not provided by AWS CodeBuild with Docker support. Otherwise, all associated builds that attempt to interact with the Docker daemon fail. You must also start the Docker daemon so that builds can interact with it. One way to do this is to initialize the Docker daemon during the install phase of your build spec by running the following build commands. (Do not run these commands if the specified build environment image is provided by AWS CodeBuild with Docker support.) If the operating system's base image is Ubuntu Linux:  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&amp;   - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"  If the operating system's base image is Alpine Linux and the previous command does not work, add the -t argument to timeout:  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&amp;   - timeout -t 15 sh -c "until docker info; do echo .; sleep 1; done" 
+        /// Enables running the Docker daemon inside a Docker container. Set to true only if the build project is used to build Docker images. Otherwise, a build that attempts to interact with the Docker daemon fails. You can initialize the Docker daemon during the install phase of your build by adding one of the following sets of commands to the install phase of your buildspec file: If the operating system's base image is Ubuntu Linux:  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&amp;   - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"  If the operating system's base image is Alpine Linux and the previous command does not work, add the -t argument to timeout:  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&amp;   - timeout -t 15 sh -c "until docker info; do echo .; sleep 1; done" 
         public let privilegedMode: Bool?
         ///  The credentials for access to a private registry.
         public let registryCredential: RegistryCredential?

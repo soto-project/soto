@@ -142,6 +142,83 @@ extension CodeCommit {
         }
     }
 
+    public struct BatchGetCommitsError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitId", required: false, type: .string), 
+            AWSShapeMember(label: "errorCode", required: false, type: .string), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string)
+        ]
+
+        /// A commit ID that either could not be found or was not in a valid format.
+        public let commitId: String?
+        /// An error code that specifies whether the commit ID was not valid or not found.
+        public let errorCode: String?
+        /// An error message that provides detail about why the commit ID either was not found or was not valid.
+        public let errorMessage: String?
+
+        public init(commitId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
+            self.commitId = commitId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitId = "commitId"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+        }
+    }
+
+    public struct BatchGetCommitsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitIds", required: true, type: .list), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+
+        /// The full commit IDs of the commits to get information about.  You must supply the full SHAs of each commit. You cannot use shortened SHAs. 
+        public let commitIds: [String]
+        /// The name of the repository that contains the commits.
+        public let repositoryName: String
+
+        public init(commitIds: [String], repositoryName: String) {
+            self.commitIds = commitIds
+            self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 100)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 1)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "[\\w\\.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitIds = "commitIds"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct BatchGetCommitsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commits", required: false, type: .list), 
+            AWSShapeMember(label: "errors", required: false, type: .list)
+        ]
+
+        /// An array of commit data type objects, each of which contains information about a specified commit.
+        public let commits: [Commit]?
+        /// Returns any commit IDs for which information could not be found. For example, if one of the commit IDs was a shortened SHA or that commit was not found in the specified repository, the ID will return an error object with additional information.
+        public let errors: [BatchGetCommitsError]?
+
+        public init(commits: [Commit]? = nil, errors: [BatchGetCommitsError]? = nil) {
+            self.commits = commits
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commits = "commits"
+            case errors = "errors"
+        }
+    }
+
     public struct BatchGetRepositoriesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "repositoryNames", required: true, type: .list)
@@ -4145,13 +4222,13 @@ extension CodeCommit {
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
 
-        /// The branches that will be included in the trigger configuration. If you specify an empty array, the trigger will apply to all branches.  While no content is required in the array, you must include the array itself. 
+        /// The branches that will be included in the trigger configuration. If you specify an empty array, the trigger will apply to all branches.  Although no content is required in the array, you must include the array itself. 
         public let branches: [String]?
         /// Any custom data associated with the trigger that will be included in the information sent to the target of the trigger.
         public let customData: String?
-        /// The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
+        /// The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon SNS.
         public let destinationArn: String
-        /// The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon Simple Notification Service (SNS).   The valid value "all" cannot be used with any other values. 
+        /// The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon SNS.   The valid value "all" cannot be used with any other values. 
         public let events: [RepositoryTriggerEventEnum]
         /// The name of the trigger.
         public let name: String

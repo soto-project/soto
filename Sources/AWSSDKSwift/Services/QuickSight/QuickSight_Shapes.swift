@@ -517,7 +517,8 @@ extension QuickSight {
             AWSShapeMember(label: "IdentityType", location: .querystring(locationName: "creds-type"), required: true, type: .enum), 
             AWSShapeMember(label: "ResetDisabled", location: .querystring(locationName: "reset-disabled"), required: false, type: .boolean), 
             AWSShapeMember(label: "SessionLifetimeInMinutes", location: .querystring(locationName: "session-lifetime"), required: false, type: .long), 
-            AWSShapeMember(label: "UndoRedoDisabled", location: .querystring(locationName: "undo-redo-disabled"), required: false, type: .boolean)
+            AWSShapeMember(label: "UndoRedoDisabled", location: .querystring(locationName: "undo-redo-disabled"), required: false, type: .boolean), 
+            AWSShapeMember(label: "UserArn", location: .querystring(locationName: "user-arn"), required: false, type: .string)
         ]
 
         /// AWS account ID that contains the dashboard you are embedding.
@@ -532,14 +533,17 @@ extension QuickSight {
         public let sessionLifetimeInMinutes: Int64?
         /// Remove the undo/redo button on embedded dashboard. The default is FALSE, which enables the undo/redo button.
         public let undoRedoDisabled: Bool?
+        /// The Amazon QuickSight user's ARN, for use with QUICKSIGHT identity type. You can use this for any of the following:   Amazon QuickSight users in your account (readers, authors, or admins)   AD users   Invited non-federated users   Federated IAM users   Federated IAM role-based sessions  
+        public let userArn: String?
 
-        public init(awsAccountId: String, dashboardId: String, identityType: IdentityType, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, undoRedoDisabled: Bool? = nil) {
+        public init(awsAccountId: String, dashboardId: String, identityType: IdentityType, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, undoRedoDisabled: Bool? = nil, userArn: String? = nil) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
             self.identityType = identityType
             self.resetDisabled = resetDisabled
             self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
             self.undoRedoDisabled = undoRedoDisabled
+            self.userArn = userArn
         }
 
         public func validate(name: String) throws {
@@ -557,6 +561,7 @@ extension QuickSight {
             case resetDisabled = "reset-disabled"
             case sessionLifetimeInMinutes = "session-lifetime"
             case undoRedoDisabled = "undo-redo-disabled"
+            case userArn = "user-arn"
         }
     }
 
@@ -681,7 +686,7 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try validate(self.groupName, name:"groupName", parent: name, min: 1)
             try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(self.maxResults, name:"maxResults", parent: name, max: 100000)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
@@ -755,7 +760,7 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(self.maxResults, name:"maxResults", parent: name, max: 100000)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
@@ -832,7 +837,7 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(self.maxResults, name:"maxResults", parent: name, max: 100000)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
             try validate(self.userName, name:"userName", parent: name, min: 1)
@@ -908,7 +913,7 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(self.maxResults, name:"maxResults", parent: name, max: 100000)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
         }
@@ -975,7 +980,7 @@ extension QuickSight {
         public let identityType: IdentityType
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
-        /// The name of the session with the assumed IAM role. By using this parameter, you can register multiple users with the same IAM role, provided that each has a different session name. For more information on assuming IAM roles, see  assume-role  in the AWS CLI Reference. 
+        /// You need to use this parameter only when you register one or more users using an assumed IAM role. You don't need to provide the session name for other scenarios, for example when you are registering an IAM user or an Amazon QuickSight user. You can register multiple users using the same IAM role if each user has a different session name. For more information on assuming IAM roles, see  assume-role  in the AWS CLI Reference. 
         public let sessionName: String?
         /// The Amazon QuickSight user name that you want to create for the user you are registering.
         public let userName: String?
