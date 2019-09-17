@@ -3,7 +3,6 @@ author: Yuki Takei, Joe Smith, Jonathan McAllister, Adam Fowler
 author_url: https://github.com/swift-aws
 github_url: https://github.com/swift-aws/aws-sdk-swift
 copyright: '© Copyright (c) 2019 Yuki Takei(noppoMan), Joe Smith(Yasumoto), Jonathan McAllister(jonnymacs), Adam Fowler (adam-fowler)'
-theme: fullwidth
 readme: README.md
 
 custom_categories:
@@ -18,45 +17,40 @@ custom_categories:
       - ACMPCA
       - ACMPCAErrorType
 
+  - name: APIGateway
+    children:
+      - APIGateway
+      - APIGatewayErrorType
+
   - name: AlexaForBusiness
     children:
       - AlexaForBusiness
       - AlexaForBusinessErrorType
 
-  - name: Amplify
+  - name: AWSBackup
     children:
-      - Amplify
-      - AmplifyErrorType
+      - AWSBackup
+      - AWSBackupErrorType
 
-  - name: APIGateway
+  - name: AWSDirectoryService
     children:
-      - APIGateway
-      - APIGatewayErrorType
+      - AWSDirectoryService
+      - AWSDirectoryServiceErrorType
 
   - name: ApiGatewayManagementApi
     children:
       - ApiGatewayManagementApi
       - ApiGatewayManagementApiErrorType
 
+  - name: Amplify
+    children:
+      - Amplify
+      - AmplifyErrorType
+
   - name: ApiGatewayV2
     children:
       - ApiGatewayV2
       - ApiGatewayV2ErrorType
-
-  - name: ApplicationAutoScaling
-    children:
-      - ApplicationAutoScaling
-      - ApplicationAutoScalingErrorType
-
-  - name: ApplicationDiscoveryService
-    children:
-      - ApplicationDiscoveryService
-      - ApplicationDiscoveryServiceErrorType
-
-  - name: ApplicationInsights
-    children:
-      - ApplicationInsights
-      - ApplicationInsightsErrorType
 
   - name: AppMesh
     children:
@@ -73,6 +67,21 @@ custom_categories:
       - AppSync
       - AppSyncErrorType
 
+  - name: ApplicationAutoScaling
+    children:
+      - ApplicationAutoScaling
+      - ApplicationAutoScalingErrorType
+
+  - name: ApplicationDiscoveryService
+    children:
+      - ApplicationDiscoveryService
+      - ApplicationDiscoveryServiceErrorType
+
+  - name: ApplicationInsights
+    children:
+      - ApplicationInsights
+      - ApplicationInsightsErrorType
+
   - name: Athena
     children:
       - Athena
@@ -87,16 +96,6 @@ custom_categories:
     children:
       - AutoScalingPlans
       - AutoScalingPlansErrorType
-
-  - name: AWSBackup
-    children:
-      - AWSBackup
-      - AWSBackupErrorType
-
-  - name: AWSDirectoryService
-    children:
-      - AWSDirectoryService
-      - AWSDirectoryServiceErrorType
 
   - name: Batch
     children:
@@ -233,20 +232,25 @@ custom_categories:
       - Connect
       - ConnectErrorType
 
-  - name: CostandUsageReportService
-    children:
-      - CostandUsageReportService
-      - CostandUsageReportServiceErrorType
-
   - name: CostExplorer
     children:
       - CostExplorer
       - CostExplorerErrorType
 
-  - name: DatabaseMigrationService
+  - name: CostandUsageReportService
     children:
-      - DatabaseMigrationService
-      - DatabaseMigrationServiceErrorType
+      - CostandUsageReportService
+      - CostandUsageReportServiceErrorType
+
+  - name: DAX
+    children:
+      - DAX
+      - DAXErrorType
+
+  - name: DLM
+    children:
+      - DLM
+      - DLMErrorType
 
   - name: DataPipeline
     children:
@@ -258,10 +262,10 @@ custom_categories:
       - DataSync
       - DataSyncErrorType
 
-  - name: DAX
+  - name: DatabaseMigrationService
     children:
-      - DAX
-      - DAXErrorType
+      - DatabaseMigrationService
+      - DatabaseMigrationServiceErrorType
 
   - name: DeviceFarm
     children:
@@ -272,11 +276,6 @@ custom_categories:
     children:
       - DirectConnect
       - DirectConnectErrorType
-
-  - name: DLM
-    children:
-      - DLM
-      - DLMErrorType
 
   - name: DocDB
     children:
@@ -323,26 +322,6 @@ custom_categories:
       - EKS
       - EKSErrorType
 
-  - name: ElastiCache
-    children:
-      - ElastiCache
-      - ElastiCacheErrorType
-
-  - name: ElasticBeanstalk
-    children:
-      - ElasticBeanstalk
-      - ElasticBeanstalkErrorType
-
-  - name: ElasticsearchService
-    children:
-      - ElasticsearchService
-      - ElasticsearchServiceErrorType
-
-  - name: ElasticTranscoder
-    children:
-      - ElasticTranscoder
-      - ElasticTranscoderErrorType
-
   - name: ELB
     children:
       - ELB
@@ -358,20 +337,40 @@ custom_categories:
       - EMR
       - EMRErrorType
 
-  - name: Firehose
+  - name: ElastiCache
     children:
-      - Firehose
-      - FirehoseErrorType
+      - ElastiCache
+      - ElastiCacheErrorType
+
+  - name: ElasticBeanstalk
+    children:
+      - ElasticBeanstalk
+      - ElasticBeanstalkErrorType
+
+  - name: ElasticTranscoder
+    children:
+      - ElasticTranscoder
+      - ElasticTranscoderErrorType
 
   - name: FMS
     children:
       - FMS
       - FMSErrorType
 
+  - name: ElasticsearchService
+    children:
+      - ElasticsearchService
+      - ElasticsearchServiceErrorType
+
   - name: FSx
     children:
       - FSx
       - FSxErrorType
+
+  - name: Firehose
+    children:
+      - Firehose
+      - FirehoseErrorType
 
   - name: GameLift
     children:
@@ -398,15 +397,15 @@ custom_categories:
       - Greengrass
       - GreengrassErrorType
 
-  - name: GroundStation
-    children:
-      - GroundStation
-      - GroundStationErrorType
-
   - name: GuardDuty
     children:
       - GuardDuty
       - GuardDutyErrorType
+
+  - name: GroundStation
+    children:
+      - GroundStation
+      - GroundStationErrorType
 
   - name: Health
     children:
@@ -473,6 +472,11 @@ custom_categories:
       - IoTThingsGraph
       - IoTThingsGraphErrorType
 
+  - name: KMS
+    children:
+      - KMS
+      - KMSErrorType
+
   - name: Kafka
     children:
       - Kafka
@@ -508,11 +512,6 @@ custom_categories:
       - KinesisVideoMedia
       - KinesisVideoMediaErrorType
 
-  - name: KMS
-    children:
-      - KMS
-      - KMSErrorType
-
   - name: Lambda
     children:
       - Lambda
@@ -537,6 +536,16 @@ custom_categories:
     children:
       - Lightsail
       - LightsailErrorType
+
+  - name: MQ
+    children:
+      - MQ
+      - MQErrorType
+
+  - name: MTurk
+    children:
+      - MTurk
+      - MTurkErrorType
 
   - name: MachineLearning
     children:
@@ -623,16 +632,6 @@ custom_categories:
       - MobileAnalytics
       - MobileAnalyticsErrorType
 
-  - name: MQ
-    children:
-      - MQ
-      - MQErrorType
-
-  - name: MTurk
-    children:
-      - MTurk
-      - MTurkErrorType
-
   - name: Neptune
     children:
       - Neptune
@@ -653,6 +652,11 @@ custom_categories:
       - Organizations
       - OrganizationsErrorType
 
+  - name: PI
+    children:
+      - PI
+      - PIErrorType
+
   - name: Personalize
     children:
       - Personalize
@@ -667,11 +671,6 @@ custom_categories:
     children:
       - PersonalizeRuntime
       - PersonalizeRuntimeErrorType
-
-  - name: PI
-    children:
-      - PI
-      - PIErrorType
 
   - name: Pinpoint
     children:
@@ -768,6 +767,46 @@ custom_categories:
       - S3Control
       - S3ControlErrorType
 
+  - name: SES
+    children:
+      - SES
+      - SESErrorType
+
+  - name: SFN
+    children:
+      - SFN
+      - SFNErrorType
+
+  - name: SMS
+    children:
+      - SMS
+      - SMSErrorType
+
+  - name: SNS
+    children:
+      - SNS
+      - SNSErrorType
+
+  - name: SQS
+    children:
+      - SQS
+      - SQSErrorType
+
+  - name: SSM
+    children:
+      - SSM
+      - SSMErrorType
+
+  - name: STS
+    children:
+      - STS
+      - STSErrorType
+
+  - name: SWF
+    children:
+      - SWF
+      - SWFErrorType
+
   - name: SageMaker
     children:
       - SageMaker
@@ -808,16 +847,6 @@ custom_categories:
       - ServiceQuotas
       - ServiceQuotasErrorType
 
-  - name: SES
-    children:
-      - SES
-      - SESErrorType
-
-  - name: SFN
-    children:
-      - SFN
-      - SFNErrorType
-
   - name: Shield
     children:
       - Shield
@@ -833,50 +862,20 @@ custom_categories:
       - SimpleDB
       - SimpleDBErrorType
 
-  - name: SMS
-    children:
-      - SMS
-      - SMSErrorType
-
   - name: Snowball
     children:
       - Snowball
       - SnowballErrorType
-
-  - name: SNS
-    children:
-      - SNS
-      - SNSErrorType
-
-  - name: SQS
-    children:
-      - SQS
-      - SQSErrorType
-
-  - name: SSM
-    children:
-      - SSM
-      - SSMErrorType
 
   - name: StorageGateway
     children:
       - StorageGateway
       - StorageGatewayErrorType
 
-  - name: STS
-    children:
-      - STS
-      - STSErrorType
-
   - name: Support
     children:
       - Support
       - SupportErrorType
-
-  - name: SWF
-    children:
-      - SWF
-      - SWFErrorType
 
   - name: Textract
     children:
