@@ -142,6 +142,7 @@ extension ECS {
             AWSShapeMember(label: "pendingTasksCount", required: false, type: .integer), 
             AWSShapeMember(label: "registeredContainerInstancesCount", required: false, type: .integer), 
             AWSShapeMember(label: "runningTasksCount", required: false, type: .integer), 
+            AWSShapeMember(label: "settings", required: false, type: .list), 
             AWSShapeMember(label: "statistics", required: false, type: .list), 
             AWSShapeMember(label: "status", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
@@ -159,20 +160,23 @@ extension ECS {
         public let registeredContainerInstancesCount: Int?
         /// The number of tasks in the cluster that are in the RUNNING state.
         public let runningTasksCount: Int?
+        /// The settings for the cluster. This parameter indicates whether CloudWatch Container Insights is enabled or disabled for a cluster.
+        public let settings: [ClusterSetting]?
         /// Additional information about your clusters that are separated by launch type, including:   runningEC2TasksCount   RunningFargateTasksCount   pendingEC2TasksCount   pendingFargateTasksCount   activeEC2ServiceCount   activeFargateServiceCount   drainingEC2ServiceCount   drainingFargateServiceCount  
         public let statistics: [KeyValuePair]?
         /// The status of the cluster. The valid values are ACTIVE or INACTIVE. ACTIVE indicates that you can register container instances with the cluster and the associated instances can accept tasks.
         public let status: String?
-        /// The metadata that you apply to the cluster to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// The metadata that you apply to the cluster to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
 
-        public init(activeServicesCount: Int? = nil, clusterArn: String? = nil, clusterName: String? = nil, pendingTasksCount: Int? = nil, registeredContainerInstancesCount: Int? = nil, runningTasksCount: Int? = nil, statistics: [KeyValuePair]? = nil, status: String? = nil, tags: [Tag]? = nil) {
+        public init(activeServicesCount: Int? = nil, clusterArn: String? = nil, clusterName: String? = nil, pendingTasksCount: Int? = nil, registeredContainerInstancesCount: Int? = nil, runningTasksCount: Int? = nil, settings: [ClusterSetting]? = nil, statistics: [KeyValuePair]? = nil, status: String? = nil, tags: [Tag]? = nil) {
             self.activeServicesCount = activeServicesCount
             self.clusterArn = clusterArn
             self.clusterName = clusterName
             self.pendingTasksCount = pendingTasksCount
             self.registeredContainerInstancesCount = registeredContainerInstancesCount
             self.runningTasksCount = runningTasksCount
+            self.settings = settings
             self.statistics = statistics
             self.status = status
             self.tags = tags
@@ -185,6 +189,7 @@ extension ECS {
             case pendingTasksCount = "pendingTasksCount"
             case registeredContainerInstancesCount = "registeredContainerInstancesCount"
             case runningTasksCount = "runningTasksCount"
+            case settings = "settings"
             case statistics = "statistics"
             case status = "status"
             case tags = "tags"
@@ -194,6 +199,33 @@ extension ECS {
     public enum ClusterField: String, CustomStringConvertible, Codable {
         case statistics = "STATISTICS"
         case tags = "TAGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ClusterSetting: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .enum), 
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+
+        /// The name of the cluster setting. The only supported value is containerInsights.
+        public let name: ClusterSettingName?
+        /// The value to set for the cluster setting. The supported values are enabled and disabled. If enabled is specified, CloudWatch Container Insights will be enabled for the cluster, otherwise it will be disabled unless the containerInsights account setting is enabled. If a cluster value is specified, it will override the containerInsights value set with PutAccountSetting or PutAccountSettingDefault.
+        public let value: String?
+
+        public init(name: ClusterSettingName? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public enum ClusterSettingName: String, CustomStringConvertible, Codable {
+        case containerinsights = "containerInsights"
         public var description: String { return self.rawValue }
     }
 
@@ -214,6 +246,7 @@ extension ECS {
             AWSShapeMember(label: "containerArn", required: false, type: .string), 
             AWSShapeMember(label: "cpu", required: false, type: .string), 
             AWSShapeMember(label: "exitCode", required: false, type: .integer), 
+            AWSShapeMember(label: "firelensConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "gpuIds", required: false, type: .list), 
             AWSShapeMember(label: "healthStatus", required: false, type: .enum), 
             AWSShapeMember(label: "lastStatus", required: false, type: .string), 
@@ -223,6 +256,7 @@ extension ECS {
             AWSShapeMember(label: "networkBindings", required: false, type: .list), 
             AWSShapeMember(label: "networkInterfaces", required: false, type: .list), 
             AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "runtimeId", required: false, type: .string), 
             AWSShapeMember(label: "taskArn", required: false, type: .string)
         ]
 
@@ -232,6 +266,8 @@ extension ECS {
         public let cpu: String?
         /// The exit code returned from the container.
         public let exitCode: Int?
+        /// The FireLens configuration for the container.
+        public let firelensConfiguration: FirelensConfiguration?
         /// The IDs of each GPU assigned to the container.
         public let gpuIds: [String]?
         /// The health status of the container. If health checks are not configured for this container in its task definition, then it reports the health status as UNKNOWN.
@@ -250,13 +286,16 @@ extension ECS {
         public let networkInterfaces: [NetworkInterface]?
         /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
         public let reason: String?
+        /// The ID of the Docker container.
+        public let runtimeId: String?
         /// The ARN of the task.
         public let taskArn: String?
 
-        public init(containerArn: String? = nil, cpu: String? = nil, exitCode: Int? = nil, gpuIds: [String]? = nil, healthStatus: HealthStatus? = nil, lastStatus: String? = nil, memory: String? = nil, memoryReservation: String? = nil, name: String? = nil, networkBindings: [NetworkBinding]? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, taskArn: String? = nil) {
+        public init(containerArn: String? = nil, cpu: String? = nil, exitCode: Int? = nil, firelensConfiguration: FirelensConfiguration? = nil, gpuIds: [String]? = nil, healthStatus: HealthStatus? = nil, lastStatus: String? = nil, memory: String? = nil, memoryReservation: String? = nil, name: String? = nil, networkBindings: [NetworkBinding]? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, runtimeId: String? = nil, taskArn: String? = nil) {
             self.containerArn = containerArn
             self.cpu = cpu
             self.exitCode = exitCode
+            self.firelensConfiguration = firelensConfiguration
             self.gpuIds = gpuIds
             self.healthStatus = healthStatus
             self.lastStatus = lastStatus
@@ -266,6 +305,7 @@ extension ECS {
             self.networkBindings = networkBindings
             self.networkInterfaces = networkInterfaces
             self.reason = reason
+            self.runtimeId = runtimeId
             self.taskArn = taskArn
         }
 
@@ -273,6 +313,7 @@ extension ECS {
             case containerArn = "containerArn"
             case cpu = "cpu"
             case exitCode = "exitCode"
+            case firelensConfiguration = "firelensConfiguration"
             case gpuIds = "gpuIds"
             case healthStatus = "healthStatus"
             case lastStatus = "lastStatus"
@@ -282,6 +323,7 @@ extension ECS {
             case networkBindings = "networkBindings"
             case networkInterfaces = "networkInterfaces"
             case reason = "reason"
+            case runtimeId = "runtimeId"
             case taskArn = "taskArn"
         }
     }
@@ -308,6 +350,7 @@ extension ECS {
             AWSShapeMember(label: "environment", required: false, type: .list), 
             AWSShapeMember(label: "essential", required: false, type: .boolean), 
             AWSShapeMember(label: "extraHosts", required: false, type: .list), 
+            AWSShapeMember(label: "firelensConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "healthCheck", required: false, type: .structure), 
             AWSShapeMember(label: "hostname", required: false, type: .string), 
             AWSShapeMember(label: "image", required: false, type: .string), 
@@ -359,6 +402,8 @@ extension ECS {
         public let essential: Bool?
         /// A list of hostnames and IP address mappings to append to the /etc/hosts file on the container. This parameter maps to ExtraHosts in the Create a container section of the Docker Remote API and the --add-host option to docker run.  This parameter is not supported for Windows containers or tasks that use the awsvpc network mode. 
         public let extraHosts: [HostEntry]?
+        /// The FireLens configuration for the container. This is used to specify and configure a log router for container logs.
+        public let firelensConfiguration: FirelensConfiguration?
         /// The health check command and associated configuration parameters for the container. This parameter maps to HealthCheck in the Create a container section of the Docker Remote API and the HEALTHCHECK parameter of docker run.
         public let healthCheck: HealthCheck?
         /// The hostname to use for your container. This parameter maps to Hostname in the Create a container section of the Docker Remote API and the --hostname option to docker run.  The hostname parameter is not supported if you are using the awsvpc network mode. 
@@ -371,11 +416,11 @@ extension ECS {
         public let links: [String]?
         /// Linux-specific modifications that are applied to the container, such as Linux kernel capabilities. For more information see KernelCapabilities.  This parameter is not supported for Windows containers. 
         public let linuxParameters: LinuxParameters?
-        /// The log configuration specification for the container. For tasks using the Fargate launch type, the supported log drivers are awslogs and splunk. For tasks using the EC2 launch type, the supported log drivers are awslogs, syslog, gelf, fluentd, splunk, journald, and json-file. This parameter maps to LogConfig in the Create a container section of the Docker Remote API and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However the container may use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information on the options for different supported log drivers, see Configure logging drivers in the Docker documentation.  Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Additional log drivers may be available in future releases of the Amazon ECS container agent.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'   The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see Amazon ECS Container Agent Configuration in the Amazon Elastic Container Service Developer Guide. 
+        /// The log configuration specification for the container. This parameter maps to LogConfig in the Create a container section of the Docker Remote API and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However the container may use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information on the options for different supported log drivers, see Configure logging drivers in the Docker documentation.  Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Additional log drivers may be available in future releases of the Amazon ECS container agent.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'   The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see Amazon ECS Container Agent Configuration in the Amazon Elastic Container Service Developer Guide. 
         public let logConfiguration: LogConfiguration?
-        /// The amount (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. The total amount of memory reserved for all containers within a task must be lower than the task memory value, if one is specified. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. If your containers are part of a task using the Fargate launch type, this field is optional. For containers that are part of a task using the EC2 launch type, you must specify a non-zero integer for one or both of memory or memoryReservation in container definitions. If you specify both, memory must be greater than memoryReservation. If you specify memoryReservation, then that value is subtracted from the available memory resources for the container instance on which the container is placed. Otherwise, the value of memory is used. The Docker daemon reserves a minimum of 4 MiB of memory for a container, so you should not specify fewer than 4 MiB of memory for your containers.
+        /// The amount (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. The total amount of memory reserved for all containers within a task must be lower than the task memory value, if one is specified. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. If using the Fargate launch type, this parameter is optional. If using the EC2 launch type, you must specify either a task-level memory value or a container-level memory value. If you specify both a container-level memory and memoryReservation value, memory must be greater than memoryReservation. If you specify memoryReservation, then that value is subtracted from the available memory resources for the container instance on which the container is placed. Otherwise, the value of memory is used. The Docker daemon reserves a minimum of 4 MiB of memory for a container, so you should not specify fewer than 4 MiB of memory for your containers.
         public let memory: Int?
-        /// The soft limit (in MiB) of memory to reserve for the container. When system memory is under heavy contention, Docker attempts to keep the container memory to this soft limit. However, your container can consume more memory when it needs to, up to either the hard limit specified with the memory parameter (if applicable), or all of the available memory on the container instance, whichever comes first. This parameter maps to MemoryReservation in the Create a container section of the Docker Remote API and the --memory-reservation option to docker run. You must specify a non-zero integer for one or both of memory or memoryReservation in container definitions. If you specify both, memory must be greater than memoryReservation. If you specify memoryReservation, then that value is subtracted from the available memory resources for the container instance on which the container is placed. Otherwise, the value of memory is used. For example, if your container normally uses 128 MiB of memory, but occasionally bursts to 256 MiB of memory for short periods of time, you can set a memoryReservation of 128 MiB, and a memory hard limit of 300 MiB. This configuration would allow the container to only reserve 128 MiB of memory from the remaining resources on the container instance, but also allow the container to consume more memory resources when needed. The Docker daemon reserves a minimum of 4 MiB of memory for a container, so you should not specify fewer than 4 MiB of memory for your containers. 
+        /// The soft limit (in MiB) of memory to reserve for the container. When system memory is under heavy contention, Docker attempts to keep the container memory to this soft limit. However, your container can consume more memory when it needs to, up to either the hard limit specified with the memory parameter (if applicable), or all of the available memory on the container instance, whichever comes first. This parameter maps to MemoryReservation in the Create a container section of the Docker Remote API and the --memory-reservation option to docker run. If a task-level memory value is not specified, you must specify a non-zero integer for one or both of memory or memoryReservation in a container definition. If you specify both, memory must be greater than memoryReservation. If you specify memoryReservation, then that value is subtracted from the available memory resources for the container instance on which the container is placed. Otherwise, the value of memory is used. For example, if your container normally uses 128 MiB of memory, but occasionally bursts to 256 MiB of memory for short periods of time, you can set a memoryReservation of 128 MiB, and a memory hard limit of 300 MiB. This configuration would allow the container to only reserve 128 MiB of memory from the remaining resources on the container instance, but also allow the container to consume more memory resources when needed. The Docker daemon reserves a minimum of 4 MiB of memory for a container, so you should not specify fewer than 4 MiB of memory for your containers. 
         public let memoryReservation: Int?
         /// The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run. Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers cannot mount directories on a different drive, and mount point cannot be across drives.
         public let mountPoints: [MountPoint]?
@@ -395,9 +440,9 @@ extension ECS {
         public let resourceRequirements: [ResourceRequirement]?
         /// The secrets to pass to the container. For more information, see Specifying Sensitive Data in the Amazon Elastic Container Service Developer Guide.
         public let secrets: [Secret]?
-        /// Time duration to wait before giving up on resolving dependencies for a container. For example, you specify two containers in a task definition with containerA having a dependency on containerB reaching a COMPLETE, SUCCESS, or HEALTHY status. If a startTimeout value is specified for containerB and it does not reach the desired status within that time then containerA will give up and not start. This results in the task transitioning to a STOPPED state. For tasks using the EC2 launch type, the container instances require at least version 1.26.0 of the container agent to enable a container start timeout value. However, we recommend using the latest container agent version. For information about checking your agent version and updating to the latest version, see Updating the Amazon ECS Container Agent in the Amazon Elastic Container Service Developer Guide. If you are using an Amazon ECS-optimized Linux AMI, your instance needs at least version 1.26.0-1 of the ecs-init package. If your container instances are launched from version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see Amazon ECS-optimized Linux AMI in the Amazon Elastic Container Service Developer Guide. This parameter is available for tasks using the Fargate launch type in the Ohio (us-east-2) region only and the task or service requires platform version 1.3.0 or later.
+        /// Time duration (in seconds) to wait before giving up on resolving dependencies for a container. For example, you specify two containers in a task definition with containerA having a dependency on containerB reaching a COMPLETE, SUCCESS, or HEALTHY status. If a startTimeout value is specified for containerB and it does not reach the desired status within that time then containerA will give up and not start. This results in the task transitioning to a STOPPED state. For tasks using the EC2 launch type, the container instances require at least version 1.26.0 of the container agent to enable a container start timeout value. However, we recommend using the latest container agent version. For information about checking your agent version and updating to the latest version, see Updating the Amazon ECS Container Agent in the Amazon Elastic Container Service Developer Guide. If you are using an Amazon ECS-optimized Linux AMI, your instance needs at least version 1.26.0-1 of the ecs-init package. If your container instances are launched from version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see Amazon ECS-optimized Linux AMI in the Amazon Elastic Container Service Developer Guide. This parameter is available for tasks using the Fargate launch type in the Ohio (us-east-2) region only and the task or service requires platform version 1.3.0 or later.
         public let startTimeout: Int?
-        /// Time duration to wait before the container is forcefully killed if it doesn't exit normally on its own. For tasks using the Fargate launch type, the max stopTimeout value is 2 minutes. This parameter is available for tasks using the Fargate launch type in the Ohio (us-east-2) region only and the task or service requires platform version 1.3.0 or later. For tasks using the EC2 launch type, the stop timeout value for the container takes precedence over the ECS_CONTAINER_STOP_TIMEOUT container agent configuration parameter, if used. Container instances require at least version 1.26.0 of the container agent to enable a container stop timeout value. However, we recommend using the latest container agent version. For information about checking your agent version and updating to the latest version, see Updating the Amazon ECS Container Agent in the Amazon Elastic Container Service Developer Guide. If you are using an Amazon ECS-optimized Linux AMI, your instance needs at least version 1.26.0-1 of the ecs-init package. If your container instances are launched from version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see Amazon ECS-optimized Linux AMI in the Amazon Elastic Container Service Developer Guide.
+        /// Time duration (in seconds) to wait before the container is forcefully killed if it doesn't exit normally on its own. For tasks using the Fargate launch type, the max stopTimeout value is 2 minutes. This parameter is available for tasks using the Fargate launch type in the Ohio (us-east-2) region only and the task or service requires platform version 1.3.0 or later. For tasks using the EC2 launch type, the stop timeout value for the container takes precedence over the ECS_CONTAINER_STOP_TIMEOUT container agent configuration parameter, if used. Container instances require at least version 1.26.0 of the container agent to enable a container stop timeout value. However, we recommend using the latest container agent version. For information about checking your agent version and updating to the latest version, see Updating the Amazon ECS Container Agent in the Amazon Elastic Container Service Developer Guide. If you are using an Amazon ECS-optimized Linux AMI, your instance needs at least version 1.26.0-1 of the ecs-init package. If your container instances are launched from version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see Amazon ECS-optimized Linux AMI in the Amazon Elastic Container Service Developer Guide.
         public let stopTimeout: Int?
         /// A list of namespaced kernel parameters to set in the container. This parameter maps to Sysctls in the Create a container section of the Docker Remote API and the --sysctl option to docker run.  It is not recommended that you specify network-related systemControls parameters for multiple containers in a single task that also uses either the awsvpc or host network modes. For tasks that use the awsvpc network mode, the container that is started last determines which systemControls parameters take effect. For tasks that use the host network mode, it changes the container instance's namespaced kernel parameters as well as the containers. 
         public let systemControls: [SystemControl]?
@@ -410,7 +455,7 @@ extension ECS {
         /// The working directory in which to run commands inside the container. This parameter maps to WorkingDir in the Create a container section of the Docker Remote API and the --workdir option to docker run.
         public let workingDirectory: String?
 
-        public init(command: [String]? = nil, cpu: Int? = nil, dependsOn: [ContainerDependency]? = nil, disableNetworking: Bool? = nil, dnsSearchDomains: [String]? = nil, dnsServers: [String]? = nil, dockerLabels: [String: String]? = nil, dockerSecurityOptions: [String]? = nil, entryPoint: [String]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, extraHosts: [HostEntry]? = nil, healthCheck: HealthCheck? = nil, hostname: String? = nil, image: String? = nil, interactive: Bool? = nil, links: [String]? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, memoryReservation: Int? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, portMappings: [PortMapping]? = nil, privileged: Bool? = nil, pseudoTerminal: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, startTimeout: Int? = nil, stopTimeout: Int? = nil, systemControls: [SystemControl]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumesFrom: [VolumeFrom]? = nil, workingDirectory: String? = nil) {
+        public init(command: [String]? = nil, cpu: Int? = nil, dependsOn: [ContainerDependency]? = nil, disableNetworking: Bool? = nil, dnsSearchDomains: [String]? = nil, dnsServers: [String]? = nil, dockerLabels: [String: String]? = nil, dockerSecurityOptions: [String]? = nil, entryPoint: [String]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, extraHosts: [HostEntry]? = nil, firelensConfiguration: FirelensConfiguration? = nil, healthCheck: HealthCheck? = nil, hostname: String? = nil, image: String? = nil, interactive: Bool? = nil, links: [String]? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, memoryReservation: Int? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, portMappings: [PortMapping]? = nil, privileged: Bool? = nil, pseudoTerminal: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, startTimeout: Int? = nil, stopTimeout: Int? = nil, systemControls: [SystemControl]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, volumesFrom: [VolumeFrom]? = nil, workingDirectory: String? = nil) {
             self.command = command
             self.cpu = cpu
             self.dependsOn = dependsOn
@@ -423,6 +468,7 @@ extension ECS {
             self.environment = environment
             self.essential = essential
             self.extraHosts = extraHosts
+            self.firelensConfiguration = firelensConfiguration
             self.healthCheck = healthCheck
             self.hostname = hostname
             self.image = image
@@ -463,6 +509,7 @@ extension ECS {
             case environment = "environment"
             case essential = "essential"
             case extraHosts = "extraHosts"
+            case firelensConfiguration = "firelensConfiguration"
             case healthCheck = "healthCheck"
             case hostname = "hostname"
             case image = "image"
@@ -559,7 +606,7 @@ extension ECS {
         public let status: String?
         /// The reason that the container instance reached its current status.
         public let statusReason: String?
-        /// The metadata that you apply to the container instance to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// The metadata that you apply to the container instance to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
         /// The version counter for the container instance. Every time a container instance experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS container instance state with CloudWatch Events, you can compare the version of a container instance reported by the Amazon ECS APIs with the version reported in CloudWatch Events for the container instance (inside the detail object) to verify that the version in your event stream is current.
         public let version: Int64?
@@ -672,6 +719,7 @@ extension ECS {
             AWSShapeMember(label: "exitCode", required: false, type: .integer), 
             AWSShapeMember(label: "networkBindings", required: false, type: .list), 
             AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "runtimeId", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string)
         ]
 
@@ -683,14 +731,17 @@ extension ECS {
         public let networkBindings: [NetworkBinding]?
         /// The reason for the state change.
         public let reason: String?
+        /// The ID of the Docker container.
+        public let runtimeId: String?
         /// The status of the container.
         public let status: String?
 
-        public init(containerName: String? = nil, exitCode: Int? = nil, networkBindings: [NetworkBinding]? = nil, reason: String? = nil, status: String? = nil) {
+        public init(containerName: String? = nil, exitCode: Int? = nil, networkBindings: [NetworkBinding]? = nil, reason: String? = nil, runtimeId: String? = nil, status: String? = nil) {
             self.containerName = containerName
             self.exitCode = exitCode
             self.networkBindings = networkBindings
             self.reason = reason
+            self.runtimeId = runtimeId
             self.status = status
         }
 
@@ -699,6 +750,7 @@ extension ECS {
             case exitCode = "exitCode"
             case networkBindings = "networkBindings"
             case reason = "reason"
+            case runtimeId = "runtimeId"
             case status = "status"
         }
     }
@@ -706,16 +758,20 @@ extension ECS {
     public struct CreateClusterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clusterName", required: false, type: .string), 
+            AWSShapeMember(label: "settings", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
         /// The name of your cluster. If you do not specify a name for your cluster, you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. 
         public let clusterName: String?
-        /// The metadata that you apply to the cluster to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// The setting to use when creating a cluster. This parameter is used to enable CloudWatch Container Insights for a cluster. If this value is specified, it will override the containerInsights value set with PutAccountSetting or PutAccountSettingDefault.
+        public let settings: [ClusterSetting]?
+        /// The metadata that you apply to the cluster to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
 
-        public init(clusterName: String? = nil, tags: [Tag]? = nil) {
+        public init(clusterName: String? = nil, settings: [ClusterSetting]? = nil, tags: [Tag]? = nil) {
             self.clusterName = clusterName
+            self.settings = settings
             self.tags = tags
         }
 
@@ -729,6 +785,7 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case clusterName = "clusterName"
+            case settings = "settings"
             case tags = "tags"
         }
     }
@@ -782,7 +839,7 @@ extension ECS {
         public let deploymentConfiguration: DeploymentConfiguration?
         /// The deployment controller to use for the service.
         public let deploymentController: DeploymentController?
-        /// The number of instantiations of the specified task definition to place and keep running on your cluster.
+        /// The number of instantiations of the specified task definition to place and keep running on your cluster. This is required if schedulingStrategy is REPLICA or is not specified. If schedulingStrategy is DAEMON then this is not required.
         public let desiredCount: Int?
         /// Specifies whether to enable Amazon ECS managed tags for the tasks within the service. For more information, see Tagging Your Amazon ECS Resources in the Amazon Elastic Container Service Developer Guide.
         public let enableECSManagedTags: Bool?
@@ -790,7 +847,7 @@ extension ECS {
         public let healthCheckGracePeriodSeconds: Int?
         /// The launch type on which to run your service. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide.
         public let launchType: LaunchType?
-        /// A load balancer object representing the load balancer to use with your service. If the service is using the ECS deployment controller, you are limited to one load balancer or target group. If the service is using the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an AWS CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, AWS CodeDeploy determines which task set in your service has the status PRIMARY and associates one target group with it, and then associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that allows you perform validation tests with Lambda functions before routing production traffic to it. After you create a service using the ECS deployment controller, the load balancer name or target group ARN, container name, and container port specified in the service definition are immutable. If you are using the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Classic Load Balancers, this object must contain the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance is registered with the load balancer specified here. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers are not supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance, because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
+        /// A load balancer object representing the load balancers to use with your service. For more information, see Service Load Balancing in the Amazon Elastic Container Service Developer Guide. If the service is using the rolling update (ECS) deployment controller and using either an Application Load Balancer or Network Load Balancer, you can specify multiple target groups to attach to the service. If the service is using the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an AWS CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, AWS CodeDeploy determines which task set in your service has the status PRIMARY and associates one target group with it, and then associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that allows you perform validation tests with Lambda functions before routing production traffic to it. After you create a service using the ECS deployment controller, the load balancer name or target group ARN, container name, and container port specified in the service definition are immutable. If you are using the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance is registered with the load balancer specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers are not supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance, because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
         public let loadBalancers: [LoadBalancer]?
         /// The network configuration for the service. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it is not supported for other network modes. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.
         public let networkConfiguration: NetworkConfiguration?
@@ -810,7 +867,7 @@ extension ECS {
         public let serviceName: String
         /// The details of the service discovery registries to assign to this service. For more information, see Service Discovery.  Service discovery is supported for Fargate tasks if you are using platform version v1.1.0 or later. For more information, see AWS Fargate Platform Versions. 
         public let serviceRegistries: [ServiceRegistry]?
-        /// The metadata that you apply to the service to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. When a service is deleted, the tags are deleted as well. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// The metadata that you apply to the service to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. When a service is deleted, the tags are deleted as well. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
         /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. A task definition must be specified if the service is using the ECS deployment controller.
         public let taskDefinition: String?
@@ -1533,7 +1590,7 @@ extension ECS {
             AWSShapeMember(label: "taskDefinition", required: false, type: .structure)
         ]
 
-        /// The metadata that is applied to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// The metadata that is applied to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
         /// The full task definition description.
         public let taskDefinition: TaskDefinition?
@@ -1791,6 +1848,34 @@ extension ECS {
         }
     }
 
+    public struct FirelensConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "options", required: false, type: .map), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
+        ]
+
+        /// The options to use when configuring the log router. This field is optional and can be used to add additional metadata, such as the task, task definition, cluster, and container instance details to the log event. If specified, the syntax to use is "options":{"enable-ecs-log-metadata":"true|false"}.
+        public let options: [String: String]?
+        /// The log router to use. The valid values are fluentd or fluentbit.
+        public let `type`: FirelensConfigurationType
+
+        public init(options: [String: String]? = nil, type: FirelensConfigurationType) {
+            self.options = options
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "options"
+            case `type` = "type"
+        }
+    }
+
+    public enum FirelensConfigurationType: String, CustomStringConvertible, Codable {
+        case fluentd = "fluentd"
+        case fluentbit = "fluentbit"
+        public var description: String { return self.rawValue }
+    }
+
     public struct HealthCheck: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "command", required: true, type: .list), 
@@ -1874,6 +1959,50 @@ extension ECS {
         }
     }
 
+    public struct InferenceAccelerator: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deviceName", required: true, type: .string), 
+            AWSShapeMember(label: "deviceType", required: true, type: .string)
+        ]
+
+        /// The Elastic Inference accelerator device name. The deviceName must also be referenced in a container definition as a ResourceRequirement.
+        public let deviceName: String
+        /// The Elastic Inference accelerator type to use.
+        public let deviceType: String
+
+        public init(deviceName: String, deviceType: String) {
+            self.deviceName = deviceName
+            self.deviceType = deviceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceName = "deviceName"
+            case deviceType = "deviceType"
+        }
+    }
+
+    public struct InferenceAcceleratorOverride: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deviceName", required: false, type: .string), 
+            AWSShapeMember(label: "deviceType", required: false, type: .string)
+        ]
+
+        /// The Elastic Inference accelerator device name to override for the task. This parameter must match a deviceName specified in the task definition.
+        public let deviceName: String?
+        /// The Elastic Inference accelerator type to use.
+        public let deviceType: String?
+
+        public init(deviceName: String? = nil, deviceType: String? = nil) {
+            self.deviceName = deviceName
+            self.deviceType = deviceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceName = "deviceName"
+            case deviceType = "deviceType"
+        }
+    }
+
     public enum IpcMode: String, CustomStringConvertible, Codable {
         case host = "host"
         case task = "task"
@@ -1936,7 +2065,9 @@ extension ECS {
             AWSShapeMember(label: "capabilities", required: false, type: .structure), 
             AWSShapeMember(label: "devices", required: false, type: .list), 
             AWSShapeMember(label: "initProcessEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "maxSwap", required: false, type: .integer), 
             AWSShapeMember(label: "sharedMemorySize", required: false, type: .integer), 
+            AWSShapeMember(label: "swappiness", required: false, type: .integer), 
             AWSShapeMember(label: "tmpfs", required: false, type: .list)
         ]
 
@@ -1946,16 +2077,22 @@ extension ECS {
         public let devices: [Device]?
         /// Run an init process inside the container that forwards signals and reaps processes. This parameter maps to the --init option to docker run. This parameter requires version 1.25 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' 
         public let initProcessEnabled: Bool?
+        /// The total amount of swap memory (in MiB) a container can use. This parameter will be translated to the --memory-swap option to docker run where the value would be the sum of the container memory plus the maxSwap value. If a maxSwap value of 0 is specified, the container will not use swap. Accepted values are 0 or any positive integer. If the maxSwap parameter is omitted, the container will use the swap configuration for the container instance it is running on. A maxSwap value must be set for the swappiness parameter to be used.  If you are using tasks that use the Fargate launch type, the maxSwap parameter is not supported. 
+        public let maxSwap: Int?
         /// The value for the size (in MiB) of the /dev/shm volume. This parameter maps to the --shm-size option to docker run.  If you are using tasks that use the Fargate launch type, the sharedMemorySize parameter is not supported. 
         public let sharedMemorySize: Int?
+        /// This allows you to tune a container's memory swappiness behavior. A swappiness value of 0 will cause swapping to not happen unless absolutely necessary. A swappiness value of 100 will cause pages to be swapped very aggressively. Accepted values are whole numbers between 0 and 100. If the swappiness parameter is not specified, a default value of 60 is used. If a value is not specified for maxSwap then this parameter is ignored. This parameter maps to the --memory-swappiness option to docker run.  If you are using tasks that use the Fargate launch type, the swappiness parameter is not supported. 
+        public let swappiness: Int?
         /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to docker run.  If you are using tasks that use the Fargate launch type, the tmpfs parameter is not supported. 
         public let tmpfs: [Tmpfs]?
 
-        public init(capabilities: KernelCapabilities? = nil, devices: [Device]? = nil, initProcessEnabled: Bool? = nil, sharedMemorySize: Int? = nil, tmpfs: [Tmpfs]? = nil) {
+        public init(capabilities: KernelCapabilities? = nil, devices: [Device]? = nil, initProcessEnabled: Bool? = nil, maxSwap: Int? = nil, sharedMemorySize: Int? = nil, swappiness: Int? = nil, tmpfs: [Tmpfs]? = nil) {
             self.capabilities = capabilities
             self.devices = devices
             self.initProcessEnabled = initProcessEnabled
+            self.maxSwap = maxSwap
             self.sharedMemorySize = sharedMemorySize
+            self.swappiness = swappiness
             self.tmpfs = tmpfs
         }
 
@@ -1963,7 +2100,9 @@ extension ECS {
             case capabilities = "capabilities"
             case devices = "devices"
             case initProcessEnabled = "initProcessEnabled"
+            case maxSwap = "maxSwap"
             case sharedMemorySize = "sharedMemorySize"
+            case swappiness = "swappiness"
             case tmpfs = "tmpfs"
         }
     }
@@ -2494,11 +2633,11 @@ extension ECS {
 
         /// The name of the container (as it appears in a container definition) to associate with the load balancer.
         public let containerName: String?
-        /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the service's task definition. Your container instances must allow ingress traffic on the hostPort of the port mapping.
+        /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the task definition the tasks in the service are using. For tasks that use the EC2 launch type, the container instance they are launched on must allow ingress traffic on the hostPort of the port mapping.
         public let containerPort: Int?
-        /// The name of the load balancer to associate with the Amazon ECS service or task set. A load balancer name is only specified when using a classic load balancer. If you are using an application load balancer or a network load balancer this should be omitted.
+        /// The name of the load balancer to associate with the Amazon ECS service or task set. A load balancer name is only specified when using a Classic Load Balancer. If you are using an Application Load Balancer or a Network Load Balancer this should be omitted.
         public let loadBalancerName: String?
-        /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group or groups associated with a service or task set. A target group ARN is only specified when using an application load balancer or a network load balancer. If you are using a classic load balancer this should be omitted. For services using the ECS deployment controller, you are limited to one target group. For services using the CODE_DEPLOY deployment controller, you are required to define two target groups for the load balancer.  If your service's task definition uses the awsvpc network mode (which is required for the Fargate launch type), you must choose ip as the target type, not instance, because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance. 
+        /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group or groups associated with a service or task set. A target group ARN is only specified when using an Application Load Balancer or Network Load Balancer. If you are using a Classic Load Balancer this should be omitted. For services using the ECS deployment controller, you can specify one or multiple target groups. For more information, see Registering Multiple Target Groups with a Service in the Amazon Elastic Container Service Developer Guide. For services using the CODE_DEPLOY deployment controller, you are required to define two target groups for the load balancer. For more information, see Blue/Green Deployment with CodeDeploy in the Amazon Elastic Container Service Developer Guide.  If your service's task definition uses the awsvpc network mode (which is required for the Fargate launch type), you must choose ip as the target type, not instance, when creating your target groups because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance. 
         public let targetGroupArn: String?
 
         public init(containerName: String? = nil, containerPort: Int? = nil, loadBalancerName: String? = nil, targetGroupArn: String? = nil) {
@@ -2523,7 +2662,7 @@ extension ECS {
             AWSShapeMember(label: "secretOptions", required: false, type: .list)
         ]
 
-        /// The log driver to use for the container. The valid values listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default. For tasks using the Fargate launch type, the supported log drivers are awslogs and splunk. For tasks using the EC2 launch type, the supported log drivers are awslogs, syslog, gelf, fluentd, splunk, journald, and json-file. For more information about using the awslogs log driver, see Using the awslogs Log Driver in the Amazon Elastic Container Service Developer Guide.  If you have a custom driver that is not listed above that you would like to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that is available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, Amazon Web Services does not currently support running modified copies of this software.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' 
+        /// The log driver to use for the container. The valid values listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default. For tasks using the Fargate launch type, the supported log drivers are awslogs and splunk. For tasks using the EC2 launch type, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, logentries, syslog, and splunk. For more information about using the awslogs log driver, see Using the awslogs Log Driver in the Amazon Elastic Container Service Developer Guide.  If you have a custom driver that is not listed above that you would like to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that is available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, Amazon Web Services does not currently support running modified copies of this software.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' 
         public let logDriver: LogDriver
         /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' 
         public let options: [String: String]?
@@ -2551,6 +2690,7 @@ extension ECS {
         case fluentd = "fluentd"
         case awslogs = "awslogs"
         case splunk = "splunk"
+        case awsfirelens = "awsfirelens"
         public var description: String { return self.rawValue }
     }
 
@@ -2679,7 +2819,7 @@ extension ECS {
 
         /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
-        /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates. The value distinctInstance is not supported in task definitions.
+        /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
         public let `type`: PlacementConstraintType?
 
         public init(expression: String? = nil, type: PlacementConstraintType? = nil) {
@@ -2827,7 +2967,7 @@ extension ECS {
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
 
-        /// The resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected.
+        /// The resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for CloudWatch Container Insights for your clusters is affected.
         public let name: SettingName
         /// The account setting value for the specified principal ARN. Accepted values are enabled and disabled.
         public let value: String
@@ -2866,7 +3006,7 @@ extension ECS {
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
 
-        /// The resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected.
+        /// The Amazon ECS resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the elastic network interface (ENI) limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for CloudWatch Container Insights for your clusters is affected.
         public let name: SettingName
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. If you specify the root user, it modifies the account setting for all IAM users, IAM roles, and the root user of the account unless an IAM user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user.
         public let principalArn: String?
@@ -2967,7 +3107,7 @@ extension ECS {
         public let instanceIdentityDocumentSignature: String?
         /// The devices that are available on the container instance. The only supported device type is a GPU.
         public let platformDevices: [PlatformDevice]?
-        /// The metadata that you apply to the container instance to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// The metadata that you apply to the container instance to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
         /// The resources available on the instance.
         public let totalResources: [Resource]?
@@ -3030,6 +3170,7 @@ extension ECS {
             AWSShapeMember(label: "cpu", required: false, type: .string), 
             AWSShapeMember(label: "executionRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "family", required: true, type: .string), 
+            AWSShapeMember(label: "inferenceAccelerators", required: false, type: .list), 
             AWSShapeMember(label: "ipcMode", required: false, type: .enum), 
             AWSShapeMember(label: "memory", required: false, type: .string), 
             AWSShapeMember(label: "networkMode", required: false, type: .enum), 
@@ -3050,6 +3191,8 @@ extension ECS {
         public let executionRoleArn: String?
         /// You must specify a family for a task definition, which allows you to track multiple versions of the same task definition. The family is used as a name for your task definition. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed.
         public let family: String
+        /// The Elastic Inference accelerators to use for the containers in the task.
+        public let inferenceAccelerators: [InferenceAccelerator]?
         /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see IPC settings in the Docker run reference. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. For more information, see Docker security. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see System Controls in the Amazon Elastic Container Service Developer Guide.   For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.   For tasks that use the task IPC mode, IPC namespace related systemControls will apply to all containers within a task.    This parameter is not supported for Windows containers or tasks using the Fargate launch type. 
         public let ipcMode: IpcMode?
         /// The amount of memory (in MiB) used by the task. It can be expressed as an integer using MiB, for example 1024, or as a string using GB, for example 1GB or 1 GB, in a task definition. String values are converted to an integer indicating the MiB when the task definition is registered.  Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers.  If using the EC2 launch type, this field is optional. If using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of supported values for the cpu parameter:   512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)  
@@ -3063,18 +3206,19 @@ extension ECS {
         public let proxyConfiguration: ProxyConfiguration?
         /// The launch type required by the task. If no value is specified, it defaults to EC2.
         public let requiresCompatibilities: [Compatibility]?
-        /// The metadata that you apply to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// The metadata that you apply to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
         /// The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role. For more information, see IAM Roles for Tasks in the Amazon Elastic Container Service Developer Guide.
         public let taskRoleArn: String?
         /// A list of volume definitions in JSON format that containers in your task may use.
         public let volumes: [Volume]?
 
-        public init(containerDefinitions: [ContainerDefinition], cpu: String? = nil, executionRoleArn: String? = nil, family: String, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresCompatibilities: [Compatibility]? = nil, tags: [Tag]? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
+        public init(containerDefinitions: [ContainerDefinition], cpu: String? = nil, executionRoleArn: String? = nil, family: String, inferenceAccelerators: [InferenceAccelerator]? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresCompatibilities: [Compatibility]? = nil, tags: [Tag]? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
             self.containerDefinitions = containerDefinitions
             self.cpu = cpu
             self.executionRoleArn = executionRoleArn
             self.family = family
+            self.inferenceAccelerators = inferenceAccelerators
             self.ipcMode = ipcMode
             self.memory = memory
             self.networkMode = networkMode
@@ -3100,6 +3244,7 @@ extension ECS {
             case cpu = "cpu"
             case executionRoleArn = "executionRoleArn"
             case family = "family"
+            case inferenceAccelerators = "inferenceAccelerators"
             case ipcMode = "ipcMode"
             case memory = "memory"
             case networkMode = "networkMode"
@@ -3200,9 +3345,9 @@ extension ECS {
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
 
-        /// The type of resource to assign to a container. The only supported value is GPU.
+        /// The type of resource to assign to a container. The supported values are GPU or InferenceAccelerator.
         public let `type`: ResourceType
-        /// The number of physical GPUs the Amazon ECS container agent will reserve for the container. The number of GPUs reserved for all containers in a task should not exceed the number of available GPUs on the container instance the task is launched on.
+        /// The value for the specified resource type. If the GPU type is used, the value is the number of physical GPUs the Amazon ECS container agent will reserve for the container. The number of GPUs reserved for all containers in a task should not exceed the number of available GPUs on the container instance the task is launched on. If the InferenceAccelerator type is used, the value should match the deviceName for an InferenceAccelerator specified in a task definition.
         public let value: String
 
         public init(type: ResourceType, value: String) {
@@ -3218,6 +3363,7 @@ extension ECS {
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case gpu = "GPU"
+        case inferenceaccelerator = "InferenceAccelerator"
         public var description: String { return self.rawValue }
     }
 
@@ -3263,7 +3409,7 @@ extension ECS {
         public let propagateTags: PropagateTags?
         /// An optional tag specified when a task is started. For example, if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a ListTasks call with the startedBy value. Up to 36 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. If a task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
         public let startedBy: String?
-        /// The metadata that you apply to the task to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// The metadata that you apply to the task to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
         /// The family and revision (family:revision) or full ARN of the task definition to run. If a revision is not specified, the latest ACTIVE revision is used.
         public let taskDefinition: String
@@ -3434,7 +3580,7 @@ extension ECS {
         public let createdBy: String?
         /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
         public let deploymentConfiguration: DeploymentConfiguration?
-        /// The deployment controller type the service is using.
+        /// The deployment controller type the service is using. When using the DescribeServices API, this field is omitted if the service is using the ECS deployment controller type.
         public let deploymentController: DeploymentController?
         /// The current state of deployments for the service.
         public let deployments: [Deployment]?
@@ -3448,7 +3594,7 @@ extension ECS {
         public let healthCheckGracePeriodSeconds: Int?
         /// The launch type on which your service is running. If no value is specified, it will default to EC2. Valid values include EC2 and FARGATE. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide.
         public let launchType: LaunchType?
-        /// A list of Elastic Load Balancing load balancer objects, containing the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers are not supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. Tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
+        /// A list of Elastic Load Balancing load balancer objects, containing the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer.
         public let loadBalancers: [LoadBalancer]?
         /// The VPC subnet and security group configuration for tasks that receive their own elastic network interface by using the awsvpc networking mode.
         public let networkConfiguration: NetworkConfiguration?
@@ -3476,7 +3622,7 @@ extension ECS {
         public let serviceRegistries: [ServiceRegistry]?
         /// The status of the service. The valid values are ACTIVE, DRAINING, or INACTIVE.
         public let status: String?
-        /// The metadata that you apply to the service to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// The metadata that you apply to the service to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
         /// The task definition to use for tasks in the service. This value is specified when the service is created with CreateService, and it can be modified with UpdateService.
         public let taskDefinition: String?
@@ -3617,11 +3763,11 @@ extension ECS {
             AWSShapeMember(label: "value", required: false, type: .string)
         ]
 
-        /// The account resource name.
+        /// The Amazon ECS resource name.
         public let name: SettingName?
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. If this field is omitted, the authenticated user is assumed.
         public let principalArn: String?
-        /// The current account setting for the resource name. If enabled, the resource receives the new Amazon Resource Name (ARN) and resource identifier (ID) format. If disabled, the resource receives the old Amazon Resource Name (ARN) and resource identifier (ID) format.
+        /// Whether the account setting is enabled or disabled for the specified resource.
         public let value: String?
 
         public init(name: SettingName? = nil, principalArn: String? = nil, value: String? = nil) {
@@ -3642,6 +3788,7 @@ extension ECS {
         case tasklongarnformat = "taskLongArnFormat"
         case containerinstancelongarnformat = "containerInstanceLongArnFormat"
         case awsvpctrunking = "awsvpcTrunking"
+        case containerinsights = "containerInsights"
         public var description: String { return self.rawValue }
     }
 
@@ -3687,7 +3834,7 @@ extension ECS {
         public let propagateTags: PropagateTags?
         /// An optional tag specified when a task is started. For example, if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a ListTasks call with the startedBy value. Up to 36 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. If a task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
         public let startedBy: String?
-        /// The metadata that you apply to the task to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// The metadata that you apply to the task to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
         /// The family and revision (family:revision) or full ARN of the task definition to start. If a revision is not specified, the latest ACTIVE revision is used.
         public let taskDefinition: String
@@ -3839,6 +3986,7 @@ extension ECS {
             AWSShapeMember(label: "exitCode", required: false, type: .integer), 
             AWSShapeMember(label: "networkBindings", required: false, type: .list), 
             AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "runtimeId", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string), 
             AWSShapeMember(label: "task", required: false, type: .string)
         ]
@@ -3853,17 +4001,20 @@ extension ECS {
         public let networkBindings: [NetworkBinding]?
         /// The reason for the state change request.
         public let reason: String?
+        /// The ID of the Docker container.
+        public let runtimeId: String?
         /// The status of the state change request.
         public let status: String?
         /// The task ID or full Amazon Resource Name (ARN) of the task that hosts the container.
         public let task: String?
 
-        public init(cluster: String? = nil, containerName: String? = nil, exitCode: Int? = nil, networkBindings: [NetworkBinding]? = nil, reason: String? = nil, status: String? = nil, task: String? = nil) {
+        public init(cluster: String? = nil, containerName: String? = nil, exitCode: Int? = nil, networkBindings: [NetworkBinding]? = nil, reason: String? = nil, runtimeId: String? = nil, status: String? = nil, task: String? = nil) {
             self.cluster = cluster
             self.containerName = containerName
             self.exitCode = exitCode
             self.networkBindings = networkBindings
             self.reason = reason
+            self.runtimeId = runtimeId
             self.status = status
             self.task = task
         }
@@ -3874,6 +4025,7 @@ extension ECS {
             case exitCode = "exitCode"
             case networkBindings = "networkBindings"
             case reason = "reason"
+            case runtimeId = "runtimeId"
             case status = "status"
             case task = "task"
         }
@@ -4031,7 +4183,7 @@ extension ECS {
 
         /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the supported resources are Amazon ECS tasks, services, task definitions, clusters, and container instances.
         public let resourceArn: String
-        /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -4080,6 +4232,7 @@ extension ECS {
             AWSShapeMember(label: "executionStoppedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "group", required: false, type: .string), 
             AWSShapeMember(label: "healthStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "inferenceAccelerators", required: false, type: .list), 
             AWSShapeMember(label: "lastStatus", required: false, type: .string), 
             AWSShapeMember(label: "launchType", required: false, type: .enum), 
             AWSShapeMember(label: "memory", required: false, type: .string), 
@@ -4123,6 +4276,8 @@ extension ECS {
         public let group: String?
         /// The health status for the task, which is determined by the health of the essential containers in the task. If all essential containers in the task are reporting as HEALTHY, then the task status also reports as HEALTHY. If any essential containers in the task are reporting as UNHEALTHY or UNKNOWN, then the task status also reports as UNHEALTHY or UNKNOWN, accordingly.  The Amazon ECS container agent does not monitor or report on Docker health checks that are embedded in a container image (such as those specified in a parent image or from the image's Dockerfile) and not specified in the container definition. Health check parameters that are specified in a container definition override any Docker health checks that exist in the container image. 
         public let healthStatus: HealthStatus?
+        /// The Elastic Inference accelerator associated with the task.
+        public let inferenceAccelerators: [InferenceAccelerator]?
         /// The last known status of the task. For more information, see Task Lifecycle.
         public let lastStatus: String?
         /// The launch type on which your task is running. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide.
@@ -4149,7 +4304,7 @@ extension ECS {
         public let stoppedReason: String?
         /// The Unix timestamp for when the task stops (transitions from the RUNNING state to STOPPED).
         public let stoppingAt: TimeStamp?
-        /// The metadata that you apply to the task to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// The metadata that you apply to the task to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
         public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of the task.
         public let taskArn: String?
@@ -4158,7 +4313,7 @@ extension ECS {
         /// The version counter for the task. Every time a task experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS task state with CloudWatch Events, you can compare the version of a task reported by the Amazon ECS API actionss with the version reported in CloudWatch Events for the task (inside the detail object) to verify that the version in your event stream is current.
         public let version: Int64?
 
-        public init(attachments: [Attachment]? = nil, clusterArn: String? = nil, connectivity: Connectivity? = nil, connectivityAt: TimeStamp? = nil, containerInstanceArn: String? = nil, containers: [Container]? = nil, cpu: String? = nil, createdAt: TimeStamp? = nil, desiredStatus: String? = nil, executionStoppedAt: TimeStamp? = nil, group: String? = nil, healthStatus: HealthStatus? = nil, lastStatus: String? = nil, launchType: LaunchType? = nil, memory: String? = nil, overrides: TaskOverride? = nil, platformVersion: String? = nil, pullStartedAt: TimeStamp? = nil, pullStoppedAt: TimeStamp? = nil, startedAt: TimeStamp? = nil, startedBy: String? = nil, stopCode: TaskStopCode? = nil, stoppedAt: TimeStamp? = nil, stoppedReason: String? = nil, stoppingAt: TimeStamp? = nil, tags: [Tag]? = nil, taskArn: String? = nil, taskDefinitionArn: String? = nil, version: Int64? = nil) {
+        public init(attachments: [Attachment]? = nil, clusterArn: String? = nil, connectivity: Connectivity? = nil, connectivityAt: TimeStamp? = nil, containerInstanceArn: String? = nil, containers: [Container]? = nil, cpu: String? = nil, createdAt: TimeStamp? = nil, desiredStatus: String? = nil, executionStoppedAt: TimeStamp? = nil, group: String? = nil, healthStatus: HealthStatus? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, lastStatus: String? = nil, launchType: LaunchType? = nil, memory: String? = nil, overrides: TaskOverride? = nil, platformVersion: String? = nil, pullStartedAt: TimeStamp? = nil, pullStoppedAt: TimeStamp? = nil, startedAt: TimeStamp? = nil, startedBy: String? = nil, stopCode: TaskStopCode? = nil, stoppedAt: TimeStamp? = nil, stoppedReason: String? = nil, stoppingAt: TimeStamp? = nil, tags: [Tag]? = nil, taskArn: String? = nil, taskDefinitionArn: String? = nil, version: Int64? = nil) {
             self.attachments = attachments
             self.clusterArn = clusterArn
             self.connectivity = connectivity
@@ -4171,6 +4326,7 @@ extension ECS {
             self.executionStoppedAt = executionStoppedAt
             self.group = group
             self.healthStatus = healthStatus
+            self.inferenceAccelerators = inferenceAccelerators
             self.lastStatus = lastStatus
             self.launchType = launchType
             self.memory = memory
@@ -4203,6 +4359,7 @@ extension ECS {
             case executionStoppedAt = "executionStoppedAt"
             case group = "group"
             case healthStatus = "healthStatus"
+            case inferenceAccelerators = "inferenceAccelerators"
             case lastStatus = "lastStatus"
             case launchType = "launchType"
             case memory = "memory"
@@ -4257,7 +4414,7 @@ extension ECS {
         public let family: String?
         /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see IPC settings in the Docker run reference. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. For more information, see Docker security. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see System Controls in the Amazon Elastic Container Service Developer Guide.   For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.   For tasks that use the task IPC mode, IPC namespace related systemControls will apply to all containers within a task.    This parameter is not supported for Windows containers or tasks using the Fargate launch type. 
         public let ipcMode: IpcMode?
-        /// The amount (in MiB) of memory used by the task. If using the EC2 launch type, this field is optional and any value can be used. If using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of valid values for the cpu parameter:   512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)  
+        /// The amount (in MiB) of memory used by the task. If using the EC2 launch type, this field is optional and any value can be used. If a task-level memory value is specified then the container-level memory value is optional. If using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of valid values for the cpu parameter:   512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)  
         public let memory: String?
         /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. The default Docker network mode is bridge. If you are using the Fargate launch type, the awsvpc network mode is required. If you are using the EC2 launch type, any network mode can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.  Currently, only Amazon ECS-optimized AMIs, other Amazon Linux variants with the ecs-init package, or AWS Fargate infrastructure support the awsvpc network mode.   If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. Docker for Windows uses different network modes than Docker for Linux. When you register a task definition with Windows containers, you must not specify a network mode. If you use the console to register a task definition with Windows containers, you must choose the &lt;default&gt; network mode object.  For more information, see Network settings in the Docker run reference.
         public let networkMode: NetworkMode?
@@ -4277,7 +4434,7 @@ extension ECS {
         public let status: TaskDefinitionStatus?
         /// The full Amazon Resource Name (ARN) of the task definition.
         public let taskDefinitionArn: String?
-        /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that grants containers in the task permission to call AWS APIs on your behalf. For more information, see Amazon ECS Task Role in the Amazon Elastic Container Service Developer Guide. IAM roles for tasks on Windows require that the -EnableTaskIAMRole option is set when you launch the Amazon ECS-optimized Windows AMI. Your containers must also run some configuration code in order to take advantage of the feature. For more information, see Windows IAM Roles for Tasks in the Amazon Elastic Container Service Developer Guide.
+        /// The short name or full Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants containers in the task permission to call AWS APIs on your behalf. For more information, see Amazon ECS Task Role in the Amazon Elastic Container Service Developer Guide. IAM roles for tasks on Windows require that the -EnableTaskIAMRole option is set when you launch the Amazon ECS-optimized Windows AMI. Your containers must also run some configuration code in order to take advantage of the feature. For more information, see Windows IAM Roles for Tasks in the Amazon Elastic Container Service Developer Guide.
         public let taskRoleArn: String?
         /// The list of volume definitions for the task. If your tasks are using the Fargate launch type, the host and sourcePath parameters are not supported. For more information about volume definition parameters and defaults, see Amazon ECS Task Definitions in the Amazon Elastic Container Service Developer Guide.
         public let volumes: [Volume]?
@@ -4345,7 +4502,7 @@ extension ECS {
 
         /// A cluster query language expression to apply to the constraint. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
-        /// The type of constraint. The DistinctInstance constraint ensures that each task in a particular group is running on a different container instance. The MemberOf constraint restricts selection to be from a group of valid candidates.
+        /// The type of constraint. The MemberOf constraint restricts selection to be from a group of valid candidates.
         public let `type`: TaskDefinitionPlacementConstraintType?
 
         public init(expression: String? = nil, type: TaskDefinitionPlacementConstraintType? = nil) {
@@ -4379,6 +4536,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "containerOverrides", required: false, type: .list), 
             AWSShapeMember(label: "executionRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "inferenceAcceleratorOverrides", required: false, type: .list), 
             AWSShapeMember(label: "taskRoleArn", required: false, type: .string)
         ]
 
@@ -4386,18 +4544,22 @@ extension ECS {
         public let containerOverrides: [ContainerOverride]?
         /// The Amazon Resource Name (ARN) of the task execution role that the Amazon ECS container agent and the Docker daemon can assume.
         public let executionRoleArn: String?
+        /// The Elastic Inference accelerator override for the task.
+        public let inferenceAcceleratorOverrides: [InferenceAcceleratorOverride]?
         /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role.
         public let taskRoleArn: String?
 
-        public init(containerOverrides: [ContainerOverride]? = nil, executionRoleArn: String? = nil, taskRoleArn: String? = nil) {
+        public init(containerOverrides: [ContainerOverride]? = nil, executionRoleArn: String? = nil, inferenceAcceleratorOverrides: [InferenceAcceleratorOverride]? = nil, taskRoleArn: String? = nil) {
             self.containerOverrides = containerOverrides
             self.executionRoleArn = executionRoleArn
+            self.inferenceAcceleratorOverrides = inferenceAcceleratorOverrides
             self.taskRoleArn = taskRoleArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case containerOverrides = "containerOverrides"
             case executionRoleArn = "executionRoleArn"
+            case inferenceAcceleratorOverrides = "inferenceAcceleratorOverrides"
             case taskRoleArn = "taskRoleArn"
         }
     }
@@ -4455,7 +4617,7 @@ extension ECS {
         public let serviceArn: String?
         /// The details of the service discovery registries to assign to this task set. For more information, see Service Discovery.
         public let serviceRegistries: [ServiceRegistry]?
-        /// The stability status, which indicates whether the task set has reached a steady state. If the following conditions are met, the task set will be in STEADY_STATE:   The task runningCount is equal to the computedDesiredCount.   The pendingCount is 0.   There are no tasks running on container instances in the DRAINING status.   All tasks are reporting a healthy status from the load balancers, service discovery, and container health checks.  If a healthCheckGracePeriodSeconds value was set when the service was created, you may see a STEADY_STATE reached since unhealthy Elastic Load Balancing target health checks will be ignored until it expires.    If any of those conditions are not met, the stability status returns STABILIZING.
+        /// The stability status, which indicates whether the task set has reached a steady state. If the following conditions are met, the task set will be in STEADY_STATE:   The task runningCount is equal to the computedDesiredCount.   The pendingCount is 0.   There are no tasks running on container instances in the DRAINING status.   All tasks are reporting a healthy status from the load balancers, service discovery, and container health checks.   If any of those conditions are not met, the stability status returns STABILIZING.
         public let stabilityStatus: StabilityStatus?
         /// The Unix timestamp for when the task set stability status was retrieved.
         public let stabilityStatusAt: TimeStamp?
@@ -4643,6 +4805,44 @@ extension ECS {
 
     }
 
+    public struct UpdateClusterSettingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cluster", required: true, type: .string), 
+            AWSShapeMember(label: "settings", required: true, type: .list)
+        ]
+
+        /// The name of the cluster to modify the settings for.
+        public let cluster: String
+        /// The setting to use by default for a cluster. This parameter is used to enable CloudWatch Container Insights for a cluster. If this value is specified, it will override the containerInsights value set with PutAccountSetting or PutAccountSettingDefault.
+        public let settings: [ClusterSetting]
+
+        public init(cluster: String, settings: [ClusterSetting]) {
+            self.cluster = cluster
+            self.settings = settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+            case settings = "settings"
+        }
+    }
+
+    public struct UpdateClusterSettingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cluster", required: false, type: .structure)
+        ]
+
+        public let cluster: Cluster?
+
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "cluster"
+        }
+    }
+
     public struct UpdateContainerAgentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cluster", required: false, type: .string), 
@@ -4795,7 +4995,7 @@ extension ECS {
         public let desiredCount: Int?
         /// Whether to force a new deployment of the service. Deployments are not forced by default. You can use this option to trigger a new deployment with no service definition changes. For example, you can update a service's tasks to use a newer Docker image with the same image/tag combination (my_image:latest) or to roll Fargate tasks onto a newer platform version.
         public let forceNewDeployment: Bool?
-        /// The period of time, in seconds, that the Amazon ECS service scheduler should ignore unhealthy Elastic Load Balancing target health checks after a task has first started. This is only valid if your service is configured to use a load balancer. If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you can specify a health check grace period of up to 1,800 seconds. During that time, the ECS service scheduler ignores the Elastic Load Balancing health check status. This grace period can prevent the ECS service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
+        /// The period of time, in seconds, that the Amazon ECS service scheduler should ignore unhealthy Elastic Load Balancing target health checks after a task has first started. This is only valid if your service is configured to use a load balancer. If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you can specify a health check grace period of up to 2,147,483,647 seconds. During that time, the ECS service scheduler ignores the Elastic Load Balancing health check status. This grace period can prevent the ECS service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
         public let healthCheckGracePeriodSeconds: Int?
         /// The network configuration for the service. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it is not supported for other network modes. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.  Updating a service to add a subnet to a list of existing subnets does not trigger a service deployment. For example, if your network configuration change is to keep the existing subnets and simply add another subnet to the network configuration, this does not trigger a new service deployment. 
         public let networkConfiguration: NetworkConfiguration?

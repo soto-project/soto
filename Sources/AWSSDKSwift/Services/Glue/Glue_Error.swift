@@ -17,6 +17,7 @@ public enum GlueErrorType: AWSErrorType {
     case idempotentParameterMismatchException(message: String?)
     case internalServiceException(message: String?)
     case invalidInputException(message: String?)
+    case mLTransformNotReadyException(message: String?)
     case noScheduleException(message: String?)
     case operationTimeoutException(message: String?)
     case resourceNumberLimitExceededException(message: String?)
@@ -60,6 +61,8 @@ extension GlueErrorType {
             self = .internalServiceException(message: message)
         case "InvalidInputException":
             self = .invalidInputException(message: message)
+        case "MLTransformNotReadyException":
+            self = .mLTransformNotReadyException(message: message)
         case "NoScheduleException":
             self = .noScheduleException(message: message)
         case "OperationTimeoutException":
@@ -111,6 +114,8 @@ extension GlueErrorType : CustomStringConvertible {
             return "InternalServiceException: \(message ?? "")"
         case .invalidInputException(let message):
             return "InvalidInputException: \(message ?? "")"
+        case .mLTransformNotReadyException(let message):
+            return "MLTransformNotReadyException: \(message ?? "")"
         case .noScheduleException(let message):
             return "NoScheduleException: \(message ?? "")"
         case .operationTimeoutException(let message):

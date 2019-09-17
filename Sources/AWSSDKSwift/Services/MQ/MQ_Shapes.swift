@@ -306,6 +306,7 @@ extension MQ {
             AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
             AWSShapeMember(label: "CreatorRequestId", location: .body(locationName: "creatorRequestId"), required: false, type: .string), 
             AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "EncryptionOptions", location: .body(locationName: "encryptionOptions"), required: false, type: .structure), 
             AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
             AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
@@ -323,6 +324,7 @@ extension MQ {
         public let configuration: ConfigurationId?
         public let creatorRequestId: String?
         public let deploymentMode: DeploymentMode?
+        public let encryptionOptions: EncryptionOptions?
         public let engineType: EngineType?
         public let engineVersion: String?
         public let hostInstanceType: String?
@@ -334,12 +336,13 @@ extension MQ {
         public let tags: [String: String]?
         public let users: [User]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerName = brokerName
             self.configuration = configuration
             self.creatorRequestId = creatorRequestId
             self.deploymentMode = deploymentMode
+            self.encryptionOptions = encryptionOptions
             self.engineType = engineType
             self.engineVersion = engineVersion
             self.hostInstanceType = hostInstanceType
@@ -358,6 +361,7 @@ extension MQ {
             case configuration = "configuration"
             case creatorRequestId = "creatorRequestId"
             case deploymentMode = "deploymentMode"
+            case encryptionOptions = "encryptionOptions"
             case engineType = "engineType"
             case engineVersion = "engineVersion"
             case hostInstanceType = "hostInstanceType"
@@ -745,12 +749,14 @@ extension MQ {
             AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .structure), 
             AWSShapeMember(label: "Created", location: .body(locationName: "created"), required: false, type: .timestamp), 
             AWSShapeMember(label: "DeploymentMode", location: .body(locationName: "deploymentMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "EncryptionOptions", location: .body(locationName: "encryptionOptions"), required: false, type: .structure), 
             AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
             AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
             AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
             AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
             AWSShapeMember(label: "PendingEngineVersion", location: .body(locationName: "pendingEngineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "PendingSecurityGroups", location: .body(locationName: "pendingSecurityGroups"), required: false, type: .list), 
             AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
             AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
@@ -767,19 +773,21 @@ extension MQ {
         public let configurations: Configurations?
         public let created: TimeStamp?
         public let deploymentMode: DeploymentMode?
+        public let encryptionOptions: EncryptionOptions?
         public let engineType: EngineType?
         public let engineVersion: String?
         public let hostInstanceType: String?
         public let logs: LogsSummary?
         public let maintenanceWindowStartTime: WeeklyStartTime?
         public let pendingEngineVersion: String?
+        public let pendingSecurityGroups: [String]?
         public let publiclyAccessible: Bool?
         public let securityGroups: [String]?
         public let subnetIds: [String]?
         public let tags: [String: String]?
         public let users: [UserSummary]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerArn = brokerArn
             self.brokerId = brokerId
@@ -789,12 +797,14 @@ extension MQ {
             self.configurations = configurations
             self.created = created
             self.deploymentMode = deploymentMode
+            self.encryptionOptions = encryptionOptions
             self.engineType = engineType
             self.engineVersion = engineVersion
             self.hostInstanceType = hostInstanceType
             self.logs = logs
             self.maintenanceWindowStartTime = maintenanceWindowStartTime
             self.pendingEngineVersion = pendingEngineVersion
+            self.pendingSecurityGroups = pendingSecurityGroups
             self.publiclyAccessible = publiclyAccessible
             self.securityGroups = securityGroups
             self.subnetIds = subnetIds
@@ -812,12 +822,14 @@ extension MQ {
             case configurations = "configurations"
             case created = "created"
             case deploymentMode = "deploymentMode"
+            case encryptionOptions = "encryptionOptions"
             case engineType = "engineType"
             case engineVersion = "engineVersion"
             case hostInstanceType = "hostInstanceType"
             case logs = "logs"
             case maintenanceWindowStartTime = "maintenanceWindowStartTime"
             case pendingEngineVersion = "pendingEngineVersion"
+            case pendingSecurityGroups = "pendingSecurityGroups"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroups = "securityGroups"
             case subnetIds = "subnetIds"
@@ -987,6 +999,28 @@ extension MQ {
             case groups = "groups"
             case pending = "pending"
             case username = "username"
+        }
+    }
+
+    public struct EncryptionOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", location: .body(locationName: "kmsKeyId"), required: false, type: .string), 
+            AWSShapeMember(label: "UseAwsOwnedKey", location: .body(locationName: "useAwsOwnedKey"), required: true, type: .boolean)
+        ]
+
+        /// The customer master key (CMK) to use for the AWS Key Management Service (KMS). This key is used to encrypt your data at rest. If not provided, Amazon MQ will use a default CMK to encrypt your data.
+        public let kmsKeyId: String?
+        /// Enables the use of an AWS owned CMK using AWS Key Management Service (KMS).
+        public let useAwsOwnedKey: Bool
+
+        public init(kmsKeyId: String? = nil, useAwsOwnedKey: Bool) {
+            self.kmsKeyId = kmsKeyId
+            self.useAwsOwnedKey = useAwsOwnedKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "kmsKeyId"
+            case useAwsOwnedKey = "useAwsOwnedKey"
         }
     }
 
@@ -1397,7 +1431,8 @@ extension MQ {
             AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
             AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure)
+            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list)
         ]
 
         public let autoMinorVersionUpgrade: Bool?
@@ -1405,13 +1440,15 @@ extension MQ {
         public let configuration: ConfigurationId?
         public let engineVersion: String?
         public let logs: Logs?
+        public let securityGroups: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil, securityGroups: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
             self.configuration = configuration
             self.engineVersion = engineVersion
             self.logs = logs
+            self.securityGroups = securityGroups
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1420,6 +1457,7 @@ extension MQ {
             case configuration = "configuration"
             case engineVersion = "engineVersion"
             case logs = "logs"
+            case securityGroups = "securityGroups"
         }
     }
 
@@ -1429,7 +1467,8 @@ extension MQ {
             AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
             AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure)
+            AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list)
         ]
 
         public let autoMinorVersionUpgrade: Bool?
@@ -1437,13 +1476,15 @@ extension MQ {
         public let configuration: ConfigurationId?
         public let engineVersion: String?
         public let logs: Logs?
+        public let securityGroups: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil, securityGroups: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
             self.configuration = configuration
             self.engineVersion = engineVersion
             self.logs = logs
+            self.securityGroups = securityGroups
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1452,6 +1493,7 @@ extension MQ {
             case configuration = "configuration"
             case engineVersion = "engineVersion"
             case logs = "logs"
+            case securityGroups = "securityGroups"
         }
     }
 

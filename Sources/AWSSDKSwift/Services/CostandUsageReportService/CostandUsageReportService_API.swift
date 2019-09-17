@@ -37,6 +37,11 @@ public struct CostandUsageReportService {
         return client.send(operation: "DescribeReportDefinitions", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Allows you to programatically update your report preferences.
+    public func modifyReportDefinition(_ input: ModifyReportDefinitionRequest) -> Future<ModifyReportDefinitionResponse> {
+        return client.send(operation: "ModifyReportDefinition", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new report using the description that you provide.
     public func putReportDefinition(_ input: PutReportDefinitionRequest) -> Future<PutReportDefinitionResponse> {
         return client.send(operation: "PutReportDefinition", path: "/", httpMethod: "POST", input: input)

@@ -59,6 +59,11 @@ public struct CostExplorer {
         return client.send(operation: "GetReservationUtilization", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates recommendations that helps you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate instances, along with providing savings detail and metrics. For details on calculation and function, see Optimizing Your Cost with Rightsizing Recommendations.
+    public func getRightsizingRecommendation(_ input: GetRightsizingRecommendationRequest) -> Future<GetRightsizingRecommendationResponse> {
+        return client.send(operation: "GetRightsizingRecommendation", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Queries for available tag keys and tag values for a specified period. You can search the tag values for an arbitrary string. 
     public func getTags(_ input: GetTagsRequest) -> Future<GetTagsResponse> {
         return client.send(operation: "GetTags", path: "/", httpMethod: "POST", input: input)

@@ -331,7 +331,7 @@ extension Batch {
         public let securityGroupIds: [String]?
         /// The Amazon Resource Name (ARN) of the Amazon EC2 Spot Fleet IAM role applied to a SPOT compute environment. For more information, see Amazon EC2 Spot Fleet Role in the AWS Batch User Guide.
         public let spotIamFleetRole: String?
-        /// The VPC subnets into which the compute resources are launched. 
+        /// The VPC subnets into which the compute resources are launched. For more information, see VPCs and Subnets in the Amazon VPC User Guide.
         public let subnets: [String]
         /// Key-value pair tags to be applied to resources that are launched in the compute environment. For AWS Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value—for example, { "Name": "AWS Batch Instance - C4OnDemand" }.
         public let tags: [String: String]?
@@ -411,6 +411,7 @@ extension Batch {
             AWSShapeMember(label: "image", required: false, type: .string), 
             AWSShapeMember(label: "instanceType", required: false, type: .string), 
             AWSShapeMember(label: "jobRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "linuxParameters", required: false, type: .structure), 
             AWSShapeMember(label: "logStreamName", required: false, type: .string), 
             AWSShapeMember(label: "memory", required: false, type: .integer), 
             AWSShapeMember(label: "mountPoints", required: false, type: .list), 
@@ -440,6 +441,8 @@ extension Batch {
         public let instanceType: String?
         /// The Amazon Resource Name (ARN) associated with the job upon execution. 
         public let jobRoleArn: String?
+        /// Linux-specific modifications that are applied to the container, such as details for device mappings.
+        public let linuxParameters: LinuxParameters?
         /// The name of the CloudWatch Logs log stream associated with the container. The log group for AWS Batch jobs is /aws/batch/job. Each container attempt receives a log stream name when they reach the RUNNING status.
         public let logStreamName: String?
         /// The number of MiB of memory reserved for the job.
@@ -467,7 +470,7 @@ extension Batch {
         /// A list of volumes associated with the job.
         public let volumes: [Volume]?
 
-        public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, exitCode: Int? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, logStreamName: String? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, resourceRequirements: [ResourceRequirement]? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, exitCode: Int? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logStreamName: String? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, resourceRequirements: [ResourceRequirement]? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.containerInstanceArn = containerInstanceArn
             self.environment = environment
@@ -475,6 +478,7 @@ extension Batch {
             self.image = image
             self.instanceType = instanceType
             self.jobRoleArn = jobRoleArn
+            self.linuxParameters = linuxParameters
             self.logStreamName = logStreamName
             self.memory = memory
             self.mountPoints = mountPoints
@@ -498,6 +502,7 @@ extension Batch {
             case image = "image"
             case instanceType = "instanceType"
             case jobRoleArn = "jobRoleArn"
+            case linuxParameters = "linuxParameters"
             case logStreamName = "logStreamName"
             case memory = "memory"
             case mountPoints = "mountPoints"
@@ -563,6 +568,7 @@ extension Batch {
             AWSShapeMember(label: "image", required: false, type: .string), 
             AWSShapeMember(label: "instanceType", required: false, type: .string), 
             AWSShapeMember(label: "jobRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "linuxParameters", required: false, type: .structure), 
             AWSShapeMember(label: "memory", required: false, type: .integer), 
             AWSShapeMember(label: "mountPoints", required: false, type: .list), 
             AWSShapeMember(label: "privileged", required: false, type: .boolean), 
@@ -584,6 +590,8 @@ extension Batch {
         public let instanceType: String?
         /// The Amazon Resource Name (ARN) of the IAM role that the container can assume for AWS permissions.
         public let jobRoleArn: String?
+        /// Linux-specific modifications that are applied to the container, such as details for device mappings.
+        public let linuxParameters: LinuxParameters?
         /// The hard limit (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. You must specify at least 4 MiB of memory for a job.  If you are trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory Management in the AWS Batch User Guide. 
         public let memory: Int?
         /// The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run.
@@ -603,12 +611,13 @@ extension Batch {
         /// A list of data volumes used in a job.
         public let volumes: [Volume]?
 
-        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.environment = environment
             self.image = image
             self.instanceType = instanceType
             self.jobRoleArn = jobRoleArn
+            self.linuxParameters = linuxParameters
             self.memory = memory
             self.mountPoints = mountPoints
             self.privileged = privileged
@@ -626,6 +635,7 @@ extension Batch {
             case image = "image"
             case instanceType = "instanceType"
             case jobRoleArn = "jobRoleArn"
+            case linuxParameters = "linuxParameters"
             case memory = "memory"
             case mountPoints = "mountPoints"
             case privileged = "privileged"
@@ -1039,6 +1049,40 @@ extension Batch {
         }
     }
 
+    public struct Device: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "containerPath", required: false, type: .string), 
+            AWSShapeMember(label: "hostPath", required: true, type: .string), 
+            AWSShapeMember(label: "permissions", required: false, type: .list)
+        ]
+
+        /// The path inside the container at which to expose the host device. By default the hostPath value is used.
+        public let containerPath: String?
+        /// The path for the device on the host container instance.
+        public let hostPath: String
+        /// The explicit permissions to provide to the container for the device. By default, the container has permissions for read, write, and mknod for the device.
+        public let permissions: [DeviceCgroupPermission]?
+
+        public init(containerPath: String? = nil, hostPath: String, permissions: [DeviceCgroupPermission]? = nil) {
+            self.containerPath = containerPath
+            self.hostPath = hostPath
+            self.permissions = permissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerPath = "containerPath"
+            case hostPath = "hostPath"
+            case permissions = "permissions"
+        }
+    }
+
+    public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable {
+        case read = "READ"
+        case write = "WRITE"
+        case mknod = "MKNOD"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Host: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "sourcePath", required: false, type: .string)
@@ -1447,6 +1491,23 @@ extension Batch {
             case launchTemplateId = "launchTemplateId"
             case launchTemplateName = "launchTemplateName"
             case version = "version"
+        }
+    }
+
+    public struct LinuxParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "devices", required: false, type: .list)
+        ]
+
+        /// Any host devices to expose to the container. This parameter maps to Devices in the Create a container section of the Docker Remote API and the --device option to docker run.
+        public let devices: [Device]?
+
+        public init(devices: [Device]? = nil) {
+            self.devices = devices
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case devices = "devices"
         }
     }
 

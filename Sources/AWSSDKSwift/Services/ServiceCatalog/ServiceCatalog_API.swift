@@ -218,6 +218,10 @@ public struct ServiceCatalog {
         return client.send(operation: "DescribeServiceAction", path: "/", httpMethod: "POST", input: input)
     }
 
+    public func describeServiceActionExecutionParameters(_ input: DescribeServiceActionExecutionParametersInput) -> Future<DescribeServiceActionExecutionParametersOutput> {
+        return client.send(operation: "DescribeServiceActionExecutionParameters", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets information about the specified TagOption.
     public func describeTagOption(_ input: DescribeTagOptionInput) -> Future<DescribeTagOptionOutput> {
         return client.send(operation: "DescribeTagOption", path: "/", httpMethod: "POST", input: input)

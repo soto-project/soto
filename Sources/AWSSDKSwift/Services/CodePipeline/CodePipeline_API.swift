@@ -42,7 +42,7 @@ public struct CodePipeline {
         return client.send(operation: "CreateCustomActionType", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a pipeline.
+    ///  Creates a pipeline.  In the pipeline structure, you must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores. 
     public func createPipeline(_ input: CreatePipelineInput) -> Future<CreatePipelineOutput> {
         return client.send(operation: "CreatePipeline", path: "/", httpMethod: "POST", input: input)
     }

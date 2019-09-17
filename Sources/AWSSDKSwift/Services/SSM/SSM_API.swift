@@ -112,7 +112,7 @@ public struct SSM {
         return client.send(operation: "DeleteParameter", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Delete a list of parameters. This API is used to delete parameters by using the Amazon EC2 console.
+    ///  Delete a list of parameters.
     public func deleteParameters(_ input: DeleteParametersRequest) -> Future<DeleteParametersResult> {
         return client.send(operation: "DeleteParameters", path: "/", httpMethod: "POST", input: input)
     }
@@ -147,7 +147,7 @@ public struct SSM {
         return client.send(operation: "DeregisterTaskFromMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Details about the activation, including: the date and time the activation was created, the expiration date, the IAM role assigned to the instances in the activation, and the number of instances activated by this registration.
+    ///  Describes details about the activation, such as the date and time the activation was created, its expiration date, the IAM role assigned to the instances in the activation, and the number of instances registered by using this activation.
     public func describeActivations(_ input: DescribeActivationsRequest) -> Future<DescribeActivationsResult> {
         return client.send(operation: "DescribeActivations", path: "/", httpMethod: "POST", input: input)
     }
@@ -177,7 +177,7 @@ public struct SSM {
         return client.send(operation: "DescribeAutomationStepExecutions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists all patches that could possibly be included in a patch baseline.
+    ///  Lists all patches eligible to be included in a patch baseline.
     public func describeAvailablePatches(_ input: DescribeAvailablePatchesRequest) -> Future<DescribeAvailablePatchesResult> {
         return client.send(operation: "DescribeAvailablePatches", path: "/", httpMethod: "POST", input: input)
     }
@@ -352,7 +352,7 @@ public struct SSM {
         return client.send(operation: "GetMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves details about a specific task run as part of a maintenance window execution.
+    ///  Retrieves details about a specific a maintenance window execution.
     public func getMaintenanceWindowExecution(_ input: GetMaintenanceWindowExecutionRequest) -> Future<GetMaintenanceWindowExecutionResult> {
         return client.send(operation: "GetMaintenanceWindowExecution", path: "/", httpMethod: "POST", input: input)
     }
@@ -362,7 +362,7 @@ public struct SSM {
         return client.send(operation: "GetMaintenanceWindowExecutionTask", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves a task invocation. A task invocation is a specific task running on a specific target. maintenance windows report status for all invocations. 
+    ///  Retrieves information about a specific task running on a specific target.
     public func getMaintenanceWindowExecutionTaskInvocation(_ input: GetMaintenanceWindowExecutionTaskInvocationRequest) -> Future<GetMaintenanceWindowExecutionTaskInvocationResult> {
         return client.send(operation: "GetMaintenanceWindowExecutionTaskInvocation", path: "/", httpMethod: "POST", input: input)
     }
@@ -502,7 +502,7 @@ public struct SSM {
         return client.send(operation: "PutParameter", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Defines the default patch baseline.
+    ///  Defines the default patch baseline for the relevant operating system. To reset the AWS predefined patch baseline as the default, specify the full patch baseline ARN as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed.
     public func registerDefaultPatchBaseline(_ input: RegisterDefaultPatchBaselineRequest) -> Future<RegisterDefaultPatchBaselineResult> {
         return client.send(operation: "RegisterDefaultPatchBaseline", path: "/", httpMethod: "POST", input: input)
     }
@@ -522,7 +522,7 @@ public struct SSM {
         return client.send(operation: "RegisterTaskWithMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes all tags from the specified resource.
+    ///  Removes tag keys from the specified resource.
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceRequest) -> Future<RemoveTagsFromResourceResult> {
         return client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -582,7 +582,7 @@ public struct SSM {
         return client.send(operation: "UpdateAssociationStatus", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The document you want to update.
+    ///  Updates one or more values for an SSM document.
     public func updateDocument(_ input: UpdateDocumentRequest) -> Future<UpdateDocumentResult> {
         return client.send(operation: "UpdateDocument", path: "/", httpMethod: "POST", input: input)
     }
@@ -597,7 +597,7 @@ public struct SSM {
         return client.send(operation: "UpdateMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the target of an existing maintenance window. You can't change the target type, but you can change the following: The target from being an ID target to a Tag target, or a Tag target to an ID target. IDs for an ID target. Tags for a Tag target. Owner. Name. Description. If a parameter is null, then the corresponding field is not modified.
+    ///  Modifies the target of an existing maintenance window. You can change the following:   Name   Description   Owner   IDs for an ID target   Tags for a Tag target   From any supported tag type to another. The three supported tag types are ID target, Tag target, and resource group. For more information, see Target.    If a parameter is null, then the corresponding field is not modified. 
     public func updateMaintenanceWindowTarget(_ input: UpdateMaintenanceWindowTargetRequest) -> Future<UpdateMaintenanceWindowTargetResult> {
         return client.send(operation: "UpdateMaintenanceWindowTarget", path: "/", httpMethod: "POST", input: input)
     }
@@ -607,7 +607,7 @@ public struct SSM {
         return client.send(operation: "UpdateMaintenanceWindowTask", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Assigns or changes an Amazon Identity and Access Management (IAM) role to the managed instance.
+    ///  Assigns or changes an Amazon Identity and Access Management (IAM) role for the managed instance.
     public func updateManagedInstanceRole(_ input: UpdateManagedInstanceRoleRequest) -> Future<UpdateManagedInstanceRoleResult> {
         return client.send(operation: "UpdateManagedInstanceRole", path: "/", httpMethod: "POST", input: input)
     }

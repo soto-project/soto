@@ -152,6 +152,63 @@ extension CostExplorer {
         }
     }
 
+    public struct CurrentInstance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "MonthlyCost", required: false, type: .string), 
+            AWSShapeMember(label: "OnDemandHoursInLookbackPeriod", required: false, type: .string), 
+            AWSShapeMember(label: "ReservationCoveredHoursInLookbackPeriod", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceUtilization", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TotalRunningHoursInLookbackPeriod", required: false, type: .string)
+        ]
+
+        ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
+        public let currencyCode: String?
+        ///  Current On Demand cost of operating this instance on a monthly basis.
+        public let monthlyCost: String?
+        ///  Number of hours during the lookback period billed at On Demand rates.
+        public let onDemandHoursInLookbackPeriod: String?
+        ///  Number of hours during the lookback period covered by reservations.
+        public let reservationCoveredHoursInLookbackPeriod: String?
+        ///  Details about the resource and utilization.
+        public let resourceDetails: ResourceDetails?
+        /// Resource ID of the current instance.
+        public let resourceId: String?
+        ///  Utilization information of the current instance during the lookback period.
+        public let resourceUtilization: ResourceUtilization?
+        /// Cost allocation resource tags applied to the instance.
+        public let tags: [TagValues]?
+        ///  The total number of hours the instance ran during the lookback period.
+        public let totalRunningHoursInLookbackPeriod: String?
+
+        public init(currencyCode: String? = nil, monthlyCost: String? = nil, onDemandHoursInLookbackPeriod: String? = nil, reservationCoveredHoursInLookbackPeriod: String? = nil, resourceDetails: ResourceDetails? = nil, resourceId: String? = nil, resourceUtilization: ResourceUtilization? = nil, tags: [TagValues]? = nil, totalRunningHoursInLookbackPeriod: String? = nil) {
+            self.currencyCode = currencyCode
+            self.monthlyCost = monthlyCost
+            self.onDemandHoursInLookbackPeriod = onDemandHoursInLookbackPeriod
+            self.reservationCoveredHoursInLookbackPeriod = reservationCoveredHoursInLookbackPeriod
+            self.resourceDetails = resourceDetails
+            self.resourceId = resourceId
+            self.resourceUtilization = resourceUtilization
+            self.tags = tags
+            self.totalRunningHoursInLookbackPeriod = totalRunningHoursInLookbackPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyCode = "CurrencyCode"
+            case monthlyCost = "MonthlyCost"
+            case onDemandHoursInLookbackPeriod = "OnDemandHoursInLookbackPeriod"
+            case reservationCoveredHoursInLookbackPeriod = "ReservationCoveredHoursInLookbackPeriod"
+            case resourceDetails = "ResourceDetails"
+            case resourceId = "ResourceId"
+            case resourceUtilization = "ResourceUtilization"
+            case tags = "Tags"
+            case totalRunningHoursInLookbackPeriod = "TotalRunningHoursInLookbackPeriod"
+        }
+    }
+
     public struct DateInterval: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "End", required: true, type: .string), 
@@ -202,6 +259,7 @@ extension CostExplorer {
         case instanceTypeFamily = "INSTANCE_TYPE_FAMILY"
         case billingEntity = "BILLING_ENTITY"
         case reservationId = "RESERVATION_ID"
+        case rightsizingType = "RIGHTSIZING_TYPE"
         public var description: String { return self.rawValue }
     }
 
@@ -298,6 +356,90 @@ extension CostExplorer {
             case region = "Region"
             case sizeFlexEligible = "SizeFlexEligible"
             case tenancy = "Tenancy"
+        }
+    }
+
+    public struct EC2ResourceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HourlyOnDemandRate", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "Memory", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkPerformance", required: false, type: .string), 
+            AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "Sku", required: false, type: .string), 
+            AWSShapeMember(label: "Storage", required: false, type: .string), 
+            AWSShapeMember(label: "Vcpu", required: false, type: .string)
+        ]
+
+        ///  Hourly public On Demand rate for the instance type.
+        public let hourlyOnDemandRate: String?
+        ///  The type of Amazon Web Services instance.
+        public let instanceType: String?
+        ///  Memory capacity of Amazon Web Services instance.
+        public let memory: String?
+        ///  Network performance capacity of the Amazon Web Services instance.
+        public let networkPerformance: String?
+        ///  The platform of the Amazon Web Services instance. The platform is the specific combination of operating system, license model, and software on an instance.
+        public let platform: String?
+        ///  The Amazon Web Services Region of the instance.
+        public let region: String?
+        ///  The SKU of the product.
+        public let sku: String?
+        ///  The disk storage of the Amazon Web Services instance (Not EBS storage).
+        public let storage: String?
+        ///  Number of VCPU cores in the Amazon Web Services instance type.
+        public let vcpu: String?
+
+        public init(hourlyOnDemandRate: String? = nil, instanceType: String? = nil, memory: String? = nil, networkPerformance: String? = nil, platform: String? = nil, region: String? = nil, sku: String? = nil, storage: String? = nil, vcpu: String? = nil) {
+            self.hourlyOnDemandRate = hourlyOnDemandRate
+            self.instanceType = instanceType
+            self.memory = memory
+            self.networkPerformance = networkPerformance
+            self.platform = platform
+            self.region = region
+            self.sku = sku
+            self.storage = storage
+            self.vcpu = vcpu
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hourlyOnDemandRate = "HourlyOnDemandRate"
+            case instanceType = "InstanceType"
+            case memory = "Memory"
+            case networkPerformance = "NetworkPerformance"
+            case platform = "Platform"
+            case region = "Region"
+            case sku = "Sku"
+            case storage = "Storage"
+            case vcpu = "Vcpu"
+        }
+    }
+
+    public struct EC2ResourceUtilization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxCpuUtilizationPercentage", required: false, type: .string), 
+            AWSShapeMember(label: "MaxMemoryUtilizationPercentage", required: false, type: .string), 
+            AWSShapeMember(label: "MaxStorageUtilizationPercentage", required: false, type: .string)
+        ]
+
+        ///  Maximum observed or expected CPU utilization of the instance.
+        public let maxCpuUtilizationPercentage: String?
+        ///  Maximum observed or expected memory utilization of the instance.
+        public let maxMemoryUtilizationPercentage: String?
+        ///  Maximum observed or expected storage utilization of the instance (does not measure EBS storage).
+        public let maxStorageUtilizationPercentage: String?
+
+        public init(maxCpuUtilizationPercentage: String? = nil, maxMemoryUtilizationPercentage: String? = nil, maxStorageUtilizationPercentage: String? = nil) {
+            self.maxCpuUtilizationPercentage = maxCpuUtilizationPercentage
+            self.maxMemoryUtilizationPercentage = maxMemoryUtilizationPercentage
+            self.maxStorageUtilizationPercentage = maxStorageUtilizationPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCpuUtilizationPercentage = "MaxCpuUtilizationPercentage"
+            case maxMemoryUtilizationPercentage = "MaxMemoryUtilizationPercentage"
+            case maxStorageUtilizationPercentage = "MaxStorageUtilizationPercentage"
         }
     }
 
@@ -906,6 +1048,73 @@ extension CostExplorer {
         }
     }
 
+    public struct GetRightsizingRecommendationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Service", required: true, type: .string)
+        ]
+
+        public let filter: Expression?
+        /// The pagination token that indicates the next set of results that you want to retrieve.
+        public let nextPageToken: String?
+        /// The number of recommendations that you want returned in a single response object.
+        public let pageSize: Int?
+        /// The specific service that you want recommendations for.
+        public let service: String
+
+        public init(filter: Expression? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, service: String) {
+            self.filter = filter
+            self.nextPageToken = nextPageToken
+            self.pageSize = pageSize
+            self.service = service
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.pageSize, name:"pageSize", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case nextPageToken = "NextPageToken"
+            case pageSize = "PageSize"
+            case service = "Service"
+        }
+    }
+
+    public struct GetRightsizingRecommendationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "RightsizingRecommendations", required: false, type: .list), 
+            AWSShapeMember(label: "Summary", required: false, type: .structure)
+        ]
+
+        /// Information regarding this specific recommendation set.
+        public let metadata: RightsizingRecommendationMetadata?
+        /// The token to retrieve the next set of results.
+        public let nextPageToken: String?
+        /// Recommendations to rightsize resources.
+        public let rightsizingRecommendations: [RightsizingRecommendation]?
+        /// Summary of this recommendation set.
+        public let summary: RightsizingRecommendationSummary?
+
+        public init(metadata: RightsizingRecommendationMetadata? = nil, nextPageToken: String? = nil, rightsizingRecommendations: [RightsizingRecommendation]? = nil, summary: RightsizingRecommendationSummary? = nil) {
+            self.metadata = metadata
+            self.nextPageToken = nextPageToken
+            self.rightsizingRecommendations = rightsizingRecommendations
+            self.summary = summary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case nextPageToken = "NextPageToken"
+            case rightsizingRecommendations = "RightsizingRecommendations"
+            case summary = "Summary"
+        }
+    }
+
     public struct GetTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
@@ -1170,6 +1379,23 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case amount = "Amount"
             case unit = "Unit"
+        }
+    }
+
+    public struct ModifyRecommendationDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetInstances", required: false, type: .list)
+        ]
+
+        ///  Identifies whether this instance type is the Amazon Web Services default recommendation.
+        public let targetInstances: [TargetInstance]?
+
+        public init(targetInstances: [TargetInstance]? = nil) {
+            self.targetInstances = targetInstances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetInstances = "TargetInstances"
         }
     }
 
@@ -1622,6 +1848,40 @@ extension CostExplorer {
         }
     }
 
+    public struct ResourceDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2ResourceDetails", required: false, type: .structure)
+        ]
+
+        /// Details on the Amazon EC2 resource.
+        public let eC2ResourceDetails: EC2ResourceDetails?
+
+        public init(eC2ResourceDetails: EC2ResourceDetails? = nil) {
+            self.eC2ResourceDetails = eC2ResourceDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eC2ResourceDetails = "EC2ResourceDetails"
+        }
+    }
+
+    public struct ResourceUtilization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EC2ResourceUtilization", required: false, type: .structure)
+        ]
+
+        /// Utilization of current Amazon EC2 Instance 
+        public let eC2ResourceUtilization: EC2ResourceUtilization?
+
+        public init(eC2ResourceUtilization: EC2ResourceUtilization? = nil) {
+            self.eC2ResourceUtilization = eC2ResourceUtilization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eC2ResourceUtilization = "EC2ResourceUtilization"
+        }
+    }
+
     public struct ResultByTime: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Estimated", required: false, type: .boolean), 
@@ -1652,6 +1912,108 @@ extension CostExplorer {
             case timePeriod = "TimePeriod"
             case total = "Total"
         }
+    }
+
+    public struct RightsizingRecommendation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "CurrentInstance", required: false, type: .structure), 
+            AWSShapeMember(label: "ModifyRecommendationDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "RightsizingType", required: false, type: .enum), 
+            AWSShapeMember(label: "TerminateRecommendationDetail", required: false, type: .structure)
+        ]
+
+        /// The account that this recommendation is for.
+        public let accountId: String?
+        ///  Context regarding the current instance.
+        public let currentInstance: CurrentInstance?
+        ///  Details for modification recommendations. 
+        public let modifyRecommendationDetail: ModifyRecommendationDetail?
+        /// Recommendation to either terminate or modify the resource.
+        public let rightsizingType: RightsizingType?
+        /// Details for termination recommendations.
+        public let terminateRecommendationDetail: TerminateRecommendationDetail?
+
+        public init(accountId: String? = nil, currentInstance: CurrentInstance? = nil, modifyRecommendationDetail: ModifyRecommendationDetail? = nil, rightsizingType: RightsizingType? = nil, terminateRecommendationDetail: TerminateRecommendationDetail? = nil) {
+            self.accountId = accountId
+            self.currentInstance = currentInstance
+            self.modifyRecommendationDetail = modifyRecommendationDetail
+            self.rightsizingType = rightsizingType
+            self.terminateRecommendationDetail = terminateRecommendationDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case currentInstance = "CurrentInstance"
+            case modifyRecommendationDetail = "ModifyRecommendationDetail"
+            case rightsizingType = "RightsizingType"
+            case terminateRecommendationDetail = "TerminateRecommendationDetail"
+        }
+    }
+
+    public struct RightsizingRecommendationMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GenerationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LookbackPeriodInDays", required: false, type: .enum), 
+            AWSShapeMember(label: "RecommendationId", required: false, type: .string)
+        ]
+
+        ///  The time stamp for when Amazon Web Services made this recommendation.
+        public let generationTimestamp: String?
+        ///  How many days of previous usage that Amazon Web Services considers when making this recommendation.
+        public let lookbackPeriodInDays: LookbackPeriodInDays?
+        ///  The ID for this specific recommendation.
+        public let recommendationId: String?
+
+        public init(generationTimestamp: String? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, recommendationId: String? = nil) {
+            self.generationTimestamp = generationTimestamp
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.recommendationId = recommendationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generationTimestamp = "GenerationTimestamp"
+            case lookbackPeriodInDays = "LookbackPeriodInDays"
+            case recommendationId = "RecommendationId"
+        }
+    }
+
+    public struct RightsizingRecommendationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EstimatedTotalMonthlySavingsAmount", required: false, type: .string), 
+            AWSShapeMember(label: "SavingsCurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "SavingsPercentage", required: false, type: .string), 
+            AWSShapeMember(label: "TotalRecommendationCount", required: false, type: .string)
+        ]
+
+        ///  Estimated total savings resulting from modifications, on a monthly basis.
+        public let estimatedTotalMonthlySavingsAmount: String?
+        ///  The currency code that Amazon Web Services used to calculate the savings.
+        public let savingsCurrencyCode: String?
+        ///  Savings percentage based on the recommended modifications, relative to the total On Demand costs associated with these instances.
+        public let savingsPercentage: String?
+        ///  Total number of instance recommendations.
+        public let totalRecommendationCount: String?
+
+        public init(estimatedTotalMonthlySavingsAmount: String? = nil, savingsCurrencyCode: String? = nil, savingsPercentage: String? = nil, totalRecommendationCount: String? = nil) {
+            self.estimatedTotalMonthlySavingsAmount = estimatedTotalMonthlySavingsAmount
+            self.savingsCurrencyCode = savingsCurrencyCode
+            self.savingsPercentage = savingsPercentage
+            self.totalRecommendationCount = totalRecommendationCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedTotalMonthlySavingsAmount = "EstimatedTotalMonthlySavingsAmount"
+            case savingsCurrencyCode = "SavingsCurrencyCode"
+            case savingsPercentage = "SavingsPercentage"
+            case totalRecommendationCount = "TotalRecommendationCount"
+        }
+    }
+
+    public enum RightsizingType: String, CustomStringConvertible, Codable {
+        case terminate = "TERMINATE"
+        case modify = "MODIFY"
+        public var description: String { return self.rawValue }
     }
 
     public struct ServiceSpecification: AWSShape {
@@ -1693,10 +2055,74 @@ extension CostExplorer {
         }
     }
 
+    public struct TargetInstance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultTargetInstance", required: false, type: .boolean), 
+            AWSShapeMember(label: "EstimatedMonthlyCost", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedMonthlySavings", required: false, type: .string), 
+            AWSShapeMember(label: "ExpectedResourceUtilization", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceDetails", required: false, type: .structure)
+        ]
+
+        ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
+        public let currencyCode: String?
+        ///  Indicates whether or not this recommendation is the defaulted Amazon Web Services recommendation.
+        public let defaultTargetInstance: Bool?
+        ///  Expected cost to operate this instance type on a monthly basis.
+        public let estimatedMonthlyCost: String?
+        ///  Estimated savings resulting from modification, on a monthly basis.
+        public let estimatedMonthlySavings: String?
+        ///  Expected utilization metrics for target instance type.
+        public let expectedResourceUtilization: ResourceUtilization?
+        ///  Details on the target instance type. 
+        public let resourceDetails: ResourceDetails?
+
+        public init(currencyCode: String? = nil, defaultTargetInstance: Bool? = nil, estimatedMonthlyCost: String? = nil, estimatedMonthlySavings: String? = nil, expectedResourceUtilization: ResourceUtilization? = nil, resourceDetails: ResourceDetails? = nil) {
+            self.currencyCode = currencyCode
+            self.defaultTargetInstance = defaultTargetInstance
+            self.estimatedMonthlyCost = estimatedMonthlyCost
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.expectedResourceUtilization = expectedResourceUtilization
+            self.resourceDetails = resourceDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyCode = "CurrencyCode"
+            case defaultTargetInstance = "DefaultTargetInstance"
+            case estimatedMonthlyCost = "EstimatedMonthlyCost"
+            case estimatedMonthlySavings = "EstimatedMonthlySavings"
+            case expectedResourceUtilization = "ExpectedResourceUtilization"
+            case resourceDetails = "ResourceDetails"
+        }
+    }
+
     public enum TermInYears: String, CustomStringConvertible, Codable {
         case oneYear = "ONE_YEAR"
         case threeYears = "THREE_YEARS"
         public var description: String { return self.rawValue }
+    }
+
+    public struct TerminateRecommendationDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedMonthlySavings", required: false, type: .string)
+        ]
+
+        ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
+        public let currencyCode: String?
+        ///  Estimated savings resulting from modification, on a monthly basis.
+        public let estimatedMonthlySavings: String?
+
+        public init(currencyCode: String? = nil, estimatedMonthlySavings: String? = nil) {
+            self.currencyCode = currencyCode
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyCode = "CurrencyCode"
+            case estimatedMonthlySavings = "EstimatedMonthlySavings"
+        }
     }
 
     public struct UtilizationByTime: AWSShape {

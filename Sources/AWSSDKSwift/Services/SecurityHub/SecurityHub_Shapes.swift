@@ -7,16 +7,16 @@ extension SecurityHub {
 
     public struct AcceptInvitationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvitationId", required: false, type: .string), 
-            AWSShapeMember(label: "MasterId", required: false, type: .string)
+            AWSShapeMember(label: "InvitationId", required: true, type: .string), 
+            AWSShapeMember(label: "MasterId", required: true, type: .string)
         ]
 
         /// The ID of the invitation sent from the Security Hub master account.
-        public let invitationId: String?
+        public let invitationId: String
         /// The account ID of the Security Hub master account that sent the invitation.
-        public let masterId: String?
+        public let masterId: String
 
-        public init(invitationId: String? = nil, masterId: String? = nil) {
+        public init(invitationId: String, masterId: String) {
             self.invitationId = invitationId
             self.masterId = masterId
         }
@@ -1489,18 +1489,18 @@ extension SecurityHub {
 
     public struct DeclineInvitationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: false, type: .list)
+            AWSShapeMember(label: "AccountIds", required: true, type: .list)
         ]
 
         /// A list of account IDs that specify the accounts that invitations to Security Hub are declined from.
-        public let accountIds: [String]?
+        public let accountIds: [String]
 
-        public init(accountIds: [String]? = nil) {
+        public init(accountIds: [String]) {
             self.accountIds = accountIds
         }
 
         public func validate(name: String) throws {
-            try self.accountIds?.forEach {
+            try self.accountIds.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: ".*\\S.*")
             }
         }
@@ -1605,18 +1605,18 @@ extension SecurityHub {
 
     public struct DeleteInvitationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: false, type: .list)
+            AWSShapeMember(label: "AccountIds", required: true, type: .list)
         ]
 
         /// A list of the account IDs that sent the invitations to delete.
-        public let accountIds: [String]?
+        public let accountIds: [String]
 
-        public init(accountIds: [String]? = nil) {
+        public init(accountIds: [String]) {
             self.accountIds = accountIds
         }
 
         public func validate(name: String) throws {
-            try self.accountIds?.forEach {
+            try self.accountIds.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: ".*\\S.*")
             }
         }
@@ -1742,7 +1742,7 @@ extension SecurityHub {
 
     public struct DescribeHubRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "HubArn", required: false, type: .string)
+            AWSShapeMember(label: "HubArn", location: .querystring(locationName: "HubArn"), required: false, type: .string)
         ]
 
         /// The ARN of the Hub resource to retrieve.

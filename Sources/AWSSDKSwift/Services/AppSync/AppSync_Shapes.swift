@@ -1763,21 +1763,26 @@ extension AppSync {
     public struct LogConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "cloudWatchLogsRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "excludeVerboseContent", required: false, type: .boolean), 
             AWSShapeMember(label: "fieldLogLevel", required: true, type: .enum)
         ]
 
         /// The service role that AWS AppSync will assume to publish to Amazon CloudWatch logs in your account. 
         public let cloudWatchLogsRoleArn: String
+        /// Set to TRUE to exclude sections that contain information such as headers, context, and evaluated mapping templates, regardless of logging level.
+        public let excludeVerboseContent: Bool?
         /// The field logging level. Values can be NONE, ERROR, or ALL.     NONE: No field-level logs are captured.    ERROR: Logs the following information only for the fields that are in error:   The error section in the server response.   Field-level errors.   The generated request/response functions that got resolved for error fields.      ALL: The following information is logged for all fields in the query:   Field-level tracing information.   The generated request/response functions that got resolved for each field.    
         public let fieldLogLevel: FieldLogLevel
 
-        public init(cloudWatchLogsRoleArn: String, fieldLogLevel: FieldLogLevel) {
+        public init(cloudWatchLogsRoleArn: String, excludeVerboseContent: Bool? = nil, fieldLogLevel: FieldLogLevel) {
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.excludeVerboseContent = excludeVerboseContent
             self.fieldLogLevel = fieldLogLevel
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLogsRoleArn = "cloudWatchLogsRoleArn"
+            case excludeVerboseContent = "excludeVerboseContent"
             case fieldLogLevel = "fieldLogLevel"
         }
     }

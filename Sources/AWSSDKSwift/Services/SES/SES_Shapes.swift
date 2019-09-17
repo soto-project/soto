@@ -1080,11 +1080,11 @@ extension SES {
             AWSShapeMember(label: "ToAddresses", required: false, type: .list, encoding: .list(member:"member"))
         ]
 
-        /// The BCC: field(s) of the message.
+        /// The recipients to place on the BCC: line of the message.
         public let bccAddresses: [String]?
-        /// The CC: field(s) of the message.
+        /// The recipients to place on the CC: line of the message.
         public let ccAddresses: [String]?
-        /// The To: field(s) of the message.
+        /// The recipients to place on the To: line of the message.
         public let toAddresses: [String]?
 
         public init(bccAddresses: [String]? = nil, ccAddresses: [String]? = nil, toAddresses: [String]? = nil) {
@@ -3213,7 +3213,7 @@ extension SES {
             AWSShapeMember(label: "TopicArn", required: false, type: .string)
         ]
 
-        /// The name of the RuleSet that is being stopped.
+        /// The scope of the StopAction. The only acceptable value is RuleSet.
         public let scope: StopScope
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?

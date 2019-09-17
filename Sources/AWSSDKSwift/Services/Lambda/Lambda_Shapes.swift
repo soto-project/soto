@@ -382,6 +382,7 @@ extension Lambda {
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "EventSourceArn", required: true, type: .string), 
             AWSShapeMember(label: "FunctionName", required: true, type: .string), 
+            AWSShapeMember(label: "MaximumBatchingWindowInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "StartingPosition", required: false, type: .enum), 
             AWSShapeMember(label: "StartingPositionTimestamp", required: false, type: .timestamp)
         ]
@@ -394,16 +395,18 @@ extension Lambda {
         public let eventSourceArn: String
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String
+        public let maximumBatchingWindowInSeconds: Int?
         /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Streams sources. AT_TIMESTAMP is only supported for Amazon Kinesis streams.
         public let startingPosition: EventSourcePosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
         public let startingPositionTimestamp: TimeStamp?
 
-        public init(batchSize: Int? = nil, enabled: Bool? = nil, eventSourceArn: String, functionName: String, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: TimeStamp? = nil) {
+        public init(batchSize: Int? = nil, enabled: Bool? = nil, eventSourceArn: String, functionName: String, maximumBatchingWindowInSeconds: Int? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: TimeStamp? = nil) {
             self.batchSize = batchSize
             self.enabled = enabled
             self.eventSourceArn = eventSourceArn
             self.functionName = functionName
+            self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.startingPosition = startingPosition
             self.startingPositionTimestamp = startingPositionTimestamp
         }
@@ -415,6 +418,8 @@ extension Lambda {
             try validate(self.functionName, name:"functionName", parent: name, max: 140)
             try validate(self.functionName, name:"functionName", parent: name, min: 1)
             try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.maximumBatchingWindowInSeconds, name:"maximumBatchingWindowInSeconds", parent: name, max: 300)
+            try validate(self.maximumBatchingWindowInSeconds, name:"maximumBatchingWindowInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -422,6 +427,7 @@ extension Lambda {
             case enabled = "Enabled"
             case eventSourceArn = "EventSourceArn"
             case functionName = "FunctionName"
+            case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case startingPosition = "StartingPosition"
             case startingPositionTimestamp = "StartingPositionTimestamp"
         }
@@ -768,6 +774,7 @@ extension Lambda {
             AWSShapeMember(label: "FunctionArn", required: false, type: .string), 
             AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastProcessingResult", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumBatchingWindowInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "State", required: false, type: .string), 
             AWSShapeMember(label: "StateTransitionReason", required: false, type: .string), 
             AWSShapeMember(label: "UUID", required: false, type: .string)
@@ -783,6 +790,7 @@ extension Lambda {
         public let lastModified: TimeStamp?
         /// The result of the last AWS Lambda invocation of your Lambda function.
         public let lastProcessingResult: String?
+        public let maximumBatchingWindowInSeconds: Int?
         /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
         public let state: String?
         /// The cause of the last state change, either User initiated or Lambda initiated.
@@ -790,12 +798,13 @@ extension Lambda {
         /// The identifier of the event source mapping.
         public let uuid: String?
 
-        public init(batchSize: Int? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, lastModified: TimeStamp? = nil, lastProcessingResult: String? = nil, state: String? = nil, stateTransitionReason: String? = nil, uuid: String? = nil) {
+        public init(batchSize: Int? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, lastModified: TimeStamp? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, state: String? = nil, stateTransitionReason: String? = nil, uuid: String? = nil) {
             self.batchSize = batchSize
             self.eventSourceArn = eventSourceArn
             self.functionArn = functionArn
             self.lastModified = lastModified
             self.lastProcessingResult = lastProcessingResult
+            self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.state = state
             self.stateTransitionReason = stateTransitionReason
             self.uuid = uuid
@@ -807,6 +816,7 @@ extension Lambda {
             case functionArn = "FunctionArn"
             case lastModified = "LastModified"
             case lastProcessingResult = "LastProcessingResult"
+            case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case state = "State"
             case stateTransitionReason = "StateTransitionReason"
             case uuid = "UUID"
@@ -2518,6 +2528,7 @@ extension Lambda {
             AWSShapeMember(label: "BatchSize", required: false, type: .integer), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "FunctionName", required: false, type: .string), 
+            AWSShapeMember(label: "MaximumBatchingWindowInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "UUID", location: .uri(locationName: "UUID"), required: true, type: .string)
         ]
 
@@ -2527,13 +2538,15 @@ extension Lambda {
         public let enabled: Bool?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
+        public let maximumBatchingWindowInSeconds: Int?
         /// The identifier of the event source mapping.
         public let uuid: String
 
-        public init(batchSize: Int? = nil, enabled: Bool? = nil, functionName: String? = nil, uuid: String) {
+        public init(batchSize: Int? = nil, enabled: Bool? = nil, functionName: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, uuid: String) {
             self.batchSize = batchSize
             self.enabled = enabled
             self.functionName = functionName
+            self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.uuid = uuid
         }
 
@@ -2543,12 +2556,15 @@ extension Lambda {
             try validate(self.functionName, name:"functionName", parent: name, max: 140)
             try validate(self.functionName, name:"functionName", parent: name, min: 1)
             try validate(self.functionName, name:"functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try validate(self.maximumBatchingWindowInSeconds, name:"maximumBatchingWindowInSeconds", parent: name, max: 300)
+            try validate(self.maximumBatchingWindowInSeconds, name:"maximumBatchingWindowInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case batchSize = "BatchSize"
             case enabled = "Enabled"
             case functionName = "FunctionName"
+            case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case uuid = "UUID"
         }
     }

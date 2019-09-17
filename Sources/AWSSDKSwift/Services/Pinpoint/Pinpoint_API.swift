@@ -162,6 +162,11 @@ public struct Pinpoint {
         return client.send(operation: "GetApp", path: "/v1/apps/{application-id}", httpMethod: "GET", input: input)
     }
 
+    ///   Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
+    public func getApplicationDateRangeKpi(_ input: GetApplicationDateRangeKpiRequest) -> Future<GetApplicationDateRangeKpiResponse> {
+        return client.send(operation: "GetApplicationDateRangeKpi", path: "/v1/apps/{application-id}/kpis/daterange/{kpi-name}", httpMethod: "GET", input: input)
+    }
+
     ///  Retrieves information about the settings for an application.
     public func getApplicationSettings(_ input: GetApplicationSettingsRequest) -> Future<GetApplicationSettingsResponse> {
         return client.send(operation: "GetApplicationSettings", path: "/v1/apps/{application-id}/settings", httpMethod: "GET", input: input)
@@ -185,6 +190,11 @@ public struct Pinpoint {
     ///  Retrieves information about the activity performed by a campaign.
     public func getCampaignActivities(_ input: GetCampaignActivitiesRequest) -> Future<GetCampaignActivitiesResponse> {
         return client.send(operation: "GetCampaignActivities", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/activities", httpMethod: "GET", input: input)
+    }
+
+    ///   Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
+    public func getCampaignDateRangeKpi(_ input: GetCampaignDateRangeKpiRequest) -> Future<GetCampaignDateRangeKpiResponse> {
+        return client.send(operation: "GetCampaignDateRangeKpi", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/kpis/daterange/{kpi-name}", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the status, configuration, and other settings for a specific version of a campaign.

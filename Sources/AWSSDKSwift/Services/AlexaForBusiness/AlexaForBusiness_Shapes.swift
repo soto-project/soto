@@ -1204,6 +1204,7 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "Address", required: true, type: .string), 
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeMember(label: "DistanceUnit", required: true, type: .enum), 
+            AWSShapeMember(label: "Locale", required: false, type: .string), 
             AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
             AWSShapeMember(label: "ProfileName", required: true, type: .string), 
             AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
@@ -1219,6 +1220,8 @@ extension AlexaForBusiness {
         public let clientRequestToken: String?
         /// The distance unit to be used by devices in the profile.
         public let distanceUnit: DistanceUnit
+        /// The locale of the room profile.
+        public let locale: String?
         /// The maximum volume limit for a room profile.
         public let maxVolumeLimit: Int?
         /// The name of a room profile.
@@ -1234,10 +1237,11 @@ extension AlexaForBusiness {
         /// A wake word for Alexa, Echo, Amazon, or a computer.
         public let wakeWord: WakeWord
 
-        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, maxVolumeLimit: Int? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
+        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, locale: String? = nil, maxVolumeLimit: Int? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
             self.address = address
             self.clientRequestToken = clientRequestToken
             self.distanceUnit = distanceUnit
+            self.locale = locale
             self.maxVolumeLimit = maxVolumeLimit
             self.profileName = profileName
             self.pSTNEnabled = pSTNEnabled
@@ -1253,6 +1257,8 @@ extension AlexaForBusiness {
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 150)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 10)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try validate(self.locale, name:"locale", parent: name, max: 256)
+            try validate(self.locale, name:"locale", parent: name, min: 1)
             try validate(self.profileName, name:"profileName", parent: name, max: 100)
             try validate(self.profileName, name:"profileName", parent: name, min: 1)
             try validate(self.profileName, name:"profileName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
@@ -1264,6 +1270,7 @@ extension AlexaForBusiness {
             case address = "Address"
             case clientRequestToken = "ClientRequestToken"
             case distanceUnit = "DistanceUnit"
+            case locale = "Locale"
             case maxVolumeLimit = "MaxVolumeLimit"
             case profileName = "ProfileName"
             case pSTNEnabled = "PSTNEnabled"
@@ -1462,7 +1469,7 @@ extension AlexaForBusiness {
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
             try validate(self.email, name:"email", parent: name, max: 128)
             try validate(self.email, name:"email", parent: name, min: 1)
-            try validate(self.email, name:"email", parent: name, pattern: "([0-9a-zA-Z]([+-.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\\w]*[0-9a-zA-Z]\\.)+[a-zA-Z]{2,9})")
+            try validate(self.email, name:"email", parent: name, pattern: "([0-9a-zA-Z]([+-.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z]([-\\w]*[0-9a-zA-Z]+)*\\.)+[a-zA-Z]{2,9})")
             try validate(self.firstName, name:"firstName", parent: name, max: 30)
             try validate(self.firstName, name:"firstName", parent: name, min: 0)
             try validate(self.firstName, name:"firstName", parent: name, pattern: "([A-Za-z\\-' 0-9._]|\\p{IsLetter})*")
@@ -3940,6 +3947,7 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "AddressBookArn", required: false, type: .string), 
             AWSShapeMember(label: "DistanceUnit", required: false, type: .enum), 
             AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
+            AWSShapeMember(label: "Locale", required: false, type: .string), 
             AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
             AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
             AWSShapeMember(label: "ProfileName", required: false, type: .string), 
@@ -3958,6 +3966,8 @@ extension AlexaForBusiness {
         public let distanceUnit: DistanceUnit?
         /// Retrieves if the profile is default or not.
         public let isDefault: Bool?
+        /// The locale of a room profile.
+        public let locale: String?
         /// The max volume limit of a room profile.
         public let maxVolumeLimit: Int?
         /// The ARN of a room profile.
@@ -3975,11 +3985,12 @@ extension AlexaForBusiness {
         /// The wake word of a room profile.
         public let wakeWord: WakeWord?
 
-        public init(address: String? = nil, addressBookArn: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, maxVolumeLimit: Int? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+        public init(address: String? = nil, addressBookArn: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.addressBookArn = addressBookArn
             self.distanceUnit = distanceUnit
             self.isDefault = isDefault
+            self.locale = locale
             self.maxVolumeLimit = maxVolumeLimit
             self.profileArn = profileArn
             self.profileName = profileName
@@ -3995,6 +4006,7 @@ extension AlexaForBusiness {
             case addressBookArn = "AddressBookArn"
             case distanceUnit = "DistanceUnit"
             case isDefault = "IsDefault"
+            case locale = "Locale"
             case maxVolumeLimit = "MaxVolumeLimit"
             case profileArn = "ProfileArn"
             case profileName = "ProfileName"
@@ -4011,6 +4023,7 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "Address", required: false, type: .string), 
             AWSShapeMember(label: "DistanceUnit", required: false, type: .enum), 
             AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
+            AWSShapeMember(label: "Locale", required: false, type: .string), 
             AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
             AWSShapeMember(label: "ProfileName", required: false, type: .string), 
             AWSShapeMember(label: "TemperatureUnit", required: false, type: .enum), 
@@ -4024,6 +4037,8 @@ extension AlexaForBusiness {
         public let distanceUnit: DistanceUnit?
         /// Retrieves if the profile data is default or not.
         public let isDefault: Bool?
+        /// The locale of a room profile.
+        public let locale: String?
         /// The ARN of a room profile.
         public let profileArn: String?
         /// The name of a room profile.
@@ -4035,10 +4050,11 @@ extension AlexaForBusiness {
         /// The wake word of a room profile.
         public let wakeWord: WakeWord?
 
-        public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, profileArn: String? = nil, profileName: String? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+        public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, profileArn: String? = nil, profileName: String? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.distanceUnit = distanceUnit
             self.isDefault = isDefault
+            self.locale = locale
             self.profileArn = profileArn
             self.profileName = profileName
             self.temperatureUnit = temperatureUnit
@@ -4050,6 +4066,7 @@ extension AlexaForBusiness {
             case address = "Address"
             case distanceUnit = "DistanceUnit"
             case isDefault = "IsDefault"
+            case locale = "Locale"
             case profileArn = "ProfileArn"
             case profileName = "ProfileName"
             case temperatureUnit = "TemperatureUnit"
@@ -4110,7 +4127,7 @@ extension AlexaForBusiness {
         public func validate(name: String) throws {
             try validate(self.contactEmail, name:"contactEmail", parent: name, max: 128)
             try validate(self.contactEmail, name:"contactEmail", parent: name, min: 1)
-            try validate(self.contactEmail, name:"contactEmail", parent: name, pattern: "([0-9a-zA-Z]([+-.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\\w]*[0-9a-zA-Z]\\.)+[a-zA-Z]{2,9})")
+            try validate(self.contactEmail, name:"contactEmail", parent: name, pattern: "([0-9a-zA-Z]([+-.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z]([-\\w]*[0-9a-zA-Z]+)*\\.)+[a-zA-Z]{2,9})")
             try validate(self.organizationName, name:"organizationName", parent: name, max: 100)
             try validate(self.organizationName, name:"organizationName", parent: name, min: 1)
             try validate(self.organizationName, name:"organizationName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
@@ -6199,6 +6216,7 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "Address", required: false, type: .string), 
             AWSShapeMember(label: "DistanceUnit", required: false, type: .enum), 
             AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
+            AWSShapeMember(label: "Locale", required: false, type: .string), 
             AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
             AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
             AWSShapeMember(label: "ProfileName", required: false, type: .string), 
@@ -6215,6 +6233,8 @@ extension AlexaForBusiness {
         public let distanceUnit: DistanceUnit?
         /// Sets the profile as default if selected. If this is missing, no update is done to the default status.
         public let isDefault: Bool?
+        /// The updated locale for the room profile.
+        public let locale: String?
         /// The updated maximum volume limit for the room profile.
         public let maxVolumeLimit: Int?
         /// The ARN of the room profile to update. Required.
@@ -6232,10 +6252,11 @@ extension AlexaForBusiness {
         /// The updated wake word for the room profile.
         public let wakeWord: WakeWord?
 
-        public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, maxVolumeLimit: Int? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+        public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.distanceUnit = distanceUnit
             self.isDefault = isDefault
+            self.locale = locale
             self.maxVolumeLimit = maxVolumeLimit
             self.profileArn = profileArn
             self.profileName = profileName
@@ -6249,6 +6270,8 @@ extension AlexaForBusiness {
         public func validate(name: String) throws {
             try validate(self.address, name:"address", parent: name, max: 500)
             try validate(self.address, name:"address", parent: name, min: 1)
+            try validate(self.locale, name:"locale", parent: name, max: 256)
+            try validate(self.locale, name:"locale", parent: name, min: 1)
             try validate(self.profileArn, name:"profileArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try validate(self.profileName, name:"profileName", parent: name, max: 100)
             try validate(self.profileName, name:"profileName", parent: name, min: 1)
@@ -6261,6 +6284,7 @@ extension AlexaForBusiness {
             case address = "Address"
             case distanceUnit = "DistanceUnit"
             case isDefault = "IsDefault"
+            case locale = "Locale"
             case maxVolumeLimit = "MaxVolumeLimit"
             case profileArn = "ProfileArn"
             case profileName = "ProfileName"

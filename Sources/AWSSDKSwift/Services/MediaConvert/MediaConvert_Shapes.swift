@@ -54,7 +54,7 @@ extension MediaConvert {
 
         /// Choose BROADCASTER_MIXED_AD when the input contains pre-mixed main audio + audio description (AD) as a stereo pair. The value for AudioType will be set to 3, which signals to downstream systems that this stream contains "broadcaster mixed AD". Note that the input received by the encoder must contain pre-mixed audio; the encoder does not perform the mixing. When you choose BROADCASTER_MIXED_AD, the encoder ignores any values you provide in AudioType and  FollowInputAudioType. Choose NORMAL when the input does not contain pre-mixed audio + audio description (AD). In this case, the encoder will use any values you provide for AudioType and FollowInputAudioType.
         public let audioDescriptionBroadcasterMix: AacAudioDescriptionBroadcasterMix?
-        /// Average bitrate in bits/second. The set of valid values for this setting is: 6000, 8000, 10000, 12000, 14000, 16000, 20000, 24000, 28000, 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 288000, 320000, 384000, 448000, 512000, 576000, 640000, 768000, 896000, 1024000. The value you set is also constrained by the values you choose for Profile (codecProfile), Bitrate control mode (codingMode), and Sample rate (sampleRate). Default values depend on Bitrate control mode and Profile.
+        /// Specify the average bitrate in bits per second. The set of valid values for this setting is: 6000, 8000, 10000, 12000, 14000, 16000, 20000, 24000, 28000, 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 288000, 320000, 384000, 448000, 512000, 576000, 640000, 768000, 896000, 1024000. The value you set is also constrained by the values that you choose for Profile (codecProfile), Bitrate control mode (codingMode), and Sample rate (sampleRate). Default values depend on Bitrate control mode and Profile.
         public let bitrate: Int?
         /// AAC Profile.
         public let codecProfile: AacCodecProfile?
@@ -167,9 +167,9 @@ extension MediaConvert {
             AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .integer)
         ]
 
-        /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
+        /// Specify the average bitrate in bits per second. Valid bitrates depend on the coding mode.
         public let bitrate: Int?
-        /// Specifies the "Bitstream Mode" (bsmod) for the emitted AC-3 stream. See ATSC A/52-2012 for background on these values.
+        /// Specify the bitstream mode for the AC-3 stream that the encoder emits. For more information about the AC3 bitstream mode, see ATSC A/52-2012 (Annex E).
         public let bitstreamMode: Ac3BitstreamMode?
         /// Dolby Digital coding mode. Determines number of channels.
         public let codingMode: Ac3CodingMode?
@@ -181,7 +181,7 @@ extension MediaConvert {
         public let lfeFilter: Ac3LfeFilter?
         /// When set to FOLLOW_INPUT, encoder metadata will be sourced from the DD, DD+, or DolbyE decoder that supplied this audio data. If audio was not supplied from one of these streams, then the static metadata settings will be used.
         public let metadataControl: Ac3MetadataControl?
-        /// Sample rate in hz. Sample rate is always 48000.
+        /// This value is always 48000. It represents the sample rate in Hz.
         public let sampleRate: Int?
 
         public init(bitrate: Int? = nil, bitstreamMode: Ac3BitstreamMode? = nil, codingMode: Ac3CodingMode? = nil, dialnorm: Int? = nil, dynamicRangeCompressionProfile: Ac3DynamicRangeCompressionProfile? = nil, lfeFilter: Ac3LfeFilter? = nil, metadataControl: Ac3MetadataControl? = nil, sampleRate: Int? = nil) {
@@ -342,6 +342,7 @@ extension MediaConvert {
         case aiff = "AIFF"
         case ac3 = "AC3"
         case eac3 = "EAC3"
+        case eac3Atmos = "EAC3_ATMOS"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
@@ -352,6 +353,7 @@ extension MediaConvert {
             AWSShapeMember(label: "Ac3Settings", location: .body(locationName: "ac3Settings"), required: false, type: .structure), 
             AWSShapeMember(label: "AiffSettings", location: .body(locationName: "aiffSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "Codec", location: .body(locationName: "codec"), required: false, type: .enum), 
+            AWSShapeMember(label: "Eac3AtmosSettings", location: .body(locationName: "eac3AtmosSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "Eac3Settings", location: .body(locationName: "eac3Settings"), required: false, type: .structure), 
             AWSShapeMember(label: "Mp2Settings", location: .body(locationName: "mp2Settings"), required: false, type: .structure), 
             AWSShapeMember(label: "WavSettings", location: .body(locationName: "wavSettings"), required: false, type: .structure)
@@ -365,6 +367,8 @@ extension MediaConvert {
         public let aiffSettings: AiffSettings?
         /// Type of Audio codec.
         public let codec: AudioCodec?
+        /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value EAC3_ATMOS.
+        public let eac3AtmosSettings: Eac3AtmosSettings?
         /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value EAC3.
         public let eac3Settings: Eac3Settings?
         /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value MP2.
@@ -372,11 +376,12 @@ extension MediaConvert {
         /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value WAV.
         public let wavSettings: WavSettings?
 
-        public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, aiffSettings: AiffSettings? = nil, codec: AudioCodec? = nil, eac3Settings: Eac3Settings? = nil, mp2Settings: Mp2Settings? = nil, wavSettings: WavSettings? = nil) {
+        public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, aiffSettings: AiffSettings? = nil, codec: AudioCodec? = nil, eac3AtmosSettings: Eac3AtmosSettings? = nil, eac3Settings: Eac3Settings? = nil, mp2Settings: Mp2Settings? = nil, wavSettings: WavSettings? = nil) {
             self.aacSettings = aacSettings
             self.ac3Settings = ac3Settings
             self.aiffSettings = aiffSettings
             self.codec = codec
+            self.eac3AtmosSettings = eac3AtmosSettings
             self.eac3Settings = eac3Settings
             self.mp2Settings = mp2Settings
             self.wavSettings = wavSettings
@@ -386,6 +391,7 @@ extension MediaConvert {
             try self.aacSettings?.validate(name: "\(name).aacSettings")
             try self.ac3Settings?.validate(name: "\(name).ac3Settings")
             try self.aiffSettings?.validate(name: "\(name).aiffSettings")
+            try self.eac3AtmosSettings?.validate(name: "\(name).eac3AtmosSettings")
             try self.eac3Settings?.validate(name: "\(name).eac3Settings")
             try self.mp2Settings?.validate(name: "\(name).mp2Settings")
             try self.wavSettings?.validate(name: "\(name).wavSettings")
@@ -396,6 +402,7 @@ extension MediaConvert {
             case ac3Settings = "ac3Settings"
             case aiffSettings = "aiffSettings"
             case codec = "codec"
+            case eac3AtmosSettings = "eac3AtmosSettings"
             case eac3Settings = "eac3Settings"
             case mp2Settings = "mp2Settings"
             case wavSettings = "wavSettings"
@@ -422,7 +429,7 @@ extension MediaConvert {
             AWSShapeMember(label: "StreamName", location: .body(locationName: "streamName"), required: false, type: .string)
         ]
 
-        /// Advanced audio normalization settings.
+        /// Advanced audio normalization settings. Ignore these settings unless you need to comply with a loudness standard.
         public let audioNormalizationSettings: AudioNormalizationSettings?
         /// Specifies which audio data to use from each input. In the simplest case, specify an "Audio Selector":#inputs-audio_selector by name based on its order within each input. For example if you specify "Audio Selector 3", then the third audio selector will be used from each input. If an input does not have an "Audio Selector 3", then the audio selector marked as "default" in that input will be used. If there is no audio selector marked as "default", silence will be inserted for the duration of that input. Alternatively, an "Audio Selector Group":#inputs-audio_selector_group name may be specified, with similar default/silence behavior. If no audio_source_name is specified, then "Audio Selector 1" will be chosen automatically.
         public let audioSourceName: String?
@@ -430,7 +437,7 @@ extension MediaConvert {
         public let audioType: Int?
         /// When set to FOLLOW_INPUT, if the input contains an ISO 639 audio_type, then that value is passed through to the output. If the input contains no ISO 639 audio_type, the value in Audio Type is included in the output. Otherwise the value in Audio Type is included in the output. Note that this field and audioType are both ignored if audioDescriptionBroadcasterMix is set to BROADCASTER_MIXED_AD.
         public let audioTypeControl: AudioTypeControl?
-        /// Audio codec settings (CodecSettings) under (AudioDescriptions) contains the group of settings related to audio encoding. The settings in this group vary depending on the value you choose for Audio codec (Codec). For each codec enum you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AAC, AacSettings * MP2, Mp2Settings * WAV, WavSettings * AIFF, AiffSettings * AC3, Ac3Settings * EAC3, Eac3Settings
+        /// Audio codec settings (CodecSettings) under (AudioDescriptions) contains the group of settings related to audio encoding. The settings in this group vary depending on the value that you choose for Audio codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AAC, AacSettings * MP2, Mp2Settings * WAV, WavSettings * AIFF, AiffSettings * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings
         public let codecSettings: AudioCodecSettings?
         /// Specify the language for this audio output track, using the ISO 639-2 or ISO 639-3 three-letter language code. The language specified will be used when 'Follow Input Language Code' is not selected or when 'Follow Input Language Code' is selected but there is no ISO 639 language code specified by the input.
         public let customLanguageCode: String?
@@ -440,7 +447,7 @@ extension MediaConvert {
         public let languageCodeControl: AudioLanguageCodeControl?
         /// Advanced audio remixing settings.
         public let remixSettings: RemixSettings?
-        /// Used for MS Smooth and Apple HLS outputs. Indicates the name displayed by the player (eg. English, or Director Commentary). Alphanumeric characters, spaces, and underscore are legal.
+        /// Specify a label for this output audio stream. For example, "English", "Director commentary", or "track_2". For streaming outputs, MediaConvert passes this information into destination manifests for display on the end-viewer's player device. For outputs in other output groups, the service ignores this setting.
         public let streamName: String?
 
         public init(audioNormalizationSettings: AudioNormalizationSettings? = nil, audioSourceName: String? = nil, audioType: Int? = nil, audioTypeControl: AudioTypeControl? = nil, codecSettings: AudioCodecSettings? = nil, customLanguageCode: String? = nil, languageCode: LanguageCode? = nil, languageCodeControl: AudioLanguageCodeControl? = nil, remixSettings: RemixSettings? = nil, streamName: String? = nil) {
@@ -491,6 +498,8 @@ extension MediaConvert {
     public enum AudioNormalizationAlgorithm: String, CustomStringConvertible, Codable {
         case ituBs17701 = "ITU_BS_1770_1"
         case ituBs17702 = "ITU_BS_1770_2"
+        case ituBs17703 = "ITU_BS_1770_3"
+        case ituBs17704 = "ITU_BS_1770_4"
         public var description: String { return self.rawValue }
     }
 
@@ -522,7 +531,7 @@ extension MediaConvert {
             AWSShapeMember(label: "TargetLkfs", location: .body(locationName: "targetLkfs"), required: false, type: .double)
         ]
 
-        /// Audio normalization algorithm to use. 1770-1 conforms to the CALM Act specification, 1770-2 conforms to the EBU R-128 specification.
+        /// Choose one of the following audio normalization algorithms: ITU-R BS.1770-1: Ungated loudness. A measurement of ungated average loudness for an entire piece of content, suitable for measurement of short-form content under ATSC recommendation A/85. Supports up to 5.1 audio channels. ITU-R BS.1770-2: Gated loudness. A measurement of gated average loudness compliant with the requirements of EBU-R128. Supports up to 5.1 audio channels. ITU-R BS.1770-3: Modified peak. The same loudness measurement algorithm as 1770-2, with an updated true peak measurement. ITU-R BS.1770-4: Higher channel count. Allows for more audio channels than the other algorithms, including configurations such as 7.1.
         public let algorithm: AudioNormalizationAlgorithm?
         /// When enabled the output audio is corrected using the chosen algorithm. If disabled, the audio will be measured but not adjusted.
         public let algorithmControl: AudioNormalizationAlgorithmControl?
@@ -532,7 +541,7 @@ extension MediaConvert {
         public let loudnessLogging: AudioNormalizationLoudnessLogging?
         /// If set to TRUE_PEAK, calculate and log the TruePeak for each output's audio track loudness.
         public let peakCalculation: AudioNormalizationPeakCalculation?
-        /// Target LKFS(loudness) to adjust volume to. If no value is entered, a default value will be used according to the chosen algorithm. The CALM Act (1770-1) recommends a target of -24 LKFS. The EBU R-128 specification (1770-2) recommends a target of -23 LKFS.
+        /// When you use Audio normalization (AudioNormalizationSettings), optionally use this setting to specify a target loudness. If you don't specify a value here, the encoder chooses a value for you, based on the algorithm that you choose for Algorithm (algorithm). If you choose algorithm 1770-1, the encoder will choose -24 LKFS; otherwise, the encoder will choose -23 LKFS.
         public let targetLkfs: Double?
 
         public init(algorithm: AudioNormalizationAlgorithm? = nil, algorithmControl: AudioNormalizationAlgorithmControl? = nil, correctionGateLevel: Int? = nil, loudnessLogging: AudioNormalizationLoudnessLogging? = nil, peakCalculation: AudioNormalizationPeakCalculation? = nil, targetLkfs: Double? = nil) {
@@ -611,7 +620,7 @@ extension MediaConvert {
             try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, max: 3)
             try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, min: 3)
             try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, pattern: "^[A-Za-z]{3}$")
-            try validate(self.externalAudioFileInput, name:"externalAudioFileInput", parent: name, pattern: "^(s3:\\/\\/)([^\\/]+\\/)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE])))$")
+            try validate(self.externalAudioFileInput, name:"externalAudioFileInput", parent: name, pattern: "^(s3:\\/\\/)([^\\/]+\\/)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE])))$")
             try validate(self.offset, name:"offset", parent: name, max: 2147483647)
             try validate(self.offset, name:"offset", parent: name, min: -2147483648)
             try self.pids?.forEach {
@@ -918,7 +927,7 @@ extension MediaConvert {
         public let destinationSettings: CaptionDestinationSettings?
         /// Specify the language of this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information to choose the font language for rendering the captions text.
         public let languageCode: LanguageCode?
-        /// Human readable information to indicate captions available for players (eg. English, or Spanish). Alphanumeric characters, spaces, and underscore are legal.
+        /// Specify a label for this set of output captions. For example, "English", "Director commentary", or "track_2". For streaming outputs, MediaConvert passes this information into destination manifests for display on the end-viewer's player device. For outputs in other output groups, the service ignores this setting.
         public let languageDescription: String?
 
         public init(captionSelectorName: String? = nil, customLanguageCode: String? = nil, destinationSettings: CaptionDestinationSettings? = nil, languageCode: LanguageCode? = nil, languageDescription: String? = nil) {
@@ -960,7 +969,7 @@ extension MediaConvert {
         public let destinationSettings: CaptionDestinationSettings?
         /// Specify the language of this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information to choose the font language for rendering the captions text.
         public let languageCode: LanguageCode?
-        /// Human readable information to indicate captions available for players (eg. English, or Spanish). Alphanumeric characters, spaces, and underscore are legal.
+        /// Specify a label for this set of output captions. For example, "English", "Director commentary", or "track_2". For streaming outputs, MediaConvert passes this information into destination manifests for display on the end-viewer's player device. For outputs in other output groups, the service ignores this setting.
         public let languageDescription: String?
 
         public init(customLanguageCode: String? = nil, destinationSettings: CaptionDestinationSettings? = nil, languageCode: LanguageCode? = nil, languageDescription: String? = nil) {
@@ -1200,25 +1209,29 @@ extension MediaConvert {
             AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector"), required: false, type: .string), 
             AWSShapeMember(label: "EncryptionMethod", location: .body(locationName: "encryptionMethod"), required: false, type: .enum), 
             AWSShapeMember(label: "InitializationVectorInManifest", location: .body(locationName: "initializationVectorInManifest"), required: false, type: .enum), 
+            AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: false, type: .structure), 
             AWSShapeMember(label: "StaticKeyProvider", location: .body(locationName: "staticKeyProvider"), required: false, type: .structure), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
         ]
 
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public let constantInitializationVector: String?
-        /// Encrypts the segments with the given encryption scheme. Leave blank to disable. Selecting 'Disabled' in the web interface also disables encryption.
+        /// For DRM with CMAF, the encryption type is always sample AES.
         public let encryptionMethod: CmafEncryptionType?
-        /// The Initialization Vector is a 128-bit number used in conjunction with the key for encrypting blocks. If set to INCLUDE, Initialization Vector is listed in the manifest. Otherwise Initialization Vector is not in the manifest.
+        /// When you use DRM with CMAF outputs, choose whether the service writes the 128-bit encryption initialization vector in the HLS and DASH manifests.
         public let initializationVectorInManifest: CmafInitializationVectorInManifest?
+        /// Use these settings when doing DRM encryption with a SPEKE-compliant key provider, if your output group type is CMAF. If your output group type is HLS, MS Smooth, or DASH, use the SpekeKeyProvider settings instead.
+        public let spekeKeyProvider: SpekeKeyProviderCmaf?
         /// Use these settings to set up encryption with a static key provider.
         public let staticKeyProvider: StaticKeyProvider?
-        /// Indicates which type of key provider is used for encryption.
+        /// Specify whether your DRM encryption key is static or from a key provider that follows the SPEKE standard. For more information about SPEKE, see https://docs.aws.amazon.com/speke/latest/documentation/what-is-speke.html.
         public let `type`: CmafKeyProviderType?
 
-        public init(constantInitializationVector: String? = nil, encryptionMethod: CmafEncryptionType? = nil, initializationVectorInManifest: CmafInitializationVectorInManifest? = nil, staticKeyProvider: StaticKeyProvider? = nil, type: CmafKeyProviderType? = nil) {
+        public init(constantInitializationVector: String? = nil, encryptionMethod: CmafEncryptionType? = nil, initializationVectorInManifest: CmafInitializationVectorInManifest? = nil, spekeKeyProvider: SpekeKeyProviderCmaf? = nil, staticKeyProvider: StaticKeyProvider? = nil, type: CmafKeyProviderType? = nil) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.initializationVectorInManifest = initializationVectorInManifest
+            self.spekeKeyProvider = spekeKeyProvider
             self.staticKeyProvider = staticKeyProvider
             self.`type` = `type`
         }
@@ -1227,6 +1240,7 @@ extension MediaConvert {
             try validate(self.constantInitializationVector, name:"constantInitializationVector", parent: name, max: 32)
             try validate(self.constantInitializationVector, name:"constantInitializationVector", parent: name, min: 32)
             try validate(self.constantInitializationVector, name:"constantInitializationVector", parent: name, pattern: "^[0-9a-fA-F]{32}$")
+            try self.spekeKeyProvider?.validate(name: "\(name).spekeKeyProvider")
             try self.staticKeyProvider?.validate(name: "\(name).staticKeyProvider")
         }
 
@@ -1234,6 +1248,7 @@ extension MediaConvert {
             case constantInitializationVector = "constantInitializationVector"
             case encryptionMethod = "encryptionMethod"
             case initializationVectorInManifest = "initializationVectorInManifest"
+            case spekeKeyProvider = "spekeKeyProvider"
             case staticKeyProvider = "staticKeyProvider"
             case `type` = "type"
         }
@@ -1355,6 +1370,7 @@ extension MediaConvert {
     }
 
     public enum CmafKeyProviderType: String, CustomStringConvertible, Codable {
+        case speke = "SPEKE"
         case staticKey = "STATIC_KEY"
         public var description: String { return self.rawValue }
     }
@@ -1407,11 +1423,11 @@ extension MediaConvert {
 
         /// Brightness level.
         public let brightness: Int?
-        /// Determines if colorspace conversion will be performed. If set to _None_, no conversion will be performed. If _Force 601_ or _Force 709_ are selected, conversion will be performed for inputs with differing colorspaces. An input's colorspace can be specified explicitly in the "Video Selector":#inputs-video_selector if necessary.
+        /// Specify the color space you want for this output. The service supports conversion between HDR formats, between SDR formats, and from SDR to HDR. The service doesn't support conversion from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range. The converted video has an HDR format, but visually appears the same as an unconverted output.
         public let colorSpaceConversion: ColorSpaceConversion?
         /// Contrast level.
         public let contrast: Int?
-        /// Use the HDR master display (Hdr10Metadata) settings to correct HDR metadata or to provide missing metadata. Note that these settings are not color correction.
+        /// Use these settings when you convert to the HDR 10 color space. Specify the SMPTE ST 2086 Mastering Display Color Volume static metadata that you want signaled in the output. These values don't affect the pixel values that are encoded in the video stream. They are intended to help the downstream video player display content in a way that reflects the intentions of the the content creator. When you set Color space conversion (ColorSpaceConversion) to HDR 10 (FORCE_HDR10), these settings are required. You must set values for Max frame average light level (maxFrameAverageLightLevel) and Max content light level (maxContentLightLevel); these settings don't have a default value. The default values for the other HDR 10 metadata settings are defined by the P3D65 color space. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
         public let hdr10Metadata: Hdr10Metadata?
         /// Hue in degrees.
         public let hue: Int?
@@ -1504,7 +1520,7 @@ extension MediaConvert {
         public let m3u8Settings: M3u8Settings?
         /// Settings for MOV Container.
         public let movSettings: MovSettings?
-        /// Settings for MP4 Container
+        /// Settings for MP4 container. You can create audio-only AAC outputs with this container.
         public let mp4Settings: Mp4Settings?
 
         public init(container: ContainerType? = nil, f4vSettings: F4vSettings? = nil, m2tsSettings: M2tsSettings? = nil, m3u8Settings: M3u8Settings? = nil, movSettings: MovSettings? = nil, mp4Settings: Mp4Settings? = nil) {
@@ -1551,9 +1567,11 @@ extension MediaConvert {
             AWSShapeMember(label: "BillingTagsSource", location: .body(locationName: "billingTagsSource"), required: false, type: .enum), 
             AWSShapeMember(label: "ClientRequestToken", location: .body(locationName: "clientRequestToken"), required: false, type: .string), 
             AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate"), required: false, type: .string), 
+            AWSShapeMember(label: "Priority", location: .body(locationName: "priority"), required: false, type: .integer), 
             AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .string), 
             AWSShapeMember(label: "Role", location: .body(locationName: "role"), required: true, type: .string), 
             AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: true, type: .structure), 
+            AWSShapeMember(label: "SimulateReservedQueue", location: .body(locationName: "simulateReservedQueue"), required: false, type: .enum), 
             AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval"), required: false, type: .enum), 
             AWSShapeMember(label: "UserMetadata", location: .body(locationName: "userMetadata"), required: false, type: .map)
         ]
@@ -1566,30 +1584,38 @@ extension MediaConvert {
         public let clientRequestToken: String?
         /// When you create a job, you can either specify a job template or specify the transcoding settings individually
         public let jobTemplate: String?
+        /// Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
+        public let priority: Int?
         /// Optional. When you create a job, you can specify a queue to send it to. If you don't specify, the job will go to the default queue. For more about queues, see the User Guide topic at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html.
         public let queue: String?
         /// Required. The IAM role you use for creating this job. For details about permissions, see the User Guide topic at the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
         public let role: String
         /// JobSettings contains all the transcode settings for a job.
         public let settings: JobSettings
+        /// Enable this setting when you run a test job to estimate how many reserved transcoding slots (RTS) you need. When this is enabled, MediaConvert runs your job from an on-demand queue with similar performance to what you will see with one RTS in a reserved queue. This setting is disabled by default.
+        public let simulateReservedQueue: SimulateReservedQueue?
         /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
         public let statusUpdateInterval: StatusUpdateInterval?
         /// User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
         public let userMetadata: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), jobTemplate: String? = nil, queue: String? = nil, role: String, settings: JobSettings, statusUpdateInterval: StatusUpdateInterval? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.billingTagsSource = billingTagsSource
             self.clientRequestToken = clientRequestToken
             self.jobTemplate = jobTemplate
+            self.priority = priority
             self.queue = queue
             self.role = role
             self.settings = settings
+            self.simulateReservedQueue = simulateReservedQueue
             self.statusUpdateInterval = statusUpdateInterval
             self.userMetadata = userMetadata
         }
 
         public func validate(name: String) throws {
+            try validate(self.priority, name:"priority", parent: name, max: 50)
+            try validate(self.priority, name:"priority", parent: name, min: -50)
             try self.settings.validate(name: "\(name).settings")
         }
 
@@ -1598,9 +1624,11 @@ extension MediaConvert {
             case billingTagsSource = "billingTagsSource"
             case clientRequestToken = "clientRequestToken"
             case jobTemplate = "jobTemplate"
+            case priority = "priority"
             case queue = "queue"
             case role = "role"
             case settings = "settings"
+            case simulateReservedQueue = "simulateReservedQueue"
             case statusUpdateInterval = "statusUpdateInterval"
             case userMetadata = "userMetadata"
         }
@@ -1629,6 +1657,7 @@ extension MediaConvert {
             AWSShapeMember(label: "Category", location: .body(locationName: "category"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "Priority", location: .body(locationName: "priority"), required: false, type: .integer), 
             AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .string), 
             AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: true, type: .structure), 
             AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval"), required: false, type: .enum), 
@@ -1643,6 +1672,8 @@ extension MediaConvert {
         public let description: String?
         /// The name of the job template you are creating.
         public let name: String
+        /// Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
+        public let priority: Int?
         /// Optional. The queue that jobs created from this template are assigned to. If you don't specify this, jobs will go to the default queue.
         public let queue: String?
         /// JobTemplateSettings contains all the transcode settings saved in the template that will be applied to jobs created from it.
@@ -1652,11 +1683,12 @@ extension MediaConvert {
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, name: String, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
             self.description = description
             self.name = name
+            self.priority = priority
             self.queue = queue
             self.settings = settings
             self.statusUpdateInterval = statusUpdateInterval
@@ -1664,6 +1696,8 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try validate(self.priority, name:"priority", parent: name, max: 50)
+            try validate(self.priority, name:"priority", parent: name, min: -50)
             try self.settings.validate(name: "\(name).settings")
         }
 
@@ -1672,6 +1706,7 @@ extension MediaConvert {
             case category = "category"
             case description = "description"
             case name = "name"
+            case priority = "priority"
             case queue = "queue"
             case settings = "settings"
             case statusUpdateInterval = "statusUpdateInterval"
@@ -1760,6 +1795,7 @@ extension MediaConvert {
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "PricingPlan", location: .body(locationName: "pricingPlan"), required: false, type: .enum), 
             AWSShapeMember(label: "ReservationPlanSettings", location: .body(locationName: "reservationPlanSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
@@ -1771,14 +1807,17 @@ extension MediaConvert {
         public let pricingPlan: PricingPlan?
         /// Details about the pricing plan for your reserved queue. Required for reserved queues and not applicable to on-demand queues.
         public let reservationPlanSettings: ReservationPlanSettings?
+        /// Initial state of the queue. If you create a paused queue, then jobs in that queue won't begin.
+        public let status: QueueStatus?
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, name: String, pricingPlan: PricingPlan? = nil, reservationPlanSettings: ReservationPlanSettings? = nil, tags: [String: String]? = nil) {
+        public init(description: String? = nil, name: String, pricingPlan: PricingPlan? = nil, reservationPlanSettings: ReservationPlanSettings? = nil, status: QueueStatus? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
             self.pricingPlan = pricingPlan
             self.reservationPlanSettings = reservationPlanSettings
+            self.status = status
             self.tags = tags
         }
 
@@ -1787,6 +1826,7 @@ extension MediaConvert {
             case name = "name"
             case pricingPlan = "pricingPlan"
             case reservationPlanSettings = "reservationPlanSettings"
+            case status = "status"
             case tags = "tags"
         }
     }
@@ -1816,7 +1856,7 @@ extension MediaConvert {
 
         /// This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH H.264 outputs with DRM encryption. Choose Unencrypted SEI (UNENCRYPTED_SEI) only to correct problems with playback on older devices. Otherwise, keep the default setting CENC v1 (CENC_V1). If you choose Unencrypted SEI, for that output, the service will exclude the access unit delimiter and will leave the SEI NAL units unencrypted.
         public let playbackDeviceCompatibility: DashIsoPlaybackDeviceCompatibility?
-        /// Settings for use with a SPEKE key provider
+        /// Use these settings when doing DRM encryption with a SPEKE-compliant key provider, if your output group type is HLS, MS Smooth, or DASH. If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
         public let spekeKeyProvider: SpekeKeyProvider?
 
         public init(playbackDeviceCompatibility: DashIsoPlaybackDeviceCompatibility? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
@@ -2460,6 +2500,166 @@ extension MediaConvert {
         }
     }
 
+    public enum Eac3AtmosBitstreamMode: String, CustomStringConvertible, Codable {
+        case completeMain = "COMPLETE_MAIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosCodingMode: String, CustomStringConvertible, Codable {
+        case codingMode916 = "CODING_MODE_9_1_6"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosDialogueIntelligence: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosDynamicRangeCompressionLine: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case filmStandard = "FILM_STANDARD"
+        case filmLight = "FILM_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case speech = "SPEECH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosDynamicRangeCompressionRf: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case filmStandard = "FILM_STANDARD"
+        case filmLight = "FILM_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case speech = "SPEECH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosMeteringMode: String, CustomStringConvertible, Codable {
+        case leqA = "LEQ_A"
+        case ituBs17701 = "ITU_BS_1770_1"
+        case ituBs17702 = "ITU_BS_1770_2"
+        case ituBs17703 = "ITU_BS_1770_3"
+        case ituBs17704 = "ITU_BS_1770_4"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Eac3AtmosSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bitrate", location: .body(locationName: "bitrate"), required: false, type: .integer), 
+            AWSShapeMember(label: "BitstreamMode", location: .body(locationName: "bitstreamMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "CodingMode", location: .body(locationName: "codingMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "DialogueIntelligence", location: .body(locationName: "dialogueIntelligence"), required: false, type: .enum), 
+            AWSShapeMember(label: "DynamicRangeCompressionLine", location: .body(locationName: "dynamicRangeCompressionLine"), required: false, type: .enum), 
+            AWSShapeMember(label: "DynamicRangeCompressionRf", location: .body(locationName: "dynamicRangeCompressionRf"), required: false, type: .enum), 
+            AWSShapeMember(label: "LoRoCenterMixLevel", location: .body(locationName: "loRoCenterMixLevel"), required: false, type: .double), 
+            AWSShapeMember(label: "LoRoSurroundMixLevel", location: .body(locationName: "loRoSurroundMixLevel"), required: false, type: .double), 
+            AWSShapeMember(label: "LtRtCenterMixLevel", location: .body(locationName: "ltRtCenterMixLevel"), required: false, type: .double), 
+            AWSShapeMember(label: "LtRtSurroundMixLevel", location: .body(locationName: "ltRtSurroundMixLevel"), required: false, type: .double), 
+            AWSShapeMember(label: "MeteringMode", location: .body(locationName: "meteringMode"), required: false, type: .enum), 
+            AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .integer), 
+            AWSShapeMember(label: "SpeechThreshold", location: .body(locationName: "speechThreshold"), required: false, type: .integer), 
+            AWSShapeMember(label: "StereoDownmix", location: .body(locationName: "stereoDownmix"), required: false, type: .enum), 
+            AWSShapeMember(label: "SurroundExMode", location: .body(locationName: "surroundExMode"), required: false, type: .enum)
+        ]
+
+        /// Specify the average bitrate in bits per second.
+        /// Valid values: 384k, 448k, 640k, 768k
+        public let bitrate: Int?
+        /// Specify the bitstream mode for the E-AC-3 stream that the encoder emits. For more information about the EAC3 bitstream mode, see ATSC A/52-2012 (Annex E).
+        public let bitstreamMode: Eac3AtmosBitstreamMode?
+        /// The coding mode for Dolby Digital Plus JOC (Atmos) is always 9.1.6 (CODING_MODE_9_1_6).
+        public let codingMode: Eac3AtmosCodingMode?
+        /// Enable Dolby Dialogue Intelligence to adjust loudness based on dialogue analysis.
+        public let dialogueIntelligence: Eac3AtmosDialogueIntelligence?
+        /// Specify the absolute peak level for a signal with dynamic range compression.
+        public let dynamicRangeCompressionLine: Eac3AtmosDynamicRangeCompressionLine?
+        /// Specify how the service limits the audio dynamic range when compressing the audio.
+        public let dynamicRangeCompressionRf: Eac3AtmosDynamicRangeCompressionRf?
+        /// Specify a value for the following Dolby Atmos setting: Left only/Right only center mix
+        /// (Lo/Ro center). MediaConvert uses this value for downmixing. How the service uses this
+        /// value depends on the value that you choose for Stereo downmix (Eac3AtmosStereoDownmix).
+        /// Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, and -6.0.
+        public let loRoCenterMixLevel: Double?
+        /// Specify a value for the following Dolby Atmos setting: Left only/Right only (Lo/Ro surround). MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix (Eac3AtmosStereoDownmix). Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel.
+        public let loRoSurroundMixLevel: Double?
+        /// Specify a value for the following Dolby Atmos setting: Left total/Right total center mix (Lt/Rt center). MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix (Eac3AtmosStereoDownmix). Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, and -6.0.
+        public let ltRtCenterMixLevel: Double?
+        /// Specify a value for the following Dolby Atmos setting: Left total/Right total surround mix (Lt/Rt surround). MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix (Eac3AtmosStereoDownmix). Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel.
+        public let ltRtSurroundMixLevel: Double?
+        /// Choose how the service meters the loudness of your audio.
+        public let meteringMode: Eac3AtmosMeteringMode?
+        /// This value is always 48000. It represents the sample rate in Hz.
+        public let sampleRate: Int?
+        /// Specify the percentage of audio content that must be speech before the encoder uses the measured speech loudness as the overall program loudness.
+        public let speechThreshold: Int?
+        /// Choose how the service does stereo downmixing.
+        public let stereoDownmix: Eac3AtmosStereoDownmix?
+        /// Specify whether your input audio has an additional center rear surround channel matrix encoded into your left and right surround channels.
+        public let surroundExMode: Eac3AtmosSurroundExMode?
+
+        public init(bitrate: Int? = nil, bitstreamMode: Eac3AtmosBitstreamMode? = nil, codingMode: Eac3AtmosCodingMode? = nil, dialogueIntelligence: Eac3AtmosDialogueIntelligence? = nil, dynamicRangeCompressionLine: Eac3AtmosDynamicRangeCompressionLine? = nil, dynamicRangeCompressionRf: Eac3AtmosDynamicRangeCompressionRf? = nil, loRoCenterMixLevel: Double? = nil, loRoSurroundMixLevel: Double? = nil, ltRtCenterMixLevel: Double? = nil, ltRtSurroundMixLevel: Double? = nil, meteringMode: Eac3AtmosMeteringMode? = nil, sampleRate: Int? = nil, speechThreshold: Int? = nil, stereoDownmix: Eac3AtmosStereoDownmix? = nil, surroundExMode: Eac3AtmosSurroundExMode? = nil) {
+            self.bitrate = bitrate
+            self.bitstreamMode = bitstreamMode
+            self.codingMode = codingMode
+            self.dialogueIntelligence = dialogueIntelligence
+            self.dynamicRangeCompressionLine = dynamicRangeCompressionLine
+            self.dynamicRangeCompressionRf = dynamicRangeCompressionRf
+            self.loRoCenterMixLevel = loRoCenterMixLevel
+            self.loRoSurroundMixLevel = loRoSurroundMixLevel
+            self.ltRtCenterMixLevel = ltRtCenterMixLevel
+            self.ltRtSurroundMixLevel = ltRtSurroundMixLevel
+            self.meteringMode = meteringMode
+            self.sampleRate = sampleRate
+            self.speechThreshold = speechThreshold
+            self.stereoDownmix = stereoDownmix
+            self.surroundExMode = surroundExMode
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bitrate, name:"bitrate", parent: name, max: 768000)
+            try validate(self.bitrate, name:"bitrate", parent: name, min: 384000)
+            try validate(self.sampleRate, name:"sampleRate", parent: name, max: 48000)
+            try validate(self.sampleRate, name:"sampleRate", parent: name, min: 48000)
+            try validate(self.speechThreshold, name:"speechThreshold", parent: name, max: 100)
+            try validate(self.speechThreshold, name:"speechThreshold", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bitrate = "bitrate"
+            case bitstreamMode = "bitstreamMode"
+            case codingMode = "codingMode"
+            case dialogueIntelligence = "dialogueIntelligence"
+            case dynamicRangeCompressionLine = "dynamicRangeCompressionLine"
+            case dynamicRangeCompressionRf = "dynamicRangeCompressionRf"
+            case loRoCenterMixLevel = "loRoCenterMixLevel"
+            case loRoSurroundMixLevel = "loRoSurroundMixLevel"
+            case ltRtCenterMixLevel = "ltRtCenterMixLevel"
+            case ltRtSurroundMixLevel = "ltRtSurroundMixLevel"
+            case meteringMode = "meteringMode"
+            case sampleRate = "sampleRate"
+            case speechThreshold = "speechThreshold"
+            case stereoDownmix = "stereoDownmix"
+            case surroundExMode = "surroundExMode"
+        }
+    }
+
+    public enum Eac3AtmosStereoDownmix: String, CustomStringConvertible, Codable {
+        case notIndicated = "NOT_INDICATED"
+        case stereo = "STEREO"
+        case surround = "SURROUND"
+        case dpl2 = "DPL2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Eac3AtmosSurroundExMode: String, CustomStringConvertible, Codable {
+        case notIndicated = "NOT_INDICATED"
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Eac3AttenuationControl: String, CustomStringConvertible, Codable {
         case attenuate3Db = "ATTENUATE_3_DB"
         case none = "NONE"
@@ -2565,9 +2765,9 @@ extension MediaConvert {
 
         /// If set to ATTENUATE_3_DB, applies a 3 dB attenuation to the surround channels. Only used for 3/2 coding mode.
         public let attenuationControl: Eac3AttenuationControl?
-        /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
+        /// Specify the average bitrate in bits per second. Valid bitrates depend on the coding mode.
         public let bitrate: Int?
-        /// Specifies the "Bitstream Mode" (bsmod) for the emitted E-AC-3 stream. See ATSC A/52-2012 (Annex E) for background on these values.
+        /// Specify the bitstream mode for the E-AC-3 stream that the encoder emits. For more information about the EAC3 bitstream mode, see ATSC A/52-2012 (Annex E).
         public let bitstreamMode: Eac3BitstreamMode?
         /// Dolby Digital Plus coding mode. Determines number of channels.
         public let codingMode: Eac3CodingMode?
@@ -2575,25 +2775,21 @@ extension MediaConvert {
         public let dcFilter: Eac3DcFilter?
         /// Sets the dialnorm for the output. If blank and input audio is Dolby Digital Plus, dialnorm will be passed through.
         public let dialnorm: Int?
-        /// Enables Dynamic Range Compression that restricts the absolute peak level for a signal.
+        /// Specify the absolute peak level for a signal with dynamic range compression.
         public let dynamicRangeCompressionLine: Eac3DynamicRangeCompressionLine?
-        /// Enables Heavy Dynamic Range Compression, ensures that the instantaneous signal peaks do not exceed specified levels.
+        /// Specify how the service limits the audio dynamic range when compressing the audio.
         public let dynamicRangeCompressionRf: Eac3DynamicRangeCompressionRf?
         /// When encoding 3/2 audio, controls whether the LFE channel is enabled
         public let lfeControl: Eac3LfeControl?
         /// Applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only valid with 3_2_LFE coding mode.
         public let lfeFilter: Eac3LfeFilter?
-        /// Left only/Right only center mix level. Only used for 3/2 coding mode.
-        /// Valid values: 3.0, 1.5, 0.0, -1.5 -3.0 -4.5 -6.0 -60
+        /// Specify a value for the following Dolby Digital Plus setting: Left only/Right only center mix (Lo/Ro center). MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix (Eac3StereoDownmix). Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding mode (Eac3CodingMode). If you choose a different value for Coding mode, the service ignores Left only/Right only center (loRoCenterMixLevel).
         public let loRoCenterMixLevel: Double?
-        /// Left only/Right only surround mix level. Only used for 3/2 coding mode.
-        /// Valid values: -1.5 -3.0 -4.5 -6.0 -60
+        /// Specify a value for the following Dolby Digital Plus setting: Left only/Right only (Lo/Ro surround). MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix (Eac3StereoDownmix). Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding mode (Eac3CodingMode). If you choose a different value for Coding mode, the service ignores Left only/Right only surround (loRoSurroundMixLevel).
         public let loRoSurroundMixLevel: Double?
-        /// Left total/Right total center mix level. Only used for 3/2 coding mode.
-        /// Valid values: 3.0, 1.5, 0.0, -1.5 -3.0 -4.5 -6.0 -60
+        /// Specify a value for the following Dolby Digital Plus setting: Left total/Right total center mix (Lt/Rt center). MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix (Eac3StereoDownmix). Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding mode (Eac3CodingMode). If you choose a different value for Coding mode, the service ignores Left total/Right total center (ltRtCenterMixLevel).
         public let ltRtCenterMixLevel: Double?
-        /// Left total/Right total surround mix level. Only used for 3/2 coding mode.
-        /// Valid values: -1.5 -3.0 -4.5 -6.0 -60
+        /// Specify a value for the following Dolby Digital Plus setting: Left total/Right total surround mix (Lt/Rt surround). MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix (Eac3StereoDownmix). Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding mode (Eac3CodingMode). If you choose a different value for Coding mode, the service ignores Left total/Right total surround (ltRtSurroundMixLevel).
         public let ltRtSurroundMixLevel: Double?
         /// When set to FOLLOW_INPUT, encoder metadata will be sourced from the DD, DD+, or DolbyE decoder that supplied this audio data. If audio was not supplied from one of these streams, then the static metadata settings will be used.
         public let metadataControl: Eac3MetadataControl?
@@ -2601,9 +2797,9 @@ extension MediaConvert {
         public let passthroughControl: Eac3PassthroughControl?
         /// Controls the amount of phase-shift applied to the surround channels. Only used for 3/2 coding mode.
         public let phaseControl: Eac3PhaseControl?
-        /// Sample rate in hz. Sample rate is always 48000.
+        /// This value is always 48000. It represents the sample rate in Hz.
         public let sampleRate: Int?
-        /// Stereo downmix preference. Only used for 3/2 coding mode.
+        /// Choose how the service does stereo downmixing. This setting only applies if you keep the default value of 3/2 - L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding mode (Eac3CodingMode). If you choose a different value for Coding mode, the service ignores Stereo downmix (Eac3StereoDownmix).
         public let stereoDownmix: Eac3StereoDownmix?
         /// When encoding 3/2 audio, sets whether an extra center back surround channel is matrix encoded into the left and right surround channels.
         public let surroundExMode: Eac3SurroundExMode?
@@ -2698,23 +2894,30 @@ extension MediaConvert {
 
     public struct EmbeddedDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Destination608ChannelNumber", location: .body(locationName: "destination608ChannelNumber"), required: false, type: .integer)
+            AWSShapeMember(label: "Destination608ChannelNumber", location: .body(locationName: "destination608ChannelNumber"), required: false, type: .integer), 
+            AWSShapeMember(label: "Destination708ServiceNumber", location: .body(locationName: "destination708ServiceNumber"), required: false, type: .integer)
         ]
 
-        /// Ignore this setting unless your input captions are SCC format and your output container is MXF. With this combination of input captions format and output container, you can optionally use this setting to replace the input channel number with the track number that you specify. Specify a different number for each output captions track. If you don't specify an output track number, the system uses the input channel number for the output channel number. This setting applies to each output individually. You can optionally combine two captions channels in your output. The two output channel numbers can be one of the following pairs: 1,3; 2,4; 1,4; or 2,3.
+        /// Ignore this setting unless your input captions are SCC format and your output captions are embedded in the video stream. Specify a CC number for each captions channel in this output. If you have two channels, pick CC numbers that aren't in the same field. For example, choose 1 and 3. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
         public let destination608ChannelNumber: Int?
+        /// Ignore this setting unless your input captions are SCC format and you want both 608 and 708 captions embedded in your output stream. Optionally, specify the 708 service number for each output captions channel. Choose a different number for each channel. To use this setting, also set Force 608 to 708 upconvert (Convert608To708) to Upconvert (UPCONVERT) in your input captions selector settings. If you choose to upconvert but don't specify a 708 service number, MediaConvert uses the number you specify for CC channel number (destination608ChannelNumber) for the 708 service number. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
+        public let destination708ServiceNumber: Int?
 
-        public init(destination608ChannelNumber: Int? = nil) {
+        public init(destination608ChannelNumber: Int? = nil, destination708ServiceNumber: Int? = nil) {
             self.destination608ChannelNumber = destination608ChannelNumber
+            self.destination708ServiceNumber = destination708ServiceNumber
         }
 
         public func validate(name: String) throws {
             try validate(self.destination608ChannelNumber, name:"destination608ChannelNumber", parent: name, max: 4)
             try validate(self.destination608ChannelNumber, name:"destination608ChannelNumber", parent: name, min: 1)
+            try validate(self.destination708ServiceNumber, name:"destination708ServiceNumber", parent: name, max: 6)
+            try validate(self.destination708ServiceNumber, name:"destination708ServiceNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case destination608ChannelNumber = "destination608ChannelNumber"
+            case destination708ServiceNumber = "destination708ServiceNumber"
         }
     }
 
@@ -2829,7 +3032,7 @@ extension MediaConvert {
             AWSShapeMember(label: "SccXml", location: .body(locationName: "sccXml"), required: false, type: .string)
         ]
 
-        /// Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the signal processing instructions in the message that you supply. Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. If you want the service to place SCTE-35 markers at the insertion points you specify in the XML document, you must also enable SCTE-35 ESAM (scte35Esam). Note that you can either specify an ESAM XML document or enable SCTE-35 passthrough. You can't do both.
+        /// Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the signal processing instructions in the message that you supply. Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. For your MPEG2-TS file outputs, if you want the service to place SCTE-35 markers at the insertion points you specify in the XML document, you must also enable SCTE-35 ESAM (scte35Esam). Note that you can either specify an ESAM XML document or enable SCTE-35 passthrough. You can't do both.
         public let sccXml: String?
 
         public init(sccXml: String? = nil) {
@@ -3238,7 +3441,7 @@ extension MediaConvert {
             AWSShapeMember(label: "QvbrQualityLevel", location: .body(locationName: "qvbrQualityLevel"), required: false, type: .integer)
         ]
 
-        /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
+        /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public let maxAverageBitrate: Int?
         /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within h264Settings. Specify the target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9.
         public let qvbrQualityLevel: Int?
@@ -3277,6 +3480,7 @@ extension MediaConvert {
     public enum H264SceneChangeDetect: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        case transitionDetection = "TRANSITION_DETECTION"
         public var description: String { return self.rawValue }
     }
 
@@ -3325,7 +3529,7 @@ extension MediaConvert {
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
         public let adaptiveQuantization: H264AdaptiveQuantization?
-        /// Average bitrate in bits/second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
+        /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
         public let bitrate: Int?
         /// Specify an H.264 level that is consistent with your output video settings. If you aren't sure what level to specify, choose Auto (AUTO).
         public let codecLevel: H264CodecLevel?
@@ -3385,7 +3589,7 @@ extension MediaConvert {
         public let rateControlMode: H264RateControlMode?
         /// Places a PPS header on each encoded picture, even if repeated.
         public let repeatPps: H264RepeatPps?
-        /// Scene change detection (inserts I-frames on scene changes).
+        /// Enable this setting to insert I-frames at scene changes that the service automatically detects. This improves video quality and is enabled by default. If this output uses QVBR, choose Transition detection (TRANSITION_DETECTION) for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
         public let sceneChangeDetect: H264SceneChangeDetect?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         public let slices: Int?
@@ -3668,7 +3872,7 @@ extension MediaConvert {
             AWSShapeMember(label: "QvbrQualityLevel", location: .body(locationName: "qvbrQualityLevel"), required: false, type: .integer)
         ]
 
-        /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
+        /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public let maxAverageBitrate: Int?
         /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within h265Settings. Specify the target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9.
         public let qvbrQualityLevel: Int?
@@ -3708,6 +3912,7 @@ extension MediaConvert {
     public enum H265SceneChangeDetect: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        case transitionDetection = "TRANSITION_DETECTION"
         public var description: String { return self.rawValue }
     }
 
@@ -3758,7 +3963,7 @@ extension MediaConvert {
         public let adaptiveQuantization: H265AdaptiveQuantization?
         /// Enables Alternate Transfer Function SEI message for outputs using Hybrid Log Gamma (HLG) Electro-Optical Transfer Function (EOTF).
         public let alternateTransferFunctionSei: H265AlternateTransferFunctionSei?
-        /// Average bitrate in bits/second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
+        /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
         public let bitrate: Int?
         /// H.265 Level.
         public let codecLevel: H265CodecLevel?
@@ -3788,9 +3993,7 @@ extension MediaConvert {
         public let hrdBufferInitialFillPercentage: Int?
         /// Size of buffer (HRD buffer model) in bits. For example, enter five megabits as 5000000.
         public let hrdBufferSize: Int?
-        /// Use Interlace mode (InterlaceMode) to choose the scan line type for the output. * Top Field First (TOP_FIELD) and Bottom Field First (BOTTOM_FIELD) produce interlaced output with the entire output having the same field polarity (top or bottom first). * Follow, Default Top (FOLLOW_TOP_FIELD) and Follow, Default Bottom (FOLLOW_BOTTOM_FIELD) use the same field polarity as the source. Therefore, behavior depends on the input scan type.
-        ///   - If the source is interlaced, the output will be interlaced with the same polarity as the source (it will follow the source). The output could therefore be a mix of "top field first" and "bottom field first".
-        ///   - If the source is progressive, the output will be interlaced with "top field first" or "bottom field first" polarity, depending on which of the Follow options you chose.
+        /// Choose the scan line type for the output. Choose Progressive (PROGRESSIVE) to create a progressive output, regardless of the scan type of your input. Choose Top Field First (TOP_FIELD) or Bottom Field First (BOTTOM_FIELD) to create an output that's interlaced with the same field polarity throughout. Choose Follow, Default Top (FOLLOW_TOP_FIELD) or Follow, Default Bottom (FOLLOW_BOTTOM_FIELD) to create an interlaced output with the same field polarity as the source. If the source is interlaced, the output will be interlaced with the same polarity as the source (it will follow the source). The output could therefore be a mix of "top field first" and "bottom field first". If the source is progressive, your output will be interlaced with "top field first" or "bottom field first" polarity, depending on which of the Follow options you chose. If you don't choose a value, the service will default to Progressive (PROGRESSIVE).
         public let interlaceMode: H265InterlaceMode?
         /// Maximum bitrate in bits/second. For example, enter five megabits per second as 5000000. Required when Rate control mode is QVBR.
         public let maxBitrate: Int?
@@ -3814,7 +4017,7 @@ extension MediaConvert {
         public let rateControlMode: H265RateControlMode?
         /// Specify Sample Adaptive Offset (SAO) filter strength.  Adaptive mode dynamically selects best strength based on content
         public let sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode?
-        /// Scene change detection (inserts I-frames on scene changes).
+        /// Enable this setting to insert I-frames at scene changes that the service automatically detects. This improves video quality and is enabled by default. If this output uses QVBR, choose Transition detection (TRANSITION_DETECTION) for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
         public let sceneChangeDetect: H265SceneChangeDetect?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         public let slices: Int?
@@ -4023,9 +4226,9 @@ extension MediaConvert {
         public let greenPrimaryX: Int?
         /// HDR Master Display Information must be provided by a color grader, using color grading tools. Range is 0 to 50,000, each increment represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for color correction.
         public let greenPrimaryY: Int?
-        /// Maximum light level among all samples in the coded video sequence, in units of candelas per square meter.
+        /// Maximum light level among all samples in the coded video sequence, in units of candelas per square meter.  This setting doesn't have a default value; you must specify a value that is suitable for the content.
         public let maxContentLightLevel: Int?
-        /// Maximum average light level of any frame in the coded video sequence, in units of candelas per square meter.
+        /// Maximum average light level of any frame in the coded video sequence, in units of candelas per square meter. This setting doesn't have a default value; you must specify a value that is suitable for the content.
         public let maxFrameAverageLightLevel: Int?
         /// Nominal maximum mastering display luminance in units of of 0.0001 candelas per square meter.
         public let maxLuminance: Int?
@@ -4101,6 +4304,12 @@ extension MediaConvert {
     public enum HlsAdMarkers: String, CustomStringConvertible, Codable {
         case elemental = "ELEMENTAL"
         case elementalScte35 = "ELEMENTAL_SCTE35"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsAudioOnlyContainer: String, CustomStringConvertible, Codable {
+        case automatic = "AUTOMATIC"
+        case m2ts = "M2TS"
         public var description: String { return self.rawValue }
     }
 
@@ -4196,11 +4405,11 @@ extension MediaConvert {
         public let initializationVectorInManifest: HlsInitializationVectorInManifest?
         /// Enable this setting to insert the EXT-X-SESSION-KEY element into the master playlist. This allows for offline Apple HLS FairPlay content protection.
         public let offlineEncrypted: HlsOfflineEncrypted?
-        /// Settings for use with a SPEKE key provider
+        /// Use these settings when doing DRM encryption with a SPEKE-compliant key provider, if your output group type is HLS, MS Smooth, or DASH. If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
         public let spekeKeyProvider: SpekeKeyProvider?
         /// Use these settings to set up encryption with a static key provider.
         public let staticKeyProvider: StaticKeyProvider?
-        /// Indicates which type of key provider is used for encryption.
+        /// Specify whether your DRM encryption key is static or from a key provider that follows the SPEKE standard. For more information about SPEKE, see https://docs.aws.amazon.com/speke/latest/documentation/what-is-speke.html.
         public let `type`: HlsKeyProviderType?
 
         public init(constantInitializationVector: String? = nil, encryptionMethod: HlsEncryptionType? = nil, initializationVectorInManifest: HlsInitializationVectorInManifest? = nil, offlineEncrypted: HlsOfflineEncrypted? = nil, spekeKeyProvider: SpekeKeyProvider? = nil, staticKeyProvider: StaticKeyProvider? = nil, type: HlsKeyProviderType? = nil) {
@@ -4266,7 +4475,7 @@ extension MediaConvert {
             AWSShapeMember(label: "TimestampDeltaMilliseconds", location: .body(locationName: "timestampDeltaMilliseconds"), required: false, type: .integer)
         ]
 
-        /// Choose one or more ad marker types to pass SCTE35 signals through to this group of Apple HLS outputs.
+        /// Choose one or more ad marker types to decorate your Apple HLS manifest. This setting does not determine whether SCTE-35 markers appear in the outputs themselves.
         public let adMarkers: [HlsAdMarkers]?
         /// A partial URI prefix that will be prepended to each output in the media .m3u8 file. Can be used if base manifest is delivered from a different URL than the main .m3u8 file.
         public let baseUrl: String?
@@ -4448,6 +4657,7 @@ extension MediaConvert {
     public struct HlsSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AudioGroupId", location: .body(locationName: "audioGroupId"), required: false, type: .string), 
+            AWSShapeMember(label: "AudioOnlyContainer", location: .body(locationName: "audioOnlyContainer"), required: false, type: .enum), 
             AWSShapeMember(label: "AudioRenditionSets", location: .body(locationName: "audioRenditionSets"), required: false, type: .string), 
             AWSShapeMember(label: "AudioTrackType", location: .body(locationName: "audioTrackType"), required: false, type: .enum), 
             AWSShapeMember(label: "IFrameOnlyManifest", location: .body(locationName: "iFrameOnlyManifest"), required: false, type: .enum), 
@@ -4456,6 +4666,8 @@ extension MediaConvert {
 
         /// Specifies the group to which the audio Rendition belongs.
         public let audioGroupId: String?
+        /// Use this setting only in audio-only outputs. Choose MPEG-2 Transport Stream (M2TS) to create a file in an MPEG2-TS container. Keep the default value Automatic (AUTOMATIC) to create an audio-only file in a raw container. Regardless of the value that you specify here, if this output has video, the service will place the output into an MPEG2-TS container.
+        public let audioOnlyContainer: HlsAudioOnlyContainer?
         /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
         public let audioRenditionSets: String?
         /// Four types of audio-only tracks are supported: Audio-Only Variant Stream The client can play back this audio-only stream instead of video in low-bandwidth scenarios. Represented as an EXT-X-STREAM-INF in the HLS manifest. Alternate Audio, Auto Select, Default Alternate rendition that the client should try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=YES, AUTOSELECT=YES Alternate Audio, Auto Select, Not Default Alternate rendition that the client may try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=YES Alternate Audio, not Auto Select Alternate rendition that the client will not try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=NO
@@ -4465,8 +4677,9 @@ extension MediaConvert {
         /// String concatenated to end of segment filenames. Accepts "Format Identifiers":#format_identifier_parameters.
         public let segmentModifier: String?
 
-        public init(audioGroupId: String? = nil, audioRenditionSets: String? = nil, audioTrackType: HlsAudioTrackType? = nil, iFrameOnlyManifest: HlsIFrameOnlyManifest? = nil, segmentModifier: String? = nil) {
+        public init(audioGroupId: String? = nil, audioOnlyContainer: HlsAudioOnlyContainer? = nil, audioRenditionSets: String? = nil, audioTrackType: HlsAudioTrackType? = nil, iFrameOnlyManifest: HlsIFrameOnlyManifest? = nil, segmentModifier: String? = nil) {
             self.audioGroupId = audioGroupId
+            self.audioOnlyContainer = audioOnlyContainer
             self.audioRenditionSets = audioRenditionSets
             self.audioTrackType = audioTrackType
             self.iFrameOnlyManifest = iFrameOnlyManifest
@@ -4475,6 +4688,7 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case audioGroupId = "audioGroupId"
+            case audioOnlyContainer = "audioOnlyContainer"
             case audioRenditionSets = "audioRenditionSets"
             case audioTrackType = "audioTrackType"
             case iFrameOnlyManifest = "iFrameOnlyManifest"
@@ -4550,6 +4764,7 @@ extension MediaConvert {
             AWSShapeMember(label: "AudioSelectorGroups", location: .body(locationName: "audioSelectorGroups"), required: false, type: .map), 
             AWSShapeMember(label: "AudioSelectors", location: .body(locationName: "audioSelectors"), required: false, type: .map), 
             AWSShapeMember(label: "CaptionSelectors", location: .body(locationName: "captionSelectors"), required: false, type: .map), 
+            AWSShapeMember(label: "Crop", location: .body(locationName: "crop"), required: false, type: .structure), 
             AWSShapeMember(label: "DeblockFilter", location: .body(locationName: "deblockFilter"), required: false, type: .enum), 
             AWSShapeMember(label: "DecryptionSettings", location: .body(locationName: "decryptionSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "DenoiseFilter", location: .body(locationName: "denoiseFilter"), required: false, type: .enum), 
@@ -4558,6 +4773,7 @@ extension MediaConvert {
             AWSShapeMember(label: "FilterStrength", location: .body(locationName: "filterStrength"), required: false, type: .integer), 
             AWSShapeMember(label: "ImageInserter", location: .body(locationName: "imageInserter"), required: false, type: .structure), 
             AWSShapeMember(label: "InputClippings", location: .body(locationName: "inputClippings"), required: false, type: .list), 
+            AWSShapeMember(label: "Position", location: .body(locationName: "position"), required: false, type: .structure), 
             AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber"), required: false, type: .integer), 
             AWSShapeMember(label: "PsiControl", location: .body(locationName: "psiControl"), required: false, type: .enum), 
             AWSShapeMember(label: "SupplementalImps", location: .body(locationName: "supplementalImps"), required: false, type: .list), 
@@ -4571,6 +4787,8 @@ extension MediaConvert {
         public let audioSelectors: [String: AudioSelector]?
         /// Use Captions selectors (CaptionSelectors) to specify the captions data from the input that you will use in your outputs. You can use mutiple captions selectors per input.
         public let captionSelectors: [String: CaptionSelector]?
+        /// Use Cropping selection (crop) to specify the video area that the service will include in the output video frame. If you specify a value here, it will override any value that you specify in the output setting Cropping selection (crop).
+        public let crop: Rectangle?
         /// Enable Deblock (InputDeblockFilter) to produce smoother motion in the output. Default is disabled. Only manaully controllable for MPEG2 and uncompressed video inputs.
         public let deblockFilter: InputDeblockFilter?
         /// Settings for decrypting any input files that you encrypt before you upload them to Amazon S3. MediaConvert can decrypt files only when you use AWS Key Management Service (KMS) to encrypt the data key that you use to encrypt your content.
@@ -4587,6 +4805,8 @@ extension MediaConvert {
         public let imageInserter: ImageInserter?
         /// (InputClippings) contains sets of start and end times that together specify a portion of the input to be used in the outputs. If you provide only a start time, the clip will be the entire input from that point to the end. If you provide only an end time, it will be the entire input up to that point. When you specify more than one input clip, the transcoding service creates the job outputs by stringing the clips together in the order you specify them.
         public let inputClippings: [InputClipping]?
+        /// Use Selection placement (position) to define the video area in your output frame. The area outside of the rectangle that you specify here is black. If you specify a value here, it will override any value that you specify in the output setting Selection placement (position). If you specify a value here, this will override any AFD values in your input, even if you set Respond to AFD (RespondToAfd) to Respond (RESPOND). If you specify a value here, this will ignore anything that you specify for the setting Scaling Behavior (scalingBehavior).
+        public let position: Rectangle?
         /// Use Program (programNumber) to select a specific program from within a multi-program transport stream. Note that Quad 4K is not currently supported. Default is the first program within the transport stream. If the program you specify doesn't exist, the transcoding service will use this default.
         public let programNumber: Int?
         /// Set PSI control (InputPsiControl) for transport stream inputs to specify which data the demux process to scans. * Ignore PSI - Scan all PIDs for audio and video. * Use PSI - Scan only PSI data.
@@ -4598,10 +4818,11 @@ extension MediaConvert {
         /// Selector for video.
         public let videoSelector: VideoSelector?
 
-        public init(audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, timecodeSource: InputTimecodeSource? = nil, videoSelector: VideoSelector? = nil) {
+        public init(audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, timecodeSource: InputTimecodeSource? = nil, videoSelector: VideoSelector? = nil) {
             self.audioSelectorGroups = audioSelectorGroups
             self.audioSelectors = audioSelectors
             self.captionSelectors = captionSelectors
+            self.crop = crop
             self.deblockFilter = deblockFilter
             self.decryptionSettings = decryptionSettings
             self.denoiseFilter = denoiseFilter
@@ -4610,6 +4831,7 @@ extension MediaConvert {
             self.filterStrength = filterStrength
             self.imageInserter = imageInserter
             self.inputClippings = inputClippings
+            self.position = position
             self.programNumber = programNumber
             self.psiControl = psiControl
             self.supplementalImps = supplementalImps
@@ -4627,14 +4849,16 @@ extension MediaConvert {
             try self.captionSelectors?.forEach {
                 try $0.value.validate(name: "\(name).captionSelectors[\"\($0.key)\"]")
             }
+            try self.crop?.validate(name: "\(name).crop")
             try self.decryptionSettings?.validate(name: "\(name).decryptionSettings")
-            try validate(self.fileInput, name:"fileInput", parent: name, pattern: "^(s3:\\/\\/)([^\\/]+\\/)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL])))$")
+            try validate(self.fileInput, name:"fileInput", parent: name, pattern: "^(http|https|s3)://([^\\/]+\\/)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[wW][eE][bB][mM]|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[xX][mM][lL])))$")
             try validate(self.filterStrength, name:"filterStrength", parent: name, max: 5)
             try validate(self.filterStrength, name:"filterStrength", parent: name, min: -5)
             try self.imageInserter?.validate(name: "\(name).imageInserter")
             try self.inputClippings?.forEach {
                 try $0.validate(name: "\(name).inputClippings[]")
             }
+            try self.position?.validate(name: "\(name).position")
             try validate(self.programNumber, name:"programNumber", parent: name, max: 2147483647)
             try validate(self.programNumber, name:"programNumber", parent: name, min: 1)
             try self.supplementalImps?.forEach {
@@ -4647,6 +4871,7 @@ extension MediaConvert {
             case audioSelectorGroups = "audioSelectorGroups"
             case audioSelectors = "audioSelectors"
             case captionSelectors = "captionSelectors"
+            case crop = "crop"
             case deblockFilter = "deblockFilter"
             case decryptionSettings = "decryptionSettings"
             case denoiseFilter = "denoiseFilter"
@@ -4655,6 +4880,7 @@ extension MediaConvert {
             case filterStrength = "filterStrength"
             case imageInserter = "imageInserter"
             case inputClippings = "inputClippings"
+            case position = "position"
             case programNumber = "programNumber"
             case psiControl = "psiControl"
             case supplementalImps = "supplementalImps"
@@ -4773,12 +4999,14 @@ extension MediaConvert {
             AWSShapeMember(label: "AudioSelectorGroups", location: .body(locationName: "audioSelectorGroups"), required: false, type: .map), 
             AWSShapeMember(label: "AudioSelectors", location: .body(locationName: "audioSelectors"), required: false, type: .map), 
             AWSShapeMember(label: "CaptionSelectors", location: .body(locationName: "captionSelectors"), required: false, type: .map), 
+            AWSShapeMember(label: "Crop", location: .body(locationName: "crop"), required: false, type: .structure), 
             AWSShapeMember(label: "DeblockFilter", location: .body(locationName: "deblockFilter"), required: false, type: .enum), 
             AWSShapeMember(label: "DenoiseFilter", location: .body(locationName: "denoiseFilter"), required: false, type: .enum), 
             AWSShapeMember(label: "FilterEnable", location: .body(locationName: "filterEnable"), required: false, type: .enum), 
             AWSShapeMember(label: "FilterStrength", location: .body(locationName: "filterStrength"), required: false, type: .integer), 
             AWSShapeMember(label: "ImageInserter", location: .body(locationName: "imageInserter"), required: false, type: .structure), 
             AWSShapeMember(label: "InputClippings", location: .body(locationName: "inputClippings"), required: false, type: .list), 
+            AWSShapeMember(label: "Position", location: .body(locationName: "position"), required: false, type: .structure), 
             AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber"), required: false, type: .integer), 
             AWSShapeMember(label: "PsiControl", location: .body(locationName: "psiControl"), required: false, type: .enum), 
             AWSShapeMember(label: "TimecodeSource", location: .body(locationName: "timecodeSource"), required: false, type: .enum), 
@@ -4791,6 +5019,8 @@ extension MediaConvert {
         public let audioSelectors: [String: AudioSelector]?
         /// Use Captions selectors (CaptionSelectors) to specify the captions data from the input that you will use in your outputs. You can use mutiple captions selectors per input.
         public let captionSelectors: [String: CaptionSelector]?
+        /// Use Cropping selection (crop) to specify the video area that the service will include in the output video frame. If you specify a value here, it will override any value that you specify in the output setting Cropping selection (crop).
+        public let crop: Rectangle?
         /// Enable Deblock (InputDeblockFilter) to produce smoother motion in the output. Default is disabled. Only manaully controllable for MPEG2 and uncompressed video inputs.
         public let deblockFilter: InputDeblockFilter?
         /// Enable Denoise (InputDenoiseFilter) to filter noise from the input.  Default is disabled. Only applicable to MPEG2, H.264, H.265, and uncompressed video inputs.
@@ -4803,6 +5033,8 @@ extension MediaConvert {
         public let imageInserter: ImageInserter?
         /// (InputClippings) contains sets of start and end times that together specify a portion of the input to be used in the outputs. If you provide only a start time, the clip will be the entire input from that point to the end. If you provide only an end time, it will be the entire input up to that point. When you specify more than one input clip, the transcoding service creates the job outputs by stringing the clips together in the order you specify them.
         public let inputClippings: [InputClipping]?
+        /// Use Selection placement (position) to define the video area in your output frame. The area outside of the rectangle that you specify here is black. If you specify a value here, it will override any value that you specify in the output setting Selection placement (position). If you specify a value here, this will override any AFD values in your input, even if you set Respond to AFD (RespondToAfd) to Respond (RESPOND). If you specify a value here, this will ignore anything that you specify for the setting Scaling Behavior (scalingBehavior).
+        public let position: Rectangle?
         /// Use Program (programNumber) to select a specific program from within a multi-program transport stream. Note that Quad 4K is not currently supported. Default is the first program within the transport stream. If the program you specify doesn't exist, the transcoding service will use this default.
         public let programNumber: Int?
         /// Set PSI control (InputPsiControl) for transport stream inputs to specify which data the demux process to scans. * Ignore PSI - Scan all PIDs for audio and video. * Use PSI - Scan only PSI data.
@@ -4812,16 +5044,18 @@ extension MediaConvert {
         /// Selector for video.
         public let videoSelector: VideoSelector?
 
-        public init(audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, timecodeSource: InputTimecodeSource? = nil, videoSelector: VideoSelector? = nil) {
+        public init(audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, timecodeSource: InputTimecodeSource? = nil, videoSelector: VideoSelector? = nil) {
             self.audioSelectorGroups = audioSelectorGroups
             self.audioSelectors = audioSelectors
             self.captionSelectors = captionSelectors
+            self.crop = crop
             self.deblockFilter = deblockFilter
             self.denoiseFilter = denoiseFilter
             self.filterEnable = filterEnable
             self.filterStrength = filterStrength
             self.imageInserter = imageInserter
             self.inputClippings = inputClippings
+            self.position = position
             self.programNumber = programNumber
             self.psiControl = psiControl
             self.timecodeSource = timecodeSource
@@ -4838,12 +5072,14 @@ extension MediaConvert {
             try self.captionSelectors?.forEach {
                 try $0.value.validate(name: "\(name).captionSelectors[\"\($0.key)\"]")
             }
+            try self.crop?.validate(name: "\(name).crop")
             try validate(self.filterStrength, name:"filterStrength", parent: name, max: 5)
             try validate(self.filterStrength, name:"filterStrength", parent: name, min: -5)
             try self.imageInserter?.validate(name: "\(name).imageInserter")
             try self.inputClippings?.forEach {
                 try $0.validate(name: "\(name).inputClippings[]")
             }
+            try self.position?.validate(name: "\(name).position")
             try validate(self.programNumber, name:"programNumber", parent: name, max: 2147483647)
             try validate(self.programNumber, name:"programNumber", parent: name, min: 1)
             try self.videoSelector?.validate(name: "\(name).videoSelector")
@@ -4853,12 +5089,14 @@ extension MediaConvert {
             case audioSelectorGroups = "audioSelectorGroups"
             case audioSelectors = "audioSelectors"
             case captionSelectors = "captionSelectors"
+            case crop = "crop"
             case deblockFilter = "deblockFilter"
             case denoiseFilter = "denoiseFilter"
             case filterEnable = "filterEnable"
             case filterStrength = "filterStrength"
             case imageInserter = "imageInserter"
             case inputClippings = "inputClippings"
+            case position = "position"
             case programNumber = "programNumber"
             case psiControl = "psiControl"
             case timecodeSource = "timecodeSource"
@@ -4977,10 +5215,12 @@ extension MediaConvert {
             AWSShapeMember(label: "JobPercentComplete", location: .body(locationName: "jobPercentComplete"), required: false, type: .integer), 
             AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate"), required: false, type: .string), 
             AWSShapeMember(label: "OutputGroupDetails", location: .body(locationName: "outputGroupDetails"), required: false, type: .list), 
+            AWSShapeMember(label: "Priority", location: .body(locationName: "priority"), required: false, type: .integer), 
             AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .string), 
             AWSShapeMember(label: "RetryCount", location: .body(locationName: "retryCount"), required: false, type: .integer), 
             AWSShapeMember(label: "Role", location: .body(locationName: "role"), required: true, type: .string), 
             AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: true, type: .structure), 
+            AWSShapeMember(label: "SimulateReservedQueue", location: .body(locationName: "simulateReservedQueue"), required: false, type: .enum), 
             AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
             AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval"), required: false, type: .enum), 
             AWSShapeMember(label: "Timing", location: .body(locationName: "timing"), required: false, type: .structure), 
@@ -5003,12 +5243,14 @@ extension MediaConvert {
         public let errorMessage: String?
         /// A portion of the job's ARN, unique within your AWS Elemental MediaConvert resources
         public let id: String?
-        /// An estimate of how far your job has progressed. This estimate is shown as a percentage of the total time from when your job leaves its queue to when your output files appear in your output Amazon S3 bucket. AWS Elemental MediaConvert provides jobPercentComplete in CloudWatch STATUS_UPDATE events and in the response to GetJob and ListJobs requests. The jobPercentComplete estimate is reliable for the following input containers: Quicktime, Transport Stream, MP4, and MXF. For some jobs, including audio-only jobs and jobs that use input clipping, the service can't provide information about job progress. In those cases, jobPercentComplete returns a null value.
+        /// An estimate of how far your job has progressed. This estimate is shown as a percentage of the total time from when your job leaves its queue to when your output files appear in your output Amazon S3 bucket. AWS Elemental MediaConvert provides jobPercentComplete in CloudWatch STATUS_UPDATE events and in the response to GetJob and ListJobs requests. The jobPercentComplete estimate is reliable for the following input containers: Quicktime, Transport Stream, MP4, and MXF. For some jobs, the service can't provide information about job progress. In those cases, jobPercentComplete returns a null value.
         public let jobPercentComplete: Int?
         /// The job template that the job is created from, if it is created from a job template.
         public let jobTemplate: String?
         /// List of output group details
         public let outputGroupDetails: [OutputGroupDetail]?
+        /// Relative priority on the job.
+        public let priority: Int?
         /// Optional. When you create a job, you can specify a queue to send it to. If you don't specify, the job will go to the default queue. For more about queues, see the User Guide topic at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
         public let queue: String?
         /// The number of times that the service automatically attempted to process your job after encountering an error.
@@ -5017,6 +5259,8 @@ extension MediaConvert {
         public let role: String
         /// JobSettings contains all the transcode settings for a job.
         public let settings: JobSettings
+        /// Enable this setting when you run a test job to estimate how many reserved transcoding slots (RTS) you need. When this is enabled, MediaConvert runs your job from an on-demand queue with similar performance to what you will see with one RTS in a reserved queue. This setting is disabled by default.
+        public let simulateReservedQueue: SimulateReservedQueue?
         /// A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
         public let status: JobStatus?
         /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
@@ -5026,7 +5270,7 @@ extension MediaConvert {
         /// User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
         public let userMetadata: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, createdAt: TimeStamp? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, id: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, queue: String? = nil, retryCount: Int? = nil, role: String, settings: JobSettings, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, createdAt: TimeStamp? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, id: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, retryCount: Int? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.arn = arn
             self.billingTagsSource = billingTagsSource
@@ -5038,10 +5282,12 @@ extension MediaConvert {
             self.jobPercentComplete = jobPercentComplete
             self.jobTemplate = jobTemplate
             self.outputGroupDetails = outputGroupDetails
+            self.priority = priority
             self.queue = queue
             self.retryCount = retryCount
             self.role = role
             self.settings = settings
+            self.simulateReservedQueue = simulateReservedQueue
             self.status = status
             self.statusUpdateInterval = statusUpdateInterval
             self.timing = timing
@@ -5060,10 +5306,12 @@ extension MediaConvert {
             case jobPercentComplete = "jobPercentComplete"
             case jobTemplate = "jobTemplate"
             case outputGroupDetails = "outputGroupDetails"
+            case priority = "priority"
             case queue = "queue"
             case retryCount = "retryCount"
             case role = "role"
             case settings = "settings"
+            case simulateReservedQueue = "simulateReservedQueue"
             case status = "status"
             case statusUpdateInterval = "statusUpdateInterval"
             case timing = "timing"
@@ -5101,7 +5349,7 @@ extension MediaConvert {
         public let inputs: [Input]?
         /// Overlay motion graphics on top of your video. The motion graphics that you specify here appear on all outputs in all output groups.
         public let motionImageInserter: MotionImageInserter?
-        /// Settings for Nielsen Configuration
+        /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration (nielsenConfiguration), MediaConvert enables PCM to ID3 tagging for all outputs in the job. To enable Nielsen configuration programmatically, include an instance of nielsenConfiguration in your JSON job specification. Even if you don't include any children of nielsenConfiguration, you still enable the setting.
         public let nielsenConfiguration: NielsenConfiguration?
         /// (OutputGroups) contains one group of settings for each set of outputs that share a common package type. All unpackaged files (MPEG-4, MPEG-2 TS, Quicktime, MXF, and no container) are grouped in a single output group as well. Required in (OutputGroups) is a group of settings that apply to the whole group. This required object depends on the value you set for (Type) under (OutputGroups)>(OutputGroupSettings). Type, settings object pairs are as follows. * FILE_GROUP_SETTINGS, FileGroupSettings * HLS_GROUP_SETTINGS, HlsGroupSettings * DASH_ISO_GROUP_SETTINGS, DashIsoGroupSettings * MS_SMOOTH_GROUP_SETTINGS, MsSmoothGroupSettings * CMAF_GROUP_SETTINGS, CmafGroupSettings
         public let outputGroups: [OutputGroup]?
@@ -5170,13 +5418,14 @@ extension MediaConvert {
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "LastUpdated", location: .body(locationName: "lastUpdated"), required: false, type: .timestamp), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "Priority", location: .body(locationName: "priority"), required: false, type: .integer), 
             AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .string), 
             AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: true, type: .structure), 
             AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval"), required: false, type: .enum), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
         ]
 
-        /// Accelerated transcoding is currently in private preview. Contact AWS for more information.
+        /// Accelerated transcoding can significantly speed up jobs with long, visually complex content.
         public let accelerationSettings: AccelerationSettings?
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
@@ -5190,6 +5439,8 @@ extension MediaConvert {
         public let lastUpdated: TimeStamp?
         /// A name you create for each job template. Each name must be unique within your account.
         public let name: String
+        /// Relative priority on the job.
+        public let priority: Int?
         /// Optional. The queue that jobs created from this template are assigned to. If you don't specify this, jobs will go to the default queue.
         public let queue: String?
         /// JobTemplateSettings contains all the transcode settings saved in the template that will be applied to jobs created from it.
@@ -5199,7 +5450,7 @@ extension MediaConvert {
         /// A job template can be of two types: system or custom. System or built-in job templates can't be modified or deleted by the user.
         public let `type`: `Type`?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, category: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, lastUpdated: TimeStamp? = nil, name: String, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, type: `Type`? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, category: String? = nil, createdAt: TimeStamp? = nil, description: String? = nil, lastUpdated: TimeStamp? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, type: `Type`? = nil) {
             self.accelerationSettings = accelerationSettings
             self.arn = arn
             self.category = category
@@ -5207,6 +5458,7 @@ extension MediaConvert {
             self.description = description
             self.lastUpdated = lastUpdated
             self.name = name
+            self.priority = priority
             self.queue = queue
             self.settings = settings
             self.statusUpdateInterval = statusUpdateInterval
@@ -5221,6 +5473,7 @@ extension MediaConvert {
             case description = "description"
             case lastUpdated = "lastUpdated"
             case name = "name"
+            case priority = "priority"
             case queue = "queue"
             case settings = "settings"
             case statusUpdateInterval = "statusUpdateInterval"
@@ -5258,7 +5511,7 @@ extension MediaConvert {
         public let inputs: [InputTemplate]?
         /// Overlay motion graphics on top of your video. The motion graphics that you specify here appear on all outputs in all output groups.
         public let motionImageInserter: MotionImageInserter?
-        /// Settings for Nielsen Configuration
+        /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration (nielsenConfiguration), MediaConvert enables PCM to ID3 tagging for all outputs in the job. To enable Nielsen configuration programmatically, include an instance of nielsenConfiguration in your JSON job specification. Even if you don't include any children of nielsenConfiguration, you still enable the setting.
         public let nielsenConfiguration: NielsenConfiguration?
         /// (OutputGroups) contains one group of settings for each set of outputs that share a common package type. All unpackaged files (MPEG-4, MPEG-2 TS, Quicktime, MXF, and no container) are grouped in a single output group as well. Required in (OutputGroups) is a group of settings that apply to the whole group. This required object depends on the value you set for (Type) under (OutputGroups)>(OutputGroupSettings). Type, settings object pairs are as follows. * FILE_GROUP_SETTINGS, FileGroupSettings * HLS_GROUP_SETTINGS, HlsGroupSettings * DASH_ISO_GROUP_SETTINGS, DashIsoGroupSettings * MS_SMOOTH_GROUP_SETTINGS, MsSmoothGroupSettings * CMAF_GROUP_SETTINGS, CmafGroupSettings
         public let outputGroups: [OutputGroup]?
@@ -5985,7 +6238,7 @@ extension MediaConvert {
         public let scte35Esam: M2tsScte35Esam?
         /// Specify the packet identifier (PID) of the SCTE-35 stream in the transport stream.
         public let scte35Pid: Int?
-        /// Enables SCTE-35 passthrough (scte35Source) to pass any SCTE-35 signals from input to output.
+        /// For SCTE-35 markers from your input-- Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None (NONE). Also provide the ESAM XML as a string in the setting Signal processing notification XML (sccXml). Also enable ESAM SCTE-35 (include the property scte35Esam).
         public let scte35Source: M2tsScte35Source?
         /// Inserts segmentation markers at each segmentation_time period. rai_segstart sets the Random Access Indicator bit in the adaptation field. rai_adapt sets the RAI bit and adds the current timecode in the private data bytes. psi_segstart inserts PAT and PMT tables at the start of segments. ebp adds Encoder Boundary Point information to the adaptation field as per OpenCable specification OC-SP-EBP-I01-130118. ebp_legacy adds Encoder Boundary Point information to the adaptation field using a legacy proprietary format.
         public let segmentationMarkers: M2tsSegmentationMarkers?
@@ -6184,7 +6437,7 @@ extension MediaConvert {
         public let programNumber: Int?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream.
         public let scte35Pid: Int?
-        /// Enables SCTE-35 passthrough (scte35Source) to pass any SCTE-35 signals from input to output.
+        /// For SCTE-35 markers from your input-- Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None (NONE) if you don't want manifest conditioning. Choose Passthrough (PASSTHROUGH) and choose Ad markers (adMarkers) if you do want manifest conditioning. In both cases, also provide the ESAM XML as a string in the setting Signal processing notification XML (sccXml).
         public let scte35Source: M3u8Scte35Source?
         /// Applies only to HLS outputs. Use this setting to specify whether the service inserts the ID3 timed metadata from the input in this output.
         public let timedMetadata: TimedMetadata?
@@ -6460,7 +6713,7 @@ extension MediaConvert {
             AWSShapeMember(label: "SampleRate", location: .body(locationName: "sampleRate"), required: false, type: .integer)
         ]
 
-        /// Average bitrate in bits/second.
+        /// Specify the average bitrate in bits per second.
         public let bitrate: Int?
         /// Set Channels to specify the number of channels in this output audio track. Choosing Mono in the console will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 1 and 2.
         public let channels: Int?
@@ -6665,7 +6918,7 @@ extension MediaConvert {
 
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
         public let adaptiveQuantization: Mpeg2AdaptiveQuantization?
-        /// Average bitrate in bits/second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
+        /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
         public let bitrate: Int?
         /// Use Level (Mpeg2CodecLevel) to set the MPEG-2 level for the video output.
         public let codecLevel: Mpeg2CodecLevel?
@@ -6713,7 +6966,7 @@ extension MediaConvert {
         public let qualityTuningLevel: Mpeg2QualityTuningLevel?
         /// Use Rate control mode (Mpeg2RateControlMode) to specifiy whether the bitrate is variable (vbr) or constant (cbr).
         public let rateControlMode: Mpeg2RateControlMode?
-        /// Scene change detection (inserts I-frames on scene changes).
+        /// Enable this setting to insert I-frames at scene changes that the service automatically detects. This improves video quality and is enabled by default.
         public let sceneChangeDetect: Mpeg2SceneChangeDetect?
         /// Enables Slow PAL rate conversion. 23.976fps and 24fps input is relabeled as 25fps, and audio is sped up correspondingly.
         public let slowPal: Mpeg2SlowPal?
@@ -6866,7 +7119,7 @@ extension MediaConvert {
             AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: false, type: .structure)
         ]
 
-        /// Settings for use with a SPEKE key provider
+        /// Use these settings when doing DRM encryption with a SPEKE-compliant key provider, if your output group type is HLS, MS Smooth, or DASH. If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
         public let spekeKeyProvider: SpekeKeyProvider?
 
         public init(spekeKeyProvider: SpekeKeyProvider? = nil) {
@@ -6944,7 +7197,7 @@ extension MediaConvert {
             AWSShapeMember(label: "DistributorId", location: .body(locationName: "distributorId"), required: false, type: .string)
         ]
 
-        /// Use Nielsen Configuration (NielsenConfiguration) to set the Nielsen measurement system breakout code. Supported values are 0, 3, 7, and 9.
+        /// Nielsen has discontinued the use of breakout code functionality. If you must include this property, set the value to zero.
         public let breakoutCode: Int?
         /// Use Distributor ID (DistributorID) to specify the distributor ID that is assigned to your organization by Neilsen.
         public let distributorId: String?
@@ -6955,7 +7208,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try validate(self.breakoutCode, name:"breakoutCode", parent: name, max: 9)
+            try validate(self.breakoutCode, name:"breakoutCode", parent: name, max: 0)
             try validate(self.breakoutCode, name:"breakoutCode", parent: name, min: 0)
         }
 
@@ -6969,31 +7222,37 @@ extension MediaConvert {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filter", location: .body(locationName: "filter"), required: false, type: .enum), 
             AWSShapeMember(label: "FilterSettings", location: .body(locationName: "filterSettings"), required: false, type: .structure), 
-            AWSShapeMember(label: "SpatialFilterSettings", location: .body(locationName: "spatialFilterSettings"), required: false, type: .structure)
+            AWSShapeMember(label: "SpatialFilterSettings", location: .body(locationName: "spatialFilterSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "TemporalFilterSettings", location: .body(locationName: "temporalFilterSettings"), required: false, type: .structure)
         ]
 
-        /// Use Noise reducer filter (NoiseReducerFilter) to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer (NoiseReducer). * Bilateral is an edge preserving noise reduction filter. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) are convolution filters. * Conserve is a min/max noise reduction filter. * Spatial is a frequency-domain filter based on JND principles.
+        /// Use Noise reducer filter (NoiseReducerFilter) to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer (NoiseReducer). * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion.
         public let filter: NoiseReducerFilter?
         /// Settings for a noise reducer filter
         public let filterSettings: NoiseReducerFilterSettings?
         /// Noise reducer filter settings for spatial filter.
         public let spatialFilterSettings: NoiseReducerSpatialFilterSettings?
+        /// Noise reducer filter settings for temporal filter.
+        public let temporalFilterSettings: NoiseReducerTemporalFilterSettings?
 
-        public init(filter: NoiseReducerFilter? = nil, filterSettings: NoiseReducerFilterSettings? = nil, spatialFilterSettings: NoiseReducerSpatialFilterSettings? = nil) {
+        public init(filter: NoiseReducerFilter? = nil, filterSettings: NoiseReducerFilterSettings? = nil, spatialFilterSettings: NoiseReducerSpatialFilterSettings? = nil, temporalFilterSettings: NoiseReducerTemporalFilterSettings? = nil) {
             self.filter = filter
             self.filterSettings = filterSettings
             self.spatialFilterSettings = spatialFilterSettings
+            self.temporalFilterSettings = temporalFilterSettings
         }
 
         public func validate(name: String) throws {
             try self.filterSettings?.validate(name: "\(name).filterSettings")
             try self.spatialFilterSettings?.validate(name: "\(name).spatialFilterSettings")
+            try self.temporalFilterSettings?.validate(name: "\(name).temporalFilterSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case filter = "filter"
             case filterSettings = "filterSettings"
             case spatialFilterSettings = "spatialFilterSettings"
+            case temporalFilterSettings = "temporalFilterSettings"
         }
     }
 
@@ -7005,6 +7264,7 @@ extension MediaConvert {
         case sharpen = "SHARPEN"
         case conserve = "CONSERVE"
         case spatial = "SPATIAL"
+        case temporal = "TEMPORAL"
         public var description: String { return self.rawValue }
     }
 
@@ -7066,6 +7326,42 @@ extension MediaConvert {
         }
     }
 
+    public struct NoiseReducerTemporalFilterSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AggressiveMode", location: .body(locationName: "aggressiveMode"), required: false, type: .integer), 
+            AWSShapeMember(label: "Speed", location: .body(locationName: "speed"), required: false, type: .integer), 
+            AWSShapeMember(label: "Strength", location: .body(locationName: "strength"), required: false, type: .integer)
+        ]
+
+        /// Use Aggressive mode for content that has complex motion. Higher values produce stronger temporal filtering. This filters highly complex scenes more aggressively and creates better VQ for low bitrate outputs.
+        public let aggressiveMode: Int?
+        /// The speed of the filter (higher number is faster). Low setting reduces bit rate at the cost of transcode time, high setting improves transcode time at the cost of bit rate.
+        public let speed: Int?
+        /// Relative strength of noise reducing filter. Higher values produce stronger filtering. Recommended Range: * [0 .. 2] for complexity reduction with minimal sharpness loss * [2 .. 8] for complexity reduction with image preservation * [8 .. 16] for noise reduction. Reduce noise combined high complexity reduction
+        public let strength: Int?
+
+        public init(aggressiveMode: Int? = nil, speed: Int? = nil, strength: Int? = nil) {
+            self.aggressiveMode = aggressiveMode
+            self.speed = speed
+            self.strength = strength
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aggressiveMode, name:"aggressiveMode", parent: name, max: 4)
+            try validate(self.aggressiveMode, name:"aggressiveMode", parent: name, min: 0)
+            try validate(self.speed, name:"speed", parent: name, max: 3)
+            try validate(self.speed, name:"speed", parent: name, min: -1)
+            try validate(self.strength, name:"strength", parent: name, max: 16)
+            try validate(self.strength, name:"strength", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggressiveMode = "aggressiveMode"
+            case speed = "speed"
+            case strength = "strength"
+        }
+    }
+
     public enum Order: String, CustomStringConvertible, Codable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
@@ -7098,7 +7394,7 @@ extension MediaConvert {
         public let outputSettings: OutputSettings?
         /// Use Preset (Preset) to specifiy a preset for your transcoding settings. Provide the system or custom preset name. You can specify either Preset (Preset) or Container settings (ContainerSettings), but not both.
         public let preset: String?
-        /// (VideoDescription) contains a group of video encoding settings. The specific video settings depend on the video codec you choose when you specify a value for Video codec (codec). Include one instance of (VideoDescription) per output.
+        /// (VideoDescription) contains a group of video encoding settings. The specific video settings depend on the video codec that you choose when you specify a value for Video codec (codec). Include one instance of (VideoDescription) per output.
         public let videoDescription: VideoDescription?
 
         public init(audioDescriptions: [AudioDescription]? = nil, captionDescriptions: [CaptionDescription]? = nil, containerSettings: ContainerSettings? = nil, extension: String? = nil, nameModifier: String? = nil, outputSettings: OutputSettings? = nil, preset: String? = nil, videoDescription: VideoDescription? = nil) {
@@ -7396,7 +7692,7 @@ extension MediaConvert {
         public let captionDescriptions: [CaptionDescriptionPreset]?
         /// Container specific settings.
         public let containerSettings: ContainerSettings?
-        /// (VideoDescription) contains a group of video encoding settings. The specific video settings depend on the video codec you choose when you specify a value for Video codec (codec). Include one instance of (VideoDescription) per output.
+        /// (VideoDescription) contains a group of video encoding settings. The specific video settings depend on the video codec that you choose when you specify a value for Video codec (codec). Include one instance of (VideoDescription) per output.
         public let videoDescription: VideoDescription?
 
         public init(audioDescriptions: [AudioDescription]? = nil, captionDescriptions: [CaptionDescriptionPreset]? = nil, containerSettings: ContainerSettings? = nil, videoDescription: VideoDescription? = nil) {
@@ -7863,7 +8159,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try validate(self.kmsKeyArn, name:"kmsKeyArn", parent: name, pattern: "^arn:aws(-us-gov)?:kms:[a-z-]{2,6}-(east|west|central|((north|south)(east|west)?))-[1-9]{1,2}:\\d{12}:key/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+            try validate(self.kmsKeyArn, name:"kmsKeyArn", parent: name, pattern: "^arn:aws(-us-gov|-cn)?:kms:[a-z-]{2,6}-(east|west|central|((north|south)(east|west)?))-[1-9]{1,2}:\\d{12}:key/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7909,6 +8205,12 @@ extension MediaConvert {
         }
     }
 
+    public enum SimulateReservedQueue: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct SpekeKeyProvider: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn"), required: false, type: .string), 
@@ -7917,13 +8219,14 @@ extension MediaConvert {
             AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
         ]
 
-        /// Optional AWS Certificate Manager ARN for a certificate to send to the keyprovider. The certificate holds a key used by the keyprovider to encrypt the keys in its response.
+        /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
         public let certificateArn: String?
-        /// The SPEKE-compliant server uses Resource ID (ResourceId) to identify content.
+        /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
         public let resourceId: String?
-        /// Relates to SPEKE implementation. DRM system identifiers. DASH output groups support a max of two system ids. Other group types support one system id.
+        /// Relates to SPEKE implementation. DRM system identifiers. DASH output groups support a max of two system ids. Other group types support one system id. See
+        ///  https://dashif.org/identifiers/content_protection/ for more details.
         public let systemIds: [String]?
-        /// Use URL (Url) to specify the SPEKE-compliant server that will provide keys for content.
+        /// Specify the URL to the key server that your SPEKE-compliant DRM key provider uses to provide keys for encrypting your content.
         public let url: String?
 
         public init(certificateArn: String? = nil, resourceId: String? = nil, systemIds: [String]? = nil, url: String? = nil) {
@@ -7945,6 +8248,59 @@ extension MediaConvert {
             case certificateArn = "certificateArn"
             case resourceId = "resourceId"
             case systemIds = "systemIds"
+            case url = "url"
+        }
+    }
+
+    public struct SpekeKeyProviderCmaf: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", location: .body(locationName: "certificateArn"), required: false, type: .string), 
+            AWSShapeMember(label: "DashSignaledSystemIds", location: .body(locationName: "dashSignaledSystemIds"), required: false, type: .list), 
+            AWSShapeMember(label: "HlsSignaledSystemIds", location: .body(locationName: "hlsSignaledSystemIds"), required: false, type: .list), 
+            AWSShapeMember(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
+            AWSShapeMember(label: "Url", location: .body(locationName: "url"), required: false, type: .string)
+        ]
+
+        /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
+        public let certificateArn: String?
+        /// Specify the DRM system IDs that you want signaled in the DASH manifest that MediaConvert creates as part of this CMAF package. The DASH manifest can currently signal up to three system IDs. For more information, see https://dashif.org/identifiers/content_protection/.
+        public let dashSignaledSystemIds: [String]?
+        /// Specify the DRM system ID that you want signaled in the HLS manifest that MediaConvert creates as part of this CMAF package. The HLS manifest can currently signal only one system ID. For more information, see https://dashif.org/identifiers/content_protection/.
+        public let hlsSignaledSystemIds: [String]?
+        /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
+        public let resourceId: String?
+        /// Specify the URL to the key server that your SPEKE-compliant DRM key provider uses to provide keys for encrypting your content.
+        public let url: String?
+
+        public init(certificateArn: String? = nil, dashSignaledSystemIds: [String]? = nil, hlsSignaledSystemIds: [String]? = nil, resourceId: String? = nil, url: String? = nil) {
+            self.certificateArn = certificateArn
+            self.dashSignaledSystemIds = dashSignaledSystemIds
+            self.hlsSignaledSystemIds = hlsSignaledSystemIds
+            self.resourceId = resourceId
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateArn, name:"certificateArn", parent: name, pattern: "^arn:aws(-us-gov)?:acm:")
+            try self.dashSignaledSystemIds?.forEach {
+                try validate($0, name: "dashSignaledSystemIds[]", parent: name, max: 36)
+                try validate($0, name: "dashSignaledSystemIds[]", parent: name, min: 36)
+                try validate($0, name: "dashSignaledSystemIds[]", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            }
+            try self.hlsSignaledSystemIds?.forEach {
+                try validate($0, name: "hlsSignaledSystemIds[]", parent: name, max: 36)
+                try validate($0, name: "hlsSignaledSystemIds[]", parent: name, min: 36)
+                try validate($0, name: "hlsSignaledSystemIds[]", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            }
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^[\\w-]+$")
+            try validate(self.url, name:"url", parent: name, pattern: "^https:\\/\\/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "certificateArn"
+            case dashSignaledSystemIds = "dashSignaledSystemIds"
+            case hlsSignaledSystemIds = "hlsSignaledSystemIds"
+            case resourceId = "resourceId"
             case url = "url"
         }
     }
@@ -8038,14 +8394,18 @@ extension MediaConvert {
 
     public struct TeletextDestinationSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "PageNumber", location: .body(locationName: "pageNumber"), required: false, type: .string)
+            AWSShapeMember(label: "PageNumber", location: .body(locationName: "pageNumber"), required: false, type: .string), 
+            AWSShapeMember(label: "PageTypes", location: .body(locationName: "pageTypes"), required: false, type: .list)
         ]
 
         /// Set pageNumber to the Teletext page number for the destination captions for this output. This value must be a three-digit hexadecimal string; strings ending in -FF are invalid. If you are passing through the entire set of Teletext data, do not use this field.
         public let pageNumber: String?
+        /// Specify the page types for this Teletext page. If you don't specify a value here, the service sets the page type to the default value Subtitle (PAGE_TYPE_SUBTITLE). If you pass through the entire set of Teletext data, don't use this field. When you pass through a set of Teletext pages, your output has the same page types as your input.
+        public let pageTypes: [TeletextPageType]?
 
-        public init(pageNumber: String? = nil) {
+        public init(pageNumber: String? = nil, pageTypes: [TeletextPageType]? = nil) {
             self.pageNumber = pageNumber
+            self.pageTypes = pageTypes
         }
 
         public func validate(name: String) throws {
@@ -8056,7 +8416,17 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case pageNumber = "pageNumber"
+            case pageTypes = "pageTypes"
         }
+    }
+
+    public enum TeletextPageType: String, CustomStringConvertible, Codable {
+        case pageTypeInitial = "PAGE_TYPE_INITIAL"
+        case pageTypeSubtitle = "PAGE_TYPE_SUBTITLE"
+        case pageTypeAddlInfo = "PAGE_TYPE_ADDL_INFO"
+        case pageTypeProgramSchedule = "PAGE_TYPE_PROGRAM_SCHEDULE"
+        case pageTypeHearingImpairedSubtitle = "PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE"
+        public var description: String { return self.rawValue }
     }
 
     public struct TeletextSourceSettings: AWSShape {
@@ -8316,6 +8686,7 @@ extension MediaConvert {
             AWSShapeMember(label: "Category", location: .body(locationName: "category"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "Name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "Priority", location: .body(locationName: "priority"), required: false, type: .integer), 
             AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .string), 
             AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: false, type: .structure), 
             AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval"), required: false, type: .enum)
@@ -8329,6 +8700,8 @@ extension MediaConvert {
         public let description: String?
         /// The name of the job template you are modifying
         public let name: String
+        /// Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
+        public let priority: Int?
         /// The new queue for the job template, if you are changing it.
         public let queue: String?
         /// JobTemplateSettings contains all the transcode settings saved in the template that will be applied to jobs created from it.
@@ -8336,17 +8709,20 @@ extension MediaConvert {
         /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
         public let statusUpdateInterval: StatusUpdateInterval?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, name: String, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, category: String? = nil, description: String? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings? = nil, statusUpdateInterval: StatusUpdateInterval? = nil) {
             self.accelerationSettings = accelerationSettings
             self.category = category
             self.description = description
             self.name = name
+            self.priority = priority
             self.queue = queue
             self.settings = settings
             self.statusUpdateInterval = statusUpdateInterval
         }
 
         public func validate(name: String) throws {
+            try validate(self.priority, name:"priority", parent: name, max: 50)
+            try validate(self.priority, name:"priority", parent: name, min: -50)
             try self.settings?.validate(name: "\(name).settings")
         }
 
@@ -8355,6 +8731,7 @@ extension MediaConvert {
             case category = "category"
             case description = "description"
             case name = "name"
+            case priority = "priority"
             case queue = "queue"
             case settings = "settings"
             case statusUpdateInterval = "statusUpdateInterval"
@@ -8560,13 +8937,13 @@ extension MediaConvert {
 
         /// This setting only applies to H.264, H.265, and MPEG2 outputs. Use Insert AFD signaling (AfdSignaling) to specify whether the service includes AFD values in the output video data and what those values are. * Choose None to remove all AFD values from this output. * Choose Fixed to ignore input AFD values and instead encode the value specified in the job. * Choose Auto to calculate output AFD values based on the input AFD scaler data.
         public let afdSignaling: AfdSignaling?
-        /// The service automatically applies the anti-alias filter to all outputs. The service no longer accepts the value DISABLED for AntiAlias. If you specify that in your job, the service will ignore the setting.
+        /// The anti-alias filter is automatically applied to all outputs. The service no longer accepts the value DISABLED for AntiAlias. If you specify that in your job, the service will ignore the setting.
         public let antiAlias: AntiAlias?
-        /// Video codec settings, (CodecSettings) under (VideoDescription), contains the group of settings related to video encoding. The settings in this group vary depending on the value you choose for Video codec (Codec). For each codec enum you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * FRAME_CAPTURE, FrameCaptureSettings
+        /// Video codec settings, (CodecSettings) under (VideoDescription), contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec (Codec). For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * FRAME_CAPTURE, FrameCaptureSettings
         public let codecSettings: VideoCodecSettings?
-        /// Enable Insert color metadata (ColorMetadata) to include color metadata in this output. This setting is enabled by default.
+        /// Choose Insert (INSERT) for this setting to include color metadata in this output. Choose Ignore (IGNORE) to exclude color metadata from this output. If you don't specify a value, the service sets this to Insert by default.
         public let colorMetadata: ColorMetadata?
-        /// Applies only if your input aspect ratio is different from your output aspect ratio. Use Input cropping rectangle (Crop) to specify the  video area the service will include in the output. This will crop the input source, causing video pixels to be removed on encode. If you crop your input frame size to smaller than your output frame size, make sure to specify the behavior you want in your output setting "Scaling behavior".
+        /// Use Cropping selection (crop) to specify the video area that the service will include in the output video frame.
         public let crop: Rectangle?
         /// Applies only to 29.97 fps outputs. When this feature is enabled, the service will use drop-frame timecode on outputs. If it is not possible to use drop-frame timecode, the system will fall back to non-drop-frame. This setting is enabled by default when Timecode insertion (TimecodeInsertion) is enabled.
         public let dropFrameTimecode: DropFrameTimecode?
@@ -8574,11 +8951,11 @@ extension MediaConvert {
         public let fixedAfd: Int?
         /// Use the Height (Height) setting to define the video resolution height for this output. Specify in pixels. If you don't provide a value here, the service will use the input height.
         public let height: Int?
-        /// Use Position (Position) to point to a rectangle object to define your position. This setting overrides any other aspect ratio.
+        /// Use Selection placement (position) to define the video area in your output frame. The area outside of the rectangle that you specify here is black.
         public let position: Rectangle?
         /// Use Respond to AFD (RespondToAfd) to specify how the service changes the video itself in response to AFD values in the input. * Choose Respond to clip the input video frame according to the AFD value, input display aspect ratio, and output display aspect ratio. * Choose Passthrough to include the input AFD values. Do not choose this when AfdSignaling is set to (NONE). A preferred implementation of this workflow is to set RespondToAfd to (NONE) and set AfdSignaling to (AUTO). * Choose None to remove all input AFD values from this output.
         public let respondToAfd: RespondToAfd?
-        /// Applies only if your input aspect ratio is different from your output aspect ratio. Choose "Stretch to output" to have the service stretch your video image to fit. Keep the setting "Default" to allow the service to letterbox your video instead. This setting overrides any positioning value you specify elsewhere in the job.
+        /// Specify how the service handles outputs that have a different aspect ratio from the input aspect ratio. Choose Stretch to output (STRETCH_TO_OUTPUT) to have the service stretch your video image to fit. Keep the setting Default (DEFAULT) to have the service letterbox your video instead. This setting overrides any value that you specify for the setting Selection placement (position) in this output.
         public let scalingBehavior: ScalingBehavior?
         /// Use Sharpness (Sharpness) setting to specify the strength of anti-aliasing. This setting changes the width of the anti-alias filter kernel used for scaling. Sharpness only applies if your output resolution is different from your input resolution. 0 is the softest setting, 100 the sharpest, and 50 recommended for most content.
         public let sharpness: Int?
@@ -8717,11 +9094,11 @@ extension MediaConvert {
             AWSShapeMember(label: "Rotate", location: .body(locationName: "rotate"), required: false, type: .enum)
         ]
 
-        /// If your input video has accurate color space metadata, or if you don't know about color space, leave this set to the default value FOLLOW. The service will automatically detect your input color space. If your input video has metadata indicating the wrong color space, or if your input video is missing color space metadata that should be there, specify the accurate color space here. If you choose HDR10, you can also correct inaccurate color space coefficients, using the HDR master display information controls. You must also set Color space usage (ColorSpaceUsage) to FORCE for the service to use these values.
+        /// If your input video has accurate color space metadata, or if you don't know about color space, leave this set to the default value Follow (FOLLOW). The service will automatically detect your input color space. If your input video has metadata indicating the wrong color space, specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate, choose Force HDR 10 (FORCE_HDR10) here and specify correct values in the input HDR 10 metadata (Hdr10Metadata) settings. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
         public let colorSpace: ColorSpace?
-        /// There are two sources for color metadata, the input file and the job configuration (in the Color space and HDR master display informaiton settings). The Color space usage setting controls which takes precedence. FORCE: The system will use color metadata supplied by user, if any. If the user does not supply color metadata, the system will use data from the source. FALLBACK: The system will use color metadata from the source. If source has no color metadata, the system will use user-supplied color metadata values if available.
+        /// There are two sources for color metadata, the input file and the job input settings Color space (ColorSpace) and HDR master display information settings(Hdr10Metadata). The Color space usage setting determines which takes precedence. Choose Force (FORCE) to use color metadata from the input job settings. If you don't specify values for those settings, the service defaults to using metadata from your input. FALLBACK - Choose Fallback (FALLBACK) to use color metadata from the source when it is present. If there's no color metadata in your input file, the service defaults to using values you specify in the input settings.
         public let colorSpaceUsage: ColorSpaceUsage?
-        /// Use the "HDR master display information" (Hdr10Metadata) settings to correct HDR metadata or to provide missing metadata. These values vary depending on the input video and must be provided by a color grader. Range is 0 to 50,000; each increment represents 0.00002 in CIE1931 color coordinate. Note that these settings are not color correction. Note that if you are creating HDR outputs inside of an HLS CMAF package, to comply with the Apple specification, you must use the following settings. Set "MP4 packaging type" (writeMp4PackagingType) to HVC1 (HVC1). Set "Profile" (H265Settings > codecProfile) to Main10/High (MAIN10_HIGH). Set "Level" (H265Settings > codecLevel) to 5 (LEVEL_5).
+        /// Use these settings to provide HDR 10 metadata that is missing or inaccurate in your input video. Appropriate values vary depending on the input video and must be provided by a color grader. The color grader generates these values during the HDR 10 mastering process. The valid range for each of these settings is 0 to 50,000. Each increment represents 0.00002 in CIE1931 color coordinate. Related settings - When you specify these values, you must also set Color space (ColorSpace) to HDR 10 (HDR10). To specify whether the the values you specify here take precedence over the values in the metadata of your input file, set Color space usage (ColorSpaceUsage). To specify whether color metadata is included in an output, set Color metadata (ColorMetadata). For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
         public let hdr10Metadata: Hdr10Metadata?
         /// Use PID (Pid) to select specific video data from an input file. Specify this value as an integer; the system automatically converts it to the hexidecimal value. For example, 257 selects PID 0x101. A PID, or packet identifier, is an identifier for a set of data in an MPEG-2 transport stream container.
         public let pid: Int?
