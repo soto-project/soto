@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 import SwiftyJSON
 
 let enableShowLog = ProcessInfo.processInfo.environment["Verbose"] == nil ? false : true

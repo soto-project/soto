@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 import AWSSDKSwiftCore
 
 public struct S3RequestMiddleware: AWSServiceMiddleware {
