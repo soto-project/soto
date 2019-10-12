@@ -67,6 +67,7 @@ public struct ConfigService {
         return client.send(operation: "DeleteEvaluationResults", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified organization config rule and all of its evaluation results from all member accounts in that organization. Only a master account can delete an organization config rule. AWS Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a rule while it is in this state.
     @discardableResult public func deleteOrganizationConfigRule(_ input: DeleteOrganizationConfigRuleRequest) -> Future<Void> {
         return client.send(operation: "DeleteOrganizationConfigRule", path: "/", httpMethod: "POST", input: input)
     }
@@ -79,6 +80,11 @@ public struct ConfigService {
     ///  Deletes the remediation configuration.
     public func deleteRemediationConfiguration(_ input: DeleteRemediationConfigurationRequest) -> Future<DeleteRemediationConfigurationResponse> {
         return client.send(operation: "DeleteRemediationConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes one or more remediation exceptions mentioned in the resource keys.
+    public func deleteRemediationExceptions(_ input: DeleteRemediationExceptionsRequest) -> Future<DeleteRemediationExceptionsResponse> {
+        return client.send(operation: "DeleteRemediationExceptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the retention configuration.
@@ -151,10 +157,12 @@ public struct ConfigService {
         return client.send(operation: "DescribeDeliveryChannels", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Provides organization config rule deployment status for an organization.  The status is not considered successful until organization config rule is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization config rule names. It is only applicable, when you request all the organization config rules. Only a master account can call this API. 
     public func describeOrganizationConfigRuleStatuses(_ input: DescribeOrganizationConfigRuleStatusesRequest) -> Future<DescribeOrganizationConfigRuleStatusesResponse> {
         return client.send(operation: "DescribeOrganizationConfigRuleStatuses", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns a list of organization config rules.  When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization config rule names. It is only applicable, when you request all the organization config rules. Only a master account can call this API. 
     public func describeOrganizationConfigRules(_ input: DescribeOrganizationConfigRulesRequest) -> Future<DescribeOrganizationConfigRulesResponse> {
         return client.send(operation: "DescribeOrganizationConfigRules", path: "/", httpMethod: "POST", input: input)
     }
@@ -167,6 +175,11 @@ public struct ConfigService {
     ///  Returns the details of one or more remediation configurations.
     public func describeRemediationConfigurations(_ input: DescribeRemediationConfigurationsRequest) -> Future<DescribeRemediationConfigurationsResponse> {
         return client.send(operation: "DescribeRemediationConfigurations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted. When you specify the limit and the next token, you receive a paginated response.   When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources. 
+    public func describeRemediationExceptions(_ input: DescribeRemediationExceptionsRequest) -> Future<DescribeRemediationExceptionsResponse> {
+        return client.send(operation: "DescribeRemediationExceptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed. When you specify the limit and the next token, you receive a paginated response.
@@ -224,6 +237,7 @@ public struct ConfigService {
         return client.send(operation: "GetDiscoveredResourceCounts", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns detailed status for each member account within an organization for a given organization config rule.  Only a master account can call this API. 
     public func getOrganizationConfigRuleDetailedStatus(_ input: GetOrganizationConfigRuleDetailedStatusRequest) -> Future<GetOrganizationConfigRuleDetailedStatusResponse> {
         return client.send(operation: "GetOrganizationConfigRuleDetailedStatus", path: "/", httpMethod: "POST", input: input)
     }
@@ -278,6 +292,7 @@ public struct ConfigService {
         return client.send(operation: "PutEvaluations", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Adds or updates organization config rule for your entire organization evaluating whether your AWS resources comply with your desired configurations. Only a master account can create or update an organization config rule. This API enables organization service access through the EnableAWSServiceAccess action and creates a service linked role AWSServiceRoleForConfigMultiAccountSetup in the master account of your organization. The service linked role is created only when the role does not exist in the master account. AWS Config verifies the existence of role with GetRole action. You can use this action to create both custom AWS Config rules and AWS managed Config rules. If you are adding a new custom AWS Config rule, you must first create AWS Lambda function in the master account that the rule invokes to evaluate your resources. When you use the PutOrganizationConfigRule action to add the rule to AWS Config, you must specify the Amazon Resource Name (ARN) that AWS Lambda assigns to the function. If you are adding an AWS managed Config rule, specify the rule's identifier for the RuleIdentifier key. The maximum number of organization config rules that AWS Config supports is 150.  Specify either OrganizationCustomRuleMetadata or OrganizationManagedRuleMetadata. 
     public func putOrganizationConfigRule(_ input: PutOrganizationConfigRuleRequest) -> Future<PutOrganizationConfigRuleResponse> {
         return client.send(operation: "PutOrganizationConfigRule", path: "/", httpMethod: "POST", input: input)
     }
@@ -285,6 +300,11 @@ public struct ConfigService {
     ///  Adds or updates the remediation configuration with a specific AWS Config rule with the selected target or action. The API creates the RemediationConfiguration object for the AWS Config rule. The AWS Config rule must already exist for you to add a remediation configuration. The target (SSM document) must exist and have permissions to use the target. 
     public func putRemediationConfigurations(_ input: PutRemediationConfigurationsRequest) -> Future<PutRemediationConfigurationsResponse> {
         return client.send(operation: "PutRemediationConfigurations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  A remediation exception is when a specific resource is no longer considered for auto-remediation. This API adds a new exception or updates an exisiting exception for a specific resource with a specific AWS Config rule. 
+    public func putRemediationExceptions(_ input: PutRemediationExceptionsRequest) -> Future<PutRemediationExceptionsResponse> {
+        return client.send(operation: "PutRemediationExceptions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates and updates the retention configuration with details about retention period (number of days) that AWS Config stores your historical information. The API creates the RetentionConfiguration object and names the object as default. When you have a RetentionConfiguration object named default, calling the API modifies the default object.   Currently, AWS Config supports only one retention configuration per region in your account. 

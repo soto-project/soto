@@ -21,6 +21,7 @@ public struct GuardDuty {
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-11-28",
             endpoint: endpoint,
+            serviceEndpoints: ["us-east-1-fips": "guardduty-fips.us-east-1.amazonaws.com", "us-east-2-fips": "guardduty-fips.us-east-2.amazonaws.com", "us-west-1-fips": "guardduty-fips.us-west-1.amazonaws.com", "us-west-2-fips": "guardduty-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [GuardDutyErrorType.self]
         )
@@ -31,12 +32,12 @@ public struct GuardDuty {
         return client.send(operation: "AcceptInvitation", path: "/detector/{detectorId}/master", httpMethod: "POST", input: input)
     }
 
-    ///  Archives Amazon GuardDuty findings specified by the list of finding IDs.
+    ///  Archives GuardDuty findings specified by the list of finding IDs.  Only the master account can archive findings. Member accounts do not have permission to archive findings from their accounts. 
     public func archiveFindings(_ input: ArchiveFindingsRequest) -> Future<ArchiveFindingsResponse> {
         return client.send(operation: "ArchiveFindings", path: "/detector/{detectorId}/findings/archive", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a single Amazon GuardDuty detector. A detector is an object that represents the GuardDuty service. A detector must be created in order for GuardDuty to become operational.
+    ///  Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each region that you enable the service. You can have only one detector per account per region.
     public func createDetector(_ input: CreateDetectorRequest) -> Future<CreateDetectorResponse> {
         return client.send(operation: "CreateDetector", path: "/detector", httpMethod: "POST", input: input)
     }
@@ -141,7 +142,7 @@ public struct GuardDuty {
         return client.send(operation: "GetInvitationsCount", path: "/invitation/count", httpMethod: "GET", input: input)
     }
 
-    ///  Provides the details for the GuardDuty master account to the current GuardDuty member account.
+    ///  Provides the details for the GuardDuty master account associated with the current GuardDuty member account.
     public func getMasterAccount(_ input: GetMasterAccountRequest) -> Future<GetMasterAccountResponse> {
         return client.send(operation: "GetMasterAccount", path: "/detector/{detectorId}/master", httpMethod: "GET", input: input)
     }

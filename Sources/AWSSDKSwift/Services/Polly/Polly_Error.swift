@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for Polly
 public enum PollyErrorType: AWSErrorType {
+    case engineNotSupportedException(message: String?)
     case invalidLexiconException(message: String?)
     case invalidNextTokenException(message: String?)
     case invalidS3BucketException(message: String?)
@@ -33,6 +34,8 @@ extension PollyErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "EngineNotSupportedException":
+            self = .engineNotSupportedException(message: message)
         case "InvalidLexiconException":
             self = .invalidLexiconException(message: message)
         case "InvalidNextTokenException":
@@ -82,6 +85,8 @@ extension PollyErrorType {
 extension PollyErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .engineNotSupportedException(let message):
+            return "EngineNotSupportedException: \(message ?? "")"
         case .invalidLexiconException(let message):
             return "InvalidLexiconException: \(message ?? "")"
         case .invalidNextTokenException(let message):

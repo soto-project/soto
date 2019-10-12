@@ -31,7 +31,7 @@ import PackageDescription
 let package = Package(
     name: "MyAWSApp",
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "3.1.0")
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "3.2.0")
     ],
     targets: [
       .target(

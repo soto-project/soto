@@ -252,9 +252,9 @@ extension CodePipeline {
             AWSShapeMember(label: "runOrder", required: false, type: .integer)
         ]
 
-        /// The configuration information for the action type.
+        /// Specifies the action type and the provider of the action.
         public let actionTypeId: ActionTypeId
-        /// The action declaration's configuration.
+        /// The action's configuration. These are key-value pairs that specify input values for an action. For more information, see Action Structure Requirements in CodePipeline. For the list of configuration properties for the AWS CloudFormation action type in CodePipeline, see Configuration Properties Reference in the AWS CloudFormation User Guide. For template snippets with examples, see Using Parameter Override Functions with CodePipeline Pipelines in the AWS CloudFormation User Guide. The values can be represented in either JSON or YAML format. For example, the JSON configuration item format is as follows:   JSON:   "Configuration" : { Key : Value }, 
         public let configuration: [String: String]?
         /// The name or ID of the artifact consumed by the action, such as a test or build artifact.
         public let inputArtifacts: [InputArtifact]?
@@ -1391,7 +1391,7 @@ extension CodePipeline {
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
 
-        /// The ID used to identify the key. For an AWS KMS key, this is the key ID or key ARN.
+        /// The ID used to identify the key. For an AWS KMS key, you can use the key ID, the key ARN, or the alias ARN.  Aliases are recognized only in the account that created the customer master key (CMK). For cross-account actions, you can only use the key ID or key ARN to identify the key. 
         public let id: String
         /// The type of encryption key, such as an AWS Key Management Service (AWS KMS) key. When creating or updating a pipeline, the value must be set to 'KMS'.
         public let `type`: EncryptionKeyType
@@ -1472,6 +1472,28 @@ extension CodePipeline {
             case externalExecutionId = "externalExecutionId"
             case percentComplete = "percentComplete"
             case summary = "summary"
+        }
+    }
+
+    public struct ExecutionTrigger: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "triggerDetail", required: false, type: .string), 
+            AWSShapeMember(label: "triggerType", required: false, type: .enum)
+        ]
+
+        /// Detail related to the event that started a pipeline execution, such as the webhook ARN of the webhook that triggered the pipeline execution or the user ARN for a user-initiated start-pipeline-execution CLI command.
+        public let triggerDetail: String?
+        /// The type of change-detection method, command, or user interaction that started a pipeline execution.
+        public let triggerType: TriggerType?
+
+        public init(triggerDetail: String? = nil, triggerType: TriggerType? = nil) {
+            self.triggerDetail = triggerDetail
+            self.triggerType = triggerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case triggerDetail = "triggerDetail"
+            case triggerType = "triggerType"
         }
     }
 
@@ -2347,9 +2369,9 @@ extension CodePipeline {
             AWSShapeMember(label: "version", required: false, type: .integer)
         ]
 
-        /// Represents information about the Amazon S3 bucket where artifacts are stored for the pipeline. 
+        /// Represents information about the Amazon S3 bucket where artifacts are stored for the pipeline.  You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores. 
         public let artifactStore: ArtifactStore?
-        /// A mapping of artifactStore objects and their corresponding regions. There must be an artifact store for the pipeline region and for each cross-region action within the pipeline. You can only use either artifactStore or artifactStores, not both. If you create a cross-region action in your pipeline, you must use artifactStores.
+        /// A mapping of artifactStore objects and their corresponding regions. There must be an artifact store for the pipeline region and for each cross-region action within the pipeline.  You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores. 
         public let artifactStores: [String: ArtifactStore]?
         /// The name of the action to be performed.
         public let name: String
@@ -2448,7 +2470,8 @@ extension CodePipeline {
             AWSShapeMember(label: "pipelineExecutionId", required: false, type: .string), 
             AWSShapeMember(label: "sourceRevisions", required: false, type: .list), 
             AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "trigger", required: false, type: .structure)
         ]
 
         /// The date and time of the last change to the pipeline execution, in timestamp format.
@@ -2461,13 +2484,16 @@ extension CodePipeline {
         public let startTime: TimeStamp?
         /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead.    Failed: The pipeline execution was not completed successfully.  
         public let status: PipelineExecutionStatus?
+        /// The interaction or event that started a pipeline execution, such as automated change detection or a StartPipelineExecution API call.
+        public let trigger: ExecutionTrigger?
 
-        public init(lastUpdateTime: TimeStamp? = nil, pipelineExecutionId: String? = nil, sourceRevisions: [SourceRevision]? = nil, startTime: TimeStamp? = nil, status: PipelineExecutionStatus? = nil) {
+        public init(lastUpdateTime: TimeStamp? = nil, pipelineExecutionId: String? = nil, sourceRevisions: [SourceRevision]? = nil, startTime: TimeStamp? = nil, status: PipelineExecutionStatus? = nil, trigger: ExecutionTrigger? = nil) {
             self.lastUpdateTime = lastUpdateTime
             self.pipelineExecutionId = pipelineExecutionId
             self.sourceRevisions = sourceRevisions
             self.startTime = startTime
             self.status = status
+            self.trigger = trigger
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2476,6 +2502,7 @@ extension CodePipeline {
             case sourceRevisions = "sourceRevisions"
             case startTime = "startTime"
             case status = "status"
+            case trigger = "trigger"
         }
     }
 
@@ -3508,6 +3535,16 @@ extension CodePipeline {
             case lastChangedAt = "lastChangedAt"
             case lastChangedBy = "lastChangedBy"
         }
+    }
+
+    public enum TriggerType: String, CustomStringConvertible, Codable {
+        case createpipeline = "CreatePipeline"
+        case startpipelineexecution = "StartPipelineExecution"
+        case pollforsourcechanges = "PollForSourceChanges"
+        case webhook = "Webhook"
+        case cloudwatchevent = "CloudWatchEvent"
+        case putactionrevision = "PutActionRevision"
+        public var description: String { return self.rawValue }
     }
 
     public struct UntagResourceInput: AWSShape {

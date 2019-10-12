@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-AWS IoT Events monitors your equipment or device fleets for failures or changes in operation, and triggers actions when such events occur.
+AWS IoT Events monitors your equipment or device fleets for failures or changes in operation, and triggers actions when such events occur. AWS IoT Events API commands enable you to create, read, update and delete inputs and detector models, and to list their versions.
 */
 public struct IoTEvents {
 
@@ -46,7 +46,7 @@ public struct IoTEvents {
         return client.send(operation: "DeleteInput", path: "/inputs/{inputName}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Describes a detector model. If the version parameter is not specified, information about the latest version is returned.
+    ///  Describes a detector model. If the "version" parameter is not specified, information about the latest version is returned.
     public func describeDetectorModel(_ input: DescribeDetectorModelRequest) -> Future<DescribeDetectorModelResponse> {
         return client.send(operation: "DescribeDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: "GET", input: input)
     }
@@ -81,12 +81,12 @@ public struct IoTEvents {
         return client.send(operation: "ListTagsForResource", path: "/tags", httpMethod: "GET", input: input)
     }
 
-    ///  Sets or updates the AWS IoT Events logging options. Note that if you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. Also, if you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy) it takes up to five minutes for that change to take effect.
+    ///  Sets or updates the AWS IoT Events logging options. If you update the value of any "loggingOptions" field, it takes up to one minute for the change to take effect. Also, if you change the policy attached to the role you specified in the "roleArn" field (for example, to correct an invalid policy) it takes up to five minutes for that change to take effect.
     @discardableResult public func putLoggingOptions(_ input: PutLoggingOptionsRequest) -> Future<Void> {
         return client.send(operation: "PutLoggingOptions", path: "/logging", httpMethod: "PUT", input: input)
     }
 
-    ///  Add to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource.
+    ///  Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/tags", httpMethod: "POST", input: input)
     }
@@ -96,7 +96,7 @@ public struct IoTEvents {
         return client.send(operation: "UntagResource", path: "/tags", httpMethod: "DELETE", input: input)
     }
 
-    ///  Updates a detector model. Detectors (instances) spawned by the previous version will be deleted and re-created as new inputs arrive.
+    ///  Updates a detector model. Detectors (instances) spawned by the previous version are deleted and then re-created as new inputs arrive.
     public func updateDetectorModel(_ input: UpdateDetectorModelRequest) -> Future<UpdateDetectorModelResponse> {
         return client.send(operation: "UpdateDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: "POST", input: input)
     }

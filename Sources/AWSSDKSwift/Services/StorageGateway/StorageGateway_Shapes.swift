@@ -21,7 +21,7 @@ extension StorageGateway {
         public let activationKey: String
         /// The name you configured for your gateway.
         public let gatewayName: String
-        /// A value that indicates the region where you want to store your data. The gateway region specified must be the same region as the region in your Host header in the request. For more information about available regions and endpoints for AWS Storage Gateway, see Regions and Endpoints in the Amazon Web Services Glossary.  Valid Values: See AWS Storage Gateway Regions and Endpoints in the AWS General Reference. 
+        /// A value that indicates the AWS Region where you want to store your data. The gateway AWS Region specified must be the same AWS Region as the AWS Region in your Host header in the request. For more information about available AWS Regions and endpoints for AWS Storage Gateway, see Regions and Endpoints in the Amazon Web Services Glossary.  Valid Values: See AWS Storage Gateway Regions and Endpoints in the AWS General Reference. 
         public let gatewayRegion: String
         /// A value that indicates the time zone you want to set for the gateway. The time zone is of the format "GMT-hr:mm" or "GMT+hr:mm". For example, GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule.
         public let gatewayTimezone: String
@@ -29,7 +29,7 @@ extension StorageGateway {
         public let gatewayType: String?
         /// The value that indicates the type of medium changer to use for tape gateway. This field is optional.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
         public let mediumChangerType: String?
-        /// A list of up to 50 tags that can be assigned to the gateway. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
+        /// A list of up to 50 tags that you can assign to the gateway. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers that can be represented in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256 characters. 
         public let tags: [Tag]?
         /// The value that indicates the type of tape drive to use for tape gateway. This field is optional.  Valid Values: "IBM-ULT3580-TD5" 
         public let tapeDriveType: String?
@@ -625,7 +625,7 @@ extension StorageGateway {
         public let snapshotId: String?
         /// The ARN for an existing volume. Specifying this ARN makes the new volume into an exact copy of the specified existing volume's latest recovery point. The VolumeSizeInBytes value for this new volume must be equal to or larger than the size of the existing volume, in bytes.
         public let sourceVolumeARN: String?
-        /// A list of up to 50 tags that can be assigned to a cached volume. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
+        /// A list of up to 50 tags that you can assign to a cached volume. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers that you can represent in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256 characters. 
         public let tags: [Tag]?
         /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name.
         public let targetName: String
@@ -851,7 +851,7 @@ extension StorageGateway {
             AWSShapeMember(label: "ValidUserList", required: false, type: .list)
         ]
 
-        /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
+        /// A list of users in the Active Directory that will be granted administrator privileges on the file share. These users can do all file operations as the super-user.   Use this option very carefully, because any user in this list can do anything they like on the file share, regardless of file permissions. 
         public let adminUserList: [String]?
         /// The authentication method that users use to access the file share. Valid values are ActiveDirectory or GuestAccess. The default is ActiveDirectory.
         public let authentication: String?
@@ -985,28 +985,36 @@ extension StorageGateway {
     public struct CreateSnapshotFromVolumeRecoveryPointInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SnapshotDescription", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
 
         /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field
         public let snapshotDescription: String
+        /// A list of up to 50 tags that can be assigned to a snapshot. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
+        public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
         public let volumeARN: String
 
-        public init(snapshotDescription: String, volumeARN: String) {
+        public init(snapshotDescription: String, tags: [Tag]? = nil, volumeARN: String) {
             self.snapshotDescription = snapshotDescription
+            self.tags = tags
             self.volumeARN = volumeARN
         }
 
         public func validate(name: String) throws {
             try validate(self.snapshotDescription, name:"snapshotDescription", parent: name, max: 255)
             try validate(self.snapshotDescription, name:"snapshotDescription", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try validate(self.volumeARN, name:"volumeARN", parent: name, max: 500)
             try validate(self.volumeARN, name:"volumeARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case snapshotDescription = "SnapshotDescription"
+            case tags = "Tags"
             case volumeARN = "VolumeARN"
         }
     }
@@ -1208,7 +1216,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TapeSizeInBytes", required: true, type: .long)
         ]
 
-        /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and region.
+        /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String
         /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
         public let kMSEncrypted: Bool?
@@ -1291,7 +1299,7 @@ extension StorageGateway {
 
         /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.  Using the same ClientToken prevents creating the tape multiple times. 
         public let clientToken: String
-        /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and region.
+        /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String
         /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
         public let kMSEncrypted: Bool?
@@ -1631,7 +1639,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TapeARN", required: true, type: .string)
         ]
 
-        /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape to delete is associated with. Use the ListGateways operation to return a list of gateways for your account and region.
+        /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape to delete is associated with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape to delete.
         public let tapeARN: String
@@ -1928,6 +1936,7 @@ extension StorageGateway {
 
     public struct DescribeGatewayInformationOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchLogGroupARN", required: false, type: .string), 
             AWSShapeMember(label: "Ec2InstanceId", required: false, type: .string), 
             AWSShapeMember(label: "Ec2InstanceRegion", required: false, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
@@ -1943,6 +1952,8 @@ extension StorageGateway {
             AWSShapeMember(label: "VPCEndpoint", required: false, type: .string)
         ]
 
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that was used to monitor and log events in the gateway.
+        public let cloudWatchLogGroupARN: String?
         /// The ID of the Amazon EC2 instance that was used to launch the gateway.
         public let ec2InstanceId: String?
         /// The AWS Region where the Amazon EC2 instance is located.
@@ -1969,7 +1980,8 @@ extension StorageGateway {
         /// The configuration settings for the virtual private cloud (VPC) endpoint for your gateway. 
         public let vPCEndpoint: String?
 
-        public init(ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, gatewayARN: String? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, tags: [Tag]? = nil, vPCEndpoint: String? = nil) {
+        public init(cloudWatchLogGroupARN: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, gatewayARN: String? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, tags: [Tag]? = nil, vPCEndpoint: String? = nil) {
+            self.cloudWatchLogGroupARN = cloudWatchLogGroupARN
             self.ec2InstanceId = ec2InstanceId
             self.ec2InstanceRegion = ec2InstanceRegion
             self.gatewayARN = gatewayARN
@@ -1986,6 +1998,7 @@ extension StorageGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogGroupARN = "CloudWatchLogGroupARN"
             case ec2InstanceId = "Ec2InstanceId"
             case ec2InstanceRegion = "Ec2InstanceRegion"
             case gatewayARN = "GatewayARN"
@@ -2184,7 +2197,7 @@ extension StorageGateway {
         public let gatewayARN: String?
         /// This value is true if a password for the guest user “smbguest” is set, and otherwise false.
         public let sMBGuestPasswordSet: Bool?
-        /// The type of security strategy that was specified for file gateway. ClientSpecified: SMBv1 is enabled, SMB signing is offered but not required, SMB encryption is offered but not required. MandatorySigning: SMBv1 is disabled, SMB signing is required, SMB encryption is offered but not required. MandatoryEncryption: SMBv1 is disabled, SMB signing is offered but not required, SMB encryption is required.
+        /// The type of security strategy that was specified for file gateway. ClientSpecified: if you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment.  MandatorySigning: if you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.  MandatoryEncryption: if you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer. 
         public let sMBSecurityStrategy: SMBSecurityStrategy?
 
         public init(domainName: String? = nil, gatewayARN: String? = nil, sMBGuestPasswordSet: Bool? = nil, sMBSecurityStrategy: SMBSecurityStrategy? = nil) {
@@ -2229,6 +2242,7 @@ extension StorageGateway {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "RecurrenceInHours", required: false, type: .integer), 
             AWSShapeMember(label: "StartAt", required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Timezone", required: false, type: .string), 
             AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
@@ -2239,15 +2253,18 @@ extension StorageGateway {
         public let recurrenceInHours: Int?
         /// The hour of the day at which the snapshot schedule begins represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
         public let startAt: Int?
+        /// A list of up to 50 tags assigned to the snapshot schedule, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
+        public let tags: [Tag]?
         /// A value that indicates the time zone of the gateway.
         public let timezone: String?
         /// The Amazon Resource Name (ARN) of the volume that was specified in the request.
         public let volumeARN: String?
 
-        public init(description: String? = nil, recurrenceInHours: Int? = nil, startAt: Int? = nil, timezone: String? = nil, volumeARN: String? = nil) {
+        public init(description: String? = nil, recurrenceInHours: Int? = nil, startAt: Int? = nil, tags: [Tag]? = nil, timezone: String? = nil, volumeARN: String? = nil) {
             self.description = description
             self.recurrenceInHours = recurrenceInHours
             self.startAt = startAt
+            self.tags = tags
             self.timezone = timezone
             self.volumeARN = volumeARN
         }
@@ -2256,6 +2273,7 @@ extension StorageGateway {
             case description = "Description"
             case recurrenceInHours = "RecurrenceInHours"
             case startAt = "StartAt"
+            case tags = "Tags"
             case timezone = "Timezone"
             case volumeARN = "VolumeARN"
         }
@@ -2878,7 +2896,7 @@ extension StorageGateway {
         public let ec2InstanceId: String?
         /// The AWS Region where the Amazon EC2 instance is located.
         public let ec2InstanceRegion: String?
-        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and region.
+        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String?
         /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.
         public let gatewayId: String?
@@ -2924,9 +2942,9 @@ extension StorageGateway {
         public let domainControllers: [String]?
         /// The name of the domain that you want the gateway to join.
         public let domainName: String
-        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and region.
+        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String
-        /// The organizational unit (OU) is a container with an Active Directory that can hold users, groups, computers, and other OUs and this parameter specifies the OU that the gateway will join within the AD domain.
+        /// The organizational unit (OU) is a container in an Active Directory that can hold users, groups, computers, and other OUs and this parameter specifies the OU that the gateway will join within the AD domain.
         public let organizationalUnit: String?
         /// Sets the password of the user who has permission to add the gateway to the Active Directory domain.
         public let password: String
@@ -3767,7 +3785,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TapeARN", required: true, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the virtual tape to. Use the ListGateways operation to return a list of gateways for your account and region. You retrieve archived virtual tapes to only one gateway and the gateway must be a tape gateway.
+        /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the virtual tape to. Use the ListGateways operation to return a list of gateways for your account and AWS Region. You retrieve archived virtual tapes to only one gateway and the gateway must be a tape gateway.
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from the virtual tape shelf (VTS).
         public let tapeARN: String
@@ -4376,7 +4394,7 @@ extension StorageGateway {
             AWSShapeMember(label: "TapeStatus", required: false, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and region.
+        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
         public let gatewayARN: String?
         /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (Glacier or Deep Archive) that corresponds to the pool. Valid values: "GLACIER", "DEEP_ARCHIVE"
         public let poolId: String?
@@ -4557,23 +4575,28 @@ extension StorageGateway {
 
     public struct UpdateGatewayInformationInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchLogGroupARN", required: false, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "GatewayName", required: false, type: .string), 
             AWSShapeMember(label: "GatewayTimezone", required: false, type: .string)
         ]
 
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you want to use to monitor and log events in the gateway.  For more information, see What Is Amazon CloudWatch Logs?.
+        public let cloudWatchLogGroupARN: String?
         public let gatewayARN: String
         public let gatewayName: String?
         /// A value that indicates the time zone of the gateway.
         public let gatewayTimezone: String?
 
-        public init(gatewayARN: String, gatewayName: String? = nil, gatewayTimezone: String? = nil) {
+        public init(cloudWatchLogGroupARN: String? = nil, gatewayARN: String, gatewayName: String? = nil, gatewayTimezone: String? = nil) {
+            self.cloudWatchLogGroupARN = cloudWatchLogGroupARN
             self.gatewayARN = gatewayARN
             self.gatewayName = gatewayName
             self.gatewayTimezone = gatewayTimezone
         }
 
         public func validate(name: String) throws {
+            try validate(self.cloudWatchLogGroupARN, name:"cloudWatchLogGroupARN", parent: name, max: 562)
             try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
             try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
             try validate(self.gatewayName, name:"gatewayName", parent: name, max: 255)
@@ -4584,6 +4607,7 @@ extension StorageGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogGroupARN = "CloudWatchLogGroupARN"
             case gatewayARN = "GatewayARN"
             case gatewayName = "GatewayName"
             case gatewayTimezone = "GatewayTimezone"
@@ -4830,7 +4854,7 @@ extension StorageGateway {
             AWSShapeMember(label: "ValidUserList", required: false, type: .list)
         ]
 
-        /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
+        /// A list of users in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. For example @group1. Can only be set if Authentication is set to ActiveDirectory.
         public let adminUserList: [String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. Possible values are S3_STANDARD, S3_STANDARD_IA, or S3_ONEZONE_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
         public let defaultStorageClass: String?
@@ -4937,7 +4961,7 @@ extension StorageGateway {
         ]
 
         public let gatewayARN: String
-        /// Specifies the type of security strategy. ClientSpecified: SMBv1 is enabled, SMB signing is offered but not required, SMB encryption is offered but not required. MandatorySigning: SMBv1 is disabled, SMB signing is required, SMB encryption is offered but not required. MandatoryEncryption: SMBv1 is disabled, SMB signing is offered but not required, SMB encryption is required.
+        /// Specifies the type of security strategy. ClientSpecified: if you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment.  MandatorySigning: if you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.  MandatoryEncryption: if you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer. 
         public let sMBSecurityStrategy: SMBSecurityStrategy
 
         public init(gatewayARN: String, sMBSecurityStrategy: SMBSecurityStrategy) {

@@ -7,6 +7,7 @@ public enum ECRErrorType: AWSErrorType {
     case emptyUploadException(message: String?)
     case imageAlreadyExistsException(message: String?)
     case imageNotFoundException(message: String?)
+    case imageTagAlreadyExistsException(message: String?)
     case invalidLayerException(message: String?)
     case invalidLayerPartException(message: String?)
     case invalidParameterException(message: String?)
@@ -41,6 +42,8 @@ extension ECRErrorType {
             self = .imageAlreadyExistsException(message: message)
         case "ImageNotFoundException":
             self = .imageNotFoundException(message: message)
+        case "ImageTagAlreadyExistsException":
+            self = .imageTagAlreadyExistsException(message: message)
         case "InvalidLayerException":
             self = .invalidLayerException(message: message)
         case "InvalidLayerPartException":
@@ -94,6 +97,8 @@ extension ECRErrorType : CustomStringConvertible {
             return "ImageAlreadyExistsException: \(message ?? "")"
         case .imageNotFoundException(let message):
             return "ImageNotFoundException: \(message ?? "")"
+        case .imageTagAlreadyExistsException(let message):
+            return "ImageTagAlreadyExistsException: \(message ?? "")"
         case .invalidLayerException(let message):
             return "InvalidLayerException: \(message ?? "")"
         case .invalidLayerPartException(let message):

@@ -605,20 +605,26 @@ extension MediaPackageVod {
 
     public struct HlsEncryption: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConstantInitializationVector", location: .body(locationName: "constantInitializationVector"), required: false, type: .string), 
             AWSShapeMember(label: "EncryptionMethod", location: .body(locationName: "encryptionMethod"), required: false, type: .enum), 
             AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: true, type: .structure)
         ]
 
+        /// A constant initialization vector for encryption (optional).
+        /// When not specified the initialization vector will be periodically rotated.
+        public let constantInitializationVector: String?
         /// The encryption method to use.
         public let encryptionMethod: EncryptionMethod?
         public let spekeKeyProvider: SpekeKeyProvider
 
-        public init(encryptionMethod: EncryptionMethod? = nil, spekeKeyProvider: SpekeKeyProvider) {
+        public init(constantInitializationVector: String? = nil, encryptionMethod: EncryptionMethod? = nil, spekeKeyProvider: SpekeKeyProvider) {
+            self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.spekeKeyProvider = spekeKeyProvider
         }
 
         private enum CodingKeys: String, CodingKey {
+            case constantInitializationVector = "constantInitializationVector"
             case encryptionMethod = "encryptionMethod"
             case spekeKeyProvider = "spekeKeyProvider"
         }

@@ -42,7 +42,7 @@ public struct Glue {
         return client.send(operation: "BatchDeletePartition", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes multiple tables at once.  After completing this operation, you will no longer have access to the table versions and partitions that belong to the deleted table. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure immediate deletion of all related resources, before calling BatchDeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table. 
+    ///  Deletes multiple tables at once.  After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table. 
     public func batchDeleteTable(_ input: BatchDeleteTableRequest) -> Future<BatchDeleteTableResponse> {
         return client.send(operation: "BatchDeleteTable", path: "/", httpMethod: "POST", input: input)
     }
@@ -57,7 +57,7 @@ public struct Glue {
         return client.send(operation: "BatchGetCrawlers", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of resource metadata for a given list of DevEndpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
+    ///  Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     public func batchGetDevEndpoints(_ input: BatchGetDevEndpointsRequest) -> Future<BatchGetDevEndpointsResponse> {
         return client.send(operation: "BatchGetDevEndpoints", path: "/", httpMethod: "POST", input: input)
     }
@@ -87,6 +87,11 @@ public struct Glue {
         return client.send(operation: "BatchStopJobRun", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId. 
+    public func cancelMLTaskRun(_ input: CancelMLTaskRunRequest) -> Future<CancelMLTaskRunResponse> {
+        return client.send(operation: "CancelMLTaskRun", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
     public func createClassifier(_ input: CreateClassifierRequest) -> Future<CreateClassifierResponse> {
         return client.send(operation: "CreateClassifier", path: "/", httpMethod: "POST", input: input)
@@ -107,7 +112,7 @@ public struct Glue {
         return client.send(operation: "CreateDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new DevEndpoint.
+    ///  Creates a new development endpoint.
     public func createDevEndpoint(_ input: CreateDevEndpointRequest) -> Future<CreateDevEndpointResponse> {
         return client.send(operation: "CreateDevEndpoint", path: "/", httpMethod: "POST", input: input)
     }
@@ -115,6 +120,11 @@ public struct Glue {
     ///  Creates a new job definition.
     public func createJob(_ input: CreateJobRequest) -> Future<CreateJobResponse> {
         return client.send(operation: "CreateJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an AWS Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicating data. You can provide an optional Description, in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that AWS Glue runs on your behalf as part of learning from your data and creating a high-quality machine learning transform. These parameters include Role, and optionally, AllocatedCapacity, Timeout, and MaxRetries. For more information, see Jobs.
+    public func createMLTransform(_ input: CreateMLTransformRequest) -> Future<CreateMLTransformResponse> {
+        return client.send(operation: "CreateMLTransform", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new partition.
@@ -127,7 +137,7 @@ public struct Glue {
         return client.send(operation: "CreateScript", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new security configuration.
+    ///  Creates a new security configuration. A security configuration is a set of security properties that can be used by AWS Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in AWS Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints.
     public func createSecurityConfiguration(_ input: CreateSecurityConfigurationRequest) -> Future<CreateSecurityConfigurationResponse> {
         return client.send(operation: "CreateSecurityConfiguration", path: "/", httpMethod: "POST", input: input)
     }
@@ -167,12 +177,12 @@ public struct Glue {
         return client.send(operation: "DeleteCrawler", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes a specified Database from a Data Catalog.  After completing this operation, you will no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database. 
+    ///  Removes a specified database from a Data Catalog.  After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database. 
     public func deleteDatabase(_ input: DeleteDatabaseRequest) -> Future<DeleteDatabaseResponse> {
         return client.send(operation: "DeleteDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a specified DevEndpoint.
+    ///  Deletes a specified development endpoint.
     public func deleteDevEndpoint(_ input: DeleteDevEndpointRequest) -> Future<DeleteDevEndpointResponse> {
         return client.send(operation: "DeleteDevEndpoint", path: "/", httpMethod: "POST", input: input)
     }
@@ -180,6 +190,11 @@ public struct Glue {
     ///  Deletes a specified job definition. If the job definition is not found, no exception is thrown.
     public func deleteJob(_ input: DeleteJobRequest) -> Future<DeleteJobResponse> {
         return client.send(operation: "DeleteJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an AWS Glue machine learning transform. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by AWS Glue. If you no longer need a transform, you can delete it by calling DeleteMLTransforms. However, any AWS Glue jobs that still reference the deleted transform will no longer succeed.
+    public func deleteMLTransform(_ input: DeleteMLTransformRequest) -> Future<DeleteMLTransformResponse> {
+        return client.send(operation: "DeleteMLTransform", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a specified partition.
@@ -197,7 +212,7 @@ public struct Glue {
         return client.send(operation: "DeleteSecurityConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes a table definition from the Data Catalog.  After completing this operation, you will no longer have access to the table versions and partitions that belong to the deleted table. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure immediate deletion of all related resources, before calling DeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table. 
+    ///  Removes a table definition from the Data Catalog.  After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. AWS Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table. 
     public func deleteTable(_ input: DeleteTableRequest) -> Future<DeleteTableResponse> {
         return client.send(operation: "DeleteTable", path: "/", httpMethod: "POST", input: input)
     }
@@ -272,7 +287,7 @@ public struct Glue {
         return client.send(operation: "GetDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves all Databases defined in a given Data Catalog.
+    ///  Retrieves all databases defined in a given Data Catalog.
     public func getDatabases(_ input: GetDatabasesRequest) -> Future<GetDatabasesResponse> {
         return client.send(operation: "GetDatabases", path: "/", httpMethod: "POST", input: input)
     }
@@ -282,12 +297,12 @@ public struct Glue {
         return client.send(operation: "GetDataflowGraph", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves information about a specified DevEndpoint.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. 
+    ///  Retrieves information about a specified development endpoint.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. 
     public func getDevEndpoint(_ input: GetDevEndpointRequest) -> Future<GetDevEndpointResponse> {
         return client.send(operation: "GetDevEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves all the DevEndpoints in this AWS account.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. 
+    ///  Retrieves all the development endpoints in this AWS account.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. 
     public func getDevEndpoints(_ input: GetDevEndpointsRequest) -> Future<GetDevEndpointsResponse> {
         return client.send(operation: "GetDevEndpoints", path: "/", httpMethod: "POST", input: input)
     }
@@ -295,6 +310,11 @@ public struct Glue {
     ///  Retrieves an existing job definition.
     public func getJob(_ input: GetJobRequest) -> Future<GetJobResponse> {
         return client.send(operation: "GetJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information on a job bookmark entry.
+    public func getJobBookmark(_ input: GetJobBookmarkRequest) -> Future<GetJobBookmarkResponse> {
+        return client.send(operation: "GetJobBookmark", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the metadata for a given job run.
@@ -310,6 +330,26 @@ public struct Glue {
     ///  Retrieves all current job definitions.
     public func getJobs(_ input: GetJobsRequest) -> Future<GetJobsResponse> {
         return client.send(operation: "GetJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets details for a specific task run on a machine learning transform. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can check the stats of any task run by calling GetMLTaskRun with the TaskRunID and its parent transform's TransformID.
+    public func getMLTaskRun(_ input: GetMLTaskRunRequest) -> Future<GetMLTaskRunResponse> {
+        return client.send(operation: "GetMLTaskRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
+    public func getMLTaskRuns(_ input: GetMLTaskRunsRequest) -> Future<GetMLTaskRunsResponse> {
+        return client.send(operation: "GetMLTaskRuns", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets an AWS Glue machine learning transform artifact and all its corresponding metadata. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by AWS Glue. You can retrieve their metadata by calling GetMLTransform.
+    public func getMLTransform(_ input: GetMLTransformRequest) -> Future<GetMLTransformResponse> {
+        return client.send(operation: "GetMLTransform", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets a sortable, filterable list of existing AWS Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by AWS Glue, and you can retrieve their metadata by calling GetMLTransforms.
+    public func getMLTransforms(_ input: GetMLTransformsRequest) -> Future<GetMLTransformsResponse> {
+        return client.send(operation: "GetMLTransforms", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates mappings.
@@ -387,7 +427,7 @@ public struct Glue {
         return client.send(operation: "GetUserDefinedFunction", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves a multiple function definitions from the Data Catalog.
+    ///  Retrieves multiple function definitions from the Data Catalog.
     public func getUserDefinedFunctions(_ input: GetUserDefinedFunctionsRequest) -> Future<GetUserDefinedFunctionsResponse> {
         return client.send(operation: "GetUserDefinedFunctions", path: "/", httpMethod: "POST", input: input)
     }
@@ -412,7 +452,7 @@ public struct Glue {
         return client.send(operation: "GetWorkflowRuns", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Imports an existing Athena Data Catalog to AWS Glue
+    ///  Imports an existing Amazon Athena Data Catalog to AWS Glue
     public func importCatalogToGlue(_ input: ImportCatalogToGlueRequest) -> Future<ImportCatalogToGlueResponse> {
         return client.send(operation: "ImportCatalogToGlue", path: "/", httpMethod: "POST", input: input)
     }
@@ -462,6 +502,11 @@ public struct Glue {
         return client.send(operation: "ResetJobBookmark", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.  You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search. 
+    public func searchTables(_ input: SearchTablesRequest) -> Future<SearchTablesResponse> {
+        return client.send(operation: "SearchTables", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a CrawlerRunningException.
     public func startCrawler(_ input: StartCrawlerRequest) -> Future<StartCrawlerResponse> {
         return client.send(operation: "StartCrawler", path: "/", httpMethod: "POST", input: input)
@@ -472,9 +517,29 @@ public struct Glue {
         return client.send(operation: "StartCrawlerSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use StartExportLabelsTaskRun when you want to work with all of your existing labels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Storage Service (Amazon S3) path to export the labels to. The operation returns a TaskRunId. You can check on the status of your task run by calling the GetMLTaskRun API.
+    public func startExportLabelsTaskRun(_ input: StartExportLabelsTaskRunRequest) -> Future<StartExportLabelsTaskRunResponse> {
+        return client.send(operation: "StartExportLabelsTaskRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Enables you to provide additional labels (examples of truth) to be used to teach the machine learning transform and improve its quality. This API operation is generally used as part of the active learning workflow that starts with the StartMLLabelingSetGenerationTaskRun call and that ultimately results in improving the quality of your machine learning transform.  After the StartMLLabelingSetGenerationTaskRun finishes, AWS Glue machine learning will have generated a series of questions for humans to answer. (Answering these questions is often called 'labeling' in the machine learning workflows). In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, users upload their answers/labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform use the new and improved labels and perform a higher-quality transformation. By default, StartMLLabelingSetGenerationTaskRun continually learns from and combines all labels that you upload unless you set Replace to true. If you set Replace to true, StartImportLabelsTaskRun deletes and forgets all previously uploaded labels and learns only from the exact set that you upload. Replacing labels can be helpful if you realize that you previously uploaded incorrect labels, and you believe that they are having a negative effect on your transform quality. You can check on the status of your task run by calling the GetMLTaskRun operation. 
+    public func startImportLabelsTaskRun(_ input: StartImportLabelsTaskRunRequest) -> Future<StartImportLabelsTaskRunResponse> {
+        return client.send(operation: "StartImportLabelsTaskRun", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Starts a job run using a job definition.
     public func startJobRun(_ input: StartJobRunRequest) -> Future<StartJobRunResponse> {
         return client.send(operation: "StartJobRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts a task to estimate the quality of the transform.  When you provide label sets as examples of truth, AWS Glue machine learning uses some of those examples to learn from them. The rest of the labels are used as a test to estimate quality. Returns a unique identifier for the run. You can call GetMLTaskRun to get more information about the stats of the EvaluationTaskRun.
+    public func startMLEvaluationTaskRun(_ input: StartMLEvaluationTaskRunRequest) -> Future<StartMLEvaluationTaskRunResponse> {
+        return client.send(operation: "StartMLEvaluationTaskRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, AWS Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?”  After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation.
+    public func startMLLabelingSetGenerationTaskRun(_ input: StartMLLabelingSetGenerationTaskRunRequest) -> Future<StartMLLabelingSetGenerationTaskRunResponse> {
+        return client.send(operation: "StartMLLabelingSetGenerationTaskRun", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts an existing trigger. See Triggering Jobs for information about how different types of trigger are started.
@@ -537,7 +602,7 @@ public struct Glue {
         return client.send(operation: "UpdateDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a specified DevEndpoint.
+    ///  Updates a specified development endpoint.
     public func updateDevEndpoint(_ input: UpdateDevEndpointRequest) -> Future<UpdateDevEndpointResponse> {
         return client.send(operation: "UpdateDevEndpoint", path: "/", httpMethod: "POST", input: input)
     }
@@ -545,6 +610,11 @@ public struct Glue {
     ///  Updates an existing job definition.
     public func updateJob(_ input: UpdateJobRequest) -> Future<UpdateJobResponse> {
         return client.send(operation: "UpdateJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results. After calling this operation, you can call the StartMLEvaluationTaskRun operation to assess how well your new parameters achieved your goals (such as improving the quality of your machine learning transform, or making it more cost-effective).
+    public func updateMLTransform(_ input: UpdateMLTransformRequest) -> Future<UpdateMLTransformResponse> {
+        return client.send(operation: "UpdateMLTransform", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a partition.

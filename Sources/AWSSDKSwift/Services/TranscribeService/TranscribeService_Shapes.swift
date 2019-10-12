@@ -252,6 +252,8 @@ extension TranscribeService {
         case enIn = "en-IN"
         case hiIn = "hi-IN"
         case arSa = "ar-SA"
+        case ruRu = "ru-RU"
+        case zhCn = "zh-CN"
         public var description: String { return self.rawValue }
     }
 
@@ -471,7 +473,7 @@ extension TranscribeService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
             AWSShapeMember(label: "Media", required: true, type: .structure), 
-            AWSShapeMember(label: "MediaFormat", required: true, type: .enum), 
+            AWSShapeMember(label: "MediaFormat", required: false, type: .enum), 
             AWSShapeMember(label: "MediaSampleRateHertz", required: false, type: .integer), 
             AWSShapeMember(label: "OutputBucketName", required: false, type: .string), 
             AWSShapeMember(label: "Settings", required: false, type: .structure), 
@@ -482,9 +484,9 @@ extension TranscribeService {
         public let languageCode: LanguageCode
         /// An object that describes the input media for a transcription job.
         public let media: Media
-        /// The format of the input media file.
-        public let mediaFormat: MediaFormat
-        /// The sample rate, in Hertz, of the audio track in the input media file. 
+        /// The format of the input media file.  If you do not specify the format of the media file, Amazon Transcribe determines the format. If the format is not recognized, Amazon Transcribe returns an InternalFailureException exception. If you specify the format, it must match the format detected by Amazon Transcribe, otherwise you get an InternalFailureException exception.
+        public let mediaFormat: MediaFormat?
+        /// The sample rate of the audio track in the input media file in Hertz.  If you do not specify the media sample rate, Amazon Transcribe determines the sample rate. If you specify the sample rate, it must match the sample rate detected by Amazon Transcribe. In most cases, you should leave the MediaSampleRateHertz field blank and let Amazon Transcribe determine the sample rate.
         public let mediaSampleRateHertz: Int?
         /// The location where the transcription is stored. If you set the OutputBucketName, Amazon Transcribe puts the transcription in the specified S3 bucket. When you call the GetTranscriptionJob operation, the operation returns this location in the TranscriptFileUri field. The S3 bucket must have permissions that allow Amazon Transcribe to put files in the bucket. For more information, see Permissions Required for IAM User Roles. Amazon Transcribe uses the default Amazon S3 key for server-side encryption of transcripts that are placed in your S3 bucket. You can't specify your own encryption key. If you don't set the OutputBucketName, Amazon Transcribe generates a pre-signed URL, a shareable URL that provides secure access to your transcription, and returns it in the TranscriptFileUri field. Use this URL to download the transcription.
         public let outputBucketName: String?
@@ -493,7 +495,7 @@ extension TranscribeService {
         /// The name of the job. Note that you can't use the strings "." or ".." by themselves as the job name. The name must also be unique within an AWS account.
         public let transcriptionJobName: String
 
-        public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat, mediaSampleRateHertz: Int? = nil, outputBucketName: String? = nil, settings: Settings? = nil, transcriptionJobName: String) {
+        public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, outputBucketName: String? = nil, settings: Settings? = nil, transcriptionJobName: String) {
             self.languageCode = languageCode
             self.media = media
             self.mediaFormat = mediaFormat
