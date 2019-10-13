@@ -56,7 +56,7 @@ public struct IoTAnalytics {
         return client.send(operation: "CreateDatastore", path: "/datastores", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a pipeline. A pipeline consumes messages from one or more channels and allows you to process the messages before storing them in a data store. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
+    ///  Creates a pipeline. A pipeline consumes messages from a channel and allows you to process the messages before storing them in a data store. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
     public func createPipeline(_ input: CreatePipelineRequest) -> Future<CreatePipelineResponse> {
         return client.send(operation: "CreatePipeline", path: "/pipelines", httpMethod: "POST", input: input)
     }

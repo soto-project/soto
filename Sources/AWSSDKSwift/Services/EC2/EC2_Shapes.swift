@@ -7399,6 +7399,84 @@ extension EC2 {
         }
     }
 
+    public struct DeleteQueuedReservedInstancesError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", location: .body(locationName: "code"), required: false, type: .enum), 
+            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
+        ]
+
+        /// The error code.
+        public let code: DeleteQueuedReservedInstancesErrorCode?
+        /// The error message.
+        public let message: String?
+
+        public init(code: DeleteQueuedReservedInstancesErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public enum DeleteQueuedReservedInstancesErrorCode: String, CustomStringConvertible, Codable {
+        case reservedInstancesIdInvalid = "reserved-instances-id-invalid"
+        case reservedInstancesNotInQueuedState = "reserved-instances-not-in-queued-state"
+        case unexpectedError = "unexpected-error"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DeleteQueuedReservedInstancesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReservedInstancesIds", location: .body(locationName: "ReservedInstancesId"), required: true, type: .list, encoding: .list(member:"item"))
+        ]
+
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IDs of the Reserved Instances.
+        public let reservedInstancesIds: [String]
+
+        public init(dryRun: Bool? = nil, reservedInstancesIds: [String]) {
+            self.dryRun = dryRun
+            self.reservedInstancesIds = reservedInstancesIds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.reservedInstancesIds, name:"reservedInstancesIds", parent: name, max: 100)
+            try validate(self.reservedInstancesIds, name:"reservedInstancesIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case reservedInstancesIds = "ReservedInstancesId"
+        }
+    }
+
+    public struct DeleteQueuedReservedInstancesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedQueuedPurchaseDeletions", location: .body(locationName: "failedQueuedPurchaseDeletionSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "SuccessfulQueuedPurchaseDeletions", location: .body(locationName: "successfulQueuedPurchaseDeletionSet"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+
+        /// Information about the queued purchases that could not be deleted.
+        public let failedQueuedPurchaseDeletions: [FailedQueuedPurchaseDeletion]?
+        /// Information about the queued purchases that were successfully deleted.
+        public let successfulQueuedPurchaseDeletions: [SuccessfulQueuedPurchaseDeletion]?
+
+        public init(failedQueuedPurchaseDeletions: [FailedQueuedPurchaseDeletion]? = nil, successfulQueuedPurchaseDeletions: [SuccessfulQueuedPurchaseDeletion]? = nil) {
+            self.failedQueuedPurchaseDeletions = failedQueuedPurchaseDeletions
+            self.successfulQueuedPurchaseDeletions = successfulQueuedPurchaseDeletions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedQueuedPurchaseDeletions = "failedQueuedPurchaseDeletionSet"
+            case successfulQueuedPurchaseDeletions = "successfulQueuedPurchaseDeletionSet"
+        }
+    }
+
     public struct DeleteRouteRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock"), required: false, type: .string), 
@@ -14903,7 +14981,7 @@ extension EC2 {
             AWSShapeMember(label: "VolumeType", location: .body(locationName: "volumeType"), required: false, type: .enum)
         ]
 
-        /// Indicates whether the EBS volume is deleted on instance termination.
+        /// Indicates whether the EBS volume is deleted on instance termination. For more information, see Preserving Amazon EBS Volumes on Instance Termination in the Amazon Elastic Compute Cloud User Guide.
         public let deleteOnTermination: Bool?
         /// Indicates whether the encryption state of an EBS volume is changed while being restored from a backing snapshot. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. In no case can you remove encryption from an encrypted volume. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported Instance Types.
         public let encrypted: Bool?
@@ -15896,6 +15974,28 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case s3Location = "s3Location"
+        }
+    }
+
+    public struct FailedQueuedPurchaseDeletion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Error", location: .body(locationName: "error"), required: false, type: .structure), 
+            AWSShapeMember(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"), required: false, type: .string)
+        ]
+
+        /// The error.
+        public let error: DeleteQueuedReservedInstancesError?
+        /// The ID of the Reserved Instance.
+        public let reservedInstancesId: String?
+
+        public init(error: DeleteQueuedReservedInstancesError? = nil, reservedInstancesId: String? = nil) {
+            self.error = error
+            self.reservedInstancesId = reservedInstancesId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case reservedInstancesId = "reservedInstancesId"
         }
     }
 
@@ -19992,6 +20092,12 @@ extension EC2 {
         case g38Xlarge = "g3.8xlarge"
         case g316Xlarge = "g3.16xlarge"
         case g3sXlarge = "g3s.xlarge"
+        case g4dnXlarge = "g4dn.xlarge"
+        case g4dn2Xlarge = "g4dn.2xlarge"
+        case g4dn4Xlarge = "g4dn.4xlarge"
+        case g4dn8Xlarge = "g4dn.8xlarge"
+        case g4dn12Xlarge = "g4dn.12xlarge"
+        case g4dn16Xlarge = "g4dn.16xlarge"
         case cg14Xlarge = "cg1.4xlarge"
         case p2Xlarge = "p2.xlarge"
         case p28Xlarge = "p2.8xlarge"
@@ -20060,6 +20166,39 @@ extension EC2 {
         case a1Xlarge = "a1.xlarge"
         case a12Xlarge = "a1.2xlarge"
         case a14Xlarge = "a1.4xlarge"
+        case a1Metal = "a1.metal"
+        case m5dnLarge = "m5dn.large"
+        case m5dnXlarge = "m5dn.xlarge"
+        case m5dn2Xlarge = "m5dn.2xlarge"
+        case m5dn4Xlarge = "m5dn.4xlarge"
+        case m5dn8Xlarge = "m5dn.8xlarge"
+        case m5dn12Xlarge = "m5dn.12xlarge"
+        case m5dn16Xlarge = "m5dn.16xlarge"
+        case m5dn24Xlarge = "m5dn.24xlarge"
+        case m5nLarge = "m5n.large"
+        case m5nXlarge = "m5n.xlarge"
+        case m5n2Xlarge = "m5n.2xlarge"
+        case m5n4Xlarge = "m5n.4xlarge"
+        case m5n8Xlarge = "m5n.8xlarge"
+        case m5n12Xlarge = "m5n.12xlarge"
+        case m5n16Xlarge = "m5n.16xlarge"
+        case m5n24Xlarge = "m5n.24xlarge"
+        case r5dnLarge = "r5dn.large"
+        case r5dnXlarge = "r5dn.xlarge"
+        case r5dn2Xlarge = "r5dn.2xlarge"
+        case r5dn4Xlarge = "r5dn.4xlarge"
+        case r5dn8Xlarge = "r5dn.8xlarge"
+        case r5dn12Xlarge = "r5dn.12xlarge"
+        case r5dn16Xlarge = "r5dn.16xlarge"
+        case r5dn24Xlarge = "r5dn.24xlarge"
+        case r5nLarge = "r5n.large"
+        case r5nXlarge = "r5n.xlarge"
+        case r5n2Xlarge = "r5n.2xlarge"
+        case r5n4Xlarge = "r5n.4xlarge"
+        case r5n8Xlarge = "r5n.8xlarge"
+        case r5n12Xlarge = "r5n.12xlarge"
+        case r5n16Xlarge = "r5n.16xlarge"
+        case r5n24Xlarge = "r5n.24xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -25448,6 +25587,7 @@ extension EC2 {
             AWSShapeMember(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
             AWSShapeMember(label: "LimitPrice", location: .body(locationName: "limitPrice"), required: false, type: .structure), 
+            AWSShapeMember(label: "PurchaseTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "ReservedInstancesOfferingId", required: true, type: .string)
         ]
 
@@ -25457,13 +25597,16 @@ extension EC2 {
         public let instanceCount: Int
         /// Specified for Reserved Instance Marketplace offerings to limit the total order and ensure that the Reserved Instances are not purchased at unexpected prices.
         public let limitPrice: ReservedInstanceLimitPrice?
+        /// The time at which to purchase the Reserved Instance.
+        public let purchaseTime: TimeStamp?
         /// The ID of the Reserved Instance offering to purchase.
         public let reservedInstancesOfferingId: String
 
-        public init(dryRun: Bool? = nil, instanceCount: Int, limitPrice: ReservedInstanceLimitPrice? = nil, reservedInstancesOfferingId: String) {
+        public init(dryRun: Bool? = nil, instanceCount: Int, limitPrice: ReservedInstanceLimitPrice? = nil, purchaseTime: TimeStamp? = nil, reservedInstancesOfferingId: String) {
             self.dryRun = dryRun
             self.instanceCount = instanceCount
             self.limitPrice = limitPrice
+            self.purchaseTime = purchaseTime
             self.reservedInstancesOfferingId = reservedInstancesOfferingId
         }
 
@@ -25471,6 +25614,7 @@ extension EC2 {
             case dryRun = "dryRun"
             case instanceCount = "InstanceCount"
             case limitPrice = "limitPrice"
+            case purchaseTime = "PurchaseTime"
             case reservedInstancesOfferingId = "ReservedInstancesOfferingId"
         }
     }
@@ -26498,7 +26642,7 @@ extension EC2 {
         public let spotPrice: String?
         /// The Spot Instance request type. Default: one-time 
         public let `type`: SpotInstanceType?
-        /// The start date of the request. If this is a one-time request, the request becomes active at this date and time and remains active until all instances launch, the request expires, or the request is canceled. If the request is persistent, the request becomes active at this date and time and remains active until it expires or is canceled.
+        /// The start date of the request. If this is a one-time request, the request becomes active at this date and time and remains active until all instances launch, the request expires, or the request is canceled. If the request is persistent, the request becomes active at this date and time and remains active until it expires or is canceled. The specified start date and time cannot be equal to the current date and time. You must specify a start date and time that occurs after the current date and time.
         public let validFrom: TimeStamp?
         /// The end date of the request. If this is a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date is reached. The default end date is 7 days from the current date.
         public let validUntil: TimeStamp?
@@ -26764,6 +26908,8 @@ extension EC2 {
         case active = "active"
         case paymentFailed = "payment-failed"
         case retired = "retired"
+        case queued = "queued"
+        case queuedDeleted = "queued-deleted"
         public var description: String { return self.rawValue }
     }
 
@@ -30666,6 +30812,23 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case instanceId = "instanceId"
+        }
+    }
+
+    public struct SuccessfulQueuedPurchaseDeletion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"), required: false, type: .string)
+        ]
+
+        /// The ID of the Reserved Instance.
+        public let reservedInstancesId: String?
+
+        public init(reservedInstancesId: String? = nil) {
+            self.reservedInstancesId = reservedInstancesId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedInstancesId = "reservedInstancesId"
         }
     }
 

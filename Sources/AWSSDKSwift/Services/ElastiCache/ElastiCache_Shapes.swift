@@ -125,25 +125,31 @@ extension ElastiCache {
 
     public struct BatchApplyUpdateActionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationGroupIds", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "CacheClusterIds", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ReplicationGroupIds", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ServiceUpdateName", required: true, type: .string)
         ]
 
+        /// The cache cluster IDs
+        public let cacheClusterIds: [String]?
         /// The replication group IDs
-        public let replicationGroupIds: [String]
+        public let replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String
 
-        public init(replicationGroupIds: [String], serviceUpdateName: String) {
+        public init(cacheClusterIds: [String]? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String) {
+            self.cacheClusterIds = cacheClusterIds
             self.replicationGroupIds = replicationGroupIds
             self.serviceUpdateName = serviceUpdateName
         }
 
         public func validate(name: String) throws {
+            try validate(self.cacheClusterIds, name:"cacheClusterIds", parent: name, max: 20)
             try validate(self.replicationGroupIds, name:"replicationGroupIds", parent: name, max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheClusterIds = "CacheClusterIds"
             case replicationGroupIds = "ReplicationGroupIds"
             case serviceUpdateName = "ServiceUpdateName"
         }
@@ -151,25 +157,31 @@ extension ElastiCache {
 
     public struct BatchStopUpdateActionMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ReplicationGroupIds", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "CacheClusterIds", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ReplicationGroupIds", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ServiceUpdateName", required: true, type: .string)
         ]
 
+        /// The cache cluster IDs
+        public let cacheClusterIds: [String]?
         /// The replication group IDs
-        public let replicationGroupIds: [String]
+        public let replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String
 
-        public init(replicationGroupIds: [String], serviceUpdateName: String) {
+        public init(cacheClusterIds: [String]? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String) {
+            self.cacheClusterIds = cacheClusterIds
             self.replicationGroupIds = replicationGroupIds
             self.serviceUpdateName = serviceUpdateName
         }
 
         public func validate(name: String) throws {
+            try validate(self.cacheClusterIds, name:"cacheClusterIds", parent: name, max: 20)
             try validate(self.replicationGroupIds, name:"replicationGroupIds", parent: name, max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheClusterIds = "CacheClusterIds"
             case replicationGroupIds = "ReplicationGroupIds"
             case serviceUpdateName = "ServiceUpdateName"
         }
@@ -515,6 +527,58 @@ extension ElastiCache {
         private enum CodingKeys: String, CodingKey {
             case cacheNodeType = "CacheNodeType"
             case value = "Value"
+        }
+    }
+
+    public struct CacheNodeUpdateStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheNodeId", required: false, type: .string), 
+            AWSShapeMember(label: "NodeDeletionDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NodeUpdateEndDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NodeUpdateInitiatedBy", required: false, type: .enum), 
+            AWSShapeMember(label: "NodeUpdateInitiatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NodeUpdateStartDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NodeUpdateStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "NodeUpdateStatusModifiedDate", required: false, type: .timestamp)
+        ]
+
+        /// The node ID of the cache cluster
+        public let cacheNodeId: String?
+        /// The deletion date of the node
+        public let nodeDeletionDate: TimeStamp?
+        /// The end date of the update for a node
+        public let nodeUpdateEndDate: TimeStamp?
+        /// Reflects whether the update was initiated by the customer or automatically applied
+        public let nodeUpdateInitiatedBy: NodeUpdateInitiatedBy?
+        /// The date when the update is triggered
+        public let nodeUpdateInitiatedDate: TimeStamp?
+        /// The start date of the update for a node
+        public let nodeUpdateStartDate: TimeStamp?
+        /// The update status of the node
+        public let nodeUpdateStatus: NodeUpdateStatus?
+        /// The date when the NodeUpdateStatus was last modified&gt;
+        public let nodeUpdateStatusModifiedDate: TimeStamp?
+
+        public init(cacheNodeId: String? = nil, nodeDeletionDate: TimeStamp? = nil, nodeUpdateEndDate: TimeStamp? = nil, nodeUpdateInitiatedBy: NodeUpdateInitiatedBy? = nil, nodeUpdateInitiatedDate: TimeStamp? = nil, nodeUpdateStartDate: TimeStamp? = nil, nodeUpdateStatus: NodeUpdateStatus? = nil, nodeUpdateStatusModifiedDate: TimeStamp? = nil) {
+            self.cacheNodeId = cacheNodeId
+            self.nodeDeletionDate = nodeDeletionDate
+            self.nodeUpdateEndDate = nodeUpdateEndDate
+            self.nodeUpdateInitiatedBy = nodeUpdateInitiatedBy
+            self.nodeUpdateInitiatedDate = nodeUpdateInitiatedDate
+            self.nodeUpdateStartDate = nodeUpdateStartDate
+            self.nodeUpdateStatus = nodeUpdateStatus
+            self.nodeUpdateStatusModifiedDate = nodeUpdateStatusModifiedDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheNodeId = "CacheNodeId"
+            case nodeDeletionDate = "NodeDeletionDate"
+            case nodeUpdateEndDate = "NodeUpdateEndDate"
+            case nodeUpdateInitiatedBy = "NodeUpdateInitiatedBy"
+            case nodeUpdateInitiatedDate = "NodeUpdateInitiatedDate"
+            case nodeUpdateStartDate = "NodeUpdateStartDate"
+            case nodeUpdateStatus = "NodeUpdateStatus"
+            case nodeUpdateStatusModifiedDate = "NodeUpdateStatusModifiedDate"
         }
     }
 
@@ -2088,6 +2152,8 @@ extension ElastiCache {
 
     public struct DescribeUpdateActionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheClusterIds", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "ReplicationGroupIds", required: false, type: .list, encoding: .list(member:"member")), 
@@ -2098,6 +2164,10 @@ extension ElastiCache {
             AWSShapeMember(label: "UpdateActionStatus", required: false, type: .list, encoding: .list(member:"member"))
         ]
 
+        /// The cache cluster IDs
+        public let cacheClusterIds: [String]?
+        /// The Elasticache engine to which the update applies. Either Redis or Memcached 
+        public let engine: String?
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response
@@ -2115,7 +2185,9 @@ extension ElastiCache {
         /// The status of the update action.
         public let updateActionStatus: [UpdateActionStatus]?
 
-        public init(marker: String? = nil, maxRecords: Int? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil, serviceUpdateTimeRange: TimeRangeFilter? = nil, showNodeLevelUpdateStatus: Bool? = nil, updateActionStatus: [UpdateActionStatus]? = nil) {
+        public init(cacheClusterIds: [String]? = nil, engine: String? = nil, marker: String? = nil, maxRecords: Int? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil, serviceUpdateTimeRange: TimeRangeFilter? = nil, showNodeLevelUpdateStatus: Bool? = nil, updateActionStatus: [UpdateActionStatus]? = nil) {
+            self.cacheClusterIds = cacheClusterIds
+            self.engine = engine
             self.marker = marker
             self.maxRecords = maxRecords
             self.replicationGroupIds = replicationGroupIds
@@ -2127,12 +2199,15 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try validate(self.cacheClusterIds, name:"cacheClusterIds", parent: name, max: 20)
             try validate(self.replicationGroupIds, name:"replicationGroupIds", parent: name, max: 20)
             try validate(self.serviceUpdateStatus, name:"serviceUpdateStatus", parent: name, max: 3)
             try validate(self.updateActionStatus, name:"updateActionStatus", parent: name, max: 6)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheClusterIds = "CacheClusterIds"
+            case engine = "Engine"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
             case replicationGroupIds = "ReplicationGroupIds"
@@ -3142,11 +3217,14 @@ extension ElastiCache {
 
     public struct ProcessedUpdateAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
             AWSShapeMember(label: "ServiceUpdateName", required: false, type: .string), 
             AWSShapeMember(label: "UpdateActionStatus", required: false, type: .enum)
         ]
 
+        /// The ID of the cache cluster
+        public let cacheClusterId: String?
         /// The ID of the replication group
         public let replicationGroupId: String?
         /// The unique ID of the service update
@@ -3154,13 +3232,15 @@ extension ElastiCache {
         /// The status of the update action on the Redis cluster
         public let updateActionStatus: UpdateActionStatus?
 
-        public init(replicationGroupId: String? = nil, serviceUpdateName: String? = nil, updateActionStatus: UpdateActionStatus? = nil) {
+        public init(cacheClusterId: String? = nil, replicationGroupId: String? = nil, serviceUpdateName: String? = nil, updateActionStatus: UpdateActionStatus? = nil) {
+            self.cacheClusterId = cacheClusterId
             self.replicationGroupId = replicationGroupId
             self.serviceUpdateName = serviceUpdateName
             self.updateActionStatus = updateActionStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheClusterId = "CacheClusterId"
             case replicationGroupId = "ReplicationGroupId"
             case serviceUpdateName = "ServiceUpdateName"
             case updateActionStatus = "UpdateActionStatus"
@@ -3766,9 +3846,9 @@ extension ElastiCache {
 
         /// Indicates whether the service update will be automatically applied once the recommended apply-by date has expired. 
         public let autoUpdateAfterRecommendedApplyByDate: Bool?
-        /// The Redis engine to which the service update applies
+        /// The Elasticache engine to which the update applies. Either Redis or Memcached
         public let engine: String?
-        /// The Redis engine version to which the service update applies
+        /// The Elasticache engine version to which the update applies. Either Redis or Memcached engine version
         public let engineVersion: String?
         /// The estimated length of time the service update will take
         public let estimatedUpdateTime: String?
@@ -4161,12 +4241,15 @@ extension ElastiCache {
 
     public struct UnprocessedUpdateAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "ErrorType", required: false, type: .string), 
             AWSShapeMember(label: "ReplicationGroupId", required: false, type: .string), 
             AWSShapeMember(label: "ServiceUpdateName", required: false, type: .string)
         ]
 
+        /// The ID of the cache cluster
+        public let cacheClusterId: String?
         /// The error message that describes the reason the request was not processed
         public let errorMessage: String?
         /// The error type for requests that are not processed
@@ -4176,7 +4259,8 @@ extension ElastiCache {
         /// The unique ID of the service update
         public let serviceUpdateName: String?
 
-        public init(errorMessage: String? = nil, errorType: String? = nil, replicationGroupId: String? = nil, serviceUpdateName: String? = nil) {
+        public init(cacheClusterId: String? = nil, errorMessage: String? = nil, errorType: String? = nil, replicationGroupId: String? = nil, serviceUpdateName: String? = nil) {
+            self.cacheClusterId = cacheClusterId
             self.errorMessage = errorMessage
             self.errorType = errorType
             self.replicationGroupId = replicationGroupId
@@ -4184,6 +4268,7 @@ extension ElastiCache {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheClusterId = "CacheClusterId"
             case errorMessage = "ErrorMessage"
             case errorType = "ErrorType"
             case replicationGroupId = "ReplicationGroupId"
@@ -4193,6 +4278,9 @@ extension ElastiCache {
 
     public struct UpdateAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "CacheNodeUpdateStatus", required: false, type: .list, encoding: .list(member:"CacheNodeUpdateStatus")), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
             AWSShapeMember(label: "EstimatedUpdateTime", required: false, type: .string), 
             AWSShapeMember(label: "NodeGroupUpdateStatus", required: false, type: .list, encoding: .list(member:"NodeGroupUpdateStatus")), 
             AWSShapeMember(label: "NodesUpdated", required: false, type: .string), 
@@ -4209,6 +4297,12 @@ extension ElastiCache {
             AWSShapeMember(label: "UpdateActionStatusModifiedDate", required: false, type: .timestamp)
         ]
 
+        /// The ID of the cache cluster
+        public let cacheClusterId: String?
+        /// The status of the service update on the cache node
+        public let cacheNodeUpdateStatus: [CacheNodeUpdateStatus]?
+        /// The Elasticache engine to which the update applies. Either Redis or Memcached
+        public let engine: String?
         /// The estimated length of time for the update to complete
         public let estimatedUpdateTime: String?
         /// The status of the service update on the node group
@@ -4238,7 +4332,10 @@ extension ElastiCache {
         /// The date when the UpdateActionStatus was last modified
         public let updateActionStatusModifiedDate: TimeStamp?
 
-        public init(estimatedUpdateTime: String? = nil, nodeGroupUpdateStatus: [NodeGroupUpdateStatus]? = nil, nodesUpdated: String? = nil, replicationGroupId: String? = nil, serviceUpdateName: String? = nil, serviceUpdateRecommendedApplyByDate: TimeStamp? = nil, serviceUpdateReleaseDate: TimeStamp? = nil, serviceUpdateSeverity: ServiceUpdateSeverity? = nil, serviceUpdateStatus: ServiceUpdateStatus? = nil, serviceUpdateType: ServiceUpdateType? = nil, slaMet: SlaMet? = nil, updateActionAvailableDate: TimeStamp? = nil, updateActionStatus: UpdateActionStatus? = nil, updateActionStatusModifiedDate: TimeStamp? = nil) {
+        public init(cacheClusterId: String? = nil, cacheNodeUpdateStatus: [CacheNodeUpdateStatus]? = nil, engine: String? = nil, estimatedUpdateTime: String? = nil, nodeGroupUpdateStatus: [NodeGroupUpdateStatus]? = nil, nodesUpdated: String? = nil, replicationGroupId: String? = nil, serviceUpdateName: String? = nil, serviceUpdateRecommendedApplyByDate: TimeStamp? = nil, serviceUpdateReleaseDate: TimeStamp? = nil, serviceUpdateSeverity: ServiceUpdateSeverity? = nil, serviceUpdateStatus: ServiceUpdateStatus? = nil, serviceUpdateType: ServiceUpdateType? = nil, slaMet: SlaMet? = nil, updateActionAvailableDate: TimeStamp? = nil, updateActionStatus: UpdateActionStatus? = nil, updateActionStatusModifiedDate: TimeStamp? = nil) {
+            self.cacheClusterId = cacheClusterId
+            self.cacheNodeUpdateStatus = cacheNodeUpdateStatus
+            self.engine = engine
             self.estimatedUpdateTime = estimatedUpdateTime
             self.nodeGroupUpdateStatus = nodeGroupUpdateStatus
             self.nodesUpdated = nodesUpdated
@@ -4256,6 +4353,9 @@ extension ElastiCache {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheClusterId = "CacheClusterId"
+            case cacheNodeUpdateStatus = "CacheNodeUpdateStatus"
+            case engine = "Engine"
             case estimatedUpdateTime = "EstimatedUpdateTime"
             case nodeGroupUpdateStatus = "NodeGroupUpdateStatus"
             case nodesUpdated = "NodesUpdated"

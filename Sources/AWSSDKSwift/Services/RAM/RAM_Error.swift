@@ -23,6 +23,7 @@ public enum RAMErrorType: AWSErrorType {
     case serverInternalException(message: String?)
     case serviceUnavailableException(message: String?)
     case tagLimitExceededException(message: String?)
+    case tagPolicyViolationException(message: String?)
     case unknownResourceException(message: String?)
 }
 
@@ -71,6 +72,8 @@ extension RAMErrorType {
             self = .serviceUnavailableException(message: message)
         case "TagLimitExceededException":
             self = .tagLimitExceededException(message: message)
+        case "TagPolicyViolationException":
+            self = .tagPolicyViolationException(message: message)
         case "UnknownResourceException":
             self = .unknownResourceException(message: message)
         default:
@@ -120,6 +123,8 @@ extension RAMErrorType : CustomStringConvertible {
             return "ServiceUnavailableException: \(message ?? "")"
         case .tagLimitExceededException(let message):
             return "TagLimitExceededException: \(message ?? "")"
+        case .tagPolicyViolationException(let message):
+            return "TagPolicyViolationException: \(message ?? "")"
         case .unknownResourceException(let message):
             return "UnknownResourceException: \(message ?? "")"
         }

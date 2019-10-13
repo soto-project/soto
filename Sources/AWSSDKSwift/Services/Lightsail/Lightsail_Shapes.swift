@@ -11,6 +11,69 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public struct AddOn: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "nextSnapshotTimeOfDay", required: false, type: .string), 
+            AWSShapeMember(label: "snapshotTimeOfDay", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .string)
+        ]
+
+        /// The name of the add-on.
+        public let name: String?
+        /// The next daily time an automatic snapshot will be created. The time shown is in HH:00 format, and in Coordinated Universal Time (UTC). The snapshot is automatically created between the time shown and up to 45 minutes after.
+        public let nextSnapshotTimeOfDay: String?
+        /// The daily time when an automatic snapshot is created. The time shown is in HH:00 format, and in Coordinated Universal Time (UTC). The snapshot is automatically created between the time shown and up to 45 minutes after.
+        public let snapshotTimeOfDay: String?
+        /// The status of the add-on.
+        public let status: String?
+
+        public init(name: String? = nil, nextSnapshotTimeOfDay: String? = nil, snapshotTimeOfDay: String? = nil, status: String? = nil) {
+            self.name = name
+            self.nextSnapshotTimeOfDay = nextSnapshotTimeOfDay
+            self.snapshotTimeOfDay = snapshotTimeOfDay
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case nextSnapshotTimeOfDay = "nextSnapshotTimeOfDay"
+            case snapshotTimeOfDay = "snapshotTimeOfDay"
+            case status = "status"
+        }
+    }
+
+    public struct AddOnRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addOnType", required: true, type: .enum), 
+            AWSShapeMember(label: "autoSnapshotAddOnRequest", required: false, type: .structure)
+        ]
+
+        /// The add-on type.
+        public let addOnType: AddOnType
+        /// An object that represents additional parameters when enabling or modifying the automatic snapshot add-on.
+        public let autoSnapshotAddOnRequest: AutoSnapshotAddOnRequest?
+
+        public init(addOnType: AddOnType, autoSnapshotAddOnRequest: AutoSnapshotAddOnRequest? = nil) {
+            self.addOnType = addOnType
+            self.autoSnapshotAddOnRequest = autoSnapshotAddOnRequest
+        }
+
+        public func validate(name: String) throws {
+            try self.autoSnapshotAddOnRequest?.validate(name: "\(name).autoSnapshotAddOnRequest")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addOnType = "addOnType"
+            case autoSnapshotAddOnRequest = "autoSnapshotAddOnRequest"
+        }
+    }
+
+    public enum AddOnType: String, CustomStringConvertible, Codable {
+        case autosnapshot = "AutoSnapshot"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AllocateStaticIpRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "staticIpName", required: true, type: .string)
@@ -231,6 +294,89 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case operations = "operations"
         }
+    }
+
+    public struct AttachedDisk: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "path", required: false, type: .string), 
+            AWSShapeMember(label: "sizeInGb", required: false, type: .integer)
+        ]
+
+        /// The path of the disk (e.g., /dev/xvdf).
+        public let path: String?
+        /// The size of the disk in GB.
+        public let sizeInGb: Int?
+
+        public init(path: String? = nil, sizeInGb: Int? = nil) {
+            self.path = path
+            self.sizeInGb = sizeInGb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "path"
+            case sizeInGb = "sizeInGb"
+        }
+    }
+
+    public struct AutoSnapshotAddOnRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "snapshotTimeOfDay", required: false, type: .string)
+        ]
+
+        /// The daily time when an automatic snapshot will be created. Constraints:   Must be in HH:00 format, and in an hourly increment.   Specified in Coordinated Universal Time (UTC).   The snapshot will be automatically created between the time specified and up to 45 minutes after.  
+        public let snapshotTimeOfDay: String?
+
+        public init(snapshotTimeOfDay: String? = nil) {
+            self.snapshotTimeOfDay = snapshotTimeOfDay
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.snapshotTimeOfDay, name:"snapshotTimeOfDay", parent: name, pattern: "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotTimeOfDay = "snapshotTimeOfDay"
+        }
+    }
+
+    public struct AutoSnapshotDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "date", required: false, type: .string), 
+            AWSShapeMember(label: "fromAttachedDisks", required: false, type: .list), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+
+        /// The timestamp when the automatic snapshot was created.
+        public let createdAt: TimeStamp?
+        /// The date of the automatic snapshot in YYYY-MM-DD format.
+        public let date: String?
+        /// An array of objects that describe the block storage disks attached to the instance when the automatic snapshot was created.
+        public let fromAttachedDisks: [AttachedDisk]?
+        /// The status of the automatic snapshot.
+        public let status: AutoSnapshotStatus?
+
+        public init(createdAt: TimeStamp? = nil, date: String? = nil, fromAttachedDisks: [AttachedDisk]? = nil, status: AutoSnapshotStatus? = nil) {
+            self.createdAt = createdAt
+            self.date = date
+            self.fromAttachedDisks = fromAttachedDisks
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case date = "date"
+            case fromAttachedDisks = "fromAttachedDisks"
+            case status = "status"
+        }
+    }
+
+    public enum AutoSnapshotStatus: String, CustomStringConvertible, Codable {
+        case success = "Success"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        case notfound = "NotFound"
+        public var description: String { return self.rawValue }
     }
 
     public struct AvailabilityZone: AWSShape {
@@ -530,22 +676,34 @@ extension Lightsail {
 
     public struct CopySnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "restoreDate", required: false, type: .string), 
             AWSShapeMember(label: "sourceRegion", required: true, type: .enum), 
-            AWSShapeMember(label: "sourceSnapshotName", required: true, type: .string), 
-            AWSShapeMember(label: "targetSnapshotName", required: true, type: .string)
+            AWSShapeMember(label: "sourceResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "sourceSnapshotName", required: false, type: .string), 
+            AWSShapeMember(label: "targetSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "useLatestRestorableAutoSnapshot", required: false, type: .boolean)
         ]
 
-        /// The AWS Region where the source snapshot is located.
+        /// The date of the automatic snapshot to copy for the new manual snapshot. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.    Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide. 
+        public let restoreDate: String?
+        /// The AWS Region where the source manual or automatic snapshot is located.
         public let sourceRegion: RegionName
-        /// The name of the source instance or disk snapshot to be copied.
-        public let sourceSnapshotName: String
+        /// The name of the source resource from which the automatic snapshot was created.  Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide. 
+        public let sourceResourceName: String?
+        /// The name of the source instance or disk snapshot to be copied.  Define this parameter only when copying a manual snapshot as another manual snapshot. 
+        public let sourceSnapshotName: String?
         /// The name of the new instance or disk snapshot to be created as a copy.
         public let targetSnapshotName: String
+        /// A Boolean value to indicate whether to use the latest available automatic snapshot. This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.  Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide. 
+        public let useLatestRestorableAutoSnapshot: Bool?
 
-        public init(sourceRegion: RegionName, sourceSnapshotName: String, targetSnapshotName: String) {
+        public init(restoreDate: String? = nil, sourceRegion: RegionName, sourceResourceName: String? = nil, sourceSnapshotName: String? = nil, targetSnapshotName: String, useLatestRestorableAutoSnapshot: Bool? = nil) {
+            self.restoreDate = restoreDate
             self.sourceRegion = sourceRegion
+            self.sourceResourceName = sourceResourceName
             self.sourceSnapshotName = sourceSnapshotName
             self.targetSnapshotName = targetSnapshotName
+            self.useLatestRestorableAutoSnapshot = useLatestRestorableAutoSnapshot
         }
 
         public func validate(name: String) throws {
@@ -554,9 +712,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case restoreDate = "restoreDate"
             case sourceRegion = "sourceRegion"
+            case sourceResourceName = "sourceResourceName"
             case sourceSnapshotName = "sourceSnapshotName"
             case targetSnapshotName = "targetSnapshotName"
+            case useLatestRestorableAutoSnapshot = "useLatestRestorableAutoSnapshot"
         }
     }
 
@@ -619,44 +780,67 @@ extension Lightsail {
 
     public struct CreateDiskFromSnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addOns", required: false, type: .list), 
             AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
             AWSShapeMember(label: "diskName", required: true, type: .string), 
-            AWSShapeMember(label: "diskSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "diskSnapshotName", required: false, type: .string), 
+            AWSShapeMember(label: "restoreDate", required: false, type: .string), 
             AWSShapeMember(label: "sizeInGb", required: true, type: .integer), 
-            AWSShapeMember(label: "tags", required: false, type: .list)
+            AWSShapeMember(label: "sourceDiskName", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "useLatestRestorableAutoSnapshot", required: false, type: .boolean)
         ]
 
+        /// An array of objects that represent the add-ons to enable for the new disk.
+        public let addOns: [AddOnRequest]?
         /// The Availability Zone where you want to create the disk (e.g., us-east-2a). Choose the same Availability Zone as the Lightsail instance where you want to create the disk. Use the GetRegions operation to list the Availability Zones where Lightsail is currently available.
         public let availabilityZone: String
         /// The unique Lightsail disk name (e.g., my-disk).
         public let diskName: String
-        /// The name of the disk snapshot (e.g., my-snapshot) from which to create the new storage disk.
-        public let diskSnapshotName: String
+        /// The name of the disk snapshot (e.g., my-snapshot) from which to create the new storage disk. This parameter cannot be defined together with the source disk name parameter. The disk snapshot name and source disk name parameters are mutually exclusive.
+        public let diskSnapshotName: String?
+        /// The date of the automatic snapshot to use for the new disk. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.    Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide. 
+        public let restoreDate: String?
         /// The size of the disk in GB (e.g., 32).
         public let sizeInGb: Int
+        /// The name of the source disk from which the source automatic snapshot was created. This parameter cannot be defined together with the disk snapshot name parameter. The source disk name and disk snapshot name parameters are mutually exclusive.  Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide. 
+        public let sourceDiskName: String?
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
+        /// A Boolean value to indicate whether to use the latest available automatic snapshot. This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.  Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide. 
+        public let useLatestRestorableAutoSnapshot: Bool?
 
-        public init(availabilityZone: String, diskName: String, diskSnapshotName: String, sizeInGb: Int, tags: [Tag]? = nil) {
+        public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, diskName: String, diskSnapshotName: String? = nil, restoreDate: String? = nil, sizeInGb: Int, sourceDiskName: String? = nil, tags: [Tag]? = nil, useLatestRestorableAutoSnapshot: Bool? = nil) {
+            self.addOns = addOns
             self.availabilityZone = availabilityZone
             self.diskName = diskName
             self.diskSnapshotName = diskSnapshotName
+            self.restoreDate = restoreDate
             self.sizeInGb = sizeInGb
+            self.sourceDiskName = sourceDiskName
             self.tags = tags
+            self.useLatestRestorableAutoSnapshot = useLatestRestorableAutoSnapshot
         }
 
         public func validate(name: String) throws {
+            try self.addOns?.forEach {
+                try $0.validate(name: "\(name).addOns[]")
+            }
             try validate(self.availabilityZone, name:"availabilityZone", parent: name, pattern: ".*\\S.*")
             try validate(self.diskName, name:"diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
             try validate(self.diskSnapshotName, name:"diskSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addOns = "addOns"
             case availabilityZone = "availabilityZone"
             case diskName = "diskName"
             case diskSnapshotName = "diskSnapshotName"
+            case restoreDate = "restoreDate"
             case sizeInGb = "sizeInGb"
+            case sourceDiskName = "sourceDiskName"
             case tags = "tags"
+            case useLatestRestorableAutoSnapshot = "useLatestRestorableAutoSnapshot"
         }
     }
 
@@ -679,13 +863,16 @@ extension Lightsail {
 
     public struct CreateDiskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addOns", required: false, type: .list), 
             AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
             AWSShapeMember(label: "diskName", required: true, type: .string), 
             AWSShapeMember(label: "sizeInGb", required: true, type: .integer), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
-        /// The Availability Zone where you want to create the disk (e.g., us-east-2a). Choose the same Availability Zone as the Lightsail instance where you want to create the disk. Use the GetRegions operation to list the Availability Zones where Lightsail is currently available.
+        /// An array of objects that represent the add-ons to enable for the new disk.
+        public let addOns: [AddOnRequest]?
+        /// The Availability Zone where you want to create the disk (e.g., us-east-2a). Use the same Availability Zone as the Lightsail instance to which you want to attach the disk. Use the get regions operation to list the Availability Zones where Lightsail is currently available.
         public let availabilityZone: String
         /// The unique Lightsail disk name (e.g., my-disk).
         public let diskName: String
@@ -694,7 +881,8 @@ extension Lightsail {
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
 
-        public init(availabilityZone: String, diskName: String, sizeInGb: Int, tags: [Tag]? = nil) {
+        public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, diskName: String, sizeInGb: Int, tags: [Tag]? = nil) {
+            self.addOns = addOns
             self.availabilityZone = availabilityZone
             self.diskName = diskName
             self.sizeInGb = sizeInGb
@@ -702,11 +890,15 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
+            try self.addOns?.forEach {
+                try $0.validate(name: "\(name).addOns[]")
+            }
             try validate(self.availabilityZone, name:"availabilityZone", parent: name, pattern: ".*\\S.*")
             try validate(self.diskName, name:"diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addOns = "addOns"
             case availabilityZone = "availabilityZone"
             case diskName = "diskName"
             case sizeInGb = "sizeInGb"
@@ -919,16 +1111,22 @@ extension Lightsail {
 
     public struct CreateInstancesFromSnapshotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addOns", required: false, type: .list), 
             AWSShapeMember(label: "attachedDiskMapping", required: false, type: .map), 
             AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
             AWSShapeMember(label: "bundleId", required: true, type: .string), 
             AWSShapeMember(label: "instanceNames", required: true, type: .list), 
-            AWSShapeMember(label: "instanceSnapshotName", required: true, type: .string), 
+            AWSShapeMember(label: "instanceSnapshotName", required: false, type: .string), 
             AWSShapeMember(label: "keyPairName", required: false, type: .string), 
+            AWSShapeMember(label: "restoreDate", required: false, type: .string), 
+            AWSShapeMember(label: "sourceInstanceName", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "useLatestRestorableAutoSnapshot", required: false, type: .boolean), 
             AWSShapeMember(label: "userData", required: false, type: .string)
         ]
 
+        /// An array of objects representing the add-ons to enable for the new instance.
+        public let addOns: [AddOnRequest]?
         /// An object containing information about one or more disk mappings.
         public let attachedDiskMapping: [String: [DiskMap]]?
         /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
@@ -937,27 +1135,40 @@ extension Lightsail {
         public let bundleId: String
         /// The names for your new instances.
         public let instanceNames: [String]
-        /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots.
-        public let instanceSnapshotName: String
+        /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots. This parameter cannot be defined together with the source instance name parameter. The instance snapshot name and source instance name parameters are mutually exclusive.
+        public let instanceSnapshotName: String?
         /// The name for your key pair.
         public let keyPairName: String?
+        /// The date of the automatic snapshot to use for the new instance. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.    Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide. 
+        public let restoreDate: String?
+        /// The name of the source instance from which the source automatic snapshot was created. This parameter cannot be defined together with the instance snapshot name parameter. The source instance name and instance snapshot name parameters are mutually exclusive.  Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide. 
+        public let sourceInstanceName: String?
         /// The tag keys and optional values to add to the resource during create. To tag a resource after it has been created, see the tag resource operation.
         public let tags: [Tag]?
+        /// A Boolean value to indicate whether to use the latest available automatic snapshot. This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.  Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide. 
+        public let useLatestRestorableAutoSnapshot: Bool?
         /// You can create a launch script that configures a server with additional user data. For example, apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
         public let userData: String?
 
-        public init(attachedDiskMapping: [String: [DiskMap]]? = nil, availabilityZone: String, bundleId: String, instanceNames: [String], instanceSnapshotName: String, keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
+        public init(addOns: [AddOnRequest]? = nil, attachedDiskMapping: [String: [DiskMap]]? = nil, availabilityZone: String, bundleId: String, instanceNames: [String], instanceSnapshotName: String? = nil, keyPairName: String? = nil, restoreDate: String? = nil, sourceInstanceName: String? = nil, tags: [Tag]? = nil, useLatestRestorableAutoSnapshot: Bool? = nil, userData: String? = nil) {
+            self.addOns = addOns
             self.attachedDiskMapping = attachedDiskMapping
             self.availabilityZone = availabilityZone
             self.bundleId = bundleId
             self.instanceNames = instanceNames
             self.instanceSnapshotName = instanceSnapshotName
             self.keyPairName = keyPairName
+            self.restoreDate = restoreDate
+            self.sourceInstanceName = sourceInstanceName
             self.tags = tags
+            self.useLatestRestorableAutoSnapshot = useLatestRestorableAutoSnapshot
             self.userData = userData
         }
 
         public func validate(name: String) throws {
+            try self.addOns?.forEach {
+                try $0.validate(name: "\(name).addOns[]")
+            }
             try self.attachedDiskMapping?.forEach {
                 try validate($0.key, name:"attachedDiskMapping.key", parent: name, pattern: "\\w[\\w\\-]*\\w")
             }
@@ -967,13 +1178,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addOns = "addOns"
             case attachedDiskMapping = "attachedDiskMapping"
             case availabilityZone = "availabilityZone"
             case bundleId = "bundleId"
             case instanceNames = "instanceNames"
             case instanceSnapshotName = "instanceSnapshotName"
             case keyPairName = "keyPairName"
+            case restoreDate = "restoreDate"
+            case sourceInstanceName = "sourceInstanceName"
             case tags = "tags"
+            case useLatestRestorableAutoSnapshot = "useLatestRestorableAutoSnapshot"
             case userData = "userData"
         }
     }
@@ -997,6 +1212,7 @@ extension Lightsail {
 
     public struct CreateInstancesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addOns", required: false, type: .list), 
             AWSShapeMember(label: "availabilityZone", required: true, type: .string), 
             AWSShapeMember(label: "blueprintId", required: true, type: .string), 
             AWSShapeMember(label: "bundleId", required: true, type: .string), 
@@ -1006,9 +1222,11 @@ extension Lightsail {
             AWSShapeMember(label: "userData", required: false, type: .string)
         ]
 
+        /// An array of objects representing the add-ons to enable for the new instance.
+        public let addOns: [AddOnRequest]?
         /// The Availability Zone in which to create your instance. Use the following format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
         public let availabilityZone: String
-        /// The ID for a virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0). Use the get blueprints operation to return a list of available images (or blueprints).
+        /// The ID for a virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0). Use the get blueprints operation to return a list of available images (or blueprints).  Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases. 
         public let blueprintId: String
         /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (e.g., micro_1_0).
         public let bundleId: String
@@ -1021,7 +1239,8 @@ extension Lightsail {
         /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
         public let userData: String?
 
-        public init(availabilityZone: String, blueprintId: String, bundleId: String, instanceNames: [String], keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
+        public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, blueprintId: String, bundleId: String, instanceNames: [String], keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
+            self.addOns = addOns
             self.availabilityZone = availabilityZone
             self.blueprintId = blueprintId
             self.bundleId = bundleId
@@ -1032,12 +1251,16 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
+            try self.addOns?.forEach {
+                try $0.validate(name: "\(name).addOns[]")
+            }
             try validate(self.blueprintId, name:"blueprintId", parent: name, pattern: ".*\\S.*")
             try validate(self.bundleId, name:"bundleId", parent: name, pattern: ".*\\S.*")
             try validate(self.keyPairName, name:"keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addOns = "addOns"
             case availabilityZone = "availabilityZone"
             case blueprintId = "blueprintId"
             case bundleId = "bundleId"
@@ -1276,7 +1499,7 @@ extension Lightsail {
         public let relationalDatabaseName: String
         /// The name of the database snapshot from which to create your new database.
         public let relationalDatabaseSnapshotName: String?
-        /// The date and time to restore your database from. Constraints:   Must be before the latest restorable time for the database.   Cannot be specified if the use latest restorable time parameter is true.   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use a restore time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the restore time.  
+        /// The date and time to restore your database from. Constraints:   Must be before the latest restorable time for the database.   Cannot be specified if the use latest restorable time parameter is true.   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a restore time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the restore time.  
         public let restoreTime: TimeStamp?
         /// The name of the source database.
         public let sourceRelationalDatabaseName: String?
@@ -1356,9 +1579,9 @@ extension Lightsail {
         public let masterUsername: String
         /// The password for the master user of your new database. The password can include any printable ASCII character except "/", """, or "@". Constraints: Must contain 8 to 41 characters.
         public let masterUserPassword: String?
-        /// The daily time range during which automated backups are created for your new database if automated backups are enabled. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. For more information about the preferred backup window time blocks for each region, see the Working With Backups guide in the Amazon Relational Database Service (Amazon RDS) documentation. Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        /// The daily time range during which automated backups are created for your new database if automated backups are enabled. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. For more information about the preferred backup window time blocks for each region, see the Working With Backups guide in the Amazon Relational Database Service (Amazon RDS) documentation. Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Coordinated Universal Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
-        /// The weekly time range during which system maintenance can occur on your new database. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Universal Coordinated Time (UTC).   Example: Tue:17:00-Tue:17:30   
+        /// The weekly time range during which system maintenance can occur on your new database. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Coordinated Universal Time (UTC).   Example: Tue:17:00-Tue:17:30   
         public let preferredMaintenanceWindow: String?
         /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
         public let publiclyAccessible: Bool?
@@ -1470,16 +1693,64 @@ extension Lightsail {
         }
     }
 
+    public struct DeleteAutoSnapshotRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "date", required: true, type: .string), 
+            AWSShapeMember(label: "resourceName", required: true, type: .string)
+        ]
+
+        /// The date of the automatic snapshot to delete in YYYY-MM-DD format. Use the get auto snapshots operation to get the available automatic snapshots for a resource.
+        public let date: String
+        /// The name of the source resource from which to delete the automatic snapshot.
+        public let resourceName: String
+
+        public init(date: String, resourceName: String) {
+            self.date = date
+            self.resourceName = resourceName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.date, name:"date", parent: name, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
+            try validate(self.resourceName, name:"resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "date"
+            case resourceName = "resourceName"
+        }
+    }
+
+    public struct DeleteAutoSnapshotResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+
+        /// An array of objects that describe the result of your request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
     public struct DeleteDiskRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "diskName", required: true, type: .string)
+            AWSShapeMember(label: "diskName", required: true, type: .string), 
+            AWSShapeMember(label: "forceDeleteAddOns", required: false, type: .boolean)
         ]
 
         /// The unique name of the disk you want to delete (e.g., my-disk).
         public let diskName: String
+        /// A Boolean value to indicate whether to delete the enabled add-ons for the disk.
+        public let forceDeleteAddOns: Bool?
 
-        public init(diskName: String) {
+        public init(diskName: String, forceDeleteAddOns: Bool? = nil) {
             self.diskName = diskName
+            self.forceDeleteAddOns = forceDeleteAddOns
         }
 
         public func validate(name: String) throws {
@@ -1488,6 +1759,7 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case diskName = "diskName"
+            case forceDeleteAddOns = "forceDeleteAddOns"
         }
     }
 
@@ -1496,7 +1768,7 @@ extension Lightsail {
             AWSShapeMember(label: "operations", required: false, type: .list)
         ]
 
-        /// An object describing the API operations.
+        /// An array of objects that describe the result of your request.
         public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
@@ -1625,13 +1897,17 @@ extension Lightsail {
 
     public struct DeleteInstanceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "forceDeleteAddOns", required: false, type: .boolean), 
             AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
 
+        /// A Boolean value to indicate whether to delete the enabled add-ons for the disk.
+        public let forceDeleteAddOns: Bool?
         /// The name of the instance to delete.
         public let instanceName: String
 
-        public init(instanceName: String) {
+        public init(forceDeleteAddOns: Bool? = nil, instanceName: String) {
+            self.forceDeleteAddOns = forceDeleteAddOns
             self.instanceName = instanceName
         }
 
@@ -1640,6 +1916,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case forceDeleteAddOns = "forceDeleteAddOns"
             case instanceName = "instanceName"
         }
     }
@@ -2093,8 +2370,52 @@ extension Lightsail {
         }
     }
 
+    public struct DisableAddOnRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addOnType", required: true, type: .enum), 
+            AWSShapeMember(label: "resourceName", required: true, type: .string)
+        ]
+
+        /// The add-on type to disable.
+        public let addOnType: AddOnType
+        /// The name of the source resource from which to disable the add-on.
+        public let resourceName: String
+
+        public init(addOnType: AddOnType, resourceName: String) {
+            self.addOnType = addOnType
+            self.resourceName = resourceName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceName, name:"resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addOnType = "addOnType"
+            case resourceName = "resourceName"
+        }
+    }
+
+    public struct DisableAddOnResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+
+        /// An array of objects that describe the result of your request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
     public struct Disk: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addOns", required: false, type: .list), 
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "attachedTo", required: false, type: .string), 
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
@@ -2111,6 +2432,8 @@ extension Lightsail {
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
+        /// An array of objects representing the add-ons enabled on the disk.
+        public let addOns: [AddOn]?
         /// The Amazon Resource Name (ARN) of the disk.
         public let arn: String?
         /// The resources to which the disk is attached.
@@ -2140,7 +2463,8 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, attachedTo: String? = nil, createdAt: TimeStamp? = nil, iops: Int? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(addOns: [AddOn]? = nil, arn: String? = nil, attachedTo: String? = nil, createdAt: TimeStamp? = nil, iops: Int? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+            self.addOns = addOns
             self.arn = arn
             self.attachedTo = attachedTo
             self.createdAt = createdAt
@@ -2158,6 +2482,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addOns = "addOns"
             case arn = "arn"
             case attachedTo = "attachedTo"
             case createdAt = "createdAt"
@@ -2242,6 +2567,7 @@ extension Lightsail {
             AWSShapeMember(label: "fromDiskName", required: false, type: .string), 
             AWSShapeMember(label: "fromInstanceArn", required: false, type: .string), 
             AWSShapeMember(label: "fromInstanceName", required: false, type: .string), 
+            AWSShapeMember(label: "isFromAutoSnapshot", required: false, type: .boolean), 
             AWSShapeMember(label: "location", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "progress", required: false, type: .string), 
@@ -2264,6 +2590,8 @@ extension Lightsail {
         public let fromInstanceArn: String?
         /// The unique name of the source instance from which the disk (system volume) snapshot was created.
         public let fromInstanceName: String?
+        /// A Boolean value indicating whether the snapshot was created from an automatic snapshot.
+        public let isFromAutoSnapshot: Bool?
         /// The AWS Region and Availability Zone where the disk snapshot was created.
         public let location: ResourceLocation?
         /// The name of the disk snapshot (e.g., my-disk-snapshot).
@@ -2281,13 +2609,14 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromDiskArn: String? = nil, fromDiskName: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromDiskArn: String? = nil, fromDiskName: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, isFromAutoSnapshot: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.fromDiskArn = fromDiskArn
             self.fromDiskName = fromDiskName
             self.fromInstanceArn = fromInstanceArn
             self.fromInstanceName = fromInstanceName
+            self.isFromAutoSnapshot = isFromAutoSnapshot
             self.location = location
             self.name = name
             self.progress = progress
@@ -2305,6 +2634,7 @@ extension Lightsail {
             case fromDiskName = "fromDiskName"
             case fromInstanceArn = "fromInstanceArn"
             case fromInstanceName = "fromInstanceName"
+            case isFromAutoSnapshot = "isFromAutoSnapshot"
             case location = "location"
             case name = "name"
             case progress = "progress"
@@ -2470,6 +2800,50 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case privateKeyBase64 = "privateKeyBase64"
             case publicKeyBase64 = "publicKeyBase64"
+        }
+    }
+
+    public struct EnableAddOnRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addOnRequest", required: true, type: .structure), 
+            AWSShapeMember(label: "resourceName", required: true, type: .string)
+        ]
+
+        /// An array of strings representing the add-on to enable or modify.
+        public let addOnRequest: AddOnRequest
+        /// The name of the source resource for which to enable or modify the add-on.
+        public let resourceName: String
+
+        public init(addOnRequest: AddOnRequest, resourceName: String) {
+            self.addOnRequest = addOnRequest
+            self.resourceName = resourceName
+        }
+
+        public func validate(name: String) throws {
+            try self.addOnRequest.validate(name: "\(name).addOnRequest")
+            try validate(self.resourceName, name:"resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addOnRequest = "addOnRequest"
+            case resourceName = "resourceName"
+        }
+    }
+
+    public struct EnableAddOnResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "operations", required: false, type: .list)
+        ]
+
+        /// An array of objects that describe the result of your request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
         }
     }
 
@@ -2657,6 +3031,54 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case activeNames = "activeNames"
             case nextPageToken = "nextPageToken"
+        }
+    }
+
+    public struct GetAutoSnapshotsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceName", required: true, type: .string)
+        ]
+
+        /// The name of the source resource from which to get automatic snapshot information.
+        public let resourceName: String
+
+        public init(resourceName: String) {
+            self.resourceName = resourceName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceName, name:"resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "resourceName"
+        }
+    }
+
+    public struct GetAutoSnapshotsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "autoSnapshots", required: false, type: .list), 
+            AWSShapeMember(label: "resourceName", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum)
+        ]
+
+        /// An array of objects that describe the automatic snapshots that are available for the specified source resource.asdf
+        public let autoSnapshots: [AutoSnapshotDetails]?
+        /// The name of the source resource for the automatic snapshots.
+        public let resourceName: String?
+        /// The resource type (e.g., Instance or Disk).
+        public let resourceType: ResourceType?
+
+        public init(autoSnapshots: [AutoSnapshotDetails]? = nil, resourceName: String? = nil, resourceType: ResourceType? = nil) {
+            self.autoSnapshots = autoSnapshots
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoSnapshots = "autoSnapshots"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
         }
     }
 
@@ -3973,7 +4395,7 @@ extension Lightsail {
             AWSShapeMember(label: "startTime", required: false, type: .timestamp)
         ]
 
-        /// The end of the time interval from which to get log events. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
+        /// The end of the time interval from which to get log events. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
         public let endTime: TimeStamp?
         /// The name of the log stream. Use the get relational database log streams operation to get a list of available log streams.
         public let logStreamName: String
@@ -3981,9 +4403,9 @@ extension Lightsail {
         public let pageToken: String?
         /// The name of your database for which to get log events.
         public let relationalDatabaseName: String
-        /// Parameter to specify if the log should start from head or tail. If true is specified, the log event starts from the head of the log. If false is specified, the log event starts from the tail of the log. Default: false 
+        /// Parameter to specify if the log should start from head or tail. If true is specified, the log event starts from the head of the log. If false is specified, the log event starts from the tail of the log.  For PostgreSQL, the default value of false is the only option available. 
         public let startFromHead: Bool?
-        /// The start of the time interval from which to get log events. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.  
+        /// The start of the time interval from which to get log events. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.  
         public let startTime: TimeStamp?
 
         public init(endTime: TimeStamp? = nil, logStreamName: String, pageToken: String? = nil, relationalDatabaseName: String, startFromHead: Bool? = nil, startTime: TimeStamp? = nil) {
@@ -4133,7 +4555,7 @@ extension Lightsail {
             AWSShapeMember(label: "unit", required: true, type: .enum)
         ]
 
-        /// The end of the time interval from which to get metric data. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
+        /// The end of the time interval from which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.  
         public let endTime: TimeStamp
         /// The name of the metric data to return.
         public let metricName: RelationalDatabaseMetricName
@@ -4141,7 +4563,7 @@ extension Lightsail {
         public let period: Int
         /// The name of your database from which to get metric data.
         public let relationalDatabaseName: String
-        /// The start of the time interval from which to get metric data. Constraints:   Specified in Universal Coordinated Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.  
+        /// The start of the time interval from which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the start time.  
         public let startTime: TimeStamp
         /// The array of statistics for your metric data request.
         public let statistics: [MetricStatistic]
@@ -4568,6 +4990,7 @@ extension Lightsail {
 
     public struct Instance: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "addOns", required: false, type: .list), 
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "blueprintId", required: false, type: .string), 
             AWSShapeMember(label: "blueprintName", required: false, type: .string), 
@@ -4589,6 +5012,8 @@ extension Lightsail {
             AWSShapeMember(label: "username", required: false, type: .string)
         ]
 
+        /// An array of objects representing the add-ons enabled on the instance.
+        public let addOns: [AddOn]?
         /// The Amazon Resource Name (ARN) of the instance (e.g., arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
         public let arn: String?
         /// The blueprint ID (e.g., os_amlinux_2016_03).
@@ -4628,7 +5053,8 @@ extension Lightsail {
         /// The user name for connecting to the instance (e.g., ec2-user).
         public let username: String?
 
-        public init(arn: String? = nil, blueprintId: String? = nil, blueprintName: String? = nil, bundleId: String? = nil, createdAt: TimeStamp? = nil, hardware: InstanceHardware? = nil, ipv6Address: String? = nil, isStaticIp: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, networking: InstanceNetworking? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, resourceType: ResourceType? = nil, sshKeyName: String? = nil, state: InstanceState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(addOns: [AddOn]? = nil, arn: String? = nil, blueprintId: String? = nil, blueprintName: String? = nil, bundleId: String? = nil, createdAt: TimeStamp? = nil, hardware: InstanceHardware? = nil, ipv6Address: String? = nil, isStaticIp: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, networking: InstanceNetworking? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil, resourceType: ResourceType? = nil, sshKeyName: String? = nil, state: InstanceState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, username: String? = nil) {
+            self.addOns = addOns
             self.arn = arn
             self.blueprintId = blueprintId
             self.blueprintName = blueprintName
@@ -4651,6 +5077,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addOns = "addOns"
             case arn = "arn"
             case blueprintId = "blueprintId"
             case blueprintName = "blueprintName"
@@ -4988,6 +5415,7 @@ extension Lightsail {
             AWSShapeMember(label: "fromBundleId", required: false, type: .string), 
             AWSShapeMember(label: "fromInstanceArn", required: false, type: .string), 
             AWSShapeMember(label: "fromInstanceName", required: false, type: .string), 
+            AWSShapeMember(label: "isFromAutoSnapshot", required: false, type: .boolean), 
             AWSShapeMember(label: "location", required: false, type: .structure), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "progress", required: false, type: .string), 
@@ -5012,6 +5440,8 @@ extension Lightsail {
         public let fromInstanceArn: String?
         /// The instance from which the snapshot was created.
         public let fromInstanceName: String?
+        /// A Boolean value indicating whether the snapshot was created from an automatic snapshot.
+        public let isFromAutoSnapshot: Bool?
         /// The region name and Availability Zone where you created the snapshot.
         public let location: ResourceLocation?
         /// The name of the snapshot.
@@ -5029,7 +5459,7 @@ extension Lightsail {
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromAttachedDisks: [Disk]? = nil, fromBlueprintId: String? = nil, fromBundleId: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: InstanceSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdAt: TimeStamp? = nil, fromAttachedDisks: [Disk]? = nil, fromBlueprintId: String? = nil, fromBundleId: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, isFromAutoSnapshot: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: InstanceSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.fromAttachedDisks = fromAttachedDisks
@@ -5037,6 +5467,7 @@ extension Lightsail {
             self.fromBundleId = fromBundleId
             self.fromInstanceArn = fromInstanceArn
             self.fromInstanceName = fromInstanceName
+            self.isFromAutoSnapshot = isFromAutoSnapshot
             self.location = location
             self.name = name
             self.progress = progress
@@ -5055,6 +5486,7 @@ extension Lightsail {
             case fromBundleId = "fromBundleId"
             case fromInstanceArn = "fromInstanceArn"
             case fromInstanceName = "fromInstanceName"
+            case isFromAutoSnapshot = "isFromAutoSnapshot"
             case location = "location"
             case name = "name"
             case progress = "progress"
@@ -5822,7 +6254,7 @@ extension Lightsail {
         public let id: String?
         /// A Boolean value indicating whether the operation is terminal.
         public let isTerminal: Bool?
-        /// The region and Availability Zone.
+        /// The AWS Region and Availability Zone.
         public let location: ResourceLocation?
         /// Details about the operation (e.g., Debian-1GB-Ohio-1).
         public let operationDetails: String?
@@ -5923,6 +6355,8 @@ extension Lightsail {
         case startrelationaldatabase = "StartRelationalDatabase"
         case rebootrelationaldatabase = "RebootRelationalDatabase"
         case stoprelationaldatabase = "StopRelationalDatabase"
+        case enableaddon = "EnableAddOn"
+        case disableaddon = "DisableAddOn"
         public var description: String { return self.rawValue }
     }
 
@@ -7070,25 +7504,31 @@ extension Lightsail {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
             AWSShapeMember(label: "resourceName", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: true, type: .list)
         ]
 
+        /// The Amazon Resource Name (ARN) of the resource to which you want to add a tag.
+        public let resourceArn: String?
         /// The name of the resource to which you are adding tags.
         public let resourceName: String
         /// The tag key and optional value.
         public let tags: [Tag]
 
-        public init(resourceName: String, tags: [Tag]) {
+        public init(resourceArn: String? = nil, resourceName: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
             self.resourceName = resourceName
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$")
             try validate(self.resourceName, name:"resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
             case resourceName = "resourceName"
             case tags = "tags"
         }
@@ -7138,25 +7578,31 @@ extension Lightsail {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
             AWSShapeMember(label: "resourceName", required: true, type: .string), 
             AWSShapeMember(label: "tagKeys", required: true, type: .list)
         ]
 
+        /// The Amazon Resource Name (ARN) of the resource from which you want to remove a tag.
+        public let resourceArn: String?
         /// The name of the resource from which you are removing a tag.
         public let resourceName: String
         /// The tag keys to delete from the specified resource.
         public let tagKeys: [String]
 
-        public init(resourceName: String, tagKeys: [String]) {
+        public init(resourceArn: String? = nil, resourceName: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
             self.resourceName = resourceName
             self.tagKeys = tagKeys
         }
 
         public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$")
             try validate(self.resourceName, name:"resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
             case resourceName = "resourceName"
             case tagKeys = "tagKeys"
         }
@@ -7336,9 +7782,9 @@ extension Lightsail {
         public let enableBackupRetention: Bool?
         /// The password for the master user of your database. The password can include any printable ASCII character except "/", """, or "@". Constraints: Must contain 8 to 41 characters.
         public let masterUserPassword: String?
-        /// The daily time range during which automated backups are created for your database if automated backups are enabled. Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        /// The daily time range during which automated backups are created for your database if automated backups are enabled. Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Coordinated Universal Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
         public let preferredBackupWindow: String?
-        /// The weekly time range during which system maintenance can occur on your database. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Universal Coordinated Time (UTC).   Example: Tue:17:00-Tue:17:30   
+        /// The weekly time range during which system maintenance can occur on your database. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Coordinated Universal Time (UTC).   Example: Tue:17:00-Tue:17:30   
         public let preferredMaintenanceWindow: String?
         /// Specifies the accessibility options for your database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
         public let publiclyAccessible: Bool?

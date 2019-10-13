@@ -1323,22 +1323,27 @@ extension Greengrass {
     public struct CreateSoftwareUpdateJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IotJobArn", required: false, type: .string), 
-            AWSShapeMember(label: "IotJobId", required: false, type: .string)
+            AWSShapeMember(label: "IotJobId", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformSoftwareVersion", required: false, type: .string)
         ]
 
         /// The IoT Job ARN corresponding to this update.
         public let iotJobArn: String?
         /// The IoT Job Id corresponding to this update.
         public let iotJobId: String?
+        /// The software version installed on the device or devices after the update.
+        public let platformSoftwareVersion: String?
 
-        public init(iotJobArn: String? = nil, iotJobId: String? = nil) {
+        public init(iotJobArn: String? = nil, iotJobId: String? = nil, platformSoftwareVersion: String? = nil) {
             self.iotJobArn = iotJobArn
             self.iotJobId = iotJobId
+            self.platformSoftwareVersion = platformSoftwareVersion
         }
 
         private enum CodingKeys: String, CodingKey {
             case iotJobArn = "IotJobArn"
             case iotJobId = "IotJobId"
+            case platformSoftwareVersion = "PlatformSoftwareVersion"
         }
     }
 
@@ -2970,9 +2975,9 @@ extension Greengrass {
         public let creationTimestamp: String?
         /// Information about the group version definition.
         public let definition: GroupVersion?
-        /// The ID of the group version.
+        /// The ID of the group that the version is associated with.
         public let id: String?
-        /// The unique ID for the version of the group.
+        /// The ID of the group version.
         public let version: String?
 
         public init(arn: String? = nil, creationTimestamp: String? = nil, definition: GroupVersion? = nil, id: String? = nil, version: String? = nil) {
@@ -5239,6 +5244,7 @@ extension Greengrass {
     }
 
     public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable {
+        case armv6l = "armv6l"
         case armv7l = "armv7l"
         case x8664 = "x86_64"
         case aarch64 = "aarch64"
@@ -5265,9 +5271,9 @@ extension Greengrass {
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the version was created.
         public let creationTimestamp: String?
-        /// The ID of the version.
+        /// The ID of the parent definition that the version is associated with.
         public let id: String?
-        /// The unique ID of the version.
+        /// The ID of the version.
         public let version: String?
 
         public init(arn: String? = nil, creationTimestamp: String? = nil, id: String? = nil, version: String? = nil) {

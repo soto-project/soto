@@ -11,9 +11,9 @@ extension Firehose {
             AWSShapeMember(label: "SizeInMBs", required: false, type: .integer)
         ]
 
-        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300.
+        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300. This parameter is optional but if you specify a value for it, you must also specify a value for SizeInMBs, and vice versa.
         public let intervalInSeconds: Int?
-        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
+        /// Buffer incoming data to the specified size, in MiBs, before delivering it to the destination. The default value is 5. This parameter is optional but if you specify a value for it, you must also specify a value for IntervalInSeconds, and vice versa. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MiB/sec, the value should be 10 MiB or higher.
         public let sizeInMBs: Int?
 
         public init(intervalInSeconds: Int? = nil, sizeInMBs: Int? = nil) {
@@ -515,7 +515,8 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BufferingHints", required: false, type: .structure), 
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeMember(label: "DomainARN", required: true, type: .string), 
+            AWSShapeMember(label: "ClusterEndpoint", required: false, type: .string), 
+            AWSShapeMember(label: "DomainARN", required: false, type: .string), 
             AWSShapeMember(label: "IndexName", required: true, type: .string), 
             AWSShapeMember(label: "IndexRotationPeriod", required: false, type: .enum), 
             AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
@@ -523,15 +524,17 @@ extension Firehose {
             AWSShapeMember(label: "RoleARN", required: true, type: .string), 
             AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
             AWSShapeMember(label: "S3Configuration", required: true, type: .structure), 
-            AWSShapeMember(label: "TypeName", required: true, type: .string)
+            AWSShapeMember(label: "TypeName", required: false, type: .string)
         ]
 
         /// The buffering options. If no value is specified, the default values for ElasticsearchBufferingHints are used.
         public let bufferingHints: ElasticsearchBufferingHints?
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public let domainARN: String
+        /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
+        public let clusterEndpoint: String?
+        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces. Specify either ClusterEndpoint or DomainARN.
+        public let domainARN: String?
         /// The Elasticsearch index name.
         public let indexName: String
         /// The Elasticsearch index rotation period. Index rotation appends a timestamp to the IndexName to facilitate the expiration of old data. For more information, see Index Rotation for the Amazon ES Destination. The default value is OneDay.
@@ -546,12 +549,13 @@ extension Firehose {
         public let s3BackupMode: ElasticsearchS3BackupMode?
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
-        /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during run time.
-        public let typeName: String
+        /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during run time. For Elasticsearch 7.x, don't specify a TypeName.
+        public let typeName: String?
 
-        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, domainARN: String, indexName: String, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, typeName: String) {
+        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, typeName: String? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.clusterEndpoint = clusterEndpoint
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -565,6 +569,9 @@ extension Firehose {
 
         public func validate(name: String) throws {
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try validate(self.clusterEndpoint, name:"clusterEndpoint", parent: name, max: 512)
+            try validate(self.clusterEndpoint, name:"clusterEndpoint", parent: name, min: 1)
+            try validate(self.clusterEndpoint, name:"clusterEndpoint", parent: name, pattern: "https:.*")
             try validate(self.domainARN, name:"domainARN", parent: name, max: 512)
             try validate(self.domainARN, name:"domainARN", parent: name, min: 1)
             try validate(self.domainARN, name:"domainARN", parent: name, pattern: "arn:.*")
@@ -577,12 +584,13 @@ extension Firehose {
             try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
             try validate(self.typeName, name:"typeName", parent: name, max: 100)
-            try validate(self.typeName, name:"typeName", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case clusterEndpoint = "ClusterEndpoint"
             case domainARN = "DomainARN"
             case indexName = "IndexName"
             case indexRotationPeriod = "IndexRotationPeriod"
@@ -599,6 +607,7 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BufferingHints", required: false, type: .structure), 
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterEndpoint", required: false, type: .string), 
             AWSShapeMember(label: "DomainARN", required: false, type: .string), 
             AWSShapeMember(label: "IndexName", required: false, type: .string), 
             AWSShapeMember(label: "IndexRotationPeriod", required: false, type: .enum), 
@@ -614,7 +623,9 @@ extension Firehose {
         public let bufferingHints: ElasticsearchBufferingHints?
         /// The Amazon CloudWatch logging options.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The ARN of the Amazon ES domain. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The endpoint to use when communicating with the cluster. Kinesis Data Firehose uses either this ClusterEndpoint or the DomainARN field to send data to Amazon ES.
+        public let clusterEndpoint: String?
+        /// The ARN of the Amazon ES domain. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces. Kinesis Data Firehose uses either ClusterEndpoint or DomainARN to send data to Amazon ES.
         public let domainARN: String?
         /// The Elasticsearch index name.
         public let indexName: String?
@@ -630,12 +641,13 @@ extension Firehose {
         public let s3BackupMode: ElasticsearchS3BackupMode?
         /// The Amazon S3 destination.
         public let s3DestinationDescription: S3DestinationDescription?
-        /// The Elasticsearch type name.
+        /// The Elasticsearch type name. This applies to Elasticsearch 6.x and lower versions. For Elasticsearch 7.x, there's no value for TypeName.
         public let typeName: String?
 
-        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, typeName: String? = nil) {
+        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: ElasticsearchS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, typeName: String? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.clusterEndpoint = clusterEndpoint
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -650,6 +662,7 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case clusterEndpoint = "ClusterEndpoint"
             case domainARN = "DomainARN"
             case indexName = "IndexName"
             case indexRotationPeriod = "IndexRotationPeriod"
@@ -666,6 +679,7 @@ extension Firehose {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BufferingHints", required: false, type: .structure), 
             AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterEndpoint", required: false, type: .string), 
             AWSShapeMember(label: "DomainARN", required: false, type: .string), 
             AWSShapeMember(label: "IndexName", required: false, type: .string), 
             AWSShapeMember(label: "IndexRotationPeriod", required: false, type: .enum), 
@@ -680,7 +694,9 @@ extension Firehose {
         public let bufferingHints: ElasticsearchBufferingHints?
         /// The CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the IAM role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
+        public let clusterEndpoint: String?
+        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the IAM role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces. Specify either ClusterEndpoint or DomainARN.
         public let domainARN: String?
         /// The Elasticsearch index name.
         public let indexName: String?
@@ -694,12 +710,13 @@ extension Firehose {
         public let roleARN: String?
         /// The Amazon S3 destination.
         public let s3Update: S3DestinationUpdate?
-        /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during runtime.
+        /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during runtime. If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery stream, Kinesis Data Firehose still delivers data to Elasticsearch with the old index name and type name. If you want to update your delivery stream with a new index name, provide an empty string for TypeName. 
         public let typeName: String?
 
-        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, typeName: String? = nil) {
+        public init(bufferingHints: ElasticsearchBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterEndpoint: String? = nil, domainARN: String? = nil, indexName: String? = nil, indexRotationPeriod: ElasticsearchIndexRotationPeriod? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: ElasticsearchRetryOptions? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, typeName: String? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.clusterEndpoint = clusterEndpoint
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -712,6 +729,9 @@ extension Firehose {
 
         public func validate(name: String) throws {
             try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try validate(self.clusterEndpoint, name:"clusterEndpoint", parent: name, max: 512)
+            try validate(self.clusterEndpoint, name:"clusterEndpoint", parent: name, min: 1)
+            try validate(self.clusterEndpoint, name:"clusterEndpoint", parent: name, pattern: "https:.*")
             try validate(self.domainARN, name:"domainARN", parent: name, max: 512)
             try validate(self.domainARN, name:"domainARN", parent: name, min: 1)
             try validate(self.domainARN, name:"domainARN", parent: name, pattern: "arn:.*")
@@ -724,12 +744,13 @@ extension Firehose {
             try validate(self.roleARN, name:"roleARN", parent: name, pattern: "arn:.*")
             try self.s3Update?.validate(name: "\(name).s3Update")
             try validate(self.typeName, name:"typeName", parent: name, max: 100)
-            try validate(self.typeName, name:"typeName", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case clusterEndpoint = "ClusterEndpoint"
             case domainARN = "DomainARN"
             case indexName = "IndexName"
             case indexRotationPeriod = "IndexRotationPeriod"
@@ -832,9 +853,9 @@ extension Firehose {
         public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name. 
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name. For information about how to specify this prefix, see Custom Prefixes for Amazon S3 Objects.
         public let errorOutputPrefix: String?
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in Custom Prefixes for Amazon S3 Objects.
         public let prefix: String?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
@@ -918,9 +939,9 @@ extension Firehose {
         public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration
-        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name.
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name. For information about how to specify this prefix, see Custom Prefixes for Amazon S3 Objects.
         public let errorOutputPrefix: String?
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in Custom Prefixes for Amazon S3 Objects.
         public let prefix: String?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
@@ -990,9 +1011,9 @@ extension Firehose {
         public let dataFormatConversionConfiguration: DataFormatConversionConfiguration?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name.
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name. For information about how to specify this prefix, see Custom Prefixes for Amazon S3 Objects.
         public let errorOutputPrefix: String?
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in Custom Prefixes for Amazon S3 Objects.
         public let prefix: String?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
@@ -1817,7 +1838,7 @@ extension Firehose {
 
         public func validate(name: String) throws {
             try validate(self.clusterJDBCURL, name:"clusterJDBCURL", parent: name, min: 1)
-            try validate(self.clusterJDBCURL, name:"clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.amazonaws\\.com:\\d{1,5}/[a-zA-Z0-9_$]+")
+            try validate(self.clusterJDBCURL, name:"clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$]+")
             try self.copyCommand.validate(name: "\(name).copyCommand")
             try validate(self.password, name:"password", parent: name, min: 6)
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
@@ -1961,7 +1982,7 @@ extension Firehose {
 
         public func validate(name: String) throws {
             try validate(self.clusterJDBCURL, name:"clusterJDBCURL", parent: name, min: 1)
-            try validate(self.clusterJDBCURL, name:"clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.amazonaws\\.com:\\d{1,5}/[a-zA-Z0-9_$]+")
+            try validate(self.clusterJDBCURL, name:"clusterJDBCURL", parent: name, pattern: "jdbc:(redshift|postgresql)://((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+redshift\\.([a-zA-Z0-9\\.]+):\\d{1,5}/[a-zA-Z0-9_$]+")
             try self.copyCommand?.validate(name: "\(name).copyCommand")
             try validate(self.password, name:"password", parent: name, min: 6)
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
@@ -2045,9 +2066,9 @@ extension Firehose {
         public let compressionFormat: CompressionFormat?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name.
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name. For information about how to specify this prefix, see Custom Prefixes for Amazon S3 Objects.
         public let errorOutputPrefix: String?
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in Custom Prefixes for Amazon S3 Objects.
         public let prefix: String?
         /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
@@ -2108,9 +2129,9 @@ extension Firehose {
         public let compressionFormat: CompressionFormat
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration
-        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name.
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name. For information about how to specify this prefix, see Custom Prefixes for Amazon S3 Objects.
         public let errorOutputPrefix: String?
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in Custom Prefixes for Amazon S3 Objects.
         public let prefix: String?
         /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String
@@ -2160,9 +2181,9 @@ extension Firehose {
         public let compressionFormat: CompressionFormat?
         /// The encryption configuration. If no value is specified, the default is no encryption.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name.
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing them to S3. This prefix appears immediately following the bucket name. For information about how to specify this prefix, see Custom Prefixes for Amazon S3 Objects.
         public let errorOutputPrefix: String?
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can specify an extra prefix to be added in front of the time format prefix. If the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Data Firehose Developer Guide.
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon S3 files. You can also specify a custom prefix, as described in Custom Prefixes for Amazon S3 Objects.
         public let prefix: String?
         /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let roleARN: String?

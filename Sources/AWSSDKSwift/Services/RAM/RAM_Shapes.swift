@@ -113,7 +113,7 @@ extension RAM {
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
-        /// Indicates whether principals outside your organization can be associated with a resource share.
+        /// Indicates whether principals outside your AWS organization can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -360,7 +360,7 @@ extension RAM {
             AWSShapeMember(label: "resourceShareArns", required: false, type: .list)
         ]
 
-        /// The status of the association.
+        /// The association status.
         public let associationStatus: ResourceShareAssociationStatus?
         /// The association type.
         public let associationType: ResourceShareAssociationType
@@ -368,9 +368,9 @@ extension RAM {
         public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
-        /// The principal.
+        /// The principal. You cannot specify this parameter if the association type is RESOURCE.
         public let principal: String?
-        /// The Amazon Resource Name (ARN) of the resource.
+        /// The Amazon Resource Name (ARN) of the resource. You cannot specify this parameter if the association type is PRINCIPAL.
         public let resourceArn: String?
         /// The Amazon Resource Names (ARN) of the resource shares.
         public let resourceShareArns: [String]?
@@ -409,7 +409,7 @@ extension RAM {
 
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        /// Information about the association.
+        /// Information about the associations.
         public let resourceShareAssociations: [ResourceShareAssociation]?
 
         public init(nextToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
@@ -556,6 +556,60 @@ extension RAM {
         }
     }
 
+    public struct ListPendingInvitationResourcesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareInvitationArn", required: true, type: .string)
+        ]
+
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the invitation.
+        public let resourceShareInvitationArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceShareInvitationArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceShareInvitationArn = resourceShareInvitationArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceShareInvitationArn = "resourceShareInvitationArn"
+        }
+    }
+
+    public struct ListPendingInvitationResourcesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resources", required: false, type: .list)
+        ]
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the resources included the resource share.
+        public let resources: [Resource]?
+
+        public init(nextToken: String? = nil, resources: [Resource]? = nil) {
+            self.nextToken = nextToken
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resources = "resources"
+        }
+    }
+
     public struct ListPrincipalsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
@@ -579,7 +633,7 @@ extension RAM {
         public let resourceOwner: ResourceOwner
         /// The Amazon Resource Names (ARN) of the resource shares.
         public let resourceShareArns: [String]?
-        /// The resource type.
+        /// The resource type. Valid values: route53resolver:ResolverRule | ec2:TransitGateway | ec2:Subnet | license-manager:LicenseConfiguration 
         public let resourceType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, principals: [String]? = nil, resourceArn: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
@@ -653,7 +707,7 @@ extension RAM {
         public let resourceOwner: ResourceOwner
         /// The Amazon Resource Names (ARN) of the resource shares.
         public let resourceShareArns: [String]?
-        /// The resource type.
+        /// The resource type. Valid values: route53resolver:ResolverRule | ec2:TransitGateway | ec2:Subnet | license-manager:LicenseConfiguration 
         public let resourceType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
@@ -715,7 +769,7 @@ extension RAM {
 
         /// The time when the principal was associated with the resource share.
         public let creationTime: TimeStamp?
-        /// Indicates whether the principal belongs to the same organization as the AWS account that owns the resource share.
+        /// Indicates whether the principal belongs to the same AWS organization as the AWS account that owns the resource share.
         public let external: Bool?
         /// The ID of the principal.
         public let id: String?
@@ -851,7 +905,7 @@ extension RAM {
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
-        /// Indicates whether principals outside your organization can be associated with a resource share.
+        /// Indicates whether principals outside your AWS organization can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
         /// The time when the resource share was created.
         public let creationTime: TimeStamp?
@@ -903,6 +957,7 @@ extension RAM {
             AWSShapeMember(label: "external", required: false, type: .boolean), 
             AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "resourceShareArn", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareName", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "statusMessage", required: false, type: .string)
         ]
@@ -913,24 +968,27 @@ extension RAM {
         public let associationType: ResourceShareAssociationType?
         /// The time when the association was created.
         public let creationTime: TimeStamp?
-        /// Indicates whether the principal belongs to the same organization as the AWS account that owns the resource share.
+        /// Indicates whether the principal belongs to the same AWS organization as the AWS account that owns the resource share.
         public let external: Bool?
         /// The time when the association was last updated.
         public let lastUpdatedTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String?
+        /// The name of the resource share.
+        public let resourceShareName: String?
         /// The status of the association.
         public let status: ResourceShareAssociationStatus?
         /// A message about the status of the association.
         public let statusMessage: String?
 
-        public init(associatedEntity: String? = nil, associationType: ResourceShareAssociationType? = nil, creationTime: TimeStamp? = nil, external: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil, status: ResourceShareAssociationStatus? = nil, statusMessage: String? = nil) {
+        public init(associatedEntity: String? = nil, associationType: ResourceShareAssociationType? = nil, creationTime: TimeStamp? = nil, external: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil, resourceShareName: String? = nil, status: ResourceShareAssociationStatus? = nil, statusMessage: String? = nil) {
             self.associatedEntity = associatedEntity
             self.associationType = associationType
             self.creationTime = creationTime
             self.external = external
             self.lastUpdatedTime = lastUpdatedTime
             self.resourceShareArn = resourceShareArn
+            self.resourceShareName = resourceShareName
             self.status = status
             self.statusMessage = statusMessage
         }
@@ -942,6 +1000,7 @@ extension RAM {
             case external = "external"
             case lastUpdatedTime = "lastUpdatedTime"
             case resourceShareArn = "resourceShareArn"
+            case resourceShareName = "resourceShareName"
             case status = "status"
             case statusMessage = "statusMessage"
         }
@@ -967,7 +1026,6 @@ extension RAM {
             AWSShapeMember(label: "invitationTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "receiverAccountId", required: false, type: .string), 
             AWSShapeMember(label: "resourceShareArn", required: false, type: .string), 
-            AWSShapeMember(label: "resourceShareAssociations", required: false, type: .list), 
             AWSShapeMember(label: "resourceShareInvitationArn", required: false, type: .string), 
             AWSShapeMember(label: "resourceShareName", required: false, type: .string), 
             AWSShapeMember(label: "senderAccountId", required: false, type: .string), 
@@ -980,8 +1038,6 @@ extension RAM {
         public let receiverAccountId: String?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String?
-        /// The resources associated with the resource share.
-        public let resourceShareAssociations: [ResourceShareAssociation]?
         /// The Amazon Resource Name (ARN) of the invitation.
         public let resourceShareInvitationArn: String?
         /// The name of the resource share.
@@ -991,11 +1047,10 @@ extension RAM {
         /// The status of the invitation.
         public let status: ResourceShareInvitationStatus?
 
-        public init(invitationTimestamp: TimeStamp? = nil, receiverAccountId: String? = nil, resourceShareArn: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
+        public init(invitationTimestamp: TimeStamp? = nil, receiverAccountId: String? = nil, resourceShareArn: String? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
             self.invitationTimestamp = invitationTimestamp
             self.receiverAccountId = receiverAccountId
             self.resourceShareArn = resourceShareArn
-            self.resourceShareAssociations = resourceShareAssociations
             self.resourceShareInvitationArn = resourceShareInvitationArn
             self.resourceShareName = resourceShareName
             self.senderAccountId = senderAccountId
@@ -1006,7 +1061,6 @@ extension RAM {
             case invitationTimestamp = "invitationTimestamp"
             case receiverAccountId = "receiverAccountId"
             case resourceShareArn = "resourceShareArn"
-            case resourceShareAssociations = "resourceShareAssociations"
             case resourceShareInvitationArn = "resourceShareInvitationArn"
             case resourceShareName = "resourceShareName"
             case senderAccountId = "senderAccountId"
@@ -1036,6 +1090,7 @@ extension RAM {
         case zonalResourceInaccessible = "ZONAL_RESOURCE_INACCESSIBLE"
         case limitExceeded = "LIMIT_EXCEEDED"
         case unavailable = "UNAVAILABLE"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -1151,7 +1206,7 @@ extension RAM {
             AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
         ]
 
-        /// Indicates whether principals outside your organization can be associated with a resource share.
+        /// Indicates whether principals outside your AWS organization can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?

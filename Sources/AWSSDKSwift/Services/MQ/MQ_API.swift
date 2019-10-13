@@ -21,6 +21,7 @@ public struct MQ {
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-11-27",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "mq-fips.us-east-1.amazonaws.com", "fips-us-east-2": "mq-fips.us-east-2.amazonaws.com", "fips-us-west-1": "mq-fips.us-west-1.amazonaws.com", "fips-us-west-2": "mq-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [MQErrorType.self]
         )

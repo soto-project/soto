@@ -5,6 +5,43 @@ import AWSSDKSwiftCore
 
 extension RDSDataService {
 
+    public class ArrayValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arrayValues", required: false, type: .list), 
+            AWSShapeMember(label: "booleanValues", required: false, type: .list), 
+            AWSShapeMember(label: "doubleValues", required: false, type: .list), 
+            AWSShapeMember(label: "longValues", required: false, type: .list), 
+            AWSShapeMember(label: "stringValues", required: false, type: .list)
+        ]
+
+        /// An array of arrays.
+        public let arrayValues: [ArrayValue]?
+        /// An array of Boolean values.
+        public let booleanValues: [Bool]?
+        /// An array of integers.
+        public let doubleValues: [Double]?
+        /// An array of floating point numbers.
+        public let longValues: [Int64]?
+        /// An array of strings.
+        public let stringValues: [String]?
+
+        public init(arrayValues: [ArrayValue]? = nil, booleanValues: [Bool]? = nil, doubleValues: [Double]? = nil, longValues: [Int64]? = nil, stringValues: [String]? = nil) {
+            self.arrayValues = arrayValues
+            self.booleanValues = booleanValues
+            self.doubleValues = doubleValues
+            self.longValues = longValues
+            self.stringValues = stringValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arrayValues = "arrayValues"
+            case booleanValues = "booleanValues"
+            case doubleValues = "doubleValues"
+            case longValues = "longValues"
+            case stringValues = "stringValues"
+        }
+    }
+
     public struct BatchExecuteStatementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "database", required: false, type: .string), 
@@ -28,11 +65,7 @@ extension RDSDataService {
         public let secretArn: String
         /// The SQL statement to run.
         public let sql: String
-        /// The identifier of a transaction that was started by using the
-        ///                 BeginTransaction operation. Specify the transaction ID of the
-        ///             transaction that you want to include the SQL statement in.
-        ///         If the SQL statement is not part of a transaction, don't set this
-        ///             parameter.
+        /// The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter.
         public let transactionId: String?
 
         public init(database: String? = nil, parameterSets: [[SqlParameter]]? = nil, resourceArn: String, schema: String? = nil, secretArn: String, sql: String, transactionId: String? = nil) {
@@ -47,11 +80,17 @@ extension RDSDataService {
 
         public func validate(name: String) throws {
             try validate(self.database, name:"database", parent: name, max: 64)
+            try validate(self.database, name:"database", parent: name, min: 0)
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 100)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 11)
             try validate(self.schema, name:"schema", parent: name, max: 64)
+            try validate(self.schema, name:"schema", parent: name, min: 0)
             try validate(self.secretArn, name:"secretArn", parent: name, max: 100)
+            try validate(self.secretArn, name:"secretArn", parent: name, min: 11)
             try validate(self.sql, name:"sql", parent: name, max: 65536)
+            try validate(self.sql, name:"sql", parent: name, min: 0)
             try validate(self.transactionId, name:"transactionId", parent: name, max: 192)
+            try validate(self.transactionId, name:"transactionId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -108,9 +147,13 @@ extension RDSDataService {
 
         public func validate(name: String) throws {
             try validate(self.database, name:"database", parent: name, max: 64)
+            try validate(self.database, name:"database", parent: name, min: 0)
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 100)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 11)
             try validate(self.schema, name:"schema", parent: name, max: 64)
+            try validate(self.schema, name:"schema", parent: name, min: 0)
             try validate(self.secretArn, name:"secretArn", parent: name, max: 100)
+            try validate(self.secretArn, name:"secretArn", parent: name, min: 11)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -242,8 +285,11 @@ extension RDSDataService {
 
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 100)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 11)
             try validate(self.secretArn, name:"secretArn", parent: name, max: 100)
+            try validate(self.secretArn, name:"secretArn", parent: name, min: 11)
             try validate(self.transactionId, name:"transactionId", parent: name, max: 192)
+            try validate(self.transactionId, name:"transactionId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -270,6 +316,12 @@ extension RDSDataService {
         }
     }
 
+    public enum DecimalReturnType: String, CustomStringConvertible, Codable {
+        case doubleOrLong = "DOUBLE_OR_LONG"
+        case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ExecuteSqlRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "awsSecretStoreArn", required: true, type: .string), 
@@ -287,10 +339,7 @@ extension RDSDataService {
         public let dbClusterOrInstanceArn: String
         /// The name of the database schema.
         public let schema: String?
-        /// One or more SQL statements to run on the DB cluster.
-        ///         You can separate SQL statements from each other with a semicolon (;). Any valid SQL
-        ///             statement is permitted, including data definition, data manipulation, and commit
-        ///             statements. 
+        /// One or more SQL statements to run on the DB cluster. You can separate SQL statements from each other with a semicolon (;). Any valid SQL statement is permitted, including data definition, data manipulation, and commit statements. 
         public let sqlStatements: String
 
         public init(awsSecretStoreArn: String, database: String? = nil, dbClusterOrInstanceArn: String, schema: String? = nil, sqlStatements: String) {
@@ -303,10 +352,15 @@ extension RDSDataService {
 
         public func validate(name: String) throws {
             try validate(self.awsSecretStoreArn, name:"awsSecretStoreArn", parent: name, max: 100)
+            try validate(self.awsSecretStoreArn, name:"awsSecretStoreArn", parent: name, min: 11)
             try validate(self.database, name:"database", parent: name, max: 64)
+            try validate(self.database, name:"database", parent: name, min: 0)
             try validate(self.dbClusterOrInstanceArn, name:"dbClusterOrInstanceArn", parent: name, max: 100)
+            try validate(self.dbClusterOrInstanceArn, name:"dbClusterOrInstanceArn", parent: name, min: 11)
             try validate(self.schema, name:"schema", parent: name, max: 64)
+            try validate(self.schema, name:"schema", parent: name, min: 0)
             try validate(self.sqlStatements, name:"sqlStatements", parent: name, max: 65536)
+            try validate(self.sqlStatements, name:"sqlStatements", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -342,20 +396,14 @@ extension RDSDataService {
             AWSShapeMember(label: "includeResultMetadata", required: false, type: .boolean), 
             AWSShapeMember(label: "parameters", required: false, type: .list), 
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "resultSetOptions", required: false, type: .structure), 
             AWSShapeMember(label: "schema", required: false, type: .string), 
             AWSShapeMember(label: "secretArn", required: true, type: .string), 
             AWSShapeMember(label: "sql", required: true, type: .string), 
             AWSShapeMember(label: "transactionId", required: false, type: .string)
         ]
 
-        /// A value that indicates whether to continue running the statement after 
-        ///             the call times out. By default, the statement stops running when the call 
-        ///             times out.
-        ///         
-        ///             For DDL statements, we recommend continuing to run the statement after 
-        ///                the call times out. When a DDL statement terminates before it is finished 
-        ///                running, it can result in errors and possibly corrupted data structures.
-        ///         
+        /// A value that indicates whether to continue running the statement after the call times out. By default, the statement stops running when the call times out.  For DDL statements, we recommend continuing to run the statement after the call times out. When a DDL statement terminates before it is finished running, it can result in errors and possibly corrupted data structures. 
         public let continueAfterTimeout: Bool?
         /// The name of the database.
         public let database: String?
@@ -365,24 +413,24 @@ extension RDSDataService {
         public let parameters: [SqlParameter]?
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String
+        /// Options that control how the result set is returned.
+        public let resultSetOptions: ResultSetOptions?
         /// The name of the database schema.
         public let schema: String?
         /// The name or ARN of the secret that enables access to the DB cluster.
         public let secretArn: String
         /// The SQL statement to run.
         public let sql: String
-        /// The identifier of a transaction that was started by using the
-        ///                 BeginTransaction operation. Specify the transaction ID of the
-        ///             transaction that you want to include the SQL statement in.
-        ///         If the SQL statement is not part of a transaction, don't set this parameter.
+        /// The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter.
         public let transactionId: String?
 
-        public init(continueAfterTimeout: Bool? = nil, database: String? = nil, includeResultMetadata: Bool? = nil, parameters: [SqlParameter]? = nil, resourceArn: String, schema: String? = nil, secretArn: String, sql: String, transactionId: String? = nil) {
+        public init(continueAfterTimeout: Bool? = nil, database: String? = nil, includeResultMetadata: Bool? = nil, parameters: [SqlParameter]? = nil, resourceArn: String, resultSetOptions: ResultSetOptions? = nil, schema: String? = nil, secretArn: String, sql: String, transactionId: String? = nil) {
             self.continueAfterTimeout = continueAfterTimeout
             self.database = database
             self.includeResultMetadata = includeResultMetadata
             self.parameters = parameters
             self.resourceArn = resourceArn
+            self.resultSetOptions = resultSetOptions
             self.schema = schema
             self.secretArn = secretArn
             self.sql = sql
@@ -391,11 +439,17 @@ extension RDSDataService {
 
         public func validate(name: String) throws {
             try validate(self.database, name:"database", parent: name, max: 64)
+            try validate(self.database, name:"database", parent: name, min: 0)
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 100)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 11)
             try validate(self.schema, name:"schema", parent: name, max: 64)
+            try validate(self.schema, name:"schema", parent: name, min: 0)
             try validate(self.secretArn, name:"secretArn", parent: name, max: 100)
+            try validate(self.secretArn, name:"secretArn", parent: name, min: 11)
             try validate(self.sql, name:"sql", parent: name, max: 65536)
+            try validate(self.sql, name:"sql", parent: name, min: 0)
             try validate(self.transactionId, name:"transactionId", parent: name, max: 192)
+            try validate(self.transactionId, name:"transactionId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -404,6 +458,7 @@ extension RDSDataService {
             case includeResultMetadata = "includeResultMetadata"
             case parameters = "parameters"
             case resourceArn = "resourceArn"
+            case resultSetOptions = "resultSetOptions"
             case schema = "schema"
             case secretArn = "secretArn"
             case sql = "sql"
@@ -421,7 +476,7 @@ extension RDSDataService {
 
         /// Metadata for the columns included in the results.
         public let columnMetadata: [ColumnMetadata]?
-        /// Values for fields generated during the request.
+        /// Values for fields generated during the request.  &lt;note&gt; &lt;p&gt;The &lt;code&gt;generatedFields&lt;/code&gt; data isn't supported by Aurora PostgreSQL. To get the values of generated fields, use the &lt;code&gt;RETURNING&lt;/code&gt; clause. For more information, see &lt;a href=&quot;https://www.postgresql.org/docs/10/dml-returning.html&quot;&gt;Returning Data From Modified Rows&lt;/a&gt; in the PostgreSQL documentation.&lt;/p&gt; &lt;/note&gt; 
         public let generatedFields: [Field]?
         /// The number of records updated by the request.
         public let numberOfRecordsUpdated: Int64?
@@ -445,6 +500,7 @@ extension RDSDataService {
 
     public struct Field: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arrayValue", required: false, type: .structure), 
             AWSShapeMember(label: "blobValue", required: false, type: .blob), 
             AWSShapeMember(label: "booleanValue", required: false, type: .boolean), 
             AWSShapeMember(label: "doubleValue", required: false, type: .double), 
@@ -453,6 +509,8 @@ extension RDSDataService {
             AWSShapeMember(label: "stringValue", required: false, type: .string)
         ]
 
+        /// An array of values.
+        public let arrayValue: ArrayValue?
         /// A value of BLOB data type.
         public let blobValue: Data?
         /// A value of Boolean data type.
@@ -466,7 +524,8 @@ extension RDSDataService {
         /// A value of string data type.
         public let stringValue: String?
 
-        public init(blobValue: Data? = nil, booleanValue: Bool? = nil, doubleValue: Double? = nil, isNull: Bool? = nil, longValue: Int64? = nil, stringValue: String? = nil) {
+        public init(arrayValue: ArrayValue? = nil, blobValue: Data? = nil, booleanValue: Bool? = nil, doubleValue: Double? = nil, isNull: Bool? = nil, longValue: Int64? = nil, stringValue: String? = nil) {
+            self.arrayValue = arrayValue
             self.blobValue = blobValue
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
@@ -476,6 +535,7 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arrayValue = "arrayValue"
             case blobValue = "blobValue"
             case booleanValue = "booleanValue"
             case doubleValue = "doubleValue"
@@ -546,6 +606,23 @@ extension RDSDataService {
         }
     }
 
+    public struct ResultSetOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "decimalReturnType", required: false, type: .enum)
+        ]
+
+        /// A value that indicates how a field of DECIMAL type is represented in the response. The value of STRING, the default, specifies that it is converted to a String value. The value of DOUBLE_OR_LONG specifies that it is converted to a Long value if its scale is 0, or to a Double value otherwise.  Conversion to Double or Long can result in roundoff errors due to precision loss. We recommend converting to String, especially when working with currency values. 
+        public let decimalReturnType: DecimalReturnType?
+
+        public init(decimalReturnType: DecimalReturnType? = nil) {
+            self.decimalReturnType = decimalReturnType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decimalReturnType = "decimalReturnType"
+        }
+    }
+
     public struct RollbackTransactionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "resourceArn", required: true, type: .string), 
@@ -568,8 +645,11 @@ extension RDSDataService {
 
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 100)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 11)
             try validate(self.secretArn, name:"secretArn", parent: name, max: 100)
+            try validate(self.secretArn, name:"secretArn", parent: name, min: 11)
             try validate(self.transactionId, name:"transactionId", parent: name, max: 192)
+            try validate(self.transactionId, name:"transactionId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

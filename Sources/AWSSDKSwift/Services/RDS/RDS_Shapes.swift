@@ -1107,7 +1107,7 @@ extension RDS {
         public let dBSubnetGroupName: String?
         /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
         public let deletionProtection: Bool?
-        /// For an Amazon RDS DB instance that's running Microsoft SQL Server, this parameter specifies the Active Directory directory ID to create the instance in. Amazon RDS uses Windows Authentication to authenticate users that connect to the DB instance. For more information, see Using Windows Authentication with an Amazon RDS DB Instance Running Microsoft SQL Server in the Amazon RDS User Guide. 
+        /// The Active Directory directory ID to create the DB instance in. Currently, only Microsoft SQL Server and Oracle DB instances can be created in an Active Directory Domain. For Microsoft SQL Server DB instances, Amazon RDS can use Windows Authentication to authenticate users that connect to the DB instance. For more information, see  Using Windows Authentication with an Amazon RDS DB Instance Running Microsoft SQL Server in the Amazon RDS User Guide. For Oracle DB instance, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB instance. For more information, see  Using Kerberos Authentication with Amazon RDS for Oracle in the Amazon RDS User Guide. 
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
@@ -1281,6 +1281,8 @@ extension RDS {
             AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DBSubnetGroupName", required: false, type: .string), 
             AWSShapeMember(label: "DeletionProtection", required: false, type: .boolean), 
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "DomainIAMRoleName", required: false, type: .string), 
             AWSShapeMember(label: "EnableCloudwatchLogsExports", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "EnableIAMDatabaseAuthentication", required: false, type: .boolean), 
             AWSShapeMember(label: "EnablePerformanceInsights", required: false, type: .boolean), 
@@ -1319,6 +1321,10 @@ extension RDS {
         public let dBSubnetGroupName: String?
         /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
         public let deletionProtection: Bool?
+        /// The Active Directory directory ID to create the DB instance in. For Oracle DB instances, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB instance. For more information, see  Using Kerberos Authentication with Amazon RDS for Oracle in the Amazon RDS User Guide.
+        public let domain: String?
+        /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
+        public let domainIAMRoleName: String?
         /// The list of logs that the new DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon RDS User Guide.
         public let enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
@@ -1359,7 +1365,7 @@ extension RDS {
         ///  A list of EC2 VPC security groups to associate with the Read Replica.   Default: The default EC2 VPC security group for the DB subnet group's VPC. 
         public let vpcSecurityGroupIds: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preSignedUrl: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, sourceDBInstanceIdentifier: String, storageType: String? = nil, tags: [Tag]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preSignedUrl: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, sourceDBInstanceIdentifier: String, storageType: String? = nil, tags: [Tag]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -1368,6 +1374,8 @@ extension RDS {
             self.dBParameterGroupName = dBParameterGroupName
             self.dBSubnetGroupName = dBSubnetGroupName
             self.deletionProtection = deletionProtection
+            self.domain = domain
+            self.domainIAMRoleName = domainIAMRoleName
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.enablePerformanceInsights = enablePerformanceInsights
@@ -1399,6 +1407,8 @@ extension RDS {
             case dBParameterGroupName = "DBParameterGroupName"
             case dBSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"
+            case domain = "Domain"
+            case domainIAMRoleName = "DomainIAMRoleName"
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case enablePerformanceInsights = "EnablePerformanceInsights"
@@ -4539,7 +4549,7 @@ extension RDS {
 
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.  
         public let dBInstanceIdentifier: String?
-        /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.    dbi-resource-id - Accepts DB instance resource identifiers. The results list will only include information about the DB instances identified by these resource identifiers.  
+        /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.    dbi-resource-id - Accepts DB instance resource identifiers. The results list will only include information about the DB instances identified by these DB instance resource identifiers.    domain - Accepts Active Directory directory IDs. The results list will only include information about the DB instances associated with these domains.    engine - Accepts engine names. The results list will only include information about the DB instances for these engines.  
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeDBInstances request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -5287,6 +5297,7 @@ extension RDS {
             AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
             AWSShapeMember(label: "Duration", required: false, type: .string), 
             AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "LeaseId", required: false, type: .string), 
             AWSShapeMember(label: "Marker", required: false, type: .string), 
             AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
@@ -5302,6 +5313,8 @@ extension RDS {
         public let duration: String?
         /// This parameter is not currently supported.
         public let filters: [Filter]?
+        /// The lease identifier filter value. Specify this parameter to show only the reservation that matches the specified lease ID.  AWS Support might request the lease ID for an issue related to a reserved DB instance. 
+        public let leaseId: String?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
@@ -5317,10 +5330,11 @@ extension RDS {
         /// The offering identifier filter value. Specify this parameter to show only purchased reservations matching the specified offering identifier.
         public let reservedDBInstancesOfferingId: String?
 
-        public init(dBInstanceClass: String? = nil, duration: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, multiAZ: Bool? = nil, offeringType: String? = nil, productDescription: String? = nil, reservedDBInstanceId: String? = nil, reservedDBInstancesOfferingId: String? = nil) {
+        public init(dBInstanceClass: String? = nil, duration: String? = nil, filters: [Filter]? = nil, leaseId: String? = nil, marker: String? = nil, maxRecords: Int? = nil, multiAZ: Bool? = nil, offeringType: String? = nil, productDescription: String? = nil, reservedDBInstanceId: String? = nil, reservedDBInstancesOfferingId: String? = nil) {
             self.dBInstanceClass = dBInstanceClass
             self.duration = duration
             self.filters = filters
+            self.leaseId = leaseId
             self.marker = marker
             self.maxRecords = maxRecords
             self.multiAZ = multiAZ
@@ -5334,6 +5348,7 @@ extension RDS {
             case dBInstanceClass = "DBInstanceClass"
             case duration = "Duration"
             case filters = "Filters"
+            case leaseId = "LeaseId"
             case marker = "Marker"
             case maxRecords = "MaxRecords"
             case multiAZ = "MultiAZ"
@@ -6431,7 +6446,7 @@ extension RDS {
         public let dBSubnetGroupName: String?
         /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
         public let deletionProtection: Bool?
-        /// The Active Directory Domain to move the instance to. Specify none to remove the instance from its current domain. The domain must be created prior to this operation. Currently only a Microsoft SQL Server instance can be created in a Active Directory Domain. 
+        /// The Active Directory directory ID to move the DB instance to. Specify none to remove the instance from its current domain. The domain must be created prior to this operation. Currently, only Microsoft SQL Server and Oracle DB instances can be created in an Active Directory Domain.  For Microsoft SQL Server DB instances, Amazon RDS can use Windows Authentication to authenticate users that connect to the DB instance. For more information, see  Using Windows Authentication with an Amazon RDS DB Instance Running Microsoft SQL Server in the Amazon RDS User Guide. For Oracle DB instances, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB instance. For more information, see  Using Kerberos Authentication with Amazon RDS for Oracle in the Amazon RDS User Guide.
         public let domain: String?
         /// The name of the IAM role to use when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
@@ -7349,6 +7364,7 @@ extension RDS {
             AWSShapeMember(label: "SupportsEnhancedMonitoring", required: false, type: .boolean), 
             AWSShapeMember(label: "SupportsIAMDatabaseAuthentication", required: false, type: .boolean), 
             AWSShapeMember(label: "SupportsIops", required: false, type: .boolean), 
+            AWSShapeMember(label: "SupportsKerberosAuthentication", required: false, type: .boolean), 
             AWSShapeMember(label: "SupportsPerformanceInsights", required: false, type: .boolean), 
             AWSShapeMember(label: "SupportsStorageAutoscaling", required: false, type: .boolean), 
             AWSShapeMember(label: "SupportsStorageEncryption", required: false, type: .boolean), 
@@ -7393,6 +7409,8 @@ extension RDS {
         public let supportsIAMDatabaseAuthentication: Bool?
         /// Indicates whether a DB instance supports provisioned IOPS.
         public let supportsIops: Bool?
+        /// Whether a DB instance supports Kerberos Authentication.
+        public let supportsKerberosAuthentication: Bool?
         /// True if a DB instance supports Performance Insights, otherwise false.
         public let supportsPerformanceInsights: Bool?
         /// Whether or not Amazon RDS can automatically scale storage for DB instances that use the specified instance class.
@@ -7402,7 +7420,7 @@ extension RDS {
         /// Indicates whether a DB instance is in a VPC.
         public let vpc: Bool?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, availableProcessorFeatures: [AvailableProcessorFeature]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportedEngineModes: [String]? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageAutoscaling: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, availableProcessorFeatures: [AvailableProcessorFeature]? = nil, dBInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportedEngineModes: [String]? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsKerberosAuthentication: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageAutoscaling: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
             self.availabilityZones = availabilityZones
             self.availableProcessorFeatures = availableProcessorFeatures
             self.dBInstanceClass = dBInstanceClass
@@ -7422,6 +7440,7 @@ extension RDS {
             self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
             self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
             self.supportsIops = supportsIops
+            self.supportsKerberosAuthentication = supportsKerberosAuthentication
             self.supportsPerformanceInsights = supportsPerformanceInsights
             self.supportsStorageAutoscaling = supportsStorageAutoscaling
             self.supportsStorageEncryption = supportsStorageEncryption
@@ -7448,6 +7467,7 @@ extension RDS {
             case supportsEnhancedMonitoring = "SupportsEnhancedMonitoring"
             case supportsIAMDatabaseAuthentication = "SupportsIAMDatabaseAuthentication"
             case supportsIops = "SupportsIops"
+            case supportsKerberosAuthentication = "SupportsKerberosAuthentication"
             case supportsPerformanceInsights = "SupportsPerformanceInsights"
             case supportsStorageAutoscaling = "SupportsStorageAutoscaling"
             case supportsStorageEncryption = "SupportsStorageEncryption"
@@ -8107,6 +8127,7 @@ extension RDS {
             AWSShapeMember(label: "DBInstanceCount", required: false, type: .integer), 
             AWSShapeMember(label: "Duration", required: false, type: .integer), 
             AWSShapeMember(label: "FixedPrice", required: false, type: .double), 
+            AWSShapeMember(label: "LeaseId", required: false, type: .string), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeMember(label: "OfferingType", required: false, type: .string), 
             AWSShapeMember(label: "ProductDescription", required: false, type: .string), 
@@ -8129,6 +8150,8 @@ extension RDS {
         public let duration: Int?
         /// The fixed price charged for this reserved DB instance.
         public let fixedPrice: Double?
+        /// The unique identifier for the lease associated with the reserved DB instance.  AWS Support might request the lease ID for an issue related to a reserved DB instance. 
+        public let leaseId: String?
         /// Indicates if the reservation applies to Multi-AZ deployments.
         public let multiAZ: Bool?
         /// The offering type of this reserved DB instance.
@@ -8150,12 +8173,13 @@ extension RDS {
         /// The hourly price charged for this reserved DB instance.
         public let usagePrice: Double?
 
-        public init(currencyCode: String? = nil, dBInstanceClass: String? = nil, dBInstanceCount: Int? = nil, duration: Int? = nil, fixedPrice: Double? = nil, multiAZ: Bool? = nil, offeringType: String? = nil, productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedDBInstanceArn: String? = nil, reservedDBInstanceId: String? = nil, reservedDBInstancesOfferingId: String? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
+        public init(currencyCode: String? = nil, dBInstanceClass: String? = nil, dBInstanceCount: Int? = nil, duration: Int? = nil, fixedPrice: Double? = nil, leaseId: String? = nil, multiAZ: Bool? = nil, offeringType: String? = nil, productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedDBInstanceArn: String? = nil, reservedDBInstanceId: String? = nil, reservedDBInstancesOfferingId: String? = nil, startTime: TimeStamp? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.dBInstanceClass = dBInstanceClass
             self.dBInstanceCount = dBInstanceCount
             self.duration = duration
             self.fixedPrice = fixedPrice
+            self.leaseId = leaseId
             self.multiAZ = multiAZ
             self.offeringType = offeringType
             self.productDescription = productDescription
@@ -8174,6 +8198,7 @@ extension RDS {
             case dBInstanceCount = "DBInstanceCount"
             case duration = "Duration"
             case fixedPrice = "FixedPrice"
+            case leaseId = "LeaseId"
             case multiAZ = "MultiAZ"
             case offeringType = "OfferingType"
             case productDescription = "ProductDescription"
@@ -8833,7 +8858,7 @@ extension RDS {
         public let dBSubnetGroupName: String?
         /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
         public let deletionProtection: Bool?
-        /// Specify the Active Directory Domain to restore the instance in.
+        /// Specify the Active Directory directory ID to restore the DB instance in. The domain must be created prior to this operation. Currently, only Microsoft SQL Server and Oracle DB instances can be created in an Active Directory Domain.  For Microsoft SQL Server DB instances, Amazon RDS can use Windows Authentication to authenticate users that connect to the DB instance. For more information, see  Using Windows Authentication with an Amazon RDS DB Instance Running Microsoft SQL Server in the Amazon RDS User Guide. For Oracle DB instances, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB instance. For more information, see  Using Kerberos Authentication with Amazon RDS for Oracle in the Amazon RDS User Guide.
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
@@ -9242,7 +9267,7 @@ extension RDS {
         public let dBSubnetGroupName: String?
         /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
         public let deletionProtection: Bool?
-        /// Specify the Active Directory Domain to restore the instance in.
+        /// Specify the Active Directory directory ID to restore the DB instance in. The domain must be created prior to this operation. Currently, only Microsoft SQL Server and Oracle DB instances can be created in an Active Directory Domain.  For Microsoft SQL Server DB instances, Amazon RDS can use Windows Authentication to authenticate users that connect to the DB instance. For more information, see  Using Windows Authentication with an Amazon RDS DB Instance Running Microsoft SQL Server in the Amazon RDS User Guide. For Oracle DB instances, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB instance. For more information, see  Using Kerberos Authentication with Amazon RDS for Oracle in the Amazon RDS User Guide.
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?

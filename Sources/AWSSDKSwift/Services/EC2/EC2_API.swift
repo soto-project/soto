@@ -554,6 +554,11 @@ public struct EC2 {
         return client.send(operation: "DeletePlacementGroup", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the queued purchases for the specified Reserved Instances.
+    public func deleteQueuedReservedInstances(_ input: DeleteQueuedReservedInstancesRequest) -> Future<DeleteQueuedReservedInstancesResult> {
+        return client.send(operation: "DeleteQueuedReservedInstances", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the specified route from the specified route table.
     @discardableResult public func deleteRoute(_ input: DeleteRouteRequest) -> Future<Void> {
         return client.send(operation: "DeleteRoute", path: "/", httpMethod: "POST", input: input)
@@ -1604,7 +1609,7 @@ public struct EC2 {
         return client.send(operation: "PurchaseHostReservation", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with DescribeReservedInstances. For more information, see Reserved Instances and Reserved Instance Marketplace in the Amazon Elastic Compute Cloud User Guide.
+    ///  Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. For more information, see Reserved Instances and Reserved Instance Marketplace in the Amazon Elastic Compute Cloud User Guide.
     public func purchaseReservedInstancesOffering(_ input: PurchaseReservedInstancesOfferingRequest) -> Future<PurchaseReservedInstancesOfferingResult> {
         return client.send(operation: "PurchaseReservedInstancesOffering", path: "/", httpMethod: "POST", input: input)
     }
