@@ -43,7 +43,7 @@ move_docs_to_gh_pages() {
     # get branch name
     CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
     REVISION_HASH=$(git rev-parse HEAD)
-    COMMIT_MSG="Documentation for https://github.com/swift-aws/aws-sdk-swift-core/tree/$REVISION_HASH"
+    COMMIT_MSG="Documentation for https://github.com/swift-aws/aws-sdk-swift/tree/$REVISION_HASH"
     if [ -n "$1" ]; then
         COMMIT_MSG=$1
     fi
