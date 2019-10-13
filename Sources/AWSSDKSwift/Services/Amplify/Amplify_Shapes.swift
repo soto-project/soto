@@ -122,12 +122,40 @@ extension Amplify {
         }
     }
 
+    public struct Artifact: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "artifactFileName", required: true, type: .string), 
+            AWSShapeMember(label: "artifactId", required: true, type: .string)
+        ]
+
+        ///  File name for the artifact. 
+        public let artifactFileName: String
+        ///  Unique Id for a artifact. 
+        public let artifactId: String
+
+        public init(artifactFileName: String, artifactId: String) {
+            self.artifactFileName = artifactFileName
+            self.artifactId = artifactId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactFileName = "artifactFileName"
+            case artifactId = "artifactId"
+        }
+    }
+
+    public enum ArtifactType: String, CustomStringConvertible, Codable {
+        case test = "TEST"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AutoBranchCreationConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
             AWSShapeMember(label: "buildSpec", required: false, type: .string), 
             AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
             AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
+            AWSShapeMember(label: "enablePullRequestPreview", required: false, type: .boolean), 
             AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
             AWSShapeMember(label: "framework", required: false, type: .string), 
             AWSShapeMember(label: "stage", required: false, type: .enum)
@@ -141,6 +169,8 @@ extension Amplify {
         public let enableAutoBuild: Bool?
         ///  Enables Basic Auth for the auto created branch. 
         public let enableBasicAuth: Bool?
+        ///  Enables Pull Request Preview for auto created branch. 
+        public let enablePullRequestPreview: Bool?
         ///  Environment Variables for the auto created branch. 
         public let environmentVariables: [String: String]?
         ///  Framework for the auto created branch. 
@@ -148,11 +178,12 @@ extension Amplify {
         ///  Stage for the auto created branch. 
         public let stage: Stage?
 
-        public init(basicAuthCredentials: String? = nil, buildSpec: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, stage: Stage? = nil) {
+        public init(basicAuthCredentials: String? = nil, buildSpec: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, stage: Stage? = nil) {
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
             self.enableAutoBuild = enableAutoBuild
             self.enableBasicAuth = enableBasicAuth
+            self.enablePullRequestPreview = enablePullRequestPreview
             self.environmentVariables = environmentVariables
             self.framework = framework
             self.stage = stage
@@ -174,6 +205,7 @@ extension Amplify {
             case buildSpec = "buildSpec"
             case enableAutoBuild = "enableAutoBuild"
             case enableBasicAuth = "enableBasicAuth"
+            case enablePullRequestPreview = "enablePullRequestPreview"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
             case stage = "stage"
@@ -191,12 +223,15 @@ extension Amplify {
             AWSShapeMember(label: "createTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "customDomains", required: true, type: .list), 
             AWSShapeMember(label: "description", required: true, type: .string), 
+            AWSShapeMember(label: "destinationBranch", required: false, type: .string), 
             AWSShapeMember(label: "displayName", required: true, type: .string), 
             AWSShapeMember(label: "enableAutoBuild", required: true, type: .boolean), 
             AWSShapeMember(label: "enableBasicAuth", required: true, type: .boolean), 
             AWSShapeMember(label: "enableNotification", required: true, type: .boolean), 
+            AWSShapeMember(label: "enablePullRequestPreview", required: true, type: .boolean), 
             AWSShapeMember(label: "environmentVariables", required: true, type: .map), 
             AWSShapeMember(label: "framework", required: true, type: .string), 
+            AWSShapeMember(label: "sourceBranch", required: false, type: .string), 
             AWSShapeMember(label: "stage", required: true, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "thumbnailUrl", required: false, type: .string), 
@@ -223,6 +258,8 @@ extension Amplify {
         public let customDomains: [String]
         ///  Description for a branch, part of an Amplify App. 
         public let description: String
+        ///  The destination branch if the branch is a pull request branch. 
+        public let destinationBranch: String?
         ///  Display name for a branch, will use as the default domain prefix. 
         public let displayName: String
         ///  Enables auto-building on push for a branch, part of an Amplify App. 
@@ -231,10 +268,14 @@ extension Amplify {
         public let enableBasicAuth: Bool
         ///  Enables notifications for a branch, part of an Amplify App. 
         public let enableNotification: Bool
+        ///  Enables Pull Request Preview for this branch. 
+        public let enablePullRequestPreview: Bool
         ///  Environment Variables specific to a branch, part of an Amplify App. 
         public let environmentVariables: [String: String]
         ///  Framework for a branch, part of an Amplify App. 
         public let framework: String
+        ///  The source branch if the branch is a pull request branch. 
+        public let sourceBranch: String?
         ///  Stage for a branch, part of an Amplify App. 
         public let stage: Stage
         ///  Tag for branch for Amplify App. 
@@ -248,7 +289,7 @@ extension Amplify {
         ///  Last updated date and time for a branch, part of an Amplify App. 
         public let updateTime: TimeStamp
 
-        public init(activeJobId: String, associatedResources: [String]? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, createTime: TimeStamp, customDomains: [String], description: String, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, environmentVariables: [String: String], framework: String, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: TimeStamp) {
+        public init(activeJobId: String, associatedResources: [String]? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, createTime: TimeStamp, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePullRequestPreview: Bool, environmentVariables: [String: String], framework: String, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: TimeStamp) {
             self.activeJobId = activeJobId
             self.associatedResources = associatedResources
             self.basicAuthCredentials = basicAuthCredentials
@@ -258,12 +299,15 @@ extension Amplify {
             self.createTime = createTime
             self.customDomains = customDomains
             self.description = description
+            self.destinationBranch = destinationBranch
             self.displayName = displayName
             self.enableAutoBuild = enableAutoBuild
             self.enableBasicAuth = enableBasicAuth
             self.enableNotification = enableNotification
+            self.enablePullRequestPreview = enablePullRequestPreview
             self.environmentVariables = environmentVariables
             self.framework = framework
+            self.sourceBranch = sourceBranch
             self.stage = stage
             self.tags = tags
             self.thumbnailUrl = thumbnailUrl
@@ -282,12 +326,15 @@ extension Amplify {
             case createTime = "createTime"
             case customDomains = "customDomains"
             case description = "description"
+            case destinationBranch = "destinationBranch"
             case displayName = "displayName"
             case enableAutoBuild = "enableAutoBuild"
             case enableBasicAuth = "enableBasicAuth"
             case enableNotification = "enableNotification"
+            case enablePullRequestPreview = "enablePullRequestPreview"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
+            case sourceBranch = "sourceBranch"
             case stage = "stage"
             case tags = "tags"
             case thumbnailUrl = "thumbnailUrl"
@@ -454,6 +501,7 @@ extension Amplify {
             AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
             AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
             AWSShapeMember(label: "enableNotification", required: false, type: .boolean), 
+            AWSShapeMember(label: "enablePullRequestPreview", required: false, type: .boolean), 
             AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
             AWSShapeMember(label: "framework", required: false, type: .string), 
             AWSShapeMember(label: "stage", required: false, type: .enum), 
@@ -479,6 +527,8 @@ extension Amplify {
         public let enableBasicAuth: Bool?
         ///  Enables notifications for the branch. 
         public let enableNotification: Bool?
+        ///  Enables Pull Request Preview for this branch. 
+        public let enablePullRequestPreview: Bool?
         ///  Environment Variables for the branch. 
         public let environmentVariables: [String: String]?
         ///  Framework for the branch. 
@@ -490,7 +540,7 @@ extension Amplify {
         ///  The content TTL for the website in seconds. 
         public let ttl: String?
 
-        public init(appId: String, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
+        public init(appId: String, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
             self.appId = appId
             self.basicAuthCredentials = basicAuthCredentials
             self.branchName = branchName
@@ -500,6 +550,7 @@ extension Amplify {
             self.enableAutoBuild = enableAutoBuild
             self.enableBasicAuth = enableBasicAuth
             self.enableNotification = enableNotification
+            self.enablePullRequestPreview = enablePullRequestPreview
             self.environmentVariables = environmentVariables
             self.framework = framework
             self.stage = stage
@@ -540,6 +591,7 @@ extension Amplify {
             case enableAutoBuild = "enableAutoBuild"
             case enableBasicAuth = "enableBasicAuth"
             case enableNotification = "enableNotification"
+            case enablePullRequestPreview = "enablePullRequestPreview"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
             case stage = "stage"
@@ -770,7 +822,7 @@ extension Amplify {
             try validate(self.condition, name:"condition", parent: name, min: 1)
             try validate(self.source, name:"source", parent: name, max: 2048)
             try validate(self.source, name:"source", parent: name, min: 1)
-            try validate(self.status, name:"status", parent: name, max: 3)
+            try validate(self.status, name:"status", parent: name, max: 7)
             try validate(self.status, name:"status", parent: name, min: 3)
             try validate(self.target, name:"target", parent: name, max: 2048)
             try validate(self.target, name:"target", parent: name, min: 1)
@@ -1060,6 +1112,61 @@ extension Amplify {
         public var description: String { return self.rawValue }
     }
 
+    public struct GenerateAccessLogsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "domainName", required: true, type: .string), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
+        ]
+
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+        ///  Name of the domain. 
+        public let domainName: String
+        ///  The time at which the logs should end, inclusive. 
+        public let endTime: TimeStamp?
+        ///  The time at which the logs should start, inclusive. 
+        public let startTime: TimeStamp?
+
+        public init(appId: String, domainName: String, endTime: TimeStamp? = nil, startTime: TimeStamp? = nil) {
+            self.appId = appId
+            self.domainName = domainName
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appId, name:"appId", parent: name, max: 255)
+            try validate(self.appId, name:"appId", parent: name, min: 1)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case domainName = "domainName"
+            case endTime = "endTime"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct GenerateAccessLogsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logUrl", required: false, type: .string)
+        ]
+
+        ///  Pre-signed URL for the requested access logs. 
+        public let logUrl: String?
+
+        public init(logUrl: String? = nil) {
+            self.logUrl = logUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logUrl = "logUrl"
+        }
+    }
+
     public struct GetAppRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string)
@@ -1095,6 +1202,49 @@ extension Amplify {
 
         private enum CodingKeys: String, CodingKey {
             case app = "app"
+        }
+    }
+
+    public struct GetArtifactUrlRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "artifactId", location: .uri(locationName: "artifactId"), required: true, type: .string)
+        ]
+
+        ///  Unique Id for a artifact. 
+        public let artifactId: String
+
+        public init(artifactId: String) {
+            self.artifactId = artifactId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.artifactId, name:"artifactId", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactId = "artifactId"
+        }
+    }
+
+    public struct GetArtifactUrlResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "artifactId", required: true, type: .string), 
+            AWSShapeMember(label: "artifactUrl", required: true, type: .string)
+        ]
+
+        ///  Unique Id for a artifact. 
+        public let artifactId: String
+        ///  Presigned url for the artifact. 
+        public let artifactUrl: String
+
+        public init(artifactId: String, artifactUrl: String) {
+            self.artifactId = artifactId
+            self.artifactUrl = artifactUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactId = "artifactId"
+            case artifactUrl = "artifactUrl"
         }
     }
 
@@ -1425,6 +1575,81 @@ extension Amplify {
         }
     }
 
+    public struct ListArtifactsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "artifactType", required: false, type: .enum), 
+            AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
+            AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        ///  Unique Id for an Amplify App. 
+        public let appId: String
+        ///  Type for an artifact. 
+        public let artifactType: ArtifactType?
+        ///  Name for a branch, part of an Amplify App. 
+        public let branchName: String
+        ///  Unique Id for an Job. 
+        public let jobId: String
+        ///  Maximum number of records to list in a single response. 
+        public let maxResults: Int?
+        ///  Pagination token. Set to null to start listing artifacts from start. If non-null pagination token is returned in a result, then pass its value in here to list more artifacts. 
+        public let nextToken: String?
+
+        public init(appId: String, artifactType: ArtifactType? = nil, branchName: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.appId = appId
+            self.artifactType = artifactType
+            self.branchName = branchName
+            self.jobId = jobId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appId, name:"appId", parent: name, max: 255)
+            try validate(self.appId, name:"appId", parent: name, min: 1)
+            try validate(self.branchName, name:"branchName", parent: name, max: 255)
+            try validate(self.branchName, name:"branchName", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, max: 255)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case artifactType = "artifactType"
+            case branchName = "branchName"
+            case jobId = "jobId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListArtifactsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "artifacts", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        ///  List of artifacts. 
+        public let artifacts: [Artifact]
+        ///  Pagination token. If non-null pagination token is returned in a result, then pass its value in another request to fetch more entries. 
+        public let nextToken: String?
+
+        public init(artifacts: [Artifact], nextToken: String? = nil) {
+            self.artifacts = artifacts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifacts = "artifacts"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListBranchesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
@@ -1740,6 +1965,7 @@ extension Amplify {
         case beta = "BETA"
         case development = "DEVELOPMENT"
         case experimental = "EXPERIMENTAL"
+        case pullRequest = "PULL_REQUEST"
         public var description: String { return self.rawValue }
     }
 
@@ -1891,7 +2117,9 @@ extension Amplify {
             AWSShapeMember(label: "startTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "status", required: true, type: .enum), 
             AWSShapeMember(label: "statusReason", required: false, type: .string), 
-            AWSShapeMember(label: "stepName", required: true, type: .string)
+            AWSShapeMember(label: "stepName", required: true, type: .string), 
+            AWSShapeMember(label: "testArtifactsUrl", required: false, type: .string), 
+            AWSShapeMember(label: "testConfigUrl", required: false, type: .string)
         ]
 
         ///  URL to the artifact for the execution step. 
@@ -1912,8 +2140,12 @@ extension Amplify {
         public let statusReason: String?
         ///  Name of the execution step. 
         public let stepName: String
+        ///  URL to the test artifact for the execution step. 
+        public let testArtifactsUrl: String?
+        ///  URL to the test config for the execution step. 
+        public let testConfigUrl: String?
 
-        public init(artifactsUrl: String? = nil, context: String? = nil, endTime: TimeStamp, logUrl: String? = nil, screenshots: [String: String]? = nil, startTime: TimeStamp, status: JobStatus, statusReason: String? = nil, stepName: String) {
+        public init(artifactsUrl: String? = nil, context: String? = nil, endTime: TimeStamp, logUrl: String? = nil, screenshots: [String: String]? = nil, startTime: TimeStamp, status: JobStatus, statusReason: String? = nil, stepName: String, testArtifactsUrl: String? = nil, testConfigUrl: String? = nil) {
             self.artifactsUrl = artifactsUrl
             self.context = context
             self.endTime = endTime
@@ -1923,6 +2155,8 @@ extension Amplify {
             self.status = status
             self.statusReason = statusReason
             self.stepName = stepName
+            self.testArtifactsUrl = testArtifactsUrl
+            self.testConfigUrl = testConfigUrl
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1935,6 +2169,8 @@ extension Amplify {
             case status = "status"
             case statusReason = "statusReason"
             case stepName = "stepName"
+            case testArtifactsUrl = "testArtifactsUrl"
+            case testConfigUrl = "testConfigUrl"
         }
     }
 
@@ -2128,6 +2364,7 @@ extension Amplify {
 
     public struct UpdateAppRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accessToken", required: false, type: .string), 
             AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
             AWSShapeMember(label: "autoBranchCreationConfig", required: false, type: .structure), 
             AWSShapeMember(label: "autoBranchCreationPatterns", required: false, type: .list), 
@@ -2141,12 +2378,16 @@ extension Amplify {
             AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
             AWSShapeMember(label: "iamServiceRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
-            AWSShapeMember(label: "platform", required: false, type: .enum)
+            AWSShapeMember(label: "oauthToken", required: false, type: .string), 
+            AWSShapeMember(label: "platform", required: false, type: .enum), 
+            AWSShapeMember(label: "repository", required: false, type: .string)
         ]
 
+        ///  Personal Access token for 3rd party source control system for an Amplify App, used to create webhook and read-only deploy key. Token is not stored. 
+        public let accessToken: String?
         ///  Unique Id for an Amplify App. 
         public let appId: String
-        ///  Automated branch creation config for the Amplify App. 
+        ///  Automated branch creation branchConfig for the Amplify App. 
         public let autoBranchCreationConfig: AutoBranchCreationConfig?
         ///  Automated branch creation glob patterns for the Amplify App. 
         public let autoBranchCreationPatterns: [String]?
@@ -2170,10 +2411,15 @@ extension Amplify {
         public let iamServiceRoleArn: String?
         ///  Name for an Amplify App. 
         public let name: String?
+        ///  OAuth token for 3rd party source control system for an Amplify App, used to create webhook and read-only deploy key. OAuth token is not stored. 
+        public let oauthToken: String?
         ///  Platform for an Amplify App. 
         public let platform: Platform?
+        ///  Repository for an Amplify App 
+        public let repository: String?
 
-        public init(appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, platform: Platform? = nil) {
+        public init(accessToken: String? = nil, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil) {
+            self.accessToken = accessToken
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
             self.autoBranchCreationPatterns = autoBranchCreationPatterns
@@ -2187,10 +2433,14 @@ extension Amplify {
             self.environmentVariables = environmentVariables
             self.iamServiceRoleArn = iamServiceRoleArn
             self.name = name
+            self.oauthToken = oauthToken
             self.platform = platform
+            self.repository = repository
         }
 
         public func validate(name: String) throws {
+            try validate(self.accessToken, name:"accessToken", parent: name, max: 255)
+            try validate(self.accessToken, name:"accessToken", parent: name, min: 1)
             try validate(self.appId, name:"appId", parent: name, max: 255)
             try validate(self.appId, name:"appId", parent: name, min: 1)
             try self.autoBranchCreationConfig?.validate(name: "\(name).autoBranchCreationConfig")
@@ -2213,9 +2463,12 @@ extension Amplify {
             try validate(self.iamServiceRoleArn, name:"iamServiceRoleArn", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, max: 255)
             try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.oauthToken, name:"oauthToken", parent: name, max: 100)
+            try validate(self.repository, name:"repository", parent: name, max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessToken = "accessToken"
             case appId = "appId"
             case autoBranchCreationConfig = "autoBranchCreationConfig"
             case autoBranchCreationPatterns = "autoBranchCreationPatterns"
@@ -2229,7 +2482,9 @@ extension Amplify {
             case environmentVariables = "environmentVariables"
             case iamServiceRoleArn = "iamServiceRoleArn"
             case name = "name"
+            case oauthToken = "oauthToken"
             case platform = "platform"
+            case repository = "repository"
         }
     }
 
@@ -2261,6 +2516,7 @@ extension Amplify {
             AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
             AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
             AWSShapeMember(label: "enableNotification", required: false, type: .boolean), 
+            AWSShapeMember(label: "enablePullRequestPreview", required: false, type: .boolean), 
             AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
             AWSShapeMember(label: "framework", required: false, type: .string), 
             AWSShapeMember(label: "stage", required: false, type: .enum), 
@@ -2285,6 +2541,8 @@ extension Amplify {
         public let enableBasicAuth: Bool?
         ///  Enables notifications for the branch. 
         public let enableNotification: Bool?
+        ///  Enables Pull Request Preview for this branch. 
+        public let enablePullRequestPreview: Bool?
         ///  Environment Variables for the branch. 
         public let environmentVariables: [String: String]?
         ///  Framework for the branch. 
@@ -2294,7 +2552,7 @@ extension Amplify {
         ///  The content TTL for the website in seconds. 
         public let ttl: String?
 
-        public init(appId: String, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
+        public init(appId: String, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
             self.appId = appId
             self.basicAuthCredentials = basicAuthCredentials
             self.branchName = branchName
@@ -2304,6 +2562,7 @@ extension Amplify {
             self.enableAutoBuild = enableAutoBuild
             self.enableBasicAuth = enableBasicAuth
             self.enableNotification = enableNotification
+            self.enablePullRequestPreview = enablePullRequestPreview
             self.environmentVariables = environmentVariables
             self.framework = framework
             self.stage = stage
@@ -2337,6 +2596,7 @@ extension Amplify {
             case enableAutoBuild = "enableAutoBuild"
             case enableBasicAuth = "enableBasicAuth"
             case enableNotification = "enableNotification"
+            case enablePullRequestPreview = "enablePullRequestPreview"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
             case stage = "stage"

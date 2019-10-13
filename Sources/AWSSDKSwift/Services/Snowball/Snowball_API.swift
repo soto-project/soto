@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-AWS Snowball is a petabyte-scale data transport solution that uses secure devices to transfer large amounts of data between your on-premises data centers and Amazon Simple Storage Service (Amazon S3). The commands described here provide access to the same functionality that is available in the AWS Snowball Management Console, which enables you to create and manage jobs for Snowball and Snowball Edge devices. To transfer data locally with a device, you'll need to use the Snowball client or the Amazon S3 API adapter for Snowball.
+AWS Snowball is a petabyte-scale data transport solution that uses secure devices to transfer large amounts of data between your on-premises data centers and Amazon Simple Storage Service (Amazon S3). The Snowball commands described here provide access to the same functionality that is available in the AWS Snowball Management Console, which enables you to create and manage jobs for Snowball. To transfer data locally with a Snowball device, you'll need to use the Snowball client or the Amazon S3 API adapter for Snowball. For more information, see the User Guide.
 */
 public struct Snowball {
 
@@ -87,6 +87,11 @@ public struct Snowball {
         return client.send(operation: "GetSnowballUsage", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns an Amazon S3 presigned URL for an update file associated with a specified JobId.
+    public func getSoftwareUpdates(_ input: GetSoftwareUpdatesRequest) -> Future<GetSoftwareUpdatesResult> {
+        return client.send(operation: "GetSoftwareUpdates", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns an array of JobListEntry objects of the specified length. Each JobListEntry object is for a job in the specified cluster and contains a job's state, a job's ID, and other information.
     public func listClusterJobs(_ input: ListClusterJobsRequest) -> Future<ListClusterJobsResult> {
         return client.send(operation: "ListClusterJobs", path: "/", httpMethod: "POST", input: input)
@@ -97,7 +102,7 @@ public struct Snowball {
         return client.send(operation: "ListClusters", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that are owned by your AWS account that would be supported for use on EDGE, EDGE_C, and EDGE_CG devices. For more information on compatible AMIs, see Using Amazon EC2 Compute Instances in the AWS Snowball Developer Guide.
+    ///  This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that are owned by your AWS account that would be supported for use on a Snowball Edge device. Currently, supported AMIs are based on the CentOS 7 (x86_64) - with Updates HVM, Ubuntu Server 14.04 LTS (HVM), and Ubuntu 16.04 LTS - Xenial (HVM) images, available on the AWS Marketplace.
     public func listCompatibleImages(_ input: ListCompatibleImagesRequest) -> Future<ListCompatibleImagesResult> {
         return client.send(operation: "ListCompatibleImages", path: "/", httpMethod: "POST", input: input)
     }

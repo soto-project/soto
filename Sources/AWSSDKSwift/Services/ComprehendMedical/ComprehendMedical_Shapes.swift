@@ -23,9 +23,9 @@ extension ComprehendMedical {
         public let endOffset: Int?
         ///  The numeric identifier for this attribute. This is a monotonically increasing id unique within this response rather than a global unique identifier. 
         public let id: Int?
-        ///  The level of confidence that Comprehend Medical has that this attribute is correctly related to this entity. 
+        ///  The level of confidence that Amazon Comprehend Medical has that this attribute is correctly related to this entity. 
         public let relationshipScore: Float?
-        ///  The level of confidence that Comprehend Medical has that the segment of text is correctly recognized as an attribute. 
+        ///  The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute. 
         public let score: Float?
         ///  The segment of input text extracted as this attribute.
         public let text: String?
@@ -65,6 +65,206 @@ extension ComprehendMedical {
         public var description: String { return self.rawValue }
     }
 
+    public struct ComprehendMedicalAsyncJobFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
+        ]
+
+        /// Filters on the name of the job.
+        public let jobName: String?
+        /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
+        public let jobStatus: JobStatus?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
+        public let submitTimeAfter: TimeStamp?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
+        public let submitTimeBefore: TimeStamp?
+
+        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil) {
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.submitTimeAfter = submitTimeAfter
+            self.submitTimeBefore = submitTimeBefore
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobName, name:"jobName", parent: name, max: 256)
+            try validate(self.jobName, name:"jobName", parent: name, min: 1)
+            try validate(self.jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+            case jobStatus = "JobStatus"
+            case submitTimeAfter = "SubmitTimeAfter"
+            case submitTimeBefore = "SubmitTimeBefore"
+        }
+    }
+
+    public struct ComprehendMedicalAsyncJobProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExpirationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "ManifestFilePath", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "ModelVersion", required: false, type: .string), 
+            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp)
+        ]
+
+        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend Medical read access to your input data.
+        public let dataAccessRoleArn: String?
+        /// The time that the detection job completed.
+        public let endTime: TimeStamp?
+        /// The date and time that job metadata is deleted from the server. Output files in your S3 bucket will not be deleted. After the metadata is deleted, the job will no longer appear in the results of the ListEntitiesDetectionV2Job or the ListPHIDetectionJobs operation.
+        public let expirationTime: TimeStamp?
+        /// The input data configuration that you supplied when you created the detection job.
+        public let inputDataConfig: InputDataConfig?
+        /// The identifier assigned to the detection job.
+        public let jobId: String?
+        /// The name that you assigned to the detection job.
+        public let jobName: String?
+        /// The current status of the detection job. If the status is FAILED, the Message field shows the reason for the failure.
+        public let jobStatus: JobStatus?
+        /// The AWS Key Management Service key, if any, used to encrypt the output files. 
+        public let kMSKey: String?
+        /// The language code of the input documents.
+        public let languageCode: LanguageCode?
+        /// The path to the file that describes the results of a batch job.
+        public let manifestFilePath: String?
+        /// A description of the status of a job.
+        public let message: String?
+        /// The version of the model used to analyze the documents. The version number looks like X.X.X. You can use this information to track the model used for a particular batch of documents.
+        public let modelVersion: String?
+        /// The output data configuration that you supplied when you created the detection job.
+        public let outputDataConfig: OutputDataConfig?
+        /// The time that the detection job was submitted for processing.
+        public let submitTime: TimeStamp?
+
+        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, expirationTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, kMSKey: String? = nil, languageCode: LanguageCode? = nil, manifestFilePath: String? = nil, message: String? = nil, modelVersion: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: TimeStamp? = nil) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.endTime = endTime
+            self.expirationTime = expirationTime
+            self.inputDataConfig = inputDataConfig
+            self.jobId = jobId
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.kMSKey = kMSKey
+            self.languageCode = languageCode
+            self.manifestFilePath = manifestFilePath
+            self.message = message
+            self.modelVersion = modelVersion
+            self.outputDataConfig = outputDataConfig
+            self.submitTime = submitTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case endTime = "EndTime"
+            case expirationTime = "ExpirationTime"
+            case inputDataConfig = "InputDataConfig"
+            case jobId = "JobId"
+            case jobName = "JobName"
+            case jobStatus = "JobStatus"
+            case kMSKey = "KMSKey"
+            case languageCode = "LanguageCode"
+            case manifestFilePath = "ManifestFilePath"
+            case message = "Message"
+            case modelVersion = "ModelVersion"
+            case outputDataConfig = "OutputDataConfig"
+            case submitTime = "SubmitTime"
+        }
+    }
+
+    public struct DescribeEntitiesDetectionV2JobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+
+        /// The identifier that Amazon Comprehend Medical generated for the job. The StartEntitiesDetectionV2Job operation returns this identifier in its response.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name:"jobId", parent: name, max: 32)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DescribeEntitiesDetectionV2JobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComprehendMedicalAsyncJobProperties", required: false, type: .structure)
+        ]
+
+        /// An object that contains the properties associated with a detection job.
+        public let comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties?
+
+        public init(comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties? = nil) {
+            self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comprehendMedicalAsyncJobProperties = "ComprehendMedicalAsyncJobProperties"
+        }
+    }
+
+    public struct DescribePHIDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+
+        /// The identifier that Amazon Comprehend Medical generated for the job. The StartPHIDetectionJob operation returns this identifier in its response.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name:"jobId", parent: name, max: 32)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DescribePHIDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComprehendMedicalAsyncJobProperties", required: false, type: .structure)
+        ]
+
+        /// An object that contains the properties associated with a detection job.
+        public let comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties?
+
+        public init(comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties? = nil) {
+            self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comprehendMedicalAsyncJobProperties = "ComprehendMedicalAsyncJobProperties"
+        }
+    }
+
     public struct DetectEntitiesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Text", required: true, type: .string)
@@ -90,25 +290,84 @@ extension ComprehendMedical {
     public struct DetectEntitiesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Entities", required: true, type: .list), 
+            AWSShapeMember(label: "ModelVersion", required: true, type: .string), 
             AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
             AWSShapeMember(label: "UnmappedAttributes", required: false, type: .list)
         ]
 
-        ///  The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
+        ///  The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
         public let entities: [Entity]
-        ///  If the result of the previous request to DetectEntities was truncated, include the Paginationtoken to fetch the next page of entities.
+        /// The version of the model used to analyze the documents. The version number looks like X.X.X. You can use this information to track the model used for a particular batch of documents.
+        public let modelVersion: String
+        ///  If the result of the previous request to DetectEntities was truncated, include the PaginationToken to fetch the next page of entities.
         public let paginationToken: String?
         ///  Attributes extracted from the input text that we were unable to relate to an entity.
         public let unmappedAttributes: [UnmappedAttribute]?
 
-        public init(entities: [Entity], paginationToken: String? = nil, unmappedAttributes: [UnmappedAttribute]? = nil) {
+        public init(entities: [Entity], modelVersion: String, paginationToken: String? = nil, unmappedAttributes: [UnmappedAttribute]? = nil) {
             self.entities = entities
+            self.modelVersion = modelVersion
             self.paginationToken = paginationToken
             self.unmappedAttributes = unmappedAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
             case entities = "Entities"
+            case modelVersion = "ModelVersion"
+            case paginationToken = "PaginationToken"
+            case unmappedAttributes = "UnmappedAttributes"
+        }
+    }
+
+    public struct DetectEntitiesV2Request: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Text", required: true, type: .string)
+        ]
+
+        /// A UTF-8 string containing the clinical content being examined for entities. Each string must contain fewer than 20,000 bytes of characters.
+        public let text: String
+
+        public init(text: String) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.text, name:"text", parent: name, max: 20000)
+            try validate(self.text, name:"text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
+        }
+    }
+
+    public struct DetectEntitiesV2Response: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entities", required: true, type: .list), 
+            AWSShapeMember(label: "ModelVersion", required: true, type: .string), 
+            AWSShapeMember(label: "PaginationToken", required: false, type: .string), 
+            AWSShapeMember(label: "UnmappedAttributes", required: false, type: .list)
+        ]
+
+        /// The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence in the detection and analysis. Attributes and traits of the entity are also returned.
+        public let entities: [Entity]
+        /// The version of the model used to analyze the documents. The version number looks like X.X.X. You can use this information to track the model used for a particular batch of documents.
+        public let modelVersion: String
+        /// If the result to the DetectEntitiesV2 operation was truncated, include the PaginationToken to fetch the next page of entities.
+        public let paginationToken: String?
+        /// Attributes extracted from the input text that couldn't be related to an entity.
+        public let unmappedAttributes: [UnmappedAttribute]?
+
+        public init(entities: [Entity], modelVersion: String, paginationToken: String? = nil, unmappedAttributes: [UnmappedAttribute]? = nil) {
+            self.entities = entities
+            self.modelVersion = modelVersion
+            self.paginationToken = paginationToken
+            self.unmappedAttributes = unmappedAttributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities = "Entities"
+            case modelVersion = "ModelVersion"
             case paginationToken = "PaginationToken"
             case unmappedAttributes = "UnmappedAttributes"
         }
@@ -139,21 +398,26 @@ extension ComprehendMedical {
     public struct DetectPHIResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Entities", required: true, type: .list), 
+            AWSShapeMember(label: "ModelVersion", required: true, type: .string), 
             AWSShapeMember(label: "PaginationToken", required: false, type: .string)
         ]
 
-        ///  The collection of PHI entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Comprehend Medical has in its detection. 
+        ///  The collection of PHI entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in its detection. 
         public let entities: [Entity]
-        ///  If the result of the previous request to DetectPHI was truncated, include the Paginationtoken to fetch the next page of PHI entities. 
+        /// The version of the model used to analyze the documents. The version number looks like X.X.X. You can use this information to track the model used for a particular batch of documents.
+        public let modelVersion: String
+        ///  If the result of the previous request to DetectPHI was truncated, include the PaginationToken to fetch the next page of PHI entities. 
         public let paginationToken: String?
 
-        public init(entities: [Entity], paginationToken: String? = nil) {
+        public init(entities: [Entity], modelVersion: String, paginationToken: String? = nil) {
             self.entities = entities
+            self.modelVersion = modelVersion
             self.paginationToken = paginationToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case entities = "Entities"
+            case modelVersion = "ModelVersion"
             case paginationToken = "PaginationToken"
         }
     }
@@ -181,7 +445,7 @@ extension ComprehendMedical {
         public let endOffset: Int?
         ///  The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier. 
         public let id: Int?
-        /// The level of confidence that Comprehend Medical has in the accuracy of the detection.
+        /// The level of confidence that Amazon Comprehend Medical has in the accuracy of the detection.
         public let score: Float?
         ///  The segment of input text extracted as this entity.
         public let text: String?
@@ -256,6 +520,436 @@ extension ComprehendMedical {
         public var description: String { return self.rawValue }
     }
 
+    public struct InputDataConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "S3Key", required: false, type: .string)
+        ]
+
+        /// The URI of the S3 bucket that contains the input data. The bucket must be in the same region as the API endpoint that you are calling. Each file in the document collection must be less than 40 KB. You can store a maximum of 30 GB in the bucket.
+        public let s3Bucket: String
+        /// The path to the input data files in the S3 bucket.
+        public let s3Key: String?
+
+        public init(s3Bucket: String, s3Key: String? = nil) {
+            self.s3Bucket = s3Bucket
+            self.s3Key = s3Key
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, max: 63)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, min: 3)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, pattern: "^[0-9a-z\\.\\-_]*(?!\\.)$")
+            try validate(self.s3Key, name:"s3Key", parent: name, max: 1024)
+            try validate(self.s3Key, name:"s3Key", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "S3Bucket"
+            case s3Key = "S3Key"
+        }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case submitted = "SUBMITTED"
+        case inProgress = "IN_PROGRESS"
+        case completed = "COMPLETED"
+        case partialSuccess = "PARTIAL_SUCCESS"
+        case failed = "FAILED"
+        case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LanguageCode: String, CustomStringConvertible, Codable {
+        case en = "en"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListEntitiesDetectionV2JobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Filters the jobs that are returned. You can filter jobs based on their names, status, or the date and time that they were submitted. You can only set one filter at a time.
+        public let filter: ComprehendMedicalAsyncJobFilter?
+        /// The maximum number of results to return in each page. The default is 100.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(filter: ComprehendMedicalAsyncJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEntitiesDetectionV2JobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComprehendMedicalAsyncJobPropertiesList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list containing the properties of each job returned.
+        public let comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]? = nil, nextToken: String? = nil) {
+            self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comprehendMedicalAsyncJobPropertiesList = "ComprehendMedicalAsyncJobPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPHIDetectionJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Filters the jobs that are returned. You can filter jobs based on their names, status, or the date and time that they were submitted. You can only set one filter at a time.
+        public let filter: ComprehendMedicalAsyncJobFilter?
+        /// The maximum number of results to return in each page. The default is 100.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(filter: ComprehendMedicalAsyncJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPHIDetectionJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComprehendMedicalAsyncJobPropertiesList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list containing the properties of each job returned.
+        public let comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]? = nil, nextToken: String? = nil) {
+            self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comprehendMedicalAsyncJobPropertiesList = "ComprehendMedicalAsyncJobPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct OutputDataConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "S3Key", required: false, type: .string)
+        ]
+
+        /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output.
+        public let s3Bucket: String
+        /// The path to the output data files in the S3 bucket. Amazon Comprehend Medical creates an output directory using the job ID so that the output from one job does not overwrite the output of another.
+        public let s3Key: String?
+
+        public init(s3Bucket: String, s3Key: String? = nil) {
+            self.s3Bucket = s3Bucket
+            self.s3Key = s3Key
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, max: 63)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, min: 3)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, pattern: "^[0-9a-z\\.\\-_]*(?!\\.)$")
+            try validate(self.s3Key, name:"s3Key", parent: name, max: 1024)
+            try validate(self.s3Key, name:"s3Key", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "S3Bucket"
+            case s3Key = "S3Key"
+        }
+    }
+
+    public struct StartEntitiesDetectionV2JobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure)
+        ]
+
+        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+        public let dataAccessRoleArn: String
+        /// Specifies the format and location of the input data for the job.
+        public let inputDataConfig: InputDataConfig
+        /// The identifier of the job.
+        public let jobName: String?
+        /// An AWS Key Management Service key to encrypt your output files. If you do not specify a key, the files are written in plain text.
+        public let kMSKey: String?
+        /// The language of the input documents. All documents must be in the same language.
+        public let languageCode: LanguageCode
+        /// Specifies where to send the output files.
+        public let outputDataConfig: OutputDataConfig
+
+        public init(clientRequestToken: String? = StartEntitiesDetectionV2JobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kMSKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
+            self.clientRequestToken = clientRequestToken
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.inputDataConfig = inputDataConfig
+            self.jobName = jobName
+            self.kMSKey = kMSKey
+            self.languageCode = languageCode
+            self.outputDataConfig = outputDataConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(self.dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, max: 2048)
+            try validate(self.dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, min: 20)
+            try validate(self.dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try validate(self.jobName, name:"jobName", parent: name, max: 256)
+            try validate(self.jobName, name:"jobName", parent: name, min: 1)
+            try validate(self.jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try validate(self.kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, min: 1)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, pattern: ".*")
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case inputDataConfig = "InputDataConfig"
+            case jobName = "JobName"
+            case kMSKey = "KMSKey"
+            case languageCode = "LanguageCode"
+            case outputDataConfig = "OutputDataConfig"
+        }
+    }
+
+    public struct StartEntitiesDetectionV2JobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+
+        /// The identifier generated for the job. To get the status of a job, use this identifier with the DescribeEntitiesDetectionV2Job operation.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StartPHIDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure)
+        ]
+
+        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+        public let dataAccessRoleArn: String
+        /// Specifies the format and location of the input data for the job.
+        public let inputDataConfig: InputDataConfig
+        /// The identifier of the job.
+        public let jobName: String?
+        /// An AWS Key Management Service key to encrypt your output files. If you do not specify a key, the files are written in plain text.
+        public let kMSKey: String?
+        /// The language of the input documents. All documents must be in the same language.
+        public let languageCode: LanguageCode
+        /// Specifies where to send the output files.
+        public let outputDataConfig: OutputDataConfig
+
+        public init(clientRequestToken: String? = StartPHIDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kMSKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
+            self.clientRequestToken = clientRequestToken
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.inputDataConfig = inputDataConfig
+            self.jobName = jobName
+            self.kMSKey = kMSKey
+            self.languageCode = languageCode
+            self.outputDataConfig = outputDataConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(self.dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, max: 2048)
+            try validate(self.dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, min: 20)
+            try validate(self.dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try validate(self.jobName, name:"jobName", parent: name, max: 256)
+            try validate(self.jobName, name:"jobName", parent: name, min: 1)
+            try validate(self.jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try validate(self.kMSKey, name:"kMSKey", parent: name, max: 2048)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, min: 1)
+            try validate(self.kMSKey, name:"kMSKey", parent: name, pattern: ".*")
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case inputDataConfig = "InputDataConfig"
+            case jobName = "JobName"
+            case kMSKey = "KMSKey"
+            case languageCode = "LanguageCode"
+            case outputDataConfig = "OutputDataConfig"
+        }
+    }
+
+    public struct StartPHIDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+
+        /// The identifier generated for the job. To get the status of a job, use this identifier with the DescribePHIDetectionJob operation.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StopEntitiesDetectionV2JobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+
+        /// The identifier of the medical entities job to stop.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name:"jobId", parent: name, max: 32)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StopEntitiesDetectionV2JobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+
+        /// The identifier of the medical entities detection job that was stopped.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StopPHIDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+
+        /// The identifier of the PHI detection job to stop.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name:"jobId", parent: name, max: 32)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StopPHIDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+
+        /// The identifier of the PHI detection job that was stopped.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
     public struct Trait: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .enum), 
@@ -264,7 +958,7 @@ extension ComprehendMedical {
 
         ///  Provides a name or contextual description about the trait. 
         public let name: AttributeName?
-        ///  The level of confidence that Comprehend Medical has in the accuracy of this trait.
+        ///  The level of confidence that Amazon Comprehend Medical has in the accuracy of this trait.
         public let score: Float?
 
         public init(name: AttributeName? = nil, score: Float? = nil) {
@@ -286,7 +980,7 @@ extension ComprehendMedical {
 
         ///  The specific attribute that has been extracted but not mapped to an entity. 
         public let attribute: Attribute?
-        ///  The type of the attribute, could be one of the following values: "MEDICATION", "MEDICAL_CONDITION", "ANATOMY", "TEST_AND_TREATMENT_PROCEDURE" or "PERSONAL_HEALTH_INFORMATION". 
+        ///  The type of the attribute, could be one of the following values: "MEDICATION", "MEDICAL_CONDITION", "ANATOMY", "TEST_AND_TREATMENT_PROCEDURE" or "PROTECTED_HEALTH_INFORMATION". 
         public let `type`: EntityType?
 
         public init(attribute: Attribute? = nil, type: EntityType? = nil) {

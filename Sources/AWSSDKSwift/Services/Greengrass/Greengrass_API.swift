@@ -416,7 +416,7 @@ public struct Greengrass {
         return client.send(operation: "StopBulkDeployment", path: "/greengrass/bulk/deployments/{BulkDeploymentId}/$stop", httpMethod: "PUT", input: input)
     }
 
-    ///  Add resource tags to a Greengrass Resource. Valid resources are Group, Connector, Core, Device, Function, Logger, Subscription, and Resource Defintions, and also BulkDeploymentIds.
+    ///  Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
     @discardableResult public func tagResource(_ input: TagResourceRequest) -> Future<Void> {
         return client.send(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: "POST", input: input)
     }

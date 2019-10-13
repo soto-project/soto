@@ -32,12 +32,12 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "AddCustomAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds the specified user to the specified group. Requires developer credentials.
+    ///  Adds the specified user to the specified group. Calling this action requires developer credentials.
     @discardableResult public func adminAddUserToGroup(_ input: AdminAddUserToGroupRequest) -> Future<Void> {
         return client.send(operation: "AdminAddUserToGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Confirms user registration as an admin without using a confirmation code. Works on any user. Requires developer credentials.
+    ///  Confirms user registration as an admin without using a confirmation code. Works on any user. Calling this action requires developer credentials.
     public func adminConfirmSignUp(_ input: AdminConfirmSignUpRequest) -> Future<AdminConfirmSignUpResponse> {
         return client.send(operation: "AdminConfirmSignUp", path: "/", httpMethod: "POST", input: input)
     }
@@ -47,12 +47,12 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "AdminCreateUser", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a user as an administrator. Works on any user. Requires developer credentials.
+    ///  Deletes a user as an administrator. Works on any user. Calling this action requires developer credentials.
     @discardableResult public func adminDeleteUser(_ input: AdminDeleteUserRequest) -> Future<Void> {
         return client.send(operation: "AdminDeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the user attributes in a user pool as an administrator. Works on any user. Requires developer credentials.
+    ///  Deletes the user attributes in a user pool as an administrator. Works on any user. Calling this action requires developer credentials.
     public func adminDeleteUserAttributes(_ input: AdminDeleteUserAttributesRequest) -> Future<AdminDeleteUserAttributesResponse> {
         return client.send(operation: "AdminDeleteUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
@@ -62,32 +62,32 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "AdminDisableProviderForUser", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Disables the specified user as an administrator. Works on any user. Requires developer credentials.
+    ///  Disables the specified user. Calling this action requires developer credentials.
     public func adminDisableUser(_ input: AdminDisableUserRequest) -> Future<AdminDisableUserResponse> {
         return client.send(operation: "AdminDisableUser", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Enables the specified user as an administrator. Works on any user. Requires developer credentials.
+    ///  Enables the specified user as an administrator. Works on any user. Calling this action requires developer credentials.
     public func adminEnableUser(_ input: AdminEnableUserRequest) -> Future<AdminEnableUserResponse> {
         return client.send(operation: "AdminEnableUser", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Forgets the device, as an administrator. Requires developer credentials.
+    ///  Forgets the device, as an administrator. Calling this action requires developer credentials.
     @discardableResult public func adminForgetDevice(_ input: AdminForgetDeviceRequest) -> Future<Void> {
         return client.send(operation: "AdminForgetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the device, as an administrator. Requires developer credentials.
+    ///  Gets the device, as an administrator. Calling this action requires developer credentials.
     public func adminGetDevice(_ input: AdminGetDeviceRequest) -> Future<AdminGetDeviceResponse> {
         return client.send(operation: "AdminGetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the specified user by user name in a user pool as an administrator. Works on any user. Requires developer credentials.
+    ///  Gets the specified user by user name in a user pool as an administrator. Works on any user. Calling this action requires developer credentials.
     public func adminGetUser(_ input: AdminGetUserRequest) -> Future<AdminGetUserResponse> {
         return client.send(operation: "AdminGetUser", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Initiates the authentication flow, as an administrator. Requires developer credentials.
+    ///  Initiates the authentication flow, as an administrator. Calling this action requires developer credentials.
     public func adminInitiateAuth(_ input: AdminInitiateAuthRequest) -> Future<AdminInitiateAuthResponse> {
         return client.send(operation: "AdminInitiateAuth", path: "/", httpMethod: "POST", input: input)
     }
@@ -97,12 +97,12 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "AdminLinkProviderForUser", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists devices, as an administrator. Requires developer credentials.
+    ///  Lists devices, as an administrator. Calling this action requires developer credentials.
     public func adminListDevices(_ input: AdminListDevicesRequest) -> Future<AdminListDevicesResponse> {
         return client.send(operation: "AdminListDevices", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the groups that the user belongs to. Requires developer credentials.
+    ///  Lists the groups that the user belongs to. Calling this action requires developer credentials.
     public func adminListGroupsForUser(_ input: AdminListGroupsForUserRequest) -> Future<AdminListGroupsForUserResponse> {
         return client.send(operation: "AdminListGroupsForUser", path: "/", httpMethod: "POST", input: input)
     }
@@ -112,31 +112,32 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "AdminListUserAuthEvents", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes the specified user from the specified group. Requires developer credentials.
+    ///  Removes the specified user from the specified group. Calling this action requires developer credentials.
     @discardableResult public func adminRemoveUserFromGroup(_ input: AdminRemoveUserFromGroupRequest) -> Future<Void> {
         return client.send(operation: "AdminRemoveUserFromGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Resets the specified user's password in a user pool as an administrator. Works on any user. When a developer calls this API, the current password is invalidated, so it must be changed. If a user tries to sign in after the API is called, the app will get a PasswordResetRequiredException exception back and should direct the user down the flow to reset the password, which is the same as the forgot password flow. In addition, if the user pool has phone verification selected and a verified phone number exists for the user, or if email verification is selected and a verified email exists for the user, calling this API will also result in sending a message to the end user with the code to change their password. Requires developer credentials.
+    ///  Resets the specified user's password in a user pool as an administrator. Works on any user. When a developer calls this API, the current password is invalidated, so it must be changed. If a user tries to sign in after the API is called, the app will get a PasswordResetRequiredException exception back and should direct the user down the flow to reset the password, which is the same as the forgot password flow. In addition, if the user pool has phone verification selected and a verified phone number exists for the user, or if email verification is selected and a verified email exists for the user, calling this API will also result in sending a message to the end user with the code to change their password. Calling this action requires developer credentials.
     public func adminResetUserPassword(_ input: AdminResetUserPasswordRequest) -> Future<AdminResetUserPasswordResponse> {
         return client.send(operation: "AdminResetUserPassword", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Responds to an authentication challenge, as an administrator. Requires developer credentials.
+    ///  Responds to an authentication challenge, as an administrator. Calling this action requires developer credentials.
     public func adminRespondToAuthChallenge(_ input: AdminRespondToAuthChallengeRequest) -> Future<AdminRespondToAuthChallengeResponse> {
         return client.send(operation: "AdminRespondToAuthChallenge", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets the user's multi-factor authentication (MFA) preference.
+    ///  Sets the user's multi-factor authentication (MFA) preference, including which MFA options are enabled and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are enabled. If multiple options are enabled and no preference is set, a challenge to choose an MFA option will be returned during sign in.
     public func adminSetUserMFAPreference(_ input: AdminSetUserMFAPreferenceRequest) -> Future<AdminSetUserMFAPreferenceResponse> {
         return client.send(operation: "AdminSetUserMFAPreference", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Sets the specified user's password in a user pool as an administrator. Works on any user.  The password can be temporary or permanent. If it is temporary, the user status will be placed into the FORCE_CHANGE_PASSWORD state. When the user next tries to sign in, the InitiateAuth/AdminInitiateAuth response will contain the NEW_PASSWORD_REQUIRED challenge. If the user does not sign in before it expires, the user will not be able to sign in and their password will need to be reset by an administrator.  Once the user has set a new password, or the password is permanent, the user status will be set to Confirmed.
     public func adminSetUserPassword(_ input: AdminSetUserPasswordRequest) -> Future<AdminSetUserPasswordResponse> {
         return client.send(operation: "AdminSetUserPassword", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets all the user settings for a specified user name. Works on any user. Requires developer credentials.
+    ///   This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure TOTP software token MFA. To configure either type of MFA, use the AdminSetUserMFAPreference action instead.
     public func adminSetUserSettings(_ input: AdminSetUserSettingsRequest) -> Future<AdminSetUserSettingsResponse> {
         return client.send(operation: "AdminSetUserSettings", path: "/", httpMethod: "POST", input: input)
     }
@@ -146,17 +147,17 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "AdminUpdateAuthEventFeedback", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the device status as an administrator. Requires developer credentials.
+    ///  Updates the device status as an administrator. Calling this action requires developer credentials.
     public func adminUpdateDeviceStatus(_ input: AdminUpdateDeviceStatusRequest) -> Future<AdminUpdateDeviceStatusResponse> {
         return client.send(operation: "AdminUpdateDeviceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified user's attributes, including developer attributes, as an administrator. Works on any user. For custom attributes, you must prepend the custom: prefix to the attribute name. In addition to updating user attributes, this API can also be used to mark phone and email as verified. Requires developer credentials.
+    ///  Updates the specified user's attributes, including developer attributes, as an administrator. Works on any user. For custom attributes, you must prepend the custom: prefix to the attribute name. In addition to updating user attributes, this API can also be used to mark phone and email as verified. Calling this action requires developer credentials.
     public func adminUpdateUserAttributes(_ input: AdminUpdateUserAttributesRequest) -> Future<AdminUpdateUserAttributesResponse> {
         return client.send(operation: "AdminUpdateUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Signs out users from all devices, as an administrator. Requires developer credentials.
+    ///  Signs out users from all devices, as an administrator. Calling this action requires developer credentials.
     public func adminUserGlobalSignOut(_ input: AdminUserGlobalSignOutRequest) -> Future<AdminUserGlobalSignOutResponse> {
         return client.send(operation: "AdminUserGlobalSignOut", path: "/", httpMethod: "POST", input: input)
     }
@@ -186,7 +187,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "ConfirmSignUp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new group in the specified user pool. Requires developer credentials.
+    ///  Creates a new group in the specified user pool. Calling this action requires developer credentials.
     public func createGroup(_ input: CreateGroupRequest) -> Future<CreateGroupResponse> {
         return client.send(operation: "CreateGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -221,7 +222,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "CreateUserPoolDomain", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a group. Currently only groups with no members can be deleted. Requires developer credentials.
+    ///  Deletes a group. Currently only groups with no members can be deleted. Calling this action requires developer credentials.
     @discardableResult public func deleteGroup(_ input: DeleteGroupRequest) -> Future<Void> {
         return client.send(operation: "DeleteGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -316,7 +317,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "GetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets a group. Requires developer credentials.
+    ///  Gets a group. Calling this action requires developer credentials.
     public func getGroup(_ input: GetGroupRequest) -> Future<GetGroupResponse> {
         return client.send(operation: "GetGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -366,7 +367,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "ListDevices", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the groups associated with a user pool. Requires developer credentials.
+    ///  Lists the groups associated with a user pool. Calling this action requires developer credentials.
     public func listGroups(_ input: ListGroupsRequest) -> Future<ListGroupsResponse> {
         return client.send(operation: "ListGroups", path: "/", httpMethod: "POST", input: input)
     }
@@ -406,7 +407,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "ListUsers", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the users in the specified group. Requires developer credentials.
+    ///  Lists the users in the specified group. Calling this action requires developer credentials.
     public func listUsersInGroup(_ input: ListUsersInGroupRequest) -> Future<ListUsersInGroupResponse> {
         return client.send(operation: "ListUsersInGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -431,17 +432,17 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "SetUICustomization", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Set the user's multi-factor authentication (MFA) method preference.
+    ///  Set the user's multi-factor authentication (MFA) method preference, including which MFA factors are enabled and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are enabled. If multiple options are enabled and no preference is set, a challenge to choose an MFA option will be returned during sign in.
     public func setUserMFAPreference(_ input: SetUserMFAPreferenceRequest) -> Future<SetUserMFAPreferenceResponse> {
         return client.send(operation: "SetUserMFAPreference", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Set the user pool MFA configuration.
+    ///  Set the user pool multi-factor authentication (MFA) configuration.
     public func setUserPoolMfaConfig(_ input: SetUserPoolMfaConfigRequest) -> Future<SetUserPoolMfaConfigResponse> {
         return client.send(operation: "SetUserPoolMfaConfig", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets the user settings like multi-factor authentication (MFA). If MFA is to be removed for a particular attribute pass the attribute with code delivery as null. If null list is passed, all MFA options are removed.
+    ///   This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure TOTP software token MFA. To configure either type of MFA, use the SetUserMFAPreference action instead.
     public func setUserSettings(_ input: SetUserSettingsRequest) -> Future<SetUserSettingsResponse> {
         return client.send(operation: "SetUserSettings", path: "/", httpMethod: "POST", input: input)
     }
@@ -481,7 +482,7 @@ public struct CognitoIdentityProvider {
         return client.send(operation: "UpdateDeviceStatus", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified group with the specified attributes. Requires developer credentials.
+    ///  Updates the specified group with the specified attributes. Calling this action requires developer credentials.
     public func updateGroup(_ input: UpdateGroupRequest) -> Future<UpdateGroupResponse> {
         return client.send(operation: "UpdateGroup", path: "/", httpMethod: "POST", input: input)
     }

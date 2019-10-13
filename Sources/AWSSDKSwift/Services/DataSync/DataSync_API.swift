@@ -43,17 +43,17 @@ public struct DataSync {
         return client.send(operation: "CreateLocationEfs", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an endpoint for a Network File System (NFS) file system.
+    ///  Defines a file system on a Network File System (NFS) server that can be read from or written to
     public func createLocationNfs(_ input: CreateLocationNfsRequest) -> Future<CreateLocationNfsResponse> {
         return client.send(operation: "CreateLocationNfs", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an endpoint for an Amazon S3 bucket. For AWS DataSync to access a destination S3 bucket, it needs an AWS Identity and Access Management (IAM) role that has the required permissions. You can set up the required permissions by creating an IAM policy that grants the required permissions and attaching the policy to the role. An example of such a policy is shown in the examples section. For more information, see Configuring Amazon S3 Location Settings in the AWS DataSync User Guide. 
+    ///  Creates an endpoint for an Amazon S3 bucket. For AWS DataSync to access a destination S3 bucket, it needs an AWS Identity and Access Management (IAM) role that has the required permissions. You can set up the required permissions by creating an IAM policy that grants the required permissions and attaching the policy to the role. An example of such a policy is shown in the examples section. For more information, see https://docs.aws.amazon.com/datasync/latest/userguide/working-with-locations.html#create-s3-location in the AWS DataSync User Guide. 
     public func createLocationS3(_ input: CreateLocationS3Request) -> Future<CreateLocationS3Response> {
         return client.send(operation: "CreateLocationS3", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an endpoint for a Server Message Block (SMB) file system.
+    ///  Defines a file system on an Server Message Block (SMB) server that can be read from or written to
     public func createLocationSmb(_ input: CreateLocationSmbRequest) -> Future<CreateLocationSmbResponse> {
         return client.send(operation: "CreateLocationSmb", path: "/", httpMethod: "POST", input: input)
     }

@@ -114,7 +114,7 @@ extension DirectConnect {
         public let connectionName: String
         /// The ID of the AWS account ID of the customer for the connection.
         public let ownerAccount: String
-        /// The tags to assign to the hosted connection.
+        /// The tags associated with the connection.
         public let tags: [Tag]?
         /// The dedicated VLAN provisioned to the hosted connection.
         public let vlan: Int
@@ -591,6 +591,7 @@ extension DirectConnect {
             AWSShapeMember(label: "location", required: false, type: .string), 
             AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
             AWSShapeMember(label: "partnerName", required: false, type: .string), 
+            AWSShapeMember(label: "providerName", required: false, type: .string), 
             AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "vlan", required: false, type: .integer)
@@ -622,14 +623,16 @@ extension DirectConnect {
         public let ownerAccount: String?
         /// The name of the AWS Direct Connect service provider associated with the connection.
         public let partnerName: String?
+        /// The name of the service provider associated with the connection.
+        public let providerName: String?
         /// The AWS Region where the connection is located.
         public let region: String?
-        /// Any tags assigned to the connection.
+        /// The tags associated with the connection.
         public let tags: [Tag]?
         /// The ID of the VLAN.
         public let vlan: Int?
 
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, ownerAccount: String? = nil, partnerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, ownerAccount: String? = nil, partnerName: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.bandwidth = bandwidth
@@ -643,6 +646,7 @@ extension DirectConnect {
             self.location = location
             self.ownerAccount = ownerAccount
             self.partnerName = partnerName
+            self.providerName = providerName
             self.region = region
             self.tags = tags
             self.vlan = vlan
@@ -662,6 +666,7 @@ extension DirectConnect {
             case location = "location"
             case ownerAccount = "ownerAccount"
             case partnerName = "partnerName"
+            case providerName = "providerName"
             case region = "region"
             case tags = "tags"
             case vlan = "vlan"
@@ -743,6 +748,7 @@ extension DirectConnect {
             AWSShapeMember(label: "connectionName", required: true, type: .string), 
             AWSShapeMember(label: "lagId", required: false, type: .string), 
             AWSShapeMember(label: "location", required: true, type: .string), 
+            AWSShapeMember(label: "providerName", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
@@ -754,14 +760,17 @@ extension DirectConnect {
         public let lagId: String?
         /// The location of the connection.
         public let location: String
-        /// The tags to assign to the connection.
+        /// The name of the service provider associated with the requested connection.
+        public let providerName: String?
+        /// The tags to associate with the lag.
         public let tags: [Tag]?
 
-        public init(bandwidth: String, connectionName: String, lagId: String? = nil, location: String, tags: [Tag]? = nil) {
+        public init(bandwidth: String, connectionName: String, lagId: String? = nil, location: String, providerName: String? = nil, tags: [Tag]? = nil) {
             self.bandwidth = bandwidth
             self.connectionName = connectionName
             self.lagId = lagId
             self.location = location
+            self.providerName = providerName
             self.tags = tags
         }
 
@@ -777,6 +786,7 @@ extension DirectConnect {
             case connectionName = "connectionName"
             case lagId = "lagId"
             case location = "location"
+            case providerName = "providerName"
             case tags = "tags"
         }
     }
@@ -843,7 +853,7 @@ extension DirectConnect {
             AWSShapeMember(label: "virtualGatewayId", required: false, type: .string)
         ]
 
-        /// The Amazon VPC prefixes to advertise to the Direct Connect gateway For information about how to set the prefixes, see Allowed Prefixes in the AWS Direct Connect User Guide.
+        /// The Amazon VPC prefixes to advertise to the Direct Connect gateway This parameter is required when you create an association to a transit gateway. For information about how to set the prefixes, see Allowed Prefixes in the AWS Direct Connect User Guide.
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
@@ -929,6 +939,7 @@ extension DirectConnect {
             AWSShapeMember(label: "interconnectName", required: true, type: .string), 
             AWSShapeMember(label: "lagId", required: false, type: .string), 
             AWSShapeMember(label: "location", required: true, type: .string), 
+            AWSShapeMember(label: "providerName", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
@@ -940,14 +951,17 @@ extension DirectConnect {
         public let lagId: String?
         /// The location of the interconnect.
         public let location: String
-        /// The tags to assign to the interconnect,
+        /// The name of the service provider associated with the interconnect.
+        public let providerName: String?
+        /// The tags to associate with the interconnect.
         public let tags: [Tag]?
 
-        public init(bandwidth: String, interconnectName: String, lagId: String? = nil, location: String, tags: [Tag]? = nil) {
+        public init(bandwidth: String, interconnectName: String, lagId: String? = nil, location: String, providerName: String? = nil, tags: [Tag]? = nil) {
             self.bandwidth = bandwidth
             self.interconnectName = interconnectName
             self.lagId = lagId
             self.location = location
+            self.providerName = providerName
             self.tags = tags
         }
 
@@ -963,6 +977,7 @@ extension DirectConnect {
             case interconnectName = "interconnectName"
             case lagId = "lagId"
             case location = "location"
+            case providerName = "providerName"
             case tags = "tags"
         }
     }
@@ -975,10 +990,11 @@ extension DirectConnect {
             AWSShapeMember(label: "lagName", required: true, type: .string), 
             AWSShapeMember(label: "location", required: true, type: .string), 
             AWSShapeMember(label: "numberOfConnections", required: true, type: .integer), 
+            AWSShapeMember(label: "providerName", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
-        /// The tags to assign to the child connections of the LAG. Only newly created child connections as the result of creating a LAG connection are assigned the provided tags. The tags are not assigned to an existing connection that is provided via the “connectionId” parameter that will be migrated to the LAG.
+        /// The tags to associate with the automtically created LAGs.
         public let childConnectionTags: [Tag]?
         /// The ID of an existing connection to migrate to the LAG.
         public let connectionId: String?
@@ -990,16 +1006,19 @@ extension DirectConnect {
         public let location: String
         /// The number of physical connections initially provisioned and bundled by the LAG.
         public let numberOfConnections: Int
-        /// The tags to assign to the link aggregation group (LAG).
+        /// The name of the service provider associated with the LAG.
+        public let providerName: String?
+        /// The tags to associate with the LAG.
         public let tags: [Tag]?
 
-        public init(childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int, tags: [Tag]? = nil) {
+        public init(childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int, providerName: String? = nil, tags: [Tag]? = nil) {
             self.childConnectionTags = childConnectionTags
             self.connectionId = connectionId
             self.connectionsBandwidth = connectionsBandwidth
             self.lagName = lagName
             self.location = location
             self.numberOfConnections = numberOfConnections
+            self.providerName = providerName
             self.tags = tags
         }
 
@@ -1021,6 +1040,7 @@ extension DirectConnect {
             case lagName = "lagName"
             case location = "location"
             case numberOfConnections = "numberOfConnections"
+            case providerName = "providerName"
             case tags = "tags"
         }
     }
@@ -2044,7 +2064,7 @@ extension DirectConnect {
 
         /// The state of the attachment. The following are the possible values:    attaching: The initial state after a virtual interface is created using the Direct Connect gateway.    attached: The Direct Connect gateway and virtual interface are attached and ready to pass traffic.    detaching: The initial state after calling DeleteVirtualInterface.    detached: The virtual interface is detached from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual interface is stopped.  
         public let attachmentState: DirectConnectGatewayAttachmentState?
-        /// The interface type.
+        /// The type of attachment.
         public let attachmentType: DirectConnectGatewayAttachmentType?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
@@ -2148,6 +2168,7 @@ extension DirectConnect {
             AWSShapeMember(label: "lagId", required: false, type: .string), 
             AWSShapeMember(label: "loaIssueTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "providerName", required: false, type: .string), 
             AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
@@ -2174,12 +2195,14 @@ extension DirectConnect {
         public let loaIssueTime: TimeStamp?
         /// The location of the connection.
         public let location: String?
+        /// The name of the service provider associated with the interconnect.
+        public let providerName: String?
         /// The AWS Region where the connection is located.
         public let region: String?
-        /// Any tags assigned to the interconnect.
+        /// The tags associated with the interconnect.
         public let tags: [Tag]?
 
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, interconnectId: String? = nil, interconnectName: String? = nil, interconnectState: InterconnectState? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, interconnectId: String? = nil, interconnectName: String? = nil, interconnectState: InterconnectState? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: TimeStamp? = nil, location: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.bandwidth = bandwidth
@@ -2191,6 +2214,7 @@ extension DirectConnect {
             self.lagId = lagId
             self.loaIssueTime = loaIssueTime
             self.location = location
+            self.providerName = providerName
             self.region = region
             self.tags = tags
         }
@@ -2207,6 +2231,7 @@ extension DirectConnect {
             case lagId = "lagId"
             case loaIssueTime = "loaIssueTime"
             case location = "location"
+            case providerName = "providerName"
             case region = "region"
             case tags = "tags"
         }
@@ -2256,6 +2281,7 @@ extension DirectConnect {
             AWSShapeMember(label: "minimumLinks", required: false, type: .integer), 
             AWSShapeMember(label: "numberOfConnections", required: false, type: .integer), 
             AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "providerName", required: false, type: .string), 
             AWSShapeMember(label: "region", required: false, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
@@ -2288,12 +2314,14 @@ extension DirectConnect {
         public let numberOfConnections: Int?
         /// The ID of the AWS account that owns the LAG.
         public let ownerAccount: String?
+        /// The name of the service provider associated with the LAG.
+        public let providerName: String?
         /// The AWS Region where the connection is located.
         public let region: String?
-        /// Any tags assigned to link aggregation group (LAG).
+        /// The tags associated with the LAG.
         public let tags: [Tag]?
 
-        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, minimumLinks: Int? = nil, numberOfConnections: Int? = nil, ownerAccount: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
+        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, minimumLinks: Int? = nil, numberOfConnections: Int? = nil, ownerAccount: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.allowsHostedConnections = allowsHostedConnections
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
@@ -2308,6 +2336,7 @@ extension DirectConnect {
             self.minimumLinks = minimumLinks
             self.numberOfConnections = numberOfConnections
             self.ownerAccount = ownerAccount
+            self.providerName = providerName
             self.region = region
             self.tags = tags
         }
@@ -2327,6 +2356,7 @@ extension DirectConnect {
             case minimumLinks = "minimumLinks"
             case numberOfConnections = "numberOfConnections"
             case ownerAccount = "ownerAccount"
+            case providerName = "providerName"
             case region = "region"
             case tags = "tags"
         }
@@ -2390,6 +2420,7 @@ extension DirectConnect {
     public struct Location: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "availablePortSpeeds", required: false, type: .list), 
+            AWSShapeMember(label: "availableProviders", required: false, type: .list), 
             AWSShapeMember(label: "locationCode", required: false, type: .string), 
             AWSShapeMember(label: "locationName", required: false, type: .string), 
             AWSShapeMember(label: "region", required: false, type: .string)
@@ -2397,6 +2428,8 @@ extension DirectConnect {
 
         /// The available port speeds for the location.
         public let availablePortSpeeds: [String]?
+        /// The name of the service provider for the location.
+        public let availableProviders: [String]?
         /// The code for the location.
         public let locationCode: String?
         /// The name of the location. This includes the name of the colocation partner and the physical site of the building.
@@ -2404,8 +2437,9 @@ extension DirectConnect {
         /// The AWS Region for the location.
         public let region: String?
 
-        public init(availablePortSpeeds: [String]? = nil, locationCode: String? = nil, locationName: String? = nil, region: String? = nil) {
+        public init(availablePortSpeeds: [String]? = nil, availableProviders: [String]? = nil, locationCode: String? = nil, locationName: String? = nil, region: String? = nil) {
             self.availablePortSpeeds = availablePortSpeeds
+            self.availableProviders = availableProviders
             self.locationCode = locationCode
             self.locationName = locationName
             self.region = region
@@ -2413,6 +2447,7 @@ extension DirectConnect {
 
         private enum CodingKeys: String, CodingKey {
             case availablePortSpeeds = "availablePortSpeeds"
+            case availableProviders = "availableProviders"
             case locationCode = "locationCode"
             case locationName = "locationName"
             case region = "region"
@@ -2492,7 +2527,7 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
         public let asn: Int
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
@@ -2502,7 +2537,7 @@ extension DirectConnect {
         public let directConnectGatewayId: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
         public let mtu: Int?
-        /// Any tags assigned to the private virtual interface.
+        /// The tags associated with the private virtual interface.
         public let tags: [Tag]?
         /// The ID of the virtual private gateway.
         public let virtualGatewayId: String?
@@ -2564,7 +2599,7 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
         public let asn: Int
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
@@ -2572,7 +2607,7 @@ extension DirectConnect {
         public let customerAddress: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
         public let mtu: Int?
-        /// Any tags assigned to the private virtual interface to be provisioned on a connection.
+        /// The tags associated with the private virtual interface.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String
@@ -2628,7 +2663,7 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
         public let asn: Int
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
@@ -2636,7 +2671,7 @@ extension DirectConnect {
         public let customerAddress: String?
         /// The routes to be advertised to the AWS network in this Region. Applies to public virtual interfaces.
         public let routeFilterPrefixes: [RouteFilterPrefix]?
-        /// Any tags assigned to the public virtual interface.
+        /// The tags associated with the public virtual interface.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String
@@ -2692,7 +2727,7 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
         public let asn: Int
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
@@ -2700,7 +2735,7 @@ extension DirectConnect {
         public let customerAddress: String?
         /// The routes to be advertised to the AWS network in this Region. Applies to public virtual interfaces.
         public let routeFilterPrefixes: [RouteFilterPrefix]?
-        /// Any tags assigned to the public virtual interface to be provisioned on a connection.
+        /// The tags associated with the public virtual interface.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String
@@ -2757,17 +2792,17 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
         public let asn: Int?
-        /// The authentication key for BGP configuration.
+        /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500. 
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
         public let mtu: Int?
-        /// Any tags assigned to the transit virtual interface.
+        /// The tags associated with the transitive virtual interface.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String?
@@ -2825,15 +2860,15 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
         public let asn: Int?
-        /// The authentication key for BGP configuration.
+        /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500. 
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500. 
         public let mtu: Int?
-        /// Any tags assigned to the transit virtual interface.
+        /// The tags associated with the transitive virtual interface.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network.
         public let virtualInterfaceName: String?
@@ -2950,7 +2985,7 @@ extension DirectConnect {
 
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
-        /// The tags to assign.
+        /// The tags to add.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -3182,7 +3217,7 @@ extension DirectConnect {
         public let amazonAddress: String?
         /// The autonomous system number (ASN) for the Amazon side of the connection.
         public let amazonSideAsn: Int64?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
         public let asn: Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
@@ -3210,7 +3245,7 @@ extension DirectConnect {
         public let region: String?
         /// The routes to be advertised to the AWS network in this Region. Applies to public virtual interfaces.
         public let routeFilterPrefixes: [RouteFilterPrefix]?
-        /// Any tags assigned to the virtual interface.
+        /// The tags associated with the virtual interface.
         public let tags: [Tag]?
         /// The ID of the virtual private gateway. Applies only to private virtual interfaces.
         public let virtualGatewayId: String?

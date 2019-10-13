@@ -2951,7 +2951,8 @@ extension Personalize {
             AWSShapeMember(label: "solutionArn", required: false, type: .string), 
             AWSShapeMember(label: "solutionConfig", required: false, type: .structure), 
             AWSShapeMember(label: "solutionVersionArn", required: false, type: .string), 
-            AWSShapeMember(label: "status", required: false, type: .string)
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "trainingHours", required: false, type: .double)
         ]
 
         /// The date and time (in Unix time) that this version of the solution was created.
@@ -2978,8 +2979,10 @@ extension Personalize {
         public let solutionVersionArn: String?
         /// The status of the solution version. A solution version can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED  
         public let status: String?
+        /// The time used to train the model. 
+        public let trainingHours: Double?
 
-        public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingHours: Double? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
@@ -2992,6 +2995,7 @@ extension Personalize {
             self.solutionConfig = solutionConfig
             self.solutionVersionArn = solutionVersionArn
             self.status = status
+            self.trainingHours = trainingHours
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3007,6 +3011,7 @@ extension Personalize {
             case solutionConfig = "solutionConfig"
             case solutionVersionArn = "solutionVersionArn"
             case status = "status"
+            case trainingHours = "trainingHours"
         }
     }
 

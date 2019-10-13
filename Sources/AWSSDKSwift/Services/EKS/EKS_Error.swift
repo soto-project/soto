@@ -4,9 +4,11 @@ import AWSSDKSwiftCore
 
 /// Error enum for EKS
 public enum EKSErrorType: AWSErrorType {
+    case badRequestException(message: String?)
     case clientException(message: String?)
     case invalidParameterException(message: String?)
     case invalidRequestException(message: String?)
+    case notFoundException(message: String?)
     case resourceInUseException(message: String?)
     case resourceLimitExceededException(message: String?)
     case resourceNotFoundException(message: String?)
@@ -22,12 +24,16 @@ extension EKSErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "BadRequestException":
+            self = .badRequestException(message: message)
         case "ClientException":
             self = .clientException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
         case "ResourceLimitExceededException":
@@ -49,12 +55,16 @@ extension EKSErrorType {
 extension EKSErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
         case .clientException(let message):
             return "ClientException: \(message ?? "")"
         case .invalidParameterException(let message):
             return "InvalidParameterException: \(message ?? "")"
         case .invalidRequestException(let message):
             return "InvalidRequestException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
         case .resourceInUseException(let message):
             return "ResourceInUseException: \(message ?? "")"
         case .resourceLimitExceededException(let message):

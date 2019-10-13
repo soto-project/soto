@@ -223,6 +223,7 @@ extension LexRuntimeService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
             AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
+            AWSShapeMember(label: "checkpointLabelFilter", location: .querystring(locationName: "checkpointLabelFilter"), required: false, type: .string), 
             AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
         ]
 
@@ -230,16 +231,22 @@ extension LexRuntimeService {
         public let botAlias: String
         /// The name of the bot that contains the session data.
         public let botName: String
+        /// A string used to filter the intents returned in the recentIntentSummaryView structure.  When you specify a filter, only intents with their checkpointLabel field set to that string are returned.
+        public let checkpointLabelFilter: String?
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. 
         public let userId: String
 
-        public init(botAlias: String, botName: String, userId: String) {
+        public init(botAlias: String, botName: String, checkpointLabelFilter: String? = nil, userId: String) {
             self.botAlias = botAlias
             self.botName = botName
+            self.checkpointLabelFilter = checkpointLabelFilter
             self.userId = userId
         }
 
         public func validate(name: String) throws {
+            try validate(self.checkpointLabelFilter, name:"checkpointLabelFilter", parent: name, max: 255)
+            try validate(self.checkpointLabelFilter, name:"checkpointLabelFilter", parent: name, min: 1)
+            try validate(self.checkpointLabelFilter, name:"checkpointLabelFilter", parent: name, pattern: "[a-zA-Z0-9-]+")
             try validate(self.userId, name:"userId", parent: name, max: 100)
             try validate(self.userId, name:"userId", parent: name, min: 2)
             try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -248,6 +255,7 @@ extension LexRuntimeService {
         private enum CodingKeys: String, CodingKey {
             case botAlias = "botAlias"
             case botName = "botName"
+            case checkpointLabelFilter = "checkpointLabelFilter"
             case userId = "userId"
         }
     }
@@ -262,7 +270,7 @@ extension LexRuntimeService {
 
         /// Describes the current state of the bot.
         public let dialogAction: DialogAction?
-        /// An array of information about the intents used in the session. The array can contain a maximum of three summaries. If more than three intents are used in the session, the recentIntentSummaryView operation contains information about the last three intents used.
+        /// An array of information about the intents used in the session. The array can contain a maximum of three summaries. If more than three intents are used in the session, the recentIntentSummaryView operation contains information about the last three intents used. If you set the checkpointLabelFilter parameter in the request, the array contains only the intents with the specified label.
         public let recentIntentSummaryView: [IntentSummary]?
         /// Map of key/value pairs representing the session-specific context information. It contains application information passed between Amazon Lex and a client application.
         public let sessionAttributes: [String: String]?
@@ -286,6 +294,7 @@ extension LexRuntimeService {
 
     public struct IntentSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "checkpointLabel", required: false, type: .string), 
             AWSShapeMember(label: "confirmationStatus", required: false, type: .enum), 
             AWSShapeMember(label: "dialogActionType", required: true, type: .enum), 
             AWSShapeMember(label: "fulfillmentState", required: false, type: .enum), 
@@ -294,6 +303,8 @@ extension LexRuntimeService {
             AWSShapeMember(label: "slotToElicit", required: false, type: .string)
         ]
 
+        /// A user-defined label that identifies a particular intent. You can use this label to return to a previous intent.  Use the checkpointLabelFilter parameter of the GetSessionRequest operation to filter the intents returned by the operation to those with only the specified label.
+        public let checkpointLabel: String?
         /// The status of the intent after the user responds to the confirmation prompt. If the user confirms the intent, Amazon Lex sets this field to Confirmed. If the user denies the intent, Amazon Lex sets this value to Denied. The possible values are:    Confirmed - The user has responded "Yes" to the confirmation prompt, confirming that the intent is complete and that it is ready to be fulfilled.    Denied - The user has responded "No" to the confirmation prompt.    None - The user has never been prompted for confirmation; or, the user was prompted but did not confirm or deny the prompt.  
         public let confirmationStatus: ConfirmationStatus?
         /// The next action that the bot should take in its interaction with the user. The possible values are:    ConfirmIntent - The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Close - Indicates that the there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    ElicitIntent - The next action is to determine the intent that the user wants to fulfill.    ElicitSlot - The next action is to elicit a slot value from the user.  
@@ -307,7 +318,8 @@ extension LexRuntimeService {
         /// The next slot to elicit from the user. If there is not slot to elicit, the field is blank.
         public let slotToElicit: String?
 
-        public init(confirmationStatus: ConfirmationStatus? = nil, dialogActionType: DialogActionType, fulfillmentState: FulfillmentState? = nil, intentName: String? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil) {
+        public init(checkpointLabel: String? = nil, confirmationStatus: ConfirmationStatus? = nil, dialogActionType: DialogActionType, fulfillmentState: FulfillmentState? = nil, intentName: String? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil) {
+            self.checkpointLabel = checkpointLabel
             self.confirmationStatus = confirmationStatus
             self.dialogActionType = dialogActionType
             self.fulfillmentState = fulfillmentState
@@ -316,7 +328,14 @@ extension LexRuntimeService {
             self.slotToElicit = slotToElicit
         }
 
+        public func validate(name: String) throws {
+            try validate(self.checkpointLabel, name:"checkpointLabel", parent: name, max: 255)
+            try validate(self.checkpointLabel, name:"checkpointLabel", parent: name, min: 1)
+            try validate(self.checkpointLabel, name:"checkpointLabel", parent: name, pattern: "[a-zA-Z0-9-]+")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case checkpointLabel = "checkpointLabel"
             case confirmationStatus = "confirmationStatus"
             case dialogActionType = "dialogActionType"
             case fulfillmentState = "fulfillmentState"
@@ -566,6 +585,7 @@ extension LexRuntimeService {
             AWSShapeMember(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
             AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
             AWSShapeMember(label: "dialogAction", required: false, type: .structure), 
+            AWSShapeMember(label: "recentIntentSummaryView", required: false, type: .list), 
             AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
             AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string)
         ]
@@ -578,22 +598,30 @@ extension LexRuntimeService {
         public let botName: String
         /// Sets the next action that the bot should take to fulfill the conversation.
         public let dialogAction: DialogAction?
+        /// A summary of the recent intents for the bot. You can use the intent summary view to set a checkpoint label on an intent and modify attributes of intents. You can also use it to remove or add intent summary objects to the list. An intent that you modify or add to the list must make sense for the bot. For example, the intent name must be valid for the bot. You must provide valid values for:    intentName    slot names    slotToElict    If you send the recentIntentSummaryView parameter in a PutSession request, the contents of the new summary view replaces the old summary view. For example, if a GetSession request returns three intents in the summary view and you call PutSession with one intent in the summary view, the next call to GetSession will only return one intent.
+        public let recentIntentSummaryView: [IntentSummary]?
         /// Map of key/value pairs representing the session-specific context information. It contains application information passed between Amazon Lex and a client application.
         public let sessionAttributes: [String: String]?
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. 
         public let userId: String
 
-        public init(accept: String? = nil, botAlias: String, botName: String, dialogAction: DialogAction? = nil, sessionAttributes: [String: String]? = nil, userId: String) {
+        public init(accept: String? = nil, botAlias: String, botName: String, dialogAction: DialogAction? = nil, recentIntentSummaryView: [IntentSummary]? = nil, sessionAttributes: [String: String]? = nil, userId: String) {
             self.accept = accept
             self.botAlias = botAlias
             self.botName = botName
             self.dialogAction = dialogAction
+            self.recentIntentSummaryView = recentIntentSummaryView
             self.sessionAttributes = sessionAttributes
             self.userId = userId
         }
 
         public func validate(name: String) throws {
             try self.dialogAction?.validate(name: "\(name).dialogAction")
+            try self.recentIntentSummaryView?.forEach {
+                try $0.validate(name: "\(name).recentIntentSummaryView[]")
+            }
+            try validate(self.recentIntentSummaryView, name:"recentIntentSummaryView", parent: name, max: 3)
+            try validate(self.recentIntentSummaryView, name:"recentIntentSummaryView", parent: name, min: 0)
             try validate(self.userId, name:"userId", parent: name, max: 100)
             try validate(self.userId, name:"userId", parent: name, min: 2)
             try validate(self.userId, name:"userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -604,6 +632,7 @@ extension LexRuntimeService {
             case botAlias = "botAlias"
             case botName = "botName"
             case dialogAction = "dialogAction"
+            case recentIntentSummaryView = "recentIntentSummaryView"
             case sessionAttributes = "sessionAttributes"
             case userId = "userId"
         }
