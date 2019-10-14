@@ -8,16 +8,16 @@ This library doesn't depend on Objective-C Runtime, So you can use this with Lin
 
 ## Supported Platforms and Swift Versions
 
-| | **Swift 4.2** | **Swift 5.0** |
-|---|:---:|:---:|
-|**macOS**        | ○ | ○ |
-|**Ubuntu 14.04** | ○ | ○ |
-|**Ubuntu 16.04** | ○ | ○ |
-|**Ubuntu 18.04** | ○ |   |
+| | **Swift 4.2** | **Swift 5.0** | **Swift 5.1** |
+|---|:---:|:---:|:---:|
+|**macOS**        | ○ | ○ | ○ |
+|**Ubuntu 14.04** | ○ | ○ | ○ |
+|**Ubuntu 16.04** | ○ | ○ | ○ |
+|**Ubuntu 18.04** | ○ | ○ | ○ |
 
 ## Documentation
 
-Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) for instructions and browsing api references.
+Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/3.x.x/index.html) for instructions and browsing api references.
 
 ## Installation
 
@@ -31,7 +31,7 @@ import PackageDescription
 let package = Package(
     name: "MyAWSApp",
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "3.2.0")
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "3.3.0")
     ],
     targets: [
       .target(
@@ -43,12 +43,6 @@ let package = Package(
     ]
 )
 ```
-
-### Carthage
-Not supported yet
-
-### Cocoapods
-Not supported yet
 
 ## Contributing
 
