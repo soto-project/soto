@@ -6,14 +6,14 @@ This library doesn't depend on Objective-C Runtime, So you can use this with Lin
 [<img src="https://travis-ci.org/swift-aws/aws-sdk-swift.svg?branch=master">](https://travis-ci.org/swift-aws/aws-sdk-swift)
 
 
-## Supported Platforms and Swift Versions
+## Compatibility
 
-| | **Swift 4.2** | **Swift 5.0** |
-|---|:---:|:---:|
-|**macOS**        | ○ | ○ |
-|**Ubuntu 14.04** | ○ | ○ |
-|**Ubuntu 16.04** | ○ | ○ |
-|**Ubuntu 18.04** | ○ |   |
+AWSSDKSwift works on both Linux and Mac. Version 4 is dependent on swift-nio 2, this means certain libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 of AWSSDKSwift. Version 3 can be used if you need to use an earlier version of swift-nio. For instance Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of AWSSDKSwift with Vapor 3. Below is a compatibility table for versions 3 and 4 of AWSSDKSwift.
+
+| Version | Swift   | MacOS | Linux              | Vapor |
+|------|---------|-------|--------------------|-------|
+| 3.x | 4.2 - 5.1 | ✓     | Ubuntu 14.04-18.04 | 3.0    |
+| 4.x | 5.0 - 5.1 | ✓     | Ubuntu 14.04-18.04 | 4.0    |
 
 ## Documentation
 

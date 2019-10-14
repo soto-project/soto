@@ -2,7 +2,7 @@
 
 set -eux
 
-VERSION="4.2"
+VERSION="5.0"
 
 UNAME=$(uname);
 if [ "${UNAME}" = "Darwin" ];
@@ -22,10 +22,8 @@ else
     fi
 fi
 
-if [ "macos" = "${OS}" ];
+if [ "macos" != "${OS}" ];
 then
-    brew install libressl
-else
     dpkg -s libssl-dev | grep Status | grep -q install 2> /dev/null
     if [ $? -ne 0 ];
     then
