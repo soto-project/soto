@@ -90,7 +90,7 @@ extension DataSync {
         public let agentName: String?
         /// The ARNs of the security groups used to protect your data transfer task subnets. See CreateAgentRequest$SubnetArns.
         public let securityGroupArns: [String]?
-        /// The Amazon Resource Names (ARNs) of the subnets in which DataSync will create Elastic Network Interfaces (ENIs) for each data transfer task. The agent that runs a task must be private. When you start a task that is associated with an agent created in a VPC, or one that has access to an IP address in a VPC, then the task is also private. In this case, DataSync creates four ENIs for each task in your subnet. For a data transfer to work, the agent must be able to route to all these four ENIs.
+        /// The Amazon Resource Names (ARNs) of the subnets in which DataSync will create elastic network interfaces for each data transfer task. The agent that runs a task must be private. When you start a task that is associated with an agent created in a VPC, or one that has access to an IP address in a VPC, then the task is also private. In this case, DataSync creates four network interfaces for each task in your subnet. For a data transfer to work, the agent must be able to route to all these four network interfaces.
         public let subnetArns: [String]?
         /// The key-value pair that represents the tag that you want to associate with the agent. The value can be an empty string. This value helps you manage, filter, and search for your agents.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @.  
         public let tags: [TagListEntry]?
@@ -292,6 +292,7 @@ extension DataSync {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "S3BucketArn", required: true, type: .string), 
             AWSShapeMember(label: "S3Config", required: true, type: .structure), 
+            AWSShapeMember(label: "S3StorageClass", required: false, type: .enum), 
             AWSShapeMember(label: "Subdirectory", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
@@ -299,14 +300,17 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
         public let s3BucketArn: String
         public let s3Config: S3Config
+        /// The Amazon S3 storage class that you want to store your files in when this location is used as a task destination. For more information about S3 storage classes, see Amazon S3 Storage Classes in the Amazon Simple Storage Service Developer Guide. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
+        public let s3StorageClass: S3StorageClass?
         /// A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3 is used to read data from the S3 source location or write data to the S3 destination.
         public let subdirectory: String?
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
 
-        public init(s3BucketArn: String, s3Config: S3Config, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+        public init(s3BucketArn: String, s3Config: S3Config, s3StorageClass: S3StorageClass? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.s3BucketArn = s3BucketArn
             self.s3Config = s3Config
+            self.s3StorageClass = s3StorageClass
             self.subdirectory = subdirectory
             self.tags = tags
         }
@@ -327,6 +331,7 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case s3BucketArn = "S3BucketArn"
             case s3Config = "S3Config"
+            case s3StorageClass = "S3StorageClass"
             case subdirectory = "Subdirectory"
             case tags = "Tags"
         }
@@ -363,19 +368,19 @@ extension DataSync {
 
         /// The Amazon Resource Names (ARNs) of agents to use for a Simple Message Block (SMB) location. 
         public let agentArns: [String]
-        /// The name of the domain that the SMB server belongs to.
+        /// The name of the Windows domain that the SMB server belongs to.
         public let domain: String?
-        /// The mount options that are available for DataSync to use to access an SMB location.
+        /// The mount options used by DataSync to access the SMB server.
         public let mountOptions: SmbMountOptions?
-        /// The password of the user who has permission to access the SMB server.
+        /// The password of the user who can mount the share, has the permissions to access files and folders in the SMB share.
         public let password: String
-        /// The name of the SMB server. This value is the IP address or Domain Name Service (DNS) name of the SMB server. An agent that is installed on-premises uses this host name to mount the SMB server in a network.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address. 
+        /// The name of the SMB server. This value is the IP address or Domain Name Service (DNS) name of the SMB server. An agent that is installed on-premises uses this hostname to mount the SMB server in a network.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address. 
         public let serverHostname: String
         /// The subdirectory in the SMB file system that is used to read data from the SMB source location or write data to the SMB destination. The SMB path should be a path that's exported by the SMB server, or a subdirectory of that path. The path should be such that it can be mounted by other SMB clients in your network. To transfer all the data in the folder you specified, DataSync needs to have permissions to mount the SMB share, as well as to access all the data in that share. To ensure this, either ensure that the user/password specified belongs to the user who can mount the share, and who has the appropriate permissions for all of the files and directories that you want DataSync to access, or use credentials of a member of the Backup Operators group to mount the share. Doing either enables the agent to access the data. For the agent to access directories, you must additionally enable all execute access.
         public let subdirectory: String
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
-        /// The user who can mount the share, has the permissions to access files and directories in the SMB share.
+        /// The user who can mount the share, has the permissions to access files and folders in the SMB share.
         public let user: String
 
         public init(agentArns: [String], domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil, user: String) {
@@ -662,6 +667,7 @@ extension DataSync {
         public let lastConnectionTime: TimeStamp?
         /// The name of the agent.
         public let name: String?
+        /// The subnet and the security group that DataSync used to access a VPC endpoint.
         public let privateLinkConfig: PrivateLinkConfig?
         /// The status of the agent. If the status is ONLINE, then the agent is configured properly and is available to use. The Running status is the normal running status for an agent. If the status is OFFLINE, the agent's VM is turned off or the agent is in an unhealthy state. When the issue that caused the unhealthy state is resolved, the agent returns to ONLINE status.
         public let status: AgentStatus?
@@ -825,7 +831,8 @@ extension DataSync {
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "LocationArn", required: false, type: .string), 
             AWSShapeMember(label: "LocationUri", required: false, type: .string), 
-            AWSShapeMember(label: "S3Config", required: false, type: .structure)
+            AWSShapeMember(label: "S3Config", required: false, type: .structure), 
+            AWSShapeMember(label: "S3StorageClass", required: false, type: .enum)
         ]
 
         /// The time that the Amazon S3 bucket location was created.
@@ -835,12 +842,15 @@ extension DataSync {
         /// The URL of the Amazon S3 location that was described.
         public let locationUri: String?
         public let s3Config: S3Config?
+        /// The Amazon S3 storage class that you chose to store your files in when this location is used as a task destination. For more information about S3 storage classes, see Amazon S3 Storage Classes in the Amazon Simple Storage Service Developer Guide. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
+        public let s3StorageClass: S3StorageClass?
 
-        public init(creationTime: TimeStamp? = nil, locationArn: String? = nil, locationUri: String? = nil, s3Config: S3Config? = nil) {
+        public init(creationTime: TimeStamp? = nil, locationArn: String? = nil, locationUri: String? = nil, s3Config: S3Config? = nil, s3StorageClass: S3StorageClass? = nil) {
             self.creationTime = creationTime
             self.locationArn = locationArn
             self.locationUri = locationUri
             self.s3Config = s3Config
+            self.s3StorageClass = s3StorageClass
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -848,6 +858,7 @@ extension DataSync {
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
             case s3Config = "S3Config"
+            case s3StorageClass = "S3StorageClass"
         }
     }
 
@@ -888,7 +899,7 @@ extension DataSync {
         public let agentArns: [String]?
         /// The time that the SMB location was created.
         public let creationTime: TimeStamp?
-        /// The name of the domain that the SMB server belongs to.
+        /// The name of the Windows domain that the SMB server belongs to.
         public let domain: String?
         /// The Amazon resource Name (ARN) of the SMB location that was described.
         public let locationArn: String?
@@ -896,7 +907,7 @@ extension DataSync {
         public let locationUri: String?
         /// The mount options that are available for DataSync to use to access an SMB location.
         public let mountOptions: SmbMountOptions?
-        /// The user who is logged on the SMB server.
+        /// The user who can mount the share, has the permissions to access files and folders in the SMB share.
         public let user: String?
 
         public init(agentArns: [String]? = nil, creationTime: TimeStamp? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, mountOptions: SmbMountOptions? = nil, user: String? = nil) {
@@ -1498,7 +1509,7 @@ extension DataSync {
             AWSShapeMember(label: "Version", required: false, type: .enum)
         ]
 
-        /// The specific NFS version that you want DataSync to use to mount your NFS share. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the NFS server.
+        /// The specific NFS version that you want DataSync to use to mount your NFS share. If the server refuses to use the version specified, the sync will fail. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the NFS server. You can specify the following NFS versions:     NFSv3  - stateless protocol version that allows for asynchronous writes on the server.     NFSv4.0  - stateful, firewall-friendly protocol version that supports delegations and pseudo filesystems.     NFSv4.1  - stateful protocol version that supports sessions, directory delegations, and parallel data processing. Version 4.1 also includes all features available in version 4.0.  
         public let version: NfsVersion?
 
         public init(version: NfsVersion? = nil) {
@@ -1550,9 +1561,11 @@ extension DataSync {
             AWSShapeMember(label: "BytesPerSecond", required: false, type: .long), 
             AWSShapeMember(label: "Gid", required: false, type: .enum), 
             AWSShapeMember(label: "Mtime", required: false, type: .enum), 
+            AWSShapeMember(label: "OverwriteMode", required: false, type: .enum), 
             AWSShapeMember(label: "PosixPermissions", required: false, type: .enum), 
             AWSShapeMember(label: "PreserveDeletedFiles", required: false, type: .enum), 
             AWSShapeMember(label: "PreserveDevices", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskQueueing", required: false, type: .enum), 
             AWSShapeMember(label: "Uid", required: false, type: .enum), 
             AWSShapeMember(label: "VerifyMode", required: false, type: .enum)
         ]
@@ -1565,25 +1578,31 @@ extension DataSync {
         public let gid: Gid?
         /// A value that indicates the last time that a file was modified (that is, a file was written to) before the PREPARING phase.  Default value: PRESERVE.  PRESERVE: Preserve original Mtime (recommended)  NONE: Ignore Mtime.   If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.  
         public let mtime: Mtime?
+        /// A value that determines whether files at the destination should be overwritten or preserved when copying files. If set to NEVER a destination file will not be replaced by a source file, even if the destination file differs from the source file. If you modify files in the destination and you sync the files, you can use this value to protect against overwriting those changes.  Some storage classes have specific behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes in the AWS DataSync User Guide.
+        public let overwriteMode: OverwriteMode?
         /// A value that determines which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file.  Default value: PRESERVE. PRESERVE: Preserve POSIX-style permissions (recommended). NONE: Ignore permissions.   AWS DataSync can preserve extant permissions of a source location. 
         public let posixPermissions: PosixPermissions?
-        /// A value that specifies whether files in the destination that don't exist in the source file system should be preserved.  Default value: PRESERVE. PRESERVE: Ignore such destination files (recommended).  REMOVE: Delete destination files that aren’t present in the source.
+        /// A value that specifies whether files in the destination that don't exist in the source file system should be preserved. This option can affect your storage cost. If your task deletes objects, you might incur minimum storage duration charges for certain storage classes. For detailed information, see using-storage-classes in the AWS DataSync User Guide. Default value: PRESERVE. PRESERVE: Ignore such destination files (recommended).  REMOVE: Delete destination files that aren’t present in the source.
         public let preserveDeletedFiles: PreserveDeletedFiles?
         /// A value that determines whether AWS DataSync should preserve the metadata of block and character devices in the source file system, and recreate the files with that device name and metadata on the destination.  AWS DataSync can't sync the actual contents of such devices, because they are nonterminal and don't return an end-of-file (EOF) marker.  Default value: NONE. NONE: Ignore special devices (recommended).  PRESERVE: Preserve character and block device metadata. This option isn't currently supported for Amazon EFS. 
         public let preserveDevices: PreserveDevices?
+        /// A value that determines whether tasks should be queued before executing the tasks. If set to Enabled, the tasks will queued. The default is Enabled. If you use the same agent to run multiple tasks you can enable the tasks to run in series. For more information see task-queue.
+        public let taskQueueing: TaskQueueing?
         /// The user ID (UID) of the file's owner.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of UID and group ID (GID) (recommended). NONE: Ignore UID and GID. 
         public let uid: Uid?
-        /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred.  Default value: POINT_IN_TIME_CONSISTENT. POINT_IN_TIME_CONSISTENT: Perform verification (recommended).  NONE: Skip verification.
+        /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred.  Default value: POINT_IN_TIME_CONSISTENT. POINT_IN_TIME_CONSISTENT: Perform verification (recommended).  ONLY_FILES_TRANSFERRED: Perform verification on only files that were transferred. NONE: Skip verification.
         public let verifyMode: VerifyMode?
 
-        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, mtime: Mtime? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
+        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, mtime: Mtime? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, taskQueueing: TaskQueueing? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
             self.atime = atime
             self.bytesPerSecond = bytesPerSecond
             self.gid = gid
             self.mtime = mtime
+            self.overwriteMode = overwriteMode
             self.posixPermissions = posixPermissions
             self.preserveDeletedFiles = preserveDeletedFiles
             self.preserveDevices = preserveDevices
+            self.taskQueueing = taskQueueing
             self.uid = uid
             self.verifyMode = verifyMode
         }
@@ -1597,12 +1616,20 @@ extension DataSync {
             case bytesPerSecond = "BytesPerSecond"
             case gid = "Gid"
             case mtime = "Mtime"
+            case overwriteMode = "OverwriteMode"
             case posixPermissions = "PosixPermissions"
             case preserveDeletedFiles = "PreserveDeletedFiles"
             case preserveDevices = "PreserveDevices"
+            case taskQueueing = "TaskQueueing"
             case uid = "Uid"
             case verifyMode = "VerifyMode"
         }
+    }
+
+    public enum OverwriteMode: String, CustomStringConvertible, Codable {
+        case always = "ALWAYS"
+        case never = "NEVER"
+        public var description: String { return self.rawValue }
     }
 
     public enum PhaseStatus: String, CustomStringConvertible, Codable {
@@ -1685,12 +1712,22 @@ extension DataSync {
         }
     }
 
+    public enum S3StorageClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case standardIa = "STANDARD_IA"
+        case onezoneIa = "ONEZONE_IA"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case glacier = "GLACIER"
+        case deepArchive = "DEEP_ARCHIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct SmbMountOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Version", required: false, type: .enum)
         ]
 
-        /// The specific SMB version that you want DataSync to use to mount your SMB share. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the SMB Server server.
+        /// The specific SMB version that you want DataSync to use to mount your SMB share. If you don't specify a version, DataSync defaults to AUTOMATIC. That is, DataSync automatically selects a version based on negotiation with the SMB server.
         public let version: SmbVersion?
 
         public init(version: SmbVersion? = nil) {
@@ -1909,6 +1946,7 @@ extension DataSync {
     }
 
     public enum TaskExecutionStatus: String, CustomStringConvertible, Codable {
+        case queued = "QUEUED"
         case launching = "LAUNCHING"
         case preparing = "PREPARING"
         case transferring = "TRANSFERRING"
@@ -1945,9 +1983,16 @@ extension DataSync {
         }
     }
 
+    public enum TaskQueueing: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TaskStatus: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case creating = "CREATING"
+        case queued = "QUEUED"
         case running = "RUNNING"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
@@ -2103,6 +2148,7 @@ extension DataSync {
 
     public enum VerifyMode: String, CustomStringConvertible, Codable {
         case pointInTimeConsistent = "POINT_IN_TIME_CONSISTENT"
+        case onlyFilesTransferred = "ONLY_FILES_TRANSFERRED"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }

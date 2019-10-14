@@ -62,7 +62,7 @@ public struct SSM {
         return client.send(operation: "CreateDocument", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new maintenance window.
+    ///  Creates a new maintenance window.  The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff. For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM. 
     public func createMaintenanceWindow(_ input: CreateMaintenanceWindowRequest) -> Future<CreateMaintenanceWindowResult> {
         return client.send(operation: "CreateMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }
@@ -557,7 +557,7 @@ public struct SSM {
         return client.send(operation: "StartAutomationExecution", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Initiates a connection to a target (for example, an instance) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs.  AWS CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see  Install the Session Manager Plugin for the AWS CLI in the AWS Systems Manager User Guide. 
+    ///  Initiates a connection to a target (for example, an instance) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs.  AWS CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see  Install the Session Manager Plugin for the AWS CLI in the AWS Systems Manager User Guide. AWS Tools for PowerShell usage: Start-SSMSession is not currently supported by AWS Tools for PowerShell on Windows local machines. 
     public func startSession(_ input: StartSessionRequest) -> Future<StartSessionResponse> {
         return client.send(operation: "StartSession", path: "/", httpMethod: "POST", input: input)
     }
@@ -572,7 +572,7 @@ public struct SSM {
         return client.send(operation: "TerminateSession", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon S3 output.  When you update an association, the association immediately runs against the specified targets. 
+    ///  Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon S3 output.  In order to call this API action, your IAM user account, group, or role must be configured with permission to call the DescribeAssociation API action. If you don't have permission to call DescribeAssociation, then you receive the following error: An error occurred (AccessDeniedException) when calling the UpdateAssociation operation: User: &lt;user_arn&gt; is not authorized to perform: ssm:DescribeAssociation on resource: &lt;resource_arn&gt;   When you update an association, the association immediately runs against the specified targets. 
     public func updateAssociation(_ input: UpdateAssociationRequest) -> Future<UpdateAssociationResult> {
         return client.send(operation: "UpdateAssociation", path: "/", httpMethod: "POST", input: input)
     }
@@ -592,7 +592,7 @@ public struct SSM {
         return client.send(operation: "UpdateDocumentDefaultVersion", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an existing maintenance window. Only specified parameters are modified.
+    ///  Updates an existing maintenance window. Only specified parameters are modified.  The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff. For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM. 
     public func updateMaintenanceWindow(_ input: UpdateMaintenanceWindowRequest) -> Future<UpdateMaintenanceWindowResult> {
         return client.send(operation: "UpdateMaintenanceWindow", path: "/", httpMethod: "POST", input: input)
     }

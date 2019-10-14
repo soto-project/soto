@@ -1974,18 +1974,23 @@ extension APIGateway {
 
     public struct EndpointConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "types", required: false, type: .list)
+            AWSShapeMember(label: "types", required: false, type: .list), 
+            AWSShapeMember(label: "vpcEndpointIds", required: false, type: .list)
         ]
 
         /// A list of endpoint types of an API (RestApi) or its custom domain name (DomainName). For an edge-optimized API and its custom domain name, the endpoint type is "EDGE". For a regional API and its custom domain name, the endpoint type is REGIONAL. For a private API, the endpoint type is PRIVATE.
         public let types: [EndpointType]?
+        /// A list of VpcEndpointIds of an API (RestApi) against which to create Route53 ALIASes. It is only supported for PRIVATE endpoint type.
+        public let vpcEndpointIds: [String]?
 
-        public init(types: [EndpointType]? = nil) {
+        public init(types: [EndpointType]? = nil, vpcEndpointIds: [String]? = nil) {
             self.types = types
+            self.vpcEndpointIds = vpcEndpointIds
         }
 
         private enum CodingKeys: String, CodingKey {
             case types = "types"
+            case vpcEndpointIds = "vpcEndpointIds"
         }
     }
 

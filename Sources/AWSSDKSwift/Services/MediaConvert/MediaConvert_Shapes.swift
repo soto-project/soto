@@ -219,6 +219,7 @@ extension MediaConvert {
     public enum AccelerationMode: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        case preferred = "PREFERRED"
         public var description: String { return self.rawValue }
     }
 
@@ -227,7 +228,7 @@ extension MediaConvert {
             AWSShapeMember(label: "Mode", location: .body(locationName: "mode"), required: true, type: .enum)
         ]
 
-        /// Acceleration configuration for the job.
+        /// Specify the conditions when the service will run your job with accelerated transcoding.
         public let mode: AccelerationMode
 
         public init(mode: AccelerationMode) {
@@ -237,6 +238,14 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case mode = "mode"
         }
+    }
+
+    public enum AccelerationStatus: String, CustomStringConvertible, Codable {
+        case notApplicable = "NOT_APPLICABLE"
+        case inProgress = "IN_PROGRESS"
+        case accelerated = "ACCELERATED"
+        case notAccelerated = "NOT_ACCELERATED"
+        public var description: String { return self.rawValue }
     }
 
     public enum AfdSignaling: String, CustomStringConvertible, Codable {
@@ -255,7 +264,7 @@ extension MediaConvert {
 
         /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
         public let bitDepth: Int?
-        /// Set Channels to specify the number of channels in this output audio track. Choosing Mono in the console will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 1 and 2.
+        /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
         public let channels: Int?
         /// Sample rate in hz.
         public let sampleRate: Int?
@@ -269,7 +278,7 @@ extension MediaConvert {
         public func validate(name: String) throws {
             try validate(self.bitDepth, name:"bitDepth", parent: name, max: 24)
             try validate(self.bitDepth, name:"bitDepth", parent: name, min: 16)
-            try validate(self.channels, name:"channels", parent: name, max: 2)
+            try validate(self.channels, name:"channels", parent: name, max: 64)
             try validate(self.channels, name:"channels", parent: name, min: 1)
             try validate(self.sampleRate, name:"sampleRate", parent: name, max: 192000)
             try validate(self.sampleRate, name:"sampleRate", parent: name, min: 8000)
@@ -282,16 +291,30 @@ extension MediaConvert {
         }
     }
 
+    public enum AncillaryConvert608To708: String, CustomStringConvertible, Codable {
+        case upconvert = "UPCONVERT"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AncillarySourceSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SourceAncillaryChannelNumber", location: .body(locationName: "sourceAncillaryChannelNumber"), required: false, type: .integer)
+            AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708"), required: false, type: .enum), 
+            AWSShapeMember(label: "SourceAncillaryChannelNumber", location: .body(locationName: "sourceAncillaryChannelNumber"), required: false, type: .integer), 
+            AWSShapeMember(label: "TerminateCaptions", location: .body(locationName: "terminateCaptions"), required: false, type: .enum)
         ]
 
+        /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
+        public let convert608To708: AncillaryConvert608To708?
         /// Specifies the 608 channel number in the ancillary data track from which to extract captions. Unused for passthrough.
         public let sourceAncillaryChannelNumber: Int?
+        /// By default, the service terminates any unterminated captions at the end of each input. If you want the caption to continue onto your next input, disable this setting.
+        public let terminateCaptions: AncillaryTerminateCaptions?
 
-        public init(sourceAncillaryChannelNumber: Int? = nil) {
+        public init(convert608To708: AncillaryConvert608To708? = nil, sourceAncillaryChannelNumber: Int? = nil, terminateCaptions: AncillaryTerminateCaptions? = nil) {
+            self.convert608To708 = convert608To708
             self.sourceAncillaryChannelNumber = sourceAncillaryChannelNumber
+            self.terminateCaptions = terminateCaptions
         }
 
         public func validate(name: String) throws {
@@ -300,8 +323,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case convert608To708 = "convert608To708"
             case sourceAncillaryChannelNumber = "sourceAncillaryChannelNumber"
+            case terminateCaptions = "terminateCaptions"
         }
+    }
+
+    public enum AncillaryTerminateCaptions: String, CustomStringConvertible, Codable {
+        case endOfInput = "END_OF_INPUT"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
     }
 
     public enum AntiAlias: String, CustomStringConvertible, Codable {
@@ -620,7 +651,7 @@ extension MediaConvert {
             try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, max: 3)
             try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, min: 3)
             try validate(self.customLanguageCode, name:"customLanguageCode", parent: name, pattern: "^[A-Za-z]{3}$")
-            try validate(self.externalAudioFileInput, name:"externalAudioFileInput", parent: name, pattern: "^(s3:\\/\\/)([^\\/]+\\/)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE])))$")
+            try validate(self.externalAudioFileInput, name:"externalAudioFileInput", parent: name, pattern: "^(http|https|s3)://([^\\/]+\\/)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE])))$")
             try validate(self.offset, name:"offset", parent: name, max: 2147483647)
             try validate(self.offset, name:"offset", parent: name, min: -2147483648)
             try self.pids?.forEach {
@@ -700,7 +731,7 @@ extension MediaConvert {
 
         public func validate(name: String) throws {
             try validate(self.availBlankingImage, name:"availBlankingImage", parent: name, min: 14)
-            try validate(self.availBlankingImage, name:"availBlankingImage", parent: name, pattern: "^(s3:\\/\\/)(.*?)\\.(bmp|BMP|png|PNG)$")
+            try validate(self.availBlankingImage, name:"availBlankingImage", parent: name, pattern: "^(http|https|s3)://(.*?)\\.(bmp|BMP|png|PNG)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -712,6 +743,7 @@ extension MediaConvert {
         case queue = "QUEUE"
         case preset = "PRESET"
         case jobTemplate = "JOB_TEMPLATE"
+        case job = "JOB"
         public var description: String { return self.rawValue }
     }
 
@@ -1000,6 +1032,7 @@ extension MediaConvert {
             AWSShapeMember(label: "DestinationType", location: .body(locationName: "destinationType"), required: false, type: .enum), 
             AWSShapeMember(label: "DvbSubDestinationSettings", location: .body(locationName: "dvbSubDestinationSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "EmbeddedDestinationSettings", location: .body(locationName: "embeddedDestinationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "ImscDestinationSettings", location: .body(locationName: "imscDestinationSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "SccDestinationSettings", location: .body(locationName: "sccDestinationSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "TeletextDestinationSettings", location: .body(locationName: "teletextDestinationSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "TtmlDestinationSettings", location: .body(locationName: "ttmlDestinationSettings"), required: false, type: .structure)
@@ -1007,12 +1040,14 @@ extension MediaConvert {
 
         /// Burn-In Destination Settings.
         public let burninDestinationSettings: BurninDestinationSettings?
-        /// Specify the format for this set of captions on this output. The default format is embedded without SCTE-20. Other options are embedded with SCTE-20, burn-in, DVB-sub, SCC, SRT, teletext, TTML, and web-VTT. If you are using SCTE-20, choose SCTE-20 plus embedded (SCTE20_PLUS_EMBEDDED) to create an output that complies with the SCTE-43 spec. To create a non-compliant output where the embedded captions come first, choose Embedded plus SCTE-20 (EMBEDDED_PLUS_SCTE20).
+        /// Specify the format for this set of captions on this output. The default format is embedded without SCTE-20. Other options are embedded with SCTE-20, burn-in, DVB-sub, IMSC, SCC, SRT, teletext, TTML, and web-VTT. If you are using SCTE-20, choose SCTE-20 plus embedded (SCTE20_PLUS_EMBEDDED) to create an output that complies with the SCTE-43 spec. To create a non-compliant output where the embedded captions come first, choose Embedded plus SCTE-20 (EMBEDDED_PLUS_SCTE20).
         public let destinationType: CaptionDestinationType?
         /// DVB-Sub Destination Settings
         public let dvbSubDestinationSettings: DvbSubDestinationSettings?
         /// Settings specific to embedded/ancillary caption outputs, including 608/708 Channel destination number.
         public let embeddedDestinationSettings: EmbeddedDestinationSettings?
+        /// Settings specific to IMSC caption outputs.
+        public let imscDestinationSettings: ImscDestinationSettings?
         /// Settings for SCC caption output.
         public let sccDestinationSettings: SccDestinationSettings?
         /// Settings for Teletext caption output
@@ -1020,11 +1055,12 @@ extension MediaConvert {
         /// Settings specific to TTML caption outputs, including Pass style information (TtmlStylePassthrough).
         public let ttmlDestinationSettings: TtmlDestinationSettings?
 
-        public init(burninDestinationSettings: BurninDestinationSettings? = nil, destinationType: CaptionDestinationType? = nil, dvbSubDestinationSettings: DvbSubDestinationSettings? = nil, embeddedDestinationSettings: EmbeddedDestinationSettings? = nil, sccDestinationSettings: SccDestinationSettings? = nil, teletextDestinationSettings: TeletextDestinationSettings? = nil, ttmlDestinationSettings: TtmlDestinationSettings? = nil) {
+        public init(burninDestinationSettings: BurninDestinationSettings? = nil, destinationType: CaptionDestinationType? = nil, dvbSubDestinationSettings: DvbSubDestinationSettings? = nil, embeddedDestinationSettings: EmbeddedDestinationSettings? = nil, imscDestinationSettings: ImscDestinationSettings? = nil, sccDestinationSettings: SccDestinationSettings? = nil, teletextDestinationSettings: TeletextDestinationSettings? = nil, ttmlDestinationSettings: TtmlDestinationSettings? = nil) {
             self.burninDestinationSettings = burninDestinationSettings
             self.destinationType = destinationType
             self.dvbSubDestinationSettings = dvbSubDestinationSettings
             self.embeddedDestinationSettings = embeddedDestinationSettings
+            self.imscDestinationSettings = imscDestinationSettings
             self.sccDestinationSettings = sccDestinationSettings
             self.teletextDestinationSettings = teletextDestinationSettings
             self.ttmlDestinationSettings = ttmlDestinationSettings
@@ -1042,6 +1078,7 @@ extension MediaConvert {
             case destinationType = "destinationType"
             case dvbSubDestinationSettings = "dvbSubDestinationSettings"
             case embeddedDestinationSettings = "embeddedDestinationSettings"
+            case imscDestinationSettings = "imscDestinationSettings"
             case sccDestinationSettings = "sccDestinationSettings"
             case teletextDestinationSettings = "teletextDestinationSettings"
             case ttmlDestinationSettings = "ttmlDestinationSettings"
@@ -1053,6 +1090,7 @@ extension MediaConvert {
         case dvbSub = "DVB_SUB"
         case embedded = "EMBEDDED"
         case embeddedPlusScte20 = "EMBEDDED_PLUS_SCTE20"
+        case imsc = "IMSC"
         case scte20PlusEmbedded = "SCTE20_PLUS_EMBEDDED"
         case scc = "SCC"
         case srt = "SRT"
@@ -1074,7 +1112,7 @@ extension MediaConvert {
         public let customLanguageCode: String?
         /// The specific language to extract from source. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in or SMPTE-TT, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
         public let languageCode: LanguageCode?
-        /// Source settings (SourceSettings) contains the group of settings for captions in the input.
+        /// If your input captions are SCC, TTML, STL, SMI, SRT, or IMSC in an xml file, specify the URI of the input captions source file. If your input captions are IMSC in an IMF package, use TrackSourceSettings instead of FileSoureSettings.
         public let sourceSettings: CaptionSourceSettings?
 
         public init(customLanguageCode: String? = nil, languageCode: LanguageCode? = nil, sourceSettings: CaptionSourceSettings? = nil) {
@@ -1114,13 +1152,13 @@ extension MediaConvert {
         public let dvbSubSourceSettings: DvbSubSourceSettings?
         /// Settings for embedded captions Source
         public let embeddedSourceSettings: EmbeddedSourceSettings?
-        /// Settings for File-based Captions in Source
+        /// If your input captions are SCC, SMI, SRT, STL, TTML, or IMSC 1.1 in an xml file, specify the URI of the input caption source file. If your caption source is IMSC in an IMF package, use TrackSourceSettings instead of FileSoureSettings.
         public let fileSourceSettings: FileSourceSettings?
         /// Use Source (SourceType) to identify the format of your input captions.  The service cannot auto-detect caption format.
         public let sourceType: CaptionSourceType?
         /// Settings specific to Teletext caption sources, including Page number.
         public let teletextSourceSettings: TeletextSourceSettings?
-        /// Settings specific to caption sources that are specfied by track number. Sources include IMSC in IMF.
+        /// Settings specific to caption sources that are specified by track number. Currently, this is only IMSC captions in an IMF package. If your caption source is IMSC 1.1 in a separate xml file, use FileSourceSettings instead of TrackSourceSettings.
         public let trackSourceSettings: TrackSourceSettings?
 
         public init(ancillarySourceSettings: AncillarySourceSettings? = nil, dvbSubSourceSettings: DvbSubSourceSettings? = nil, embeddedSourceSettings: EmbeddedSourceSettings? = nil, fileSourceSettings: FileSourceSettings? = nil, sourceType: CaptionSourceType? = nil, teletextSourceSettings: TeletextSourceSettings? = nil, trackSourceSettings: TrackSourceSettings? = nil) {
@@ -1216,11 +1254,11 @@ extension MediaConvert {
 
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public let constantInitializationVector: String?
-        /// For DRM with CMAF, the encryption type is always sample AES.
+        /// Specify the encryption scheme that you want the service to use when encrypting your CMAF segments. Choose AES-CBC subsample (SAMPLE-AES) or AES_CTR (AES-CTR).
         public let encryptionMethod: CmafEncryptionType?
         /// When you use DRM with CMAF outputs, choose whether the service writes the 128-bit encryption initialization vector in the HLS and DASH manifests.
         public let initializationVectorInManifest: CmafInitializationVectorInManifest?
-        /// Use these settings when doing DRM encryption with a SPEKE-compliant key provider, if your output group type is CMAF. If your output group type is HLS, MS Smooth, or DASH, use the SpekeKeyProvider settings instead.
+        /// If your output group type is CMAF, use these settings when doing DRM encryption with a SPEKE-compliant key provider. If your output group type is HLS, DASH, or Microsoft Smooth, use the SpekeKeyProvider settings instead.
         public let spekeKeyProvider: SpekeKeyProviderCmaf?
         /// Use these settings to set up encryption with a static key provider.
         public let staticKeyProvider: StaticKeyProvider?
@@ -1256,6 +1294,7 @@ extension MediaConvert {
 
     public enum CmafEncryptionType: String, CustomStringConvertible, Codable {
         case sampleAes = "SAMPLE_AES"
+        case aesCtr = "AES_CTR"
         public var description: String { return self.rawValue }
     }
 
@@ -1272,6 +1311,7 @@ extension MediaConvert {
             AWSShapeMember(label: "ManifestDurationFormat", location: .body(locationName: "manifestDurationFormat"), required: false, type: .enum), 
             AWSShapeMember(label: "MinBufferTime", location: .body(locationName: "minBufferTime"), required: false, type: .integer), 
             AWSShapeMember(label: "MinFinalSegmentLength", location: .body(locationName: "minFinalSegmentLength"), required: false, type: .double), 
+            AWSShapeMember(label: "MpdProfile", location: .body(locationName: "mpdProfile"), required: false, type: .enum), 
             AWSShapeMember(label: "SegmentControl", location: .body(locationName: "segmentControl"), required: false, type: .enum), 
             AWSShapeMember(label: "SegmentLength", location: .body(locationName: "segmentLength"), required: false, type: .integer), 
             AWSShapeMember(label: "StreamInfResolution", location: .body(locationName: "streamInfResolution"), required: false, type: .enum), 
@@ -1301,6 +1341,8 @@ extension MediaConvert {
         public let minBufferTime: Int?
         /// Keep this setting at the default value of 0, unless you are troubleshooting a problem with how devices play back the end of your video asset. If you know that player devices are hanging on the final segment of your video because the length of your final segment is too short, use this setting to specify a minimum final segment length, in seconds. Choose a value that is greater than or equal to 1 and less than your segment length. When you specify a value for this setting, the encoder will combine any final segment that is shorter than the length that you specify with the previous segment. For example, your segment length is 3 seconds and your final segment is .5 seconds without a minimum final segment length; when you set the minimum final segment length to 1, your final segment is 3.5 seconds.
         public let minFinalSegmentLength: Double?
+        /// Specify whether your DASH profile is on-demand or main. When you choose Main profile (MAIN_PROFILE), the service signals  urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand (ON_DEMAND_PROFILE), the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control (SegmentControl) to Single file (SINGLE_FILE).
+        public let mpdProfile: CmafMpdProfile?
         /// When set to SINGLE_FILE, a single output file is generated, which is internally segmented using the Fragment Length and Segment Length. When set to SEGMENTED_FILES, separate segment files will be created.
         public let segmentControl: CmafSegmentControl?
         /// Use this setting to specify the length, in seconds, of each individual CMAF segment. This value applies to the whole package; that is, to every output in the output group. Note that segments end on the first keyframe after this number of seconds, so the actual segment length might be slightly longer. If you set Segment control (CmafSegmentControl) to single file, the service puts the content of each output in a single file that has metadata that marks these segments. If you set it to segmented files, the service creates multiple files for each output, each with the content of one segment.
@@ -1312,7 +1354,7 @@ extension MediaConvert {
         /// When set to ENABLED, an Apple HLS manifest will be generated for this output.
         public let writeHlsManifest: CmafWriteHLSManifest?
 
-        public init(baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, streamInfResolution: CmafStreamInfResolution? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil) {
+        public init(baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: CmafMpdProfile? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, streamInfResolution: CmafStreamInfResolution? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil) {
             self.baseUrl = baseUrl
             self.clientCache = clientCache
             self.codecSpecification = codecSpecification
@@ -1324,6 +1366,7 @@ extension MediaConvert {
             self.manifestDurationFormat = manifestDurationFormat
             self.minBufferTime = minBufferTime
             self.minFinalSegmentLength = minFinalSegmentLength
+            self.mpdProfile = mpdProfile
             self.segmentControl = segmentControl
             self.segmentLength = segmentLength
             self.streamInfResolution = streamInfResolution
@@ -1355,6 +1398,7 @@ extension MediaConvert {
             case manifestDurationFormat = "manifestDurationFormat"
             case minBufferTime = "minBufferTime"
             case minFinalSegmentLength = "minFinalSegmentLength"
+            case mpdProfile = "mpdProfile"
             case segmentControl = "segmentControl"
             case segmentLength = "segmentLength"
             case streamInfResolution = "streamInfResolution"
@@ -1384,6 +1428,12 @@ extension MediaConvert {
     public enum CmafManifestDurationFormat: String, CustomStringConvertible, Codable {
         case floatingPoint = "FLOATING_POINT"
         case integer = "INTEGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafMpdProfile: String, CustomStringConvertible, Codable {
+        case mainProfile = "MAIN_PROFILE"
+        case onDemandProfile = "ON_DEMAND_PROFILE"
         public var description: String { return self.rawValue }
     }
 
@@ -1573,6 +1623,7 @@ extension MediaConvert {
             AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: true, type: .structure), 
             AWSShapeMember(label: "SimulateReservedQueue", location: .body(locationName: "simulateReservedQueue"), required: false, type: .enum), 
             AWSShapeMember(label: "StatusUpdateInterval", location: .body(locationName: "statusUpdateInterval"), required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "UserMetadata", location: .body(locationName: "userMetadata"), required: false, type: .map)
         ]
 
@@ -1596,10 +1647,12 @@ extension MediaConvert {
         public let simulateReservedQueue: SimulateReservedQueue?
         /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
         public let statusUpdateInterval: StatusUpdateInterval?
+        /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
+        public let tags: [String: String]?
         /// User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
         public let userMetadata: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.billingTagsSource = billingTagsSource
             self.clientRequestToken = clientRequestToken
@@ -1610,6 +1663,7 @@ extension MediaConvert {
             self.settings = settings
             self.simulateReservedQueue = simulateReservedQueue
             self.statusUpdateInterval = statusUpdateInterval
+            self.tags = tags
             self.userMetadata = userMetadata
         }
 
@@ -1630,6 +1684,7 @@ extension MediaConvert {
             case settings = "settings"
             case simulateReservedQueue = "simulateReservedQueue"
             case statusUpdateInterval = "statusUpdateInterval"
+            case tags = "tags"
             case userMetadata = "userMetadata"
         }
     }
@@ -1856,7 +1911,7 @@ extension MediaConvert {
 
         /// This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH H.264 outputs with DRM encryption. Choose Unencrypted SEI (UNENCRYPTED_SEI) only to correct problems with playback on older devices. Otherwise, keep the default setting CENC v1 (CENC_V1). If you choose Unencrypted SEI, for that output, the service will exclude the access unit delimiter and will leave the SEI NAL units unencrypted.
         public let playbackDeviceCompatibility: DashIsoPlaybackDeviceCompatibility?
-        /// Use these settings when doing DRM encryption with a SPEKE-compliant key provider, if your output group type is HLS, MS Smooth, or DASH. If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
+        /// If your output group type is HLS, DASH, or Microsoft Smooth, use these settings when doing DRM encryption with a SPEKE-compliant key provider.  If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
         public let spekeKeyProvider: SpekeKeyProvider?
 
         public init(playbackDeviceCompatibility: DashIsoPlaybackDeviceCompatibility? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
@@ -1883,6 +1938,7 @@ extension MediaConvert {
             AWSShapeMember(label: "FragmentLength", location: .body(locationName: "fragmentLength"), required: false, type: .integer), 
             AWSShapeMember(label: "HbbtvCompliance", location: .body(locationName: "hbbtvCompliance"), required: false, type: .enum), 
             AWSShapeMember(label: "MinBufferTime", location: .body(locationName: "minBufferTime"), required: false, type: .integer), 
+            AWSShapeMember(label: "MpdProfile", location: .body(locationName: "mpdProfile"), required: false, type: .enum), 
             AWSShapeMember(label: "SegmentControl", location: .body(locationName: "segmentControl"), required: false, type: .enum), 
             AWSShapeMember(label: "SegmentLength", location: .body(locationName: "segmentLength"), required: false, type: .integer), 
             AWSShapeMember(label: "WriteSegmentTimelineInRepresentation", location: .body(locationName: "writeSegmentTimelineInRepresentation"), required: false, type: .enum)
@@ -1902,14 +1958,16 @@ extension MediaConvert {
         public let hbbtvCompliance: DashIsoHbbtvCompliance?
         /// Minimum time of initially buffered media that is needed to ensure smooth playout.
         public let minBufferTime: Int?
+        /// Specify whether your DASH profile is on-demand or main. When you choose Main profile (MAIN_PROFILE), the service signals  urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand (ON_DEMAND_PROFILE), the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control (SegmentControl) to Single file (SINGLE_FILE).
+        public let mpdProfile: DashIsoMpdProfile?
         /// When set to SINGLE_FILE, a single output file is generated, which is internally segmented using the Fragment Length and Segment Length. When set to SEGMENTED_FILES, separate segment files will be created.
         public let segmentControl: DashIsoSegmentControl?
         /// Length of mpd segments to create (in seconds). Note that segments will end on the next keyframe after this number of seconds, so actual segment length may be longer. When Emit Single File is checked, the segmentation is internal to a single output file and it does not cause the creation of many output files as in other output types.
         public let segmentLength: Int?
-        /// When you enable Precise segment duration in manifests (writeSegmentTimelineInRepresentation), your DASH manifest shows precise segment durations. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When this feature isn't enabled, the segment durations in your DASH manifest are approximate. The segment duration information appears in the duration attribute of the SegmentTemplate element.
+        /// If you get an HTTP error in the 400 range when you play back your DASH output, enable this setting and run your transcoding job again. When you enable this setting, the service writes precise segment durations in the DASH manifest. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When you don't enable this setting, the service writes approximate segment durations in your DASH manifest.
         public let writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation?
 
-        public init(baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, minBufferTime: Int? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
+        public init(baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, minBufferTime: Int? = nil, mpdProfile: DashIsoMpdProfile? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
             self.baseUrl = baseUrl
             self.destination = destination
             self.destinationSettings = destinationSettings
@@ -1917,6 +1975,7 @@ extension MediaConvert {
             self.fragmentLength = fragmentLength
             self.hbbtvCompliance = hbbtvCompliance
             self.minBufferTime = minBufferTime
+            self.mpdProfile = mpdProfile
             self.segmentControl = segmentControl
             self.segmentLength = segmentLength
             self.writeSegmentTimelineInRepresentation = writeSegmentTimelineInRepresentation
@@ -1942,6 +2001,7 @@ extension MediaConvert {
             case fragmentLength = "fragmentLength"
             case hbbtvCompliance = "hbbtvCompliance"
             case minBufferTime = "minBufferTime"
+            case mpdProfile = "mpdProfile"
             case segmentControl = "segmentControl"
             case segmentLength = "segmentLength"
             case writeSegmentTimelineInRepresentation = "writeSegmentTimelineInRepresentation"
@@ -1951,6 +2011,12 @@ extension MediaConvert {
     public enum DashIsoHbbtvCompliance: String, CustomStringConvertible, Codable {
         case hbbtv15 = "HBBTV_1_5"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashIsoMpdProfile: String, CustomStringConvertible, Codable {
+        case mainProfile = "MAIN_PROFILE"
+        case onDemandProfile = "ON_DEMAND_PROFILE"
         public var description: String { return self.rawValue }
     }
 
@@ -2898,9 +2964,9 @@ extension MediaConvert {
             AWSShapeMember(label: "Destination708ServiceNumber", location: .body(locationName: "destination708ServiceNumber"), required: false, type: .integer)
         ]
 
-        /// Ignore this setting unless your input captions are SCC format and your output captions are embedded in the video stream. Specify a CC number for each captions channel in this output. If you have two channels, pick CC numbers that aren't in the same field. For example, choose 1 and 3. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
+        /// Ignore this setting unless your input captions are SCC format and your output captions are embedded in the video stream. Specify a CC number for each captions channel in this output. If you have two channels, choose CC numbers that aren't in the same field. For example, choose 1 and 3. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
         public let destination608ChannelNumber: Int?
-        /// Ignore this setting unless your input captions are SCC format and you want both 608 and 708 captions embedded in your output stream. Optionally, specify the 708 service number for each output captions channel. Choose a different number for each channel. To use this setting, also set Force 608 to 708 upconvert (Convert608To708) to Upconvert (UPCONVERT) in your input captions selector settings. If you choose to upconvert but don't specify a 708 service number, MediaConvert uses the number you specify for CC channel number (destination608ChannelNumber) for the 708 service number. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
+        /// Ignore this setting unless your input captions are SCC format and you want both 608 and 708 captions embedded in your output stream. Optionally, specify the 708 service number for each output captions channel. Choose a different number for each channel. To use this setting, also set Force 608 to 708 upconvert (Convert608To708) to Upconvert (UPCONVERT) in your input captions selector settings. If you choose to upconvert but don't specify a 708 service number, MediaConvert uses the number that you specify for CC channel number (destination608ChannelNumber) for the 708 service number. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
         public let destination708ServiceNumber: Int?
 
         public init(destination608ChannelNumber: Int? = nil, destination708ServiceNumber: Int? = nil) {
@@ -2925,20 +2991,24 @@ extension MediaConvert {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Convert608To708", location: .body(locationName: "convert608To708"), required: false, type: .enum), 
             AWSShapeMember(label: "Source608ChannelNumber", location: .body(locationName: "source608ChannelNumber"), required: false, type: .integer), 
-            AWSShapeMember(label: "Source608TrackNumber", location: .body(locationName: "source608TrackNumber"), required: false, type: .integer)
+            AWSShapeMember(label: "Source608TrackNumber", location: .body(locationName: "source608TrackNumber"), required: false, type: .integer), 
+            AWSShapeMember(label: "TerminateCaptions", location: .body(locationName: "terminateCaptions"), required: false, type: .enum)
         ]
 
-        /// When set to UPCONVERT, 608 data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
+        /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: EmbeddedConvert608To708?
         /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
         public let source608ChannelNumber: Int?
         /// Specifies the video track index used for extracting captions. The system only supports one input video track, so this should always be set to '1'.
         public let source608TrackNumber: Int?
+        /// By default, the service terminates any unterminated captions at the end of each input. If you want the caption to continue onto your next input, disable this setting.
+        public let terminateCaptions: EmbeddedTerminateCaptions?
 
-        public init(convert608To708: EmbeddedConvert608To708? = nil, source608ChannelNumber: Int? = nil, source608TrackNumber: Int? = nil) {
+        public init(convert608To708: EmbeddedConvert608To708? = nil, source608ChannelNumber: Int? = nil, source608TrackNumber: Int? = nil, terminateCaptions: EmbeddedTerminateCaptions? = nil) {
             self.convert608To708 = convert608To708
             self.source608ChannelNumber = source608ChannelNumber
             self.source608TrackNumber = source608TrackNumber
+            self.terminateCaptions = terminateCaptions
         }
 
         public func validate(name: String) throws {
@@ -2952,7 +3022,14 @@ extension MediaConvert {
             case convert608To708 = "convert608To708"
             case source608ChannelNumber = "source608ChannelNumber"
             case source608TrackNumber = "source608TrackNumber"
+            case terminateCaptions = "terminateCaptions"
         }
+    }
+
+    public enum EmbeddedTerminateCaptions: String, CustomStringConvertible, Codable {
+        case endOfInput = "END_OF_INPUT"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
     }
 
     public struct Endpoint: AWSShape {
@@ -3111,9 +3188,9 @@ extension MediaConvert {
             AWSShapeMember(label: "TimeDelta", location: .body(locationName: "timeDelta"), required: false, type: .integer)
         ]
 
-        /// If set to UPCONVERT, 608 caption data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
+        /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: FileSourceConvert608To708?
-        /// External caption file used for loading captions. Accepted file extensions are 'scc', 'ttml', 'dfxp', 'stl', 'srt', and 'smi'.
+        /// External caption file used for loading captions. Accepted file extensions are 'scc', 'ttml', 'dfxp', 'stl', 'srt', 'xml', and 'smi'.
         public let sourceFile: String?
         /// Specifies a time delta in seconds to offset the captions from the source file.
         public let timeDelta: Int?
@@ -3126,7 +3203,7 @@ extension MediaConvert {
 
         public func validate(name: String) throws {
             try validate(self.sourceFile, name:"sourceFile", parent: name, min: 14)
-            try validate(self.sourceFile, name:"sourceFile", parent: name, pattern: "^(s3:\\/\\/)(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|smi|SMI)$")
+            try validate(self.sourceFile, name:"sourceFile", parent: name, pattern: "^(http|https|s3)://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI)$")
             try validate(self.timeDelta, name:"timeDelta", parent: name, max: 2147483647)
             try validate(self.timeDelta, name:"timeDelta", parent: name, min: -2147483648)
         }
@@ -4035,7 +4112,7 @@ extension MediaConvert {
         public let tiles: H265Tiles?
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public let unregisteredSeiTimecode: H265UnregisteredSeiTimecode?
-        /// Use this setting only for outputs encoded with H.265 that are in CMAF or DASH output groups. If you include writeMp4PackagingType in your JSON job specification for other outputs, your video might not work properly with downstream systems and video players. If the location of parameter set NAL units don't matter in your workflow, ignore this setting. The service defaults to marking your output as HEV1. Choose HVC1 to mark your output as HVC1. This makes your output compliant with this specification: ISO IECJTC1 SC29 N13798 Text ISO/IEC FDIS 14496-15 3rd Edition. For these outputs, the service stores parameter set NAL units in the sample headers but not in the samples directly. Keep the default HEV1 to mark your output as HEV1. For these outputs, the service writes parameter set NAL units directly into the samples.
+        /// If the location of parameter set NAL units doesn't matter in your workflow, ignore this setting. Use this setting in your CMAF, DASH, or file MP4 output. For file MP4 outputs, choosing HVC1 can create video that doesn't work properly with some downstream systems and video players. Choose HVC1 to mark your output as HVC1. This makes your output compliant with the following specification: ISO IECJTC1 SC29 N13798 Text ISO/IEC FDIS 14496-15 3rd Edition. For these outputs, the service stores parameter set NAL units in the sample headers but not in the samples directly. The service defaults to marking your output as HEV1. For these outputs, the service writes parameter set NAL units directly into the samples.
         public let writeMp4PackagingType: H265WriteMp4PackagingType?
 
         public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, dynamicSubGop: H265DynamicSubGop? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
@@ -4405,7 +4482,7 @@ extension MediaConvert {
         public let initializationVectorInManifest: HlsInitializationVectorInManifest?
         /// Enable this setting to insert the EXT-X-SESSION-KEY element into the master playlist. This allows for offline Apple HLS FairPlay content protection.
         public let offlineEncrypted: HlsOfflineEncrypted?
-        /// Use these settings when doing DRM encryption with a SPEKE-compliant key provider, if your output group type is HLS, MS Smooth, or DASH. If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
+        /// If your output group type is HLS, DASH, or Microsoft Smooth, use these settings when doing DRM encryption with a SPEKE-compliant key provider.  If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
         public let spekeKeyProvider: SpekeKeyProvider?
         /// Use these settings to set up encryption with a static key provider.
         public let staticKeyProvider: StaticKeyProvider?
@@ -4759,6 +4836,29 @@ extension MediaConvert {
         }
     }
 
+    public struct ImscDestinationSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StylePassthrough", location: .body(locationName: "stylePassthrough"), required: false, type: .enum)
+        ]
+
+        /// Keep this setting enabled to have MediaConvert use the font style and position information from the captions source in the output. This option is available only when your input captions are CFF-TT, IMSC, SMPTE-TT, or TTML. Disable this setting for simplified output captions.
+        public let stylePassthrough: ImscStylePassthrough?
+
+        public init(stylePassthrough: ImscStylePassthrough? = nil) {
+            self.stylePassthrough = stylePassthrough
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stylePassthrough = "stylePassthrough"
+        }
+    }
+
+    public enum ImscStylePassthrough: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Input: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AudioSelectorGroups", location: .body(locationName: "audioSelectorGroups"), required: false, type: .map), 
@@ -4778,6 +4878,7 @@ extension MediaConvert {
             AWSShapeMember(label: "PsiControl", location: .body(locationName: "psiControl"), required: false, type: .enum), 
             AWSShapeMember(label: "SupplementalImps", location: .body(locationName: "supplementalImps"), required: false, type: .list), 
             AWSShapeMember(label: "TimecodeSource", location: .body(locationName: "timecodeSource"), required: false, type: .enum), 
+            AWSShapeMember(label: "TimecodeStart", location: .body(locationName: "timecodeStart"), required: false, type: .string), 
             AWSShapeMember(label: "VideoSelector", location: .body(locationName: "videoSelector"), required: false, type: .structure)
         ]
 
@@ -4813,12 +4914,14 @@ extension MediaConvert {
         public let psiControl: InputPsiControl?
         /// Provide a list of any necessary supplemental IMPs. You need supplemental IMPs if the CPL that you're using for your input is in an incomplete IMP. Specify either the supplemental IMP directories with a trailing slash or the ASSETMAP.xml files. For example ["s3://bucket/ov/", "s3://bucket/vf2/ASSETMAP.xml"]. You don't need to specify the IMP that contains your input CPL, because the service automatically detects it.
         public let supplementalImps: [String]?
-        /// Timecode source under input settings (InputTimecodeSource) only affects the behavior of features that apply to a single input at a time, such as input clipping and synchronizing some captions formats. Use this setting to specify whether the service counts frames by timecodes embedded in the video (EMBEDDED) or by starting the first frame at zero (ZEROBASED). In both cases, the timecode format is HH:MM:SS:FF or HH:MM:SS;FF, where FF is the frame number. Only set this to EMBEDDED if your source video has embedded timecodes.
+        /// Use this Timecode source setting, located under the input settings (InputTimecodeSource), to specify how the service counts input video frames. This input frame count affects only the behavior of features that apply to a single input at a time, such as input clipping and synchronizing some captions formats. Choose Embedded (EMBEDDED) to use the timecodes in your input video. Choose Start at zero (ZEROBASED) to start the first frame at zero. Choose Specified start (SPECIFIEDSTART) to start the first frame at the timecode that you specify in the setting Start timecode (timecodeStart). If you don't specify a value for Timecode source, the service will use Embedded by default. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
         public let timecodeSource: InputTimecodeSource?
+        /// Specify the timecode that you want the service to use for this input's initial frame. To use this setting, you must set the Timecode source setting, located under the input settings (InputTimecodeSource), to Specified start (SPECIFIEDSTART). For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
+        public let timecodeStart: String?
         /// Selector for video.
         public let videoSelector: VideoSelector?
 
-        public init(audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, timecodeSource: InputTimecodeSource? = nil, videoSelector: VideoSelector? = nil) {
+        public init(audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoSelector: VideoSelector? = nil) {
             self.audioSelectorGroups = audioSelectorGroups
             self.audioSelectors = audioSelectors
             self.captionSelectors = captionSelectors
@@ -4836,6 +4939,7 @@ extension MediaConvert {
             self.psiControl = psiControl
             self.supplementalImps = supplementalImps
             self.timecodeSource = timecodeSource
+            self.timecodeStart = timecodeStart
             self.videoSelector = videoSelector
         }
 
@@ -4864,6 +4968,9 @@ extension MediaConvert {
             try self.supplementalImps?.forEach {
                 try validate($0, name: "supplementalImps[]", parent: name, pattern: "^s3:\\/\\/.*\\/(ASSETMAP.xml)?$")
             }
+            try validate(self.timecodeStart, name:"timecodeStart", parent: name, max: 11)
+            try validate(self.timecodeStart, name:"timecodeStart", parent: name, min: 11)
+            try validate(self.timecodeStart, name:"timecodeStart", parent: name, pattern: "^((([0-1]\\d)|(2[0-3]))(:[0-5]\\d){2}([:;][0-5]\\d))$")
             try self.videoSelector?.validate(name: "\(name).videoSelector")
         }
 
@@ -4885,6 +4992,7 @@ extension MediaConvert {
             case psiControl = "psiControl"
             case supplementalImps = "supplementalImps"
             case timecodeSource = "timecodeSource"
+            case timecodeStart = "timecodeStart"
             case videoSelector = "videoSelector"
         }
     }
@@ -5010,6 +5118,7 @@ extension MediaConvert {
             AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber"), required: false, type: .integer), 
             AWSShapeMember(label: "PsiControl", location: .body(locationName: "psiControl"), required: false, type: .enum), 
             AWSShapeMember(label: "TimecodeSource", location: .body(locationName: "timecodeSource"), required: false, type: .enum), 
+            AWSShapeMember(label: "TimecodeStart", location: .body(locationName: "timecodeStart"), required: false, type: .string), 
             AWSShapeMember(label: "VideoSelector", location: .body(locationName: "videoSelector"), required: false, type: .structure)
         ]
 
@@ -5039,12 +5148,14 @@ extension MediaConvert {
         public let programNumber: Int?
         /// Set PSI control (InputPsiControl) for transport stream inputs to specify which data the demux process to scans. * Ignore PSI - Scan all PIDs for audio and video. * Use PSI - Scan only PSI data.
         public let psiControl: InputPsiControl?
-        /// Timecode source under input settings (InputTimecodeSource) only affects the behavior of features that apply to a single input at a time, such as input clipping and synchronizing some captions formats. Use this setting to specify whether the service counts frames by timecodes embedded in the video (EMBEDDED) or by starting the first frame at zero (ZEROBASED). In both cases, the timecode format is HH:MM:SS:FF or HH:MM:SS;FF, where FF is the frame number. Only set this to EMBEDDED if your source video has embedded timecodes.
+        /// Use this Timecode source setting, located under the input settings (InputTimecodeSource), to specify how the service counts input video frames. This input frame count affects only the behavior of features that apply to a single input at a time, such as input clipping and synchronizing some captions formats. Choose Embedded (EMBEDDED) to use the timecodes in your input video. Choose Start at zero (ZEROBASED) to start the first frame at zero. Choose Specified start (SPECIFIEDSTART) to start the first frame at the timecode that you specify in the setting Start timecode (timecodeStart). If you don't specify a value for Timecode source, the service will use Embedded by default. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
         public let timecodeSource: InputTimecodeSource?
+        /// Specify the timecode that you want the service to use for this input's initial frame. To use this setting, you must set the Timecode source setting, located under the input settings (InputTimecodeSource), to Specified start (SPECIFIEDSTART). For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
+        public let timecodeStart: String?
         /// Selector for video.
         public let videoSelector: VideoSelector?
 
-        public init(audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, timecodeSource: InputTimecodeSource? = nil, videoSelector: VideoSelector? = nil) {
+        public init(audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoSelector: VideoSelector? = nil) {
             self.audioSelectorGroups = audioSelectorGroups
             self.audioSelectors = audioSelectors
             self.captionSelectors = captionSelectors
@@ -5059,6 +5170,7 @@ extension MediaConvert {
             self.programNumber = programNumber
             self.psiControl = psiControl
             self.timecodeSource = timecodeSource
+            self.timecodeStart = timecodeStart
             self.videoSelector = videoSelector
         }
 
@@ -5082,6 +5194,9 @@ extension MediaConvert {
             try self.position?.validate(name: "\(name).position")
             try validate(self.programNumber, name:"programNumber", parent: name, max: 2147483647)
             try validate(self.programNumber, name:"programNumber", parent: name, min: 1)
+            try validate(self.timecodeStart, name:"timecodeStart", parent: name, max: 11)
+            try validate(self.timecodeStart, name:"timecodeStart", parent: name, min: 11)
+            try validate(self.timecodeStart, name:"timecodeStart", parent: name, pattern: "^((([0-1]\\d)|(2[0-3]))(:[0-5]\\d){2}([:;][0-5]\\d))$")
             try self.videoSelector?.validate(name: "\(name).videoSelector")
         }
 
@@ -5100,6 +5215,7 @@ extension MediaConvert {
             case programNumber = "programNumber"
             case psiControl = "psiControl"
             case timecodeSource = "timecodeSource"
+            case timecodeStart = "timecodeStart"
             case videoSelector = "videoSelector"
         }
     }
@@ -5134,7 +5250,7 @@ extension MediaConvert {
         public let fadeOut: Int?
         /// Specify the height of the inserted image in pixels. If you specify a value that's larger than the video resolution height, the service will crop your overlaid image to fit. To use the native height of the image, keep this setting blank.
         public let height: Int?
-        /// Specify the Amazon S3 location of the image that you want to overlay on the video. Use a PNG or TGA file.
+        /// Specify the HTTP, HTTPS, or Amazon S3 location of the image that you want to overlay on the video. Use a PNG or TGA file.
         public let imageInserterInput: String?
         /// Specify the distance, in pixels, between the inserted image and the left edge of the video frame. Required for any image overlay that you specify.
         public let imageX: Int?
@@ -5173,7 +5289,7 @@ extension MediaConvert {
             try validate(self.height, name:"height", parent: name, max: 2147483647)
             try validate(self.height, name:"height", parent: name, min: 0)
             try validate(self.imageInserterInput, name:"imageInserterInput", parent: name, min: 14)
-            try validate(self.imageInserterInput, name:"imageInserterInput", parent: name, pattern: "^(s3:\\/\\/)(.*?)\\.(bmp|BMP|png|PNG|tga|TGA)$")
+            try validate(self.imageInserterInput, name:"imageInserterInput", parent: name, pattern: "^(http|https|s3)://(.*?)\\.(bmp|BMP|png|PNG|tga|TGA)$")
             try validate(self.imageX, name:"imageX", parent: name, max: 2147483647)
             try validate(self.imageX, name:"imageX", parent: name, min: 0)
             try validate(self.imageY, name:"imageY", parent: name, max: 2147483647)
@@ -5205,6 +5321,7 @@ extension MediaConvert {
     public struct Job: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccelerationSettings", location: .body(locationName: "accelerationSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "AccelerationStatus", location: .body(locationName: "accelerationStatus"), required: false, type: .enum), 
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "BillingTagsSource", location: .body(locationName: "billingTagsSource"), required: false, type: .enum), 
             AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: false, type: .timestamp), 
@@ -5214,6 +5331,7 @@ extension MediaConvert {
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "JobPercentComplete", location: .body(locationName: "jobPercentComplete"), required: false, type: .integer), 
             AWSShapeMember(label: "JobTemplate", location: .body(locationName: "jobTemplate"), required: false, type: .string), 
+            AWSShapeMember(label: "Messages", location: .body(locationName: "messages"), required: false, type: .structure), 
             AWSShapeMember(label: "OutputGroupDetails", location: .body(locationName: "outputGroupDetails"), required: false, type: .list), 
             AWSShapeMember(label: "Priority", location: .body(locationName: "priority"), required: false, type: .integer), 
             AWSShapeMember(label: "Queue", location: .body(locationName: "queue"), required: false, type: .string), 
@@ -5229,6 +5347,8 @@ extension MediaConvert {
 
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content.
         public let accelerationSettings: AccelerationSettings?
+        /// Describes whether the current job is running with accelerated transcoding. For jobs that have Acceleration (AccelerationMode) set to DISABLED, AccelerationStatus is always NOT_APPLICABLE. For jobs that have Acceleration (AccelerationMode) set to ENABLED or PREFERRED, AccelerationStatus is one of the other states. AccelerationStatus is IN_PROGRESS initially, while the service determines whether the input files and job settings are compatible with accelerated transcoding. If they are, AcclerationStatus is ACCELERATED. If your input files and job settings aren't compatible with accelerated transcoding, the service either fails your job or runs it without accelerated transcoding, depending on how you set Acceleration (AccelerationMode). When the service runs your job without accelerated transcoding, AccelerationStatus is NOT_ACCELERATED.
+        public let accelerationStatus: AccelerationStatus?
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
         /// Optional. Choose a tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up. Any transcoding outputs that don't have an associated tag will appear in your billing report unsorted. If you don't choose a valid value for this field, your job outputs will appear on the billing report unsorted.
@@ -5247,6 +5367,8 @@ extension MediaConvert {
         public let jobPercentComplete: Int?
         /// The job template that the job is created from, if it is created from a job template.
         public let jobTemplate: String?
+        /// Provides messages from the service about jobs that you have already successfully submitted.
+        public let messages: JobMessages?
         /// List of output group details
         public let outputGroupDetails: [OutputGroupDetail]?
         /// Relative priority on the job.
@@ -5270,8 +5392,9 @@ extension MediaConvert {
         /// User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
         public let userMetadata: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, createdAt: TimeStamp? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, id: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, retryCount: Int? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, createdAt: TimeStamp? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, id: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, retryCount: Int? = nil, role: String, settings: JobSettings, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
+            self.accelerationStatus = accelerationStatus
             self.arn = arn
             self.billingTagsSource = billingTagsSource
             self.createdAt = createdAt
@@ -5281,6 +5404,7 @@ extension MediaConvert {
             self.id = id
             self.jobPercentComplete = jobPercentComplete
             self.jobTemplate = jobTemplate
+            self.messages = messages
             self.outputGroupDetails = outputGroupDetails
             self.priority = priority
             self.queue = queue
@@ -5296,6 +5420,7 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case accelerationSettings = "accelerationSettings"
+            case accelerationStatus = "accelerationStatus"
             case arn = "arn"
             case billingTagsSource = "billingTagsSource"
             case createdAt = "createdAt"
@@ -5305,6 +5430,7 @@ extension MediaConvert {
             case id = "id"
             case jobPercentComplete = "jobPercentComplete"
             case jobTemplate = "jobTemplate"
+            case messages = "messages"
             case outputGroupDetails = "outputGroupDetails"
             case priority = "priority"
             case queue = "queue"
@@ -5316,6 +5442,28 @@ extension MediaConvert {
             case statusUpdateInterval = "statusUpdateInterval"
             case timing = "timing"
             case userMetadata = "userMetadata"
+        }
+    }
+
+    public struct JobMessages: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Info", location: .body(locationName: "info"), required: false, type: .list), 
+            AWSShapeMember(label: "Warning", location: .body(locationName: "warning"), required: false, type: .list)
+        ]
+
+        /// List of messages that are informational only and don't indicate a problem with your job.
+        public let info: [String]?
+        /// List of messages that warn about conditions that might cause your job not to run or to fail.
+        public let warning: [String]?
+
+        public init(info: [String]? = nil, warning: [String]? = nil) {
+            self.info = info
+            self.warning = warning
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case info = "info"
+            case warning = "warning"
         }
     }
 
@@ -6552,7 +6700,7 @@ extension MediaConvert {
             try self.framerate?.validate(name: "\(name).framerate")
             try validate(self.input, name:"input", parent: name, max: 1285)
             try validate(self.input, name:"input", parent: name, min: 14)
-            try validate(self.input, name:"input", parent: name, pattern: "^(s3:\\/\\/)(.*)(\\.mov|[0-9]+\\.png)$")
+            try validate(self.input, name:"input", parent: name, pattern: "^(http|https|s3)://(.*)(\\.mov|[0-9]+\\.png)$")
             try self.offset?.validate(name: "\(name).offset")
             try validate(self.startTime, name:"startTime", parent: name, max: 11)
             try validate(self.startTime, name:"startTime", parent: name, min: 11)
@@ -7119,7 +7267,7 @@ extension MediaConvert {
             AWSShapeMember(label: "SpekeKeyProvider", location: .body(locationName: "spekeKeyProvider"), required: false, type: .structure)
         ]
 
-        /// Use these settings when doing DRM encryption with a SPEKE-compliant key provider, if your output group type is HLS, MS Smooth, or DASH. If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
+        /// If your output group type is HLS, DASH, or Microsoft Smooth, use these settings when doing DRM encryption with a SPEKE-compliant key provider.  If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
         public let spekeKeyProvider: SpekeKeyProvider?
 
         public init(spekeKeyProvider: SpekeKeyProvider? = nil) {
@@ -7337,7 +7485,7 @@ extension MediaConvert {
         public let aggressiveMode: Int?
         /// The speed of the filter (higher number is faster). Low setting reduces bit rate at the cost of transcode time, high setting improves transcode time at the cost of bit rate.
         public let speed: Int?
-        /// Relative strength of noise reducing filter. Higher values produce stronger filtering. Recommended Range: * [0 .. 2] for complexity reduction with minimal sharpness loss * [2 .. 8] for complexity reduction with image preservation * [8 .. 16] for noise reduction. Reduce noise combined high complexity reduction
+        /// Specify the strength of the noise reducing filter on this output. Higher values produce stronger filtering. We recommend the following value ranges, depending on the result that you want: * 0-2 for complexity reduction with minimal sharpness loss * 2-8 for complexity reduction with image preservation * 8-16 for a high level of complexity reduction
         public let strength: Int?
 
         public init(aggressiveMode: Int? = nil, speed: Int? = nil, strength: Int? = nil) {
@@ -7987,7 +8135,7 @@ extension MediaConvert {
         public let channelMapping: ChannelMapping?
         /// Specify the number of audio channels from your input that you want to use in your output. With remixing, you might combine or split the data in these channels, so the number of channels in your final output might be different.
         public let channelsIn: Int?
-        /// Specify the number of channels in this output after remixing. Valid values: 1, 2, 4, 6, 8
+        /// Specify the number of channels in this output after remixing. Valid values: 1, 2, 4, 6, 8... 64. (1 and even numbers to 64.)
         public let channelsOut: Int?
 
         public init(channelMapping: ChannelMapping? = nil, channelsIn: Int? = nil, channelsOut: Int? = nil) {
@@ -7998,9 +8146,9 @@ extension MediaConvert {
 
         public func validate(name: String) throws {
             try self.channelMapping?.validate(name: "\(name).channelMapping")
-            try validate(self.channelsIn, name:"channelsIn", parent: name, max: 16)
+            try validate(self.channelsIn, name:"channelsIn", parent: name, max: 64)
             try validate(self.channelsIn, name:"channelsIn", parent: name, min: 1)
-            try validate(self.channelsOut, name:"channelsOut", parent: name, max: 8)
+            try validate(self.channelsOut, name:"channelsOut", parent: name, max: 64)
             try validate(self.channelsOut, name:"channelsOut", parent: name, min: 1)
         }
 
@@ -8989,7 +9137,7 @@ extension MediaConvert {
             try self.crop?.validate(name: "\(name).crop")
             try validate(self.fixedAfd, name:"fixedAfd", parent: name, max: 15)
             try validate(self.fixedAfd, name:"fixedAfd", parent: name, min: 0)
-            try validate(self.height, name:"height", parent: name, max: 2160)
+            try validate(self.height, name:"height", parent: name, max: 4096)
             try validate(self.height, name:"height", parent: name, min: 32)
             try self.position?.validate(name: "\(name).position")
             try validate(self.sharpness, name:"sharpness", parent: name, max: 100)
@@ -9156,7 +9304,7 @@ extension MediaConvert {
 
         /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
         public let bitDepth: Int?
-        /// Set Channels to specify the number of channels in this output audio track. With WAV, valid values 1, 2, 4, and 8. In the console, these values are Mono, Stereo, 4-Channel, and 8-Channel, respectively.
+        /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
         public let channels: Int?
         /// The service defaults to using RIFF for WAV outputs. If your output audio is likely to exceed 4 GB in file size, or if you otherwise need the extended support of the RF64 format, set your output WAV file format to RF64.
         public let format: WavFormat?
@@ -9173,7 +9321,7 @@ extension MediaConvert {
         public func validate(name: String) throws {
             try validate(self.bitDepth, name:"bitDepth", parent: name, max: 24)
             try validate(self.bitDepth, name:"bitDepth", parent: name, min: 16)
-            try validate(self.channels, name:"channels", parent: name, max: 8)
+            try validate(self.channels, name:"channels", parent: name, max: 64)
             try validate(self.channels, name:"channels", parent: name, min: 1)
             try validate(self.sampleRate, name:"sampleRate", parent: name, max: 192000)
             try validate(self.sampleRate, name:"sampleRate", parent: name, min: 8000)

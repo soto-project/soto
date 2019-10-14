@@ -32,17 +32,17 @@ public struct Lightsail {
         return client.send(operation: "AllocateStaticIp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via resource tags applied to the resource identified by diskName. For more information, see the Lightsail Dev Guide.
+    ///  Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the Lightsail Dev Guide.
     public func attachDisk(_ input: AttachDiskRequest) -> Future<AttachDiskResult> {
         return client.send(operation: "AttachDisk", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches one or more Lightsail instances to a load balancer. After some time, the instances are attached to the load balancer and the health check status is available. The attach instances to load balancer operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    ///  Attaches one or more Lightsail instances to a load balancer. After some time, the instances are attached to the load balancer and the health check status is available. The attach instances to load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
     public func attachInstancesToLoadBalancer(_ input: AttachInstancesToLoadBalancerRequest) -> Future<AttachInstancesToLoadBalancerResult> {
         return client.send(operation: "AttachInstancesToLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificate operation with the non-attached certificate, and it will replace the existing one and become the attached certificate. The attach load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    ///  Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the attach load balancer tls certificate operation with the non-attached certificate, and it will replace the existing one and become the attached certificate. The attach load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
     public func attachLoadBalancerTlsCertificate(_ input: AttachLoadBalancerTlsCertificateRequest) -> Future<AttachLoadBalancerTlsCertificateResult> {
         return client.send(operation: "AttachLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
     }
@@ -52,12 +52,12 @@ public struct Lightsail {
         return client.send(operation: "AttachStaticIp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Closes the public ports on a specific Amazon Lightsail instance. The close instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    ///  Closes the public ports on a specific Amazon Lightsail instance. The close instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
     public func closeInstancePublicPorts(_ input: CloseInstancePublicPortsRequest) -> Future<CloseInstancePublicPortsResult> {
         return client.send(operation: "CloseInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Copies an instance or disk snapshot from one AWS Region to another in Amazon Lightsail.
+    ///  Copies a manual instance or disk snapshot as another manual snapshot, or copies an automatic instance or disk snapshot as a manual snapshot. This operation can also be used to copy a manual or automatic snapshot of an instance or a disk from one AWS Region to another in Amazon Lightsail. When copying a manual snapshot, be sure to define the source region, source snapshot name, and target snapshot name parameters. When copying an automatic snapshot, be sure to define the source region, source resource name, target snapshot name, and either the restore date or the use latest restorable auto snapshot parameters.  Database snapshots cannot be copied at this time. 
     public func copySnapshot(_ input: CopySnapshotRequest) -> Future<CopySnapshotResult> {
         return client.send(operation: "CopySnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -67,12 +67,12 @@ public struct Lightsail {
         return client.send(operation: "CreateCloudFormationStack", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a block storage disk that can be attached to a Lightsail instance in the same Availability Zone (e.g., us-east-2a). The disk is created in the regional endpoint that you send the HTTP request to. For more information, see Regions and Availability Zones in Lightsail. The create disk operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
+    ///  Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
     public func createDisk(_ input: CreateDiskRequest) -> Future<CreateDiskResult> {
         return client.send(operation: "CreateDisk", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a block storage disk from a disk snapshot that can be attached to a Lightsail instance in the same Availability Zone (e.g., us-east-2a). The disk is created in the regional endpoint that you send the HTTP request to. For more information, see Regions and Availability Zones in Lightsail. The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by diskSnapshotName. For more information, see the Lightsail Dev Guide.
+    ///  Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the Lightsail Dev Guide.
     public func createDiskFromSnapshot(_ input: CreateDiskFromSnapshotRequest) -> Future<CreateDiskFromSnapshotResult> {
         return client.send(operation: "CreateDiskFromSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -87,7 +87,7 @@ public struct Lightsail {
         return client.send(operation: "CreateDomain", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates one of the following entry records associated with the domain: Address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
+    ///  Creates one of the following entry records associated with the domain: Address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the Lightsail Dev Guide.
     public func createDomainEntry(_ input: CreateDomainEntryRequest) -> Future<CreateDomainEntryResult> {
         return client.send(operation: "CreateDomainEntry", path: "/", httpMethod: "POST", input: input)
     }
@@ -97,12 +97,12 @@ public struct Lightsail {
         return client.send(operation: "CreateInstanceSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates one or more Amazon Lightsail virtual private servers, or instances. Create instances using active blueprints. Inactive blueprints are listed to support customers with existing instances but are not necessarily available for launch of new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases. Use the get blueprints operation to return a list of available blueprints. The create instances operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
+    ///  Creates one or more Amazon Lightsail instances. The create instances operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
     public func createInstances(_ input: CreateInstancesRequest) -> Future<CreateInstancesResult> {
         return client.send(operation: "CreateInstances", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Uses a specific snapshot as a blueprint for creating one or more new instances that are based on that identical configuration. The create instances from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by instanceSnapshotName. For more information, see the Lightsail Dev Guide.
+    ///  Creates one or more new instances from a manual or automatic snapshot of an instance. The create instances from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by instance snapshot name. For more information, see the Lightsail Dev Guide.
     public func createInstancesFromSnapshot(_ input: CreateInstancesFromSnapshotRequest) -> Future<CreateInstancesFromSnapshotResult> {
         return client.send(operation: "CreateInstancesFromSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -117,7 +117,7 @@ public struct Lightsail {
         return client.send(operation: "CreateLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Lightsail load balancer TLS certificate. TLS is just an updated, more secure version of Secure Socket Layer (SSL). The create load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    ///  Creates a Lightsail load balancer TLS certificate. TLS is just an updated, more secure version of Secure Socket Layer (SSL). The create load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
     public func createLoadBalancerTlsCertificate(_ input: CreateLoadBalancerTlsCertificateRequest) -> Future<CreateLoadBalancerTlsCertificateResult> {
         return client.send(operation: "CreateLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
     }
@@ -137,37 +137,42 @@ public struct Lightsail {
         return client.send(operation: "CreateRelationalDatabaseSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance).  The disk may remain in the deleting state for several minutes.  The delete disk operation supports tag-based access control via resource tags applied to the resource identified by diskName. For more information, see the Lightsail Dev Guide.
+    ///  Deletes an automatic snapshot for an instance or disk.
+    public func deleteAutoSnapshot(_ input: DeleteAutoSnapshotRequest) -> Future<DeleteAutoSnapshotResult> {
+        return client.send(operation: "DeleteAutoSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance).  The disk may remain in the deleting state for several minutes.  The delete disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the Lightsail Dev Guide.
     public func deleteDisk(_ input: DeleteDiskRequest) -> Future<DeleteDiskResult> {
         return client.send(operation: "DeleteDisk", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the disk. The delete disk snapshot operation supports tag-based access control via resource tags applied to the resource identified by diskSnapshotName. For more information, see the Lightsail Dev Guide.
+    ///  Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the disk. The delete disk snapshot operation supports tag-based access control via resource tags applied to the resource identified by disk snapshot name. For more information, see the Lightsail Dev Guide.
     public func deleteDiskSnapshot(_ input: DeleteDiskSnapshotRequest) -> Future<DeleteDiskSnapshotResult> {
         return client.send(operation: "DeleteDiskSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified domain recordset and all of its domain records. The delete domain operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
+    ///  Deletes the specified domain recordset and all of its domain records. The delete domain operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the Lightsail Dev Guide.
     public func deleteDomain(_ input: DeleteDomainRequest) -> Future<DeleteDomainResult> {
         return client.send(operation: "DeleteDomain", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a specific domain entry. The delete domain entry operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
+    ///  Deletes a specific domain entry. The delete domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the Lightsail Dev Guide.
     public func deleteDomainEntry(_ input: DeleteDomainEntryRequest) -> Future<DeleteDomainEntryResult> {
         return client.send(operation: "DeleteDomainEntry", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a specific Amazon Lightsail virtual private server, or instance. The delete instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    ///  Deletes an Amazon Lightsail instance. The delete instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
     public func deleteInstance(_ input: DeleteInstanceRequest) -> Future<DeleteInstanceResult> {
         return client.send(operation: "DeleteInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a specific snapshot of a virtual private server (or instance). The delete instance snapshot operation supports tag-based access control via resource tags applied to the resource identified by instanceSnapshotName. For more information, see the Lightsail Dev Guide.
+    ///  Deletes a specific snapshot of a virtual private server (or instance). The delete instance snapshot operation supports tag-based access control via resource tags applied to the resource identified by instance snapshot name. For more information, see the Lightsail Dev Guide.
     public func deleteInstanceSnapshot(_ input: DeleteInstanceSnapshotRequest) -> Future<DeleteInstanceSnapshotResult> {
         return client.send(operation: "DeleteInstanceSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a specific SSH key pair. The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by keyPairName. For more information, see the Lightsail Dev Guide.
+    ///  Deletes a specific SSH key pair. The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by key pair name. For more information, see the Lightsail Dev Guide.
     public func deleteKeyPair(_ input: DeleteKeyPairRequest) -> Future<DeleteKeyPairResult> {
         return client.send(operation: "DeleteKeyPair", path: "/", httpMethod: "POST", input: input)
     }
@@ -177,12 +182,12 @@ public struct Lightsail {
         return client.send(operation: "DeleteKnownHostKeys", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    ///  Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
     public func deleteLoadBalancer(_ input: DeleteLoadBalancerRequest) -> Future<DeleteLoadBalancerResult> {
         return client.send(operation: "DeleteLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The delete load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    ///  Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The delete load balancer tls certificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
     public func deleteLoadBalancerTlsCertificate(_ input: DeleteLoadBalancerTlsCertificateRequest) -> Future<DeleteLoadBalancerTlsCertificateResult> {
         return client.send(operation: "DeleteLoadBalancerTlsCertificate", path: "/", httpMethod: "POST", input: input)
     }
@@ -197,12 +202,12 @@ public struct Lightsail {
         return client.send(operation: "DeleteRelationalDatabaseSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount any file systems on the device within your operating system before stopping the instance and detaching the disk. The detach disk operation supports tag-based access control via resource tags applied to the resource identified by diskName. For more information, see the Lightsail Dev Guide.
+    ///  Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount any file systems on the device within your operating system before stopping the instance and detaching the disk. The detach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the Lightsail Dev Guide.
     public func detachDisk(_ input: DetachDiskRequest) -> Future<DetachDiskResult> {
         return client.send(operation: "DetachDisk", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer. The detach instances from load balancer operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    ///  Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer. The detach instances from load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
     public func detachInstancesFromLoadBalancer(_ input: DetachInstancesFromLoadBalancerRequest) -> Future<DetachInstancesFromLoadBalancerResult> {
         return client.send(operation: "DetachInstancesFromLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
@@ -212,12 +217,22 @@ public struct Lightsail {
         return client.send(operation: "DetachStaticIp", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Disables an add-on for an Amazon Lightsail resource. For more information, see the Lightsail Dev Guide.
+    public func disableAddOn(_ input: DisableAddOnRequest) -> Future<DisableAddOnResult> {
+        return client.send(operation: "DisableAddOn", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Downloads the default SSH key pair from the user's account.
     public func downloadDefaultKeyPair(_ input: DownloadDefaultKeyPairRequest) -> Future<DownloadDefaultKeyPairResult> {
         return client.send(operation: "DownloadDefaultKeyPair", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic Compute Cloud (Amazon EC2). This operation results in an export snapshot record that can be used with the create cloud formation stack operation to create new Amazon EC2 instances. Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs), and the instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volume. Exported disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot.  The export snapshot operation supports tag-based access control via resource tags applied to the resource identified by sourceSnapshotName. For more information, see the Lightsail Dev Guide.  Use the get instance snapshots or get disk snapshots operations to get a list of snapshots that you can export to Amazon EC2. 
+    ///  Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see the Lightsail Dev Guide.
+    public func enableAddOn(_ input: EnableAddOnRequest) -> Future<EnableAddOnResult> {
+        return client.send(operation: "EnableAddOn", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic Compute Cloud (Amazon EC2). This operation results in an export snapshot record that can be used with the create cloud formation stack operation to create new Amazon EC2 instances. Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs), and the instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volume. Exported disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot.  The export snapshot operation supports tag-based access control via resource tags applied to the resource identified by source snapshot name. For more information, see the Lightsail Dev Guide.  Use the get instance snapshots or get disk snapshots operations to get a list of snapshots that you can export to Amazon EC2. 
     public func exportSnapshot(_ input: ExportSnapshotRequest) -> Future<ExportSnapshotResult> {
         return client.send(operation: "ExportSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -227,7 +242,12 @@ public struct Lightsail {
         return client.send(operation: "GetActiveNames", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the list of available instance images, or blueprints. You can use a blueprint to create a new virtual private server already running a specific operating system, as well as a preinstalled app or development stack. The software each instance is running depends on the blueprint image you choose.
+    ///  Returns the available automatic snapshots for the specified resource name. For more information, see the Lightsail Dev Guide.
+    public func getAutoSnapshots(_ input: GetAutoSnapshotsRequest) -> Future<GetAutoSnapshotsResult> {
+        return client.send(operation: "GetAutoSnapshots", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the list of available instance images, or blueprints. You can use a blueprint to create a new instance already running a specific operating system, as well as a preinstalled app or development stack. The software each instance is running depends on the blueprint image you choose.  Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases. 
     public func getBlueprints(_ input: GetBlueprintsRequest) -> Future<GetBlueprintsResult> {
         return client.send(operation: "GetBlueprints", path: "/", httpMethod: "POST", input: input)
     }
@@ -282,7 +302,7 @@ public struct Lightsail {
         return client.send(operation: "GetInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns temporary SSH keys you can use to connect to a specific virtual private server, or instance. The get instance access details operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    ///  Returns temporary SSH keys you can use to connect to a specific virtual private server, or instance. The get instance access details operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
     public func getInstanceAccessDetails(_ input: GetInstanceAccessDetailsRequest) -> Future<GetInstanceAccessDetailsResult> {
         return client.send(operation: "GetInstanceAccessDetails", path: "/", httpMethod: "POST", input: input)
     }
@@ -397,7 +417,7 @@ public struct Lightsail {
         return client.send(operation: "GetRelationalDatabaseLogStreams", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the current, previous, or pending versions of the master user password for a Lightsail database. The asdf operation GetRelationalDatabaseMasterUserPassword supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName.
+    ///  Returns the current, previous, or pending versions of the master user password for a Lightsail database. The GetRelationalDatabaseMasterUserPassword operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName.
     public func getRelationalDatabaseMasterUserPassword(_ input: GetRelationalDatabaseMasterUserPasswordRequest) -> Future<GetRelationalDatabaseMasterUserPasswordResult> {
         return client.send(operation: "GetRelationalDatabaseMasterUserPassword", path: "/", httpMethod: "POST", input: input)
     }
@@ -447,7 +467,7 @@ public struct Lightsail {
         return client.send(operation: "IsVpcPeered", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds public ports to an Amazon Lightsail instance. The open instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    ///  Adds public ports to an Amazon Lightsail instance. The open instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
     public func openInstancePublicPorts(_ input: OpenInstancePublicPortsRequest) -> Future<OpenInstancePublicPortsResult> {
         return client.send(operation: "OpenInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
     }
@@ -457,12 +477,12 @@ public struct Lightsail {
         return client.send(operation: "PeerVpc", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets the specified open ports for an Amazon Lightsail instance, and closes all ports for every protocol not included in the current request. The put instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    ///  Sets the specified open ports for an Amazon Lightsail instance, and closes all ports for every protocol not included in the current request. The put instance public ports operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
     public func putInstancePublicPorts(_ input: PutInstancePublicPortsRequest) -> Future<PutInstancePublicPortsResult> {
         return client.send(operation: "PutInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Restarts a specific instance. The reboot instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    ///  Restarts a specific instance. The reboot instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
     public func rebootInstance(_ input: RebootInstanceRequest) -> Future<RebootInstanceResult> {
         return client.send(operation: "RebootInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -477,7 +497,7 @@ public struct Lightsail {
         return client.send(operation: "ReleaseStaticIp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation.  When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Lightsail Dev Guide.  The start instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    ///  Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation.  When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Lightsail Dev Guide.  The start instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
     public func startInstance(_ input: StartInstanceRequest) -> Future<StartInstanceResult> {
         return client.send(operation: "StartInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -487,7 +507,7 @@ public struct Lightsail {
         return client.send(operation: "StartRelationalDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Stops a specific Amazon Lightsail instance that is currently running.  When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Lightsail Dev Guide.  The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the Lightsail Dev Guide.
+    ///  Stops a specific Amazon Lightsail instance that is currently running.  When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the Lightsail Dev Guide.  The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the Lightsail Dev Guide.
     public func stopInstance(_ input: StopInstanceRequest) -> Future<StopInstanceResult> {
         return client.send(operation: "StopInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -497,7 +517,7 @@ public struct Lightsail {
         return client.send(operation: "StopRelationalDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see the Lightsail Dev Guide. The tag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resourceName. For more information, see the Lightsail Dev Guide.
+    ///  Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see the Lightsail Dev Guide. The tag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the Lightsail Dev Guide.
     public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResult> {
         return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -507,17 +527,17 @@ public struct Lightsail {
         return client.send(operation: "UnpeerVpc", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified set of tag keys and their values from the specified Amazon Lightsail resource. The untag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resourceName. For more information, see the Lightsail Dev Guide.
+    ///  Deletes the specified set of tag keys and their values from the specified Amazon Lightsail resource. The untag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the Lightsail Dev Guide.
     public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResult> {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a domain recordset after it is created. The update domain entry operation supports tag-based access control via resource tags applied to the resource identified by domainName. For more information, see the Lightsail Dev Guide.
+    ///  Updates a domain recordset after it is created. The update domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the Lightsail Dev Guide.
     public func updateDomainEntry(_ input: UpdateDomainEntryRequest) -> Future<UpdateDomainEntryResult> {
         return client.send(operation: "UpdateDomainEntry", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified attribute for a load balancer. You can only update one attribute at a time. The update load balancer attribute operation supports tag-based access control via resource tags applied to the resource identified by loadBalancerName. For more information, see the Lightsail Dev Guide.
+    ///  Updates the specified attribute for a load balancer. You can only update one attribute at a time. The update load balancer attribute operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the Lightsail Dev Guide.
     public func updateLoadBalancerAttribute(_ input: UpdateLoadBalancerAttributeRequest) -> Future<UpdateLoadBalancerAttributeResult> {
         return client.send(operation: "UpdateLoadBalancerAttribute", path: "/", httpMethod: "POST", input: input)
     }

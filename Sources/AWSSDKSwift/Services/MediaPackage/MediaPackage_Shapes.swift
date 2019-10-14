@@ -204,6 +204,86 @@ extension MediaPackage {
         }
     }
 
+    public struct CreateHarvestJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "OriginEndpointId", location: .body(locationName: "originEndpointId"), required: true, type: .string), 
+            AWSShapeMember(label: "S3Destination", location: .body(locationName: "s3Destination"), required: true, type: .structure), 
+            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"), required: true, type: .string)
+        ]
+
+        public let endTime: String
+        public let id: String
+        public let originEndpointId: String
+        public let s3Destination: S3Destination
+        public let startTime: String
+
+        public init(endTime: String, id: String, originEndpointId: String, s3Destination: S3Destination, startTime: String) {
+            self.endTime = endTime
+            self.id = id
+            self.originEndpointId = originEndpointId
+            self.s3Destination = s3Destination
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case id = "id"
+            case originEndpointId = "originEndpointId"
+            case s3Destination = "s3Destination"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct CreateHarvestJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "OriginEndpointId", location: .body(locationName: "originEndpointId"), required: false, type: .string), 
+            AWSShapeMember(label: "S3Destination", location: .body(locationName: "s3Destination"), required: false, type: .structure), 
+            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"), required: false, type: .string), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
+        ]
+
+        public let arn: String?
+        public let channelId: String?
+        public let createdAt: String?
+        public let endTime: String?
+        public let id: String?
+        public let originEndpointId: String?
+        public let s3Destination: S3Destination?
+        public let startTime: String?
+        public let status: Status?
+
+        public init(arn: String? = nil, channelId: String? = nil, createdAt: String? = nil, endTime: String? = nil, id: String? = nil, originEndpointId: String? = nil, s3Destination: S3Destination? = nil, startTime: String? = nil, status: Status? = nil) {
+            self.arn = arn
+            self.channelId = channelId
+            self.createdAt = createdAt
+            self.endTime = endTime
+            self.id = id
+            self.originEndpointId = originEndpointId
+            self.s3Destination = s3Destination
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelId = "channelId"
+            case createdAt = "createdAt"
+            case endTime = "endTime"
+            case id = "id"
+            case originEndpointId = "originEndpointId"
+            case s3Destination = "s3Destination"
+            case startTime = "startTime"
+            case status = "status"
+        }
+    }
+
     public struct CreateOriginEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: true, type: .string), 
@@ -214,6 +294,7 @@ extension MediaPackage {
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: true, type: .string), 
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Origination", location: .body(locationName: "origination"), required: false, type: .enum), 
             AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
@@ -228,12 +309,13 @@ extension MediaPackage {
         public let id: String
         public let manifestName: String?
         public let mssPackage: MssPackage?
+        public let origination: Origination?
         public let startoverWindowSeconds: Int?
         public let tags: [String: String]?
         public let timeDelaySeconds: Int?
         public let whitelist: [String]?
 
-        public init(channelId: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, whitelist: [String]? = nil) {
+        public init(channelId: String, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, whitelist: [String]? = nil) {
             self.channelId = channelId
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
@@ -242,6 +324,7 @@ extension MediaPackage {
             self.id = id
             self.manifestName = manifestName
             self.mssPackage = mssPackage
+            self.origination = origination
             self.startoverWindowSeconds = startoverWindowSeconds
             self.tags = tags
             self.timeDelaySeconds = timeDelaySeconds
@@ -257,6 +340,7 @@ extension MediaPackage {
             case id = "id"
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
+            case origination = "origination"
             case startoverWindowSeconds = "startoverWindowSeconds"
             case tags = "tags"
             case timeDelaySeconds = "timeDelaySeconds"
@@ -275,6 +359,7 @@ extension MediaPackage {
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Origination", location: .body(locationName: "origination"), required: false, type: .enum), 
             AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
@@ -291,13 +376,14 @@ extension MediaPackage {
         public let id: String?
         public let manifestName: String?
         public let mssPackage: MssPackage?
+        public let origination: Origination?
         public let startoverWindowSeconds: Int?
         public let tags: [String: String]?
         public let timeDelaySeconds: Int?
         public let url: String?
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.channelId = channelId
             self.cmafPackage = cmafPackage
@@ -307,6 +393,7 @@ extension MediaPackage {
             self.id = id
             self.manifestName = manifestName
             self.mssPackage = mssPackage
+            self.origination = origination
             self.startoverWindowSeconds = startoverWindowSeconds
             self.tags = tags
             self.timeDelaySeconds = timeDelaySeconds
@@ -324,6 +411,7 @@ extension MediaPackage {
             case id = "id"
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
+            case origination = "origination"
             case startoverWindowSeconds = "startoverWindowSeconds"
             case tags = "tags"
             case timeDelaySeconds = "timeDelaySeconds"
@@ -526,6 +614,70 @@ extension MediaPackage {
         }
     }
 
+    public struct DescribeHarvestJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
+        ]
+
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct DescribeHarvestJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "OriginEndpointId", location: .body(locationName: "originEndpointId"), required: false, type: .string), 
+            AWSShapeMember(label: "S3Destination", location: .body(locationName: "s3Destination"), required: false, type: .structure), 
+            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"), required: false, type: .string), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
+        ]
+
+        public let arn: String?
+        public let channelId: String?
+        public let createdAt: String?
+        public let endTime: String?
+        public let id: String?
+        public let originEndpointId: String?
+        public let s3Destination: S3Destination?
+        public let startTime: String?
+        public let status: Status?
+
+        public init(arn: String? = nil, channelId: String? = nil, createdAt: String? = nil, endTime: String? = nil, id: String? = nil, originEndpointId: String? = nil, s3Destination: S3Destination? = nil, startTime: String? = nil, status: Status? = nil) {
+            self.arn = arn
+            self.channelId = channelId
+            self.createdAt = createdAt
+            self.endTime = endTime
+            self.id = id
+            self.originEndpointId = originEndpointId
+            self.s3Destination = s3Destination
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelId = "channelId"
+            case createdAt = "createdAt"
+            case endTime = "endTime"
+            case id = "id"
+            case originEndpointId = "originEndpointId"
+            case s3Destination = "s3Destination"
+            case startTime = "startTime"
+            case status = "status"
+        }
+    }
+
     public struct DescribeOriginEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string)
@@ -553,6 +705,7 @@ extension MediaPackage {
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Origination", location: .body(locationName: "origination"), required: false, type: .enum), 
             AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
@@ -569,13 +722,14 @@ extension MediaPackage {
         public let id: String?
         public let manifestName: String?
         public let mssPackage: MssPackage?
+        public let origination: Origination?
         public let startoverWindowSeconds: Int?
         public let tags: [String: String]?
         public let timeDelaySeconds: Int?
         public let url: String?
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.channelId = channelId
             self.cmafPackage = cmafPackage
@@ -585,6 +739,7 @@ extension MediaPackage {
             self.id = id
             self.manifestName = manifestName
             self.mssPackage = mssPackage
+            self.origination = origination
             self.startoverWindowSeconds = startoverWindowSeconds
             self.tags = tags
             self.timeDelaySeconds = timeDelaySeconds
@@ -602,6 +757,7 @@ extension MediaPackage {
             case id = "id"
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
+            case origination = "origination"
             case startoverWindowSeconds = "startoverWindowSeconds"
             case tags = "tags"
             case timeDelaySeconds = "timeDelaySeconds"
@@ -614,6 +770,66 @@ extension MediaPackage {
         case aes128 = "AES_128"
         case sampleAes = "SAMPLE_AES"
         public var description: String { return self.rawValue }
+    }
+
+    public struct HarvestJob: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", location: .body(locationName: "createdAt"), required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "OriginEndpointId", location: .body(locationName: "originEndpointId"), required: false, type: .string), 
+            AWSShapeMember(label: "S3Destination", location: .body(locationName: "s3Destination"), required: false, type: .structure), 
+            AWSShapeMember(label: "StartTime", location: .body(locationName: "startTime"), required: false, type: .string), 
+            AWSShapeMember(label: "Status", location: .body(locationName: "status"), required: false, type: .enum)
+        ]
+
+        /// The Amazon Resource Name (ARN) assigned to the HarvestJob.
+        public let arn: String?
+        /// The ID of the Channel that the HarvestJob will harvest from.
+        public let channelId: String?
+        /// The time the HarvestJob was submitted
+        public let createdAt: String?
+        /// The end of the time-window which will be harvested.
+        public let endTime: String?
+        /// The ID of the HarvestJob. The ID must be unique within the region
+        /// and it cannot be changed after the HarvestJob is submitted.
+        public let id: String?
+        /// The ID of the OriginEndpoint that the HarvestJob will harvest from.
+        /// This cannot be changed after the HarvestJob is submitted.
+        public let originEndpointId: String?
+        public let s3Destination: S3Destination?
+        /// The start of the time-window which will be harvested.
+        public let startTime: String?
+        /// The current status of the HarvestJob. Consider setting up a CloudWatch Event to listen for
+        /// HarvestJobs as they succeed or fail. In the event of failure, the CloudWatch Event will
+        /// include an explanation of why the HarvestJob failed.
+        public let status: Status?
+
+        public init(arn: String? = nil, channelId: String? = nil, createdAt: String? = nil, endTime: String? = nil, id: String? = nil, originEndpointId: String? = nil, s3Destination: S3Destination? = nil, startTime: String? = nil, status: Status? = nil) {
+            self.arn = arn
+            self.channelId = channelId
+            self.createdAt = createdAt
+            self.endTime = endTime
+            self.id = id
+            self.originEndpointId = originEndpointId
+            self.s3Destination = s3Destination
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelId = "channelId"
+            case createdAt = "createdAt"
+            case endTime = "endTime"
+            case id = "id"
+            case originEndpointId = "originEndpointId"
+            case s3Destination = "s3Destination"
+            case startTime = "startTime"
+            case status = "status"
+        }
     }
 
     public struct HlsEncryption: AWSShape {
@@ -963,6 +1179,59 @@ extension MediaPackage {
         }
     }
 
+    public struct ListHarvestJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IncludeChannelId", location: .querystring(locationName: "includeChannelId"), required: false, type: .string), 
+            AWSShapeMember(label: "IncludeStatus", location: .querystring(locationName: "includeStatus"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        public let includeChannelId: String?
+        public let includeStatus: String?
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(includeChannelId: String? = nil, includeStatus: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.includeChannelId = includeChannelId
+            self.includeStatus = includeStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeChannelId = "includeChannelId"
+            case includeStatus = "includeStatus"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListHarvestJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HarvestJobs", location: .body(locationName: "harvestJobs"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        public let harvestJobs: [HarvestJob]?
+        public let nextToken: String?
+
+        public init(harvestJobs: [HarvestJob]? = nil, nextToken: String? = nil) {
+            self.harvestJobs = harvestJobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case harvestJobs = "harvestJobs"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListOriginEndpointsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelId", location: .querystring(locationName: "channelId"), required: false, type: .string), 
@@ -1107,6 +1376,7 @@ extension MediaPackage {
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Origination", location: .body(locationName: "origination"), required: false, type: .enum), 
             AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
@@ -1128,6 +1398,10 @@ extension MediaPackage {
         /// A short string appended to the end of the OriginEndpoint URL.
         public let manifestName: String?
         public let mssPackage: MssPackage?
+        /// Control whether origination of video is allowed for this OriginEndpoint. If set to ALLOW, the OriginEndpoint
+        /// may by requested, pursuant to any other form of access control. If set to DENY, the OriginEndpoint may not be
+        /// requested. This can be helpful for Live to VOD harvesting, or for temporarily disabling origination
+        public let origination: Origination?
         /// Maximum duration (seconds) of content to retain for startover playback.
         /// If not specified, startover playback will be disabled for the OriginEndpoint.
         public let startoverWindowSeconds: Int?
@@ -1140,7 +1414,7 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.channelId = channelId
             self.cmafPackage = cmafPackage
@@ -1150,6 +1424,7 @@ extension MediaPackage {
             self.id = id
             self.manifestName = manifestName
             self.mssPackage = mssPackage
+            self.origination = origination
             self.startoverWindowSeconds = startoverWindowSeconds
             self.tags = tags
             self.timeDelaySeconds = timeDelaySeconds
@@ -1167,12 +1442,19 @@ extension MediaPackage {
             case id = "id"
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
+            case origination = "origination"
             case startoverWindowSeconds = "startoverWindowSeconds"
             case tags = "tags"
             case timeDelaySeconds = "timeDelaySeconds"
             case url = "url"
             case whitelist = "whitelist"
         }
+    }
+
+    public enum Origination: String, CustomStringConvertible, Codable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
     }
 
     public enum PlaylistType: String, CustomStringConvertible, Codable {
@@ -1288,6 +1570,33 @@ extension MediaPackage {
         }
     }
 
+    public struct S3Destination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketName", location: .body(locationName: "bucketName"), required: true, type: .string), 
+            AWSShapeMember(label: "ManifestKey", location: .body(locationName: "manifestKey"), required: true, type: .string), 
+            AWSShapeMember(label: "RoleArn", location: .body(locationName: "roleArn"), required: true, type: .string)
+        ]
+
+        /// The name of an S3 bucket within which harvested content will be exported
+        public let bucketName: String
+        /// The key in the specified S3 bucket where the harvested top-level manifest will be placed.
+        public let manifestKey: String
+        /// The IAM role used to write to the specified S3 bucket
+        public let roleArn: String
+
+        public init(bucketName: String, manifestKey: String, roleArn: String) {
+            self.bucketName = bucketName
+            self.manifestKey = manifestKey
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case manifestKey = "manifestKey"
+            case roleArn = "roleArn"
+        }
+    }
+
     public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable {
         case numberWithTimeline = "NUMBER_WITH_TIMELINE"
         case timeWithTimeline = "TIME_WITH_TIMELINE"
@@ -1333,6 +1642,13 @@ extension MediaPackage {
             case systemIds = "systemIds"
             case url = "url"
         }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public enum StreamOrder: String, CustomStringConvertible, Codable {
@@ -1470,6 +1786,7 @@ extension MediaPackage {
             AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string), 
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Origination", location: .body(locationName: "origination"), required: false, type: .enum), 
             AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Whitelist", location: .body(locationName: "whitelist"), required: false, type: .list)
@@ -1482,11 +1799,12 @@ extension MediaPackage {
         public let id: String
         public let manifestName: String?
         public let mssPackage: MssPackage?
+        public let origination: Origination?
         public let startoverWindowSeconds: Int?
         public let timeDelaySeconds: Int?
         public let whitelist: [String]?
 
-        public init(cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int? = nil, timeDelaySeconds: Int? = nil, whitelist: [String]? = nil) {
+        public init(cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, timeDelaySeconds: Int? = nil, whitelist: [String]? = nil) {
             self.cmafPackage = cmafPackage
             self.dashPackage = dashPackage
             self.description = description
@@ -1494,6 +1812,7 @@ extension MediaPackage {
             self.id = id
             self.manifestName = manifestName
             self.mssPackage = mssPackage
+            self.origination = origination
             self.startoverWindowSeconds = startoverWindowSeconds
             self.timeDelaySeconds = timeDelaySeconds
             self.whitelist = whitelist
@@ -1507,6 +1826,7 @@ extension MediaPackage {
             case id = "id"
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
+            case origination = "origination"
             case startoverWindowSeconds = "startoverWindowSeconds"
             case timeDelaySeconds = "timeDelaySeconds"
             case whitelist = "whitelist"
@@ -1524,6 +1844,7 @@ extension MediaPackage {
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "ManifestName", location: .body(locationName: "manifestName"), required: false, type: .string), 
             AWSShapeMember(label: "MssPackage", location: .body(locationName: "mssPackage"), required: false, type: .structure), 
+            AWSShapeMember(label: "Origination", location: .body(locationName: "origination"), required: false, type: .enum), 
             AWSShapeMember(label: "StartoverWindowSeconds", location: .body(locationName: "startoverWindowSeconds"), required: false, type: .integer), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "TimeDelaySeconds", location: .body(locationName: "timeDelaySeconds"), required: false, type: .integer), 
@@ -1540,13 +1861,14 @@ extension MediaPackage {
         public let id: String?
         public let manifestName: String?
         public let mssPackage: MssPackage?
+        public let origination: Origination?
         public let startoverWindowSeconds: Int?
         public let tags: [String: String]?
         public let timeDelaySeconds: Int?
         public let url: String?
         public let whitelist: [String]?
 
-        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
+        public init(arn: String? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.channelId = channelId
             self.cmafPackage = cmafPackage
@@ -1556,6 +1878,7 @@ extension MediaPackage {
             self.id = id
             self.manifestName = manifestName
             self.mssPackage = mssPackage
+            self.origination = origination
             self.startoverWindowSeconds = startoverWindowSeconds
             self.tags = tags
             self.timeDelaySeconds = timeDelaySeconds
@@ -1573,6 +1896,7 @@ extension MediaPackage {
             case id = "id"
             case manifestName = "manifestName"
             case mssPackage = "mssPackage"
+            case origination = "origination"
             case startoverWindowSeconds = "startoverWindowSeconds"
             case tags = "tags"
             case timeDelaySeconds = "timeDelaySeconds"

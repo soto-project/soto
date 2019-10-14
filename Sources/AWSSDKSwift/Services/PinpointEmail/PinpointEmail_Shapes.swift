@@ -265,6 +265,10 @@ extension PinpointEmail {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try self.content.validate(name: "\(name).content")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case fromEmailAddress = "FromEmailAddress"
@@ -571,7 +575,7 @@ extension PinpointEmail {
 
         /// The name of the dedicated IP pool that you want to associate with the configuration set.
         public let sendingPoolName: String?
-        /// Specifies whether Amazon Pinpoint should require that incoming email is delivered over a connection that’s encrypted by using Transport Layer Security (TLS). If this value is set to Require, Amazon Pinpoint will bounce email messages that cannot be delivered over TLS. The default value is Optional.
+        /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public let tlsPolicy: TlsPolicy?
 
         public init(sendingPoolName: String? = nil, tlsPolicy: TlsPolicy? = nil) {
@@ -804,22 +808,31 @@ extension PinpointEmail {
     public struct EmailContent: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Raw", required: false, type: .structure), 
-            AWSShapeMember(label: "Simple", required: false, type: .structure)
+            AWSShapeMember(label: "Simple", required: false, type: .structure), 
+            AWSShapeMember(label: "Template", required: false, type: .structure)
         ]
 
         /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   If you include attachments, they must be in a file format that Amazon Pinpoint supports.    The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.  
         public let raw: RawMessage?
         /// The simple email message. The message consists of a subject and a message body.
         public let simple: Message?
+        /// The template to use for the email message.
+        public let template: Template?
 
-        public init(raw: RawMessage? = nil, simple: Message? = nil) {
+        public init(raw: RawMessage? = nil, simple: Message? = nil, template: Template? = nil) {
             self.raw = raw
             self.simple = simple
+            self.template = template
+        }
+
+        public func validate(name: String) throws {
+            try self.template?.validate(name: "\(name).template")
         }
 
         private enum CodingKeys: String, CodingKey {
             case raw = "Raw"
             case simple = "Simple"
+            case template = "Template"
         }
     }
 
@@ -2010,7 +2023,7 @@ extension PinpointEmail {
         public let configurationSetName: String
         /// The name of the dedicated IP pool that you want to associate with the configuration set.
         public let sendingPoolName: String?
-        /// Whether Amazon Pinpoint should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS).
+        /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public let tlsPolicy: TlsPolicy?
 
         public init(configurationSetName: String, sendingPoolName: String? = nil, tlsPolicy: TlsPolicy? = nil) {
@@ -2384,6 +2397,10 @@ extension PinpointEmail {
             self.replyToAddresses = replyToAddresses
         }
 
+        public func validate(name: String) throws {
+            try self.content.validate(name: "\(name).content")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case configurationSetName = "ConfigurationSetName"
             case content = "Content"
@@ -2523,6 +2540,32 @@ extension PinpointEmail {
         public init() {
         }
 
+    }
+
+    public struct Template: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateArn", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateData", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the template.
+        public let templateArn: String?
+        /// An object that defines the values to use for message variables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable.
+        public let templateData: String?
+
+        public init(templateArn: String? = nil, templateData: String? = nil) {
+            self.templateArn = templateArn
+            self.templateData = templateData
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateData, name:"templateData", parent: name, max: 262144)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateArn = "TemplateArn"
+            case templateData = "TemplateData"
+        }
     }
 
     public enum TlsPolicy: String, CustomStringConvertible, Codable {

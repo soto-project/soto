@@ -756,6 +756,7 @@ extension MQ {
             AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
             AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
             AWSShapeMember(label: "PendingEngineVersion", location: .body(locationName: "pendingEngineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "PendingHostInstanceType", location: .body(locationName: "pendingHostInstanceType"), required: false, type: .string), 
             AWSShapeMember(label: "PendingSecurityGroups", location: .body(locationName: "pendingSecurityGroups"), required: false, type: .list), 
             AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
@@ -780,6 +781,7 @@ extension MQ {
         public let logs: LogsSummary?
         public let maintenanceWindowStartTime: WeeklyStartTime?
         public let pendingEngineVersion: String?
+        public let pendingHostInstanceType: String?
         public let pendingSecurityGroups: [String]?
         public let publiclyAccessible: Bool?
         public let securityGroups: [String]?
@@ -787,7 +789,7 @@ extension MQ {
         public let tags: [String: String]?
         public let users: [UserSummary]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerArn = brokerArn
             self.brokerId = brokerId
@@ -804,6 +806,7 @@ extension MQ {
             self.logs = logs
             self.maintenanceWindowStartTime = maintenanceWindowStartTime
             self.pendingEngineVersion = pendingEngineVersion
+            self.pendingHostInstanceType = pendingHostInstanceType
             self.pendingSecurityGroups = pendingSecurityGroups
             self.publiclyAccessible = publiclyAccessible
             self.securityGroups = securityGroups
@@ -829,6 +832,7 @@ extension MQ {
             case logs = "logs"
             case maintenanceWindowStartTime = "maintenanceWindowStartTime"
             case pendingEngineVersion = "pendingEngineVersion"
+            case pendingHostInstanceType = "pendingHostInstanceType"
             case pendingSecurityGroups = "pendingSecurityGroups"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroups = "securityGroups"
@@ -1431,6 +1435,7 @@ extension MQ {
             AWSShapeMember(label: "BrokerId", location: .uri(locationName: "broker-id"), required: true, type: .string), 
             AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
             AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list)
         ]
@@ -1439,14 +1444,16 @@ extension MQ {
         public let brokerId: String
         public let configuration: ConfigurationId?
         public let engineVersion: String?
+        public let hostInstanceType: String?
         public let logs: Logs?
         public let securityGroups: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil, securityGroups: [String]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, securityGroups: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
             self.configuration = configuration
             self.engineVersion = engineVersion
+            self.hostInstanceType = hostInstanceType
             self.logs = logs
             self.securityGroups = securityGroups
         }
@@ -1456,6 +1463,7 @@ extension MQ {
             case brokerId = "broker-id"
             case configuration = "configuration"
             case engineVersion = "engineVersion"
+            case hostInstanceType = "hostInstanceType"
             case logs = "logs"
             case securityGroups = "securityGroups"
         }
@@ -1467,6 +1475,7 @@ extension MQ {
             AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .string), 
             AWSShapeMember(label: "Configuration", location: .body(locationName: "configuration"), required: false, type: .structure), 
             AWSShapeMember(label: "EngineVersion", location: .body(locationName: "engineVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
             AWSShapeMember(label: "Logs", location: .body(locationName: "logs"), required: false, type: .structure), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list)
         ]
@@ -1475,14 +1484,16 @@ extension MQ {
         public let brokerId: String?
         public let configuration: ConfigurationId?
         public let engineVersion: String?
+        public let hostInstanceType: String?
         public let logs: Logs?
         public let securityGroups: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, logs: Logs? = nil, securityGroups: [String]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, securityGroups: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
             self.configuration = configuration
             self.engineVersion = engineVersion
+            self.hostInstanceType = hostInstanceType
             self.logs = logs
             self.securityGroups = securityGroups
         }
@@ -1492,6 +1503,7 @@ extension MQ {
             case brokerId = "brokerId"
             case configuration = "configuration"
             case engineVersion = "engineVersion"
+            case hostInstanceType = "hostInstanceType"
             case logs = "logs"
             case securityGroups = "securityGroups"
         }

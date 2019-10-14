@@ -238,9 +238,9 @@ extension Snowball {
         public let resources: JobResource?
         /// The role ARN associated with this cluster. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
         public let roleARN: String?
-        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
+        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
         public let shippingOption: ShippingOption?
-        /// The type of AWS Snowball device to use for this cluster. The only supported device types for cluster jobs are EDGE, EDGE_C, and EDGE_CG.
+        /// The type of AWS Snowball device to use for this cluster. Currently, the only supported device type for cluster jobs is EDGE.
         public let snowballType: SnowballType?
 
         public init(addressId: String? = nil, clusterId: String? = nil, clusterState: ClusterState? = nil, creationDate: TimeStamp? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballType: SnowballType? = nil) {
@@ -375,9 +375,9 @@ extension Snowball {
         public let resources: JobResource
         /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in AWS Identity and Access Management (IAM).
         public let roleARN: String
-        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
+        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
         public let shippingOption: ShippingOption
-        /// The type of AWS Snowball device to use for this cluster. The only supported device types for cluster jobs are EDGE, EDGE_C, and EDGE_CG.
+        /// The type of AWS Snowball device to use for this cluster. Currently, the only supported device type for cluster jobs is EDGE.
         public let snowballType: SnowballType?
 
         public init(addressId: String, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource, roleARN: String, shippingOption: ShippingOption, snowballType: SnowballType? = nil) {
@@ -478,7 +478,7 @@ extension Snowball {
         public let shippingOption: ShippingOption?
         /// If your job is being created in one of the US regions, you have the option of specifying what size Snowball you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity.
         public let snowballCapacityPreference: SnowballCapacity?
-        /// The type of AWS Snowball device to use for this job. The only supported device types for cluster jobs are EDGE, EDGE_C, and EDGE_CG.
+        /// The type of AWS Snowball device to use for this job. Currently, the only supported device type for cluster jobs is EDGE.
         public let snowballType: SnowballType?
 
         public init(addressId: String? = nil, clusterId: String? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil) {
@@ -763,7 +763,7 @@ extension Snowball {
 
         /// The ID of the AMI in Amazon EC2.
         public let amiId: String
-        /// The ID of the AMI on the supported device.
+        /// The ID of the AMI on the Snowball Edge device.
         public let snowballAmiId: String?
 
         public init(amiId: String, snowballAmiId: String? = nil) {
@@ -912,6 +912,46 @@ extension Snowball {
         private enum CodingKeys: String, CodingKey {
             case snowballLimit = "SnowballLimit"
             case snowballsInUse = "SnowballsInUse"
+        }
+    }
+
+    public struct GetSoftwareUpdatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+
+        /// The ID for a job that you want to get the software update file for, for example JID123e4567-e89b-12d3-a456-426655440000.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name:"jobId", parent: name, max: 39)
+            try validate(self.jobId, name:"jobId", parent: name, min: 39)
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct GetSoftwareUpdatesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UpdatesURI", required: false, type: .string)
+        ]
+
+        /// The Amazon S3 presigned URL for the update file associated with the specified JobId value. The software update will be available for 2 days after this request is made. To access an update after the 2 days have passed, you'll have to make another call to GetSoftwareUpdates.
+        public let updatesURI: String?
+
+        public init(updatesURI: String? = nil) {
+            self.updatesURI = updatesURI
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updatesURI = "UpdatesURI"
         }
     }
 
@@ -1319,7 +1359,7 @@ extension Snowball {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// The maximum number of results for the list of compatible images. Currently, each supported device can store 10 AMIs.
+        /// The maximum number of results for the list of compatible images. Currently, a Snowball Edge device can store 10 AMIs.
         public let maxResults: Int?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of compatible images, you can specify a value for NextToken as the starting point for your list of returned images.
         public let nextToken: String?
@@ -1347,7 +1387,7 @@ extension Snowball {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// A JSON-formatted object that describes a compatible AMI.
+        /// A JSON-formatted object that describes a compatible AMI, including the ID and name for a Snowball Edge AMI.
         public let compatibleImages: [CompatibleImage]?
         /// Because HTTP requests are stateless, this is the starting point for your next list of returned images.
         public let nextToken: String?

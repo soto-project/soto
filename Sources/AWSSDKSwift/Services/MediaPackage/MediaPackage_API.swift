@@ -31,6 +31,11 @@ public struct MediaPackage {
         return client.send(operation: "CreateChannel", path: "/channels", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a new HarvestJob record.
+    public func createHarvestJob(_ input: CreateHarvestJobRequest) -> Future<CreateHarvestJobResponse> {
+        return client.send(operation: "CreateHarvestJob", path: "/harvest_jobs", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new OriginEndpoint record.
     public func createOriginEndpoint(_ input: CreateOriginEndpointRequest) -> Future<CreateOriginEndpointResponse> {
         return client.send(operation: "CreateOriginEndpoint", path: "/origin_endpoints", httpMethod: "POST", input: input)
@@ -51,6 +56,11 @@ public struct MediaPackage {
         return client.send(operation: "DescribeChannel", path: "/channels/{id}", httpMethod: "GET", input: input)
     }
 
+    ///  Gets details about an existing HarvestJob.
+    public func describeHarvestJob(_ input: DescribeHarvestJobRequest) -> Future<DescribeHarvestJobResponse> {
+        return client.send(operation: "DescribeHarvestJob", path: "/harvest_jobs/{id}", httpMethod: "GET", input: input)
+    }
+
     ///  Gets details about an existing OriginEndpoint.
     public func describeOriginEndpoint(_ input: DescribeOriginEndpointRequest) -> Future<DescribeOriginEndpointResponse> {
         return client.send(operation: "DescribeOriginEndpoint", path: "/origin_endpoints/{id}", httpMethod: "GET", input: input)
@@ -59,6 +69,11 @@ public struct MediaPackage {
     ///  Returns a collection of Channels.
     public func listChannels(_ input: ListChannelsRequest) -> Future<ListChannelsResponse> {
         return client.send(operation: "ListChannels", path: "/channels", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a collection of HarvestJob records.
+    public func listHarvestJobs(_ input: ListHarvestJobsRequest) -> Future<ListHarvestJobsResponse> {
+        return client.send(operation: "ListHarvestJobs", path: "/harvest_jobs", httpMethod: "GET", input: input)
     }
 
     ///  Returns a collection of OriginEndpoint records.

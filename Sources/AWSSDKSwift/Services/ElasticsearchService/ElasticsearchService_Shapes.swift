@@ -230,6 +230,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
             AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
             AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
             AWSShapeMember(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
@@ -247,7 +248,9 @@ extension ElasticsearchService {
         public let advancedOptions: [String: String]?
         /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
         public let cognitoOptions: CognitoOptions?
-        /// The name of the Elasticsearch domain that you are creating. Domain names are unique across the domains owned by an account within an AWS region. Domain names must start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
+        /// Options to specify configuration that will be applied to the domain endpoint.
+        public let domainEndpointOptions: DomainEndpointOptions?
+        /// The name of the Elasticsearch domain that you are creating. Domain names are unique across the domains owned by an account within an AWS region. Domain names must start with a lowercase letter and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
         public let domainName: String
         /// Options to enable, disable and specify the type and size of EBS storage volumes. 
         public let eBSOptions: EBSOptions?
@@ -266,10 +269,11 @@ extension ElasticsearchService {
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vPCOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, cognitoOptions: CognitoOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.cognitoOptions = cognitoOptions
+            self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
             self.eBSOptions = eBSOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
@@ -293,6 +297,7 @@ extension ElasticsearchService {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case cognitoOptions = "CognitoOptions"
+            case domainEndpointOptions = "DomainEndpointOptions"
             case domainName = "DomainName"
             case eBSOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
@@ -650,6 +655,50 @@ extension ElasticsearchService {
         }
     }
 
+    public struct DomainEndpointOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnforceHTTPS", required: false, type: .boolean), 
+            AWSShapeMember(label: "TLSSecurityPolicy", required: false, type: .enum)
+        ]
+
+        /// Specify if only HTTPS endpoint should be enabled for the Elasticsearch domain.
+        public let enforceHTTPS: Bool?
+        /// Specify the TLS security policy that needs to be applied to the HTTPS endpoint of Elasticsearch domain.  It can be one of the following values:  Policy-Min-TLS-1-0-2019-07:  TLS security policy which supports TLSv1.0 and higher. Policy-Min-TLS-1-2-2019-07:  TLS security policy which supports only TLSv1.2  
+        public let tLSSecurityPolicy: TLSSecurityPolicy?
+
+        public init(enforceHTTPS: Bool? = nil, tLSSecurityPolicy: TLSSecurityPolicy? = nil) {
+            self.enforceHTTPS = enforceHTTPS
+            self.tLSSecurityPolicy = tLSSecurityPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enforceHTTPS = "EnforceHTTPS"
+            case tLSSecurityPolicy = "TLSSecurityPolicy"
+        }
+    }
+
+    public struct DomainEndpointOptionsStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
+        ]
+
+        /// Options to configure endpoint for the Elasticsearch domain.
+        public let options: DomainEndpointOptions
+        /// The status of the endpoint options for the Elasticsearch domain. See OptionStatus for the status information that's included. 
+        public let status: OptionStatus
+
+        public init(options: DomainEndpointOptions, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
     public struct DomainInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: false, type: .string)
@@ -855,6 +904,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "AccessPolicies", required: false, type: .structure), 
             AWSShapeMember(label: "AdvancedOptions", required: false, type: .structure), 
             AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure), 
             AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
             AWSShapeMember(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
             AWSShapeMember(label: "ElasticsearchVersion", required: false, type: .structure), 
@@ -871,6 +921,8 @@ extension ElasticsearchService {
         public let advancedOptions: AdvancedOptionsStatus?
         /// The CognitoOptions for the specified domain. For more information, see Amazon Cognito Authentication for Kibana.
         public let cognitoOptions: CognitoOptionsStatus?
+        /// Specifies the DomainEndpointOptions for the Elasticsearch domain.
+        public let domainEndpointOptions: DomainEndpointOptionsStatus?
         /// Specifies the EBSOptions for the Elasticsearch domain.
         public let eBSOptions: EBSOptionsStatus?
         /// Specifies the ElasticsearchClusterConfig for the Elasticsearch domain.
@@ -888,10 +940,11 @@ extension ElasticsearchService {
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
         public let vPCOptions: VPCDerivedInfoStatus?
 
-        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, eBSOptions: EBSOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vPCOptions: VPCDerivedInfoStatus? = nil) {
+        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, eBSOptions: EBSOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vPCOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.cognitoOptions = cognitoOptions
+            self.domainEndpointOptions = domainEndpointOptions
             self.eBSOptions = eBSOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
             self.elasticsearchVersion = elasticsearchVersion
@@ -906,6 +959,7 @@ extension ElasticsearchService {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case cognitoOptions = "CognitoOptions"
+            case domainEndpointOptions = "DomainEndpointOptions"
             case eBSOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
             case elasticsearchVersion = "ElasticsearchVersion"
@@ -925,6 +979,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
             AWSShapeMember(label: "Created", required: false, type: .boolean), 
             AWSShapeMember(label: "Deleted", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure), 
             AWSShapeMember(label: "DomainId", required: true, type: .string), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
@@ -954,6 +1009,8 @@ extension ElasticsearchService {
         public let created: Bool?
         /// The domain deletion status. True if a delete request has been received for the domain but resource cleanup is still in progress. False if the domain has not been deleted. Once domain deletion is complete, the status of the domain is no longer returned.
         public let deleted: Bool?
+        /// The current status of the Elasticsearch domain's endpoint options.
+        public let domainEndpointOptions: DomainEndpointOptions?
         /// The unique identifier for the specified Elasticsearch domain.
         public let domainId: String
         /// The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
@@ -984,13 +1041,14 @@ extension ElasticsearchService {
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
         public let vPCOptions: VPCDerivedInfo?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, arn: String, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainId: String, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vPCOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, arn: String, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vPCOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.arn = arn
             self.cognitoOptions = cognitoOptions
             self.created = created
             self.deleted = deleted
+            self.domainEndpointOptions = domainEndpointOptions
             self.domainId = domainId
             self.domainName = domainName
             self.eBSOptions = eBSOptions
@@ -1015,6 +1073,7 @@ extension ElasticsearchService {
             case cognitoOptions = "CognitoOptions"
             case created = "Created"
             case deleted = "Deleted"
+            case domainEndpointOptions = "DomainEndpointOptions"
             case domainId = "DomainId"
             case domainName = "DomainName"
             case eBSOptions = "EBSOptions"
@@ -2006,6 +2065,12 @@ extension ElasticsearchService {
         }
     }
 
+    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable {
+        case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
+        case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Tag: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: true, type: .string), 
@@ -2040,6 +2105,7 @@ extension ElasticsearchService {
             AWSShapeMember(label: "AccessPolicies", required: false, type: .string), 
             AWSShapeMember(label: "AdvancedOptions", required: false, type: .map), 
             AWSShapeMember(label: "CognitoOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure), 
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "DomainName"), required: true, type: .string), 
             AWSShapeMember(label: "EBSOptions", required: false, type: .structure), 
             AWSShapeMember(label: "ElasticsearchClusterConfig", required: false, type: .structure), 
@@ -2054,6 +2120,8 @@ extension ElasticsearchService {
         public let advancedOptions: [String: String]?
         /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
         public let cognitoOptions: CognitoOptions?
+        /// Options to specify configuration that will be applied to the domain endpoint.
+        public let domainEndpointOptions: DomainEndpointOptions?
         /// The name of the Elasticsearch domain that you are updating. 
         public let domainName: String
         /// Specify the type and size of the EBS volume that you want to use. 
@@ -2067,10 +2135,11 @@ extension ElasticsearchService {
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vPCOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, cognitoOptions: CognitoOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.cognitoOptions = cognitoOptions
+            self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
             self.eBSOptions = eBSOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
@@ -2090,6 +2159,7 @@ extension ElasticsearchService {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case cognitoOptions = "CognitoOptions"
+            case domainEndpointOptions = "DomainEndpointOptions"
             case domainName = "DomainName"
             case eBSOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"

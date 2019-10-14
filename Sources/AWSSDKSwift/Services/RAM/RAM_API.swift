@@ -5,7 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Use AWS Resource Access Manager to share AWS resources between AWS accounts. To share a resource, you create a resource share, associate the resource with the resource share, and specify the principals that can access the resource. The following principals are supported:   The ID of an AWS account   The Amazon Resource Name (ARN) of an OU from AWS Organizations   The Amazon Resource Name (ARN) of an organization from AWS Organizations   If you specify an AWS account that doesn't exist in the same organization as the account that owns the resource share, the owner of the specified account receives an invitation to accept the resource share. After the owner accepts the invitation, they can access the resources in the resource share. An administrator of the specified account can use IAM policies to restrict access resources in the resource share.
+Use AWS Resource Access Manager to share AWS resources between AWS accounts. To share a resource, you create a resource share, associate the resource with the resource share, and specify the principals that can access the resources associated with the resource share. The following principals are supported: AWS accounts, organizational units (OU) from AWS Organizations, and organizations from AWS Organizations. For more information, see the AWS Resource Access Manager User Guide.
 */
 public struct RAM {
 
@@ -51,37 +51,42 @@ public struct RAM {
         return client.send(operation: "DisassociateResourceShare", path: "/disassociateresourceshare", httpMethod: "POST", input: input)
     }
 
-    ///  Enables resource sharing within your organization.
+    ///  Enables resource sharing within your AWS Organization. The caller must be the master account for the AWS Organization.
     public func enableSharingWithAwsOrganization(_ input: EnableSharingWithAwsOrganizationRequest) -> Future<EnableSharingWithAwsOrganizationResponse> {
         return client.send(operation: "EnableSharingWithAwsOrganization", path: "/enablesharingwithawsorganization", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the policies for the specifies resources.
+    ///  Gets the policies for the specified resources that you own and have shared.
     public func getResourcePolicies(_ input: GetResourcePoliciesRequest) -> Future<GetResourcePoliciesResponse> {
         return client.send(operation: "GetResourcePolicies", path: "/getresourcepolicies", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the associations for the specified resource share.
+    ///  Gets the resources or principals for the resource shares that you own.
     public func getResourceShareAssociations(_ input: GetResourceShareAssociationsRequest) -> Future<GetResourceShareAssociationsResponse> {
         return client.send(operation: "GetResourceShareAssociations", path: "/getresourceshareassociations", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the specified invitations for resource sharing.
+    ///  Gets the invitations for resource sharing that you've received.
     public func getResourceShareInvitations(_ input: GetResourceShareInvitationsRequest) -> Future<GetResourceShareInvitationsResponse> {
         return client.send(operation: "GetResourceShareInvitations", path: "/getresourceshareinvitations", httpMethod: "POST", input: input)
     }
 
-    ///  Gets the specified resource shares or all of your resource shares.
+    ///  Gets the resource shares that you own or the resource shares that are shared with you.
     public func getResourceShares(_ input: GetResourceSharesRequest) -> Future<GetResourceSharesResponse> {
         return client.send(operation: "GetResourceShares", path: "/getresourceshares", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the principals with access to the specified resource.
+    ///  Lists the resources in a resource share that is shared with you but that the invitation is still pending for.
+    public func listPendingInvitationResources(_ input: ListPendingInvitationResourcesRequest) -> Future<ListPendingInvitationResourcesResponse> {
+        return client.send(operation: "ListPendingInvitationResources", path: "/listpendinginvitationresources", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the principals that you have shared resources with or the principals that have shared resources with you.
     public func listPrincipals(_ input: ListPrincipalsRequest) -> Future<ListPrincipalsResponse> {
         return client.send(operation: "ListPrincipals", path: "/listprincipals", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the resources that the specified principal can access.
+    ///  Lists the resources that you added to a resource shares or the resources that are shared with you.
     public func listResources(_ input: ListResourcesRequest) -> Future<ListResourcesResponse> {
         return client.send(operation: "ListResources", path: "/listresources", httpMethod: "POST", input: input)
     }
@@ -91,17 +96,17 @@ public struct RAM {
         return client.send(operation: "RejectResourceShareInvitation", path: "/rejectresourceshareinvitation", httpMethod: "POST", input: input)
     }
 
-    ///  Adds the specified tags to the specified resource share.
+    ///  Adds the specified tags to the specified resource share that you own.
     public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
         return client.send(operation: "TagResource", path: "/tagresource", httpMethod: "POST", input: input)
     }
 
-    ///  Removes the specified tags from the specified resource share.
+    ///  Removes the specified tags from the specified resource share that you own.
     public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/untagresource", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified resource share.
+    ///  Updates the specified resource share that you own.
     public func updateResourceShare(_ input: UpdateResourceShareRequest) -> Future<UpdateResourceShareResponse> {
         return client.send(operation: "UpdateResourceShare", path: "/updateresourceshare", httpMethod: "POST", input: input)
     }

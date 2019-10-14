@@ -7438,7 +7438,7 @@ extension SSM {
         public let instanceId: String?
         /// The IP address of the managed instance.
         public let iPAddress: String?
-        /// Indicates whether latest version of SSM Agent is running on your instance. Some older versions of Windows Server use the EC2Config service to process SSM requests. For this reason, this field does not indicate whether or not the latest version is installed on Windows managed instances.
+        /// Indicates whether the latest version of SSM Agent is running on your Linux Managed Instance. This field does not indicate whether or not the latest version is installed on Windows managed instances, because some older versions of Windows Server use the EC2Config service to process SSM requests.
         public let isLatestVersion: Bool?
         /// The date the association was last run.
         public let lastAssociationExecutionDate: TimeStamp?
@@ -8133,7 +8133,7 @@ extension SSM {
         public let labels: [String]
         /// The parameter name on which you want to attach one or more labels.
         public let name: String
-        /// The specific version of the parameter on which you want to attach one or more labels. If no version is specified, the system attaches the label to the latest version.)
+        /// The specific version of the parameter on which you want to attach one or more labels. If no version is specified, the system attaches the label to the latest version.
         public let parameterVersion: Int64?
 
         public init(labels: [String], name: String, parameterVersion: Int64? = nil) {
@@ -8162,18 +8162,23 @@ extension SSM {
 
     public struct LabelParameterVersionResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InvalidLabels", required: false, type: .list)
+            AWSShapeMember(label: "InvalidLabels", required: false, type: .list), 
+            AWSShapeMember(label: "ParameterVersion", required: false, type: .long)
         ]
 
         /// The label does not meet the requirements. For information about parameter label requirements, see Labeling Parameters in the AWS Systems Manager User Guide.
         public let invalidLabels: [String]?
+        /// The version of the parameter that has been labeled.
+        public let parameterVersion: Int64?
 
-        public init(invalidLabels: [String]? = nil) {
+        public init(invalidLabels: [String]? = nil, parameterVersion: Int64? = nil) {
             self.invalidLabels = invalidLabels
+            self.parameterVersion = parameterVersion
         }
 
         private enum CodingKeys: String, CodingKey {
             case invalidLabels = "InvalidLabels"
+            case parameterVersion = "ParameterVersion"
         }
     }
 
@@ -11201,17 +11206,22 @@ extension SSM {
 
     public struct PutParameterResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tier", required: false, type: .enum), 
             AWSShapeMember(label: "Version", required: false, type: .long)
         ]
 
+        /// The tier assigned to the parameter.
+        public let tier: ParameterTier?
         /// The new version number of a parameter. If you edit a parameter value, Parameter Store automatically creates a new version and assigns this new version a unique ID. You can reference a parameter version ID in API actions or in Systems Manager documents (SSM documents). By default, if you don't specify a specific version, the system returns the latest parameter value when a parameter is called.
         public let version: Int64?
 
-        public init(version: Int64? = nil) {
+        public init(tier: ParameterTier? = nil, version: Int64? = nil) {
+            self.tier = tier
             self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
+            case tier = "Tier"
             case version = "Version"
         }
     }

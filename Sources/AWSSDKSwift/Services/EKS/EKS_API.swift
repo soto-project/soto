@@ -51,9 +51,24 @@ public struct EKS {
         return client.send(operation: "ListClusters", path: "/clusters", httpMethod: "GET", input: input)
     }
 
+    ///  List the tags for an Amazon EKS resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
+    }
+
     ///  Lists the updates associated with an Amazon EKS cluster in your AWS account, in the specified Region.
     public func listUpdates(_ input: ListUpdatesRequest) -> Future<ListUpdatesResponse> {
         return client.send(operation: "ListUpdates", path: "/clusters/{name}/updates", httpMethod: "GET", input: input)
+    }
+
+    ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
+    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes specified tags from a resource.
+    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the DescribeUpdate API operation. You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see Amazon CloudWatch Pricing.  You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .   At this time, you can not update the subnets or security group IDs for an existing cluster.  Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.

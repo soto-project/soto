@@ -9,6 +9,7 @@ extension GlobalAccelerator {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceleratorArn", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DnsName", required: false, type: .string), 
             AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
             AWSShapeMember(label: "IpAddressType", required: false, type: .enum), 
             AWSShapeMember(label: "IpSets", required: false, type: .list), 
@@ -21,6 +22,8 @@ extension GlobalAccelerator {
         public let acceleratorArn: String?
         /// The date and time that the accelerator was created.
         public let createdTime: TimeStamp?
+        /// The Domain Name System (DNS) name that Global Accelerator creates that points to your accelerator's static IP addresses.  The naming convention for the DNS name is: a lower case letter a, followed by a 16-bit random hex string, followed by .awsglobalaccelerator.com. For example: a1234567890abcdef.awsglobalaccelerator.com. For more information about the default DNS name, see Support for DNS Addressing in Global Accelerator in the AWS Global Accelerator Developer Guide.
+        public let dnsName: String?
         /// Indicates whether the accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, accelerator can be deleted.
         public let enabled: Bool?
         /// The value for the address type must be IPv4. 
@@ -34,9 +37,10 @@ extension GlobalAccelerator {
         /// Describes the deployment status of the accelerator.
         public let status: AcceleratorStatus?
 
-        public init(acceleratorArn: String? = nil, createdTime: TimeStamp? = nil, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, ipSets: [IpSet]? = nil, lastModifiedTime: TimeStamp? = nil, name: String? = nil, status: AcceleratorStatus? = nil) {
+        public init(acceleratorArn: String? = nil, createdTime: TimeStamp? = nil, dnsName: String? = nil, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, ipSets: [IpSet]? = nil, lastModifiedTime: TimeStamp? = nil, name: String? = nil, status: AcceleratorStatus? = nil) {
             self.acceleratorArn = acceleratorArn
             self.createdTime = createdTime
+            self.dnsName = dnsName
             self.enabled = enabled
             self.ipAddressType = ipAddressType
             self.ipSets = ipSets
@@ -48,6 +52,7 @@ extension GlobalAccelerator {
         private enum CodingKeys: String, CodingKey {
             case acceleratorArn = "AcceleratorArn"
             case createdTime = "CreatedTime"
+            case dnsName = "DnsName"
             case enabled = "Enabled"
             case ipAddressType = "IpAddressType"
             case ipSets = "IpSets"

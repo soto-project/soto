@@ -27,7 +27,7 @@ public struct FMS {
         )
     }
 
-    ///  Sets the AWS Firewall Manager administrator account. AWS Firewall Manager must be associated with the master account your AWS organization or associated with a member account that has the appropriate permissions. If the account ID that you submit is not an AWS Organizations master account, AWS Firewall Manager will set the appropriate permissions for the given member account. The account that you associate with AWS Firewall Manager is called the AWS Firewall Manager administrator account. 
+    ///  Sets the AWS Firewall Manager administrator account. AWS Firewall Manager must be associated with the master account of your AWS organization or associated with a member account that has the appropriate permissions. If the account ID that you submit is not an AWS Organizations master account, AWS Firewall Manager will set the appropriate permissions for the given member account. The account that you associate with AWS Firewall Manager is called the AWS Firewall Manager administrator account. 
     @discardableResult public func associateAdminAccount(_ input: AssociateAdminAccountRequest) -> Future<Void> {
         return client.send(operation: "AssociateAdminAccount", path: "/", httpMethod: "POST", input: input)
     }
@@ -42,7 +42,7 @@ public struct FMS {
         return client.send(operation: "DeletePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Disassociates the account that has been set as the AWS Firewall Manager administrator account. To set a different account as the administrator account, you must submit an AssociateAdminAccount request .
+    ///  Disassociates the account that has been set as the AWS Firewall Manager administrator account. To set a different account as the administrator account, you must submit an AssociateAdminAccount request.
     @discardableResult public func disassociateAdminAccount(_ input: DisassociateAdminAccountRequest) -> Future<Void> {
         return client.send(operation: "DisassociateAdminAccount", path: "/", httpMethod: "POST", input: input)
     }
@@ -52,12 +52,12 @@ public struct FMS {
         return client.send(operation: "GetAdminAccount", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy. Resources are considered non-compliant if the specified policy has not been applied to them.
+    ///  Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy. Resources are considered noncompliant for AWS WAF and Shield Advanced policies if the specified policy has not been applied to them. Resources are considered noncompliant for security group policies if they are in scope of the policy, they violate one or more of the policy rules, and remediation is disabled or not possible. 
     public func getComplianceDetail(_ input: GetComplianceDetailRequest) -> Future<GetComplianceDetailResponse> {
         return client.send(operation: "GetComplianceDetail", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the Amazon Simple Notification Service (SNS) topic that is used to record AWS Firewall Manager SNS logs.
+    ///  Information about the Amazon Simple Notification Service (SNS) topic that is used to record AWS Firewall Manager SNS logs.
     public func getNotificationChannel(_ input: GetNotificationChannelRequest) -> Future<GetNotificationChannelResponse> {
         return client.send(operation: "GetNotificationChannel", path: "/", httpMethod: "POST", input: input)
     }
@@ -67,7 +67,7 @@ public struct FMS {
         return client.send(operation: "GetPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack.
+    ///  If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack. Other policy types are currently unsupported.
     public func getProtectionStatus(_ input: GetProtectionStatusRequest) -> Future<GetProtectionStatusResponse> {
         return client.send(operation: "GetProtectionStatus", path: "/", httpMethod: "POST", input: input)
     }
@@ -92,7 +92,7 @@ public struct FMS {
         return client.send(operation: "PutNotificationChannel", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an AWS Firewall Manager policy. Firewall Manager provides two types of policies: A Shield Advanced policy, which applies Shield Advanced protection to specified accounts and resources, or a WAF policy, which contains a rule group and defines which resources are to be protected by that rule group. A policy is specific to either WAF or Shield Advanced. If you want to enforce both WAF rules and Shield Advanced protection across accounts, you can create multiple policies. You can create one or more policies for WAF rules, and one or more policies for Shield Advanced. You must be subscribed to Shield Advanced to create a Shield Advanced policy. For more information on subscribing to Shield Advanced, see CreateSubscription.
+    ///  Creates an AWS Firewall Manager policy. Firewall Manager provides the following types of policies:    A Shield Advanced policy, which applies Shield Advanced protection to specified accounts and resources   An AWS WAF policy, which contains a rule group and defines which resources are to be protected by that rule group   A security group policy, which manages VPC security groups across your AWS organization.    Each policy is specific to one of the three types. If you want to enforce more than one policy type across accounts, you can create multiple policies. You can create multiple policies for each type. You must be subscribed to Shield Advanced to create a Shield Advanced policy. For more information about subscribing to Shield Advanced, see CreateSubscription.
     public func putPolicy(_ input: PutPolicyRequest) -> Future<PutPolicyResponse> {
         return client.send(operation: "PutPolicy", path: "/", httpMethod: "POST", input: input)
     }

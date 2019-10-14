@@ -276,7 +276,7 @@ extension DatabaseMigrationService {
         public let certificateArn: String?
         /// The name of the endpoint database.
         public let databaseName: String?
-        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible attributes include the following:    serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    bucketName - The name of the S3 bucket to use.    compressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.   Shorthand syntax for these attributes is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these attributes is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
+        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    BucketName - The name of the S3 bucket to use.    CompressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
         public let dmsTransferSettings: DmsTransferSettings?
         /// Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see Using Object Mapping to Migrate Data to DynamoDB in the AWS Database Migration Service User Guide. 
         public let dynamoDbSettings: DynamoDbSettings?
@@ -720,6 +720,45 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct DeleteConnectionMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        public let endpointArn: String
+        /// The Amazon Resource Name (ARN) of the replication instance.
+        public let replicationInstanceArn: String
+
+        public init(endpointArn: String, replicationInstanceArn: String) {
+            self.endpointArn = endpointArn
+            self.replicationInstanceArn = replicationInstanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+        }
+    }
+
+    public struct DeleteConnectionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Connection", required: false, type: .structure)
+        ]
+
+        /// The connection that is being deleted.
+        public let connection: Connection?
+
+        public init(connection: Connection? = nil) {
+            self.connection = connection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connection = "Connection"
+        }
+    }
+
     public struct DeleteEndpointMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointArn", required: true, type: .string)
@@ -897,7 +936,7 @@ extension DatabaseMigrationService {
 
         /// Account quota information.
         public let accountQuotas: [AccountQuota]?
-        /// A unique AWS DMS identifier for an account in a particular AWS Region. The value of this identifier has the following format: c99999999999. DMS uses this identifier to name artifacts. For example, DMS uses this identifier to name the default Amazon S3 bucket for storing task assessment reports in a given AWS Region. The format of this S3 bucket name is the following: dms-AccountNumber-UniqueAccountIdentifier. Here is an example name for this default S3 bucket: dms-111122223333-c44445555666.  AWS DMS supports UniqueAccountIdentifier in versions 3.1.4 and later. 
+        /// A unique AWS DMS identifier for an account in a particular AWS Region. The value of this identifier has the following format: c99999999999. DMS uses this identifier to name artifacts. For example, DMS uses this identifier to name the default Amazon S3 bucket for storing task assessment reports in a given AWS Region. The format of this S3 bucket name is the following: dms-AccountNumber-UniqueAccountIdentifier. Here is an example name for this default S3 bucket: dms-111122223333-c44445555666.  AWS DMS supports the UniqueAccountIdentifier parameter in versions 3.1.4 and later. 
         public let uniqueAccountIdentifier: String?
 
         public init(accountQuotas: [AccountQuota]? = nil, uniqueAccountIdentifier: String? = nil) {
@@ -1902,7 +1941,7 @@ extension DatabaseMigrationService {
         public let certificateArn: String?
         /// The name of the database at the endpoint.
         public let databaseName: String?
-        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible attributes include the following:    serviceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    bucketName - The name of the S3 bucket to use.    compressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.   Shorthand syntax for these attributes is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these attributes is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
+        /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The IAM role that has permission to access the Amazon S3 bucket.    BucketName - The name of the S3 bucket to use.    CompressionType - An optional parameter to use GZIP to compress the target files. To use GZIP, set this value to NONE (the default). To keep the files uncompressed, don't use this value.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType": "none"|"gzip" }  
         public let dmsTransferSettings: DmsTransferSettings?
         /// The settings for the target DynamoDB database. For more information, see the DynamoDBSettings structure.
         public let dynamoDbSettings: DynamoDbSettings?
@@ -2662,17 +2701,17 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
 
-        ///  The authentication mechanism you use to access the MongoDB source endpoint. Valid values: DEFAULT, MONGODB_CR, SCRAM_SHA_1  DEFAULT – For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x, use SCRAM_SHA_1. This attribute is not used when authType=No.
+        ///  The authentication mechanism you use to access the MongoDB source endpoint. Valid values: DEFAULT, MONGODB_CR, SCRAM_SHA_1  DEFAULT – For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x, use SCRAM_SHA_1. This setting is not used when authType=No.
         public let authMechanism: AuthMechanismValue?
-        ///  The MongoDB database name. This attribute is not used when authType=NO.  The default is admin.
+        ///  The MongoDB database name. This setting is not used when authType=NO.  The default is admin.
         public let authSource: String?
         ///  The authentication type you use to access the MongoDB source endpoint. Valid values: NO, PASSWORD  When NO is selected, user name and password parameters are not used and can be empty. 
         public let authType: AuthTypeValue?
         ///  The database name on the MongoDB source endpoint. 
         public let databaseName: String?
-        ///  Indicates the number of documents to preview to determine the document organization. Use this attribute when NestingLevel is set to ONE.  Must be a positive value greater than 0. Default value is 1000.
+        ///  Indicates the number of documents to preview to determine the document organization. Use this setting when NestingLevel is set to ONE.  Must be a positive value greater than 0. Default value is 1000.
         public let docsToInvestigate: String?
-        ///  Specifies the document ID. Use this attribute when NestingLevel is set to NONE.  Default value is false. 
+        ///  Specifies the document ID. Use this setting when NestingLevel is set to NONE.  Default value is false. 
         public let extractDocId: String?
         /// The AWS KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
@@ -2749,7 +2788,7 @@ extension DatabaseMigrationService {
         public let maxAllocatedStorage: Int?
         /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
         public let minAllocatedStorage: Int?
-        /// The value returned when the specified EngineVersion of the replication instance is in Beta or test mode. This indicates some features might not work as expected.  AWS DMS supports ReleaseStatus in versions 3.1.4 and later. 
+        /// The value returned when the specified EngineVersion of the replication instance is in Beta or test mode. This indicates some features might not work as expected.  AWS DMS supports the ReleaseStatus parameter in versions 3.1.4 and later. 
         public let releaseStatus: ReleaseStatusValues?
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
         public let replicationInstanceClass: String?
@@ -3616,6 +3655,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "EncryptionMode", required: false, type: .enum), 
             AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
             AWSShapeMember(label: "IncludeOpForFullLoad", required: false, type: .boolean), 
+            AWSShapeMember(label: "ParquetTimestampInMillisecond", required: false, type: .boolean), 
             AWSShapeMember(label: "ParquetVersion", required: false, type: .enum), 
             AWSShapeMember(label: "RowGroupLength", required: false, type: .integer), 
             AWSShapeMember(label: "ServerSideEncryptionKmsKeyId", required: false, type: .string), 
@@ -3627,7 +3667,7 @@ extension DatabaseMigrationService {
         public let bucketFolder: String?
         ///  The name of the S3 bucket. 
         public let bucketName: String?
-        /// A value that enables a change data capture (CDC) load to write only INSERT operations to .csv or columnar storage (.parquet) output files. By default (the false setting), the first field in a .csv or .parquet record contains the letter I (INSERT), U (UPDATE), or D (DELETE). These values indicate whether the row was inserted, updated, or deleted at the source database for a CDC load to the target. If cdcInsertsOnly is set to true or y, only INSERTs from the source database are migrated to the .csv or .parquet file. For .csv format only, how these INSERTs are recorded depends on the value of IncludeOpForFullLoad. If IncludeOpForFullLoad is set to true, the first field of every CDC record is set to I to indicate the INSERT operation at the source. If IncludeOpForFullLoad is set to false, every CDC record is written without a first field to indicate the INSERT operation at the source. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the AWS Database Migration Service User Guide..  AWS DMS supports this interaction between CdcInsertsOnly and IncludeOpForFullLoad in versions 3.1.4 and later.  
+        /// A value that enables a change data capture (CDC) load to write only INSERT operations to .csv or columnar storage (.parquet) output files. By default (the false setting), the first field in a .csv or .parquet record contains the letter I (INSERT), U (UPDATE), or D (DELETE). These values indicate whether the row was inserted, updated, or deleted at the source database for a CDC load to the target. If CdcInsertsOnly is set to true or y, only INSERTs from the source database are migrated to the .csv or .parquet file. For .csv format only, how these INSERTs are recorded depends on the value of IncludeOpForFullLoad. If IncludeOpForFullLoad is set to true, the first field of every CDC record is set to I to indicate the INSERT operation at the source. If IncludeOpForFullLoad is set to false, every CDC record is written without a first field to indicate the INSERT operation at the source. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the AWS Database Migration Service User Guide..  AWS DMS supports this interaction between the CdcInsertsOnly and IncludeOpForFullLoad parameters in versions 3.1.4 and later.  
         public let cdcInsertsOnly: Bool?
         ///  An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed. Applies to both .csv and .parquet file formats. 
         public let compressionType: CompressionTypeValue?
@@ -3649,8 +3689,10 @@ extension DatabaseMigrationService {
         public let encryptionMode: EncryptionModeValue?
         ///  The external table definition. 
         public let externalTableDefinition: String?
-        /// A value that enables a full load to write INSERT operations to the comma-separated value (.csv) output files only to indicate how the rows were added to the source database.  AWS DMS supports IncludeOpForFullLoad in versions 3.1.4 and later.  For full load, records can only be inserted. By default (the false setting), no information is recorded in these output files for a full load to indicate that the rows were inserted at the source database. If IncludeOpForFullLoad is set to true or y, the INSERT is recorded as an I annotation in the first field of the .csv file. This allows the format of your target records from a full load to be consistent with the target records from a CDC load.  This setting works together with CdcInsertsOnly for output to .csv files only. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the AWS Database Migration Service User Guide.. 
+        /// A value that enables a full load to write INSERT operations to the comma-separated value (.csv) output files only to indicate how the rows were added to the source database.  AWS DMS supports the IncludeOpForFullLoad parameter in versions 3.1.4 and later.  For full load, records can only be inserted. By default (the false setting), no information is recorded in these output files for a full load to indicate that the rows were inserted at the source database. If IncludeOpForFullLoad is set to true or y, the INSERT is recorded as an I annotation in the first field of the .csv file. This allows the format of your target records from a full load to be consistent with the target records from a CDC load.  This setting works together with the CdcInsertsOnly parameter for output to .csv files only. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the AWS Database Migration Service User Guide.. 
         public let includeOpForFullLoad: Bool?
+        /// A value that specifies the precision of any TIMESTAMP column values that are written to an Amazon S3 object file in .parquet format.  AWS DMS supports the ParquetTimestampInMillisecond parameter in versions 3.1.4 and later.  When ParquetTimestampInMillisecond is set to true or y, AWS DMS writes all TIMESTAMP columns in a .parquet formatted file with millisecond precision. Otherwise, DMS writes them with microsecond precision. Currently, Amazon Athena and AWS Glue can handle only millisecond precision for TIMESTAMP values. Set this parameter to true for S3 endpoint object files that are .parquet formatted only if you plan to query or process the data with Athena or AWS Glue.  AWS DMS writes any TIMESTAMP column values written to an S3 file in .csv format with microsecond precision. Setting ParquetTimestampInMillisecond has no effect on the string format of the timestamp column value that is inserted by setting the TimestampColumnName parameter. 
+        public let parquetTimestampInMillisecond: Bool?
         /// The version of the Apache Parquet format that you want to use: parquet_1_0 (the default) or parquet_2_0.
         public let parquetVersion: ParquetVersionValue?
         /// The number of rows in a row group. A smaller row group size provides faster reads. But as the number of row groups grows, the slower writes become. This parameter defaults to 10,000 rows. This number is used for .parquet file format only.  If you choose a value larger than the maximum, RowGroupLength is set to the max row group length in bytes (64 * 1024 * 1024). 
@@ -3659,10 +3701,10 @@ extension DatabaseMigrationService {
         public let serverSideEncryptionKmsKeyId: String?
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
         public let serviceAccessRoleArn: String?
-        /// A value that includes a timestamp column in the Amazon S3 target endpoint data. AWS DMS includes an additional column in the migrated data when you set timestampColumnName to a non-blank value.   AWS DMS supports TimestampColumnName in versions 3.1.4 and later.  For a full load, each row of the timestamp column contains a timestamp for when the data was transferred from the source to the target by DMS. For a CDC load, each row of the timestamp column contains the timestamp for the commit of that row in the source database. The format for the timestamp column value is yyyy-MM-dd HH:mm:ss.SSSSSS. For CDC, the microsecond precision depends on the commit timestamp supported by DMS for the source database. When the AddColumnName setting is set to true, DMS also includes the name for the timestamp column that you set as the nonblank value of timestampColumnName.
+        /// A value that when nonblank causes AWS DMS to add a column with timestamp information to the endpoint data for an Amazon S3 target.  AWS DMS supports the TimestampColumnName parameter in versions 3.1.4 and later.  DMS includes an additional STRING column in the .csv or .parquet object files of your migrated data when you set TimestampColumnName to a nonblank value. For a full load, each row of this timestamp column contains a timestamp for when the data was transferred from the source to the target by DMS.  For a change data capture (CDC) load, each row of the timestamp column contains the timestamp for the commit of that row in the source database. The string format for this timestamp column value is yyyy-MM-dd HH:mm:ss.SSSSSS. By default, the precision of this value is in microseconds. For a CDC load, the rounding of the precision depends on the commit timestamp supported by DMS for the source database. When the AddColumnName parameter is set to true, DMS also includes a name for the timestamp column that you set with TimestampColumnName.
         public let timestampColumnName: String?
 
-        public init(bucketFolder: String? = nil, bucketName: String? = nil, cdcInsertsOnly: Bool? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, includeOpForFullLoad: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil) {
+        public init(bucketFolder: String? = nil, bucketName: String? = nil, cdcInsertsOnly: Bool? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, includeOpForFullLoad: Bool? = nil, parquetTimestampInMillisecond: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil) {
             self.bucketFolder = bucketFolder
             self.bucketName = bucketName
             self.cdcInsertsOnly = cdcInsertsOnly
@@ -3677,6 +3719,7 @@ extension DatabaseMigrationService {
             self.encryptionMode = encryptionMode
             self.externalTableDefinition = externalTableDefinition
             self.includeOpForFullLoad = includeOpForFullLoad
+            self.parquetTimestampInMillisecond = parquetTimestampInMillisecond
             self.parquetVersion = parquetVersion
             self.rowGroupLength = rowGroupLength
             self.serverSideEncryptionKmsKeyId = serverSideEncryptionKmsKeyId
@@ -3699,6 +3742,7 @@ extension DatabaseMigrationService {
             case encryptionMode = "EncryptionMode"
             case externalTableDefinition = "ExternalTableDefinition"
             case includeOpForFullLoad = "IncludeOpForFullLoad"
+            case parquetTimestampInMillisecond = "ParquetTimestampInMillisecond"
             case parquetVersion = "ParquetVersion"
             case rowGroupLength = "RowGroupLength"
             case serverSideEncryptionKmsKeyId = "ServerSideEncryptionKmsKeyId"

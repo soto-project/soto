@@ -179,7 +179,7 @@ extension IoTAnalytics {
         public let retentionPeriod: RetentionPeriod?
         /// The status of the channel.
         public let status: ChannelStatus?
-        /// Where channel data is stored.
+        /// Where channel data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after creation of the channel.
         public let storage: ChannelStorage?
 
         public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: ChannelStatus? = nil, storage: ChannelStorage? = nil) {
@@ -270,9 +270,9 @@ extension IoTAnalytics {
             AWSShapeMember(label: "serviceManagedS3", required: false, type: .structure)
         ]
 
-        /// Use this to store channel data in an S3 bucket that you manage.
+        /// Use this to store channel data in an S3 bucket that you manage. If customer managed storage is selected, the "retentionPeriod" parameter is ignored. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the channel.
         public let customerManagedS3: CustomerManagedChannelS3Storage?
-        /// Use this to store channel data in an S3 bucket managed by the AWS IoT Analytics service.
+        /// Use this to store channel data in an S3 bucket managed by the AWS IoT Analytics service. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the channel.
         public let serviceManagedS3: ServiceManagedChannelS3Storage?
 
         public init(customerManagedS3: CustomerManagedChannelS3Storage? = nil, serviceManagedS3: ServiceManagedChannelS3Storage? = nil) {
@@ -409,9 +409,9 @@ extension IoTAnalytics {
 
         /// The name of the channel.
         public let channelName: String
-        /// Where channel data is stored.
+        /// Where channel data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after creation of the channel.
         public let channelStorage: ChannelStorage?
-        /// How long, in days, message data is kept for the channel.
+        /// How long, in days, message data is kept for the channel. When "customerManagedS3" storage is selected, this parameter is ignored.
         public let retentionPeriod: RetentionPeriod?
         /// Metadata which can be used to manage the channel.
         public let tags: [Tag]?
@@ -623,9 +623,9 @@ extension IoTAnalytics {
 
         /// The name of the data store.
         public let datastoreName: String
-        /// Where data store data is stored.
+        /// Where data store data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after the data store is created.
         public let datastoreStorage: DatastoreStorage?
-        /// How long, in days, message data is kept for the data store.
+        /// How long, in days, message data is kept for the data store. When "customerManagedS3" storage is selected, this parameter is ignored.
         public let retentionPeriod: RetentionPeriod?
         /// Metadata which can be used to manage the data store.
         public let tags: [Tag]?
@@ -759,7 +759,7 @@ extension IoTAnalytics {
 
         /// The name of the Amazon S3 bucket in which channel data is stored.
         public let bucket: String
-        /// The prefix used to create the keys of the channel data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key).
+        /// [Optional] The prefix used to create the keys of the channel data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). The prefix must end with a '/'.
         public let keyPrefix: String?
         /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
         public let roleArn: String
@@ -797,7 +797,7 @@ extension IoTAnalytics {
 
         /// The name of the Amazon S3 bucket in which channel data is stored.
         public let bucket: String?
-        /// The prefix used to create the keys of the channel data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key).
+        /// [Optional] The prefix used to create the keys of the channel data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). The prefix must end with a '/'.
         public let keyPrefix: String?
         /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
         public let roleArn: String?
@@ -824,7 +824,7 @@ extension IoTAnalytics {
 
         /// The name of the Amazon S3 bucket in which data store data is stored.
         public let bucket: String
-        /// The prefix used to create the keys of the data store data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key).
+        /// [Optional] The prefix used to create the keys of the data store data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). The prefix must end with a '/'.
         public let keyPrefix: String?
         /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
         public let roleArn: String
@@ -862,7 +862,7 @@ extension IoTAnalytics {
 
         /// The name of the Amazon S3 bucket in which data store data is stored.
         public let bucket: String?
-        /// The prefix used to create the keys of the data store data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key).
+        /// [Optional] The prefix used to create the keys of the data store data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). The prefix must end with a '/'.
         public let keyPrefix: String?
         /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 resources.
         public let roleArn: String?
@@ -1089,12 +1089,15 @@ extension IoTAnalytics {
 
     public struct DatasetContentSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "completionTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "scheduleTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "status", required: false, type: .structure), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
 
+        /// The time the dataset content status was updated to SUCCEEDED or FAILED.
+        public let completionTime: TimeStamp?
         /// The actual time the creation of the data set contents was started.
         public let creationTime: TimeStamp?
         /// The time the creation of the data set contents was scheduled to start.
@@ -1104,7 +1107,8 @@ extension IoTAnalytics {
         /// The version of the data set contents.
         public let version: String?
 
-        public init(creationTime: TimeStamp? = nil, scheduleTime: TimeStamp? = nil, status: DatasetContentStatus? = nil, version: String? = nil) {
+        public init(completionTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, scheduleTime: TimeStamp? = nil, status: DatasetContentStatus? = nil, version: String? = nil) {
+            self.completionTime = completionTime
             self.creationTime = creationTime
             self.scheduleTime = scheduleTime
             self.status = status
@@ -1112,6 +1116,7 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case completionTime = "completionTime"
             case creationTime = "creationTime"
             case scheduleTime = "scheduleTime"
             case status = "status"
@@ -1258,11 +1263,11 @@ extension IoTAnalytics {
         public let lastUpdateTime: TimeStamp?
         /// The name of the data store.
         public let name: String?
-        /// How long, in days, message data is kept for the data store.
+        /// How long, in days, message data is kept for the data store. When "customerManagedS3" storage is selected, this parameter is ignored.
         public let retentionPeriod: RetentionPeriod?
         /// The status of a data store:  CREATING  The data store is being created.  ACTIVE  The data store has been created and can be used.  DELETING  The data store is being deleted.  
         public let status: DatastoreStatus?
-        /// Where data store data is stored.
+        /// Where data store data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after the data store is created.
         public let storage: DatastoreStorage?
 
         public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdateTime: TimeStamp? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatastoreStatus? = nil, storage: DatastoreStorage? = nil) {
@@ -1346,9 +1351,9 @@ extension IoTAnalytics {
             AWSShapeMember(label: "serviceManagedS3", required: false, type: .structure)
         ]
 
-        /// Use this to store data store data in an S3 bucket that you manage.
+        /// Use this to store data store data in an S3 bucket that you manage. When customer managed storage is selected, the "retentionPeriod" parameter is ignored. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the data store.
         public let customerManagedS3: CustomerManagedDatastoreS3Storage?
-        /// Use this to store data store data in an S3 bucket managed by the AWS IoT Analytics service.
+        /// Use this to store data store data in an S3 bucket managed by the AWS IoT Analytics service. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the data store.
         public let serviceManagedS3: ServiceManagedDatastoreS3Storage?
 
         public init(customerManagedS3: CustomerManagedDatastoreS3Storage? = nil, serviceManagedS3: ServiceManagedDatastoreS3Storage? = nil) {
@@ -1577,7 +1582,7 @@ extension IoTAnalytics {
 
         /// The name of the channel whose information is retrieved.
         public let channelName: String
-        /// If true, additional statistical information about the channel is included in the response.
+        /// If true, additional statistical information about the channel is included in the response. This feature cannot be used with a channel whose S3 storage is customer-managed.
         public let includeStatistics: Bool?
 
         public init(channelName: String, includeStatistics: Bool? = nil) {
@@ -1667,7 +1672,7 @@ extension IoTAnalytics {
 
         /// The name of the data store
         public let datastoreName: String
-        /// If true, additional statistical information about the datastore is included in the response.
+        /// If true, additional statistical information about the data store is included in the response. This feature cannot be used with a data store whose S3 storage is customer-managed.
         public let includeStatistics: Bool?
 
         public init(datastoreName: String, includeStatistics: Bool? = nil) {
@@ -2901,7 +2906,7 @@ extension IoTAnalytics {
         public let bucket: String
         /// Configuration information for coordination with the AWS Glue ETL (extract, transform and load) service.
         public let glueConfiguration: GlueConfiguration?
-        /// The key of the data set contents object. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key).
+        /// The key of the data set contents object. Each object in an Amazon S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). To produce a unique key, you can use "!{iotanalytics:scheduledTime}" to insert the time of the scheduled SQL query run, or "!{iotanalytics:versioned} to insert a unique hash identifying the data set, for example: "/DataSet/!{iotanalytics:scheduledTime}/!{iotanalytics:versioned}.csv".
         public let key: String
         /// The ARN of the role which grants AWS IoT Analytics permission to interact with your Amazon S3 and AWS Glue resources.
         public let roleArn: String
@@ -3298,9 +3303,9 @@ extension IoTAnalytics {
 
         /// The name of the channel to be updated.
         public let channelName: String
-        /// Where channel data is stored.
+        /// Where channel data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after creation of the channel.
         public let channelStorage: ChannelStorage?
-        /// How long, in days, message data is kept for the channel.
+        /// How long, in days, message data is kept for the channel. The retention period cannot be updated if the channel's S3 storage is customer-managed.
         public let retentionPeriod: RetentionPeriod?
 
         public init(channelName: String, channelStorage: ChannelStorage? = nil, retentionPeriod: RetentionPeriod? = nil) {
@@ -3398,9 +3403,9 @@ extension IoTAnalytics {
 
         /// The name of the data store to be updated.
         public let datastoreName: String
-        /// Where data store data is stored.
+        /// Where data store data is stored. You may choose one of "serviceManagedS3" or "customerManagedS3" storage. If not specified, the default is "serviceManagedS3". This cannot be changed after the data store is created.
         public let datastoreStorage: DatastoreStorage?
-        /// How long, in days, message data is kept for the data store.
+        /// How long, in days, message data is kept for the data store. The retention period cannot be updated if the data store's S3 storage is customer-managed.
         public let retentionPeriod: RetentionPeriod?
 
         public init(datastoreName: String, datastoreStorage: DatastoreStorage? = nil, retentionPeriod: RetentionPeriod? = nil) {

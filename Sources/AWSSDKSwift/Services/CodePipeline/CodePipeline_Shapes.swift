@@ -168,17 +168,17 @@ extension CodePipeline {
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
 
-        /// The description of the action configuration property that will be displayed to users.
+        /// The description of the action configuration property that is displayed to users.
         public let description: String?
         /// Whether the configuration property is a key.
         public let key: Bool
         /// The name of the action configuration property.
         public let name: String
-        /// Indicates that the property will be used in conjunction with PollForJobs. When creating a custom action, an action can have up to one queryable property. If it has one, that property must be both required and not secret. If you create a pipeline with a custom action type, and that custom action contains a queryable property, the value for that configuration property is subject to additional restrictions. The value must be less than or equal to twenty (20) characters. The value can contain only alphanumeric characters, underscores, and hyphens.
+        /// Indicates that the property is used with PollForJobs. When creating a custom action, an action can have up to one queryable property. If it has one, that property must be both required and not secret. If you create a pipeline with a custom action type, and that custom action contains a queryable property, the value for that configuration property is subject to other restrictions. The value must be less than or equal to twenty (20) characters. The value can contain only alphanumeric characters, underscores, and hyphens.
         public let queryable: Bool?
         /// Whether the configuration property is a required value.
         public let required: Bool
-        /// Whether the configuration property is secret. Secrets are hidden from all calls except for GetJobDetails, GetThirdPartyJobDetails, PollForJobs, and PollForThirdPartyJobs. When updating a pipeline, passing * * * * * without changing any other values of the action will preserve the prior value of the secret.
+        /// Whether the configuration property is secret. Secrets are hidden from all calls except for GetJobDetails, GetThirdPartyJobDetails, PollForJobs, and PollForThirdPartyJobs. When updating a pipeline, passing * * * * * without changing any other values of the action preserves the previous value of the secret.
         public let secret: Bool
         /// The type of the configuration property.
         public let `type`: ActionConfigurationPropertyType?
@@ -226,7 +226,7 @@ extension CodePipeline {
 
         /// The system-generated unique ID that corresponds to an action's execution.
         public let actionExecutionId: String?
-        /// The name of the action within the context of a job.
+        /// The name of the action in the context of a job.
         public let name: String?
 
         public init(actionExecutionId: String? = nil, name: String? = nil) {
@@ -264,7 +264,7 @@ extension CodePipeline {
         public let outputArtifacts: [OutputArtifact]?
         /// The action declaration's AWS Region, such as us-east-1.
         public let region: String?
-        /// The ARN of the IAM service role that will perform the declared action. This is assumed through the roleArn for the pipeline.
+        /// The ARN of the IAM service role that performs the declared action. This is assumed through the roleArn for the pipeline.
         public let roleArn: String?
         /// The order in which actions are run.
         public let runOrder: Int?
@@ -334,7 +334,7 @@ extension CodePipeline {
         public let errorDetails: ErrorDetails?
         /// The external ID of the run of the action.
         public let externalExecutionId: String?
-        /// The URL of a resource external to AWS that will be used when running the action, for example an external repository URL.
+        /// The URL of a resource external to AWS that is used when running the action (for example, an external repository URL).
         public let externalExecutionUrl: String?
         /// The last status change of the action.
         public let lastStatusChange: TimeStamp?
@@ -346,7 +346,7 @@ extension CodePipeline {
         public let status: ActionExecutionStatus?
         /// A summary of the run of the action.
         public let summary: String?
-        /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState command and is used to validate that the approval request corresponding to this token is still valid.
+        /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState command. It is used to validate that the approval request corresponding to this token is still valid.
         public let token: String?
 
         public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, lastStatusChange: TimeStamp? = nil, lastUpdatedBy: String? = nil, percentComplete: Int? = nil, status: ActionExecutionStatus? = nil, summary: String? = nil, token: String? = nil) {
@@ -565,7 +565,7 @@ extension CodePipeline {
 
         /// The date and time when the most recent version of the action was created, in timestamp format.
         public let created: TimeStamp
-        /// The unique identifier of the change that set the state to this revision, for example a deployment ID or timestamp.
+        /// The unique identifier of the change that set the state to this revision (for example, a deployment ID or timestamp).
         public let revisionChangeId: String
         /// The system-generated unique ID that identifies the revision number of the action.
         public let revisionId: String
@@ -672,11 +672,11 @@ extension CodePipeline {
             AWSShapeMember(label: "version", required: true, type: .string)
         ]
 
-        /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the values below.
+        /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the following values. 
         public let category: ActionCategory
         /// The creator of the action being called.
         public let owner: ActionOwner
-        /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of AWS CodeDeploy, which would be specified as CodeDeploy. To reference a list of action providers by action type, see Valid Action Types and Providers in CodePipeline.
+        /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of AWS CodeDeploy, which would be specified as CodeDeploy. For more information, see Valid Action Types and Providers in CodePipeline.
         public let provider: String
         /// A string that describes the action version.
         public let version: String
@@ -713,9 +713,9 @@ extension CodePipeline {
             AWSShapeMember(label: "thirdPartyConfigurationUrl", required: false, type: .string)
         ]
 
-        /// The URL returned to the AWS CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for an AWS CodeDeploy deployment group. This link is provided as part of the action display within the pipeline.
+        /// The URL returned to the AWS CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for an AWS CodeDeploy deployment group. This link is provided as part of the action display in the pipeline.
         public let entityUrlTemplate: String?
-        /// The URL returned to the AWS CodePipeline console that contains a link to the top-level landing page for the external system, such as console page for AWS CodeDeploy. This link is shown on the pipeline view page in the AWS CodePipeline console and provides a link to the execution entity of the external action.
+        /// The URL returned to the AWS CodePipeline console that contains a link to the top-level landing page for the external system, such as the console page for AWS CodeDeploy. This link is shown on the pipeline view page in the AWS CodePipeline console and provides a link to the execution entity of the external action.
         public let executionUrlTemplate: String?
         /// The URL returned to the AWS CodePipeline console that contains a link to the page where customers can update or change the configuration of the external action.
         public let revisionUrlTemplate: String?
@@ -898,7 +898,7 @@ extension CodePipeline {
 
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
         public let created: TimeStamp?
-        /// The name of an artifact. This name might be system-generated, such as "MyApp", or might be defined by the user when an action is created.
+        /// The name of an artifact. This name might be system-generated, such as "MyApp", or defined by the user when an action is created.
         public let name: String?
         /// An additional identifier for a revision, such as a commit date or, for artifacts stored in Amazon S3 buckets, the ETag value.
         public let revisionChangeIdentifier: String?
@@ -937,7 +937,7 @@ extension CodePipeline {
 
         /// The encryption key used to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If this is undefined, the default key for Amazon S3 is used.
         public let encryptionKey: EncryptionKey?
-        /// The Amazon S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder within the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any Amazon S3 bucket in the same AWS Region as the pipeline to store your pipeline artifacts.
+        /// The Amazon S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder in the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any Amazon S3 bucket in the same AWS Region as the pipeline to store your pipeline artifacts.
         public let location: String
         /// The type of the artifact store, such as S3.
         public let `type`: ArtifactStoreType
@@ -1315,11 +1315,11 @@ extension CodePipeline {
 
         /// The name of the pipeline in which you want to disable the flow of artifacts from one stage to another.
         public let pipelineName: String
-        /// The reason given to the user why a stage is disabled, such as waiting for manual approval or manual tests. This message is displayed in the pipeline console UI.
+        /// The reason given to the user that a stage is disabled, such as waiting for manual approval or manual tests. This message is displayed in the pipeline console UI.
         public let reason: String
         /// The name of the stage where you want to disable the inbound or outbound transition of artifacts.
         public let stageName: String
-        /// Specifies whether artifacts will be prevented from transitioning into the stage and being processed by the actions in that stage (inbound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound).
+        /// Specifies whether artifacts are prevented from transitioning into the stage and being processed by the actions in that stage (inbound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound).
         public let transitionType: StageTransitionType
 
         public init(pipelineName: String, reason: String, stageName: String, transitionType: StageTransitionType) {
@@ -1360,7 +1360,7 @@ extension CodePipeline {
         public let pipelineName: String
         /// The name of the stage where you want to enable the transition of artifacts, either into the stage (inbound) or from that stage to the next stage (outbound).
         public let stageName: String
-        /// Specifies whether artifacts will be allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already-processed artifacts will be allowed to transition to the next stage (outbound).
+        /// Specifies whether artifacts are allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already processed artifacts are allowed to transition to the next stage (outbound).
         public let transitionType: StageTransitionType
 
         public init(pipelineName: String, stageName: String, transitionType: StageTransitionType) {
@@ -1423,7 +1423,7 @@ extension CodePipeline {
             AWSShapeMember(label: "message", required: false, type: .string)
         ]
 
-        /// The system ID or error number code of the error.
+        /// The system ID or number code of the error.
         public let code: String?
         /// The text of the error message.
         public let message: String?
@@ -1448,7 +1448,7 @@ extension CodePipeline {
 
         /// The system-generated unique ID of this action used to identify this job worker in any external systems, such as AWS CodeDeploy.
         public let externalExecutionId: String?
-        /// The percentage of work completed on the action, represented on a scale of zero to one hundred percent.
+        /// The percentage of work completed on the action, represented on a scale of 0 to 100 percent.
         public let percentComplete: Int?
         /// The summary of the current status of the actions.
         public let summary: String?
@@ -1631,9 +1631,9 @@ extension CodePipeline {
             AWSShapeMember(label: "version", required: false, type: .integer)
         ]
 
-        /// The name of the pipeline for which you want to get information. Pipeline names must be unique under an Amazon Web Services (AWS) user account.
+        /// The name of the pipeline for which you want to get information. Pipeline names must be unique under an AWS user account.
         public let name: String
-        /// The version number of the pipeline. If you do not specify a version, defaults to the most current version.
+        /// The version number of the pipeline. If you do not specify a version, defaults to the current version.
         public let version: Int?
 
         public init(name: String, version: Int? = nil) {
@@ -1712,7 +1712,7 @@ extension CodePipeline {
         public let created: TimeStamp?
         /// The name of the pipeline for which you want to get the state.
         public let pipelineName: String?
-        /// The version number of the pipeline.  A newly-created pipeline is always assigned a version number of 1. 
+        /// The version number of the pipeline.  A newly created pipeline is always assigned a version number of 1. 
         public let pipelineVersion: Int?
         /// A list of the pipeline stage output information, including stage name, state, most recent run details, whether the stage is disabled, and other data.
         public let stageStates: [StageState]?
@@ -1787,7 +1787,7 @@ extension CodePipeline {
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
 
-        /// The name of the artifact to be worked on, for example, "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
+        /// The name of the artifact to be worked on (for example, "My App"). The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
         public let name: String
 
         public init(name: String) {
@@ -1815,7 +1815,7 @@ extension CodePipeline {
 
         /// The ID of the AWS account to use when performing the job.
         public let accountId: String?
-        /// Additional data about a job.
+        /// Other data about a job.
         public let data: JobData?
         /// The unique system-generated ID of the job.
         public let id: String?
@@ -1855,7 +1855,7 @@ extension CodePipeline {
         public let actionTypeId: ActionTypeId?
         /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the Amazon S3 bucket used to store artifacts for the pipeline in AWS CodePipeline.
         public let artifactCredentials: AWSSessionCredentials?
-        /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires in order to continue the job asynchronously.
+        /// A system-generated token, such as a AWS CodeDeploy deployment ID, required by a job to continue the job asynchronously.
         public let continuationToken: String?
         /// Represents information about the key used to encrypt data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. 
         public let encryptionKey: EncryptionKey?
@@ -1863,7 +1863,7 @@ extension CodePipeline {
         public let inputArtifacts: [Artifact]?
         /// The output of the job.
         public let outputArtifacts: [Artifact]?
-        /// Represents information about a pipeline to a job worker.  Includes pipelineArn and pipelineExecutionId for Custom jobs. 
+        /// Represents information about a pipeline to a job worker.  Includes pipelineArn and pipelineExecutionId for custom jobs. 
         public let pipelineContext: PipelineContext?
 
         public init(actionConfiguration: ActionConfiguration? = nil, actionTypeId: ActionTypeId? = nil, artifactCredentials: AWSSessionCredentials? = nil, continuationToken: String? = nil, encryptionKey: EncryptionKey? = nil, inputArtifacts: [Artifact]? = nil, outputArtifacts: [Artifact]? = nil, pipelineContext: PipelineContext? = nil) {
@@ -1898,7 +1898,7 @@ extension CodePipeline {
 
         /// The AWS account ID associated with the job.
         public let accountId: String?
-        /// Represents additional information about a job required for a job worker to complete the job. 
+        /// Represents other information about a job required for a job worker to complete the job. 
         public let data: JobData?
         /// The unique system-generated ID of the job.
         public let id: String?
@@ -2027,7 +2027,7 @@ extension CodePipeline {
 
         /// Provides details of the action types.
         public let actionTypes: [ActionType]
-        /// If the amount of returned information is significantly large, an identifier is also returned which can be used in a subsequent list action types call to return the next set of action types in the list.
+        /// If the amount of returned information is significantly large, an identifier is also returned. It can be used in a subsequent list action types call to return the next set of action types in the list.
         public let nextToken: String?
 
         public init(actionTypes: [ActionType], nextToken: String? = nil) {
@@ -2105,7 +2105,7 @@ extension CodePipeline {
             AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
 
-        /// An identifier that was returned from the previous list pipelines call, which can be used to return the next set of pipelines in the list.
+        /// An identifier that was returned from the previous list pipelines call. It can be used to return the next set of pipelines in the list.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
@@ -2128,7 +2128,7 @@ extension CodePipeline {
             AWSShapeMember(label: "pipelines", required: false, type: .list)
         ]
 
-        /// If the amount of returned information is significantly large, an identifier is also returned which can be used in a subsequent list pipelines call to return the next set of pipelines in the list.
+        /// If the amount of returned information is significantly large, an identifier is also returned. It can be used in a subsequent list pipelines call to return the next set of pipelines in the list.
         public let nextToken: String?
         /// The list of pipelines.
         public let pipelines: [PipelineSummary]?
@@ -2153,7 +2153,7 @@ extension CodePipeline {
 
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
-        /// The token that was returned from the previous API call, which would be used to return the next page of the list. However, the ListTagsforResource call lists all available tags in one call and does not use pagination.
+        /// The token that was returned from the previous API call, which would be used to return the next page of the list. The ListTagsforResource call lists all available tags in one call and does not use pagination.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource to get tags for.
         public let resourceArn: String
@@ -2185,7 +2185,7 @@ extension CodePipeline {
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
-        /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent API call to return the next page of the list. However, the ListTagsforResource call lists all available tags in one call and does not use pagination.
+        /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent API call to return the next page of the list. The ListTagsforResource call lists all available tags in one call and does not use pagination.
         public let nextToken: String?
         /// The tags for the resource.
         public let tags: [Tag]?
@@ -2224,7 +2224,7 @@ extension CodePipeline {
         public let lastTriggered: TimeStamp?
         /// Specifies the tags applied to the webhook.
         public let tags: [Tag]?
-        /// A unique URL generated by CodePipeline. When a POST request is made to this URL, the defined pipeline is started as long as the body of the post request satisfies the defined authentication and filtering conditions. Deleting and re-creating a webhook will make the old URL invalid and generate a new URL.
+        /// A unique URL generated by CodePipeline. When a POST request is made to this URL, the defined pipeline is started as long as the body of the post request satisfies the defined authentication and filtering conditions. Deleting and re-creating a webhook makes the old URL invalid and generates a new one.
         public let url: String
 
         public init(arn: String? = nil, definition: WebhookDefinition, errorCode: String? = nil, errorMessage: String? = nil, lastTriggered: TimeStamp? = nil, tags: [Tag]? = nil, url: String) {
@@ -2331,7 +2331,7 @@ extension CodePipeline {
             AWSShapeMember(label: "stage", required: false, type: .structure)
         ]
 
-        /// The context of an action to a job worker within the stage of a pipeline.
+        /// The context of an action to a job worker in the stage of a pipeline.
         public let action: ActionContext?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public let pipelineArn: String?
@@ -2371,7 +2371,7 @@ extension CodePipeline {
 
         /// Represents information about the Amazon S3 bucket where artifacts are stored for the pipeline.  You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores. 
         public let artifactStore: ArtifactStore?
-        /// A mapping of artifactStore objects and their corresponding regions. There must be an artifact store for the pipeline region and for each cross-region action within the pipeline.  You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores. 
+        /// A mapping of artifactStore objects and their corresponding AWS Regions. There must be an artifact store for the pipeline Region and for each cross-region action in the pipeline.  You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores. 
         public let artifactStores: [String: ArtifactStore]?
         /// The name of the action to be performed.
         public let name: String
@@ -2379,7 +2379,7 @@ extension CodePipeline {
         public let roleArn: String
         /// The stage in which to perform the action.
         public let stages: [StageDeclaration]
-        /// The version number of the pipeline. A new pipeline always has a version number of 1. This number is automatically incremented when a pipeline is updated.
+        /// The version number of the pipeline. A new pipeline always has a version number of 1. This number is incremented when a pipeline is updated.
         public let version: Int?
 
         public init(artifactStore: ArtifactStore? = nil, artifactStores: [String: ArtifactStore]? = nil, name: String, roleArn: String, stages: [StageDeclaration], version: Int? = nil) {
@@ -2576,7 +2576,7 @@ extension CodePipeline {
         public let actionTypeId: ActionTypeId
         /// The maximum number of jobs to return in a poll for jobs call.
         public let maxBatchSize: Int?
-        /// A map of property names and values. For an action type with no queryable properties, this value must be null or an empty map. For an action type with a queryable property, you must supply that property as a key in the map. Only jobs whose action configuration matches the mapped value will be returned.
+        /// A map of property names and values. For an action type with no queryable properties, this value must be null or an empty map. For an action type with a queryable property, you must supply that property as a key in the map. Only jobs whose action configuration matches the mapped value are returned.
         public let queryParam: [String: String]?
 
         public init(actionTypeId: ActionTypeId, maxBatchSize: Int? = nil, queryParam: [String: String]? = nil) {
@@ -2673,13 +2673,13 @@ extension CodePipeline {
             AWSShapeMember(label: "stageName", required: true, type: .string)
         ]
 
-        /// The name of the action that will process the revision.
+        /// The name of the action that processes the revision.
         public let actionName: String
         /// Represents information about the version (or revision) of an action.
         public let actionRevision: ActionRevision
-        /// The name of the pipeline that will start processing the revision to the source.
+        /// The name of the pipeline that starts processing the revision to the source.
         public let pipelineName: String
-        /// The name of the stage that contains the action that will act upon the revision.
+        /// The name of the stage that contains the action that acts on the revision.
         public let stageName: String
 
         public init(actionName: String, actionRevision: ActionRevision, pipelineName: String, stageName: String) {
@@ -2749,7 +2749,7 @@ extension CodePipeline {
         public let result: ApprovalResult
         /// The name of the stage that contains the action.
         public let stageName: String
-        /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action and is used to validate that the approval request corresponding to this token is still valid.
+        /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid.
         public let token: String
 
         public init(actionName: String, pipelineName: String, result: ApprovalResult, stageName: String, token: String) {
@@ -2835,9 +2835,9 @@ extension CodePipeline {
             AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
 
-        /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a custom action in progress. Future jobs will use this token in order to identify the running instance of the action. It can be reused to return additional information about the progress of the custom action. When the action is complete, no continuation token should be supplied.
+        /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a custom action in progress. Future jobs use this token to identify the running instance of the action. It can be reused to return more information about the progress of the custom action. When the action is complete, no continuation token should be supplied.
         public let continuationToken: String?
-        /// The ID of the current revision of the artifact successfully worked upon by the job.
+        /// The ID of the current revision of the artifact successfully worked on by the job.
         public let currentRevision: CurrentRevision?
         /// The execution details of the successful job, such as the actions taken by the job worker.
         public let executionDetails: ExecutionDetails?
@@ -2913,7 +2913,7 @@ extension CodePipeline {
 
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
-        /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a partner action in progress. Future jobs will use this token in order to identify the running instance of the action. It can be reused to return additional information about the progress of the partner action. When the action is complete, no continuation token should be supplied.
+        /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a partner action in progress. Future jobs use this token to identify the running instance of the action. It can be reused to return more information about the progress of the partner action. When the action is complete, no continuation token should be supplied.
         public let continuationToken: String?
         /// Represents information about a current revision.
         public let currentRevision: CurrentRevision?
@@ -2958,7 +2958,7 @@ extension CodePipeline {
 
         /// The tags for the webhook.
         public let tags: [Tag]?
-        /// The detail provided in an input file to create the webhook, such as the webhook name, the pipeline name, and the action name. Give the webhook a unique name which identifies the webhook being defined. You may choose to name the webhook after the pipeline and action it targets so that you can easily recognize what it's used for later.
+        /// The detail provided in an input file to create the webhook, such as the webhook name, the pipeline name, and the action name. Give the webhook a unique name that helps you identify it. You might name the webhook after the pipeline and action it targets so that you can easily recognize what it's used for later.
         public let webhook: WebhookDefinition
 
         public init(tags: [Tag]? = nil, webhook: WebhookDefinition) {
@@ -3444,13 +3444,13 @@ extension CodePipeline {
         public let actionTypeId: ActionTypeId?
         /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the Amazon S3 bucket used to store artifact for the pipeline in AWS CodePipeline. 
         public let artifactCredentials: AWSSessionCredentials?
-        /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires in order to continue the job asynchronously.
+        /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires to continue the job asynchronously.
         public let continuationToken: String?
         /// The encryption key used to encrypt and decrypt data in the artifact store for the pipeline, such as an AWS Key Management Service (AWS KMS) key. This is optional and might not be present.
         public let encryptionKey: EncryptionKey?
-        /// The name of the artifact that will be worked upon by the action, if any. This name might be system-generated, such as "MyApp", or might be defined by the user when the action is created. The input artifact name must match the name of an output artifact generated by an action in an earlier action or stage of the pipeline.
+        /// The name of the artifact that is worked on by the action, if any. This name might be system-generated, such as "MyApp", or it might be defined by the user when the action is created. The input artifact name must match the name of an output artifact generated by an action in an earlier action or stage of the pipeline.
         public let inputArtifacts: [Artifact]?
-        /// The name of the artifact that will be the result of the action, if any. This name might be system-generated, such as "MyBuiltApp", or might be defined by the user when the action is created.
+        /// The name of the artifact that is the result of the action, if any. This name might be system-generated, such as "MyBuiltApp", or it might be defined by the user when the action is created.
         public let outputArtifacts: [Artifact]?
         /// Represents information about a pipeline to a job worker.  Does not include pipelineArn and pipelineExecutionId for ThirdParty jobs. 
         public let pipelineContext: PipelineContext?
@@ -3629,7 +3629,7 @@ extension CodePipeline {
             AWSShapeMember(label: "SecretToken", required: false, type: .string)
         ]
 
-        /// The property used to configure acceptance of webhooks within a specific IP range. For IP, only the AllowedIPRange property must be set, and this property must be set to a valid CIDR range.
+        /// The property used to configure acceptance of webhooks in an IP address range. For IP, only the AllowedIPRange property must be set. This property must be set to a valid CIDR range.
         public let allowedIPRange: String?
         /// The property used to configure GitHub authentication. For GITHUB_HMAC, only the SecretToken property must be set.
         public let secretToken: String?
@@ -3669,7 +3669,7 @@ extension CodePipeline {
             AWSShapeMember(label: "targetPipeline", required: true, type: .string)
         ]
 
-        /// Supported options are GITHUB_HMAC, IP and UNAUTHENTICATED.   For information about the authentication scheme implemented by GITHUB_HMAC, see Securing your webhooks on the GitHub Developer website.    IP will reject webhooks trigger requests unless they originate from an IP within the IP range whitelisted in the authentication configuration.    UNAUTHENTICATED will accept all webhook trigger requests regardless of origin.  
+        /// Supported options are GITHUB_HMAC, IP, and UNAUTHENTICATED.   For information about the authentication scheme implemented by GITHUB_HMAC, see Securing your webhooks on the GitHub Developer website.    IP rejects webhooks trigger requests unless they originate from an IP address in the IP range whitelisted in the authentication configuration.    UNAUTHENTICATED accepts all webhook trigger requests regardless of origin.  
         public let authentication: WebhookAuthenticationType
         /// Properties that configure the authentication applied to incoming webhook trigger requests. The required properties depend on the authentication type. For GITHUB_HMAC, only the SecretToken property must be set. For IP, only the AllowedIPRange property must be set to a valid CIDR range. For UNAUTHENTICATED, no properties can be set.
         public let authenticationConfiguration: WebhookAuthConfiguration
@@ -3724,9 +3724,9 @@ extension CodePipeline {
             AWSShapeMember(label: "matchEquals", required: false, type: .string)
         ]
 
-        /// A JsonPath expression that will be applied to the body/payload of the webhook. The value selected by the JsonPath expression must match the value specified in the MatchEquals field, otherwise the request will be ignored. For more information about JsonPath expressions, see Java JsonPath implementation in GitHub.
+        /// A JsonPath expression that is applied to the body/payload of the webhook. The value selected by the JsonPath expression must match the value specified in the MatchEquals field. Otherwise, the request is ignored. For more information, see Java JsonPath implementation in GitHub.
         public let jsonPath: String
-        /// The value selected by the JsonPath expression must match what is supplied in the MatchEquals field, otherwise the request will be ignored. Properties from the target action configuration can be included as placeholders in this value by surrounding the action configuration key with curly braces. For example, if the value supplied here is "refs/heads/{Branch}" and the target action has an action configuration property called "Branch" with a value of "master", the MatchEquals value will be evaluated as "refs/heads/master". For a list of action configuration properties for built-in action types, see Pipeline Structure Reference Action Requirements.
+        /// The value selected by the JsonPath expression must match what is supplied in the MatchEquals field. Otherwise, the request is ignored. Properties from the target action configuration can be included as placeholders in this value by surrounding the action configuration key with curly brackets. For example, if the value supplied here is "refs/heads/{Branch}" and the target action has an action configuration property called "Branch" with a value of "master", the MatchEquals value is evaluated as "refs/heads/master". For a list of action configuration properties for built-in action types, see Pipeline Structure Reference Action Requirements.
         public let matchEquals: String?
 
         public init(jsonPath: String, matchEquals: String? = nil) {
