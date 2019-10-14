@@ -45,12 +45,6 @@ let package = Package(
 )
 ```
 
-### Carthage
-Not supported yet
-
-### Cocoapods
-Not supported yet
-
 ## Contributing
 
 All developers should feel welcome and encouraged to contribute to `aws-sdk-swift`.
