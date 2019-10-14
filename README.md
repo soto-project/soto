@@ -32,7 +32,7 @@ import PackageDescription
 let package = Package(
     name: "MyAWSApp",
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "3.2.0")
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "3.3.0")
     ],
     targets: [
       .target(
@@ -130,12 +130,12 @@ let s3 = S3(
 // Create Bucket, Put an Object, Get the Object
 let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
 
-s3.createBucket(createBucketRequest).then { response -> Future<S3.PutObjectOutput> in
+s3.createBucket(createBucketRequest).flatMap { response -> Future<S3.PutObjectOutput> in
     // Upload text file to the s3
     let bodyData = "hello world".data(using: .utf8)!
     let putObjectRequest = S3.PutObjectRequest(acl: .publicRead, bucket: bucket, contentLength: Int64(bodyData.count), body: bodyData, key: "hello.txt")
     return s3.putObject(putObjectRequest)
-}.then { response -> Future<S3.GetObjectOutput> in
+}.flatMap { response -> Future<S3.GetObjectOutput> in
     let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
     return s3.getObject(getObjectRequest)
 }.whenSuccess { response in
