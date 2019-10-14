@@ -24,6 +24,7 @@ fi
 
 if [ "macos" = "${OS}" ];
 then
+    brew update
     brew install libressl
 else
     dpkg -s libssl-dev | grep Status | grep -q install 2> /dev/null
