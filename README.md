@@ -3,6 +3,7 @@
 AWS SDK for the Swift programming language.
 This library doesn't depend on Objective-C Runtime, So you can use this with Linux.
 
+[<img src="http://img.shields.io/badge/swift-5.0-brightgreen.svg" alt="Swift 5.0" />](https://swift.org)
 [<img src="https://travis-ci.org/swift-aws/aws-sdk-swift.svg?branch=master">](https://travis-ci.org/swift-aws/aws-sdk-swift)
 
 
