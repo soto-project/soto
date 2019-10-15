@@ -60,6 +60,9 @@ for D in $(find $SOURCE_PATH -depth 1 -type d); do
     if [[ $GIT_STATUS_R == *"nothing to commit"* ]]; then
         echo "Nothing to commit. switch to the next module...."
         echo ""
+        git tag $TAG
+        git push origin $TAG
+        popd
         continue
     fi
 

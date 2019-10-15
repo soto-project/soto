@@ -1,6 +1,6 @@
 # {{repositoryName}}
 
-An AWS {{repositoryName}} type safe client for Swift (This is part of [aws-sdk-swift](https://github.com/swift-aws/aws-sdk-swift))
+An AWS {{repositoryName}} type safe client for Swift (This is part of [aws-sdk-swift](https://github.com/swift-aws/aws-sdk-swift)). This repository is only updated infrequently. If you want a more up to date version please checkout the equivalent module in [aws-sdk-swift](https://github.com/swift-aws/aws-sdk-swift)
 
 ## Documentation
 
