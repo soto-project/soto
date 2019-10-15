@@ -1,25 +1,9 @@
-FROM ubuntu:14.04
+FROM swift:5.1 as builder
 
-RUN apt-get update -y
-RUN apt-get install -y clang \
-  libicu-dev \
-  uuid-dev \
-  git \
-  libxml2-dev \
-  libxslt1-dev \
-  python-dev \
-  libcurl4-openssl-dev \
-  wget
+RUN apt-get -qq update && apt-get install -y \
+  libssl-dev zlib1g-dev \
+  && rm -r /var/lib/apt/lists/*
 
-ENV SWIFT_VERSION="4.1.2"
-ENV SWIFTFILE="swift-$SWIFT_VERSION-RELEASE-ubuntu14.04"
-
-RUN wget https://swift.org/builds/swift-$SWIFT_VERSION-release/ubuntu1404/swift-$SWIFT_VERSION-RELEASE/$SWIFTFILE.tar.gz
-RUN tar -zxf $SWIFTFILE.tar.gz
-ENV PATH $PWD/$SWIFTFILE/usr/bin:"${PATH}"
-
-COPY . aws-sdk-swift
-
-WORKDIR aws-sdk-swift
-
-CMD swift test
+WORKDIR /aws-sdk-swift
+COPY . .
+RUN swift test

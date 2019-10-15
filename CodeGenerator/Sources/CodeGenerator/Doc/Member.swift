@@ -17,6 +17,18 @@ public enum ShapeEncoding {
 }
 
 public struct Member {
+
+    public struct Options : OptionSet {
+        public let rawValue: Int
+        
+        public init(rawValue: Int) {
+            self.rawValue =  rawValue
+        }
+        
+        static let streaming    = Options(rawValue: 1 << 0)
+        static let idempotencyToken  = Options(rawValue: 1 << 1)
+    }
+    
     public let name: String
     public let required: Bool
     public let shape: Shape
@@ -24,9 +36,9 @@ public struct Member {
     public let shapeEncoding: ShapeEncoding?
     public let locationName: String?
     public let xmlNamespace: XMLNamespace?
-    public let isStreaming: Bool
+    public let options: Options
     
-    public init(name: String, required: Bool, shape: Shape, location: Location?, locationName: String?, shapeEncoding: ShapeEncoding?, xmlNamespace: XMLNamespace?, isStreaming: Bool){
+    public init(name: String, required: Bool, shape: Shape, location: Location?, locationName: String?, shapeEncoding: ShapeEncoding?, xmlNamespace: XMLNamespace?, options: Options){
         self.name = name
         self.required = required
         self.shape = shape
@@ -34,6 +46,6 @@ public struct Member {
         self.locationName = locationName
         self.shapeEncoding = shapeEncoding
         self.xmlNamespace = xmlNamespace
-        self.isStreaming = isStreaming
+        self.options = options
     }
 }

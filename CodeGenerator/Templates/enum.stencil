@@ -1,0 +1,6 @@
+    public enum {{enum.name}}: String, CustomStringConvertible, Codable {
+{%for value in enum.values %}
+        case {{value.case}} = "{{value.string}}"
+{%endfor %}
+        public var description: String { return self.rawValue }
+    }

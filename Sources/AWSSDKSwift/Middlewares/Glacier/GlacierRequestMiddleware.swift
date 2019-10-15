@@ -3,7 +3,7 @@ import AWSSDKSwiftCore
 
 let MEGA_BYTE = 1024 * 1024
 
-public struct GlacierRequestMiddleware: AWSRequestMiddleware {
+public struct GlacierRequestMiddleware: AWSServiceMiddleware {
 
     let apiVersion: String
 
@@ -18,7 +18,7 @@ public struct GlacierRequestMiddleware: AWSRequestMiddleware {
         let treeHashHeader = "x-amz-sha256-tree-hash"
 
         if request.httpHeaders[treeHashHeader] == nil {
-            if let data = try request.body.asData() {
+            if let data = request.body.asData() {
                 let treeHash = computeTreeHash(data).hexdigest()
                 request.addValue(treeHash, forHTTPHeaderField: treeHashHeader)
             }
