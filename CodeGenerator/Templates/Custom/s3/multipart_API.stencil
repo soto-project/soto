@@ -31,7 +31,7 @@ public extension S3 {
         // function downloading part of a file
         func multipartDownloadPart(fileSize: Int64, offset: Int64) -> Future<Int64> {
             guard fileSize > offset else {
-                return eventLoop.newSucceededFuture(result: fileSize)
+                return eventLoop.makeSucceededFuture(fileSize)
             }
 
             let range = "bytes=\(offset)-\(offset + Int64(partSize - 1))"
@@ -45,8 +45,8 @@ public extension S3 {
                 versionId: input.versionId
             )
             let result = getObject(getRequest)
-                .hopTo(eventLoop: eventLoop)
-                .then { (output) -> Future<Int64> in
+                .hop(to: eventLoop)
+                .flatMap { (output) -> Future<Int64> in
                     do {
                         // should never happen
                         guard let body = output.body else {
@@ -63,9 +63,9 @@ public extension S3 {
                         }
 
                     } catch {
-                        return eventLoop.newFailedFuture(error: error)
+                        return eventLoop.makeFailedFuture(error)
                     }
-            }.then { (outputBody) -> Future<Int64> in
+            }.flatMap { (outputBody) -> Future<Int64> in
                 let newOffset = offset + Int64(partSize)
                 return multipartDownloadPart(fileSize: fileSize, offset: newOffset)
             }
@@ -87,8 +87,8 @@ public extension S3 {
             versionId: input.versionId
         )
         let result = headObject(headRequest)
-            .hopTo(eventLoop: eventLoop)
-            .then { object -> Future<Int64> in
+            .hop(to: eventLoop)
+            .flatMap { object -> Future<Int64> in
                 do {
                     guard let contentLength = object.contentLength else {
                         throw S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero")
@@ -96,7 +96,7 @@ public extension S3 {
                     // download file
                     return multipartDownloadPart(fileSize: contentLength, offset: 0)
                 } catch {
-                    return eventLoop.newFailedFuture(error: error)
+                    return eventLoop.makeFailedFuture(error)
                 }
         }
         return result
@@ -124,7 +124,7 @@ public extension S3 {
             }
 
             return fileHandle
-        }.then { (fileHandle) -> Future<Int64> in
+        }.flatMap { (fileHandle) -> Future<Int64> in
             var progressValue : Int64 = 0
             let outputStream: (Data, Int64) throws -> () = {  data, fileSize in
                 fileHandle.write(data)
@@ -137,7 +137,7 @@ public extension S3 {
                 on: eventLoop,
                 outputStream: outputStream
             )
-            download.whenComplete {
+            download.whenComplete { _ in
                 fileHandle.closeFile()
             }
             return download
@@ -166,7 +166,7 @@ public extension S3 {
                     return completedParts
                 }
             } else {
-                uploadResult = AWSClient.eventGroup.next().newSucceededFuture(result: [])
+                uploadResult = AWSClient.eventGroup.next().makeSucceededFuture([])
             }
 
             // load data future
@@ -175,23 +175,23 @@ public extension S3 {
                 }
                 .and(uploadResult)
                 // upload data
-                .then { (data, parts) -> Future<[S3.CompletedPart]> in
-                    guard let data = data else { return AWSClient.eventGroup.next().newSucceededFuture(result: parts)}
+                .flatMap { (data, parts) -> Future<[S3.CompletedPart]> in
+                    guard let data = data else { return AWSClient.eventGroup.next().makeSucceededFuture(parts)}
                     return multipartUploadPart(partNumber: partNumber+1, uploadId: uploadId, body: data)
             }
             return result
         }
 
         // initialize multipart upload
-        let result = createMultipartUpload(input).then { upload -> Future<CompleteMultipartUploadOutput> in
-            guard let uploadId = upload.uploadId else { return AWSClient.eventGroup.next().newFailedFuture(error: S3ErrorType.multipart.noUploadId) }
+        let result = createMultipartUpload(input).flatMap { upload -> Future<CompleteMultipartUploadOutput> in
+            guard let uploadId = upload.uploadId else { return AWSClient.eventGroup.next().makeFailedFuture(S3ErrorType.multipart.noUploadId) }
             // upload all the parts
             return multipartUploadPart(partNumber: 1, uploadId: uploadId)
-                .then { parts -> Future<CompleteMultipartUploadOutput> in
+                .flatMap { parts -> Future<CompleteMultipartUploadOutput> in
                     let request = S3.CompleteMultipartUploadRequest(bucket: input.bucket, key:input.key, multipartUpload: S3.CompletedMultipartUpload(parts:parts), requestPayer: input.requestPayer, uploadId: uploadId)
                     return self.completeMultipartUpload(request)
                 }
-                .thenIfErrorThrowing { error in
+                .flatMapErrorThrowing { error in
                     // if failure then abort the multipart upload
                     let request = S3.AbortMultipartUploadRequest(bucket: input.bucket, key: input.key, requestPayer: input.requestPayer, uploadId: uploadId)
                     _ = self.abortMultipartUpload(request)
@@ -217,7 +217,7 @@ public extension S3 {
             inputStream.open()
             return inputStream
             }
-            .then { (inputStream)->Future<CompleteMultipartUploadOutput> in
+            .flatMap { (inputStream)->Future<CompleteMultipartUploadOutput> in
 
                 var progressAmount : Int64 = 0
                 let upload = self.multipartUpload(input, inputStream: {
@@ -241,7 +241,7 @@ public extension S3 {
                     }
                     return data
                 })
-                upload.whenComplete {
+                upload.whenComplete { _ in
                     inputStream.close()
                 }
                 return upload

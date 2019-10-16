@@ -31,7 +31,7 @@ public extension S3 {
         // function downloading part of a file
         func multipartDownloadPart(fileSize: Int64, offset: Int64) -> Future<Int64> {
             guard fileSize > offset else {
-                return eventLoop.newSucceededFuture(result: fileSize)
+                return eventLoop.makeSucceededFuture(fileSize)
             }
 
             let range = "bytes=\(offset)-\(offset + Int64(partSize - 1))"
@@ -45,8 +45,8 @@ public extension S3 {
                 versionId: input.versionId
             )
             let result = getObject(getRequest)
-                .hopTo(eventLoop: eventLoop)
-                .then { (output) -> Future<Int64> in
+                .hop(to: eventLoop)
+                .flatMap { (output) -> Future<Int64> in
                     do {
                         // should never happen
                         guard let body = output.body else {
@@ -63,9 +63,9 @@ public extension S3 {
                         }
 
                     } catch {
-                        return eventLoop.newFailedFuture(error: error)
+                        return eventLoop.makeFailedFuture(error)
                     }
-            }.then { (outputBody) -> Future<Int64> in
+            }.flatMap { (outputBody) -> Future<Int64> in
                 let newOffset = offset + Int64(partSize)
                 return multipartDownloadPart(fileSize: fileSize, offset: newOffset)
             }
@@ -87,8 +87,8 @@ public extension S3 {
             versionId: input.versionId
         )
         let result = headObject(headRequest)
-            .hopTo(eventLoop: eventLoop)
-            .then { object -> Future<Int64> in
+            .hop(to: eventLoop)
+            .flatMap { object -> Future<Int64> in
                 do {
                     guard let contentLength = object.contentLength else {
                         throw S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero")
@@ -96,7 +96,7 @@ public extension S3 {
                     // download file
                     return multipartDownloadPart(fileSize: contentLength, offset: 0)
                 } catch {
-                    return eventLoop.newFailedFuture(error: error)
+                    return eventLoop.makeFailedFuture(error)
                 }
         }
         return result
@@ -124,7 +124,7 @@ public extension S3 {
             }
 
             return fileHandle
-        }.then { (fileHandle) -> Future<Int64> in
+        }.flatMap { (fileHandle) -> Future<Int64> in
             var progressValue : Int64 = 0
             let outputStream: (Data, Int64) throws -> () = {  data, fileSize in
                 fileHandle.write(data)
@@ -137,7 +137,7 @@ public extension S3 {
                 on: eventLoop,
                 outputStream: outputStream
             )
-            download.whenComplete {
+            download.whenComplete { _ in
                 fileHandle.closeFile()
             }
             return download
@@ -158,7 +158,18 @@ public extension S3 {
             // create upload data future, if there is no data to load because this is the first time this is called create a succeeded future
             let uploadResult : Future<[S3.CompletedPart]>
             if let body = body {
-                let request = S3.UploadPartRequest(body: body, bucket: input.bucket, contentLength: Int64(body.count), key: input.key, partNumber: partNumber, requestPayer: input.requestPayer, sSECustomerAlgorithm: input.sSECustomerAlgorithm, sSECustomerKey: input.sSECustomerKey, sSECustomerKeyMD5: input.sSECustomerKeyMD5, uploadId: uploadId)
+                let request = S3.UploadPartRequest(
+                    body: body,
+                    bucket: input.bucket,
+                    contentLength: Int64(body.count),
+                    key: input.key,
+                    partNumber: partNumber,
+                    requestPayer: input.requestPayer,
+                    sSECustomerAlgorithm: input.sSECustomerAlgorithm,
+                    sSECustomerKey: input.sSECustomerKey,
+                    sSECustomerKeyMD5: input.sSECustomerKeyMD5,
+                    uploadId: uploadId
+                )
                 // request upload future
                 uploadResult = self.uploadPart(request).map { output -> [S3.CompletedPart] in
                     let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
@@ -166,7 +177,7 @@ public extension S3 {
                     return completedParts
                 }
             } else {
-                uploadResult = AWSClient.eventGroup.next().newSucceededFuture(result: [])
+                uploadResult = AWSClient.eventGroup.next().makeSucceededFuture([])
             }
 
             // load data future
@@ -175,23 +186,29 @@ public extension S3 {
                 }
                 .and(uploadResult)
                 // upload data
-                .then { (data, parts) -> Future<[S3.CompletedPart]> in
-                    guard let data = data else { return AWSClient.eventGroup.next().newSucceededFuture(result: parts)}
+                .flatMap { (data, parts) -> Future<[S3.CompletedPart]> in
+                    guard let data = data else { return AWSClient.eventGroup.next().makeSucceededFuture(parts)}
                     return multipartUploadPart(partNumber: partNumber+1, uploadId: uploadId, body: data)
             }
             return result
         }
 
         // initialize multipart upload
-        let result = createMultipartUpload(input).then { upload -> Future<CompleteMultipartUploadOutput> in
-            guard let uploadId = upload.uploadId else { return AWSClient.eventGroup.next().newFailedFuture(error: S3ErrorType.multipart.noUploadId) }
+        let result = createMultipartUpload(input).flatMap { upload -> Future<CompleteMultipartUploadOutput> in
+            guard let uploadId = upload.uploadId else { return AWSClient.eventGroup.next().makeFailedFuture(S3ErrorType.multipart.noUploadId) }
             // upload all the parts
             return multipartUploadPart(partNumber: 1, uploadId: uploadId)
-                .then { parts -> Future<CompleteMultipartUploadOutput> in
-                    let request = S3.CompleteMultipartUploadRequest(bucket: input.bucket, key:input.key, multipartUpload: S3.CompletedMultipartUpload(parts:parts), requestPayer: input.requestPayer, uploadId: uploadId)
+                .flatMap { parts -> Future<CompleteMultipartUploadOutput> in
+                    let request = S3.CompleteMultipartUploadRequest(
+                        bucket: input.bucket,
+                        key:input.key,
+                        multipartUpload: S3.CompletedMultipartUpload(parts:parts),
+                        requestPayer: input.requestPayer,
+                        uploadId: uploadId
+                    )
                     return self.completeMultipartUpload(request)
                 }
-                .thenIfErrorThrowing { error in
+                .flatMapErrorThrowing { error in
                     // if failure then abort the multipart upload
                     let request = S3.AbortMultipartUploadRequest(bucket: input.bucket, key: input.key, requestPayer: input.requestPayer, uploadId: uploadId)
                     _ = self.abortMultipartUpload(request)
@@ -211,40 +228,32 @@ public extension S3 {
     /// - returns: A Future that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
     func multipartUpload(_ input: CreateMultipartUploadRequest, partSize: Int = 5*1024*1024, filename: String, progress: @escaping (Double) throws->() = { _ in }) -> Future<CompleteMultipartUploadOutput> {
         var fileSize : UInt64 = 0
-        return AWSClient.eventGroup.next().submit {  ()->InputStream in
+        return AWSClient.eventGroup.next().submit {  () -> FileHandle in
             fileSize = try FileManager.default.attributesOfItem(atPath: filename)[.size] as? UInt64 ?? UInt64.max
-            guard let inputStream = InputStream(fileAtPath: filename) else { throw S3ErrorType.multipart.failedToRead(file: filename) }
-            inputStream.open()
-            return inputStream
+
+            guard let fileHandle = FileHandle(forReadingAtPath: filename) else {
+                throw S3ErrorType.multipart.failedToOpen(file: filename)
             }
-            .then { (inputStream)->Future<CompleteMultipartUploadOutput> in
+            return fileHandle
+        }.flatMap { (fileHandle) -> Future<CompleteMultipartUploadOutput> in
+            var progressAmount : Int64 = 0
 
-                var progressAmount : Int64 = 0
-                let upload = self.multipartUpload(input, inputStream: {
-                    try progress(Double(progressAmount) / Double(fileSize))
+            let inputStream: () throws -> Data? = {
+                try progress(Double(progressAmount) / Double(fileSize))
+                let data = fileHandle.readData(ofLength: partSize)
+                progressAmount += Int64(data.count)
+                return data
+            }
 
-                    var data = Data(count:partSize)
-                    let bytesRead = data.withUnsafeMutableBytes { (bytes : UnsafeMutablePointer<UInt8>) -> Int in
-                        return inputStream.read(bytes, maxLength: partSize)
-                    }
-                    if bytesRead == 0 {
-                        return nil
-                    }
-                    if bytesRead == -1 {
-                        throw S3ErrorType.multipart.failedToRead(file: filename)
-                    }
+            let upload = self.multipartUpload(
+                input,
+                inputStream: inputStream
+            )
 
-                    progressAmount += Int64(bytesRead)
-
-                    if bytesRead != data.count {
-                        data.removeSubrange(bytesRead..<partSize)
-                    }
-                    return data
-                })
-                upload.whenComplete {
-                    inputStream.close()
-                }
-                return upload
+            upload.whenComplete { _ in
+                fileHandle.closeFile()
+            }
+            return upload
         }
     }
 }
