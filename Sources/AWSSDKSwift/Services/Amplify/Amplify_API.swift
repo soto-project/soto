@@ -76,9 +76,19 @@ public struct Amplify {
         return client.send(operation: "DeleteWebhook", path: "/webhooks/{webhookId}", httpMethod: "DELETE", input: input)
     }
 
+    ///   Retrieve website access logs for a specific time range via a pre-signed URL. Optionally, deliver the logs to a given S3 bucket. 
+    public func generateAccessLogs(_ input: GenerateAccessLogsRequest) -> Future<GenerateAccessLogsResult> {
+        return client.send(operation: "GenerateAccessLogs", path: "/apps/{appId}/accesslogs", httpMethod: "POST", input: input)
+    }
+
     ///   Retrieves an existing Amplify App by appId. 
     public func getApp(_ input: GetAppRequest) -> Future<GetAppResult> {
         return client.send(operation: "GetApp", path: "/apps/{appId}", httpMethod: "GET", input: input)
+    }
+
+    ///   Retrieves artifact info that corresponds to a artifactId. 
+    public func getArtifactUrl(_ input: GetArtifactUrlRequest) -> Future<GetArtifactUrlResult> {
+        return client.send(operation: "GetArtifactUrl", path: "/artifacts/{artifactId}", httpMethod: "GET", input: input)
     }
 
     ///   Retrieves a branch for an Amplify App. 
@@ -104,6 +114,11 @@ public struct Amplify {
     ///   Lists existing Amplify Apps. 
     public func listApps(_ input: ListAppsRequest) -> Future<ListAppsResult> {
         return client.send(operation: "ListApps", path: "/apps", httpMethod: "GET", input: input)
+    }
+
+    ///   List artifacts with an app, a branch, a job and an artifact type. 
+    public func listArtifacts(_ input: ListArtifactsRequest) -> Future<ListArtifactsResult> {
+        return client.send(operation: "ListArtifacts", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts", httpMethod: "GET", input: input)
     }
 
     ///   Lists branches for an Amplify App. 

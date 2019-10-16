@@ -67,6 +67,11 @@ public struct DatabaseMigrationService {
         return client.send(operation: "DeleteCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the connection between a replication instance and an endpoint.
+    public func deleteConnection(_ input: DeleteConnectionMessage) -> Future<DeleteConnectionResponse> {
+        return client.send(operation: "DeleteConnection", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the specified endpoint.  All tasks associated with the endpoint must be deleted before you can delete the endpoint.  
     public func deleteEndpoint(_ input: DeleteEndpointMessage) -> Future<DeleteEndpointResponse> {
         return client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)

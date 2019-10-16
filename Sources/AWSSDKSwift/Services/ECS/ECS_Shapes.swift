@@ -246,9 +246,10 @@ extension ECS {
             AWSShapeMember(label: "containerArn", required: false, type: .string), 
             AWSShapeMember(label: "cpu", required: false, type: .string), 
             AWSShapeMember(label: "exitCode", required: false, type: .integer), 
-            AWSShapeMember(label: "firelensConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "gpuIds", required: false, type: .list), 
             AWSShapeMember(label: "healthStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "image", required: false, type: .string), 
+            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
             AWSShapeMember(label: "lastStatus", required: false, type: .string), 
             AWSShapeMember(label: "memory", required: false, type: .string), 
             AWSShapeMember(label: "memoryReservation", required: false, type: .string), 
@@ -266,12 +267,14 @@ extension ECS {
         public let cpu: String?
         /// The exit code returned from the container.
         public let exitCode: Int?
-        /// The FireLens configuration for the container.
-        public let firelensConfiguration: FirelensConfiguration?
         /// The IDs of each GPU assigned to the container.
         public let gpuIds: [String]?
         /// The health status of the container. If health checks are not configured for this container in its task definition, then it reports the health status as UNKNOWN.
         public let healthStatus: HealthStatus?
+        /// The image used for the container.
+        public let image: String?
+        /// The container image manifest digest.  The imageDigest is only returned if the container is using an image hosted in Amazon ECR, otherwise it is omitted. 
+        public let imageDigest: String?
         /// The last known status of the container.
         public let lastStatus: String?
         /// The hard limit (in MiB) of memory set for the container.
@@ -291,13 +294,14 @@ extension ECS {
         /// The ARN of the task.
         public let taskArn: String?
 
-        public init(containerArn: String? = nil, cpu: String? = nil, exitCode: Int? = nil, firelensConfiguration: FirelensConfiguration? = nil, gpuIds: [String]? = nil, healthStatus: HealthStatus? = nil, lastStatus: String? = nil, memory: String? = nil, memoryReservation: String? = nil, name: String? = nil, networkBindings: [NetworkBinding]? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, runtimeId: String? = nil, taskArn: String? = nil) {
+        public init(containerArn: String? = nil, cpu: String? = nil, exitCode: Int? = nil, gpuIds: [String]? = nil, healthStatus: HealthStatus? = nil, image: String? = nil, imageDigest: String? = nil, lastStatus: String? = nil, memory: String? = nil, memoryReservation: String? = nil, name: String? = nil, networkBindings: [NetworkBinding]? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, runtimeId: String? = nil, taskArn: String? = nil) {
             self.containerArn = containerArn
             self.cpu = cpu
             self.exitCode = exitCode
-            self.firelensConfiguration = firelensConfiguration
             self.gpuIds = gpuIds
             self.healthStatus = healthStatus
+            self.image = image
+            self.imageDigest = imageDigest
             self.lastStatus = lastStatus
             self.memory = memory
             self.memoryReservation = memoryReservation
@@ -313,9 +317,10 @@ extension ECS {
             case containerArn = "containerArn"
             case cpu = "cpu"
             case exitCode = "exitCode"
-            case firelensConfiguration = "firelensConfiguration"
             case gpuIds = "gpuIds"
             case healthStatus = "healthStatus"
+            case image = "image"
+            case imageDigest = "imageDigest"
             case lastStatus = "lastStatus"
             case memory = "memory"
             case memoryReservation = "memoryReservation"
@@ -402,7 +407,7 @@ extension ECS {
         public let essential: Bool?
         /// A list of hostnames and IP address mappings to append to the /etc/hosts file on the container. This parameter maps to ExtraHosts in the Create a container section of the Docker Remote API and the --add-host option to docker run.  This parameter is not supported for Windows containers or tasks that use the awsvpc network mode. 
         public let extraHosts: [HostEntry]?
-        /// The FireLens configuration for the container. This is used to specify and configure a log router for container logs.
+        /// The FireLens configuration for the container. This is used to specify and configure a log router for container logs. For more information, see Custom Log Routing in the Amazon Elastic Container Service Developer Guide.
         public let firelensConfiguration: FirelensConfiguration?
         /// The health check command and associated configuration parameters for the container. This parameter maps to HealthCheck in the Create a container section of the Docker Remote API and the HEALTHCHECK parameter of docker run.
         public let healthCheck: HealthCheck?
@@ -717,6 +722,7 @@ extension ECS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "containerName", required: false, type: .string), 
             AWSShapeMember(label: "exitCode", required: false, type: .integer), 
+            AWSShapeMember(label: "imageDigest", required: false, type: .string), 
             AWSShapeMember(label: "networkBindings", required: false, type: .list), 
             AWSShapeMember(label: "reason", required: false, type: .string), 
             AWSShapeMember(label: "runtimeId", required: false, type: .string), 
@@ -727,6 +733,8 @@ extension ECS {
         public let containerName: String?
         /// The exit code for the container, if the state change is a result of the container exiting.
         public let exitCode: Int?
+        /// The container image SHA 256 digest.
+        public let imageDigest: String?
         /// Any network bindings associated with the container.
         public let networkBindings: [NetworkBinding]?
         /// The reason for the state change.
@@ -736,9 +744,10 @@ extension ECS {
         /// The status of the container.
         public let status: String?
 
-        public init(containerName: String? = nil, exitCode: Int? = nil, networkBindings: [NetworkBinding]? = nil, reason: String? = nil, runtimeId: String? = nil, status: String? = nil) {
+        public init(containerName: String? = nil, exitCode: Int? = nil, imageDigest: String? = nil, networkBindings: [NetworkBinding]? = nil, reason: String? = nil, runtimeId: String? = nil, status: String? = nil) {
             self.containerName = containerName
             self.exitCode = exitCode
+            self.imageDigest = imageDigest
             self.networkBindings = networkBindings
             self.reason = reason
             self.runtimeId = runtimeId
@@ -748,6 +757,7 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case containerName = "containerName"
             case exitCode = "exitCode"
+            case imageDigest = "imageDigest"
             case networkBindings = "networkBindings"
             case reason = "reason"
             case runtimeId = "runtimeId"
@@ -847,7 +857,7 @@ extension ECS {
         public let healthCheckGracePeriodSeconds: Int?
         /// The launch type on which to run your service. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide.
         public let launchType: LaunchType?
-        /// A load balancer object representing the load balancers to use with your service. For more information, see Service Load Balancing in the Amazon Elastic Container Service Developer Guide. If the service is using the rolling update (ECS) deployment controller and using either an Application Load Balancer or Network Load Balancer, you can specify multiple target groups to attach to the service. If the service is using the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an AWS CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, AWS CodeDeploy determines which task set in your service has the status PRIMARY and associates one target group with it, and then associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that allows you perform validation tests with Lambda functions before routing production traffic to it. After you create a service using the ECS deployment controller, the load balancer name or target group ARN, container name, and container port specified in the service definition are immutable. If you are using the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance is registered with the load balancer specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers are not supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance, because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
+        /// A load balancer object representing the load balancers to use with your service. For more information, see Service Load Balancing in the Amazon Elastic Container Service Developer Guide. If the service is using the rolling update (ECS) deployment controller and using either an Application Load Balancer or Network Load Balancer, you can specify multiple target groups to attach to the service. The service-linked role is required for services that make use of multiple target groups. For more information, see Using Service-Linked Roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide. If the service is using the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an AWS CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, AWS CodeDeploy determines which task set in your service has the status PRIMARY and associates one target group with it, and then associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that allows you perform validation tests with Lambda functions before routing production traffic to it. After you create a service using the ECS deployment controller, the load balancer name or target group ARN, container name, and container port specified in the service definition are immutable. If you are using the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance is registered with the load balancer specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers are not supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance, because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
         public let loadBalancers: [LoadBalancer]?
         /// The network configuration for the service. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it is not supported for other network modes. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.
         public let networkConfiguration: NetworkConfiguration?
@@ -859,7 +869,7 @@ extension ECS {
         public let platformVersion: String?
         /// Specifies whether to propagate the tags from the task definition or the service to the tasks in the service. If no value is specified, the tags are not propagated. Tags can only be propagated to the tasks within the service during service creation. To add tags to a task after service creation, use the TagResource API action.
         public let propagateTags: PropagateTags?
-        /// The name or full Amazon Resource Name (ARN) of the IAM role that allows Amazon ECS to make calls to your load balancer on your behalf. This parameter is only permitted if you are using a load balancer with your service and your task definition does not use the awsvpc network mode. If you specify the role parameter, you must also specify a load balancer object with the loadBalancers parameter.  If your account has already created the Amazon ECS service-linked role, that role is used by default for your service unless you specify a role here. The service-linked role is required if your task definition uses the awsvpc network mode, in which case you should not specify a role here. For more information, see Using Service-Linked Roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.  If your specified role has a path other than /, then you must either specify the full role ARN (this is recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/ then you would specify /foo/bar as the role name. For more information, see Friendly Names and Paths in the IAM User Guide.
+        /// The name or full Amazon Resource Name (ARN) of the IAM role that allows Amazon ECS to make calls to your load balancer on your behalf. This parameter is only permitted if you are using a load balancer with your service and your task definition does not use the awsvpc network mode. If you specify the role parameter, you must also specify a load balancer object with the loadBalancers parameter.  If your account has already created the Amazon ECS service-linked role, that role is used by default for your service unless you specify a role here. The service-linked role is required if your task definition uses the awsvpc network mode or if the service is configured to use service discovery, an external deployment controller, or multiple target groups in which case you should not specify a role here. For more information, see Using Service-Linked Roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.  If your specified role has a path other than /, then you must either specify the full role ARN (this is recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/ then you would specify /foo/bar as the role name. For more information, see Friendly Names and Paths in the IAM User Guide.
         public let role: String?
         /// The scheduling strategy to use for the service. For more information, see Services. There are two service scheduler strategies available:    REPLICA-The replica scheduling strategy places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions. This scheduler strategy is required if the service is using the CODE_DEPLOY or EXTERNAL deployment controller types.    DAEMON-The daemon scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. When you're using this strategy, you don't need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies.  Tasks using the Fargate launch type or the CODE_DEPLOY or EXTERNAL deployment controller types don't support the DAEMON scheduling strategy.   
         public let schedulingStrategy: SchedulingStrategy?
@@ -2662,11 +2672,11 @@ extension ECS {
             AWSShapeMember(label: "secretOptions", required: false, type: .list)
         ]
 
-        /// The log driver to use for the container. The valid values listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default. For tasks using the Fargate launch type, the supported log drivers are awslogs and splunk. For tasks using the EC2 launch type, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, logentries, syslog, and splunk. For more information about using the awslogs log driver, see Using the awslogs Log Driver in the Amazon Elastic Container Service Developer Guide.  If you have a custom driver that is not listed above that you would like to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that is available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, Amazon Web Services does not currently support running modified copies of this software.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' 
+        /// The log driver to use for the container. The valid values listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default. For tasks using the Fargate launch type, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks using the EC2 launch type, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, logentries, syslog, splunk, and awsfirelens. For more information about using the awslogs log driver, see Using the awslogs Log Driver in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see Custom Log Routing in the Amazon Elastic Container Service Developer Guide.  If you have a custom driver that is not listed above that you would like to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that is available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, Amazon Web Services does not currently support running modified copies of this software.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' 
         public let logDriver: LogDriver
         /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' 
         public let options: [String: String]?
-        /// The secrets to pass to the log configuration.
+        /// The secrets to pass to the log configuration. For more information, see Specifying Sensitive Data in the Amazon Elastic Container Service Developer Guide.
         public let secretOptions: [Secret]?
 
         public init(logDriver: LogDriver, options: [String: String]? = nil, secretOptions: [Secret]? = nil) {
@@ -3199,7 +3209,7 @@ extension ECS {
         public let memory: String?
         /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. The default Docker network mode is bridge. If you are using the Fargate launch type, the awsvpc network mode is required. If you are using the EC2 launch type, any network mode can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.  Currently, only Amazon ECS-optimized AMIs, other Amazon Linux variants with the ecs-init package, or AWS Fargate infrastructure support the awsvpc network mode.   If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. Docker for Windows uses different network modes than Docker for Linux. When you register a task definition with Windows containers, you must not specify a network mode. If you use the console to register a task definition with Windows containers, you must choose the &lt;default&gt; network mode object.  For more information, see Network settings in the Docker run reference.
         public let networkMode: NetworkMode?
-        /// The process namespace to use for the containers in the task. The valid values are host or task. If host is specified, then all containers within the tasks that specified the host PID mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace. For more information, see PID settings in the Docker run reference. If the host PID mode is used, be aware that there is a heightened risk of undesired process namespace expose. For more information, see Docker security.  This parameter is not supported for Windows containers or tasks using the Fargate launch type. 
+        /// The process namespace to use for the containers in the task. The valid values are host or task. If host is specified, then all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace. For more information, see PID settings in the Docker run reference. If the host PID mode is used, be aware that there is a heightened risk of undesired process namespace expose. For more information, see Docker security.  This parameter is not supported for Windows containers or tasks using the Fargate launch type. 
         public let pidMode: PidMode?
         /// An array of placement constraint objects to use for the task. You can specify a maximum of 10 constraints per task (this limit includes constraints in the task definition and those specified at runtime).
         public let placementConstraints: [TaskDefinitionPlacementConstraint]?
@@ -4310,7 +4320,7 @@ extension ECS {
         public let taskArn: String?
         /// The ARN of the task definition that creates the task.
         public let taskDefinitionArn: String?
-        /// The version counter for the task. Every time a task experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS task state with CloudWatch Events, you can compare the version of a task reported by the Amazon ECS API actionss with the version reported in CloudWatch Events for the task (inside the detail object) to verify that the version in your event stream is current.
+        /// The version counter for the task. Every time a task experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS task state with CloudWatch Events, you can compare the version of a task reported by the Amazon ECS API actions with the version reported in CloudWatch Events for the task (inside the detail object) to verify that the version in your event stream is current.
         public let version: Int64?
 
         public init(attachments: [Attachment]? = nil, clusterArn: String? = nil, connectivity: Connectivity? = nil, connectivityAt: TimeStamp? = nil, containerInstanceArn: String? = nil, containers: [Container]? = nil, cpu: String? = nil, createdAt: TimeStamp? = nil, desiredStatus: String? = nil, executionStoppedAt: TimeStamp? = nil, group: String? = nil, healthStatus: HealthStatus? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, lastStatus: String? = nil, launchType: LaunchType? = nil, memory: String? = nil, overrides: TaskOverride? = nil, platformVersion: String? = nil, pullStartedAt: TimeStamp? = nil, pullStoppedAt: TimeStamp? = nil, startedAt: TimeStamp? = nil, startedBy: String? = nil, stopCode: TaskStopCode? = nil, stoppedAt: TimeStamp? = nil, stoppedReason: String? = nil, stoppingAt: TimeStamp? = nil, tags: [Tag]? = nil, taskArn: String? = nil, taskDefinitionArn: String? = nil, version: Int64? = nil) {
@@ -4418,7 +4428,7 @@ extension ECS {
         public let memory: String?
         /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. The default Docker network mode is bridge. If you are using the Fargate launch type, the awsvpc network mode is required. If you are using the EC2 launch type, any network mode can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.  Currently, only Amazon ECS-optimized AMIs, other Amazon Linux variants with the ecs-init package, or AWS Fargate infrastructure support the awsvpc network mode.   If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. Docker for Windows uses different network modes than Docker for Linux. When you register a task definition with Windows containers, you must not specify a network mode. If you use the console to register a task definition with Windows containers, you must choose the &lt;default&gt; network mode object.  For more information, see Network settings in the Docker run reference.
         public let networkMode: NetworkMode?
-        /// The process namespace to use for the containers in the task. The valid values are host or task. If host is specified, then all containers within the tasks that specified the host PID mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace. For more information, see PID settings in the Docker run reference. If the host PID mode is used, be aware that there is a heightened risk of undesired process namespace expose. For more information, see Docker security.  This parameter is not supported for Windows containers or tasks using the Fargate launch type. 
+        /// The process namespace to use for the containers in the task. The valid values are host or task. If host is specified, then all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace. For more information, see PID settings in the Docker run reference. If the host PID mode is used, be aware that there is a heightened risk of undesired process namespace expose. For more information, see Docker security.  This parameter is not supported for Windows containers or tasks using the Fargate launch type. 
         public let pidMode: PidMode?
         /// An array of placement constraint objects to use for tasks. This field is not valid if you are using the Fargate launch type for your task.
         public let placementConstraints: [TaskDefinitionPlacementConstraint]?

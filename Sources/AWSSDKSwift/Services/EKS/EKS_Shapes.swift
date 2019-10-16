@@ -36,6 +36,7 @@ extension EKS {
             AWSShapeMember(label: "resourcesVpcConfig", required: false, type: .structure), 
             AWSShapeMember(label: "roleArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
 
@@ -63,10 +64,12 @@ extension EKS {
         public let roleArn: String?
         /// The current status of the cluster.
         public let status: ClusterStatus?
+        /// The metadata that you apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
+        public let tags: [String: String]?
         /// The Kubernetes server version for the cluster.
         public let version: String?
 
-        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, endpoint: String? = nil, identity: Identity? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, version: String? = nil) {
+        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, createdAt: TimeStamp? = nil, endpoint: String? = nil, identity: Identity? = nil, logging: Logging? = nil, name: String? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.arn = arn
             self.certificateAuthority = certificateAuthority
             self.clientRequestToken = clientRequestToken
@@ -79,6 +82,7 @@ extension EKS {
             self.resourcesVpcConfig = resourcesVpcConfig
             self.roleArn = roleArn
             self.status = status
+            self.tags = tags
             self.version = version
         }
 
@@ -95,6 +99,7 @@ extension EKS {
             case resourcesVpcConfig = "resourcesVpcConfig"
             case roleArn = "roleArn"
             case status = "status"
+            case tags = "tags"
             case version = "version"
         }
     }
@@ -114,6 +119,7 @@ extension EKS {
             AWSShapeMember(label: "name", required: true, type: .string), 
             AWSShapeMember(label: "resourcesVpcConfig", required: true, type: .structure), 
             AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "version", required: false, type: .string)
         ]
 
@@ -127,15 +133,18 @@ extension EKS {
         public let resourcesVpcConfig: VpcConfigRequest
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for Amazon EKS to make calls to other AWS API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
         public let roleArn: String
+        /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
+        public let tags: [String: String]?
         /// The desired Kubernetes version for your cluster. If you don't specify a value here, the latest version available in Amazon EKS is used.
         public let version: String?
 
-        public init(clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest, roleArn: String, version: String? = nil) {
+        public init(clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, version: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.logging = logging
             self.name = name
             self.resourcesVpcConfig = resourcesVpcConfig
             self.roleArn = roleArn
+            self.tags = tags
             self.version = version
         }
 
@@ -143,6 +152,11 @@ extension EKS {
             try validate(self.name, name:"name", parent: name, max: 100)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -151,6 +165,7 @@ extension EKS {
             case name = "name"
             case resourcesVpcConfig = "resourcesVpcConfig"
             case roleArn = "roleArn"
+            case tags = "tags"
             case version = "version"
         }
     }
@@ -384,6 +399,40 @@ extension EKS {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Amazon EKS clusters.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+
+        /// The tags for the resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct ListUpdatesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -501,6 +550,83 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case issuer = "issuer"
         }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .map)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the supported resources are Amazon EKS clusters.
+        public let resourceArn: String
+        /// The tags to add to the resource. A tag is an array of key-value pairs.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource from which to delete tags. Currently, the supported resources are Amazon EKS clusters.
+        public let resourceArn: String
+        /// The keys of the tags to be removed.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct Update: AWSShape {

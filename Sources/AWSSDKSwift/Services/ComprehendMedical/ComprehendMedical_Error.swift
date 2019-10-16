@@ -7,15 +7,17 @@ public enum ComprehendMedicalErrorType: AWSErrorType {
     case internalServerException(message: String?)
     case invalidEncodingException(message: String?)
     case invalidRequestException(message: String?)
+    case resourceNotFoundException(message: String?)
     case serviceUnavailableException(message: String?)
     case textSizeLimitExceededException(message: String?)
     case tooManyRequestsException(message: String?)
+    case validationException(message: String?)
 }
 
 extension ComprehendMedicalErrorType {
     public init?(errorCode: String, message: String?){
         var errorCode = errorCode
-        if let index = errorCode.index(of: "#") {
+        if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
@@ -25,12 +27,16 @@ extension ComprehendMedicalErrorType {
             self = .invalidEncodingException(message: message)
         case "InvalidRequestException":
             self = .invalidRequestException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
         case "TextSizeLimitExceededException":
             self = .textSizeLimitExceededException(message: message)
         case "TooManyRequestsException":
             self = .tooManyRequestsException(message: message)
+        case "ValidationException":
+            self = .validationException(message: message)
         default:
             return nil
         }
@@ -46,12 +52,16 @@ extension ComprehendMedicalErrorType : CustomStringConvertible {
             return "InvalidEncodingException: \(message ?? "")"
         case .invalidRequestException(let message):
             return "InvalidRequestException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
         case .serviceUnavailableException(let message):
             return "ServiceUnavailableException: \(message ?? "")"
         case .textSizeLimitExceededException(let message):
             return "TextSizeLimitExceededException: \(message ?? "")"
         case .tooManyRequestsException(let message):
             return "TooManyRequestsException: \(message ?? "")"
+        case .validationException(let message):
+            return "ValidationException: \(message ?? "")"
         }
     }
 }

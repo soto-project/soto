@@ -1269,7 +1269,7 @@ extension Glue {
             AWSShapeMember(label: "PhysicalConnectionRequirements", required: false, type: .structure)
         ]
 
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for the JDBC connection.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.  
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for the JDBC connection.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.  
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, only JDBC is supported; SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -1417,6 +1417,9 @@ extension Glue {
         case instanceId = "INSTANCE_ID"
         case jdbcConnectionUrl = "JDBC_CONNECTION_URL"
         case jdbcEnforceSsl = "JDBC_ENFORCE_SSL"
+        case customJdbcCert = "CUSTOM_JDBC_CERT"
+        case skipCustomJdbcCertValidation = "SKIP_CUSTOM_JDBC_CERT_VALIDATION"
+        case customJdbcCertString = "CUSTOM_JDBC_CERT_STRING"
         public var description: String { return self.rawValue }
     }
 
@@ -2000,6 +2003,7 @@ extension Glue {
             AWSShapeMember(label: "EndpointName", required: true, type: .string), 
             AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
             AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
+            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
             AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "PublicKey", required: false, type: .string), 
@@ -2020,6 +2024,8 @@ extension Glue {
         public let extraJarsS3Path: String?
         /// The paths to one or more Python libraries in an Amazon S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported. 
         public let extraPythonLibsS3Path: String?
+        /// Glue version determines the versions of Apache Spark and Python that AWS Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints.  For more information about the available AWS Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Development endpoints that are created without specifying a Glue version default to Glue 0.9. You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
+        public let glueVersion: String?
         /// The number of AWS Glue Data Processing Units (DPUs) to allocate to this DevEndpoint.
         public let numberOfNodes: Int?
         /// The number of workers of a defined workerType that are allocated to the development endpoint. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
@@ -2041,11 +2047,12 @@ extension Glue {
         /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk. 
         public let workerType: WorkerType?
 
-        public init(arguments: [String: String]? = nil, endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [String: String]? = nil, workerType: WorkerType? = nil) {
+        public init(arguments: [String: String]? = nil, endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, glueVersion: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [String: String]? = nil, workerType: WorkerType? = nil) {
             self.arguments = arguments
             self.endpointName = endpointName
             self.extraJarsS3Path = extraJarsS3Path
             self.extraPythonLibsS3Path = extraPythonLibsS3Path
+            self.glueVersion = glueVersion
             self.numberOfNodes = numberOfNodes
             self.numberOfWorkers = numberOfWorkers
             self.publicKey = publicKey
@@ -2059,6 +2066,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try validate(self.glueVersion, name:"glueVersion", parent: name, max: 255)
+            try validate(self.glueVersion, name:"glueVersion", parent: name, min: 1)
+            try validate(self.glueVersion, name:"glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
             try validate(self.publicKeys, name:"publicKeys", parent: name, max: 5)
             try validate(self.roleArn, name:"roleArn", parent: name, pattern: "arn:aws:iam::\\d{12}:role/.*")
             try validate(self.securityConfiguration, name:"securityConfiguration", parent: name, max: 255)
@@ -2077,6 +2087,7 @@ extension Glue {
             case endpointName = "EndpointName"
             case extraJarsS3Path = "ExtraJarsS3Path"
             case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
+            case glueVersion = "GlueVersion"
             case numberOfNodes = "NumberOfNodes"
             case numberOfWorkers = "NumberOfWorkers"
             case publicKey = "PublicKey"
@@ -2099,6 +2110,7 @@ extension Glue {
             AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
             AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
             AWSShapeMember(label: "NumberOfWorkers", required: false, type: .integer), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
@@ -2112,7 +2124,7 @@ extension Glue {
             AWSShapeMember(label: "ZeppelinRemoteSparkInterpreterPort", required: false, type: .integer)
         ]
 
-        /// The map of arguments used to configure this DevEndpoint.
+        /// The map of arguments used to configure this DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""     "GLUE_PYTHON_VERSION": "3"     "GLUE_PYTHON_VERSION": "2"    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let arguments: [String: String]?
         /// The AWS Availability Zone where this DevEndpoint is located.
         public let availabilityZone: String?
@@ -2126,6 +2138,8 @@ extension Glue {
         public let extraPythonLibsS3Path: String?
         /// The reason for a current failure in this DevEndpoint.
         public let failureReason: String?
+        /// Glue version determines the versions of Apache Spark and Python that AWS Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints. 
+        public let glueVersion: String?
         /// The number of AWS Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
         public let numberOfNodes: Int?
         /// The number of workers of a defined workerType that are allocated to the development endpoint.
@@ -2149,7 +2163,7 @@ extension Glue {
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
         public let zeppelinRemoteSparkInterpreterPort: Int?
 
-        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, workerType: WorkerType? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
+        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, glueVersion: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, workerType: WorkerType? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
             self.createdTimestamp = createdTimestamp
@@ -2157,6 +2171,7 @@ extension Glue {
             self.extraJarsS3Path = extraJarsS3Path
             self.extraPythonLibsS3Path = extraPythonLibsS3Path
             self.failureReason = failureReason
+            self.glueVersion = glueVersion
             self.numberOfNodes = numberOfNodes
             self.numberOfWorkers = numberOfWorkers
             self.roleArn = roleArn
@@ -2178,6 +2193,7 @@ extension Glue {
             case extraJarsS3Path = "ExtraJarsS3Path"
             case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
             case failureReason = "FailureReason"
+            case glueVersion = "GlueVersion"
             case numberOfNodes = "NumberOfNodes"
             case numberOfWorkers = "NumberOfWorkers"
             case roleArn = "RoleArn"
@@ -3769,6 +3785,7 @@ extension Glue {
             AWSShapeMember(label: "ExtraJarsS3Path", required: false, type: .string), 
             AWSShapeMember(label: "ExtraPythonLibsS3Path", required: false, type: .string), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "GlueVersion", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastUpdateStatus", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
@@ -3788,7 +3805,7 @@ extension Glue {
             AWSShapeMember(label: "ZeppelinRemoteSparkInterpreterPort", required: false, type: .integer)
         ]
 
-        /// A map of arguments used to configure the DevEndpoint. Currently, only "--enable-glue-datacatalog": "" is supported as a valid argument.
+        /// A map of arguments used to configure the DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""     "GLUE_PYTHON_VERSION": "3"     "GLUE_PYTHON_VERSION": "2"    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let arguments: [String: String]?
         /// The AWS Availability Zone where this DevEndpoint is located.
         public let availabilityZone: String?
@@ -3802,6 +3819,8 @@ extension Glue {
         public let extraPythonLibsS3Path: String?
         /// The reason for a current failure in this DevEndpoint.
         public let failureReason: String?
+        /// Glue version determines the versions of Apache Spark and Python that AWS Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints.  For more information about the available AWS Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Development endpoints that are created without specifying a Glue version default to Glue 0.9. You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
+        public let glueVersion: String?
         /// The point in time at which this DevEndpoint was last modified.
         public let lastModifiedTimestamp: TimeStamp?
         /// The status of the last update.
@@ -3837,7 +3856,7 @@ extension Glue {
         /// The Apache Zeppelin port for the remote Apache Spark interpreter.
         public let zeppelinRemoteSparkInterpreterPort: Int?
 
-        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, workerType: WorkerType? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
+        public init(arguments: [String: String]? = nil, availabilityZone: String? = nil, createdTimestamp: TimeStamp? = nil, endpointName: String? = nil, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, failureReason: String? = nil, glueVersion: String? = nil, lastModifiedTimestamp: TimeStamp? = nil, lastUpdateStatus: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, privateAddress: String? = nil, publicAddress: String? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String? = nil, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, status: String? = nil, subnetId: String? = nil, vpcId: String? = nil, workerType: WorkerType? = nil, yarnEndpointAddress: String? = nil, zeppelinRemoteSparkInterpreterPort: Int? = nil) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
             self.createdTimestamp = createdTimestamp
@@ -3845,6 +3864,7 @@ extension Glue {
             self.extraJarsS3Path = extraJarsS3Path
             self.extraPythonLibsS3Path = extraPythonLibsS3Path
             self.failureReason = failureReason
+            self.glueVersion = glueVersion
             self.lastModifiedTimestamp = lastModifiedTimestamp
             self.lastUpdateStatus = lastUpdateStatus
             self.numberOfNodes = numberOfNodes
@@ -3872,6 +3892,7 @@ extension Glue {
             case extraJarsS3Path = "ExtraJarsS3Path"
             case extraPythonLibsS3Path = "ExtraPythonLibsS3Path"
             case failureReason = "FailureReason"
+            case glueVersion = "GlueVersion"
             case lastModifiedTimestamp = "LastModifiedTimestamp"
             case lastUpdateStatus = "LastUpdateStatus"
             case numberOfNodes = "NumberOfNodes"
@@ -8039,7 +8060,7 @@ extension Glue {
         public let parameters: [String: String]?
         /// Provides information about the physical location where the partition is stored.
         public let storageDescriptor: StorageDescriptor?
-        /// The values of the partition. Although this parameter is not required by the SDK, you must specify this parameter for a valid input.
+        /// The values of the partition. Although this parameter is not required by the SDK, you must specify this parameter for a valid input. The values for the keys for the new partition must be passed as an array of String objects that must be ordered in the same order as the partition keys appearing in the Amazon S3 prefix. Otherwise AWS Glue will add the values to the wrong keys.
         public let values: [String]?
 
         public init(lastAccessTime: TimeStamp? = nil, lastAnalyzedTime: TimeStamp? = nil, parameters: [String: String]? = nil, storageDescriptor: StorageDescriptor? = nil, values: [String]? = nil) {
@@ -8840,7 +8861,9 @@ extension Glue {
             AWSShapeMember(label: "Sort", required: false, type: .enum)
         ]
 
+        /// The name of the field on which to sort.
         public let fieldName: String?
+        /// An ascending or descending sort.
         public let sort: Sort?
 
         public init(fieldName: String? = nil, sort: Sort? = nil) {
@@ -10629,7 +10652,7 @@ extension Glue {
             AWSShapeMember(label: "UpdateEtlLibraries", required: false, type: .boolean)
         ]
 
-        /// The map of arguments to add the map of arguments used to configure the DevEndpoint.
+        /// The map of arguments to add the map of arguments used to configure the DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""     "GLUE_PYTHON_VERSION": "3"     "GLUE_PYTHON_VERSION": "2"    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let addArguments: [String: String]?
         /// The list of public keys for the DevEndpoint to use.
         public let addPublicKeys: [String]?

@@ -191,7 +191,7 @@ struct AWSService {
                             }
                         }
                     }
-                    
+
                 default:
                     break
                 }
@@ -207,7 +207,7 @@ struct AWSService {
                 if memberJSON["idempotencyToken"].bool == true {
                     options.insert(.idempotencyToken)
                 }
-                
+
                 return Member(
                     name: name,
                     required: requireds.contains(name),
@@ -310,7 +310,7 @@ struct AWSService {
             guard shape.usedInOutput != true else {return}
             shape.usedInOutput = true
         }
-        
+
         // cannot just set children shapes to be used. The shapes that are actually output are the top level shapes. Instead I need to find the top level shape with the same name. If there isn't a toplevel shape then I use the child shape to ensure the values are propagated to any children of that child.
         switch shape.type {
         case .structure(let shape):
@@ -321,11 +321,11 @@ struct AWSService {
         case .list(let shape,_,_):
             let memberShape = shapes.first(where: {$0.name == shape.name}) ?? shape
             setShapeUsed(shape: memberShape, inInput: inInput, inOutput: inOutput)
-            
+
         case .map(let key, let value):
             let keyShape = shapes.first(where: {$0.name == key.name}) ?? key
             setShapeUsed(shape: keyShape, inInput: inInput, inOutput: inOutput)
-            
+
             let valueShape = shapes.first(where: {$0.name == value.name}) ?? value
             setShapeUsed(shape: valueShape, inInput: inInput, inOutput: inOutput)
 
@@ -333,7 +333,7 @@ struct AWSService {
             break
         }
     }
-    
+
     private func parseOperation(shapes: [Shape]) throws -> ([Operation], [String])  {
         var operations: [Operation] = []
         var errorShapeNames: [String] = []
@@ -356,7 +356,7 @@ struct AWSService {
 
             var inputShape: Shape?
             if let inputShapeName = json["input"]["shape"].string {
-                if let index = shapes.index(where: { inputShapeName == $0.name }) {
+                if let index = shapes.firstIndex(where: { inputShapeName == $0.name }) {
                     setShapeUsed(shape: shapes[index], inInput: true)
                     inputShape = shapes[index]
                 }
@@ -364,7 +364,7 @@ struct AWSService {
 
             var outputShape: Shape?
             if let outputShapeName = json["output"]["shape"].string {
-                if let index = shapes.index(where: { outputShapeName == $0.name }) {
+                if let index = shapes.firstIndex(where: { outputShapeName == $0.name }) {
                     setShapeUsed(shape: shapes[index], inOutput: true)
                     outputShape = shapes[index]
                 }

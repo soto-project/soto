@@ -153,12 +153,12 @@ public struct DirectConnect {
         return client.send(operation: "DeleteConnection", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified Direct Connect gateway. You must first delete all virtual interfaces that are attached to the Direct Connect gateway and disassociate all virtual private gateways that are associated with the Direct Connect gateway.
+    ///  Deletes the specified Direct Connect gateway. You must first delete all virtual interfaces that are attached to the Direct Connect gateway and disassociate all virtual private gateways associated with the Direct Connect gateway.
     public func deleteDirectConnectGateway(_ input: DeleteDirectConnectGatewayRequest) -> Future<DeleteDirectConnectGatewayResult> {
         return client.send(operation: "DeleteDirectConnectGateway", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the association between the specified Direct Connect gateway and virtual private gateway.
+    ///  Deletes the association between the specified Direct Connect gateway and virtual private gateway. We recommend that you specify the associationID to delete the association. Alternatively, if you own virtual gateway and a Direct Connect gateway association, you can specify the virtualGatewayId and directConnectGatewayId to delete an association.
     public func deleteDirectConnectGatewayAssociation(_ input: DeleteDirectConnectGatewayAssociationRequest) -> Future<DeleteDirectConnectGatewayAssociationResult> {
         return client.send(operation: "DeleteDirectConnectGatewayAssociation", path: "/", httpMethod: "POST", input: input)
     }

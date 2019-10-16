@@ -3,17 +3,18 @@
 AWS SDK for the Swift programming language.
 This library doesn't depend on Objective-C Runtime, So you can use this with Linux.
 
+[<img src="http://img.shields.io/badge/swift-5.0-brightgreen.svg" alt="Swift 5.0" />](https://swift.org)
 [<img src="https://travis-ci.org/swift-aws/aws-sdk-swift.svg?branch=master">](https://travis-ci.org/swift-aws/aws-sdk-swift)
 
 
-## Supported Platforms and Swift Versions
+## Compatibility
 
-| | **Swift 4.2** | **Swift 5.0** |
-|---|:---:|:---:|
-|**macOS**        | ○ | ○ |
-|**Ubuntu 14.04** | ○ | ○ |
-|**Ubuntu 16.04** | ○ | ○ |
-|**Ubuntu 18.04** | ○ |   |
+AWSSDKSwift works on both Linux and Mac. Version 4 is dependent on swift-nio 2, this means certain libraries/frameworks that are dependent on an earlier version of swift-nio will not work with version 4 of AWSSDKSwift. Version 3 can be used if you need to use an earlier version of swift-nio. For instance Vapor 3 uses swift-nio 1.13 so you can only use versions 3.x of AWSSDKSwift with Vapor 3. Below is a compatibility table for versions 3 and 4 of AWSSDKSwift.
+
+| Version | Swift   | MacOS | Linux              | Vapor |
+|------|---------|-------|--------------------|-------|
+| 3.x | 4.2 - 5.1 | ✓     | Ubuntu 14.04-18.04 | 3.0    |
+| 4.x | 5.0 - 5.1 | ✓     | Ubuntu 14.04-18.04 | 4.0    |
 
 ## Documentation
 
@@ -31,7 +32,7 @@ import PackageDescription
 let package = Package(
     name: "MyAWSApp",
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "3.2.0")
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "3.3.0")
     ],
     targets: [
       .target(
@@ -43,12 +44,6 @@ let package = Package(
     ]
 )
 ```
-
-### Carthage
-Not supported yet
-
-### Cocoapods
-Not supported yet
 
 ## Contributing
 
@@ -135,12 +130,12 @@ let s3 = S3(
 // Create Bucket, Put an Object, Get the Object
 let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
 
-s3.createBucket(createBucketRequest).then { response -> Future<S3.PutObjectOutput> in
+s3.createBucket(createBucketRequest).flatMap { response -> Future<S3.PutObjectOutput> in
     // Upload text file to the s3
     let bodyData = "hello world".data(using: .utf8)!
     let putObjectRequest = S3.PutObjectRequest(acl: .publicRead, bucket: bucket, contentLength: Int64(bodyData.count), body: bodyData, key: "hello.txt")
     return s3.putObject(putObjectRequest)
-}.then { response -> Future<S3.GetObjectOutput> in
+}.flatMap { response -> Future<S3.GetObjectOutput> in
     let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
     return s3.getObject(getObjectRequest)
 }.whenSuccess { response in

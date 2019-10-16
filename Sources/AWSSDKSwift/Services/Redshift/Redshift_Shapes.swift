@@ -104,6 +104,11 @@ extension Redshift {
         }
     }
 
+    public enum ActionType: String, CustomStringConvertible, Codable {
+        case restoreCluster = "restore-cluster"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AttributeValueTarget: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeValue", required: false, type: .string)
@@ -372,6 +377,7 @@ extension Redshift {
             AWSShapeMember(label: "ManualSnapshotRetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
             AWSShapeMember(label: "ModifyStatus", required: false, type: .string), 
+            AWSShapeMember(label: "NextMaintenanceWindowStartTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "NodeType", required: false, type: .string), 
             AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
             AWSShapeMember(label: "PendingActions", required: false, type: .list, encoding: .list(member:"member")), 
@@ -450,6 +456,8 @@ extension Redshift {
         public let masterUsername: String?
         /// The status of a modify operation, if any, initiated for the cluster.
         public let modifyStatus: String?
+        /// The date and time in UTC when system maintenance can begin.
+        public let nextMaintenanceWindowStartTime: TimeStamp?
         /// The node type for the nodes in the cluster.
         public let nodeType: String?
         /// The number of compute nodes in the cluster.
@@ -477,7 +485,7 @@ extension Redshift {
         /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are associated with the cluster. This parameter is returned only if the cluster is in a VPC.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: TimeStamp? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: TimeStamp? = nil, clusterIdentifier: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: TimeStamp? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: TimeStamp? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
@@ -510,6 +518,7 @@ extension Redshift {
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.masterUsername = masterUsername
             self.modifyStatus = modifyStatus
+            self.nextMaintenanceWindowStartTime = nextMaintenanceWindowStartTime
             self.nodeType = nodeType
             self.numberOfNodes = numberOfNodes
             self.pendingActions = pendingActions
@@ -558,6 +567,7 @@ extension Redshift {
             case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
             case masterUsername = "MasterUsername"
             case modifyStatus = "ModifyStatus"
+            case nextMaintenanceWindowStartTime = "NextMaintenanceWindowStartTime"
             case nodeType = "NodeType"
             case numberOfNodes = "NumberOfNodes"
             case pendingActions = "PendingActions"
@@ -2762,6 +2772,48 @@ extension Redshift {
         }
     }
 
+    public struct DescribeNodeConfigurationOptionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionType", required: true, type: .enum), 
+            AWSShapeMember(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .list, encoding: .list(member:"NodeConfigurationOptionsFilter")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "OwnerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotIdentifier", required: false, type: .string)
+        ]
+
+        /// The action type to evaluate for possible node configurations. Currently, it must be "restore-cluster".
+        public let actionType: ActionType
+        /// A set of name, operator, and value items to filter the results.
+        public let filters: [NodeConfigurationOptionsFilter]?
+        /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeNodeConfigurationOptions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
+        public let marker: String?
+        /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 500  Constraints: minimum 100, maximum 500.
+        public let maxRecords: Int?
+        /// The AWS customer account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
+        public let ownerAccount: String?
+        /// The identifier of the snapshot to evaluate for possible node configurations.
+        public let snapshotIdentifier: String?
+
+        public init(actionType: ActionType, filters: [NodeConfigurationOptionsFilter]? = nil, marker: String? = nil, maxRecords: Int? = nil, ownerAccount: String? = nil, snapshotIdentifier: String? = nil) {
+            self.actionType = actionType
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.ownerAccount = ownerAccount
+            self.snapshotIdentifier = snapshotIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "ActionType"
+            case filters = "Filter"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case ownerAccount = "OwnerAccount"
+            case snapshotIdentifier = "SnapshotIdentifier"
+        }
+    }
+
     public struct DescribeOrderableClusterOptionsMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
@@ -4337,6 +4389,100 @@ extension Redshift {
         }
     }
 
+    public struct NodeConfigurationOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EstimatedDiskUtilizationPercent", required: false, type: .double), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer)
+        ]
+
+        /// The estimated disk utilizaton percentage.
+        public let estimatedDiskUtilizationPercent: Double?
+        /// The node type, such as, "ds2.8xlarge".
+        public let nodeType: String?
+        /// The number of nodes.
+        public let numberOfNodes: Int?
+
+        public init(estimatedDiskUtilizationPercent: Double? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil) {
+            self.estimatedDiskUtilizationPercent = estimatedDiskUtilizationPercent
+            self.nodeType = nodeType
+            self.numberOfNodes = numberOfNodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedDiskUtilizationPercent = "EstimatedDiskUtilizationPercent"
+            case nodeType = "NodeType"
+            case numberOfNodes = "NumberOfNodes"
+        }
+    }
+
+    public struct NodeConfigurationOptionsFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .enum), 
+            AWSShapeMember(label: "Operator", required: false, type: .enum), 
+            AWSShapeMember(label: "Values", location: .body(locationName: "Value"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+
+        /// The name of the element to filter.
+        public let name: NodeConfigurationOptionsFilterName?
+        /// The filter operator. If filter Name is NodeType only the 'in' operator is supported. Provide one value to evaluate for 'eq', 'lt', 'le', 'gt', and 'ge'. Provide two values to evaluate for 'between'. Provide a list of values for 'in'.
+        public let `operator`: OperatorType?
+        /// List of values. Compare Name using Operator to Values. If filter Name is NumberOfNodes, then values can range from 0 to 200. If filter Name is EstimatedDiskUtilizationPercent, then values can range from 0 to 100. For example, filter NumberOfNodes (name) GT (operator) 3 (values).
+        public let values: [String]?
+
+        public init(name: NodeConfigurationOptionsFilterName? = nil, operator: OperatorType? = nil, values: [String]? = nil) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case values = "Value"
+        }
+    }
+
+    public enum NodeConfigurationOptionsFilterName: String, CustomStringConvertible, Codable {
+        case nodetype = "NodeType"
+        case numberofnodes = "NumberOfNodes"
+        case estimateddiskutilizationpercent = "EstimatedDiskUtilizationPercent"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct NodeConfigurationOptionsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "NodeConfigurationOptionList", required: false, type: .list, encoding: .list(member:"NodeConfigurationOption"))
+        ]
+
+        /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
+        public let marker: String?
+        /// A list of valid node configurations.
+        public let nodeConfigurationOptionList: [NodeConfigurationOption]?
+
+        public init(marker: String? = nil, nodeConfigurationOptionList: [NodeConfigurationOption]? = nil) {
+            self.marker = marker
+            self.nodeConfigurationOptionList = nodeConfigurationOptionList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case nodeConfigurationOptionList = "NodeConfigurationOptionList"
+        }
+    }
+
+    public enum OperatorType: String, CustomStringConvertible, Codable {
+        case eq = "eq"
+        case lt = "lt"
+        case gt = "gt"
+        case le = "le"
+        case ge = "ge"
+        case `in` = "in"
+        case between = "between"
+        public var description: String { return self.rawValue }
+    }
+
     public struct OrderableClusterOption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
@@ -5009,6 +5155,7 @@ extension Redshift {
             AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
             AWSShapeMember(label: "ManualSnapshotRetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
             AWSShapeMember(label: "OwnerAccount", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
@@ -5053,6 +5200,8 @@ extension Redshift {
         public let manualSnapshotRetentionPeriod: Int?
         /// The node type that the restored cluster will be provisioned with. Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds1.xlarge into ds2.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type or dc2.large instance type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlareg cluster, then resize to a dc2.8large cluster. For more information about node types, see  About Clusters and Nodes in the Amazon Redshift Cluster Management Guide. 
         public let nodeType: String?
+        /// The number of nodes specified when provisioning the restored cluster.
+        public let numberOfNodes: Int?
         /// The AWS customer account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
         public let ownerAccount: String?
         /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Constraints: Must be between 1115 and 65535.
@@ -5070,7 +5219,7 @@ extension Redshift {
         /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster. VPC security groups only apply to clusters in VPCs.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, elasticIp: String? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, nodeType: String? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, elasticIp: String? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -5088,6 +5237,7 @@ extension Redshift {
             self.maintenanceTrackName = maintenanceTrackName
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.nodeType = nodeType
+            self.numberOfNodes = numberOfNodes
             self.ownerAccount = ownerAccount
             self.port = port
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
@@ -5116,6 +5266,7 @@ extension Redshift {
             case maintenanceTrackName = "MaintenanceTrackName"
             case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
             case nodeType = "NodeType"
+            case numberOfNodes = "NumberOfNodes"
             case ownerAccount = "OwnerAccount"
             case port = "Port"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"

@@ -5,12 +5,7 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Amazon RDS Data Service
-        Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora
-            Serverless DB cluster. To run these statements, you work with the Data Service
-            API.
-        For more information about the Data Service API, see Using the Data API for Aurora
-                Serverless in the Amazon Aurora User Guide.
+Amazon RDS Data Service Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora Serverless DB cluster. To run these statements, you work with the Data Service API. For more information about the Data Service API, see Using the Data API for Aurora Serverless in the Amazon Aurora User Guide.  If you have questions or comments related to the Data API, send email to Rds-data-api-feedback@amazon.com. 
 */
 public struct RDSDataService {
 
@@ -31,58 +26,28 @@ public struct RDSDataService {
         )
     }
 
-    ///  Runs a batch SQL statement over an array of data.
-    ///          You can run bulk update and insert operations for multiple records using a DML 
-    ///              statement with different parameter sets. Bulk operations can provide a significant 
-    ///              performance improvement over individual insert and update operations.
-    ///              
-    ///              If a call isn't part of a transaction because it doesn't include the
-    ///                      transactionID parameter, changes that result from the call are
-    ///                  committed automatically.    
-    ///          
+    ///  Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. 
     public func batchExecuteStatement(_ input: BatchExecuteStatementRequest) -> Future<BatchExecuteStatementResponse> {
         return client.send(operation: "BatchExecuteStatement", path: "/BatchExecute", httpMethod: "POST", input: input)
     }
 
-    ///  Starts a SQL transaction.
-    ///          
-    ///          
-    ///              A transaction can run for a maximum of 24 hours. A transaction is terminated and 
-    ///                  rolled back automatically after 24 hours.
-    ///              A transaction times out if no calls use its transaction ID in three minutes. 
-    ///                  If a transaction times out before it's committed, it's rolled back
-    ///                  automatically.
-    ///              DDL statements inside a transaction cause an implicit commit. We recommend 
-    ///                  that you run each DDL statement in a separate ExecuteStatement call with 
-    ///                  continueAfterTimeout enabled.
-    ///          
+    ///  Starts a SQL transaction.  &lt;important&gt; &lt;p&gt;A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours.&lt;/p&gt; &lt;p&gt;A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically.&lt;/p&gt; &lt;p&gt;DDL statements inside a transaction cause an implicit commit. We recommend that you run each DDL statement in a separate &lt;code&gt;ExecuteStatement&lt;/code&gt; call with &lt;code&gt;continueAfterTimeout&lt;/code&gt; enabled.&lt;/p&gt; &lt;/important&gt; 
     public func beginTransaction(_ input: BeginTransactionRequest) -> Future<BeginTransactionResponse> {
         return client.send(operation: "BeginTransaction", path: "/BeginTransaction", httpMethod: "POST", input: input)
     }
 
-    ///  Ends a SQL transaction started with the BeginTransaction operation and
-    ///              commits the changes.
+    ///  Ends a SQL transaction started with the BeginTransaction operation and commits the changes.
     public func commitTransaction(_ input: CommitTransactionRequest) -> Future<CommitTransactionResponse> {
         return client.send(operation: "CommitTransaction", path: "/CommitTransaction", httpMethod: "POST", input: input)
     }
 
-    ///  Runs one or more SQL statements.
-    ///          
-    ///              This operation is deprecated. Use the BatchExecuteStatement or
-    ///                      ExecuteStatement operation.
-    ///          
-    @available(*, deprecated, message:"ExecuteSql is deprecated.")
+    ///  Runs one or more SQL statements.  This operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation. 
+    @available(*, deprecated, message:"The ExecuteSql API is deprecated, please use the ExecuteStatement API.")
     public func executeSql(_ input: ExecuteSqlRequest) -> Future<ExecuteSqlResponse> {
         return client.send(operation: "ExecuteSql", path: "/ExecuteSql", httpMethod: "POST", input: input)
     }
 
-    ///  Runs a SQL statement against a database.
-    ///              
-    ///              If a call isn't part of a transaction because it doesn't include the
-    ///                      transactionID parameter, changes that result from the call are
-    ///                  committed automatically.    
-    ///          
-    ///          The response size limit is 1 MB or 1,000 records. If the call returns more than 1 MB of response data or over 1,000 records, the call is terminated.
+    ///  Runs a SQL statement against a database.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically.  The response size limit is 1 MB or 1,000 records. If the call returns more than 1 MB of response data or over 1,000 records, the call is terminated.
     public func executeStatement(_ input: ExecuteStatementRequest) -> Future<ExecuteStatementResponse> {
         return client.send(operation: "ExecuteStatement", path: "/Execute", httpMethod: "POST", input: input)
     }

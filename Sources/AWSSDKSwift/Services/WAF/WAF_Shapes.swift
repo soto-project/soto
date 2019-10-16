@@ -367,7 +367,7 @@ extension WAF {
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.rateLimit, name:"rateLimit", parent: name, max: 2000000000)
-            try validate(self.rateLimit, name:"rateLimit", parent: name, min: 2000)
+            try validate(self.rateLimit, name:"rateLimit", parent: name, min: 100)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2900,7 +2900,7 @@ extension WAF {
 
         /// Specifies the number of IPSet objects that you want AWS WAF to return for this request. If you have more IPSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of IPSet objects.
         public let limit: Int?
-        /// If you specify a value for Limit and you have more IPSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of IPSets. For the second and subsequent ListIPSets requests, specify the value of NextMarker from the previous response to get information about another batch of IPSets.
+        /// AWS WAF returns a NextMarker value in the response that allows you to list another group of IPSets. For the second and subsequent ListIPSets requests, specify the value of NextMarker from the previous response to get information about another batch of IPSets.
         public let nextMarker: String?
 
         public init(limit: Int? = nil, nextMarker: String? = nil) {
@@ -2928,7 +2928,7 @@ extension WAF {
 
         /// An array of IPSetSummary objects.
         public let iPSets: [IPSetSummary]?
-        /// If you have more IPSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more IPSet objects, submit another ListIPSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
+        /// To list more IPSet objects, submit another ListIPSets request, and in the next request use the NextMarker response value as the NextMarker value.
         public let nextMarker: String?
 
         public init(iPSets: [IPSetSummary]? = nil, nextMarker: String? = nil) {
@@ -3650,7 +3650,7 @@ extension WAF {
             AWSShapeMember(label: "LoggingConfiguration", required: true, type: .structure)
         ]
 
-        /// The Amazon Kinesis Data Firehose that contains the inspected traffic information, the redacted fields details, and the Amazon Resource Name (ARN) of the web ACL to monitor.
+        /// The Amazon Kinesis Data Firehose that contains the inspected traffic information, the redacted fields details, and the Amazon Resource Name (ARN) of the web ACL to monitor.  When specifying Type in RedactedFields, you must use one of the following values: URI, QUERY_STRING, HEADER, or METHOD. 
         public let loggingConfiguration: LoggingConfiguration
 
         public init(loggingConfiguration: LoggingConfiguration) {
@@ -4706,7 +4706,7 @@ extension WAF {
         public func validate(name: String) throws {
             try validate(self.changeToken, name:"changeToken", parent: name, min: 1)
             try validate(self.rateLimit, name:"rateLimit", parent: name, max: 2000000000)
-            try validate(self.rateLimit, name:"rateLimit", parent: name, min: 2000)
+            try validate(self.rateLimit, name:"rateLimit", parent: name, min: 100)
             try validate(self.ruleId, name:"ruleId", parent: name, max: 128)
             try validate(self.ruleId, name:"ruleId", parent: name, min: 1)
             try self.updates.forEach {

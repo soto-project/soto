@@ -938,6 +938,49 @@ extension WorkSpaces {
         }
     }
 
+    public struct DescribeWorkspaceSnapshotsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
+        ]
+
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String
+
+        public init(workspaceId: String) {
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.workspaceId, name:"workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct DescribeWorkspaceSnapshotsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RebuildSnapshots", required: false, type: .list), 
+            AWSShapeMember(label: "RestoreSnapshots", required: false, type: .list)
+        ]
+
+        /// Information about the snapshots that can be used to rebuild a WorkSpace. These snapshots include the root volume.
+        public let rebuildSnapshots: [Snapshot]?
+        /// Information about the snapshots that can be used to restore a WorkSpace. These snapshots include both the root volume and the user volume.
+        public let restoreSnapshots: [Snapshot]?
+
+        public init(rebuildSnapshots: [Snapshot]? = nil, restoreSnapshots: [Snapshot]? = nil) {
+            self.rebuildSnapshots = rebuildSnapshots
+            self.restoreSnapshots = restoreSnapshots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rebuildSnapshots = "RebuildSnapshots"
+            case restoreSnapshots = "RestoreSnapshots"
+        }
+    }
+
     public struct DescribeWorkspacesConnectionStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NextToken", required: false, type: .string), 
@@ -1635,6 +1678,35 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public struct RestoreWorkspaceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
+        ]
+
+        /// The identifier of the WorkSpace.
+        public let workspaceId: String
+
+        public init(workspaceId: String) {
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.workspaceId, name:"workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct RestoreWorkspaceResult: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct RevokeIpRulesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupId", required: true, type: .string), 
@@ -1690,6 +1762,23 @@ extension WorkSpaces {
         case autoStop = "AUTO_STOP"
         case alwaysOn = "ALWAYS_ON"
         public var description: String { return self.rawValue }
+    }
+
+    public struct Snapshot: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotTime", required: false, type: .timestamp)
+        ]
+
+        /// The time when the snapshot was created.
+        public let snapshotTime: TimeStamp?
+
+        public init(snapshotTime: TimeStamp? = nil) {
+            self.snapshotTime = snapshotTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snapshotTime = "SnapshotTime"
+        }
     }
 
     public struct StartRequest: AWSShape {
@@ -2403,6 +2492,7 @@ extension WorkSpaces {
         case rebooting = "REBOOTING"
         case starting = "STARTING"
         case rebuilding = "REBUILDING"
+        case restoring = "RESTORING"
         case maintenance = "MAINTENANCE"
         case adminMaintenance = "ADMIN_MAINTENANCE"
         case terminating = "TERMINATING"

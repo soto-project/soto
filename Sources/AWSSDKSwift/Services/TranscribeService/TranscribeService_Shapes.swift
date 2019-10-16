@@ -33,9 +33,11 @@ extension TranscribeService {
             try self.phrases?.forEach {
                 try validate($0, name: "phrases[]", parent: name, max: 256)
                 try validate($0, name: "phrases[]", parent: name, min: 0)
+                try validate($0, name: "phrases[]", parent: name, pattern: ".+")
             }
             try validate(self.vocabularyFileUri, name:"vocabularyFileUri", parent: name, max: 2000)
             try validate(self.vocabularyFileUri, name:"vocabularyFileUri", parent: name, min: 1)
+            try validate(self.vocabularyFileUri, name:"vocabularyFileUri", parent: name, pattern: "(s3://|http(s*)://).+")
             try validate(self.vocabularyName, name:"vocabularyName", parent: name, max: 200)
             try validate(self.vocabularyName, name:"vocabularyName", parent: name, min: 1)
             try validate(self.vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -288,6 +290,7 @@ extension TranscribeService {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -356,6 +359,7 @@ extension TranscribeService {
             try validate(self.nameContains, name:"nameContains", parent: name, min: 1)
             try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
             try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -408,6 +412,7 @@ extension TranscribeService {
         public func validate(name: String) throws {
             try validate(self.mediaFileUri, name:"mediaFileUri", parent: name, max: 2000)
             try validate(self.mediaFileUri, name:"mediaFileUri", parent: name, min: 1)
+            try validate(self.mediaFileUri, name:"mediaFileUri", parent: name, pattern: "(s3://|http(s*)://).+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -476,6 +481,7 @@ extension TranscribeService {
             AWSShapeMember(label: "MediaFormat", required: false, type: .enum), 
             AWSShapeMember(label: "MediaSampleRateHertz", required: false, type: .integer), 
             AWSShapeMember(label: "OutputBucketName", required: false, type: .string), 
+            AWSShapeMember(label: "OutputEncryptionKMSKeyId", required: false, type: .string), 
             AWSShapeMember(label: "Settings", required: false, type: .structure), 
             AWSShapeMember(label: "TranscriptionJobName", required: true, type: .string)
         ]
@@ -484,23 +490,25 @@ extension TranscribeService {
         public let languageCode: LanguageCode
         /// An object that describes the input media for a transcription job.
         public let media: Media
-        /// The format of the input media file.  If you do not specify the format of the media file, Amazon Transcribe determines the format. If the format is not recognized, Amazon Transcribe returns an InternalFailureException exception. If you specify the format, it must match the format detected by Amazon Transcribe, otherwise you get an InternalFailureException exception.
+        /// The format of the input media file.
         public let mediaFormat: MediaFormat?
-        /// The sample rate of the audio track in the input media file in Hertz.  If you do not specify the media sample rate, Amazon Transcribe determines the sample rate. If you specify the sample rate, it must match the sample rate detected by Amazon Transcribe. In most cases, you should leave the MediaSampleRateHertz field blank and let Amazon Transcribe determine the sample rate.
+        /// The sample rate, in Hertz, of the audio track in the input media file.  If you do not specify the media sample rate, Amazon Transcribe determines the sample rate. If you specify the sample rate, it must match the sample rate detected by Amazon Transcribe. In most cases, you should leave the MediaSampleRateHertz field blank and let Amazon Transcribe determine the sample rate.
         public let mediaSampleRateHertz: Int?
         /// The location where the transcription is stored. If you set the OutputBucketName, Amazon Transcribe puts the transcription in the specified S3 bucket. When you call the GetTranscriptionJob operation, the operation returns this location in the TranscriptFileUri field. The S3 bucket must have permissions that allow Amazon Transcribe to put files in the bucket. For more information, see Permissions Required for IAM User Roles. Amazon Transcribe uses the default Amazon S3 key for server-side encryption of transcripts that are placed in your S3 bucket. You can't specify your own encryption key. If you don't set the OutputBucketName, Amazon Transcribe generates a pre-signed URL, a shareable URL that provides secure access to your transcription, and returns it in the TranscriptFileUri field. Use this URL to download the transcription.
         public let outputBucketName: String?
+        public let outputEncryptionKMSKeyId: String?
         /// A Settings object that provides optional settings for a transcription job.
         public let settings: Settings?
         /// The name of the job. Note that you can't use the strings "." or ".." by themselves as the job name. The name must also be unique within an AWS account.
         public let transcriptionJobName: String
 
-        public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, outputBucketName: String? = nil, settings: Settings? = nil, transcriptionJobName: String) {
+        public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, settings: Settings? = nil, transcriptionJobName: String) {
             self.languageCode = languageCode
             self.media = media
             self.mediaFormat = mediaFormat
             self.mediaSampleRateHertz = mediaSampleRateHertz
             self.outputBucketName = outputBucketName
+            self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
             self.settings = settings
             self.transcriptionJobName = transcriptionJobName
         }
@@ -509,7 +517,11 @@ extension TranscribeService {
             try self.media.validate(name: "\(name).media")
             try validate(self.mediaSampleRateHertz, name:"mediaSampleRateHertz", parent: name, max: 48000)
             try validate(self.mediaSampleRateHertz, name:"mediaSampleRateHertz", parent: name, min: 8000)
+            try validate(self.outputBucketName, name:"outputBucketName", parent: name, max: 64)
             try validate(self.outputBucketName, name:"outputBucketName", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
+            try validate(self.outputEncryptionKMSKeyId, name:"outputEncryptionKMSKeyId", parent: name, max: 2048)
+            try validate(self.outputEncryptionKMSKeyId, name:"outputEncryptionKMSKeyId", parent: name, min: 1)
+            try validate(self.outputEncryptionKMSKeyId, name:"outputEncryptionKMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
             try self.settings?.validate(name: "\(name).settings")
             try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, max: 200)
             try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, min: 1)
@@ -522,6 +534,7 @@ extension TranscribeService {
             case mediaFormat = "MediaFormat"
             case mediaSampleRateHertz = "MediaSampleRateHertz"
             case outputBucketName = "OutputBucketName"
+            case outputEncryptionKMSKeyId = "OutputEncryptionKMSKeyId"
             case settings = "Settings"
             case transcriptionJobName = "TranscriptionJobName"
         }
@@ -710,9 +723,11 @@ extension TranscribeService {
             try self.phrases?.forEach {
                 try validate($0, name: "phrases[]", parent: name, max: 256)
                 try validate($0, name: "phrases[]", parent: name, min: 0)
+                try validate($0, name: "phrases[]", parent: name, pattern: ".+")
             }
             try validate(self.vocabularyFileUri, name:"vocabularyFileUri", parent: name, max: 2000)
             try validate(self.vocabularyFileUri, name:"vocabularyFileUri", parent: name, min: 1)
+            try validate(self.vocabularyFileUri, name:"vocabularyFileUri", parent: name, pattern: "(s3://|http(s*)://).+")
             try validate(self.vocabularyName, name:"vocabularyName", parent: name, max: 200)
             try validate(self.vocabularyName, name:"vocabularyName", parent: name, min: 1)
             try validate(self.vocabularyName, name:"vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")

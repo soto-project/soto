@@ -93,6 +93,70 @@ extension DocDB {
         }
     }
 
+    public struct Certificate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateType", required: false, type: .string), 
+            AWSShapeMember(label: "Thumbprint", required: false, type: .string), 
+            AWSShapeMember(label: "ValidFrom", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ValidTill", required: false, type: .timestamp)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the certificate. Example: arn:aws:rds:us-east-1::cert:rds-ca-2019 
+        public let certificateArn: String?
+        /// The unique key that identifies a certificate. Example: rds-ca-2019 
+        public let certificateIdentifier: String?
+        /// The type of the certificate. Example: CA 
+        public let certificateType: String?
+        /// The thumbprint of the certificate.
+        public let thumbprint: String?
+        /// The starting date-time from which the certificate is valid. Example: 2019-07-31T17:57:09Z 
+        public let validFrom: TimeStamp?
+        /// The date-time after which the certificate is no longer valid. Example: 2024-07-31T17:57:09Z 
+        public let validTill: TimeStamp?
+
+        public init(certificateArn: String? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil, thumbprint: String? = nil, validFrom: TimeStamp? = nil, validTill: TimeStamp? = nil) {
+            self.certificateArn = certificateArn
+            self.certificateIdentifier = certificateIdentifier
+            self.certificateType = certificateType
+            self.thumbprint = thumbprint
+            self.validFrom = validFrom
+            self.validTill = validTill
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case certificateIdentifier = "CertificateIdentifier"
+            case certificateType = "CertificateType"
+            case thumbprint = "Thumbprint"
+            case validFrom = "ValidFrom"
+            case validTill = "ValidTill"
+        }
+    }
+
+    public struct CertificateMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificates", required: false, type: .list, encoding: .list(member:"Certificate")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+
+        /// A list of certificates for this AWS account.
+        public let certificates: [Certificate]?
+        /// An optional pagination token provided if the number of records retrieved is greater than MaxRecords. If this parameter is specified, the marker specifies the next record in the list. Including the value of Marker in the next call to DescribeCertificates results in the next page of certificates.
+        public let marker: String?
+
+        public init(certificates: [Certificate]? = nil, marker: String? = nil) {
+            self.certificates = certificates
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "Certificates"
+            case marker = "Marker"
+        }
+    }
+
     public struct CloudwatchLogsExportConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DisableLogTypes", required: false, type: .list, encoding: .list(member:"member")), 
@@ -263,9 +327,9 @@ extension DocDB {
         public let engineVersion: String?
         /// The AWS KMS key identifier for an encrypted DB cluster. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are creating a DB cluster using the same AWS account that owns the AWS KMS encryption key that is used to encrypt the new DB cluster, you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. If an encryption key is not specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon DocumentDB uses the encryption key that is used to encrypt the source. Otherwise, Amazon DocumentDB uses your default encryption key.    If the StorageEncrypted parameter is true and ReplicationSourceIdentifier is not specified, Amazon DocumentDB uses your default encryption key.   AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region. If you create a replica of an encrypted DB cluster in another AWS Region, you must set KmsKeyId to a KMS key ID that is valid in the destination AWS Region. This key is used to encrypt the replica in that AWS Region.
         public let kmsKeyId: String?
-        /// The name of the master user for the DB cluster. Constraints:   Must be from 1 to 16 letters or numbers.   The first character must be a letter.   Cannot be a reserved word for the chosen database engine.  
+        /// The name of the master user for the DB cluster. Constraints:   Must be from 1 to 63 letters or numbers.   The first character must be a letter.   Cannot be a reserved word for the chosen database engine.  
         public let masterUsername: String
-        /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 41 characters.
+        /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
         public let masterUserPassword: String
         /// The port number on which the instances in the DB cluster accept connections.
         public let port: Int?
@@ -459,7 +523,7 @@ extension DocDB {
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
         public let promotionTier: Int?
-        /// The tags to be assigned to the DB instance.
+        /// The tags to be assigned to the DB instance. You can assign up to 10 tags to an instance.
         public let tags: [Tag]?
 
         public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, dBClusterIdentifier: String, dBInstanceClass: String, dBInstanceIdentifier: String, engine: String, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, tags: [Tag]? = nil) {
@@ -1119,6 +1183,7 @@ extension DocDB {
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
             AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "DBInstanceArn", required: false, type: .string), 
             AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
@@ -1149,6 +1214,8 @@ extension DocDB {
         public let availabilityZone: String?
         /// Specifies the number of days for which automatic DB snapshots are retained.
         public let backupRetentionPeriod: Int?
+        /// The identifier of the CA certificate for this DB instance.
+        public let cACertificateIdentifier: String?
         /// Contains the name of the DB cluster that the DB instance is a member of if the DB instance is a member of a DB cluster.
         public let dBClusterIdentifier: String?
         /// The Amazon Resource Name (ARN) for the DB instance.
@@ -1185,19 +1252,20 @@ extension DocDB {
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance.
         public let promotionTier: Int?
-        /// Specifies the availability options for the DB instance. A value of true specifies an internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address.
+        /// Not supported. Amazon DocumentDB does not currently support public endpoints. The value of PubliclyAccessible is always false.
         public let publiclyAccessible: Bool?
         /// The status of a read replica. If the instance is not a read replica, this is blank.
         public let statusInfos: [DBInstanceStatusInfo]?
-        /// Specifies whether the DB instance is encrypted.
+        /// Specifies whether or not the DB instance is encrypted.
         public let storageEncrypted: Bool?
         /// Provides a list of VPC security group elements that the DB instance belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBSubnetGroup: DBSubnetGroup? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, instanceCreateTime: TimeStamp? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.backupRetentionPeriod = backupRetentionPeriod
+            self.cACertificateIdentifier = cACertificateIdentifier
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBInstanceArn = dBInstanceArn
             self.dBInstanceClass = dBInstanceClass
@@ -1226,6 +1294,7 @@ extension DocDB {
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case availabilityZone = "AvailabilityZone"
             case backupRetentionPeriod = "BackupRetentionPeriod"
+            case cACertificateIdentifier = "CACertificateIdentifier"
             case dBClusterIdentifier = "DBClusterIdentifier"
             case dBInstanceArn = "DBInstanceArn"
             case dBInstanceClass = "DBInstanceClass"
@@ -1315,7 +1384,7 @@ extension DocDB {
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
 
-        /// The Amazon Resource Identifier (ARN) for the DB subnet group.
+        /// The Amazon Resource Name (ARN) for the DB subnet group.
         public let dBSubnetGroupArn: String?
         /// Provides the description of the DB subnet group.
         public let dBSubnetGroupDescription: String?
@@ -1509,6 +1578,38 @@ extension DocDB {
 
         private enum CodingKeys: String, CodingKey {
             case dBSubnetGroupName = "DBSubnetGroupName"
+        }
+    }
+
+    public struct DescribeCertificatesMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+
+        /// The user-supplied certificate identifier. If this parameter is specified, information for only the specified certificate is returned. If this parameter is omitted, a list of up to MaxRecords certificates is returned. This parameter is not case sensitive. Constraints   Must match an existing CertificateIdentifier.  
+        public let certificateIdentifier: String?
+        /// This parameter is not currently supported.
+        public let filters: [Filter]?
+        /// An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints:   Minimum: 20   Maximum: 100  
+        public let maxRecords: Int?
+
+        public init(certificateIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.certificateIdentifier = certificateIdentifier
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateIdentifier = "CertificateIdentifier"
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
         }
     }
 
@@ -2300,7 +2401,7 @@ extension DocDB {
         public let deletionProtection: Bool?
         /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true.
         public let engineVersion: String?
-        /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 41 characters.
+        /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
         public let masterUserPassword: String?
         /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster2 
         public let newDBClusterIdentifier: String?
@@ -2436,6 +2537,7 @@ extension DocDB {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
             AWSShapeMember(label: "DBInstanceIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "NewDBInstanceIdentifier", required: false, type: .string), 
@@ -2447,6 +2549,8 @@ extension DocDB {
         public let applyImmediately: Bool?
         /// Indicates that minor version upgrades are applied automatically to the DB instance during the maintenance window. Changing this parameter doesn't result in an outage except in the following case, and the change is asynchronously applied as soon as possible. An outage results if this parameter is set to true during the maintenance window, and a newer minor version is available, and Amazon DocumentDB has enabled automatic patching for that engine version. 
         public let autoMinorVersionUpgrade: Bool?
+        /// Indicates the certificate that needs to be associated with the instance.
+        public let cACertificateIdentifier: String?
         /// The new compute and memory capacity of the DB instance; for example, db.r5.large. Not all DB instance classes are available in all AWS Regions.  If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request.  Default: Uses existing setting.
         public let dBInstanceClass: String?
         /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
@@ -2458,9 +2562,10 @@ extension DocDB {
         /// A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
         public let promotionTier: Int?
 
-        public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, newDBInstanceIdentifier: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil) {
+        public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cACertificateIdentifier: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, newDBInstanceIdentifier: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil) {
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+            self.cACertificateIdentifier = cACertificateIdentifier
             self.dBInstanceClass = dBInstanceClass
             self.dBInstanceIdentifier = dBInstanceIdentifier
             self.newDBInstanceIdentifier = newDBInstanceIdentifier
@@ -2471,6 +2576,7 @@ extension DocDB {
         private enum CodingKeys: String, CodingKey {
             case applyImmediately = "ApplyImmediately"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case cACertificateIdentifier = "CACertificateIdentifier"
             case dBInstanceClass = "DBInstanceClass"
             case dBInstanceIdentifier = "DBInstanceIdentifier"
             case newDBInstanceIdentifier = "NewDBInstanceIdentifier"

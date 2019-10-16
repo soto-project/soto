@@ -96,6 +96,11 @@ public struct DocDB {
         return client.send(operation: "DeleteDBSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns a list of certificate authority (CA) certificates provided by Amazon RDS for this AWS account.
+    public func describeCertificates(_ input: DescribeCertificatesMessage) -> Future<CertificateMessage> {
+        return client.send(operation: "DescribeCertificates", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list contains only the description of the specified DB cluster parameter group. 
     public func describeDBClusterParameterGroups(_ input: DescribeDBClusterParameterGroupsMessage) -> Future<DBClusterParameterGroupsMessage> {
         return client.send(operation: "DescribeDBClusterParameterGroups", path: "/", httpMethod: "POST", input: input)

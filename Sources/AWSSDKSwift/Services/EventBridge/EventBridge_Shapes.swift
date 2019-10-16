@@ -1438,9 +1438,9 @@ extension EventBridge {
             AWSShapeMember(label: "Time", required: false, type: .timestamp)
         ]
 
-        /// A valid JSON string. There is no other schema imposed. The JSON string can contain fields and nested subobjects.
+        /// A valid JSON object. There is no other schema imposed. The JSON object can contain fields and nested subobjects. This field is required.
         public let detail: String?
-        /// Free-form string used to decide which fields to expect in the event detail.
+        /// Free-form string used to decide which fields to expect in the event detail. This field is required.
         public let detailType: String?
         /// The event bus that will receive the event. Only the rules that are associated with this event bus can match the event.
         public let eventBusName: String?
@@ -1556,13 +1556,13 @@ extension EventBridge {
             AWSShapeMember(label: "Time", required: false, type: .timestamp)
         ]
 
-        /// A valid JSON string. There is no other schema imposed. The JSON string can contain fields and nested subobjects.
+        /// A valid JSON object. There is no other schema imposed. The JSON object can contain fields and nested subobjects. This field is required.
         public let detail: String?
-        /// A free-form string used to decide which fields to expect in the event detail.
+        /// A free-form string used to decide which fields to expect in the event detail. This field is required.
         public let detailType: String?
         /// AWS resources, identified by Amazon Resource Name (ARN), that the event primarily concerns. Any number, including zero, can be present.
         public let resources: [String]?
-        /// The event source that is generating the evntry.
+        /// The event source that is generating the evntry. This field is required.
         public let source: String?
         /// The date and time of the event.
         public let time: TimeStamp?
@@ -1648,7 +1648,7 @@ extension EventBridge {
         public let condition: Condition?
         /// The event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
-        /// The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition, avoid creating rules that might match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID to receive events from. Rules with an account field don't match any events sent from other accounts.
+        /// The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition, avoid creating rules that might match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID to receive events from. Rules that have an account field match events sent only from accounts that are listed in the rule's account field.
         public let principal: String
         /// An identifier string for the external account that you're granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
         public let statementId: String
@@ -1703,7 +1703,7 @@ extension EventBridge {
         public let eventBusName: String?
         /// The event pattern. For more information, see Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
-        /// The name of the rule that you're creating or updating.
+        /// The name of the rule that you're creating or updating. A rule can't have the same name as another rule in the same Region or on the same event bus.
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
         public let roleArn: String?
@@ -2215,7 +2215,7 @@ extension EventBridge {
         public let batchParameters: BatchParameters?
         /// Contains the Amazon ECS task definition and task count to be used if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
         public let ecsParameters: EcsParameters?
-        /// The ID of the target.
+        /// A name for the target. Use a string that will help you identify the target. Each target associated with a rule must have an Id unique for that rule.
         public let id: String
         /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
         public let input: String?

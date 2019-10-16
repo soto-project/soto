@@ -307,6 +307,7 @@ extension MediaConnect {
 
     public struct Entitlement: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataTransferSubscriberFeePercent", location: .body(locationName: "dataTransferSubscriberFeePercent"), required: false, type: .integer), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
             AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: true, type: .string), 
@@ -314,6 +315,8 @@ extension MediaConnect {
             AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: true, type: .list)
         ]
 
+        /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
+        public let dataTransferSubscriberFeePercent: Int?
         /// A description of the entitlement.
         public let description: String?
         /// The type of encryption that will be used on the output that is associated with this entitlement.
@@ -325,7 +328,8 @@ extension MediaConnect {
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
         public let subscribers: [String]
 
-        public init(description: String? = nil, encryption: Encryption? = nil, entitlementArn: String, name: String, subscribers: [String]) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementArn: String, name: String, subscribers: [String]) {
+            self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.encryption = encryption
             self.entitlementArn = entitlementArn
@@ -334,6 +338,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
             case description = "description"
             case encryption = "encryption"
             case entitlementArn = "entitlementArn"
@@ -400,12 +405,15 @@ extension MediaConnect {
 
     public struct GrantEntitlementRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataTransferSubscriberFeePercent", location: .body(locationName: "dataTransferSubscriberFeePercent"), required: false, type: .integer), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "Subscribers", location: .body(locationName: "subscribers"), required: true, type: .list)
         ]
 
+        /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
+        public let dataTransferSubscriberFeePercent: Int?
         /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
         public let description: String?
         /// The type of encryption that will be used on the output that is associated with this entitlement.
@@ -415,7 +423,8 @@ extension MediaConnect {
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
         public let subscribers: [String]
 
-        public init(description: String? = nil, encryption: Encryption? = nil, name: String? = nil, subscribers: [String]) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, name: String? = nil, subscribers: [String]) {
+            self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.encryption = encryption
             self.name = name
@@ -423,6 +432,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
             case description = "description"
             case encryption = "encryption"
             case name = "name"
@@ -608,21 +618,26 @@ extension MediaConnect {
 
     public struct ListedEntitlement: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataTransferSubscriberFeePercent", location: .body(locationName: "dataTransferSubscriberFeePercent"), required: false, type: .integer), 
             AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: true, type: .string), 
             AWSShapeMember(label: "EntitlementName", location: .body(locationName: "entitlementName"), required: true, type: .string)
         ]
 
+        /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
+        public let dataTransferSubscriberFeePercent: Int?
         /// The ARN of the entitlement.
         public let entitlementArn: String
         /// The name of the entitlement.
         public let entitlementName: String
 
-        public init(entitlementArn: String, entitlementName: String) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, entitlementArn: String, entitlementName: String) {
+            self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.entitlementArn = entitlementArn
             self.entitlementName = entitlementName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
             case entitlementArn = "entitlementArn"
             case entitlementName = "entitlementName"
         }
@@ -689,6 +704,7 @@ extension MediaConnect {
 
     public struct Output: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataTransferSubscriberFeePercent", location: .body(locationName: "dataTransferSubscriberFeePercent"), required: false, type: .integer), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: false, type: .string), 
             AWSShapeMember(label: "Encryption", location: .body(locationName: "encryption"), required: false, type: .structure), 
@@ -700,6 +716,8 @@ extension MediaConnect {
             AWSShapeMember(label: "Transport", location: .body(locationName: "transport"), required: false, type: .structure)
         ]
 
+        /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
+        public let dataTransferSubscriberFeePercent: Int?
         /// A description of the output.
         public let description: String?
         /// The address where you want to send the output.
@@ -719,7 +737,8 @@ extension MediaConnect {
         /// Attributes related to the transport stream that are used in the output.
         public let transport: Transport?
 
-        public init(description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, mediaLiveInputArn: String? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, mediaLiveInputArn: String? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil) {
+            self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.destination = destination
             self.encryption = encryption
@@ -732,6 +751,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
             case description = "description"
             case destination = "destination"
             case encryption = "encryption"
@@ -901,6 +921,7 @@ extension MediaConnect {
 
     public struct Source: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataTransferSubscriberFeePercent", location: .body(locationName: "dataTransferSubscriberFeePercent"), required: false, type: .integer), 
             AWSShapeMember(label: "Decryption", location: .body(locationName: "decryption"), required: false, type: .structure), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string), 
@@ -912,6 +933,8 @@ extension MediaConnect {
             AWSShapeMember(label: "WhitelistCidr", location: .body(locationName: "whitelistCidr"), required: false, type: .string)
         ]
 
+        /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
+        public let dataTransferSubscriberFeePercent: Int?
         /// The type of encryption that is used on the content ingested from this source.
         public let decryption: Encryption?
         /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
@@ -931,7 +954,8 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, name: String, sourceArn: String, transport: Transport? = nil, whitelistCidr: String? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, name: String, sourceArn: String, transport: Transport? = nil, whitelistCidr: String? = nil) {
+            self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -944,6 +968,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
             case decryption = "decryption"
             case description = "description"
             case entitlementArn = "entitlementArn"

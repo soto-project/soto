@@ -37,19 +37,34 @@ public struct Pinpoint {
         return client.send(operation: "CreateCampaign", path: "/v1/apps/{application-id}/campaigns", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new export job for an application.
+    ///  Creates a message template that you can use in messages that are sent through the email channel.
+    public func createEmailTemplate(_ input: CreateEmailTemplateRequest) -> Future<CreateEmailTemplateResponse> {
+        return client.send(operation: "CreateEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an export job for an application.
     public func createExportJob(_ input: CreateExportJobRequest) -> Future<CreateExportJobResponse> {
         return client.send(operation: "CreateExportJob", path: "/v1/apps/{application-id}/jobs/export", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new import job for an application.
+    ///  Creates an import job for an application.
     public func createImportJob(_ input: CreateImportJobRequest) -> Future<CreateImportJobResponse> {
         return client.send(operation: "CreateImportJob", path: "/v1/apps/{application-id}/jobs/import", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a message template that you can use in messages that are sent through a push notification channel.
+    public func createPushTemplate(_ input: CreatePushTemplateRequest) -> Future<CreatePushTemplateResponse> {
+        return client.send(operation: "CreatePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
     public func createSegment(_ input: CreateSegmentRequest) -> Future<CreateSegmentResponse> {
         return client.send(operation: "CreateSegment", path: "/v1/apps/{application-id}/segments", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a message template that you can use in messages that are sent through the SMS channel.
+    public func createSmsTemplate(_ input: CreateSmsTemplateRequest) -> Future<CreateSmsTemplateResponse> {
+        return client.send(operation: "CreateSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "POST", input: input)
     }
 
     ///  Disables the ADM channel for an application and deletes any existing settings for the channel.
@@ -97,6 +112,11 @@ public struct Pinpoint {
         return client.send(operation: "DeleteEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "DELETE", input: input)
     }
 
+    ///  Deletes a message template that was designed for use in messages that were sent through the email channel.
+    public func deleteEmailTemplate(_ input: DeleteEmailTemplateRequest) -> Future<DeleteEmailTemplateResponse> {
+        return client.send(operation: "DeleteEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes an endpoint from an application.
     public func deleteEndpoint(_ input: DeleteEndpointRequest) -> Future<DeleteEndpointResponse> {
         return client.send(operation: "DeleteEndpoint", path: "/v1/apps/{application-id}/endpoints/{endpoint-id}", httpMethod: "DELETE", input: input)
@@ -112,6 +132,11 @@ public struct Pinpoint {
         return client.send(operation: "DeleteGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: "DELETE", input: input)
     }
 
+    ///  Deletes a message template that was designed for use in messages that were sent through a push notification channel.
+    public func deletePushTemplate(_ input: DeletePushTemplateRequest) -> Future<DeletePushTemplateResponse> {
+        return client.send(operation: "DeletePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes a segment from an application.
     public func deleteSegment(_ input: DeleteSegmentRequest) -> Future<DeleteSegmentResponse> {
         return client.send(operation: "DeleteSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: "DELETE", input: input)
@@ -120,6 +145,11 @@ public struct Pinpoint {
     ///  Disables the SMS channel for an application and deletes any existing settings for the channel.
     public func deleteSmsChannel(_ input: DeleteSmsChannelRequest) -> Future<DeleteSmsChannelResponse> {
         return client.send(operation: "DeleteSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes a message template that was designed for use in messages that were sent through the SMS channel.
+    public func deleteSmsTemplate(_ input: DeleteSmsTemplateRequest) -> Future<DeleteSmsTemplateResponse> {
+        return client.send(operation: "DeleteSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes all the endpoints that are associated with a specific user ID.
@@ -162,7 +192,7 @@ public struct Pinpoint {
         return client.send(operation: "GetApp", path: "/v1/apps/{application-id}", httpMethod: "GET", input: input)
     }
 
-    ///   Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
+    ///  Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
     public func getApplicationDateRangeKpi(_ input: GetApplicationDateRangeKpiRequest) -> Future<GetApplicationDateRangeKpiResponse> {
         return client.send(operation: "GetApplicationDateRangeKpi", path: "/v1/apps/{application-id}/kpis/daterange/{kpi-name}", httpMethod: "GET", input: input)
     }
@@ -177,7 +207,7 @@ public struct Pinpoint {
         return client.send(operation: "GetApps", path: "/v1/apps", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves information about the status and settings of the Baidu Cloud Push channel for an application.
+    ///  Retrieves information about the status and settings of the Baidu channel for an application.
     public func getBaiduChannel(_ input: GetBaiduChannelRequest) -> Future<GetBaiduChannelResponse> {
         return client.send(operation: "GetBaiduChannel", path: "/v1/apps/{application-id}/channels/baidu", httpMethod: "GET", input: input)
     }
@@ -192,7 +222,7 @@ public struct Pinpoint {
         return client.send(operation: "GetCampaignActivities", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/activities", httpMethod: "GET", input: input)
     }
 
-    ///   Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
+    ///  Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
     public func getCampaignDateRangeKpi(_ input: GetCampaignDateRangeKpiRequest) -> Future<GetCampaignDateRangeKpiResponse> {
         return client.send(operation: "GetCampaignDateRangeKpi", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/kpis/daterange/{kpi-name}", httpMethod: "GET", input: input)
     }
@@ -220,6 +250,11 @@ public struct Pinpoint {
     ///  Retrieves information about the status and settings of the email channel for an application.
     public func getEmailChannel(_ input: GetEmailChannelRequest) -> Future<GetEmailChannelResponse> {
         return client.send(operation: "GetEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves the content and settings for a message template that you can use in messages that are sent through the email channel.
+    public func getEmailTemplate(_ input: GetEmailTemplateRequest) -> Future<GetEmailTemplateResponse> {
+        return client.send(operation: "GetEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about the settings and attributes of a specific endpoint for an application.
@@ -257,6 +292,11 @@ public struct Pinpoint {
         return client.send(operation: "GetImportJobs", path: "/v1/apps/{application-id}/jobs/import", httpMethod: "GET", input: input)
     }
 
+    ///  Retrieves the content and settings for a message template that you can use in messages that are sent through a push notification channel.
+    public func getPushTemplate(_ input: GetPushTemplateRequest) -> Future<GetPushTemplateResponse> {
+        return client.send(operation: "GetPushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "GET", input: input)
+    }
+
     ///  Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
     public func getSegment(_ input: GetSegmentRequest) -> Future<GetSegmentResponse> {
         return client.send(operation: "GetSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: "GET", input: input)
@@ -292,6 +332,11 @@ public struct Pinpoint {
         return client.send(operation: "GetSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "GET", input: input)
     }
 
+    ///  Retrieves the content and settings for a message template that you can use in messages that are sent through the SMS channel.
+    public func getSmsTemplate(_ input: GetSmsTemplateRequest) -> Future<GetSmsTemplateResponse> {
+        return client.send(operation: "GetSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "GET", input: input)
+    }
+
     ///  Retrieves information about all the endpoints that are associated with a specific user ID.
     public func getUserEndpoints(_ input: GetUserEndpointsRequest) -> Future<GetUserEndpointsResponse> {
         return client.send(operation: "GetUserEndpoints", path: "/v1/apps/{application-id}/users/{user-id}", httpMethod: "GET", input: input)
@@ -302,9 +347,14 @@ public struct Pinpoint {
         return client.send(operation: "GetVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves all the tags (keys and values) that are associated with an application, campaign, or segment.
+    ///  Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/v1/tags/{resource-arn}", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
+    public func listTemplates(_ input: ListTemplatesRequest) -> Future<ListTemplatesResponse> {
+        return client.send(operation: "ListTemplates", path: "/v1/templates", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about a phone number.
@@ -337,37 +387,37 @@ public struct Pinpoint {
         return client.send(operation: "SendUsersMessages", path: "/v1/apps/{application-id}/users-messages", httpMethod: "POST", input: input)
     }
 
-    ///  Adds one or more tags (keys and values) to an application, campaign, or segment.
+    ///  Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
     @discardableResult public func tagResource(_ input: TagResourceRequest) -> Future<Void> {
         return client.send(operation: "TagResource", path: "/v1/tags/{resource-arn}", httpMethod: "POST", input: input)
     }
 
-    ///  Removes one or more tags (keys and values) from an application, campaign, or segment.
+    ///  Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
     @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
         return client.send(operation: "UntagResource", path: "/v1/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Updates the ADM channel settings for an application.
+    ///  Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
     public func updateAdmChannel(_ input: UpdateAdmChannelRequest) -> Future<UpdateAdmChannelResponse> {
         return client.send(operation: "UpdateAdmChannel", path: "/v1/apps/{application-id}/channels/adm", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the APNs channel settings for an application.
+    ///  Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
     public func updateApnsChannel(_ input: UpdateApnsChannelRequest) -> Future<UpdateApnsChannelResponse> {
         return client.send(operation: "UpdateApnsChannel", path: "/v1/apps/{application-id}/channels/apns", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the APNs sandbox channel settings for an application.
+    ///  Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
     public func updateApnsSandboxChannel(_ input: UpdateApnsSandboxChannelRequest) -> Future<UpdateApnsSandboxChannelResponse> {
         return client.send(operation: "UpdateApnsSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_sandbox", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the APNs VoIP channel settings for an application.
+    ///  Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
     public func updateApnsVoipChannel(_ input: UpdateApnsVoipChannelRequest) -> Future<UpdateApnsVoipChannelResponse> {
         return client.send(operation: "UpdateApnsVoipChannel", path: "/v1/apps/{application-id}/channels/apns_voip", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the settings for the APNs VoIP sandbox channel for an application.
+    ///  Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
     public func updateApnsVoipSandboxChannel(_ input: UpdateApnsVoipSandboxChannelRequest) -> Future<UpdateApnsVoipSandboxChannelResponse> {
         return client.send(operation: "UpdateApnsVoipSandboxChannel", path: "/v1/apps/{application-id}/channels/apns_voip_sandbox", httpMethod: "PUT", input: input)
     }
@@ -377,7 +427,7 @@ public struct Pinpoint {
         return client.send(operation: "UpdateApplicationSettings", path: "/v1/apps/{application-id}/settings", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the settings of the Baidu channel for an application.
+    ///  Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
     public func updateBaiduChannel(_ input: UpdateBaiduChannelRequest) -> Future<UpdateBaiduChannelResponse> {
         return client.send(operation: "UpdateBaiduChannel", path: "/v1/apps/{application-id}/channels/baidu", httpMethod: "PUT", input: input)
     }
@@ -387,9 +437,14 @@ public struct Pinpoint {
         return client.send(operation: "UpdateCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the status and settings of the email channel for an application.
+    ///  Enables the email channel for an application or updates the status and settings of the email channel for an application.
     public func updateEmailChannel(_ input: UpdateEmailChannelRequest) -> Future<UpdateEmailChannelResponse> {
         return client.send(operation: "UpdateEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an existing message template that you can use in messages that are sent through the email channel.
+    public func updateEmailTemplate(_ input: UpdateEmailTemplateRequest) -> Future<UpdateEmailTemplateResponse> {
+        return client.send(operation: "UpdateEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes (Attributes, Metrics, and UserAttributes properties) for an endpoint.
@@ -402,9 +457,14 @@ public struct Pinpoint {
         return client.send(operation: "UpdateEndpointsBatch", path: "/v1/apps/{application-id}/endpoints", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the status and settings of the GCM channel for an application.
+    ///  Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
     public func updateGcmChannel(_ input: UpdateGcmChannelRequest) -> Future<UpdateGcmChannelResponse> {
         return client.send(operation: "UpdateGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an existing message template that you can use in messages that are sent through a push notification channel.
+    public func updatePushTemplate(_ input: UpdatePushTemplateRequest) -> Future<UpdatePushTemplateResponse> {
+        return client.send(operation: "UpdatePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "PUT", input: input)
     }
 
     ///  Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
@@ -412,12 +472,17 @@ public struct Pinpoint {
         return client.send(operation: "UpdateSegment", path: "/v1/apps/{application-id}/segments/{segment-id}", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the status and settings of the SMS channel for an application.
+    ///  Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
     public func updateSmsChannel(_ input: UpdateSmsChannelRequest) -> Future<UpdateSmsChannelResponse> {
         return client.send(operation: "UpdateSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the status and settings of the voice channel for an application.
+    ///  Updates an existing message template that you can use in messages that are sent through the SMS channel.
+    public func updateSmsTemplate(_ input: UpdateSmsTemplateRequest) -> Future<UpdateSmsTemplateResponse> {
+        return client.send(operation: "UpdateSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "PUT", input: input)
+    }
+
+    ///  Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
     public func updateVoiceChannel(_ input: UpdateVoiceChannelRequest) -> Future<UpdateVoiceChannelResponse> {
         return client.send(operation: "UpdateVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "PUT", input: input)
     }

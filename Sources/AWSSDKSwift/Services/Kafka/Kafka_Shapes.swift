@@ -12,15 +12,15 @@ extension Kafka {
 
     public struct BrokerEBSVolumeInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "KafkaBrokerNodeId", location: .body(locationName: "kafkaBrokerNodeId"), required: true, type: .string), 
+            AWSShapeMember(label: "KafkaBrokerNodeId", location: .body(locationName: "kafkaBrokerNodeId"), required: true, type: .string),
             AWSShapeMember(label: "VolumeSizeGB", location: .body(locationName: "volumeSizeGB"), required: true, type: .integer)
         ]
 
         ///             The ID of the broker to update.
-        ///          
+        ///
         public let kafkaBrokerNodeId: String
         ///             Size of the EBS volume to update.
-        ///          
+        ///
         public let volumeSizeGB: Int
 
         public init(kafkaBrokerNodeId: String, volumeSizeGB: Int) {
@@ -36,28 +36,29 @@ extension Kafka {
 
     public struct BrokerNodeGroupInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerAZDistribution", location: .body(locationName: "brokerAZDistribution"), required: false, type: .enum), 
-            AWSShapeMember(label: "ClientSubnets", location: .body(locationName: "clientSubnets"), required: true, type: .list), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType"), required: true, type: .string), 
-            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "BrokerAZDistribution", location: .body(locationName: "brokerAZDistribution"), required: false, type: .enum),
+            AWSShapeMember(label: "ClientSubnets", location: .body(locationName: "clientSubnets"), required: true, type: .list),
+            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType"), required: true, type: .string),
+            AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list),
             AWSShapeMember(label: "StorageInfo", location: .body(locationName: "storageInfo"), required: false, type: .structure)
         ]
 
-        ///             The distribution of broker nodes across Availability Zones.
-        ///          
+        ///             The distribution of broker nodes across Availability Zones. This is an optional parameter. If you don't specify it, Amazon MSK gives it the value DEFAULT. You can also explicitly set this parameter to the value DEFAULT. No other values are currently allowed.
+        ///          Amazon MSK distributes the broker nodes evenly across the Availability Zones that correspond to the subnets you provide when you create the cluster.
+        ///
         public let brokerAZDistribution: BrokerAZDistribution?
         ///             The list of subnets to connect to in the client virtual private cloud (VPC). AWS creates elastic network interfaces inside these subnets. Client applications use elastic network interfaces to produce and consume data. Client subnets can't be in Availability Zone us-east-1e.
-        ///          
+        ///
         public let clientSubnets: [String]
         ///             The type of Amazon EC2 instances to use for Kafka brokers. The following instance types are allowed: kafka.m5.large, kafka.m5.xlarge, kafka.m5.2xlarge,
         /// kafka.m5.4xlarge, kafka.m5.12xlarge, and kafka.m5.24xlarge.
-        ///          
+        ///
         public let instanceType: String
         ///             The AWS security groups to associate with the elastic network interfaces in order to specify who can connect to and communicate with the Amazon MSK cluster. If you don't specify a security group, Amazon MSK uses the default security group associated with the VPC.
-        ///          
+        ///
         public let securityGroups: [String]?
         ///             Contains information about storage volumes attached to MSK broker nodes.
-        ///          
+        ///
         public let storageInfo: StorageInfo?
 
         public init(brokerAZDistribution: BrokerAZDistribution? = nil, clientSubnets: [String], instanceType: String, securityGroups: [String]? = nil, storageInfo: StorageInfo? = nil) {
@@ -85,31 +86,31 @@ extension Kafka {
 
     public struct BrokerNodeInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedENIId", location: .body(locationName: "attachedENIId"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .double), 
-            AWSShapeMember(label: "ClientSubnet", location: .body(locationName: "clientSubnet"), required: false, type: .string), 
-            AWSShapeMember(label: "ClientVpcIpAddress", location: .body(locationName: "clientVpcIpAddress"), required: false, type: .string), 
-            AWSShapeMember(label: "CurrentBrokerSoftwareInfo", location: .body(locationName: "currentBrokerSoftwareInfo"), required: false, type: .structure), 
+            AWSShapeMember(label: "AttachedENIId", location: .body(locationName: "attachedENIId"), required: false, type: .string),
+            AWSShapeMember(label: "BrokerId", location: .body(locationName: "brokerId"), required: false, type: .double),
+            AWSShapeMember(label: "ClientSubnet", location: .body(locationName: "clientSubnet"), required: false, type: .string),
+            AWSShapeMember(label: "ClientVpcIpAddress", location: .body(locationName: "clientVpcIpAddress"), required: false, type: .string),
+            AWSShapeMember(label: "CurrentBrokerSoftwareInfo", location: .body(locationName: "currentBrokerSoftwareInfo"), required: false, type: .structure),
             AWSShapeMember(label: "Endpoints", location: .body(locationName: "endpoints"), required: false, type: .list)
         ]
 
         ///             The attached elastic network interface of the broker.
-        ///          
+        ///
         public let attachedENIId: String?
         ///             The ID of the broker.
-        ///          
+        ///
         public let brokerId: Double?
         ///             The client subnet to which this broker node belongs.
-        ///          
+        ///
         public let clientSubnet: String?
         ///             The virtual private cloud (VPC) of the client.
-        ///          
+        ///
         public let clientVpcIpAddress: String?
         ///             Information about the version of software currently deployed on the Kafka brokers in the cluster.
-        ///          
+        ///
         public let currentBrokerSoftwareInfo: BrokerSoftwareInfo?
         ///             Endpoints for accessing the broker.
-        ///          
+        ///
         public let endpoints: [String]?
 
         public init(attachedENIId: String? = nil, brokerId: Double? = nil, clientSubnet: String? = nil, clientVpcIpAddress: String? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, endpoints: [String]? = nil) {
@@ -133,19 +134,19 @@ extension Kafka {
 
     public struct BrokerSoftwareInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ConfigurationArn", location: .body(locationName: "configurationArn"), required: false, type: .string), 
-            AWSShapeMember(label: "ConfigurationRevision", location: .body(locationName: "configurationRevision"), required: false, type: .long), 
+            AWSShapeMember(label: "ConfigurationArn", location: .body(locationName: "configurationArn"), required: false, type: .string),
+            AWSShapeMember(label: "ConfigurationRevision", location: .body(locationName: "configurationRevision"), required: false, type: .long),
             AWSShapeMember(label: "KafkaVersion", location: .body(locationName: "kafkaVersion"), required: false, type: .string)
         ]
 
         ///             The Amazon Resource Name (ARN) of the configuration used for the cluster. This field isn't visible in this preview release.
-        ///          
+        ///
         public let configurationArn: String?
         ///             The revision of the configuration to use. This field isn't visible in this preview release.
-        ///          
+        ///
         public let configurationRevision: Int64?
         ///             The version of Apache Kafka.
-        ///          
+        ///
         public let kafkaVersion: String?
 
         public init(configurationArn: String? = nil, configurationRevision: Int64? = nil, kafkaVersion: String? = nil) {
@@ -167,7 +168,7 @@ extension Kafka {
         ]
 
         ///             Details for ClientAuthentication using TLS.
-        ///          
+        ///
         public let tls: Tls?
 
         public init(tls: Tls? = nil) {
@@ -188,62 +189,62 @@ extension Kafka {
 
     public struct ClusterInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActiveOperationArn", location: .body(locationName: "activeOperationArn"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerNodeGroupInfo", location: .body(locationName: "brokerNodeGroupInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "ClientAuthentication", location: .body(locationName: "clientAuthentication"), required: false, type: .structure), 
-            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
-            AWSShapeMember(label: "ClusterName", location: .body(locationName: "clusterName"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "CurrentBrokerSoftwareInfo", location: .body(locationName: "currentBrokerSoftwareInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "CurrentVersion", location: .body(locationName: "currentVersion"), required: false, type: .string), 
-            AWSShapeMember(label: "EncryptionInfo", location: .body(locationName: "encryptionInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum), 
-            AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: false, type: .integer), 
-            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
-            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "ActiveOperationArn", location: .body(locationName: "activeOperationArn"), required: false, type: .string),
+            AWSShapeMember(label: "BrokerNodeGroupInfo", location: .body(locationName: "brokerNodeGroupInfo"), required: false, type: .structure),
+            AWSShapeMember(label: "ClientAuthentication", location: .body(locationName: "clientAuthentication"), required: false, type: .structure),
+            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string),
+            AWSShapeMember(label: "ClusterName", location: .body(locationName: "clusterName"), required: false, type: .string),
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp),
+            AWSShapeMember(label: "CurrentBrokerSoftwareInfo", location: .body(locationName: "currentBrokerSoftwareInfo"), required: false, type: .structure),
+            AWSShapeMember(label: "CurrentVersion", location: .body(locationName: "currentVersion"), required: false, type: .string),
+            AWSShapeMember(label: "EncryptionInfo", location: .body(locationName: "encryptionInfo"), required: false, type: .structure),
+            AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum),
+            AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: false, type: .integer),
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum),
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map),
             AWSShapeMember(label: "ZookeeperConnectString", location: .body(locationName: "zookeeperConnectString"), required: false, type: .string)
         ]
 
         ///             Arn of active cluster operation.
-        ///          
+        ///
         public let activeOperationArn: String?
         ///             Information about the broker nodes.
-        ///          
+        ///
         public let brokerNodeGroupInfo: BrokerNodeGroupInfo?
         ///             Includes all client authentication information.
-        ///          
+        ///
         public let clientAuthentication: ClientAuthentication?
         ///             The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-        ///          
+        ///
         public let clusterArn: String?
         ///             The name of the cluster.
-        ///          
+        ///
         public let clusterName: String?
         /// The time when the cluster was created.
         public let creationTime: TimeStamp?
         ///             Information about the version of software currently deployed on the Kafka brokers in the cluster.
-        ///          
+        ///
         public let currentBrokerSoftwareInfo: BrokerSoftwareInfo?
         ///             The current version of the MSK cluster.
-        ///          
+        ///
         public let currentVersion: String?
         ///             Includes all encryption-related information.
-        ///          
+        ///
         public let encryptionInfo: EncryptionInfo?
         ///             Specifies which metrics are gathered for the MSK cluster. This property has three possible values: DEFAULT, PER_BROKER, and PER_TOPIC_PER_BROKER. For a list of the metrics associated with each of these three levels of monitoring, see Monitoring.
-        ///          
+        ///
         public let enhancedMonitoring: EnhancedMonitoring?
         ///             The number of broker nodes in the cluster.
-        ///          
+        ///
         public let numberOfBrokerNodes: Int?
         ///             The state of the cluster. The possible states are CREATING, ACTIVE, and FAILED.
-        ///          
+        ///
         public let state: ClusterState?
         ///             Tags attached to the cluster.
-        ///          
+        ///
         public let tags: [String: String]?
         ///             The connection string to use to connect to the Apache ZooKeeper cluster.
-        ///          
+        ///
         public let zookeeperConnectString: String?
 
         public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: TimeStamp? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, numberOfBrokerNodes: Int? = nil, state: ClusterState? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil) {
@@ -283,45 +284,45 @@ extension Kafka {
 
     public struct ClusterOperationInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientRequestId", location: .body(locationName: "clientRequestId"), required: false, type: .string), 
-            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "ErrorInfo", location: .body(locationName: "errorInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "OperationArn", location: .body(locationName: "operationArn"), required: false, type: .string), 
-            AWSShapeMember(label: "OperationState", location: .body(locationName: "operationState"), required: false, type: .string), 
-            AWSShapeMember(label: "OperationType", location: .body(locationName: "operationType"), required: false, type: .string), 
-            AWSShapeMember(label: "SourceClusterInfo", location: .body(locationName: "sourceClusterInfo"), required: false, type: .structure), 
+            AWSShapeMember(label: "ClientRequestId", location: .body(locationName: "clientRequestId"), required: false, type: .string),
+            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string),
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp),
+            AWSShapeMember(label: "EndTime", location: .body(locationName: "endTime"), required: false, type: .timestamp),
+            AWSShapeMember(label: "ErrorInfo", location: .body(locationName: "errorInfo"), required: false, type: .structure),
+            AWSShapeMember(label: "OperationArn", location: .body(locationName: "operationArn"), required: false, type: .string),
+            AWSShapeMember(label: "OperationState", location: .body(locationName: "operationState"), required: false, type: .string),
+            AWSShapeMember(label: "OperationType", location: .body(locationName: "operationType"), required: false, type: .string),
+            AWSShapeMember(label: "SourceClusterInfo", location: .body(locationName: "sourceClusterInfo"), required: false, type: .structure),
             AWSShapeMember(label: "TargetClusterInfo", location: .body(locationName: "targetClusterInfo"), required: false, type: .structure)
         ]
 
         ///             The ID of the API request that triggered this operation.
-        ///          
+        ///
         public let clientRequestId: String?
         ///             ARN of the cluster.
-        ///          
+        ///
         public let clusterArn: String?
         /// The time at which operation was created.
         public let creationTime: TimeStamp?
         /// The time at which the operation finished.
         public let endTime: TimeStamp?
         ///             Describes the error if the operation fails.
-        ///          
+        ///
         public let errorInfo: ErrorInfo?
         ///             ARN of the cluster operation.
-        ///          
+        ///
         public let operationArn: String?
         ///             State of the cluster operation.
-        ///          
+        ///
         public let operationState: String?
         ///             Type of the cluster operation.
-        ///          
+        ///
         public let operationType: String?
         ///             Information about cluster attributes before a cluster is updated.
-        ///          
+        ///
         public let sourceClusterInfo: MutableClusterInfo?
         ///             Information about cluster attributes after a cluster is updated.
-        ///          
+        ///
         public let targetClusterInfo: MutableClusterInfo?
 
         public init(clientRequestId: String? = nil, clusterArn: String? = nil, creationTime: TimeStamp? = nil, endTime: TimeStamp? = nil, errorInfo: ErrorInfo? = nil, operationArn: String? = nil, operationState: String? = nil, operationType: String? = nil, sourceClusterInfo: MutableClusterInfo? = nil, targetClusterInfo: MutableClusterInfo? = nil) {
@@ -362,29 +363,29 @@ extension Kafka {
 
     public struct Configuration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string), 
-            AWSShapeMember(label: "KafkaVersions", location: .body(locationName: "kafkaVersions"), required: true, type: .list), 
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: true, type: .structure), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string),
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: true, type: .timestamp),
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: true, type: .string),
+            AWSShapeMember(label: "KafkaVersions", location: .body(locationName: "kafkaVersions"), required: true, type: .list),
+            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: true, type: .structure),
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string)
         ]
 
         ///             The Amazon Resource Name (ARN) of the configuration.
-        ///          
+        ///
         public let arn: String
         public let creationTime: TimeStamp
         ///             The description of the configuration.
-        ///          
+        ///
         public let description: String
         ///             An array of the versions of Apache Kafka with which you can use this MSK configuration. You can use this configuration for an MSK cluster only if the Apache Kafka version specified for the cluster appears in this array.
-        ///          
+        ///
         public let kafkaVersions: [String]
         ///             Latest revision of the configuration.
-        ///          
+        ///
         public let latestRevision: ConfigurationRevision
         ///             The name of the configuration.
-        ///          
+        ///
         public let name: String
 
         public init(arn: String, creationTime: TimeStamp, description: String, kafkaVersions: [String], latestRevision: ConfigurationRevision, name: String) {
@@ -408,15 +409,15 @@ extension Kafka {
 
     public struct ConfigurationInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: true, type: .string),
             AWSShapeMember(label: "Revision", location: .body(locationName: "revision"), required: true, type: .long)
         ]
 
         ///             ARN of the configuration to use.
-        ///          
+        ///
         public let arn: String
         ///             The revision of the configuration to use.
-        ///          
+        ///
         public let revision: Int64
 
         public init(arn: String, revision: Int64) {
@@ -432,18 +433,18 @@ extension Kafka {
 
     public struct ConfigurationRevision: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: true, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: true, type: .timestamp),
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string),
             AWSShapeMember(label: "Revision", location: .body(locationName: "revision"), required: true, type: .long)
         ]
 
         /// The time when the configuration revision was created.
         public let creationTime: TimeStamp
         ///             The description of the configuration revision.
-        ///          
+        ///
         public let description: String?
         ///             The revision number.
-        ///          
+        ///
         public let revision: Int64
 
         public init(creationTime: TimeStamp, description: String? = nil, revision: Int64) {
@@ -461,42 +462,43 @@ extension Kafka {
 
     public struct CreateClusterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerNodeGroupInfo", location: .body(locationName: "brokerNodeGroupInfo"), required: true, type: .structure), 
-            AWSShapeMember(label: "ClientAuthentication", location: .body(locationName: "clientAuthentication"), required: false, type: .structure), 
-            AWSShapeMember(label: "ClusterName", location: .body(locationName: "clusterName"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationInfo", location: .body(locationName: "configurationInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "EncryptionInfo", location: .body(locationName: "encryptionInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum), 
-            AWSShapeMember(label: "KafkaVersion", location: .body(locationName: "kafkaVersion"), required: true, type: .string), 
-            AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: true, type: .integer), 
+            AWSShapeMember(label: "BrokerNodeGroupInfo", location: .body(locationName: "brokerNodeGroupInfo"), required: true, type: .structure),
+            AWSShapeMember(label: "ClientAuthentication", location: .body(locationName: "clientAuthentication"), required: false, type: .structure),
+            AWSShapeMember(label: "ClusterName", location: .body(locationName: "clusterName"), required: true, type: .string),
+            AWSShapeMember(label: "ConfigurationInfo", location: .body(locationName: "configurationInfo"), required: false, type: .structure),
+            AWSShapeMember(label: "EncryptionInfo", location: .body(locationName: "encryptionInfo"), required: false, type: .structure),
+            AWSShapeMember(label: "EnhancedMonitoring", location: .body(locationName: "enhancedMonitoring"), required: false, type: .enum),
+            AWSShapeMember(label: "KafkaVersion", location: .body(locationName: "kafkaVersion"), required: true, type: .string),
+            AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: true, type: .integer),
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         ///             Information about the broker nodes in the cluster.
-        ///          
+        ///
         public let brokerNodeGroupInfo: BrokerNodeGroupInfo
         ///             Includes all client authentication related information.
-        ///          
+        ///
         public let clientAuthentication: ClientAuthentication?
         ///             The name of the cluster.
-        ///          
+        ///
         public let clusterName: String
         ///             Represents the configuration that you want MSK to use for the brokers in a cluster.
-        ///          
+        ///
         public let configurationInfo: ConfigurationInfo?
         ///             Includes all encryption-related information.
-        ///          
+        ///
         public let encryptionInfo: EncryptionInfo?
         ///             Specifies the level of monitoring for the MSK cluster. The possible values are DEFAULT, PER_BROKER, and PER_TOPIC_PER_BROKER.
-        ///          
+        ///
         public let enhancedMonitoring: EnhancedMonitoring?
         ///             The version of Apache Kafka.
-        ///          
+        ///
         public let kafkaVersion: String
-        /// The number of Kafka broker nodes in the Amazon MSK cluster.
+        ///             The number of broker nodes in the cluster.
+        ///
         public let numberOfBrokerNodes: Int
         ///             Create tags when creating the cluster.
-        ///          
+        ///
         public let tags: [String: String]?
 
         public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, clusterName: String, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, numberOfBrokerNodes: Int, tags: [String: String]? = nil) {
@@ -536,19 +538,19 @@ extension Kafka {
 
     public struct CreateClusterResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
-            AWSShapeMember(label: "ClusterName", location: .body(locationName: "clusterName"), required: false, type: .string), 
+            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string),
+            AWSShapeMember(label: "ClusterName", location: .body(locationName: "clusterName"), required: false, type: .string),
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
         ]
 
         ///             The Amazon Resource Name (ARN) of the cluster.
-        ///          
+        ///
         public let clusterArn: String?
         ///             The name of the MSK cluster.
-        ///          
+        ///
         public let clusterName: String?
         ///             The state of the cluster. The possible states are CREATING, ACTIVE, and FAILED.
-        ///          
+        ///
         public let state: ClusterState?
 
         public init(clusterArn: String? = nil, clusterName: String? = nil, state: ClusterState? = nil) {
@@ -566,20 +568,20 @@ extension Kafka {
 
     public struct CreateConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "KafkaVersions", location: .body(locationName: "kafkaVersions"), required: true, type: .list), 
-            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string),
+            AWSShapeMember(label: "KafkaVersions", location: .body(locationName: "kafkaVersions"), required: true, type: .list),
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string),
             AWSShapeMember(label: "ServerProperties", location: .body(locationName: "serverProperties"), required: true, type: .blob)
         ]
 
         ///             The description of the configuration.
-        ///          
+        ///
         public let description: String?
         ///             The versions of Apache Kafka with which you can use this MSK configuration.
-        ///          
+        ///
         public let kafkaVersions: [String]
         ///             The name of the configuration.
-        ///          
+        ///
         public let name: String
         public let serverProperties: Data
 
@@ -600,22 +602,22 @@ extension Kafka {
 
     public struct CreateConfigurationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string),
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp),
+            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure),
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
         ]
 
         ///             The Amazon Resource Name (ARN) of the configuration.
-        ///          
+        ///
         public let arn: String?
         /// The time when the configuration was created.
         public let creationTime: TimeStamp?
         ///             Latest revision of the configuration.
-        ///          
+        ///
         public let latestRevision: ConfigurationRevision?
         ///             The name of the configuration.
-        ///          
+        ///
         public let name: String?
 
         public init(arn: String? = nil, creationTime: TimeStamp? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
@@ -635,7 +637,7 @@ extension Kafka {
 
     public struct DeleteClusterRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string), 
+            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string),
             AWSShapeMember(label: "CurrentVersion", location: .querystring(locationName: "currentVersion"), required: false, type: .string)
         ]
 
@@ -655,15 +657,15 @@ extension Kafka {
 
     public struct DeleteClusterResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
+            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string),
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
         ]
 
         ///             The Amazon Resource Name (ARN) of the cluster.
-        ///          
+        ///
         public let clusterArn: String?
         ///             The state of the cluster. The possible states are CREATING, ACTIVE, and FAILED.
-        ///          
+        ///
         public let state: ClusterState?
 
         public init(clusterArn: String? = nil, state: ClusterState? = nil) {
@@ -699,7 +701,7 @@ extension Kafka {
         ]
 
         ///             Cluster operation information
-        ///          
+        ///
         public let clusterOperationInfo: ClusterOperationInfo?
 
         public init(clusterOperationInfo: ClusterOperationInfo? = nil) {
@@ -733,7 +735,7 @@ extension Kafka {
         ]
 
         ///             The cluster information.
-        ///          
+        ///
         public let clusterInfo: ClusterInfo?
 
         public init(clusterInfo: ClusterInfo? = nil) {
@@ -763,30 +765,30 @@ extension Kafka {
 
     public struct DescribeConfigurationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "KafkaVersions", location: .body(locationName: "kafkaVersions"), required: false, type: .list), 
-            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string),
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp),
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string),
+            AWSShapeMember(label: "KafkaVersions", location: .body(locationName: "kafkaVersions"), required: false, type: .list),
+            AWSShapeMember(label: "LatestRevision", location: .body(locationName: "latestRevision"), required: false, type: .structure),
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
         ]
 
         ///             The Amazon Resource Name (ARN) of the configuration.
-        ///          
+        ///
         public let arn: String?
         /// The time when the configuration was created.
         public let creationTime: TimeStamp?
         ///             The description of the configuration.
-        ///          
+        ///
         public let description: String?
         ///             The versions of Apache Kafka with which you can use this MSK configuration.
-        ///          
+        ///
         public let kafkaVersions: [String]?
         ///             Latest revision of the configuration.
-        ///          
+        ///
         public let latestRevision: ConfigurationRevision?
         ///             The name of the configuration.
-        ///          
+        ///
         public let name: String?
 
         public init(arn: String? = nil, creationTime: TimeStamp? = nil, description: String? = nil, kafkaVersions: [String]? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil) {
@@ -810,7 +812,7 @@ extension Kafka {
 
     public struct DescribeConfigurationRevisionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .uri(locationName: "arn"), required: true, type: .string), 
+            AWSShapeMember(label: "Arn", location: .uri(locationName: "arn"), required: true, type: .string),
             AWSShapeMember(label: "Revision", location: .uri(locationName: "revision"), required: true, type: .long)
         ]
 
@@ -830,23 +832,23 @@ extension Kafka {
 
     public struct DescribeConfigurationRevisionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
-            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp), 
-            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
-            AWSShapeMember(label: "Revision", location: .body(locationName: "revision"), required: false, type: .long), 
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string),
+            AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp),
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string),
+            AWSShapeMember(label: "Revision", location: .body(locationName: "revision"), required: false, type: .long),
             AWSShapeMember(label: "ServerProperties", location: .body(locationName: "serverProperties"), required: false, type: .blob)
         ]
 
         ///             The Amazon Resource Name (ARN) of the configuration.
-        ///          
+        ///
         public let arn: String?
         /// The time when the configuration was created.
         public let creationTime: TimeStamp?
         ///             The description of the configuration.
-        ///          
+        ///
         public let description: String?
         ///             The revision number.
-        ///          
+        ///
         public let revision: Int64?
         public let serverProperties: Data?
 
@@ -873,7 +875,7 @@ extension Kafka {
         ]
 
         ///             The size in GiB of the EBS volume for the data drive on each broker node.
-        ///          
+        ///
         public let volumeSize: Int?
 
         public init(volumeSize: Int? = nil) {
@@ -896,7 +898,7 @@ extension Kafka {
         ]
 
         ///             The ARN of the AWS KMS key for encrypting data at rest. If you don't specify a KMS key, MSK creates one for you and uses it.
-        ///          
+        ///
         public let dataVolumeKMSKeyId: String
 
         public init(dataVolumeKMSKeyId: String) {
@@ -910,23 +912,23 @@ extension Kafka {
 
     public struct EncryptionInTransit: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClientBroker", location: .body(locationName: "clientBroker"), required: false, type: .enum), 
+            AWSShapeMember(label: "ClientBroker", location: .body(locationName: "clientBroker"), required: false, type: .enum),
             AWSShapeMember(label: "InCluster", location: .body(locationName: "inCluster"), required: false, type: .boolean)
         ]
 
         ///             Indicates the encryption setting for data in transit between clients and brokers. The following are the possible values.
-        ///             
+        ///
         ///                TLS means that client-broker communication is enabled with TLS only.
-        ///             
+        ///
         ///                TLS_PLAINTEXT means that client-broker communication is enabled for both TLS-encrypted, as well as plaintext data.
-        ///             
+        ///
         ///                PLAINTEXT means that client-broker communication is enabled in plaintext only.
         ///             The default value is TLS_PLAINTEXT.
-        ///          
+        ///
         public let clientBroker: ClientBroker?
         ///             When set to true, it indicates that data communication among the broker nodes of the cluster is encrypted. When set to false, the communication happens in plaintext.
         ///             The default value is true.
-        ///          
+        ///
         public let inCluster: Bool?
 
         public init(clientBroker: ClientBroker? = nil, inCluster: Bool? = nil) {
@@ -942,15 +944,15 @@ extension Kafka {
 
     public struct EncryptionInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "EncryptionAtRest", location: .body(locationName: "encryptionAtRest"), required: false, type: .structure), 
+            AWSShapeMember(label: "EncryptionAtRest", location: .body(locationName: "encryptionAtRest"), required: false, type: .structure),
             AWSShapeMember(label: "EncryptionInTransit", location: .body(locationName: "encryptionInTransit"), required: false, type: .structure)
         ]
 
         ///             The data-volume encryption details.
-        ///          
+        ///
         public let encryptionAtRest: EncryptionAtRest?
         ///             The details for encryption in transit.
-        ///          
+        ///
         public let encryptionInTransit: EncryptionInTransit?
 
         public init(encryptionAtRest: EncryptionAtRest? = nil, encryptionInTransit: EncryptionInTransit? = nil) {
@@ -973,15 +975,15 @@ extension Kafka {
 
     public struct ErrorInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ErrorCode", location: .body(locationName: "errorCode"), required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", location: .body(locationName: "errorCode"), required: false, type: .string),
             AWSShapeMember(label: "ErrorString", location: .body(locationName: "errorString"), required: false, type: .string)
         ]
 
         ///             A number describing the error programmatically.
-        ///          
+        ///
         public let errorCode: String?
         ///             An optional field to provide more details about the error.
-        ///          
+        ///
         public let errorString: String?
 
         public init(errorCode: String? = nil, errorString: String? = nil) {
@@ -1013,15 +1015,15 @@ extension Kafka {
 
     public struct GetBootstrapBrokersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BootstrapBrokerString", location: .body(locationName: "bootstrapBrokerString"), required: false, type: .string), 
+            AWSShapeMember(label: "BootstrapBrokerString", location: .body(locationName: "bootstrapBrokerString"), required: false, type: .string),
             AWSShapeMember(label: "BootstrapBrokerStringTls", location: .body(locationName: "bootstrapBrokerStringTls"), required: false, type: .string)
         ]
 
         ///             A string containing one or more hostname:port pairs.
-        ///          
+        ///
         public let bootstrapBrokerString: String?
         ///             A string containing one or more DNS names (or IP) and TLS port pairs.
-        ///          
+        ///
         public let bootstrapBrokerStringTls: String?
 
         public init(bootstrapBrokerString: String? = nil, bootstrapBrokerStringTls: String? = nil) {
@@ -1037,8 +1039,8 @@ extension Kafka {
 
     public struct ListClusterOperationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string),
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer),
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
@@ -1066,15 +1068,15 @@ extension Kafka {
 
     public struct ListClusterOperationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterOperationInfoList", location: .body(locationName: "clusterOperationInfoList"), required: false, type: .list), 
+            AWSShapeMember(label: "ClusterOperationInfoList", location: .body(locationName: "clusterOperationInfoList"), required: false, type: .list),
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
 
         ///             An array of cluster operation information objects.
-        ///          
+        ///
         public let clusterOperationInfoList: [ClusterOperationInfo]?
         ///             If the response of ListClusterOperations is truncated, it returns a NextToken in the response. This Nexttoken should be sent in the subsequent request to ListClusterOperations.
-        ///          
+        ///
         public let nextToken: String?
 
         public init(clusterOperationInfoList: [ClusterOperationInfo]? = nil, nextToken: String? = nil) {
@@ -1090,8 +1092,8 @@ extension Kafka {
 
     public struct ListClustersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterNameFilter", location: .querystring(locationName: "clusterNameFilter"), required: false, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "ClusterNameFilter", location: .querystring(locationName: "clusterNameFilter"), required: false, type: .string),
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer),
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
@@ -1119,16 +1121,16 @@ extension Kafka {
 
     public struct ListClustersResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterInfoList", location: .body(locationName: "clusterInfoList"), required: false, type: .list), 
+            AWSShapeMember(label: "ClusterInfoList", location: .body(locationName: "clusterInfoList"), required: false, type: .list),
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
 
         ///             Information on each of the MSK clusters in the response.
-        ///          
+        ///
         public let clusterInfoList: [ClusterInfo]?
-        ///             The paginated results marker. When the result of a ListClusters operation is truncated, the call returns NextToken in the response. 
+        ///             The paginated results marker. When the result of a ListClusters operation is truncated, the call returns NextToken in the response.
         ///                To get another batch of clusters, provide this token in your next request.
-        ///          
+        ///
         public let nextToken: String?
 
         public init(clusterInfoList: [ClusterInfo]? = nil, nextToken: String? = nil) {
@@ -1144,8 +1146,8 @@ extension Kafka {
 
     public struct ListConfigurationRevisionsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Arn", location: .uri(locationName: "arn"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "Arn", location: .uri(locationName: "arn"), required: true, type: .string),
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer),
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
@@ -1173,15 +1175,15 @@ extension Kafka {
 
     public struct ListConfigurationRevisionsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string),
             AWSShapeMember(label: "Revisions", location: .body(locationName: "revisions"), required: false, type: .list)
         ]
 
         ///             Paginated results marker.
-        ///          
+        ///
         public let nextToken: String?
         ///             List of ConfigurationRevision objects.
-        ///          
+        ///
         public let revisions: [ConfigurationRevision]?
 
         public init(nextToken: String? = nil, revisions: [ConfigurationRevision]? = nil) {
@@ -1197,7 +1199,7 @@ extension Kafka {
 
     public struct ListConfigurationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer),
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
@@ -1222,16 +1224,16 @@ extension Kafka {
 
     public struct ListConfigurationsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .list), 
+            AWSShapeMember(label: "Configurations", location: .body(locationName: "configurations"), required: false, type: .list),
             AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
         ]
 
         ///             An array of MSK configurations.
-        ///          
+        ///
         public let configurations: [Configuration]?
-        ///             The paginated results marker. When the result of a ListConfigurations operation is truncated, the call returns NextToken in the response. 
+        ///             The paginated results marker. When the result of a ListConfigurations operation is truncated, the call returns NextToken in the response.
         ///                To get another batch of configurations, provide this token in your next request.
-        ///          
+        ///
         public let nextToken: String?
 
         public init(configurations: [Configuration]? = nil, nextToken: String? = nil) {
@@ -1247,8 +1249,8 @@ extension Kafka {
 
     public struct ListNodesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string), 
-            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string),
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer),
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
@@ -1276,16 +1278,16 @@ extension Kafka {
 
     public struct ListNodesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string),
             AWSShapeMember(label: "NodeInfoList", location: .body(locationName: "nodeInfoList"), required: false, type: .list)
         ]
 
-        ///             The paginated results marker. When the result of a ListNodes operation is truncated, the call returns NextToken in the response. 
+        ///             The paginated results marker. When the result of a ListNodes operation is truncated, the call returns NextToken in the response.
         ///                To get another batch of nodes, provide this token in your next request.
-        ///          
+        ///
         public let nextToken: String?
         ///             List containing a NodeInfo object.
-        ///          
+        ///
         public let nodeInfoList: [NodeInfo]?
 
         public init(nextToken: String? = nil, nodeInfoList: [NodeInfo]? = nil) {
@@ -1321,7 +1323,7 @@ extension Kafka {
         ]
 
         ///             The key-value pair for the resource tag.
-        ///          
+        ///
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -1335,19 +1337,19 @@ extension Kafka {
 
     public struct MutableClusterInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "BrokerEBSVolumeInfo", location: .body(locationName: "brokerEBSVolumeInfo"), required: false, type: .list), 
-            AWSShapeMember(label: "ConfigurationInfo", location: .body(locationName: "configurationInfo"), required: false, type: .structure), 
+            AWSShapeMember(label: "BrokerEBSVolumeInfo", location: .body(locationName: "brokerEBSVolumeInfo"), required: false, type: .list),
+            AWSShapeMember(label: "ConfigurationInfo", location: .body(locationName: "configurationInfo"), required: false, type: .structure),
             AWSShapeMember(label: "NumberOfBrokerNodes", location: .body(locationName: "numberOfBrokerNodes"), required: false, type: .integer)
         ]
 
         ///             Specifies the size of the EBS volume and the ID of the associated broker.
-        ///          
+        ///
         public let brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]?
         ///             Information about the changes in the configuration of the brokers.
-        ///          
+        ///
         public let configurationInfo: ConfigurationInfo?
         ///             The number of broker nodes in the cluster.
-        ///          
+        ///
         public let numberOfBrokerNodes: Int?
 
         public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, configurationInfo: ConfigurationInfo? = nil, numberOfBrokerNodes: Int? = nil) {
@@ -1365,31 +1367,31 @@ extension Kafka {
 
     public struct NodeInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AddedToClusterTime", location: .body(locationName: "addedToClusterTime"), required: false, type: .string), 
-            AWSShapeMember(label: "BrokerNodeInfo", location: .body(locationName: "brokerNodeInfo"), required: false, type: .structure), 
-            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string), 
-            AWSShapeMember(label: "NodeARN", location: .body(locationName: "nodeARN"), required: false, type: .string), 
-            AWSShapeMember(label: "NodeType", location: .body(locationName: "nodeType"), required: false, type: .enum), 
+            AWSShapeMember(label: "AddedToClusterTime", location: .body(locationName: "addedToClusterTime"), required: false, type: .string),
+            AWSShapeMember(label: "BrokerNodeInfo", location: .body(locationName: "brokerNodeInfo"), required: false, type: .structure),
+            AWSShapeMember(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string),
+            AWSShapeMember(label: "NodeARN", location: .body(locationName: "nodeARN"), required: false, type: .string),
+            AWSShapeMember(label: "NodeType", location: .body(locationName: "nodeType"), required: false, type: .enum),
             AWSShapeMember(label: "ZookeeperNodeInfo", location: .body(locationName: "zookeeperNodeInfo"), required: false, type: .structure)
         ]
 
         ///             The start time.
-        ///          
+        ///
         public let addedToClusterTime: String?
         ///             The broker node info.
-        ///          
+        ///
         public let brokerNodeInfo: BrokerNodeInfo?
         ///             The instance type.
-        ///          
+        ///
         public let instanceType: String?
         ///             The Amazon Resource Name (ARN) of the node.
-        ///          
+        ///
         public let nodeARN: String?
         ///             The node type.
-        ///          
+        ///
         public let nodeType: NodeType?
         ///             The ZookeeperNodeInfo.
-        ///          
+        ///
         public let zookeeperNodeInfo: ZookeeperNodeInfo?
 
         public init(addedToClusterTime: String? = nil, brokerNodeInfo: BrokerNodeInfo? = nil, instanceType: String? = nil, nodeARN: String? = nil, nodeType: NodeType? = nil, zookeeperNodeInfo: ZookeeperNodeInfo? = nil) {
@@ -1422,7 +1424,7 @@ extension Kafka {
         ]
 
         ///             EBS volume information.
-        ///          
+        ///
         public let ebsStorageInfo: EBSStorageInfo?
 
         public init(ebsStorageInfo: EBSStorageInfo? = nil) {
@@ -1440,13 +1442,13 @@ extension Kafka {
 
     public struct TagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string),
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: true, type: .map)
         ]
 
         public let resourceArn: String
         ///             The key-value pair for the resource tag.
-        ///          
+        ///
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -1466,7 +1468,7 @@ extension Kafka {
         ]
 
         ///             List of ACM Certificate Authority ARNs.
-        ///          
+        ///
         public let certificateAuthorityArnList: [String]?
 
         public init(certificateAuthorityArnList: [String]? = nil) {
@@ -1480,7 +1482,7 @@ extension Kafka {
 
     public struct UntagResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string),
             AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
         ]
 
@@ -1500,17 +1502,17 @@ extension Kafka {
 
     public struct UpdateBrokerStorageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string), 
-            AWSShapeMember(label: "CurrentVersion", location: .body(locationName: "currentVersion"), required: true, type: .string), 
+            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string),
+            AWSShapeMember(label: "CurrentVersion", location: .body(locationName: "currentVersion"), required: true, type: .string),
             AWSShapeMember(label: "TargetBrokerEBSVolumeInfo", location: .body(locationName: "targetBrokerEBSVolumeInfo"), required: true, type: .list)
         ]
 
         public let clusterArn: String
         ///             The version of cluster to update from. A successful operation will then generate a new version.
-        ///          
+        ///
         public let currentVersion: String
         ///             Describes the target volume size and the ID of the broker to apply the update to.
-        ///          
+        ///
         public let targetBrokerEBSVolumeInfo: [BrokerEBSVolumeInfo]
 
         public init(clusterArn: String, currentVersion: String, targetBrokerEBSVolumeInfo: [BrokerEBSVolumeInfo]) {
@@ -1528,15 +1530,15 @@ extension Kafka {
 
     public struct UpdateBrokerStorageResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
+            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string),
             AWSShapeMember(label: "ClusterOperationArn", location: .body(locationName: "clusterOperationArn"), required: false, type: .string)
         ]
 
         ///             The Amazon Resource Name (ARN) of the cluster.
-        ///          
+        ///
         public let clusterArn: String?
         ///             The Amazon Resource Name (ARN) of the cluster operation.
-        ///          
+        ///
         public let clusterOperationArn: String?
 
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
@@ -1552,17 +1554,17 @@ extension Kafka {
 
     public struct UpdateClusterConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string), 
-            AWSShapeMember(label: "ConfigurationInfo", location: .body(locationName: "configurationInfo"), required: true, type: .structure), 
+            AWSShapeMember(label: "ClusterArn", location: .uri(locationName: "clusterArn"), required: true, type: .string),
+            AWSShapeMember(label: "ConfigurationInfo", location: .body(locationName: "configurationInfo"), required: true, type: .structure),
             AWSShapeMember(label: "CurrentVersion", location: .body(locationName: "currentVersion"), required: true, type: .string)
         ]
 
         public let clusterArn: String
         ///             Represents the configuration that you want MSK to use for the brokers in a cluster.
-        ///          
+        ///
         public let configurationInfo: ConfigurationInfo
         ///             The version of the cluster that needs to be updated.
-        ///          
+        ///
         public let currentVersion: String
 
         public init(clusterArn: String, configurationInfo: ConfigurationInfo, currentVersion: String) {
@@ -1580,15 +1582,15 @@ extension Kafka {
 
     public struct UpdateClusterConfigurationResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string), 
+            AWSShapeMember(label: "ClusterArn", location: .body(locationName: "clusterArn"), required: false, type: .string),
             AWSShapeMember(label: "ClusterOperationArn", location: .body(locationName: "clusterOperationArn"), required: false, type: .string)
         ]
 
         ///             The Amazon Resource Name (ARN) of the cluster.
-        ///          
+        ///
         public let clusterArn: String?
         ///             The Amazon Resource Name (ARN) of the cluster operation.
-        ///          
+        ///
         public let clusterOperationArn: String?
 
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
@@ -1604,27 +1606,27 @@ extension Kafka {
 
     public struct ZookeeperNodeInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AttachedENIId", location: .body(locationName: "attachedENIId"), required: false, type: .string), 
-            AWSShapeMember(label: "ClientVpcIpAddress", location: .body(locationName: "clientVpcIpAddress"), required: false, type: .string), 
-            AWSShapeMember(label: "Endpoints", location: .body(locationName: "endpoints"), required: false, type: .list), 
-            AWSShapeMember(label: "ZookeeperId", location: .body(locationName: "zookeeperId"), required: false, type: .double), 
+            AWSShapeMember(label: "AttachedENIId", location: .body(locationName: "attachedENIId"), required: false, type: .string),
+            AWSShapeMember(label: "ClientVpcIpAddress", location: .body(locationName: "clientVpcIpAddress"), required: false, type: .string),
+            AWSShapeMember(label: "Endpoints", location: .body(locationName: "endpoints"), required: false, type: .list),
+            AWSShapeMember(label: "ZookeeperId", location: .body(locationName: "zookeeperId"), required: false, type: .double),
             AWSShapeMember(label: "ZookeeperVersion", location: .body(locationName: "zookeeperVersion"), required: false, type: .string)
         ]
 
         ///             The attached elastic network interface of the broker.
-        ///          
+        ///
         public let attachedENIId: String?
         ///             The virtual private cloud (VPC) IP address of the client.
-        ///          
+        ///
         public let clientVpcIpAddress: String?
         ///             Endpoints for accessing the ZooKeeper.
-        ///          
+        ///
         public let endpoints: [String]?
         ///             The role-specific ID for Zookeeper.
-        ///          
+        ///
         public let zookeeperId: Double?
         ///             The version of Zookeeper.
-        ///          
+        ///
         public let zookeeperVersion: String?
 
         public init(attachedENIId: String? = nil, clientVpcIpAddress: String? = nil, endpoints: [String]? = nil, zookeeperId: Double? = nil, zookeeperVersion: String? = nil) {
