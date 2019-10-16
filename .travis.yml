@@ -1,30 +1,17 @@
-os:
-  - linux
-  - osx
 language: generic
-sudo: required
-dist: xenial
-osx_image: xcode10.2
-
-addons:
-  hosts:
-    - aws-sdk-swift-test-bucket.localhost
-  apt:
-    packages:
-    - libicu-dev
-    - uuid-dev
-    - pkg-config
-    - libssl-dev
-  homebrew:
-    packages:
-    - libressl
-
-install:
-  - source scripts/install-swift.sh
-  - if [ "${OS}" != "macos" ]; then docker run -d -p 8000:8000 tray/dynamodb-local -inMemory -port 8000; fi
-  - if [ "${OS}" != "macos" ]; then docker run -d -p 4569:4569 lphoward/fake-s3; fi
-
-script:
-  - source scripts/install-swift.sh
-  - source scripts/help-travis-wait.sh& travis_wait 60
-  - if [ "${OS}" != "macos" ]; then swift test; else swift build; fi
+matrix:
+  include:
+    - os: linux
+      services: docker
+      before_install:
+        - docker pull swift:5.1.1
+      install:
+        - docker run -d -p 8000:8000 tray/dynamodb-local -inMemory -port 8000
+        - docker run -d -p 4569:4569 lphoward/fake-s3
+      script:
+        - docker run --network=host -v "$(pwd):/root/aws-sdk-swift" swift:5.1.1 /bin/sh -c "apt-get -qq update && apt-get -q -y install tzdata libssl-dev zlib1g-dev && cd /root/aws-sdk-swift && swift test -Xswiftc -DDEBUG"
+    - os: osx
+      language: swift
+      osx_image: xcode11
+      script:
+        - swift build
