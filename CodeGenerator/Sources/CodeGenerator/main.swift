@@ -54,15 +54,13 @@ for index in 0..<apis.count {
             }
 
             let customTemplates = service.getCustomTemplates()
-            if !customTemplates.isEmpty {
-                for template in customTemplates {
-                    let templateName = URL(fileURLWithPath: template).deletingPathExtension().lastPathComponent
-                    try environment.renderTemplate(name: template).write(
-                        toFile: "\(basePath)/\(service.serviceName)+\(templateName).swift",
-                        atomically: true,
-                        encoding: .utf8
-                    )
-                }
+            for template in customTemplates {
+                let templateName = URL(fileURLWithPath: template).deletingPathExtension().lastPathComponent
+                try environment.renderTemplate(name: template).write(
+                    toFile: "\(basePath)/\(service.serviceName)+\(templateName).swift",
+                    atomically: true,
+                    encoding: .utf8
+                )
             }
             print("Succesfully Generated \(service.serviceName)")
             group.leave()
