@@ -30,9 +30,9 @@ public extension S3 {
     /// - returns: A future that will receive the complete file size once the multipart download has finished.
     func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, on eventLoop: EventLoop, outputStream: @escaping (Data, Int64) throws -> ()) -> Future<Int64> {
         // function downloading part of a file
-        func multipartDownloadPart(fileSize: Int64, offset: Int64, prevPart: Future<Int64>) -> Future<Int64> {
+        func multipartDownloadPart(fileSize: Int64, offset: Int64, prevPartSave: Future<Int64>) -> Future<Int64> {
             guard fileSize > offset else {
-                return prevPart
+                return prevPartSave
             }
 
             let range = "bytes=\(offset)-\(offset + Int64(partSize - 1))"
@@ -46,7 +46,7 @@ public extension S3 {
                 versionId: input.versionId
             )
             return getObject(getRequest)
-                .and(prevPart)
+                .and(prevPartSave)
                 .hop(to: eventLoop)
                 .flatMap { (output, _) -> Future<Int64> in
                     do {
@@ -65,7 +65,7 @@ public extension S3 {
                         }
 
                         let newOffset = offset + Int64(partSize)
-                        return multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPart: part)
+                        return multipartDownloadPart(fileSize: fileSize, offset: newOffset, prevPartSave: part)
 
                     } catch {
                         return eventLoop.makeFailedFuture(error)
@@ -96,7 +96,7 @@ public extension S3 {
                         throw S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero")
                     }
                     // download file
-                    return multipartDownloadPart(fileSize: contentLength, offset: 0, prevPart: eventLoop.makeSucceededFuture(contentLength))
+                    return multipartDownloadPart(fileSize: contentLength, offset: 0, prevPartSave: eventLoop.makeSucceededFuture(contentLength))
                 } catch {
                     return eventLoop.makeFailedFuture(error)
                 }
