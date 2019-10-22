@@ -112,51 +112,51 @@ extension RedshiftErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "AccessToSnapshotDeniedFault":
+        case "AccessToSnapshotDenied":
             self = .accessToSnapshotDeniedFault(message: message)
-        case "AuthorizationAlreadyExistsFault":
+        case "AuthorizationAlreadyExists":
             self = .authorizationAlreadyExistsFault(message: message)
-        case "AuthorizationNotFoundFault":
+        case "AuthorizationNotFound":
             self = .authorizationNotFoundFault(message: message)
-        case "AuthorizationQuotaExceededFault":
+        case "AuthorizationQuotaExceeded":
             self = .authorizationQuotaExceededFault(message: message)
-        case "BatchDeleteRequestSizeExceededFault":
+        case "BatchDeleteRequestSizeExceeded":
             self = .batchDeleteRequestSizeExceededFault(message: message)
         case "BatchModifyClusterSnapshotsLimitExceededFault":
             self = .batchModifyClusterSnapshotsLimitExceededFault(message: message)
         case "BucketNotFoundFault":
             self = .bucketNotFoundFault(message: message)
-        case "ClusterAlreadyExistsFault":
+        case "ClusterAlreadyExists":
             self = .clusterAlreadyExistsFault(message: message)
-        case "ClusterNotFoundFault":
+        case "ClusterNotFound":
             self = .clusterNotFoundFault(message: message)
-        case "ClusterOnLatestRevisionFault":
+        case "ClusterOnLatestRevision":
             self = .clusterOnLatestRevisionFault(message: message)
-        case "ClusterParameterGroupAlreadyExistsFault":
+        case "ClusterParameterGroupAlreadyExists":
             self = .clusterParameterGroupAlreadyExistsFault(message: message)
-        case "ClusterParameterGroupNotFoundFault":
+        case "ClusterParameterGroupNotFound":
             self = .clusterParameterGroupNotFoundFault(message: message)
-        case "ClusterParameterGroupQuotaExceededFault":
+        case "ClusterParameterGroupQuotaExceeded":
             self = .clusterParameterGroupQuotaExceededFault(message: message)
-        case "ClusterQuotaExceededFault":
+        case "ClusterQuotaExceeded":
             self = .clusterQuotaExceededFault(message: message)
-        case "ClusterSecurityGroupAlreadyExistsFault":
+        case "ClusterSecurityGroupAlreadyExists":
             self = .clusterSecurityGroupAlreadyExistsFault(message: message)
-        case "ClusterSecurityGroupNotFoundFault":
+        case "ClusterSecurityGroupNotFound":
             self = .clusterSecurityGroupNotFoundFault(message: message)
-        case "ClusterSecurityGroupQuotaExceededFault":
+        case "QuotaExceeded.ClusterSecurityGroup":
             self = .clusterSecurityGroupQuotaExceededFault(message: message)
-        case "ClusterSnapshotAlreadyExistsFault":
+        case "ClusterSnapshotAlreadyExists":
             self = .clusterSnapshotAlreadyExistsFault(message: message)
-        case "ClusterSnapshotNotFoundFault":
+        case "ClusterSnapshotNotFound":
             self = .clusterSnapshotNotFoundFault(message: message)
-        case "ClusterSnapshotQuotaExceededFault":
+        case "ClusterSnapshotQuotaExceeded":
             self = .clusterSnapshotQuotaExceededFault(message: message)
-        case "ClusterSubnetGroupAlreadyExistsFault":
+        case "ClusterSubnetGroupAlreadyExists":
             self = .clusterSubnetGroupAlreadyExistsFault(message: message)
         case "ClusterSubnetGroupNotFoundFault":
             self = .clusterSubnetGroupNotFoundFault(message: message)
-        case "ClusterSubnetGroupQuotaExceededFault":
+        case "ClusterSubnetGroupQuotaExceeded":
             self = .clusterSubnetGroupQuotaExceededFault(message: message)
         case "ClusterSubnetQuotaExceededFault":
             self = .clusterSubnetQuotaExceededFault(message: message)
@@ -166,7 +166,7 @@ extension RedshiftErrorType {
             self = .dependentServiceRequestThrottlingFault(message: message)
         case "DependentServiceUnavailableFault":
             self = .dependentServiceUnavailableFault(message: message)
-        case "EventSubscriptionQuotaExceededFault":
+        case "EventSubscriptionQuotaExceeded":
             self = .eventSubscriptionQuotaExceededFault(message: message)
         case "HsmClientCertificateAlreadyExistsFault":
             self = .hsmClientCertificateAlreadyExistsFault(message: message)
@@ -184,25 +184,25 @@ extension RedshiftErrorType {
             self = .inProgressTableRestoreQuotaExceededFault(message: message)
         case "IncompatibleOrderableOptions":
             self = .incompatibleOrderableOptions(message: message)
-        case "InsufficientClusterCapacityFault":
+        case "InsufficientClusterCapacity":
             self = .insufficientClusterCapacityFault(message: message)
         case "InsufficientS3BucketPolicyFault":
             self = .insufficientS3BucketPolicyFault(message: message)
-        case "InvalidClusterParameterGroupStateFault":
+        case "InvalidClusterParameterGroupState":
             self = .invalidClusterParameterGroupStateFault(message: message)
-        case "InvalidClusterSecurityGroupStateFault":
+        case "InvalidClusterSecurityGroupState":
             self = .invalidClusterSecurityGroupStateFault(message: message)
-        case "InvalidClusterSnapshotScheduleStateFault":
+        case "InvalidClusterSnapshotScheduleState":
             self = .invalidClusterSnapshotScheduleStateFault(message: message)
-        case "InvalidClusterSnapshotStateFault":
+        case "InvalidClusterSnapshotState":
             self = .invalidClusterSnapshotStateFault(message: message)
-        case "InvalidClusterStateFault":
+        case "InvalidClusterState":
             self = .invalidClusterStateFault(message: message)
         case "InvalidClusterSubnetGroupStateFault":
             self = .invalidClusterSubnetGroupStateFault(message: message)
         case "InvalidClusterSubnetStateFault":
             self = .invalidClusterSubnetStateFault(message: message)
-        case "InvalidClusterTrackFault":
+        case "InvalidClusterTrack":
             self = .invalidClusterTrackFault(message: message)
         case "InvalidElasticIpFault":
             self = .invalidElasticIpFault(message: message)
@@ -210,9 +210,9 @@ extension RedshiftErrorType {
             self = .invalidHsmClientCertificateStateFault(message: message)
         case "InvalidHsmConfigurationStateFault":
             self = .invalidHsmConfigurationStateFault(message: message)
-        case "InvalidReservedNodeStateFault":
+        case "InvalidReservedNodeState":
             self = .invalidReservedNodeStateFault(message: message)
-        case "InvalidRestoreFault":
+        case "InvalidRestore":
             self = .invalidRestoreFault(message: message)
         case "InvalidRetentionPeriodFault":
             self = .invalidRetentionPeriodFault(message: message)
@@ -220,7 +220,7 @@ extension RedshiftErrorType {
             self = .invalidS3BucketNameFault(message: message)
         case "InvalidS3KeyPrefixFault":
             self = .invalidS3KeyPrefixFault(message: message)
-        case "InvalidScheduleFault":
+        case "InvalidSchedule":
             self = .invalidScheduleFault(message: message)
         case "InvalidSnapshotCopyGrantStateFault":
             self = .invalidSnapshotCopyGrantStateFault(message: message)
@@ -228,7 +228,7 @@ extension RedshiftErrorType {
             self = .invalidSubnet(message: message)
         case "InvalidSubscriptionStateFault":
             self = .invalidSubscriptionStateFault(message: message)
-        case "InvalidTableRestoreArgumentFault":
+        case "InvalidTableRestoreArgument":
             self = .invalidTableRestoreArgumentFault(message: message)
         case "InvalidTagFault":
             self = .invalidTagFault(message: message)
@@ -236,31 +236,31 @@ extension RedshiftErrorType {
             self = .invalidVPCNetworkStateFault(message: message)
         case "LimitExceededFault":
             self = .limitExceededFault(message: message)
-        case "NumberOfNodesPerClusterLimitExceededFault":
+        case "NumberOfNodesPerClusterLimitExceeded":
             self = .numberOfNodesPerClusterLimitExceededFault(message: message)
-        case "NumberOfNodesQuotaExceededFault":
+        case "NumberOfNodesQuotaExceeded":
             self = .numberOfNodesQuotaExceededFault(message: message)
-        case "ReservedNodeAlreadyExistsFault":
+        case "ReservedNodeAlreadyExists":
             self = .reservedNodeAlreadyExistsFault(message: message)
-        case "ReservedNodeAlreadyMigratedFault":
+        case "ReservedNodeAlreadyMigrated":
             self = .reservedNodeAlreadyMigratedFault(message: message)
-        case "ReservedNodeNotFoundFault":
+        case "ReservedNodeNotFound":
             self = .reservedNodeNotFoundFault(message: message)
-        case "ReservedNodeOfferingNotFoundFault":
+        case "ReservedNodeOfferingNotFound":
             self = .reservedNodeOfferingNotFoundFault(message: message)
-        case "ReservedNodeQuotaExceededFault":
+        case "ReservedNodeQuotaExceeded":
             self = .reservedNodeQuotaExceededFault(message: message)
-        case "ResizeNotFoundFault":
+        case "ResizeNotFound":
             self = .resizeNotFoundFault(message: message)
         case "ResourceNotFoundFault":
             self = .resourceNotFoundFault(message: message)
-        case "SNSInvalidTopicFault":
+        case "SNSInvalidTopic":
             self = .sNSInvalidTopicFault(message: message)
-        case "SNSNoAuthorizationFault":
+        case "SNSNoAuthorization":
             self = .sNSNoAuthorizationFault(message: message)
-        case "SNSTopicArnNotFoundFault":
+        case "SNSTopicArnNotFound":
             self = .sNSTopicArnNotFoundFault(message: message)
-        case "ScheduleDefinitionTypeUnsupportedFault":
+        case "ScheduleDefinitionTypeUnsupported":
             self = .scheduleDefinitionTypeUnsupportedFault(message: message)
         case "SnapshotCopyAlreadyDisabledFault":
             self = .snapshotCopyAlreadyDisabledFault(message: message)
@@ -274,29 +274,29 @@ extension RedshiftErrorType {
             self = .snapshotCopyGrantNotFoundFault(message: message)
         case "SnapshotCopyGrantQuotaExceededFault":
             self = .snapshotCopyGrantQuotaExceededFault(message: message)
-        case "SnapshotScheduleAlreadyExistsFault":
+        case "SnapshotScheduleAlreadyExists":
             self = .snapshotScheduleAlreadyExistsFault(message: message)
-        case "SnapshotScheduleNotFoundFault":
+        case "SnapshotScheduleNotFound":
             self = .snapshotScheduleNotFoundFault(message: message)
-        case "SnapshotScheduleQuotaExceededFault":
+        case "SnapshotScheduleQuotaExceeded":
             self = .snapshotScheduleQuotaExceededFault(message: message)
-        case "SnapshotScheduleUpdateInProgressFault":
+        case "SnapshotScheduleUpdateInProgress":
             self = .snapshotScheduleUpdateInProgressFault(message: message)
-        case "SourceNotFoundFault":
+        case "SourceNotFound":
             self = .sourceNotFoundFault(message: message)
         case "SubnetAlreadyInUse":
             self = .subnetAlreadyInUse(message: message)
-        case "SubscriptionAlreadyExistFault":
+        case "SubscriptionAlreadyExist":
             self = .subscriptionAlreadyExistFault(message: message)
-        case "SubscriptionCategoryNotFoundFault":
+        case "SubscriptionCategoryNotFound":
             self = .subscriptionCategoryNotFoundFault(message: message)
-        case "SubscriptionEventIdNotFoundFault":
+        case "SubscriptionEventIdNotFound":
             self = .subscriptionEventIdNotFoundFault(message: message)
-        case "SubscriptionNotFoundFault":
+        case "SubscriptionNotFound":
             self = .subscriptionNotFoundFault(message: message)
-        case "SubscriptionSeverityNotFoundFault":
+        case "SubscriptionSeverityNotFound":
             self = .subscriptionSeverityNotFoundFault(message: message)
-        case "TableLimitExceededFault":
+        case "TableLimitExceeded":
             self = .tableLimitExceededFault(message: message)
         case "TableRestoreNotFoundFault":
             self = .tableRestoreNotFoundFault(message: message)
@@ -306,7 +306,7 @@ extension RedshiftErrorType {
             self = .unauthorizedOperation(message: message)
         case "UnknownSnapshotCopyRegionFault":
             self = .unknownSnapshotCopyRegionFault(message: message)
-        case "UnsupportedOperationFault":
+        case "UnsupportedOperation":
             self = .unsupportedOperationFault(message: message)
         case "UnsupportedOptionFault":
             self = .unsupportedOptionFault(message: message)
@@ -320,51 +320,51 @@ extension RedshiftErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
         case .accessToSnapshotDeniedFault(let message):
-            return "AccessToSnapshotDeniedFault: \(message ?? "")"
+            return "AccessToSnapshotDenied: \(message ?? "")"
         case .authorizationAlreadyExistsFault(let message):
-            return "AuthorizationAlreadyExistsFault: \(message ?? "")"
+            return "AuthorizationAlreadyExists: \(message ?? "")"
         case .authorizationNotFoundFault(let message):
-            return "AuthorizationNotFoundFault: \(message ?? "")"
+            return "AuthorizationNotFound: \(message ?? "")"
         case .authorizationQuotaExceededFault(let message):
-            return "AuthorizationQuotaExceededFault: \(message ?? "")"
+            return "AuthorizationQuotaExceeded: \(message ?? "")"
         case .batchDeleteRequestSizeExceededFault(let message):
-            return "BatchDeleteRequestSizeExceededFault: \(message ?? "")"
+            return "BatchDeleteRequestSizeExceeded: \(message ?? "")"
         case .batchModifyClusterSnapshotsLimitExceededFault(let message):
             return "BatchModifyClusterSnapshotsLimitExceededFault: \(message ?? "")"
         case .bucketNotFoundFault(let message):
             return "BucketNotFoundFault: \(message ?? "")"
         case .clusterAlreadyExistsFault(let message):
-            return "ClusterAlreadyExistsFault: \(message ?? "")"
+            return "ClusterAlreadyExists: \(message ?? "")"
         case .clusterNotFoundFault(let message):
-            return "ClusterNotFoundFault: \(message ?? "")"
+            return "ClusterNotFound: \(message ?? "")"
         case .clusterOnLatestRevisionFault(let message):
-            return "ClusterOnLatestRevisionFault: \(message ?? "")"
+            return "ClusterOnLatestRevision: \(message ?? "")"
         case .clusterParameterGroupAlreadyExistsFault(let message):
-            return "ClusterParameterGroupAlreadyExistsFault: \(message ?? "")"
+            return "ClusterParameterGroupAlreadyExists: \(message ?? "")"
         case .clusterParameterGroupNotFoundFault(let message):
-            return "ClusterParameterGroupNotFoundFault: \(message ?? "")"
+            return "ClusterParameterGroupNotFound: \(message ?? "")"
         case .clusterParameterGroupQuotaExceededFault(let message):
-            return "ClusterParameterGroupQuotaExceededFault: \(message ?? "")"
+            return "ClusterParameterGroupQuotaExceeded: \(message ?? "")"
         case .clusterQuotaExceededFault(let message):
-            return "ClusterQuotaExceededFault: \(message ?? "")"
+            return "ClusterQuotaExceeded: \(message ?? "")"
         case .clusterSecurityGroupAlreadyExistsFault(let message):
-            return "ClusterSecurityGroupAlreadyExistsFault: \(message ?? "")"
+            return "ClusterSecurityGroupAlreadyExists: \(message ?? "")"
         case .clusterSecurityGroupNotFoundFault(let message):
-            return "ClusterSecurityGroupNotFoundFault: \(message ?? "")"
+            return "ClusterSecurityGroupNotFound: \(message ?? "")"
         case .clusterSecurityGroupQuotaExceededFault(let message):
-            return "ClusterSecurityGroupQuotaExceededFault: \(message ?? "")"
+            return "QuotaExceeded.ClusterSecurityGroup: \(message ?? "")"
         case .clusterSnapshotAlreadyExistsFault(let message):
-            return "ClusterSnapshotAlreadyExistsFault: \(message ?? "")"
+            return "ClusterSnapshotAlreadyExists: \(message ?? "")"
         case .clusterSnapshotNotFoundFault(let message):
-            return "ClusterSnapshotNotFoundFault: \(message ?? "")"
+            return "ClusterSnapshotNotFound: \(message ?? "")"
         case .clusterSnapshotQuotaExceededFault(let message):
-            return "ClusterSnapshotQuotaExceededFault: \(message ?? "")"
+            return "ClusterSnapshotQuotaExceeded: \(message ?? "")"
         case .clusterSubnetGroupAlreadyExistsFault(let message):
-            return "ClusterSubnetGroupAlreadyExistsFault: \(message ?? "")"
+            return "ClusterSubnetGroupAlreadyExists: \(message ?? "")"
         case .clusterSubnetGroupNotFoundFault(let message):
             return "ClusterSubnetGroupNotFoundFault: \(message ?? "")"
         case .clusterSubnetGroupQuotaExceededFault(let message):
-            return "ClusterSubnetGroupQuotaExceededFault: \(message ?? "")"
+            return "ClusterSubnetGroupQuotaExceeded: \(message ?? "")"
         case .clusterSubnetQuotaExceededFault(let message):
             return "ClusterSubnetQuotaExceededFault: \(message ?? "")"
         case .copyToRegionDisabledFault(let message):
@@ -374,7 +374,7 @@ extension RedshiftErrorType : CustomStringConvertible {
         case .dependentServiceUnavailableFault(let message):
             return "DependentServiceUnavailableFault: \(message ?? "")"
         case .eventSubscriptionQuotaExceededFault(let message):
-            return "EventSubscriptionQuotaExceededFault: \(message ?? "")"
+            return "EventSubscriptionQuotaExceeded: \(message ?? "")"
         case .hsmClientCertificateAlreadyExistsFault(let message):
             return "HsmClientCertificateAlreadyExistsFault: \(message ?? "")"
         case .hsmClientCertificateNotFoundFault(let message):
@@ -392,25 +392,25 @@ extension RedshiftErrorType : CustomStringConvertible {
         case .incompatibleOrderableOptions(let message):
             return "IncompatibleOrderableOptions: \(message ?? "")"
         case .insufficientClusterCapacityFault(let message):
-            return "InsufficientClusterCapacityFault: \(message ?? "")"
+            return "InsufficientClusterCapacity: \(message ?? "")"
         case .insufficientS3BucketPolicyFault(let message):
             return "InsufficientS3BucketPolicyFault: \(message ?? "")"
         case .invalidClusterParameterGroupStateFault(let message):
-            return "InvalidClusterParameterGroupStateFault: \(message ?? "")"
+            return "InvalidClusterParameterGroupState: \(message ?? "")"
         case .invalidClusterSecurityGroupStateFault(let message):
-            return "InvalidClusterSecurityGroupStateFault: \(message ?? "")"
+            return "InvalidClusterSecurityGroupState: \(message ?? "")"
         case .invalidClusterSnapshotScheduleStateFault(let message):
-            return "InvalidClusterSnapshotScheduleStateFault: \(message ?? "")"
+            return "InvalidClusterSnapshotScheduleState: \(message ?? "")"
         case .invalidClusterSnapshotStateFault(let message):
-            return "InvalidClusterSnapshotStateFault: \(message ?? "")"
+            return "InvalidClusterSnapshotState: \(message ?? "")"
         case .invalidClusterStateFault(let message):
-            return "InvalidClusterStateFault: \(message ?? "")"
+            return "InvalidClusterState: \(message ?? "")"
         case .invalidClusterSubnetGroupStateFault(let message):
             return "InvalidClusterSubnetGroupStateFault: \(message ?? "")"
         case .invalidClusterSubnetStateFault(let message):
             return "InvalidClusterSubnetStateFault: \(message ?? "")"
         case .invalidClusterTrackFault(let message):
-            return "InvalidClusterTrackFault: \(message ?? "")"
+            return "InvalidClusterTrack: \(message ?? "")"
         case .invalidElasticIpFault(let message):
             return "InvalidElasticIpFault: \(message ?? "")"
         case .invalidHsmClientCertificateStateFault(let message):
@@ -418,9 +418,9 @@ extension RedshiftErrorType : CustomStringConvertible {
         case .invalidHsmConfigurationStateFault(let message):
             return "InvalidHsmConfigurationStateFault: \(message ?? "")"
         case .invalidReservedNodeStateFault(let message):
-            return "InvalidReservedNodeStateFault: \(message ?? "")"
+            return "InvalidReservedNodeState: \(message ?? "")"
         case .invalidRestoreFault(let message):
-            return "InvalidRestoreFault: \(message ?? "")"
+            return "InvalidRestore: \(message ?? "")"
         case .invalidRetentionPeriodFault(let message):
             return "InvalidRetentionPeriodFault: \(message ?? "")"
         case .invalidS3BucketNameFault(let message):
@@ -428,7 +428,7 @@ extension RedshiftErrorType : CustomStringConvertible {
         case .invalidS3KeyPrefixFault(let message):
             return "InvalidS3KeyPrefixFault: \(message ?? "")"
         case .invalidScheduleFault(let message):
-            return "InvalidScheduleFault: \(message ?? "")"
+            return "InvalidSchedule: \(message ?? "")"
         case .invalidSnapshotCopyGrantStateFault(let message):
             return "InvalidSnapshotCopyGrantStateFault: \(message ?? "")"
         case .invalidSubnet(let message):
@@ -436,7 +436,7 @@ extension RedshiftErrorType : CustomStringConvertible {
         case .invalidSubscriptionStateFault(let message):
             return "InvalidSubscriptionStateFault: \(message ?? "")"
         case .invalidTableRestoreArgumentFault(let message):
-            return "InvalidTableRestoreArgumentFault: \(message ?? "")"
+            return "InvalidTableRestoreArgument: \(message ?? "")"
         case .invalidTagFault(let message):
             return "InvalidTagFault: \(message ?? "")"
         case .invalidVPCNetworkStateFault(let message):
@@ -444,31 +444,31 @@ extension RedshiftErrorType : CustomStringConvertible {
         case .limitExceededFault(let message):
             return "LimitExceededFault: \(message ?? "")"
         case .numberOfNodesPerClusterLimitExceededFault(let message):
-            return "NumberOfNodesPerClusterLimitExceededFault: \(message ?? "")"
+            return "NumberOfNodesPerClusterLimitExceeded: \(message ?? "")"
         case .numberOfNodesQuotaExceededFault(let message):
-            return "NumberOfNodesQuotaExceededFault: \(message ?? "")"
+            return "NumberOfNodesQuotaExceeded: \(message ?? "")"
         case .reservedNodeAlreadyExistsFault(let message):
-            return "ReservedNodeAlreadyExistsFault: \(message ?? "")"
+            return "ReservedNodeAlreadyExists: \(message ?? "")"
         case .reservedNodeAlreadyMigratedFault(let message):
-            return "ReservedNodeAlreadyMigratedFault: \(message ?? "")"
+            return "ReservedNodeAlreadyMigrated: \(message ?? "")"
         case .reservedNodeNotFoundFault(let message):
-            return "ReservedNodeNotFoundFault: \(message ?? "")"
+            return "ReservedNodeNotFound: \(message ?? "")"
         case .reservedNodeOfferingNotFoundFault(let message):
-            return "ReservedNodeOfferingNotFoundFault: \(message ?? "")"
+            return "ReservedNodeOfferingNotFound: \(message ?? "")"
         case .reservedNodeQuotaExceededFault(let message):
-            return "ReservedNodeQuotaExceededFault: \(message ?? "")"
+            return "ReservedNodeQuotaExceeded: \(message ?? "")"
         case .resizeNotFoundFault(let message):
-            return "ResizeNotFoundFault: \(message ?? "")"
+            return "ResizeNotFound: \(message ?? "")"
         case .resourceNotFoundFault(let message):
             return "ResourceNotFoundFault: \(message ?? "")"
         case .sNSInvalidTopicFault(let message):
-            return "SNSInvalidTopicFault: \(message ?? "")"
+            return "SNSInvalidTopic: \(message ?? "")"
         case .sNSNoAuthorizationFault(let message):
-            return "SNSNoAuthorizationFault: \(message ?? "")"
+            return "SNSNoAuthorization: \(message ?? "")"
         case .sNSTopicArnNotFoundFault(let message):
-            return "SNSTopicArnNotFoundFault: \(message ?? "")"
+            return "SNSTopicArnNotFound: \(message ?? "")"
         case .scheduleDefinitionTypeUnsupportedFault(let message):
-            return "ScheduleDefinitionTypeUnsupportedFault: \(message ?? "")"
+            return "ScheduleDefinitionTypeUnsupported: \(message ?? "")"
         case .snapshotCopyAlreadyDisabledFault(let message):
             return "SnapshotCopyAlreadyDisabledFault: \(message ?? "")"
         case .snapshotCopyAlreadyEnabledFault(let message):
@@ -482,29 +482,29 @@ extension RedshiftErrorType : CustomStringConvertible {
         case .snapshotCopyGrantQuotaExceededFault(let message):
             return "SnapshotCopyGrantQuotaExceededFault: \(message ?? "")"
         case .snapshotScheduleAlreadyExistsFault(let message):
-            return "SnapshotScheduleAlreadyExistsFault: \(message ?? "")"
+            return "SnapshotScheduleAlreadyExists: \(message ?? "")"
         case .snapshotScheduleNotFoundFault(let message):
-            return "SnapshotScheduleNotFoundFault: \(message ?? "")"
+            return "SnapshotScheduleNotFound: \(message ?? "")"
         case .snapshotScheduleQuotaExceededFault(let message):
-            return "SnapshotScheduleQuotaExceededFault: \(message ?? "")"
+            return "SnapshotScheduleQuotaExceeded: \(message ?? "")"
         case .snapshotScheduleUpdateInProgressFault(let message):
-            return "SnapshotScheduleUpdateInProgressFault: \(message ?? "")"
+            return "SnapshotScheduleUpdateInProgress: \(message ?? "")"
         case .sourceNotFoundFault(let message):
-            return "SourceNotFoundFault: \(message ?? "")"
+            return "SourceNotFound: \(message ?? "")"
         case .subnetAlreadyInUse(let message):
             return "SubnetAlreadyInUse: \(message ?? "")"
         case .subscriptionAlreadyExistFault(let message):
-            return "SubscriptionAlreadyExistFault: \(message ?? "")"
+            return "SubscriptionAlreadyExist: \(message ?? "")"
         case .subscriptionCategoryNotFoundFault(let message):
-            return "SubscriptionCategoryNotFoundFault: \(message ?? "")"
+            return "SubscriptionCategoryNotFound: \(message ?? "")"
         case .subscriptionEventIdNotFoundFault(let message):
-            return "SubscriptionEventIdNotFoundFault: \(message ?? "")"
+            return "SubscriptionEventIdNotFound: \(message ?? "")"
         case .subscriptionNotFoundFault(let message):
-            return "SubscriptionNotFoundFault: \(message ?? "")"
+            return "SubscriptionNotFound: \(message ?? "")"
         case .subscriptionSeverityNotFoundFault(let message):
-            return "SubscriptionSeverityNotFoundFault: \(message ?? "")"
+            return "SubscriptionSeverityNotFound: \(message ?? "")"
         case .tableLimitExceededFault(let message):
-            return "TableLimitExceededFault: \(message ?? "")"
+            return "TableLimitExceeded: \(message ?? "")"
         case .tableRestoreNotFoundFault(let message):
             return "TableRestoreNotFoundFault: \(message ?? "")"
         case .tagLimitExceededFault(let message):
@@ -514,7 +514,7 @@ extension RedshiftErrorType : CustomStringConvertible {
         case .unknownSnapshotCopyRegionFault(let message):
             return "UnknownSnapshotCopyRegionFault: \(message ?? "")"
         case .unsupportedOperationFault(let message):
-            return "UnsupportedOperationFault: \(message ?? "")"
+            return "UnsupportedOperation: \(message ?? "")"
         case .unsupportedOptionFault(let message):
             return "UnsupportedOptionFault: \(message ?? "")"
         }

@@ -31,13 +31,13 @@ extension CloudFormationErrorType {
         switch errorCode {
         case "AlreadyExistsException":
             self = .alreadyExistsException(message: message)
-        case "ChangeSetNotFoundException":
+        case "ChangeSetNotFound":
             self = .changeSetNotFoundException(message: message)
         case "CreatedButModifiedException":
             self = .createdButModifiedException(message: message)
         case "InsufficientCapabilitiesException":
             self = .insufficientCapabilitiesException(message: message)
-        case "InvalidChangeSetStatusException":
+        case "InvalidChangeSetStatus":
             self = .invalidChangeSetStatusException(message: message)
         case "InvalidOperationException":
             self = .invalidOperationException(message: message)
@@ -73,13 +73,13 @@ extension CloudFormationErrorType : CustomStringConvertible {
         case .alreadyExistsException(let message):
             return "AlreadyExistsException: \(message ?? "")"
         case .changeSetNotFoundException(let message):
-            return "ChangeSetNotFoundException: \(message ?? "")"
+            return "ChangeSetNotFound: \(message ?? "")"
         case .createdButModifiedException(let message):
             return "CreatedButModifiedException: \(message ?? "")"
         case .insufficientCapabilitiesException(let message):
             return "InsufficientCapabilitiesException: \(message ?? "")"
         case .invalidChangeSetStatusException(let message):
-            return "InvalidChangeSetStatusException: \(message ?? "")"
+            return "InvalidChangeSetStatus: \(message ?? "")"
         case .invalidOperationException(let message):
             return "InvalidOperationException: \(message ?? "")"
         case .limitExceededException(let message):

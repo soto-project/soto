@@ -21,15 +21,15 @@ extension CloudSearchErrorType {
         switch errorCode {
         case "BaseException":
             self = .baseException(message: message)
-        case "DisabledOperationException":
+        case "DisabledAction":
             self = .disabledOperationException(message: message)
         case "InternalException":
             self = .internalException(message: message)
-        case "InvalidTypeException":
+        case "InvalidType":
             self = .invalidTypeException(message: message)
-        case "LimitExceededException":
+        case "LimitExceeded":
             self = .limitExceededException(message: message)
-        case "ResourceNotFoundException":
+        case "ResourceNotFound":
             self = .resourceNotFoundException(message: message)
         default:
             return nil
@@ -43,15 +43,15 @@ extension CloudSearchErrorType : CustomStringConvertible {
         case .baseException(let message):
             return "BaseException: \(message ?? "")"
         case .disabledOperationException(let message):
-            return "DisabledOperationException: \(message ?? "")"
+            return "DisabledAction: \(message ?? "")"
         case .internalException(let message):
             return "InternalException: \(message ?? "")"
         case .invalidTypeException(let message):
-            return "InvalidTypeException: \(message ?? "")"
+            return "InvalidType: \(message ?? "")"
         case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
+            return "LimitExceeded: \(message ?? "")"
         case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
+            return "ResourceNotFound: \(message ?? "")"
         }
     }
 }

@@ -26,31 +26,31 @@ extension CognitoSyncErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "AlreadyStreamedException":
+        case "AlreadyStreamed":
             self = .alreadyStreamedException(message: message)
-        case "ConcurrentModificationException":
+        case "ConcurrentModification":
             self = .concurrentModificationException(message: message)
-        case "DuplicateRequestException":
+        case "DuplicateRequest":
             self = .duplicateRequestException(message: message)
-        case "InternalErrorException":
+        case "InternalError":
             self = .internalErrorException(message: message)
-        case "InvalidConfigurationException":
+        case "InvalidConfiguration":
             self = .invalidConfigurationException(message: message)
-        case "InvalidLambdaFunctionOutputException":
+        case "InvalidLambdaFunctionOutput":
             self = .invalidLambdaFunctionOutputException(message: message)
-        case "InvalidParameterException":
+        case "InvalidParameter":
             self = .invalidParameterException(message: message)
-        case "LambdaThrottledException":
+        case "LambdaThrottled":
             self = .lambdaThrottledException(message: message)
-        case "LimitExceededException":
+        case "LimitExceeded":
             self = .limitExceededException(message: message)
-        case "NotAuthorizedException":
+        case "NotAuthorizedError":
             self = .notAuthorizedException(message: message)
-        case "ResourceConflictException":
+        case "ResourceConflict":
             self = .resourceConflictException(message: message)
-        case "ResourceNotFoundException":
+        case "ResourceNotFound":
             self = .resourceNotFoundException(message: message)
-        case "TooManyRequestsException":
+        case "TooManyRequests":
             self = .tooManyRequestsException(message: message)
         default:
             return nil
@@ -62,31 +62,31 @@ extension CognitoSyncErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
         case .alreadyStreamedException(let message):
-            return "AlreadyStreamedException: \(message ?? "")"
+            return "AlreadyStreamed: \(message ?? "")"
         case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
+            return "ConcurrentModification: \(message ?? "")"
         case .duplicateRequestException(let message):
-            return "DuplicateRequestException: \(message ?? "")"
+            return "DuplicateRequest: \(message ?? "")"
         case .internalErrorException(let message):
-            return "InternalErrorException: \(message ?? "")"
+            return "InternalError: \(message ?? "")"
         case .invalidConfigurationException(let message):
-            return "InvalidConfigurationException: \(message ?? "")"
+            return "InvalidConfiguration: \(message ?? "")"
         case .invalidLambdaFunctionOutputException(let message):
-            return "InvalidLambdaFunctionOutputException: \(message ?? "")"
+            return "InvalidLambdaFunctionOutput: \(message ?? "")"
         case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
+            return "InvalidParameter: \(message ?? "")"
         case .lambdaThrottledException(let message):
-            return "LambdaThrottledException: \(message ?? "")"
+            return "LambdaThrottled: \(message ?? "")"
         case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
+            return "LimitExceeded: \(message ?? "")"
         case .notAuthorizedException(let message):
-            return "NotAuthorizedException: \(message ?? "")"
+            return "NotAuthorizedError: \(message ?? "")"
         case .resourceConflictException(let message):
-            return "ResourceConflictException: \(message ?? "")"
+            return "ResourceConflict: \(message ?? "")"
         case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
+            return "ResourceNotFound: \(message ?? "")"
         case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
+            return "TooManyRequests: \(message ?? "")"
         }
     }
 }

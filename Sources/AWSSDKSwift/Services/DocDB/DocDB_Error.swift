@@ -57,15 +57,15 @@ extension DocDBErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "AuthorizationNotFoundFault":
+        case "AuthorizationNotFound":
             self = .authorizationNotFoundFault(message: message)
-        case "CertificateNotFoundFault":
+        case "CertificateNotFound":
             self = .certificateNotFoundFault(message: message)
         case "DBClusterAlreadyExistsFault":
             self = .dBClusterAlreadyExistsFault(message: message)
         case "DBClusterNotFoundFault":
             self = .dBClusterNotFoundFault(message: message)
-        case "DBClusterParameterGroupNotFoundFault":
+        case "DBClusterParameterGroupNotFound":
             self = .dBClusterParameterGroupNotFoundFault(message: message)
         case "DBClusterQuotaExceededFault":
             self = .dBClusterQuotaExceededFault(message: message)
@@ -73,53 +73,53 @@ extension DocDBErrorType {
             self = .dBClusterSnapshotAlreadyExistsFault(message: message)
         case "DBClusterSnapshotNotFoundFault":
             self = .dBClusterSnapshotNotFoundFault(message: message)
-        case "DBInstanceAlreadyExistsFault":
+        case "DBInstanceAlreadyExists":
             self = .dBInstanceAlreadyExistsFault(message: message)
-        case "DBInstanceNotFoundFault":
+        case "DBInstanceNotFound":
             self = .dBInstanceNotFoundFault(message: message)
-        case "DBParameterGroupAlreadyExistsFault":
+        case "DBParameterGroupAlreadyExists":
             self = .dBParameterGroupAlreadyExistsFault(message: message)
-        case "DBParameterGroupNotFoundFault":
+        case "DBParameterGroupNotFound":
             self = .dBParameterGroupNotFoundFault(message: message)
-        case "DBParameterGroupQuotaExceededFault":
+        case "DBParameterGroupQuotaExceeded":
             self = .dBParameterGroupQuotaExceededFault(message: message)
-        case "DBSecurityGroupNotFoundFault":
+        case "DBSecurityGroupNotFound":
             self = .dBSecurityGroupNotFoundFault(message: message)
-        case "DBSnapshotAlreadyExistsFault":
+        case "DBSnapshotAlreadyExists":
             self = .dBSnapshotAlreadyExistsFault(message: message)
-        case "DBSnapshotNotFoundFault":
+        case "DBSnapshotNotFound":
             self = .dBSnapshotNotFoundFault(message: message)
-        case "DBSubnetGroupAlreadyExistsFault":
+        case "DBSubnetGroupAlreadyExists":
             self = .dBSubnetGroupAlreadyExistsFault(message: message)
         case "DBSubnetGroupDoesNotCoverEnoughAZs":
             self = .dBSubnetGroupDoesNotCoverEnoughAZs(message: message)
         case "DBSubnetGroupNotFoundFault":
             self = .dBSubnetGroupNotFoundFault(message: message)
-        case "DBSubnetGroupQuotaExceededFault":
+        case "DBSubnetGroupQuotaExceeded":
             self = .dBSubnetGroupQuotaExceededFault(message: message)
         case "DBSubnetQuotaExceededFault":
             self = .dBSubnetQuotaExceededFault(message: message)
-        case "DBUpgradeDependencyFailureFault":
+        case "DBUpgradeDependencyFailure":
             self = .dBUpgradeDependencyFailureFault(message: message)
-        case "InstanceQuotaExceededFault":
+        case "InstanceQuotaExceeded":
             self = .instanceQuotaExceededFault(message: message)
         case "InsufficientDBClusterCapacityFault":
             self = .insufficientDBClusterCapacityFault(message: message)
-        case "InsufficientDBInstanceCapacityFault":
+        case "InsufficientDBInstanceCapacity":
             self = .insufficientDBInstanceCapacityFault(message: message)
-        case "InsufficientStorageClusterCapacityFault":
+        case "InsufficientStorageClusterCapacity":
             self = .insufficientStorageClusterCapacityFault(message: message)
         case "InvalidDBClusterSnapshotStateFault":
             self = .invalidDBClusterSnapshotStateFault(message: message)
         case "InvalidDBClusterStateFault":
             self = .invalidDBClusterStateFault(message: message)
-        case "InvalidDBInstanceStateFault":
+        case "InvalidDBInstanceState":
             self = .invalidDBInstanceStateFault(message: message)
-        case "InvalidDBParameterGroupStateFault":
+        case "InvalidDBParameterGroupState":
             self = .invalidDBParameterGroupStateFault(message: message)
-        case "InvalidDBSecurityGroupStateFault":
+        case "InvalidDBSecurityGroupState":
             self = .invalidDBSecurityGroupStateFault(message: message)
-        case "InvalidDBSnapshotStateFault":
+        case "InvalidDBSnapshotState":
             self = .invalidDBSnapshotStateFault(message: message)
         case "InvalidDBSubnetGroupStateFault":
             self = .invalidDBSubnetGroupStateFault(message: message)
@@ -135,13 +135,13 @@ extension DocDBErrorType {
             self = .kMSKeyNotAccessibleFault(message: message)
         case "ResourceNotFoundFault":
             self = .resourceNotFoundFault(message: message)
-        case "SharedSnapshotQuotaExceededFault":
+        case "SharedSnapshotQuotaExceeded":
             self = .sharedSnapshotQuotaExceededFault(message: message)
-        case "SnapshotQuotaExceededFault":
+        case "SnapshotQuotaExceeded":
             self = .snapshotQuotaExceededFault(message: message)
-        case "StorageQuotaExceededFault":
+        case "StorageQuotaExceeded":
             self = .storageQuotaExceededFault(message: message)
-        case "StorageTypeNotSupportedFault":
+        case "StorageTypeNotSupported":
             self = .storageTypeNotSupportedFault(message: message)
         case "SubnetAlreadyInUse":
             self = .subnetAlreadyInUse(message: message)
@@ -155,15 +155,15 @@ extension DocDBErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
         case .authorizationNotFoundFault(let message):
-            return "AuthorizationNotFoundFault: \(message ?? "")"
+            return "AuthorizationNotFound: \(message ?? "")"
         case .certificateNotFoundFault(let message):
-            return "CertificateNotFoundFault: \(message ?? "")"
+            return "CertificateNotFound: \(message ?? "")"
         case .dBClusterAlreadyExistsFault(let message):
             return "DBClusterAlreadyExistsFault: \(message ?? "")"
         case .dBClusterNotFoundFault(let message):
             return "DBClusterNotFoundFault: \(message ?? "")"
         case .dBClusterParameterGroupNotFoundFault(let message):
-            return "DBClusterParameterGroupNotFoundFault: \(message ?? "")"
+            return "DBClusterParameterGroupNotFound: \(message ?? "")"
         case .dBClusterQuotaExceededFault(let message):
             return "DBClusterQuotaExceededFault: \(message ?? "")"
         case .dBClusterSnapshotAlreadyExistsFault(let message):
@@ -171,53 +171,53 @@ extension DocDBErrorType : CustomStringConvertible {
         case .dBClusterSnapshotNotFoundFault(let message):
             return "DBClusterSnapshotNotFoundFault: \(message ?? "")"
         case .dBInstanceAlreadyExistsFault(let message):
-            return "DBInstanceAlreadyExistsFault: \(message ?? "")"
+            return "DBInstanceAlreadyExists: \(message ?? "")"
         case .dBInstanceNotFoundFault(let message):
-            return "DBInstanceNotFoundFault: \(message ?? "")"
+            return "DBInstanceNotFound: \(message ?? "")"
         case .dBParameterGroupAlreadyExistsFault(let message):
-            return "DBParameterGroupAlreadyExistsFault: \(message ?? "")"
+            return "DBParameterGroupAlreadyExists: \(message ?? "")"
         case .dBParameterGroupNotFoundFault(let message):
-            return "DBParameterGroupNotFoundFault: \(message ?? "")"
+            return "DBParameterGroupNotFound: \(message ?? "")"
         case .dBParameterGroupQuotaExceededFault(let message):
-            return "DBParameterGroupQuotaExceededFault: \(message ?? "")"
+            return "DBParameterGroupQuotaExceeded: \(message ?? "")"
         case .dBSecurityGroupNotFoundFault(let message):
-            return "DBSecurityGroupNotFoundFault: \(message ?? "")"
+            return "DBSecurityGroupNotFound: \(message ?? "")"
         case .dBSnapshotAlreadyExistsFault(let message):
-            return "DBSnapshotAlreadyExistsFault: \(message ?? "")"
+            return "DBSnapshotAlreadyExists: \(message ?? "")"
         case .dBSnapshotNotFoundFault(let message):
-            return "DBSnapshotNotFoundFault: \(message ?? "")"
+            return "DBSnapshotNotFound: \(message ?? "")"
         case .dBSubnetGroupAlreadyExistsFault(let message):
-            return "DBSubnetGroupAlreadyExistsFault: \(message ?? "")"
+            return "DBSubnetGroupAlreadyExists: \(message ?? "")"
         case .dBSubnetGroupDoesNotCoverEnoughAZs(let message):
             return "DBSubnetGroupDoesNotCoverEnoughAZs: \(message ?? "")"
         case .dBSubnetGroupNotFoundFault(let message):
             return "DBSubnetGroupNotFoundFault: \(message ?? "")"
         case .dBSubnetGroupQuotaExceededFault(let message):
-            return "DBSubnetGroupQuotaExceededFault: \(message ?? "")"
+            return "DBSubnetGroupQuotaExceeded: \(message ?? "")"
         case .dBSubnetQuotaExceededFault(let message):
             return "DBSubnetQuotaExceededFault: \(message ?? "")"
         case .dBUpgradeDependencyFailureFault(let message):
-            return "DBUpgradeDependencyFailureFault: \(message ?? "")"
+            return "DBUpgradeDependencyFailure: \(message ?? "")"
         case .instanceQuotaExceededFault(let message):
-            return "InstanceQuotaExceededFault: \(message ?? "")"
+            return "InstanceQuotaExceeded: \(message ?? "")"
         case .insufficientDBClusterCapacityFault(let message):
             return "InsufficientDBClusterCapacityFault: \(message ?? "")"
         case .insufficientDBInstanceCapacityFault(let message):
-            return "InsufficientDBInstanceCapacityFault: \(message ?? "")"
+            return "InsufficientDBInstanceCapacity: \(message ?? "")"
         case .insufficientStorageClusterCapacityFault(let message):
-            return "InsufficientStorageClusterCapacityFault: \(message ?? "")"
+            return "InsufficientStorageClusterCapacity: \(message ?? "")"
         case .invalidDBClusterSnapshotStateFault(let message):
             return "InvalidDBClusterSnapshotStateFault: \(message ?? "")"
         case .invalidDBClusterStateFault(let message):
             return "InvalidDBClusterStateFault: \(message ?? "")"
         case .invalidDBInstanceStateFault(let message):
-            return "InvalidDBInstanceStateFault: \(message ?? "")"
+            return "InvalidDBInstanceState: \(message ?? "")"
         case .invalidDBParameterGroupStateFault(let message):
-            return "InvalidDBParameterGroupStateFault: \(message ?? "")"
+            return "InvalidDBParameterGroupState: \(message ?? "")"
         case .invalidDBSecurityGroupStateFault(let message):
-            return "InvalidDBSecurityGroupStateFault: \(message ?? "")"
+            return "InvalidDBSecurityGroupState: \(message ?? "")"
         case .invalidDBSnapshotStateFault(let message):
-            return "InvalidDBSnapshotStateFault: \(message ?? "")"
+            return "InvalidDBSnapshotState: \(message ?? "")"
         case .invalidDBSubnetGroupStateFault(let message):
             return "InvalidDBSubnetGroupStateFault: \(message ?? "")"
         case .invalidDBSubnetStateFault(let message):
@@ -233,13 +233,13 @@ extension DocDBErrorType : CustomStringConvertible {
         case .resourceNotFoundFault(let message):
             return "ResourceNotFoundFault: \(message ?? "")"
         case .sharedSnapshotQuotaExceededFault(let message):
-            return "SharedSnapshotQuotaExceededFault: \(message ?? "")"
+            return "SharedSnapshotQuotaExceeded: \(message ?? "")"
         case .snapshotQuotaExceededFault(let message):
-            return "SnapshotQuotaExceededFault: \(message ?? "")"
+            return "SnapshotQuotaExceeded: \(message ?? "")"
         case .storageQuotaExceededFault(let message):
-            return "StorageQuotaExceededFault: \(message ?? "")"
+            return "StorageQuotaExceeded: \(message ?? "")"
         case .storageTypeNotSupportedFault(let message):
-            return "StorageTypeNotSupportedFault: \(message ?? "")"
+            return "StorageTypeNotSupported: \(message ?? "")"
         case .subnetAlreadyInUse(let message):
             return "SubnetAlreadyInUse: \(message ?? "")"
         }

@@ -6,7 +6,6 @@ import AWSSDKSwiftCore
 public enum CloudWatchErrorType: AWSErrorType {
     case concurrentModificationException(message: String?)
     case dashboardInvalidInputError(message: String?)
-    case dashboardNotFoundError(message: String?)
     case internalServiceFault(message: String?)
     case invalidFormatFault(message: String?)
     case invalidNextToken(message: String?)
@@ -28,25 +27,23 @@ extension CloudWatchErrorType {
         switch errorCode {
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
-        case "DashboardInvalidInputError":
+        case "InvalidParameterInput":
             self = .dashboardInvalidInputError(message: message)
-        case "DashboardNotFoundError":
-            self = .dashboardNotFoundError(message: message)
-        case "InternalServiceFault":
+        case "InternalServiceError":
             self = .internalServiceFault(message: message)
-        case "InvalidFormatFault":
+        case "InvalidFormat":
             self = .invalidFormatFault(message: message)
         case "InvalidNextToken":
             self = .invalidNextToken(message: message)
-        case "InvalidParameterCombinationException":
+        case "InvalidParameterCombination":
             self = .invalidParameterCombinationException(message: message)
-        case "InvalidParameterValueException":
+        case "InvalidParameterValue":
             self = .invalidParameterValueException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "LimitExceededFault":
+        case "LimitExceeded":
             self = .limitExceededFault(message: message)
-        case "MissingRequiredParameterException":
+        case "MissingParameter":
             self = .missingRequiredParameterException(message: message)
         case "ResourceNotFound":
             self = .resourceNotFound(message: message)
@@ -64,25 +61,23 @@ extension CloudWatchErrorType : CustomStringConvertible {
         case .concurrentModificationException(let message):
             return "ConcurrentModificationException: \(message ?? "")"
         case .dashboardInvalidInputError(let message):
-            return "DashboardInvalidInputError: \(message ?? "")"
-        case .dashboardNotFoundError(let message):
-            return "DashboardNotFoundError: \(message ?? "")"
+            return "InvalidParameterInput: \(message ?? "")"
         case .internalServiceFault(let message):
-            return "InternalServiceFault: \(message ?? "")"
+            return "InternalServiceError: \(message ?? "")"
         case .invalidFormatFault(let message):
-            return "InvalidFormatFault: \(message ?? "")"
+            return "InvalidFormat: \(message ?? "")"
         case .invalidNextToken(let message):
             return "InvalidNextToken: \(message ?? "")"
         case .invalidParameterCombinationException(let message):
-            return "InvalidParameterCombinationException: \(message ?? "")"
+            return "InvalidParameterCombination: \(message ?? "")"
         case .invalidParameterValueException(let message):
-            return "InvalidParameterValueException: \(message ?? "")"
+            return "InvalidParameterValue: \(message ?? "")"
         case .limitExceededException(let message):
             return "LimitExceededException: \(message ?? "")"
         case .limitExceededFault(let message):
-            return "LimitExceededFault: \(message ?? "")"
+            return "LimitExceeded: \(message ?? "")"
         case .missingRequiredParameterException(let message):
-            return "MissingRequiredParameterException: \(message ?? "")"
+            return "MissingParameter: \(message ?? "")"
         case .resourceNotFound(let message):
             return "ResourceNotFound: \(message ?? "")"
         case .resourceNotFoundException(let message):
