@@ -6,7 +6,7 @@ matrix:
       before_install:
         - docker pull swift:5.1.1
       install:
-        - docker run -d -p 4572:4572 -p 4569:4569 -e SERVICES='s3,dynamodb' localstack/localstack
+        - docker run -d -p 4572:4572 -p 4569:4569 -p 4593:4593 -e SERVICES='dynamodb,iam,s3' localstack/localstack
       script:
         - docker run --network=host -v "$(pwd):/root/aws-sdk-swift" swift:5.1.1 /bin/sh -c "apt-get -qq update && apt-get -q -y install tzdata libssl-dev zlib1g-dev && cd /root/aws-sdk-swift && swift test -Xswiftc -DDEBUG"
     - os: osx
