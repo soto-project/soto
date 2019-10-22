@@ -23,7 +23,7 @@ class DynamoDBTests: XCTestCase {
             accessKeyId: "key",
             secretAccessKey: "secret",
             region: .apnortheast1,
-            endpoint: "http://localhost:8000"
+            endpoint: "http://localhost:4569"
         )
     }
 

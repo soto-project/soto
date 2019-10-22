@@ -26,7 +26,7 @@ class S3Tests: XCTestCase {
             accessKeyId: "key",
             secretAccessKey: "secret",
             region: .apnortheast1,
-            endpoint: "http://localhost:4569"
+            endpoint: "http://localhost:4572"
         )
     }
 
