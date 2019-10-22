@@ -241,8 +241,9 @@ extension AWSService {
         context["errorName"] = serviceErrorName
 
         var errorContexts: [ErrorContext] = []
-        for error in errorShapeNames {
-            errorContexts.append(ErrorContext(enum: error.toSwiftVariableCase(), string: error))
+        for error in errors {
+            let code = error.code ?? error.name
+            errorContexts.append(ErrorContext(enum: error.name.toSwiftVariableCase(), string: code))
         }
         if errorContexts.count > 0 {
             context["errors"] = errorContexts
@@ -279,7 +280,7 @@ extension AWSService {
         default:
             break
         }
-        if !errorShapeNames.isEmpty {
+        if !errors.isEmpty {
             context["errorTypes"] = serviceErrorName
         }
 
@@ -462,7 +463,7 @@ extension AWSService {
                 continue
             }
             // don't output error shapes
-            if errorShapeNames.contains(shape.name) { continue }
+            //if errorShapeNames.contains(shape.name) { continue }
 
             switch shape.type {
             case .enum(let values):
