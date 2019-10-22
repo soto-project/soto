@@ -40,50 +40,56 @@ class S3Tests: XCTestCase {
         _ = try? client.deleteObject(deleteRequest).wait()
     }
 
-    func testPutObject() throws {
-        let putRequest = S3.PutObjectRequest(
-            acl: .publicRead,
-            body: TestData.shared.bodyData,
-            bucket: TestData.shared.bucket,
-            contentLength: Int64(TestData.shared.bodyData.count),
-            key: TestData.shared.key
-        )
+    func testPutObject() {
+        attempt {
+            let putRequest = S3.PutObjectRequest(
+                acl: .publicRead,
+                body: TestData.shared.bodyData,
+                bucket: TestData.shared.bucket,
+                contentLength: Int64(TestData.shared.bodyData.count),
+                key: TestData.shared.key
+            )
 
-        let output = try client.putObject(putRequest).wait()
-        XCTAssertNotNil(output.eTag)
+            let output = try client.putObject(putRequest).wait()
+            XCTAssertNotNil(output.eTag)
+        }
     }
 
 
-    func testGetObject() throws {
-        let putRequest = S3.PutObjectRequest(
-            acl: .publicRead,
-            body: TestData.shared.bodyData,
-            bucket: TestData.shared.bucket,
-            contentLength: Int64(TestData.shared.bodyData.count),
-            key: TestData.shared.key
-        )
+    func testGetObject() {
+        attempt {
+            let putRequest = S3.PutObjectRequest(
+                acl: .publicRead,
+                body: TestData.shared.bodyData,
+                bucket: TestData.shared.bucket,
+                contentLength: Int64(TestData.shared.bodyData.count),
+                key: TestData.shared.key
+            )
 
-        _ = try client.putObject(putRequest).wait()
-        let object = try client.getObject(S3.GetObjectRequest(bucket: TestData.shared.bucket, key: "hello.txt")).wait()
-        XCTAssertEqual(object.body, TestData.shared.bodyData)
+            _ = try client.putObject(putRequest).wait()
+            let object = try client.getObject(S3.GetObjectRequest(bucket: TestData.shared.bucket, key: "hello.txt")).wait()
+            XCTAssertEqual(object.body, TestData.shared.bodyData)
+        }
     }
 
-    func testListObjects() throws {
-        let putRequest = S3.PutObjectRequest(
-            acl: .publicRead,
-            body: TestData.shared.bodyData,
-            bucket: TestData.shared.bucket,
-            contentLength: Int64(TestData.shared.bodyData.count),
-            key: TestData.shared.key
-        )
+    func testListObjects() {
+        attempt {
+            let putRequest = S3.PutObjectRequest(
+                acl: .publicRead,
+                body: TestData.shared.bodyData,
+                bucket: TestData.shared.bucket,
+                contentLength: Int64(TestData.shared.bodyData.count),
+                key: TestData.shared.key
+            )
 
-        let putResult = try client.putObject(putRequest).wait()
+            let putResult = try client.putObject(putRequest).wait()
 
-        let output = try client.listObjects(S3.ListObjectsRequest(bucket: TestData.shared.bucket)).wait()
-        XCTAssertEqual(output.maxKeys, 1000)
-        XCTAssertEqual(output.contents?.first?.key, TestData.shared.key)
-        XCTAssertEqual(output.contents?.first?.size, Int64(TestData.shared.bodyData.count))
-        XCTAssertEqual(output.contents?.first?.eTag, putResult.eTag)
+            let output = try client.listObjects(S3.ListObjectsRequest(bucket: TestData.shared.bucket)).wait()
+            XCTAssertEqual(output.maxKeys, 1000)
+            XCTAssertEqual(output.contents?.first?.key, TestData.shared.key)
+            XCTAssertEqual(output.contents?.first?.size, Int64(TestData.shared.bodyData.count))
+            XCTAssertEqual(output.contents?.first?.eTag, putResult.eTag)
+        }
     }
 
 

@@ -66,7 +66,7 @@ class DynamoDBTests: XCTestCase {
     }
 
     func testGetObject() {
-        do {
+        attempt {
             try prepare()
             let input = DynamoDB.GetItemInput(
                 key: [
@@ -79,8 +79,6 @@ class DynamoDBTests: XCTestCase {
             let output = try client.getItem(input).wait()
             XCTAssertEqual(output.item?["hashKey"]?.s, "hello")
             XCTAssertEqual(output.item?["rangeKey"]?.s, "world")
-        } catch {
-            XCTFail("\(error)")
         }
     }
 }
