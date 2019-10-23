@@ -32,6 +32,8 @@ class APIGatewayTests: XCTestCase {
         let request = APIGateway.CreateRestApiRequest(description: "Test API", endpointConfiguration: APIGateway.EndpointConfiguration(types:[.regional]), name: testData.apiName)
         let response = try client.createRestApi(request).wait()
         testData.apiId = response.id
+        XCTAssertNotNil(testData.apiId)
+
     }
     
     /// teardown test
@@ -46,19 +48,39 @@ class APIGatewayTests: XCTestCase {
     
     //MARK: TESTS
     
-    func testCreateDeleteRestApi() {
+    func testCreateGetResource() {
         attempt {
             var testData = TestData(#function)
             try setup(&testData)
             defer {
                 tearDown(testData)
             }
+            
+            guard let apiId = testData.apiId else { return }
+
+            let getRequest = APIGateway.GetResourcesRequest(restApiId: apiId)
+            let getResponse = try client.getResources(getRequest).wait()
+            
+            XCTAssertEqual(getResponse.items?.count, 1)
+            XCTAssertNotNil(getResponse.items?[0].id)
+            guard let id = getResponse.items?[0].id else { return }
+
+            let request = APIGateway.CreateResourceRequest(parentId: id, pathPart: "test", restApiId: apiId)
+            let response = try client.createResource(request).wait()
+            
+            XCTAssertNotNil(response.id)
+            guard let resourceId = response.id else {return}
+
+            let getResourceRequest = APIGateway.GetResourceRequest(resourceId: resourceId, restApiId: apiId)
+            let getResourceResponse = try client.getResource(getResourceRequest).wait()
+            
+            XCTAssertEqual(getResourceResponse.pathPart, "test")
         }
     }
 
     static var allTests : [(String, (APIGatewayTests) -> () throws -> Void)] {
         return [
-            ("testCreateDeleteRestApi", testCreateDeleteRestApi),
+            ("testCreateGetResource", testCreateGetResource),
         ]
     }
 }
