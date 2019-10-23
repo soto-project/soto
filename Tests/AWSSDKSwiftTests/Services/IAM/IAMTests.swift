@@ -32,4 +32,10 @@ class IAMTests: XCTestCase {
             try client.deleteUser(request3).wait()
         }
     }
+
+    static var allTests : [(String, (IAMTests) -> () throws -> Void)] {
+        return [
+            ("testCreateDeleteUser", testCreateDeleteUser),
+        ]
+    }
 }
