@@ -12,26 +12,26 @@ import XCTest
 @testable import DynamoDB
 
 class DynamoDBTests: XCTestCase {
-    static var allTests : [(String, (DynamoDBTests) -> () throws -> Void)] {
-        return [
-            ("testGetObject", testGetObject),
-        ]
+
+    struct TestData {
+        
+        var tableName: String
+        
+        init(_ testName: String) {
+            let testName = testName.lowercased().filter { return $0.isLetter }
+            self.tableName = "\(testName)-tablename"
+        }
     }
 
-    var client: DynamoDB {
-        return DynamoDB(
+    var client = DynamoDB(
             accessKeyId: "key",
             secretAccessKey: "secret",
             region: .apnortheast1,
             endpoint: "http://localhost:4569"
         )
-    }
 
-    var tableName: String {
-        return "aws-sdk-swift-test-table"
-    }
 
-    func prepare() throws {
+    func setUp(_ testData: TestData) throws {
         let createTableInput = DynamoDB.CreateTableInput(
             attributeDefinitions: [
                 DynamoDB.AttributeDefinition(attributeName: "hashKey", attributeType: .s),
@@ -42,7 +42,7 @@ class DynamoDBTests: XCTestCase {
                 DynamoDB.KeySchemaElement(attributeName: "rangeKey", keyType: .range)
             ],
             provisionedThroughput: DynamoDB.ProvisionedThroughput(readCapacityUnits: 10, writeCapacityUnits: 10),
-            tableName: tableName
+            tableName: testData.tableName
         )
         _ = try client.createTable(createTableInput).wait()
 
@@ -51,34 +51,41 @@ class DynamoDBTests: XCTestCase {
                 "hashKey": DynamoDB.AttributeValue(s: "hello"),
                 "rangeKey": DynamoDB.AttributeValue(s: "world")
             ],
-            tableName: tableName
+            tableName: testData.tableName
         )
         _ = try client.putItem(putItemInput).wait()
     }
 
-    override func tearDown() {
-        do {
-            let input = DynamoDB.DeleteTableInput(tableName: tableName)
-            _ = try client.deleteTable(input).wait()
-        } catch {
-            print(error)
-        }
+    func tearDown(_ testData: TestData) throws {
+        let input = DynamoDB.DeleteTableInput(tableName: testData.tableName)
+        _ = try client.deleteTable(input).wait()
     }
 
     func testGetObject() {
         attempt {
-            try prepare()
+            
+            let testData = TestData(#function)
+            try setUp(testData)
+
             let input = DynamoDB.GetItemInput(
                 key: [
                     "hashKey": DynamoDB.AttributeValue(s: "hello"),
                     "rangeKey": DynamoDB.AttributeValue(s: "world")
                 ],
-                tableName: tableName
+                tableName: testData.tableName
             )
 
             let output = try client.getItem(input).wait()
             XCTAssertEqual(output.item?["hashKey"]?.s, "hello")
             XCTAssertEqual(output.item?["rangeKey"]?.s, "world")
+            
+            try tearDown(testData)
         }
+    }
+
+    static var allTests : [(String, (DynamoDBTests) -> () throws -> Void)] {
+        return [
+            ("testGetObject", testGetObject),
+        ]
     }
 }
