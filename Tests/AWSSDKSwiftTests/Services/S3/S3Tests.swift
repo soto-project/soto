@@ -34,6 +34,7 @@ class S3Tests: XCTestCase {
             endpoint: "http://localhost:4572"
     )
 
+    /// setup test
     func setUp(_ testData: TestData) throws {
         do {
             let bucketRequest = S3.CreateBucketRequest(bucket: testData.bucket)
@@ -45,6 +46,7 @@ class S3Tests: XCTestCase {
         }
     }
 
+    /// teardown test
     func tearDown(_ testData: TestData) throws {
         let objects = try client.listObjects(S3.ListObjectsRequest(bucket: testData.bucket)).wait()
         if let objects = objects.contents {
@@ -59,6 +61,8 @@ class S3Tests: XCTestCase {
         _ = try client.deleteBucket(deleteRequest).wait()
     }
 
+    //MARK: TESTS
+    
     func testPutObject() {
         attempt {
             let testData = TestData(#function)

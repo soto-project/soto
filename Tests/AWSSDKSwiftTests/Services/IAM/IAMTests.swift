@@ -26,6 +26,7 @@ class IAMTests: XCTestCase {
             endpoint: "http://localhost:4593"
     )
 
+    /// setup test
     func setup(_ testData: TestData) throws {
         let request = IAM.CreateUserRequest(userName: testData.userName)
         do {
@@ -36,10 +37,13 @@ class IAMTests: XCTestCase {
         }
     }
     
+    /// teardown test
     func tearDown(_ testData: TestData) throws {
         let request = IAM.DeleteUserRequest(userName: testData.userName)
         try client.deleteUser(request).wait()
     }
+    
+    //MARK: TESTS
     
     func testCreateDeleteUser() {
         attempt {

@@ -31,6 +31,7 @@ class DynamoDBTests: XCTestCase {
         )
 
 
+    /// setup test
     func setUp(_ testData: TestData) throws {
         let createTableInput = DynamoDB.CreateTableInput(
             attributeDefinitions: [
@@ -56,11 +57,14 @@ class DynamoDBTests: XCTestCase {
         _ = try client.putItem(putItemInput).wait()
     }
 
+    /// teardown test
     func tearDown(_ testData: TestData) throws {
         let input = DynamoDB.DeleteTableInput(tableName: testData.tableName)
         _ = try client.deleteTable(input).wait()
     }
 
+    //MARK: TESTS
+    
     func testGetObject() {
         attempt {
             
