@@ -29,11 +29,10 @@ class APIGatewayTests: XCTestCase {
 
     /// setup test
     func setup(_ testData: inout TestData) throws {
-        let request = APIGateway.CreateRestApiRequest(description: "Test API", endpointConfiguration: APIGateway.EndpointConfiguration(types:[.regional]), name: testData.apiName)
+        let request = APIGateway.CreateRestApiRequest(binaryMediaTypes:["jpeg"], description: "Test API", endpointConfiguration: APIGateway.EndpointConfiguration(types:[.regional]), name: testData.apiName)
         let response = try client.createRestApi(request).wait()
         testData.apiId = response.id
         XCTAssertNotNil(testData.apiId)
-
     }
     
     /// teardown test
@@ -47,6 +46,24 @@ class APIGatewayTests: XCTestCase {
     }
     
     //MARK: TESTS
+    
+    func testGetRestApis() {
+        attempt {
+            var testData = TestData(#function)
+            try setup(&testData)
+            defer {
+                tearDown(testData)
+            }
+
+            guard let apiId = testData.apiId else { return }
+            
+            let getRequest = APIGateway.GetRestApisRequest()
+            let getResponse = try client.getRestApis(getRequest).wait()
+            let restApi = getResponse.items?.first {$0.id == apiId}
+            
+            XCTAssertNotNil(restApi)
+        }
+    }
     
     func testCreateGetResource() {
         attempt {
@@ -80,6 +97,7 @@ class APIGatewayTests: XCTestCase {
 
     static var allTests : [(String, (APIGatewayTests) -> () throws -> Void)] {
         return [
+            ("testGetRestApis", testGetRestApis),
             ("testCreateGetResource", testCreateGetResource),
         ]
     }
