@@ -9,6 +9,16 @@ import Foundation
 @testable import IAM
 
 class IAMTests: XCTestCase {
+    struct TestData {
+        
+        var userName: String
+        
+        init(_ testName: String) {
+            let testName = testName.lowercased().filter { return $0.isLetter }
+            self.userName = "\(testName)-user"
+        }
+    }
+
     let client = IAM(
             accessKeyId: "key",
             secretAccessKey: "secret",
@@ -16,20 +26,31 @@ class IAMTests: XCTestCase {
             endpoint: "http://localhost:4593"
     )
 
+    func setup(_ testData: TestData) throws {
+        let request = IAM.CreateUserRequest(userName: testData.userName)
+        do {
+            let response = try client.createUser(request).wait()
+            XCTAssertEqual(response.user?.userName, testData.userName)
+        } catch IAMErrorType.entityAlreadyExistsException(_) {
+            print("User (\(testData.userName)) already exists")
+        }
+    }
+    
+    func tearDown(_ testData: TestData) throws {
+        let request = IAM.DeleteUserRequest(userName: testData.userName)
+        try client.deleteUser(request).wait()
+    }
+    
     func testCreateDeleteUser() {
         attempt {
-            let request = IAM.CreateUserRequest(userName: "aws-test-user")
-            let response = try client.createUser(request).wait()
+            let testData = TestData(#function)
+            try setup(testData)
             
-            XCTAssertNotNil(response.user)
-            if let user = response.user {
-                XCTAssertEqual(user.userName, "aws-test-user")
-                let request2 = IAM.GetUserRequest(userName: user.userName)
-                let response2 = try client.getUser(request2).wait()
-                XCTAssertEqual(response2.user.userName, "aws-test-user")
-            }
-            let request3 = IAM.DeleteUserRequest(userName: "aws-test-user")
-            try client.deleteUser(request3).wait()
+            let request = IAM.GetUserRequest(userName: testData.userName)
+            let response = try client.getUser(request).wait()
+            XCTAssertEqual(response.user.userName, testData.userName)
+            
+            try tearDown(testData)
         }
     }
 
