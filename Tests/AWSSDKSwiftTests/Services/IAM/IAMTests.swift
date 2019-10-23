@@ -1,7 +1,7 @@
 //
-// iam.swift
+// IAMTests.swift
 // written by Adam Fowler
-// SES tests
+// IAM tests
 //
 import XCTest
 import Foundation

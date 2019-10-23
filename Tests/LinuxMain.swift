@@ -2,7 +2,9 @@ import XCTest
 @testable import AWSSDKSwiftTests
 
 XCTMain([
-     testCase(S3Tests.allTests),
+     testCase(APIGatewayTests.allTests),
+     testCase(AWSRequestTests.allTests),
+     testCase(IAMTests.allTests),
      testCase(DynamoDBTests.allTests),
-     testCase(AWSRequestTests.allTests)
+     testCase(S3Tests.allTests),
 ])
