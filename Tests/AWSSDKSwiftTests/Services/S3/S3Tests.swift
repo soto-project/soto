@@ -47,18 +47,20 @@ class S3Tests: XCTestCase {
     }
 
     /// teardown test
-    func tearDown(_ testData: TestData) throws {
-        let objects = try client.listObjects(S3.ListObjectsRequest(bucket: testData.bucket)).wait()
-        if let objects = objects.contents {
-            for object in objects {
-                if let key = object.key {
-                    let deleteRequest = S3.DeleteObjectRequest(bucket: testData.bucket, key: key)
-                    _ = try client.deleteObject(deleteRequest).wait()
+    func tearDown(_ testData: TestData) {
+        attempt {
+            let objects = try client.listObjects(S3.ListObjectsRequest(bucket: testData.bucket)).wait()
+            if let objects = objects.contents {
+                for object in objects {
+                    if let key = object.key {
+                        let deleteRequest = S3.DeleteObjectRequest(bucket: testData.bucket, key: key)
+                        _ = try client.deleteObject(deleteRequest).wait()
+                    }
                 }
             }
+            let deleteRequest = S3.DeleteBucketRequest(bucket: testData.bucket)
+            _ = try client.deleteBucket(deleteRequest).wait()
         }
-        let deleteRequest = S3.DeleteBucketRequest(bucket: testData.bucket)
-        _ = try client.deleteBucket(deleteRequest).wait()
     }
 
     //MARK: TESTS
@@ -67,7 +69,10 @@ class S3Tests: XCTestCase {
         attempt {
             let testData = TestData(#function)
             try setUp(testData)
-            
+            defer {
+                tearDown(testData)
+            }
+
             let putRequest = S3.PutObjectRequest(
                 acl: .publicRead,
                 body: testData.bodyData,
@@ -78,8 +83,6 @@ class S3Tests: XCTestCase {
 
             let output = try client.putObject(putRequest).wait()
             XCTAssertNotNil(output.eTag)
-            
-            try tearDown(testData)
         }
     }
 
@@ -88,7 +91,10 @@ class S3Tests: XCTestCase {
         attempt {
             let testData = TestData(#function)
             try setUp(testData)
-            
+            defer {
+                tearDown(testData)
+            }
+
             let putRequest = S3.PutObjectRequest(
                 acl: .publicRead,
                 body: testData.bodyData,
@@ -100,8 +106,6 @@ class S3Tests: XCTestCase {
             _ = try client.putObject(putRequest).wait()
             let object = try client.getObject(S3.GetObjectRequest(bucket: testData.bucket, key: testData.key)).wait()
             XCTAssertEqual(object.body, testData.bodyData)
-            
-            try tearDown(testData)
         }
     }
 
@@ -109,7 +113,10 @@ class S3Tests: XCTestCase {
         attempt {
             let testData = TestData(#function)
             try setUp(testData)
-            
+            defer {
+                tearDown(testData)
+            }
+
             let putRequest = S3.PutObjectRequest(
                 acl: .publicRead,
                 body: testData.bodyData,
@@ -127,8 +134,6 @@ class S3Tests: XCTestCase {
             ).wait()
             XCTAssert(FileManager.default.fileExists(atPath: filename))
             try FileManager.default.removeItem(atPath: filename)
-            
-            try tearDown(testData)
         }
     }
 
@@ -136,7 +141,10 @@ class S3Tests: XCTestCase {
         attempt {
             let testData = TestData(#function)
             try setUp(testData)
-            
+            defer {
+                tearDown(testData)
+            }
+
             let multiPartUploadRequest = S3.CreateMultipartUploadRequest(
                 acl: .publicRead,
                 bucket: testData.bucket,
@@ -158,8 +166,6 @@ class S3Tests: XCTestCase {
             
             XCTAssertEqual(object.body, data)
             try FileManager.default.removeItem(atPath: filename)
-            
-            try tearDown(testData)
         }
     }
 
@@ -168,7 +174,10 @@ class S3Tests: XCTestCase {
         attempt {
             let testData = TestData(#function)
             try setUp(testData)
-            
+            defer {
+                tearDown(testData)
+            }
+
             let putRequest = S3.PutObjectRequest(
                 acl: .publicRead,
                 body: testData.bodyData,
@@ -184,8 +193,6 @@ class S3Tests: XCTestCase {
             XCTAssertEqual(output.contents?.first?.key, testData.key)
             XCTAssertEqual(output.contents?.first?.size, Int64(testData.bodyData.count))
             XCTAssertEqual(output.contents?.first?.eTag, putResult.eTag)
-            
-            try tearDown(testData)
         }
     }
 
@@ -194,12 +201,13 @@ class S3Tests: XCTestCase {
         attempt {
             let testData = TestData(#function)
             try setUp(testData)
-            
+            defer {
+                tearDown(testData)
+            }
+
             let request = S3.GetBucketLocationRequest(bucket: testData.bucket)
             let response = try client.getBucketLocation(request).wait()
             XCTAssertNotNil(response.locationConstraint)
-            
-            try tearDown(testData)
         }
     }
 
@@ -208,7 +216,10 @@ class S3Tests: XCTestCase {
         attempt {
             let testData = TestData(#function)
             try setUp(testData)
-            
+            defer {
+                tearDown(testData)
+            }
+
             // set lifecycle rules
             let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7) // clear incomplete multipart uploads after 7 days
             let filter = S3.LifecycleRuleFilter(prefix:"") // everything
@@ -224,8 +235,6 @@ class S3Tests: XCTestCase {
             XCTAssertEqual(getBucketLifecycleResult.rules?[0].transitions?[0].storageClass, .glacier)
             XCTAssertEqual(getBucketLifecycleResult.rules?[0].transitions?[0].days, 14)
             XCTAssertEqual(getBucketLifecycleResult.rules?[0].abortIncompleteMultipartUpload?.daysAfterInitiation, 7)
-            
-            try tearDown(testData)
         }
     }
 
@@ -234,7 +243,10 @@ class S3Tests: XCTestCase {
         attempt {
             let testData = TestData(#function)
             try setUp(testData)
-                       
+            defer {
+               tearDown(testData)
+            }
+
             let putObjectRequest = S3.PutObjectRequest(body: testData.bodyData, bucket: testData.bucket, key: testData.key, metadata: ["Test": "testing", "first" : "one"])
             _ = try client.putObject(putObjectRequest).wait()
 
@@ -242,8 +254,6 @@ class S3Tests: XCTestCase {
             let result = try client.getObject(getObjectRequest).wait()
             XCTAssertEqual(result.metadata?["test"], "testing")
             XCTAssertEqual(result.metadata?["first"], "one")
-            
-            try tearDown(testData)
         }
     }
 

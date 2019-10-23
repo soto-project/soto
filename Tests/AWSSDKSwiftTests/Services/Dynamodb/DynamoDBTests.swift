@@ -58,9 +58,11 @@ class DynamoDBTests: XCTestCase {
     }
 
     /// teardown test
-    func tearDown(_ testData: TestData) throws {
-        let input = DynamoDB.DeleteTableInput(tableName: testData.tableName)
-        _ = try client.deleteTable(input).wait()
+    func tearDown(_ testData: TestData) {
+        attempt {
+            let input = DynamoDB.DeleteTableInput(tableName: testData.tableName)
+            _ = try client.deleteTable(input).wait()
+        }
     }
 
     //MARK: TESTS
@@ -70,6 +72,9 @@ class DynamoDBTests: XCTestCase {
             
             let testData = TestData(#function)
             try setUp(testData)
+            defer {
+                tearDown(testData)
+            }
 
             let input = DynamoDB.GetItemInput(
                 key: [
@@ -82,8 +87,6 @@ class DynamoDBTests: XCTestCase {
             let output = try client.getItem(input).wait()
             XCTAssertEqual(output.item?["hashKey"]?.s, "hello")
             XCTAssertEqual(output.item?["rangeKey"]?.s, "world")
-            
-            try tearDown(testData)
         }
     }
 
