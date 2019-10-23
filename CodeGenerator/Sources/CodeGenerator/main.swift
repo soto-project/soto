@@ -43,11 +43,21 @@ for index in 0..<apis.count {
                 atomically: true,
                 encoding: .utf8
             )
-            
+
             let errorContext = service.generateErrorContext()
             if errorContext["errors"] != nil {
                 try environment.renderTemplate(name: "error.stencil", context: errorContext).write(
                     toFile: "\(basePath)/\(service.serviceName)_Error.swift",
+                    atomically: true,
+                    encoding: .utf8
+                )
+            }
+
+            let customTemplates = service.getCustomTemplates()
+            for template in customTemplates {
+                let templateName = URL(fileURLWithPath: template).deletingPathExtension().lastPathComponent
+                try environment.renderTemplate(name: template).write(
+                    toFile: "\(basePath)/\(service.serviceName)+\(templateName).swift",
                     atomically: true,
                     encoding: .utf8
                 )

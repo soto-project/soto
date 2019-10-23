@@ -36,8 +36,15 @@ class S3Tests: XCTestCase {
     }
 
     override func tearDown() {
-        let deleteRequest = S3.DeleteObjectRequest(bucket: TestData.shared.bucket, key: TestData.shared.key)
-        _ = try? client.deleteObject(deleteRequest).wait()
+        let objects = try? client.listObjects(S3.ListObjectsRequest(bucket: TestData.shared.bucket)).wait()
+        if let objects = objects?.contents {
+            for object in objects {
+                if let key = object.key {
+                    let deleteRequest = S3.DeleteObjectRequest(bucket: TestData.shared.bucket, key: key)
+                    _ = try? client.deleteObject(deleteRequest).wait()
+                }
+            }
+        }
     }
 
     func testPutObject() {
@@ -72,6 +79,48 @@ class S3Tests: XCTestCase {
         }
     }
 
+    func testMultiPartDownload() throws {
+        attempt {
+            let putRequest = S3.PutObjectRequest(
+                acl: .publicRead,
+                body: TestData.shared.bodyData,
+                bucket: TestData.shared.bucket,
+                contentLength: Int64(TestData.shared.bodyData.count),
+                key: TestData.shared.key
+            )
+            _ = try client.putObject(putRequest).wait()
+
+            let filename = TestData.shared.key
+            _ = try client.multipartDownload(
+                S3.GetObjectRequest(bucket: TestData.shared.bucket, key: "hello.txt"),
+                partSize: 5,
+                filename: filename
+            ).wait()
+            XCTAssert(FileManager.default.fileExists(atPath: filename))
+            try FileManager.default.removeItem(atPath: filename)
+        }
+    }
+
+    func testMultiPartUpload() {
+        attempt {
+            let multiPartUploadRequest = S3.CreateMultipartUploadRequest(
+                acl: .publicRead,
+                bucket: TestData.shared.bucket,
+                key: TestData.shared.key
+            )
+
+            let filename = TestData.shared.key
+            FileManager.default.createFile(atPath: filename, contents: nil)
+            let fileHandle = try FileHandle(forWritingTo: URL(fileURLWithPath: filename))
+            fileHandle.write(TestData.shared.bodyData)
+            fileHandle.closeFile()
+            _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5, filename: filename).wait()
+            let object = try client.getObject(S3.GetObjectRequest(bucket: TestData.shared.bucket, key: TestData.shared.key)).wait()
+            XCTAssertEqual(object.body, TestData.shared.bodyData)
+            try FileManager.default.removeItem(atPath: filename)
+        }
+    }
+
     func testListObjects() {
         attempt {
             let putRequest = S3.PutObjectRequest(
@@ -85,6 +134,7 @@ class S3Tests: XCTestCase {
             let putResult = try client.putObject(putRequest).wait()
 
             let output = try client.listObjects(S3.ListObjectsRequest(bucket: TestData.shared.bucket)).wait()
+
             XCTAssertEqual(output.maxKeys, 1000)
             XCTAssertEqual(output.contents?.first?.key, TestData.shared.key)
             XCTAssertEqual(output.contents?.first?.size, Int64(TestData.shared.bodyData.count))
@@ -98,6 +148,8 @@ class S3Tests: XCTestCase {
             ("testPutObject", testPutObject),
             ("testListObjects", testListObjects),
             ("testGetObject", testGetObject),
+            ("testMultiPartDownload", testMultiPartDownload),
+            ("testMultiPartUpload", testMultiPartUpload)
         ]
     }
 }
