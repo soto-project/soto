@@ -9,15 +9,6 @@ import Foundation
 @testable import IAM
 
 class IAMTests: XCTestCase {
-    struct TestData {
-        
-        var userName: String
-        
-        init(_ testName: String) {
-            let testName = testName.lowercased().filter { return $0.isLetter }
-            self.userName = "\(testName)-user"
-        }
-    }
 
     let client = IAM(
             accessKeyId: "key",
@@ -26,34 +17,37 @@ class IAMTests: XCTestCase {
             endpoint: "http://localhost:4593"
     )
 
-    /// setup test
-    func setup(_ testData: TestData) throws {
-        let request = IAM.CreateUserRequest(userName: testData.userName)
-        do {
-            let response = try client.createUser(request).wait()
-            XCTAssertEqual(response.user?.userName, testData.userName)
-        } catch IAMErrorType.entityAlreadyExistsException(_) {
-            print("User (\(testData.userName)) already exists")
+    class TestData {
+        let userName: String
+        let client: IAM
+        
+        init(_ testName: String, client: IAM) throws {
+            let testName = testName.lowercased().filter { return $0.isLetter }
+            self.client = client
+            self.userName = "\(testName)-user"
+
+            let request = IAM.CreateUserRequest(userName: self.userName)
+            do {
+                let response = try client.createUser(request).wait()
+                XCTAssertEqual(response.user?.userName, self.userName)
+            } catch IAMErrorType.entityAlreadyExistsException(_) {
+                print("User (\(self.userName)) already exists")
+            }
+        }
+        
+        deinit {
+            attempt {
+                let request = IAM.DeleteUserRequest(userName: self.userName)
+                try client.deleteUser(request).wait()
+            }
         }
     }
-    
-    /// teardown test
-    func tearDown(_ testData: TestData) {
-        attempt {
-            let request = IAM.DeleteUserRequest(userName: testData.userName)
-            try client.deleteUser(request).wait()
-        }
-    }
-    
+
     //MARK: TESTS
     
     func testCreateDeleteUser() {
         attempt {
-            let testData = TestData(#function)
-            try setup(testData)
-            defer {
-                tearDown(testData)
-            }
+            let testData = try TestData(#function, client: client)
 
             let request = IAM.GetUserRequest(userName: testData.userName)
             let response = try client.getUser(request).wait()
@@ -63,11 +57,7 @@ class IAMTests: XCTestCase {
 
     func testSetGetPolicy() {
         attempt {
-            let testData = TestData(#function)
-            try setup(testData)
-            defer {
-                tearDown(testData)
-            }
+            let testData = try TestData(#function, client: client)
 
             // put a policy on the user
             var policyDocument = """

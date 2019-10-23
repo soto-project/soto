@@ -13,16 +13,6 @@ import XCTest
 
 class DynamoDBTests: XCTestCase {
 
-    struct TestData {
-        
-        var tableName: String
-        
-        init(_ testName: String) {
-            let testName = testName.lowercased().filter { return $0.isLetter }
-            self.tableName = "\(testName)-tablename"
-        }
-    }
-
     var client = DynamoDB(
             accessKeyId: "key",
             secretAccessKey: "secret",
@@ -30,51 +20,54 @@ class DynamoDBTests: XCTestCase {
             endpoint: "http://localhost:4569"
         )
 
+    class TestData {
+        var client: DynamoDB
+        var tableName: String
+        
+        init(_ testName: String, client: DynamoDB) throws {
+            let testName = testName.lowercased().filter { return $0.isLetter }
+            self.client = client
+            self.tableName = "\(testName)-tablename"
 
-    /// setup test
-    func setUp(_ testData: TestData) throws {
-        let createTableInput = DynamoDB.CreateTableInput(
-            attributeDefinitions: [
-                DynamoDB.AttributeDefinition(attributeName: "hashKey", attributeType: .s),
-                DynamoDB.AttributeDefinition(attributeName: "rangeKey", attributeType: .s)
-            ],
-            keySchema: [
-                DynamoDB.KeySchemaElement(attributeName: "hashKey", keyType: .hash),
-                DynamoDB.KeySchemaElement(attributeName: "rangeKey", keyType: .range)
-            ],
-            provisionedThroughput: DynamoDB.ProvisionedThroughput(readCapacityUnits: 10, writeCapacityUnits: 10),
-            tableName: testData.tableName
-        )
-        _ = try client.createTable(createTableInput).wait()
+            let createTableInput = DynamoDB.CreateTableInput(
+                attributeDefinitions: [
+                    DynamoDB.AttributeDefinition(attributeName: "hashKey", attributeType: .s),
+                    DynamoDB.AttributeDefinition(attributeName: "rangeKey", attributeType: .s)
+                ],
+                keySchema: [
+                    DynamoDB.KeySchemaElement(attributeName: "hashKey", keyType: .hash),
+                    DynamoDB.KeySchemaElement(attributeName: "rangeKey", keyType: .range)
+                ],
+                provisionedThroughput: DynamoDB.ProvisionedThroughput(readCapacityUnits: 10, writeCapacityUnits: 10),
+                tableName: self.tableName
+            )
+            _ = try client.createTable(createTableInput).wait()
 
-        let putItemInput = DynamoDB.PutItemInput(
-            item: [
-                "hashKey": DynamoDB.AttributeValue(s: "hello"),
-                "rangeKey": DynamoDB.AttributeValue(s: "world")
-            ],
-            tableName: testData.tableName
-        )
-        _ = try client.putItem(putItemInput).wait()
-    }
-
-    /// teardown test
-    func tearDown(_ testData: TestData) {
-        attempt {
-            let input = DynamoDB.DeleteTableInput(tableName: testData.tableName)
-            _ = try client.deleteTable(input).wait()
+            let putItemInput = DynamoDB.PutItemInput(
+                item: [
+                    "hashKey": DynamoDB.AttributeValue(s: "hello"),
+                    "rangeKey": DynamoDB.AttributeValue(s: "world")
+                ],
+                tableName: self.tableName
+            )
+            _ = try client.putItem(putItemInput).wait()
+        }
+        
+        deinit {
+            attempt {
+                let input = DynamoDB.DeleteTableInput(tableName: self.tableName)
+                _ = try client.deleteTable(input).wait()
+            }
         }
     }
+
 
     //MARK: TESTS
     
     func testGetObject() {
         attempt {
             
-            let testData = TestData(#function)
-            try setUp(testData)
-            defer {
-                tearDown(testData)
-            }
+            let testData = try TestData(#function, client: client)
 
             let input = DynamoDB.GetItemInput(
                 key: [

@@ -14,19 +14,6 @@ import XCTest
 
 class S3Tests: XCTestCase {
 
-    struct TestData {
-        let bucket : String
-        let bodyData : Data
-        let key : String
-        
-        init(_ testName: String) {
-            let testName = testName.lowercased().filter { return $0.isLetter }
-            self.bucket = "\(testName)-bucket"
-            self.bodyData = "\(testName) hello world".data(using: .utf8)!
-            self.key = "\(testName)-key.txt"
-        }
-    }
-
     var client = S3(
             accessKeyId: "key",
             secretAccessKey: "secret",
@@ -34,32 +21,43 @@ class S3Tests: XCTestCase {
             endpoint: "http://localhost:4572"
     )
 
-    /// setup test
-    func setUp(_ testData: TestData) throws {
-        do {
-            let bucketRequest = S3.CreateBucketRequest(bucket: testData.bucket)
-            _ = try client.createBucket(bucketRequest).wait()
-        } catch S3ErrorType.bucketAlreadyOwnedByYou(_) {
-            print("Bucket (\(testData.bucket)) already owned by you")
-        } catch S3ErrorType.bucketAlreadyExists(_) {
-            print("Bucket (\(testData.bucket)) already exists")
-        }
-    }
+    class TestData {
+        let client: S3
+        let bucket : String
+        let bodyData : Data
+        let key : String
+        
+        init(_ testName: String, client: S3) throws {
+            let testName = testName.lowercased().filter { return $0.isLetter }
+            self.client = client
+            self.bucket = "\(testName)-bucket"
+            self.bodyData = "\(testName) hello world".data(using: .utf8)!
+            self.key = "\(testName)-key.txt"
 
-    /// teardown test
-    func tearDown(_ testData: TestData) {
-        attempt {
-            let objects = try client.listObjects(S3.ListObjectsRequest(bucket: testData.bucket)).wait()
-            if let objects = objects.contents {
-                for object in objects {
-                    if let key = object.key {
-                        let deleteRequest = S3.DeleteObjectRequest(bucket: testData.bucket, key: key)
-                        _ = try client.deleteObject(deleteRequest).wait()
+            do {
+                let bucketRequest = S3.CreateBucketRequest(bucket: self.bucket)
+                _ = try client.createBucket(bucketRequest).wait()
+            } catch S3ErrorType.bucketAlreadyOwnedByYou(_) {
+                print("Bucket (\(self.bucket)) already owned by you")
+            } catch S3ErrorType.bucketAlreadyExists(_) {
+                print("Bucket (\(self.bucket)) already exists")
+            }
+        }
+        
+        deinit {
+            attempt {
+                let objects = try client.listObjects(S3.ListObjectsRequest(bucket: self.bucket)).wait()
+                if let objects = objects.contents {
+                    for object in objects {
+                        if let key = object.key {
+                            let deleteRequest = S3.DeleteObjectRequest(bucket: self.bucket, key: key)
+                            _ = try client.deleteObject(deleteRequest).wait()
+                        }
                     }
                 }
+                let deleteRequest = S3.DeleteBucketRequest(bucket: self.bucket)
+                _ = try client.deleteBucket(deleteRequest).wait()
             }
-            let deleteRequest = S3.DeleteBucketRequest(bucket: testData.bucket)
-            _ = try client.deleteBucket(deleteRequest).wait()
         }
     }
 
@@ -67,11 +65,7 @@ class S3Tests: XCTestCase {
     
     func testPutObject() {
         attempt {
-            let testData = TestData(#function)
-            try setUp(testData)
-            defer {
-                tearDown(testData)
-            }
+            let testData = try TestData(#function, client: client)
 
             let putRequest = S3.PutObjectRequest(
                 acl: .publicRead,
@@ -89,11 +83,7 @@ class S3Tests: XCTestCase {
 
     func testGetObject() {
         attempt {
-            let testData = TestData(#function)
-            try setUp(testData)
-            defer {
-                tearDown(testData)
-            }
+            let testData = try TestData(#function, client: client)
 
             let putRequest = S3.PutObjectRequest(
                 acl: .publicRead,
@@ -111,11 +101,7 @@ class S3Tests: XCTestCase {
 
     func testMultiPartDownload() {
         attempt {
-            let testData = TestData(#function)
-            try setUp(testData)
-            defer {
-                tearDown(testData)
-            }
+            let testData = try TestData(#function, client: client)
 
             let putRequest = S3.PutObjectRequest(
                 acl: .publicRead,
@@ -139,11 +125,7 @@ class S3Tests: XCTestCase {
 
     func testMultiPartUpload() {
         attempt {
-            let testData = TestData(#function)
-            try setUp(testData)
-            defer {
-                tearDown(testData)
-            }
+            let testData = try TestData(#function, client: client)
 
             let multiPartUploadRequest = S3.CreateMultipartUploadRequest(
                 acl: .publicRead,
@@ -172,11 +154,7 @@ class S3Tests: XCTestCase {
     /// test uploaded objects are returned in ListObjects
     func testListObjects() {
         attempt {
-            let testData = TestData(#function)
-            try setUp(testData)
-            defer {
-                tearDown(testData)
-            }
+            let testData = try TestData(#function, client: client)
 
             let putRequest = S3.PutObjectRequest(
                 acl: .publicRead,
@@ -199,11 +177,7 @@ class S3Tests: XCTestCase {
     /// test bucket location is correctly returned.
     func testGetBucketLocation() {
         attempt {
-            let testData = TestData(#function)
-            try setUp(testData)
-            defer {
-                tearDown(testData)
-            }
+            let testData = try TestData(#function, client: client)
 
             let request = S3.GetBucketLocationRequest(bucket: testData.bucket)
             let response = try client.getBucketLocation(request).wait()
@@ -214,11 +188,7 @@ class S3Tests: XCTestCase {
     /// test lifecycle rules are uploaded and downloaded ok
     func testLifecycleRule() {
         attempt {
-            let testData = TestData(#function)
-            try setUp(testData)
-            defer {
-                tearDown(testData)
-            }
+            let testData = try TestData(#function, client: client)
 
             // set lifecycle rules
             let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7) // clear incomplete multipart uploads after 7 days
@@ -241,11 +211,7 @@ class S3Tests: XCTestCase {
     /// test metadata is uploaded and downloaded ok
     func testMetaData() {
         attempt {
-            let testData = TestData(#function)
-            try setUp(testData)
-            defer {
-               tearDown(testData)
-            }
+             let testData = try TestData(#function, client: client)
 
             let putObjectRequest = S3.PutObjectRequest(body: testData.bodyData, bucket: testData.bucket, key: testData.key, metadata: ["Test": "testing", "first" : "one"])
             _ = try client.putObject(putObjectRequest).wait()

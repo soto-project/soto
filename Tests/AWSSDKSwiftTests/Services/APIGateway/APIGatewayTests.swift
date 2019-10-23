@@ -8,17 +8,11 @@ import Foundation
 @testable import AWSSDKSwiftCore
 @testable import APIGateway
 
+enum APIGatewayTestsError : Error {
+    case noRestApi
+}
+
 class APIGatewayTests: XCTestCase {
-    struct TestData {
-        
-        var apiName: String
-        var apiId: String? = nil
-        
-        init(_ testName: String) {
-            let testName = testName.lowercased().filter { return $0.isLetter }
-            self.apiName = "\(testName)-api"
-        }
-    }
 
     let client = APIGateway(
             accessKeyId: "key",
@@ -27,39 +21,47 @@ class APIGatewayTests: XCTestCase {
             endpoint: "http://localhost:4567"
     )
 
+    class TestData {
+        let client: APIGateway
+        let apiName: String
+        let apiId: String
+        
+        init(_ testName: String, client: APIGateway) throws {
+            let testName = testName.lowercased().filter { return $0.isLetter }
+            self.client = client
+            self.apiName = "\(testName)-api"
+
+            let request = APIGateway.CreateRestApiRequest(binaryMediaTypes:["jpeg"], description: "Test API", endpointConfiguration: APIGateway.EndpointConfiguration(types:[.regional]), name: self.apiName)
+            let response = try client.createRestApi(request).wait()
+            guard let apiId = response.id else {throw APIGatewayTestsError.noRestApi}
+            self.apiId = apiId
+        }
+        
+        deinit {
+            attempt {
+                let request = APIGateway.DeleteRestApiRequest(restApiId: self.apiId)
+                _ = try client.deleteRestApi(request).wait()
+            }
+        }
+    }
+
     /// setup test
     func setup(_ testData: inout TestData) throws {
-        let request = APIGateway.CreateRestApiRequest(binaryMediaTypes:["jpeg"], description: "Test API", endpointConfiguration: APIGateway.EndpointConfiguration(types:[.regional]), name: testData.apiName)
-        let response = try client.createRestApi(request).wait()
-        testData.apiId = response.id
-        XCTAssertNotNil(testData.apiId)
     }
     
     /// teardown test
     func tearDown(_ testData: TestData) {
-        attempt {
-            if let apiId = testData.apiId {
-                let request = APIGateway.DeleteRestApiRequest(restApiId: apiId)
-                _ = try client.deleteRestApi(request).wait()
-            }
-        }
     }
     
     //MARK: TESTS
     
     func testGetRestApis() {
         attempt {
-            var testData = TestData(#function)
-            try setup(&testData)
-            defer {
-                tearDown(testData)
-            }
+            let testData = try TestData(#function, client: client)
 
-            guard let apiId = testData.apiId else { return }
-            
             let getRequest = APIGateway.GetRestApisRequest()
             let getResponse = try client.getRestApis(getRequest).wait()
-            let restApi = getResponse.items?.first {$0.id == apiId}
+            let restApi = getResponse.items?.first {$0.id == testData.apiId}
             
             XCTAssertNotNil(restApi)
         }
@@ -67,28 +69,22 @@ class APIGatewayTests: XCTestCase {
     
     func testCreateGetResource() {
         attempt {
-            var testData = TestData(#function)
-            try setup(&testData)
-            defer {
-                tearDown(testData)
-            }
-            
-            guard let apiId = testData.apiId else { return }
+            let testData = try TestData(#function, client: client)
 
-            let getRequest = APIGateway.GetResourcesRequest(restApiId: apiId)
+            let getRequest = APIGateway.GetResourcesRequest(restApiId: testData.apiId)
             let getResponse = try client.getResources(getRequest).wait()
             
             XCTAssertEqual(getResponse.items?.count, 1)
             XCTAssertNotNil(getResponse.items?[0].id)
             guard let id = getResponse.items?[0].id else { return }
 
-            let request = APIGateway.CreateResourceRequest(parentId: id, pathPart: "test", restApiId: apiId)
+            let request = APIGateway.CreateResourceRequest(parentId: id, pathPart: "test", restApiId: testData.apiId)
             let response = try client.createResource(request).wait()
             
             XCTAssertNotNil(response.id)
             guard let resourceId = response.id else {return}
 
-            let getResourceRequest = APIGateway.GetResourceRequest(resourceId: resourceId, restApiId: apiId)
+            let getResourceRequest = APIGateway.GetResourceRequest(resourceId: resourceId, restApiId: testData.apiId)
             let getResourceResponse = try client.getResource(getResourceRequest).wait()
             
             XCTAssertEqual(getResourceResponse.pathPart, "test")
