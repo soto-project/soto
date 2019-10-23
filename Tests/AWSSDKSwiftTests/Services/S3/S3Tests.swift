@@ -159,6 +159,7 @@ class S3Tests: XCTestCase {
         }
     }
 
+    /// test uploaded objects are returned in ListObjects
     func testListObjects() {
         attempt {
             let testData = TestData(#function)
@@ -184,6 +185,64 @@ class S3Tests: XCTestCase {
         }
     }
 
+    /// test bucket location is correctly returned.
+    func testGetBucketLocation() {
+        attempt {
+            let testData = TestData(#function)
+            try setUp(testData)
+            
+            let request = S3.GetBucketLocationRequest(bucket: testData.bucket)
+            let response = try client.getBucketLocation(request).wait()
+            XCTAssertNotNil(response.locationConstraint)
+            
+            try tearDown(testData)
+        }
+    }
+
+    /// test lifecycle rules are uploaded and downloaded ok
+    func testLifecycleRule() {
+        attempt {
+            let testData = TestData(#function)
+            try setUp(testData)
+            
+            // set lifecycle rules
+            let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7) // clear incomplete multipart uploads after 7 days
+            let filter = S3.LifecycleRuleFilter(prefix:"") // everything
+            let transitions = [S3.Transition(days: 14, storageClass: .glacier)] // transition objects to glacier after 14 days
+            let lifecycleRules = S3.LifecycleRule(abortIncompleteMultipartUpload: incompleteMultipartUploads, filter: filter, id: "aws-test", status:.enabled, transitions: transitions)
+            let putBucketLifecycleRequest = S3.PutBucketLifecycleConfigurationRequest(bucket: testData.bucket, lifecycleConfiguration:S3.BucketLifecycleConfiguration(rules:[lifecycleRules]))
+            try client.putBucketLifecycleConfiguration(putBucketLifecycleRequest).wait()
+
+            // get lifecycle rules
+            let getBucketLifecycleRequest = S3.GetBucketLifecycleConfigurationRequest(bucket: testData.bucket)
+            let getBucketLifecycleResult = try client.getBucketLifecycleConfiguration(getBucketLifecycleRequest).wait()
+
+            XCTAssertEqual(getBucketLifecycleResult.rules?[0].transitions?[0].storageClass, .glacier)
+            XCTAssertEqual(getBucketLifecycleResult.rules?[0].transitions?[0].days, 14)
+            XCTAssertEqual(getBucketLifecycleResult.rules?[0].abortIncompleteMultipartUpload?.daysAfterInitiation, 7)
+            
+            try tearDown(testData)
+        }
+    }
+
+    /// test metadata is uploaded and downloaded ok
+    func testMetaData() {
+        attempt {
+            let testData = TestData(#function)
+            try setUp(testData)
+                       
+            let putObjectRequest = S3.PutObjectRequest(body: testData.bodyData, bucket: testData.bucket, key: testData.key, metadata: ["Test": "testing", "first" : "one"])
+            _ = try client.putObject(putObjectRequest).wait()
+
+            let getObjectRequest = S3.GetObjectRequest(bucket: testData.bucket, key: testData.key)
+            let result = try client.getObject(getObjectRequest).wait()
+            XCTAssertEqual(result.metadata?["test"], "testing")
+            XCTAssertEqual(result.metadata?["first"], "one")
+            
+            try tearDown(testData)
+        }
+    }
+
 
     static var allTests : [(String, (S3Tests) -> () throws -> Void)] {
         return [
@@ -191,7 +250,10 @@ class S3Tests: XCTestCase {
             ("testListObjects", testListObjects),
             ("testGetObject", testGetObject),
             ("testMultiPartDownload", testMultiPartDownload),
-            ("testMultiPartUpload", testMultiPartUpload)
+            ("testMultiPartUpload", testMultiPartUpload),
+            ("testGetBucketLocation", testGetBucketLocation),
+            ("testLifecycleRule", testLifecycleRule),
+            ("testMetaData", testMetaData),
         ]
     }
 }
