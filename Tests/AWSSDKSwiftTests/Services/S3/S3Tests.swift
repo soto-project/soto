@@ -293,6 +293,22 @@ class S3Tests: XCTestCase {
         }
     }
 
+    func testS3VirtualAddressing(_ urlString: String) throws -> String {
+        let url = URL(string: urlString)!
+        let request = try AWSRequest(region: .useast1, url: url, serviceProtocol: client.client.serviceProtocol, operation: "TestOperation", httpMethod: "GET", httpHeaders: [:], body: .empty).applyMiddlewares(client.client.middlewares)
+        return request.url.relativeString
+    }
+    
+    func testS3VirtualAddressing() {
+        attempt {
+            XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket"), "https://bucket.s3.us-east-1.amazonaws.com/")
+            XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename"), "https://bucket.s3.us-east-1.amazonaws.com/filename")
+            XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=test&test2=test2"), "https://bucket.s3.us-east-1.amazonaws.com/filename?test=test&test2=test2")
+            XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=%3D"), "https://bucket.s3.us-east-1.amazonaws.com/filename?test=%3D")
+            //XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/file%20name"), "https://bucket.s3.us-east-1.amazonaws.com/file%20name")
+        }
+    }
+    
     static var allTests : [(String, (S3Tests) -> () throws -> Void)] {
         return [
             ("testPutObject", testPutObject),
