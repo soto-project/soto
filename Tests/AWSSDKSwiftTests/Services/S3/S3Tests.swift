@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Dispatch
+import NIO
 import XCTest
 @testable import S3
 @testable import AWSSDKSwiftCore
@@ -211,7 +211,7 @@ class S3Tests: XCTestCase {
     /// test metadata is uploaded and downloaded ok
     func testMetaData() {
         attempt {
-             let testData = try TestData(#function, client: client)
+            let testData = try TestData(#function, client: client)
 
             let putObjectRequest = S3.PutObjectRequest(body: testData.bodyData, bucket: testData.bucket, key: testData.key, metadata: ["Test": "testing", "first" : "one"])
             _ = try client.putObject(putObjectRequest).wait()
@@ -223,6 +223,75 @@ class S3Tests: XCTestCase {
         }
     }
 
+    func testMultipleUpload() {
+        attempt {
+            let testData = try TestData(#function, client: client)
+
+            // uploads 100 files at the same time and then downloads them to check they uploaded correctly
+            var responses : [Future<Void>] = []
+            for i in 0..<100 {
+                let objectName = "testMultiple\(i).txt"
+                let text = "Testing, testing,1,2,1,\(i)"
+                let data = text.data(using: .utf8)!
+
+                let request = S3.PutObjectRequest(body: data, bucket: testData.bucket, key: objectName)
+                let response = client.putObject(request)
+                    .flatMap { (response)->Future<S3.GetObjectOutput> in
+                        let request = S3.GetObjectRequest(bucket: testData.bucket, key: objectName)
+                        return self.client.getObject(request)
+                    }
+                    .flatMapThrowing { response in
+                        guard let body = response.body else {throw AWSError(message: "Get \(objectName) failed", rawBody: "") }
+                        guard text == String(data: body, encoding: .utf8) else {throw AWSError(message: "Get \(objectName) contents is incorrect", rawBody: "") }
+                        return
+                }
+                responses.append(response)
+            }
+
+            _ = try EventLoopFuture.whenAllSucceed(responses, on: AWSClient.eventGroup.next()).wait()
+        }
+     }
+
+    func listObjects(bucket : String, count: Int) -> Future<[S3.Object]> {
+        var list : [S3.Object] = []
+        func listObjectsPart(token: String? = nil) -> Future<[S3.Object]> {
+            let request = S3.ListObjectsV2Request(bucket: bucket, continuationToken: token, maxKeys: count)
+            let objects = client.listObjectsV2(request).flatMap { response -> Future<[S3.Object]> in
+                if let contents = response.contents {
+                    list.append(contentsOf: contents)
+                }
+                if let token = response.nextContinuationToken {
+                    return listObjectsPart(token: token)
+                } else {
+                    return AWSClient.eventGroup.next().makeSucceededFuture(list)
+                }
+            }
+            return objects
+        }
+        return listObjectsPart()
+    }
+
+    func testListPaginate() {
+        attempt {
+            let testData = try TestData(#function, client: client)
+
+            // uploads 16 files
+            var responses : [Future<Void>] = []
+            for i in 0..<16 {
+                let objectName = "testMultiple\(i).txt"
+                let text = "Testing, testing,1,2,1,\(i)"
+                let data = text.data(using: .utf8)!
+
+                let request = S3.PutObjectRequest(body: data, bucket: testData.bucket, key: objectName)
+                let response = client.putObject(request).map { _ in }
+                responses.append(response)
+            }
+            _ = try EventLoopFuture.whenAllSucceed(responses, on: AWSClient.eventGroup.next()).wait()
+            
+            let list = try listObjects(bucket: testData.bucket, count:5).wait()
+            XCTAssertEqual(list.count, 16)
+        }
+    }
 
     static var allTests : [(String, (S3Tests) -> () throws -> Void)] {
         return [
@@ -234,6 +303,8 @@ class S3Tests: XCTestCase {
             ("testGetBucketLocation", testGetBucketLocation),
             ("testLifecycleRule", testLifecycleRule),
             ("testMetaData", testMetaData),
+            ("testMultipleUpload", testMultipleUpload),
+            ("testListPaginate", testListPaginate),
         ]
     }
 }
