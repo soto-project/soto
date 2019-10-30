@@ -483,4 +483,8 @@ extension AWSService {
         return context
     }
 
+    func getCustomTemplates() -> [String] {
+        return Glob.entries(pattern: "\(rootPath())/CodeGenerator/Templates/Custom/\(endpointPrefix)/*.stencil")
+    }
+
 }
