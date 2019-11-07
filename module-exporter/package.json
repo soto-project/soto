@@ -13,7 +13,7 @@
     "co": "^4.6.0",
     "copy-dir": "^0.3.0",
     "fs-promise": "^2.0.3",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.15",
     "mkdirp-promise": "^5.0.1"
   }
 }
