@@ -40,59 +40,59 @@ extension IAMErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "ConcurrentModificationException":
+        case "ConcurrentModification":
             self = .concurrentModificationException(message: message)
-        case "CredentialReportExpiredException":
+        case "ReportExpired":
             self = .credentialReportExpiredException(message: message)
-        case "CredentialReportNotPresentException":
+        case "ReportNotPresent":
             self = .credentialReportNotPresentException(message: message)
-        case "CredentialReportNotReadyException":
+        case "ReportInProgress":
             self = .credentialReportNotReadyException(message: message)
-        case "DeleteConflictException":
+        case "DeleteConflict":
             self = .deleteConflictException(message: message)
-        case "DuplicateCertificateException":
+        case "DuplicateCertificate":
             self = .duplicateCertificateException(message: message)
-        case "DuplicateSSHPublicKeyException":
+        case "DuplicateSSHPublicKey":
             self = .duplicateSSHPublicKeyException(message: message)
-        case "EntityAlreadyExistsException":
+        case "EntityAlreadyExists":
             self = .entityAlreadyExistsException(message: message)
-        case "EntityTemporarilyUnmodifiableException":
+        case "EntityTemporarilyUnmodifiable":
             self = .entityTemporarilyUnmodifiableException(message: message)
-        case "InvalidAuthenticationCodeException":
+        case "InvalidAuthenticationCode":
             self = .invalidAuthenticationCodeException(message: message)
-        case "InvalidCertificateException":
+        case "InvalidCertificate":
             self = .invalidCertificateException(message: message)
-        case "InvalidInputException":
+        case "InvalidInput":
             self = .invalidInputException(message: message)
-        case "InvalidPublicKeyException":
+        case "InvalidPublicKey":
             self = .invalidPublicKeyException(message: message)
-        case "InvalidUserTypeException":
+        case "InvalidUserType":
             self = .invalidUserTypeException(message: message)
-        case "KeyPairMismatchException":
+        case "KeyPairMismatch":
             self = .keyPairMismatchException(message: message)
-        case "LimitExceededException":
+        case "LimitExceeded":
             self = .limitExceededException(message: message)
-        case "MalformedCertificateException":
+        case "MalformedCertificate":
             self = .malformedCertificateException(message: message)
-        case "MalformedPolicyDocumentException":
+        case "MalformedPolicyDocument":
             self = .malformedPolicyDocumentException(message: message)
-        case "NoSuchEntityException":
+        case "NoSuchEntity":
             self = .noSuchEntityException(message: message)
-        case "PasswordPolicyViolationException":
+        case "PasswordPolicyViolation":
             self = .passwordPolicyViolationException(message: message)
-        case "PolicyEvaluationException":
+        case "PolicyEvaluation":
             self = .policyEvaluationException(message: message)
-        case "PolicyNotAttachableException":
+        case "PolicyNotAttachable":
             self = .policyNotAttachableException(message: message)
-        case "ReportGenerationLimitExceededException":
+        case "ReportGenerationLimitExceeded":
             self = .reportGenerationLimitExceededException(message: message)
-        case "ServiceFailureException":
+        case "ServiceFailure":
             self = .serviceFailureException(message: message)
-        case "ServiceNotSupportedException":
+        case "NotSupportedService":
             self = .serviceNotSupportedException(message: message)
-        case "UnmodifiableEntityException":
+        case "UnmodifiableEntity":
             self = .unmodifiableEntityException(message: message)
-        case "UnrecognizedPublicKeyEncodingException":
+        case "UnrecognizedPublicKeyEncoding":
             self = .unrecognizedPublicKeyEncodingException(message: message)
         default:
             return nil
@@ -104,59 +104,59 @@ extension IAMErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
         case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
+            return "ConcurrentModification: \(message ?? "")"
         case .credentialReportExpiredException(let message):
-            return "CredentialReportExpiredException: \(message ?? "")"
+            return "ReportExpired: \(message ?? "")"
         case .credentialReportNotPresentException(let message):
-            return "CredentialReportNotPresentException: \(message ?? "")"
+            return "ReportNotPresent: \(message ?? "")"
         case .credentialReportNotReadyException(let message):
-            return "CredentialReportNotReadyException: \(message ?? "")"
+            return "ReportInProgress: \(message ?? "")"
         case .deleteConflictException(let message):
-            return "DeleteConflictException: \(message ?? "")"
+            return "DeleteConflict: \(message ?? "")"
         case .duplicateCertificateException(let message):
-            return "DuplicateCertificateException: \(message ?? "")"
+            return "DuplicateCertificate: \(message ?? "")"
         case .duplicateSSHPublicKeyException(let message):
-            return "DuplicateSSHPublicKeyException: \(message ?? "")"
+            return "DuplicateSSHPublicKey: \(message ?? "")"
         case .entityAlreadyExistsException(let message):
-            return "EntityAlreadyExistsException: \(message ?? "")"
+            return "EntityAlreadyExists: \(message ?? "")"
         case .entityTemporarilyUnmodifiableException(let message):
-            return "EntityTemporarilyUnmodifiableException: \(message ?? "")"
+            return "EntityTemporarilyUnmodifiable: \(message ?? "")"
         case .invalidAuthenticationCodeException(let message):
-            return "InvalidAuthenticationCodeException: \(message ?? "")"
+            return "InvalidAuthenticationCode: \(message ?? "")"
         case .invalidCertificateException(let message):
-            return "InvalidCertificateException: \(message ?? "")"
+            return "InvalidCertificate: \(message ?? "")"
         case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
+            return "InvalidInput: \(message ?? "")"
         case .invalidPublicKeyException(let message):
-            return "InvalidPublicKeyException: \(message ?? "")"
+            return "InvalidPublicKey: \(message ?? "")"
         case .invalidUserTypeException(let message):
-            return "InvalidUserTypeException: \(message ?? "")"
+            return "InvalidUserType: \(message ?? "")"
         case .keyPairMismatchException(let message):
-            return "KeyPairMismatchException: \(message ?? "")"
+            return "KeyPairMismatch: \(message ?? "")"
         case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
+            return "LimitExceeded: \(message ?? "")"
         case .malformedCertificateException(let message):
-            return "MalformedCertificateException: \(message ?? "")"
+            return "MalformedCertificate: \(message ?? "")"
         case .malformedPolicyDocumentException(let message):
-            return "MalformedPolicyDocumentException: \(message ?? "")"
+            return "MalformedPolicyDocument: \(message ?? "")"
         case .noSuchEntityException(let message):
-            return "NoSuchEntityException: \(message ?? "")"
+            return "NoSuchEntity: \(message ?? "")"
         case .passwordPolicyViolationException(let message):
-            return "PasswordPolicyViolationException: \(message ?? "")"
+            return "PasswordPolicyViolation: \(message ?? "")"
         case .policyEvaluationException(let message):
-            return "PolicyEvaluationException: \(message ?? "")"
+            return "PolicyEvaluation: \(message ?? "")"
         case .policyNotAttachableException(let message):
-            return "PolicyNotAttachableException: \(message ?? "")"
+            return "PolicyNotAttachable: \(message ?? "")"
         case .reportGenerationLimitExceededException(let message):
-            return "ReportGenerationLimitExceededException: \(message ?? "")"
+            return "ReportGenerationLimitExceeded: \(message ?? "")"
         case .serviceFailureException(let message):
-            return "ServiceFailureException: \(message ?? "")"
+            return "ServiceFailure: \(message ?? "")"
         case .serviceNotSupportedException(let message):
-            return "ServiceNotSupportedException: \(message ?? "")"
+            return "NotSupportedService: \(message ?? "")"
         case .unmodifiableEntityException(let message):
-            return "UnmodifiableEntityException: \(message ?? "")"
+            return "UnmodifiableEntity: \(message ?? "")"
         case .unrecognizedPublicKeyEncodingException(let message):
-            return "UnrecognizedPublicKeyEncodingException: \(message ?? "")"
+            return "UnrecognizedPublicKeyEncoding: \(message ?? "")"
         }
     }
 }

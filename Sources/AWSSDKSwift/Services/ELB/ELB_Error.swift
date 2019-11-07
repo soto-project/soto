@@ -35,49 +35,49 @@ extension ELBErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "AccessPointNotFoundException":
+        case "LoadBalancerNotFound":
             self = .accessPointNotFoundException(message: message)
-        case "CertificateNotFoundException":
+        case "CertificateNotFound":
             self = .certificateNotFoundException(message: message)
-        case "DependencyThrottleException":
+        case "DependencyThrottle":
             self = .dependencyThrottleException(message: message)
-        case "DuplicateAccessPointNameException":
+        case "DuplicateLoadBalancerName":
             self = .duplicateAccessPointNameException(message: message)
-        case "DuplicateListenerException":
+        case "DuplicateListener":
             self = .duplicateListenerException(message: message)
-        case "DuplicatePolicyNameException":
+        case "DuplicatePolicyName":
             self = .duplicatePolicyNameException(message: message)
-        case "DuplicateTagKeysException":
+        case "DuplicateTagKeys":
             self = .duplicateTagKeysException(message: message)
-        case "InvalidConfigurationRequestException":
+        case "InvalidConfigurationRequest":
             self = .invalidConfigurationRequestException(message: message)
-        case "InvalidEndPointException":
+        case "InvalidInstance":
             self = .invalidEndPointException(message: message)
-        case "InvalidSchemeException":
+        case "InvalidScheme":
             self = .invalidSchemeException(message: message)
-        case "InvalidSecurityGroupException":
+        case "InvalidSecurityGroup":
             self = .invalidSecurityGroupException(message: message)
-        case "InvalidSubnetException":
+        case "InvalidSubnet":
             self = .invalidSubnetException(message: message)
-        case "ListenerNotFoundException":
+        case "ListenerNotFound":
             self = .listenerNotFoundException(message: message)
-        case "LoadBalancerAttributeNotFoundException":
+        case "LoadBalancerAttributeNotFound":
             self = .loadBalancerAttributeNotFoundException(message: message)
-        case "OperationNotPermittedException":
+        case "OperationNotPermitted":
             self = .operationNotPermittedException(message: message)
-        case "PolicyNotFoundException":
+        case "PolicyNotFound":
             self = .policyNotFoundException(message: message)
-        case "PolicyTypeNotFoundException":
+        case "PolicyTypeNotFound":
             self = .policyTypeNotFoundException(message: message)
-        case "SubnetNotFoundException":
+        case "SubnetNotFound":
             self = .subnetNotFoundException(message: message)
-        case "TooManyAccessPointsException":
+        case "TooManyLoadBalancers":
             self = .tooManyAccessPointsException(message: message)
-        case "TooManyPoliciesException":
+        case "TooManyPolicies":
             self = .tooManyPoliciesException(message: message)
-        case "TooManyTagsException":
+        case "TooManyTags":
             self = .tooManyTagsException(message: message)
-        case "UnsupportedProtocolException":
+        case "UnsupportedProtocol":
             self = .unsupportedProtocolException(message: message)
         default:
             return nil
@@ -89,49 +89,49 @@ extension ELBErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
         case .accessPointNotFoundException(let message):
-            return "AccessPointNotFoundException: \(message ?? "")"
+            return "LoadBalancerNotFound: \(message ?? "")"
         case .certificateNotFoundException(let message):
-            return "CertificateNotFoundException: \(message ?? "")"
+            return "CertificateNotFound: \(message ?? "")"
         case .dependencyThrottleException(let message):
-            return "DependencyThrottleException: \(message ?? "")"
+            return "DependencyThrottle: \(message ?? "")"
         case .duplicateAccessPointNameException(let message):
-            return "DuplicateAccessPointNameException: \(message ?? "")"
+            return "DuplicateLoadBalancerName: \(message ?? "")"
         case .duplicateListenerException(let message):
-            return "DuplicateListenerException: \(message ?? "")"
+            return "DuplicateListener: \(message ?? "")"
         case .duplicatePolicyNameException(let message):
-            return "DuplicatePolicyNameException: \(message ?? "")"
+            return "DuplicatePolicyName: \(message ?? "")"
         case .duplicateTagKeysException(let message):
-            return "DuplicateTagKeysException: \(message ?? "")"
+            return "DuplicateTagKeys: \(message ?? "")"
         case .invalidConfigurationRequestException(let message):
-            return "InvalidConfigurationRequestException: \(message ?? "")"
+            return "InvalidConfigurationRequest: \(message ?? "")"
         case .invalidEndPointException(let message):
-            return "InvalidEndPointException: \(message ?? "")"
+            return "InvalidInstance: \(message ?? "")"
         case .invalidSchemeException(let message):
-            return "InvalidSchemeException: \(message ?? "")"
+            return "InvalidScheme: \(message ?? "")"
         case .invalidSecurityGroupException(let message):
-            return "InvalidSecurityGroupException: \(message ?? "")"
+            return "InvalidSecurityGroup: \(message ?? "")"
         case .invalidSubnetException(let message):
-            return "InvalidSubnetException: \(message ?? "")"
+            return "InvalidSubnet: \(message ?? "")"
         case .listenerNotFoundException(let message):
-            return "ListenerNotFoundException: \(message ?? "")"
+            return "ListenerNotFound: \(message ?? "")"
         case .loadBalancerAttributeNotFoundException(let message):
-            return "LoadBalancerAttributeNotFoundException: \(message ?? "")"
+            return "LoadBalancerAttributeNotFound: \(message ?? "")"
         case .operationNotPermittedException(let message):
-            return "OperationNotPermittedException: \(message ?? "")"
+            return "OperationNotPermitted: \(message ?? "")"
         case .policyNotFoundException(let message):
-            return "PolicyNotFoundException: \(message ?? "")"
+            return "PolicyNotFound: \(message ?? "")"
         case .policyTypeNotFoundException(let message):
-            return "PolicyTypeNotFoundException: \(message ?? "")"
+            return "PolicyTypeNotFound: \(message ?? "")"
         case .subnetNotFoundException(let message):
-            return "SubnetNotFoundException: \(message ?? "")"
+            return "SubnetNotFound: \(message ?? "")"
         case .tooManyAccessPointsException(let message):
-            return "TooManyAccessPointsException: \(message ?? "")"
+            return "TooManyLoadBalancers: \(message ?? "")"
         case .tooManyPoliciesException(let message):
-            return "TooManyPoliciesException: \(message ?? "")"
+            return "TooManyPolicies: \(message ?? "")"
         case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
+            return "TooManyTags: \(message ?? "")"
         case .unsupportedProtocolException(let message):
-            return "UnsupportedProtocolException: \(message ?? "")"
+            return "UnsupportedProtocol: \(message ?? "")"
         }
     }
 }

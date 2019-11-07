@@ -23,17 +23,17 @@ extension STSErrorType {
         switch errorCode {
         case "ExpiredTokenException":
             self = .expiredTokenException(message: message)
-        case "IDPCommunicationErrorException":
+        case "IDPCommunicationError":
             self = .iDPCommunicationErrorException(message: message)
-        case "IDPRejectedClaimException":
+        case "IDPRejectedClaim":
             self = .iDPRejectedClaimException(message: message)
         case "InvalidAuthorizationMessageException":
             self = .invalidAuthorizationMessageException(message: message)
-        case "InvalidIdentityTokenException":
+        case "InvalidIdentityToken":
             self = .invalidIdentityTokenException(message: message)
-        case "MalformedPolicyDocumentException":
+        case "MalformedPolicyDocument":
             self = .malformedPolicyDocumentException(message: message)
-        case "PackedPolicyTooLargeException":
+        case "PackedPolicyTooLarge":
             self = .packedPolicyTooLargeException(message: message)
         case "RegionDisabledException":
             self = .regionDisabledException(message: message)
@@ -49,17 +49,17 @@ extension STSErrorType : CustomStringConvertible {
         case .expiredTokenException(let message):
             return "ExpiredTokenException: \(message ?? "")"
         case .iDPCommunicationErrorException(let message):
-            return "IDPCommunicationErrorException: \(message ?? "")"
+            return "IDPCommunicationError: \(message ?? "")"
         case .iDPRejectedClaimException(let message):
-            return "IDPRejectedClaimException: \(message ?? "")"
+            return "IDPRejectedClaim: \(message ?? "")"
         case .invalidAuthorizationMessageException(let message):
             return "InvalidAuthorizationMessageException: \(message ?? "")"
         case .invalidIdentityTokenException(let message):
-            return "InvalidIdentityTokenException: \(message ?? "")"
+            return "InvalidIdentityToken: \(message ?? "")"
         case .malformedPolicyDocumentException(let message):
-            return "MalformedPolicyDocumentException: \(message ?? "")"
+            return "MalformedPolicyDocument: \(message ?? "")"
         case .packedPolicyTooLargeException(let message):
-            return "PackedPolicyTooLargeException: \(message ?? "")"
+            return "PackedPolicyTooLarge: \(message ?? "")"
         case .regionDisabledException(let message):
             return "RegionDisabledException: \(message ?? "")"
         }

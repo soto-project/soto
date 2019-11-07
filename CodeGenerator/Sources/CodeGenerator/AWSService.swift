@@ -36,7 +36,7 @@ struct AWSService {
     let endpointJSON: JSON
     var shapes = [Shape]()
     var operations: [Operation] = []
-    var errorShapeNames = [String]()
+    var errors = [ErrorShape]()
     var shapeDoc: [String: [String: String]] = [:]
 
     var version: String {
@@ -105,7 +105,7 @@ struct AWSService {
         self.docJSON = docJSON
         self.endpointJSON = endpointJSON
         self.shapes = try parseShapes()
-        (self.operations, self.errorShapeNames) = try parseOperation(shapes: shapes)
+        (self.operations, self.errors) = try parseOperation(shapes: shapes)
         self.shapeDoc = parseDoc()
     }
 
@@ -334,7 +334,7 @@ struct AWSService {
         }
     }
 
-    private func parseOperation(shapes: [Shape]) throws -> ([Operation], [String])  {
+    private func parseOperation(shapes: [Shape]) throws -> ([Operation], [ErrorShape])  {
         var operations: [Operation] = []
         var errorShapeNames: [String] = []
         for (_, json) in apiJSON["operations"].dictionaryValue {
@@ -382,6 +382,12 @@ struct AWSService {
             operations.append(operation)
         }
 
-        return (operations.sorted { $0.name < $1.name }, errorShapeNames.sorted { $0 < $1 })
+        // construct error list
+        var errors: [ErrorShape] = []
+        for errorName in errorShapeNames {
+            let json = apiJSON["shapes"][errorName]["error"]
+            errors.append(ErrorShape(name: errorName, code: json["code"].string, httpStatusCode: json["httpStatusCode"].int))
+        }
+        return (operations.sorted { $0.name < $1.name }, errors.sorted { $0.name < $1.name })
     }
 }

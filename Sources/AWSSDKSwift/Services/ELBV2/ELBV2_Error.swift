@@ -48,75 +48,75 @@ extension ELBV2ErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "AllocationIdNotFoundException":
+        case "AllocationIdNotFound":
             self = .allocationIdNotFoundException(message: message)
-        case "AvailabilityZoneNotSupportedException":
+        case "AvailabilityZoneNotSupported":
             self = .availabilityZoneNotSupportedException(message: message)
-        case "CertificateNotFoundException":
+        case "CertificateNotFound":
             self = .certificateNotFoundException(message: message)
-        case "DuplicateListenerException":
+        case "DuplicateListener":
             self = .duplicateListenerException(message: message)
-        case "DuplicateLoadBalancerNameException":
+        case "DuplicateLoadBalancerName":
             self = .duplicateLoadBalancerNameException(message: message)
-        case "DuplicateTagKeysException":
+        case "DuplicateTagKeys":
             self = .duplicateTagKeysException(message: message)
-        case "DuplicateTargetGroupNameException":
+        case "DuplicateTargetGroupName":
             self = .duplicateTargetGroupNameException(message: message)
-        case "HealthUnavailableException":
+        case "HealthUnavailable":
             self = .healthUnavailableException(message: message)
-        case "IncompatibleProtocolsException":
+        case "IncompatibleProtocols":
             self = .incompatibleProtocolsException(message: message)
-        case "InvalidConfigurationRequestException":
+        case "InvalidConfigurationRequest":
             self = .invalidConfigurationRequestException(message: message)
-        case "InvalidLoadBalancerActionException":
+        case "InvalidLoadBalancerAction":
             self = .invalidLoadBalancerActionException(message: message)
-        case "InvalidSchemeException":
+        case "InvalidScheme":
             self = .invalidSchemeException(message: message)
-        case "InvalidSecurityGroupException":
+        case "InvalidSecurityGroup":
             self = .invalidSecurityGroupException(message: message)
-        case "InvalidSubnetException":
+        case "InvalidSubnet":
             self = .invalidSubnetException(message: message)
-        case "InvalidTargetException":
+        case "InvalidTarget":
             self = .invalidTargetException(message: message)
-        case "ListenerNotFoundException":
+        case "ListenerNotFound":
             self = .listenerNotFoundException(message: message)
-        case "LoadBalancerNotFoundException":
+        case "LoadBalancerNotFound":
             self = .loadBalancerNotFoundException(message: message)
-        case "OperationNotPermittedException":
+        case "OperationNotPermitted":
             self = .operationNotPermittedException(message: message)
-        case "PriorityInUseException":
+        case "PriorityInUse":
             self = .priorityInUseException(message: message)
-        case "ResourceInUseException":
+        case "ResourceInUse":
             self = .resourceInUseException(message: message)
-        case "RuleNotFoundException":
+        case "RuleNotFound":
             self = .ruleNotFoundException(message: message)
-        case "SSLPolicyNotFoundException":
+        case "SSLPolicyNotFound":
             self = .sSLPolicyNotFoundException(message: message)
-        case "SubnetNotFoundException":
+        case "SubnetNotFound":
             self = .subnetNotFoundException(message: message)
-        case "TargetGroupAssociationLimitException":
+        case "TargetGroupAssociationLimit":
             self = .targetGroupAssociationLimitException(message: message)
-        case "TargetGroupNotFoundException":
+        case "TargetGroupNotFound":
             self = .targetGroupNotFoundException(message: message)
-        case "TooManyActionsException":
+        case "TooManyActions":
             self = .tooManyActionsException(message: message)
-        case "TooManyCertificatesException":
+        case "TooManyCertificates":
             self = .tooManyCertificatesException(message: message)
-        case "TooManyListenersException":
+        case "TooManyListeners":
             self = .tooManyListenersException(message: message)
-        case "TooManyLoadBalancersException":
+        case "TooManyLoadBalancers":
             self = .tooManyLoadBalancersException(message: message)
-        case "TooManyRegistrationsForTargetIdException":
+        case "TooManyRegistrationsForTargetId":
             self = .tooManyRegistrationsForTargetIdException(message: message)
-        case "TooManyRulesException":
+        case "TooManyRules":
             self = .tooManyRulesException(message: message)
-        case "TooManyTagsException":
+        case "TooManyTags":
             self = .tooManyTagsException(message: message)
-        case "TooManyTargetGroupsException":
+        case "TooManyTargetGroups":
             self = .tooManyTargetGroupsException(message: message)
-        case "TooManyTargetsException":
+        case "TooManyTargets":
             self = .tooManyTargetsException(message: message)
-        case "UnsupportedProtocolException":
+        case "UnsupportedProtocol":
             self = .unsupportedProtocolException(message: message)
         default:
             return nil
@@ -128,75 +128,75 @@ extension ELBV2ErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
         case .allocationIdNotFoundException(let message):
-            return "AllocationIdNotFoundException: \(message ?? "")"
+            return "AllocationIdNotFound: \(message ?? "")"
         case .availabilityZoneNotSupportedException(let message):
-            return "AvailabilityZoneNotSupportedException: \(message ?? "")"
+            return "AvailabilityZoneNotSupported: \(message ?? "")"
         case .certificateNotFoundException(let message):
-            return "CertificateNotFoundException: \(message ?? "")"
+            return "CertificateNotFound: \(message ?? "")"
         case .duplicateListenerException(let message):
-            return "DuplicateListenerException: \(message ?? "")"
+            return "DuplicateListener: \(message ?? "")"
         case .duplicateLoadBalancerNameException(let message):
-            return "DuplicateLoadBalancerNameException: \(message ?? "")"
+            return "DuplicateLoadBalancerName: \(message ?? "")"
         case .duplicateTagKeysException(let message):
-            return "DuplicateTagKeysException: \(message ?? "")"
+            return "DuplicateTagKeys: \(message ?? "")"
         case .duplicateTargetGroupNameException(let message):
-            return "DuplicateTargetGroupNameException: \(message ?? "")"
+            return "DuplicateTargetGroupName: \(message ?? "")"
         case .healthUnavailableException(let message):
-            return "HealthUnavailableException: \(message ?? "")"
+            return "HealthUnavailable: \(message ?? "")"
         case .incompatibleProtocolsException(let message):
-            return "IncompatibleProtocolsException: \(message ?? "")"
+            return "IncompatibleProtocols: \(message ?? "")"
         case .invalidConfigurationRequestException(let message):
-            return "InvalidConfigurationRequestException: \(message ?? "")"
+            return "InvalidConfigurationRequest: \(message ?? "")"
         case .invalidLoadBalancerActionException(let message):
-            return "InvalidLoadBalancerActionException: \(message ?? "")"
+            return "InvalidLoadBalancerAction: \(message ?? "")"
         case .invalidSchemeException(let message):
-            return "InvalidSchemeException: \(message ?? "")"
+            return "InvalidScheme: \(message ?? "")"
         case .invalidSecurityGroupException(let message):
-            return "InvalidSecurityGroupException: \(message ?? "")"
+            return "InvalidSecurityGroup: \(message ?? "")"
         case .invalidSubnetException(let message):
-            return "InvalidSubnetException: \(message ?? "")"
+            return "InvalidSubnet: \(message ?? "")"
         case .invalidTargetException(let message):
-            return "InvalidTargetException: \(message ?? "")"
+            return "InvalidTarget: \(message ?? "")"
         case .listenerNotFoundException(let message):
-            return "ListenerNotFoundException: \(message ?? "")"
+            return "ListenerNotFound: \(message ?? "")"
         case .loadBalancerNotFoundException(let message):
-            return "LoadBalancerNotFoundException: \(message ?? "")"
+            return "LoadBalancerNotFound: \(message ?? "")"
         case .operationNotPermittedException(let message):
-            return "OperationNotPermittedException: \(message ?? "")"
+            return "OperationNotPermitted: \(message ?? "")"
         case .priorityInUseException(let message):
-            return "PriorityInUseException: \(message ?? "")"
+            return "PriorityInUse: \(message ?? "")"
         case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
+            return "ResourceInUse: \(message ?? "")"
         case .ruleNotFoundException(let message):
-            return "RuleNotFoundException: \(message ?? "")"
+            return "RuleNotFound: \(message ?? "")"
         case .sSLPolicyNotFoundException(let message):
-            return "SSLPolicyNotFoundException: \(message ?? "")"
+            return "SSLPolicyNotFound: \(message ?? "")"
         case .subnetNotFoundException(let message):
-            return "SubnetNotFoundException: \(message ?? "")"
+            return "SubnetNotFound: \(message ?? "")"
         case .targetGroupAssociationLimitException(let message):
-            return "TargetGroupAssociationLimitException: \(message ?? "")"
+            return "TargetGroupAssociationLimit: \(message ?? "")"
         case .targetGroupNotFoundException(let message):
-            return "TargetGroupNotFoundException: \(message ?? "")"
+            return "TargetGroupNotFound: \(message ?? "")"
         case .tooManyActionsException(let message):
-            return "TooManyActionsException: \(message ?? "")"
+            return "TooManyActions: \(message ?? "")"
         case .tooManyCertificatesException(let message):
-            return "TooManyCertificatesException: \(message ?? "")"
+            return "TooManyCertificates: \(message ?? "")"
         case .tooManyListenersException(let message):
-            return "TooManyListenersException: \(message ?? "")"
+            return "TooManyListeners: \(message ?? "")"
         case .tooManyLoadBalancersException(let message):
-            return "TooManyLoadBalancersException: \(message ?? "")"
+            return "TooManyLoadBalancers: \(message ?? "")"
         case .tooManyRegistrationsForTargetIdException(let message):
-            return "TooManyRegistrationsForTargetIdException: \(message ?? "")"
+            return "TooManyRegistrationsForTargetId: \(message ?? "")"
         case .tooManyRulesException(let message):
-            return "TooManyRulesException: \(message ?? "")"
+            return "TooManyRules: \(message ?? "")"
         case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
+            return "TooManyTags: \(message ?? "")"
         case .tooManyTargetGroupsException(let message):
-            return "TooManyTargetGroupsException: \(message ?? "")"
+            return "TooManyTargetGroups: \(message ?? "")"
         case .tooManyTargetsException(let message):
-            return "TooManyTargetsException: \(message ?? "")"
+            return "TooManyTargets: \(message ?? "")"
         case .unsupportedProtocolException(let message):
-            return "UnsupportedProtocolException: \(message ?? "")"
+            return "UnsupportedProtocol: \(message ?? "")"
         }
     }
 }
