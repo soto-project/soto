@@ -47,7 +47,6 @@ public extension S3 {
             )
             return getObject(getRequest)
                 .and(prevPartSave)
-                .hop(to: eventLoop)
                 .flatMap { (output, _) -> Future<Int64> in
                     do {
                         // should never happen
@@ -89,7 +88,6 @@ public extension S3 {
             versionId: input.versionId
         )
         let result = headObject(headRequest)
-            .hop(to: eventLoop)
             .flatMap { object -> Future<Int64> in
                 do {
                     guard let contentLength = object.contentLength else {
@@ -113,7 +111,8 @@ public extension S3 {
     ///     - on: EventLoop to process downloaded parts
     ///     - progress: Callback that returns the progress of the download. It is called after each part is downloaded with a value between 0.0 and 1.0 indicating how far the download is complete (1.0 meaning finished).
     /// - returns: A future that will receive the complete file size once the multipart download has finished.
-    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, filename: String, on eventLoop: EventLoop = AWSClient.eventGroup.next(), progress: @escaping (Double) throws -> () = { _ in }) -> Future<Int64> {
+    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, filename: String, progress: @escaping (Double) throws -> () = { _ in }) -> Future<Int64> {
+        let eventLoop = client.eventLoopGroup.next()
         return eventLoop.submit {  () -> Foundation.FileHandle in
             FileManager.default.createFile(atPath: filename, contents: nil)
             return try FileHandle(forWritingTo: URL(fileURLWithPath: filename))
@@ -165,7 +164,7 @@ public extension S3 {
                     uploadId: uploadId
                 )
                 // request upload future
-                uploadResult = self.uploadPart(request).hop(to: eventLoop).map { output -> [S3.CompletedPart] in
+                uploadResult = self.uploadPart(request).map { output -> [S3.CompletedPart] in
                     let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
                     completedParts.append(part)
                     return completedParts
@@ -221,8 +220,9 @@ public extension S3 {
     ///     - on: EventLoop to process parts for upload
     ///     - progress: Callback that returns the progress of the upload. It is called after each part is uploaded with a value between 0.0 and 1.0 indicating how far the upload is complete (1.0 meaning finished).
     /// - returns: A Future that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
-    func multipartUpload(_ input: CreateMultipartUploadRequest, partSize: Int = 5*1024*1024, filename: String, on eventLoop: EventLoop = AWSClient.eventGroup.next(), progress: @escaping (Double) throws->() = { _ in }) -> Future<CompleteMultipartUploadOutput> {
+    func multipartUpload(_ input: CreateMultipartUploadRequest, partSize: Int = 5*1024*1024, filename: String, progress: @escaping (Double) throws->() = { _ in }) -> Future<CompleteMultipartUploadOutput> {
         var fileSize : UInt64 = 0
+        let eventLoop = client.eventLoopGroup.next()
         return eventLoop.submit {  () -> FileHandle in
             fileSize = try FileManager.default.attributesOfItem(atPath: filename)[.size] as? UInt64 ?? UInt64.max
             return try FileHandle(forReadingFrom: URL(fileURLWithPath: filename))
