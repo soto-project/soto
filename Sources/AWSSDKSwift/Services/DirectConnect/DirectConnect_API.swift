@@ -11,7 +11,7 @@ public struct DirectConnect {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct DirectConnect {
             apiVersion: "2012-10-25",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [DirectConnectErrorType.self]
+            possibleErrorTypes: [DirectConnectErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

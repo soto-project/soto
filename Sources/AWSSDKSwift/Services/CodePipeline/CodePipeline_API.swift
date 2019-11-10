@@ -11,7 +11,7 @@ public struct CodePipeline {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct CodePipeline {
             apiVersion: "2015-07-09",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [CodePipelineErrorType.self]
+            possibleErrorTypes: [CodePipelineErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

@@ -11,7 +11,7 @@ public struct DAX {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct DAX {
             apiVersion: "2017-04-19",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [DAXErrorType.self]
+            possibleErrorTypes: [DAXErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

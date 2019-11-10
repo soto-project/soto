@@ -11,7 +11,7 @@ public struct S3Control {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -24,7 +24,8 @@ public struct S3Control {
             endpoint: endpoint,
             serviceEndpoints: ["ap-northeast-1": "s3-control.ap-northeast-1.amazonaws.com", "ap-northeast-2": "s3-control.ap-northeast-2.amazonaws.com", "ap-south-1": "s3-control.ap-south-1.amazonaws.com", "ap-southeast-1": "s3-control.ap-southeast-1.amazonaws.com", "ap-southeast-2": "s3-control.ap-southeast-2.amazonaws.com", "ca-central-1": "s3-control.ca-central-1.amazonaws.com", "eu-central-1": "s3-control.eu-central-1.amazonaws.com", "eu-north-1": "s3-control.eu-north-1.amazonaws.com", "eu-west-1": "s3-control.eu-west-1.amazonaws.com", "eu-west-2": "s3-control.eu-west-2.amazonaws.com", "eu-west-3": "s3-control.eu-west-3.amazonaws.com", "sa-east-1": "s3-control.sa-east-1.amazonaws.com", "us-east-1": "s3-control.us-east-1.amazonaws.com", "us-east-1-fips": "s3-control-fips.us-east-1.amazonaws.com", "us-east-2": "s3-control.us-east-2.amazonaws.com", "us-east-2-fips": "s3-control-fips.us-east-2.amazonaws.com", "us-west-1": "s3-control.us-west-1.amazonaws.com", "us-west-1-fips": "s3-control-fips.us-west-1.amazonaws.com", "us-west-2": "s3-control.us-west-2.amazonaws.com", "us-west-2-fips": "s3-control-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
-            possibleErrorTypes: [S3ControlErrorType.self]
+            possibleErrorTypes: [S3ControlErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

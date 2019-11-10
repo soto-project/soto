@@ -11,7 +11,7 @@ public struct ServiceCatalog {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -24,7 +24,8 @@ public struct ServiceCatalog {
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1-fips": "servicecatalog-fips.us-east-1.amazonaws.com", "us-east-2-fips": "servicecatalog-fips.us-east-2.amazonaws.com", "us-west-1-fips": "servicecatalog-fips.us-west-1.amazonaws.com", "us-west-2-fips": "servicecatalog-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
-            possibleErrorTypes: [ServiceCatalogErrorType.self]
+            possibleErrorTypes: [ServiceCatalogErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

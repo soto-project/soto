@@ -11,7 +11,7 @@ public struct MarketplaceEntitlementService {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -24,7 +24,8 @@ public struct MarketplaceEntitlementService {
             apiVersion: "2017-01-11",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [MarketplaceEntitlementServiceErrorType.self]
+            possibleErrorTypes: [MarketplaceEntitlementServiceErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

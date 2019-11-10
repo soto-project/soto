@@ -11,7 +11,7 @@ public struct MQ {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct MQ {
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "mq-fips.us-east-1.amazonaws.com", "fips-us-east-2": "mq-fips.us-east-2.amazonaws.com", "fips-us-west-1": "mq-fips.us-west-1.amazonaws.com", "fips-us-west-2": "mq-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
-            possibleErrorTypes: [MQErrorType.self]
+            possibleErrorTypes: [MQErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

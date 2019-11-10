@@ -11,7 +11,7 @@ public struct DatabaseMigrationService {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct DatabaseMigrationService {
             apiVersion: "2016-01-01",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [DatabaseMigrationServiceErrorType.self]
+            possibleErrorTypes: [DatabaseMigrationServiceErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

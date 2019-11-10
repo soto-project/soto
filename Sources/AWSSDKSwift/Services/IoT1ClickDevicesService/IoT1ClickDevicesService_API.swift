@@ -13,7 +13,7 @@ public struct IoT1ClickDevicesService {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -25,7 +25,8 @@ public struct IoT1ClickDevicesService {
             apiVersion: "2018-05-14",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [IoT1ClickDevicesServiceErrorType.self]
+            possibleErrorTypes: [IoT1ClickDevicesServiceErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

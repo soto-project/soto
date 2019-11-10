@@ -26,7 +26,8 @@ class S3Tests: XCTestCase {
             accessKeyId: "key",
             secretAccessKey: "secret",
             region: .apnortheast1,
-            endpoint: "http://localhost:4569"
+            endpoint: "http://localhost:4569",
+            eventLoopGroupProvider: .useAWSClientShared
         )
     }
 
@@ -154,7 +155,7 @@ class S3Tests: XCTestCase {
             responses.append(response)
         }
         
-        _ = try EventLoopFuture.whenAllSucceed(responses, on: AWSClient.eventGroup.next()).wait()
+        _ = try EventLoopFuture.whenAllSucceed(responses, on: client.client.eventLoopGroup.next()).wait()
     }
 
     static var allTests : [(String, (S3Tests) -> () throws -> Void)] {

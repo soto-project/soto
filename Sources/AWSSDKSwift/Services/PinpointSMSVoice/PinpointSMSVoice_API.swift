@@ -11,7 +11,7 @@ public struct PinpointSMSVoice {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct PinpointSMSVoice {
             apiVersion: "2018-09-05",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [PinpointSMSVoiceErrorType.self]
+            possibleErrorTypes: [PinpointSMSVoiceErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

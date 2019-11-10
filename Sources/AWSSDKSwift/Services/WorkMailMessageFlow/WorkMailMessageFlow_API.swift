@@ -11,7 +11,7 @@ public struct WorkMailMessageFlow {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -22,7 +22,8 @@ public struct WorkMailMessageFlow {
             apiVersion: "2019-05-01",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [WorkMailMessageFlowErrorType.self]
+            possibleErrorTypes: [WorkMailMessageFlowErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

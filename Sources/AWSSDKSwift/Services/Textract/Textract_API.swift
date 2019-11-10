@@ -11,7 +11,7 @@ public struct Textract {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct Textract {
             apiVersion: "2018-06-27",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [TextractErrorType.self]
+            possibleErrorTypes: [TextractErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

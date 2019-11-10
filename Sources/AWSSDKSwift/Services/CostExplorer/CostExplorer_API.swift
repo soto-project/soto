@@ -11,7 +11,7 @@ public struct CostExplorer {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -25,7 +25,8 @@ public struct CostExplorer {
             serviceEndpoints: ["aws-global": "ce.us-east-1.amazonaws.com"],
             partitionEndpoint: "aws-global",
             middlewares: middlewares,
-            possibleErrorTypes: [CostExplorerErrorType.self]
+            possibleErrorTypes: [CostExplorerErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

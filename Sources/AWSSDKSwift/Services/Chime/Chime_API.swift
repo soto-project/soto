@@ -11,7 +11,7 @@ public struct Chime {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -24,7 +24,8 @@ public struct Chime {
             serviceEndpoints: ["aws-global": "service.chime.aws.amazon.com"],
             partitionEndpoint: "aws-global",
             middlewares: middlewares,
-            possibleErrorTypes: [ChimeErrorType.self]
+            possibleErrorTypes: [ChimeErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

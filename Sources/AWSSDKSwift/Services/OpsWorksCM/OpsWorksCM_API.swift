@@ -11,7 +11,7 @@ public struct OpsWorksCM {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct OpsWorksCM {
             apiVersion: "2016-11-01",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [OpsWorksCMErrorType.self]
+            possibleErrorTypes: [OpsWorksCMErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

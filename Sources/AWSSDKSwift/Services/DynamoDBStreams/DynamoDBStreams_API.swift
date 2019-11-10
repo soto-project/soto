@@ -11,7 +11,7 @@ public struct DynamoDBStreams {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -25,7 +25,8 @@ public struct DynamoDBStreams {
             endpoint: endpoint,
             serviceEndpoints: ["ca-central-1-fips": "dynamodb-fips.ca-central-1.amazonaws.com", "local": "localhost:8000", "us-east-1-fips": "dynamodb-fips.us-east-1.amazonaws.com", "us-east-2-fips": "dynamodb-fips.us-east-2.amazonaws.com", "us-west-1-fips": "dynamodb-fips.us-west-1.amazonaws.com", "us-west-2-fips": "dynamodb-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
-            possibleErrorTypes: [DynamoDBStreamsErrorType.self]
+            possibleErrorTypes: [DynamoDBStreamsErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

@@ -11,7 +11,7 @@ public struct AppSync {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -22,7 +22,8 @@ public struct AppSync {
             apiVersion: "2017-07-25",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [AppSyncErrorType.self]
+            possibleErrorTypes: [AppSyncErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

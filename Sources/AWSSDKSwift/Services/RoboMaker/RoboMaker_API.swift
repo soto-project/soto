@@ -11,7 +11,7 @@ public struct RoboMaker {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -22,7 +22,8 @@ public struct RoboMaker {
             apiVersion: "2018-06-29",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [RoboMakerErrorType.self]
+            possibleErrorTypes: [RoboMakerErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 
