@@ -14,6 +14,7 @@ extension CostExplorer {
     public enum Context: String, CustomStringConvertible, Codable {
         case costAndUsage = "COST_AND_USAGE"
         case reservations = "RESERVATIONS"
+        case savingsPlans = "SAVINGS_PLANS"
         public var description: String { return self.rawValue }
     }
 
@@ -161,6 +162,7 @@ extension CostExplorer {
             AWSShapeMember(label: "ResourceDetails", required: false, type: .structure), 
             AWSShapeMember(label: "ResourceId", required: false, type: .string), 
             AWSShapeMember(label: "ResourceUtilization", required: false, type: .structure), 
+            AWSShapeMember(label: "SavingsPlansCoveredHoursInLookbackPeriod", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TotalRunningHoursInLookbackPeriod", required: false, type: .string)
         ]
@@ -179,12 +181,14 @@ extension CostExplorer {
         public let resourceId: String?
         ///  Utilization information of the current instance during the lookback period.
         public let resourceUtilization: ResourceUtilization?
+        /// Number of hours during the lookback period covered by Savings Plans.
+        public let savingsPlansCoveredHoursInLookbackPeriod: String?
         /// Cost allocation resource tags applied to the instance.
         public let tags: [TagValues]?
         ///  The total number of hours the instance ran during the lookback period.
         public let totalRunningHoursInLookbackPeriod: String?
 
-        public init(currencyCode: String? = nil, monthlyCost: String? = nil, onDemandHoursInLookbackPeriod: String? = nil, reservationCoveredHoursInLookbackPeriod: String? = nil, resourceDetails: ResourceDetails? = nil, resourceId: String? = nil, resourceUtilization: ResourceUtilization? = nil, tags: [TagValues]? = nil, totalRunningHoursInLookbackPeriod: String? = nil) {
+        public init(currencyCode: String? = nil, monthlyCost: String? = nil, onDemandHoursInLookbackPeriod: String? = nil, reservationCoveredHoursInLookbackPeriod: String? = nil, resourceDetails: ResourceDetails? = nil, resourceId: String? = nil, resourceUtilization: ResourceUtilization? = nil, savingsPlansCoveredHoursInLookbackPeriod: String? = nil, tags: [TagValues]? = nil, totalRunningHoursInLookbackPeriod: String? = nil) {
             self.currencyCode = currencyCode
             self.monthlyCost = monthlyCost
             self.onDemandHoursInLookbackPeriod = onDemandHoursInLookbackPeriod
@@ -192,6 +196,7 @@ extension CostExplorer {
             self.resourceDetails = resourceDetails
             self.resourceId = resourceId
             self.resourceUtilization = resourceUtilization
+            self.savingsPlansCoveredHoursInLookbackPeriod = savingsPlansCoveredHoursInLookbackPeriod
             self.tags = tags
             self.totalRunningHoursInLookbackPeriod = totalRunningHoursInLookbackPeriod
         }
@@ -204,6 +209,7 @@ extension CostExplorer {
             case resourceDetails = "ResourceDetails"
             case resourceId = "ResourceId"
             case resourceUtilization = "ResourceUtilization"
+            case savingsPlansCoveredHoursInLookbackPeriod = "SavingsPlansCoveredHoursInLookbackPeriod"
             case tags = "Tags"
             case totalRunningHoursInLookbackPeriod = "TotalRunningHoursInLookbackPeriod"
         }
@@ -259,7 +265,11 @@ extension CostExplorer {
         case instanceTypeFamily = "INSTANCE_TYPE_FAMILY"
         case billingEntity = "BILLING_ENTITY"
         case reservationId = "RESERVATION_ID"
+        case resourceId = "RESOURCE_ID"
         case rightsizingType = "RIGHTSIZING_TYPE"
+        case savingsPlansType = "SAVINGS_PLANS_TYPE"
+        case savingsPlanArn = "SAVINGS_PLAN_ARN"
+        case paymentOption = "PAYMENT_OPTION"
         public var description: String { return self.rawValue }
     }
 
@@ -620,7 +630,7 @@ extension CostExplorer {
 
         /// Filters AWS costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression. 
         public let filter: Expression?
-        /// Sets the AWS cost granularity to MONTHLY or DAILY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY.  The GetCostAndUsageRequest operation supports only DAILY and MONTHLY granularities.
+        /// Sets the AWS cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY.  The GetCostAndUsageRequest operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
         /// You can group AWS costs using up to two different groups, either dimensions, tag keys, or both. When you group by tag key, you get all tag values, including empty strings. Valid values are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TAGS, TENANCY, and USAGE_TYPE.
         public let groupBy: [GroupDefinition]?
@@ -655,6 +665,79 @@ extension CostExplorer {
     }
 
     public struct GetCostAndUsageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupDefinitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResultsByTime", required: false, type: .list)
+        ]
+
+        /// The groups that are specified by the Filter or GroupBy parameters in the request.
+        public let groupDefinitions: [GroupDefinition]?
+        /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// The time period that is covered by the results in the response.
+        public let resultsByTime: [ResultByTime]?
+
+        public init(groupDefinitions: [GroupDefinition]? = nil, nextPageToken: String? = nil, resultsByTime: [ResultByTime]? = nil) {
+            self.groupDefinitions = groupDefinitions
+            self.nextPageToken = nextPageToken
+            self.resultsByTime = resultsByTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupDefinitions = "GroupDefinitions"
+            case nextPageToken = "NextPageToken"
+            case resultsByTime = "ResultsByTime"
+        }
+    }
+
+    public struct GetCostAndUsageWithResourcesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Granularity", required: false, type: .enum), 
+            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
+        ]
+
+        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId.
+        public let filter: Expression?
+        /// Sets the AWS cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY. 
+        public let granularity: Granularity?
+        /// You can group Amazon Web Services costs using up to two different groups: either dimensions, tag keys, or both.
+        public let groupBy: [GroupDefinition]?
+        /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsageWithResources requests.
+        public let metrics: [String]?
+        /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// Sets the start and end dates for retrieving Amazon Web Services costs. The range must be within the last 14 days (the start date cannot be earlier than 14 days ago). The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
+        public let timePeriod: DateInterval
+
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
+            self.filter = filter
+            self.granularity = granularity
+            self.groupBy = groupBy
+            self.metrics = metrics
+            self.nextPageToken = nextPageToken
+            self.timePeriod = timePeriod
+        }
+
+        public func validate(name: String) throws {
+            try self.timePeriod.validate(name: "\(name).timePeriod")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case granularity = "Granularity"
+            case groupBy = "GroupBy"
+            case metrics = "Metrics"
+            case nextPageToken = "NextPageToken"
+            case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct GetCostAndUsageWithResourcesResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupDefinitions", required: false, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
@@ -755,9 +838,9 @@ extension CostExplorer {
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
 
-        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.  
+        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The AWS Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan  
         public let context: Context?
-        /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context.
+        /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context. 
         public let dimension: Dimension
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -795,7 +878,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TotalSize", required: true, type: .integer)
         ]
 
-        /// The filters that you used to filter your request. Some dimensions are available only for a specific context. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.  
+        /// The filters that you used to filter your request. Some dimensions are available only for a specific context. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The AWS Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan  
         public let dimensionValues: [DimensionValuesWithAttributes]
         /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -1061,7 +1144,7 @@ extension CostExplorer {
         public let nextPageToken: String?
         /// The number of recommendations that you want returned in a single response object.
         public let pageSize: Int?
-        /// The specific service that you want recommendations for.
+        /// The specific service that you want recommendations for. The only valid value for GetRightsizingRecommendation is "AmazonEC2".
         public let service: String
 
         public init(filter: Expression? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, service: String) {
@@ -1112,6 +1195,274 @@ extension CostExplorer {
             case nextPageToken = "NextPageToken"
             case rightsizingRecommendations = "RightsizingRecommendations"
             case summary = "Summary"
+        }
+    }
+
+    public struct GetSavingsPlansCoverageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Granularity", required: false, type: .enum), 
+            AWSShapeMember(label: "GroupBy", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
+        ]
+
+        /// Filters Savings Plans coverage data by dimensions. You can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY     GetSavingsPlansCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. If there are multiple values for a dimension, they are OR'd together.
+        public let filter: Expression?
+        /// The granularity of the Amazon Web Services cost data for your Savings Plans. Granularity can't be set if GroupBy is set. The GetSavingsPlansCoverage operation supports only DAILY and MONTHLY granularities.
+        public let granularity: Granularity?
+        /// You can group the data using the attributes INSTANCE_FAMILY, REGION, or SERVICE.
+        public let groupBy: [GroupDefinition]?
+        /// The number of items to be returned in a response. The default is 20, with a minimum value of 1.
+        public let maxResults: Int?
+        /// The measurement that you want your Savings Plans coverage reported in. The only valid value is SpendCoveredBySavingsPlans.
+        public let metrics: [String]?
+        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextToken: String?
+        /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
+        public let timePeriod: DateInterval
+
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, metrics: [String]? = nil, nextToken: String? = nil, timePeriod: DateInterval) {
+            self.filter = filter
+            self.granularity = granularity
+            self.groupBy = groupBy
+            self.maxResults = maxResults
+            self.metrics = metrics
+            self.nextToken = nextToken
+            self.timePeriod = timePeriod
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.timePeriod.validate(name: "\(name).timePeriod")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case granularity = "Granularity"
+            case groupBy = "GroupBy"
+            case maxResults = "MaxResults"
+            case metrics = "Metrics"
+            case nextToken = "NextToken"
+            case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct GetSavingsPlansCoverageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SavingsPlansCoverages", required: true, type: .list)
+        ]
+
+        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextToken: String?
+        /// The amount of spend that your Savings Plans covered.
+        public let savingsPlansCoverages: [SavingsPlansCoverage]
+
+        public init(nextToken: String? = nil, savingsPlansCoverages: [SavingsPlansCoverage]) {
+            self.nextToken = nextToken
+            self.savingsPlansCoverages = savingsPlansCoverages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case savingsPlansCoverages = "SavingsPlansCoverages"
+        }
+    }
+
+    public struct GetSavingsPlansPurchaseRecommendationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LookbackPeriodInDays", required: true, type: .enum), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "PaymentOption", required: true, type: .enum), 
+            AWSShapeMember(label: "SavingsPlansType", required: true, type: .enum), 
+            AWSShapeMember(label: "TermInYears", required: true, type: .enum)
+        ]
+
+        /// The lookback period used to generate the recommendation.
+        public let lookbackPeriodInDays: LookbackPeriodInDays
+        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// The number of recommendations that you want returned in a single response object.
+        public let pageSize: Int?
+        /// The payment option used to generate these recommendations.
+        public let paymentOption: PaymentOption
+        /// The Savings Plans recommendation type requested.
+        public let savingsPlansType: SupportedSavingsPlansType
+        /// The savings plan recommendation term used to generated these recommendations.
+        public let termInYears: TermInYears
+
+        public init(lookbackPeriodInDays: LookbackPeriodInDays, nextPageToken: String? = nil, pageSize: Int? = nil, paymentOption: PaymentOption, savingsPlansType: SupportedSavingsPlansType, termInYears: TermInYears) {
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.nextPageToken = nextPageToken
+            self.pageSize = pageSize
+            self.paymentOption = paymentOption
+            self.savingsPlansType = savingsPlansType
+            self.termInYears = termInYears
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.pageSize, name:"pageSize", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lookbackPeriodInDays = "LookbackPeriodInDays"
+            case nextPageToken = "NextPageToken"
+            case pageSize = "PageSize"
+            case paymentOption = "PaymentOption"
+            case savingsPlansType = "SavingsPlansType"
+            case termInYears = "TermInYears"
+        }
+    }
+
+    public struct GetSavingsPlansPurchaseRecommendationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .structure), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "SavingsPlansPurchaseRecommendation", required: false, type: .structure)
+        ]
+
+        /// Information regarding this specific recommendation set.
+        public let metadata: SavingsPlansPurchaseRecommendationMetadata?
+        /// The token for the next set of retrievable results. AWS provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextPageToken: String?
+        /// Contains your request parameters, Savings Plan Recommendations Summary, and Details.
+        public let savingsPlansPurchaseRecommendation: SavingsPlansPurchaseRecommendation?
+
+        public init(metadata: SavingsPlansPurchaseRecommendationMetadata? = nil, nextPageToken: String? = nil, savingsPlansPurchaseRecommendation: SavingsPlansPurchaseRecommendation? = nil) {
+            self.metadata = metadata
+            self.nextPageToken = nextPageToken
+            self.savingsPlansPurchaseRecommendation = savingsPlansPurchaseRecommendation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case nextPageToken = "NextPageToken"
+            case savingsPlansPurchaseRecommendation = "SavingsPlansPurchaseRecommendation"
+        }
+    }
+
+    public struct GetSavingsPlansUtilizationDetailsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
+        ]
+
+        /// Filters Savings Plans utilization coverage data for active Savings Plans dimensions. You can filter data with the following dimensions:    LINKED_ACCOUNT     SAVINGS_PLAN_ARN     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilizationDetails uses the same Expression object as the other operations, but only AND is supported among each dimension.
+        public let filter: Expression?
+        /// The number of items to be returned in a response. The default is 20, with a minimum value of 1.
+        public let maxResults: Int?
+        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextToken: String?
+        /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
+        public let timePeriod: DateInterval
+
+        public init(filter: Expression? = nil, maxResults: Int? = nil, nextToken: String? = nil, timePeriod: DateInterval) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.timePeriod = timePeriod
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.timePeriod.validate(name: "\(name).timePeriod")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct GetSavingsPlansUtilizationDetailsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SavingsPlansUtilizationDetails", required: true, type: .list), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure), 
+            AWSShapeMember(label: "Total", required: false, type: .structure)
+        ]
+
+        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextToken: String?
+        /// Retrieves a single daily or monthly Savings Plans utilization rate and details for your account.
+        public let savingsPlansUtilizationDetails: [SavingsPlansUtilizationDetail]
+        public let timePeriod: DateInterval
+        /// The total Savings Plans utilization, regardless of time period.
+        public let total: SavingsPlansUtilizationAggregates?
+
+        public init(nextToken: String? = nil, savingsPlansUtilizationDetails: [SavingsPlansUtilizationDetail], timePeriod: DateInterval, total: SavingsPlansUtilizationAggregates? = nil) {
+            self.nextToken = nextToken
+            self.savingsPlansUtilizationDetails = savingsPlansUtilizationDetails
+            self.timePeriod = timePeriod
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case savingsPlansUtilizationDetails = "SavingsPlansUtilizationDetails"
+            case timePeriod = "TimePeriod"
+            case total = "Total"
+        }
+    }
+
+    public struct GetSavingsPlansUtilizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Granularity", required: false, type: .enum), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
+        ]
+
+        /// Filters Savings Plans utilization coverage data for active Savings Plans dimensions. You can filter data with the following dimensions:    LINKED_ACCOUNT     SAVINGS_PLAN_ARN     SAVINGS_PLANS_TYPE     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension.
+        public let filter: Expression?
+        /// The granularity of the Amazon Web Services utillization data for your Savings Plans. The GetSavingsPlansUtilization operation supports only DAILY and MONTHLY granularities.
+        public let granularity: Granularity?
+        /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
+        public let timePeriod: DateInterval
+
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, timePeriod: DateInterval) {
+            self.filter = filter
+            self.granularity = granularity
+            self.timePeriod = timePeriod
+        }
+
+        public func validate(name: String) throws {
+            try self.timePeriod.validate(name: "\(name).timePeriod")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case granularity = "Granularity"
+            case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct GetSavingsPlansUtilizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SavingsPlansUtilizationsByTime", required: false, type: .list), 
+            AWSShapeMember(label: "Total", required: true, type: .structure)
+        ]
+
+        /// The amount of cost/commitment you used your Savings Plans. This allows you to specify date ranges.
+        public let savingsPlansUtilizationsByTime: [SavingsPlansUtilizationByTime]?
+        /// The total amount of cost/commitment that you used your Savings Plans, regardless of date ranges.
+        public let total: SavingsPlansUtilizationAggregates
+
+        public init(savingsPlansUtilizationsByTime: [SavingsPlansUtilizationByTime]? = nil, total: SavingsPlansUtilizationAggregates) {
+            self.savingsPlansUtilizationsByTime = savingsPlansUtilizationsByTime
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case savingsPlansUtilizationsByTime = "SavingsPlansUtilizationsByTime"
+            case total = "Total"
         }
     }
 
@@ -1701,7 +2052,7 @@ extension CostExplorer {
         public let estimatedMonthlySavingsAmount: String?
         /// How much AWS estimates that this specific recommendation could save you in a month, as a percentage of your overall costs.
         public let estimatedMonthlySavingsPercentage: String?
-        /// How much AWS estimates that you would have spent for all usage during the specified historical period if you had had a reservation.
+        /// How much AWS estimates that you would have spent for all usage during the specified historical period if you had a reservation.
         public let estimatedReservationCostForLookbackPeriod: String?
         /// Details about the instances that AWS recommends that you purchase.
         public let instanceDetails: InstanceDetails?
@@ -2016,6 +2367,480 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public struct SavingsPlansAmortizedCommitment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmortizedRecurringCommitment", required: false, type: .string), 
+            AWSShapeMember(label: "AmortizedUpfrontCommitment", required: false, type: .string), 
+            AWSShapeMember(label: "TotalAmortizedCommitment", required: false, type: .string)
+        ]
+
+        /// The amortized amount of your Savings Plans commitment that was purchased with either a Partial or a NoUpfront.
+        public let amortizedRecurringCommitment: String?
+        /// The amortized amount of your Savings Plans commitment that was purchased with an Upfront or PartialUpfront Savings Plans.
+        public let amortizedUpfrontCommitment: String?
+        /// The total amortized amount of your Savings Plans commitment, regardless of your Savings Plans purchase method. 
+        public let totalAmortizedCommitment: String?
+
+        public init(amortizedRecurringCommitment: String? = nil, amortizedUpfrontCommitment: String? = nil, totalAmortizedCommitment: String? = nil) {
+            self.amortizedRecurringCommitment = amortizedRecurringCommitment
+            self.amortizedUpfrontCommitment = amortizedUpfrontCommitment
+            self.totalAmortizedCommitment = totalAmortizedCommitment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amortizedRecurringCommitment = "AmortizedRecurringCommitment"
+            case amortizedUpfrontCommitment = "AmortizedUpfrontCommitment"
+            case totalAmortizedCommitment = "TotalAmortizedCommitment"
+        }
+    }
+
+    public struct SavingsPlansCoverage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "Coverage", required: false, type: .structure), 
+            AWSShapeMember(label: "TimePeriod", required: false, type: .structure)
+        ]
+
+        /// The attribute that applies to a specific Dimension.
+        public let attributes: [String: String]?
+        /// The amount of Savings Plans eligible usage that the Savings Plans covered.
+        public let coverage: SavingsPlansCoverageData?
+        public let timePeriod: DateInterval?
+
+        public init(attributes: [String: String]? = nil, coverage: SavingsPlansCoverageData? = nil, timePeriod: DateInterval? = nil) {
+            self.attributes = attributes
+            self.coverage = coverage
+            self.timePeriod = timePeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case coverage = "Coverage"
+            case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct SavingsPlansCoverageData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CoveragePercentage", required: false, type: .string), 
+            AWSShapeMember(label: "OnDemandCost", required: false, type: .string), 
+            AWSShapeMember(label: "SpendCoveredBySavingsPlans", required: false, type: .string), 
+            AWSShapeMember(label: "TotalCost", required: false, type: .string)
+        ]
+
+        /// The percentage of your existing Savings Planscovered usage, divided by all of your eligible Savings Plans usage in an account(or set of accounts).
+        public let coveragePercentage: String?
+        /// The cost of your Amazon Web Services usage at the public On-Demand rate.
+        public let onDemandCost: String?
+        /// The amount of your Amazon Web Services usage that is covered by a Savings Plans.
+        public let spendCoveredBySavingsPlans: String?
+        /// The total cost of your Amazon Web Services usage, regardless of your purchase option.
+        public let totalCost: String?
+
+        public init(coveragePercentage: String? = nil, onDemandCost: String? = nil, spendCoveredBySavingsPlans: String? = nil, totalCost: String? = nil) {
+            self.coveragePercentage = coveragePercentage
+            self.onDemandCost = onDemandCost
+            self.spendCoveredBySavingsPlans = spendCoveredBySavingsPlans
+            self.totalCost = totalCost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coveragePercentage = "CoveragePercentage"
+            case onDemandCost = "OnDemandCost"
+            case spendCoveredBySavingsPlans = "SpendCoveredBySavingsPlans"
+            case totalCost = "TotalCost"
+        }
+    }
+
+    public struct SavingsPlansDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceFamily", required: false, type: .string), 
+            AWSShapeMember(label: "OfferingId", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string)
+        ]
+
+        /// A group of instance types that Savings Plans applies to.
+        public let instanceFamily: String?
+        /// The unique ID used to distinguish Savings Plans from one another.
+        public let offeringId: String?
+        /// A collection of AWS resources in a geographic area. Each AWS Region is isolated and independent of the other Regions.
+        public let region: String?
+
+        public init(instanceFamily: String? = nil, offeringId: String? = nil, region: String? = nil) {
+            self.instanceFamily = instanceFamily
+            self.offeringId = offeringId
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceFamily = "InstanceFamily"
+            case offeringId = "OfferingId"
+            case region = "Region"
+        }
+    }
+
+    public struct SavingsPlansPurchaseRecommendation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LookbackPeriodInDays", required: false, type: .enum), 
+            AWSShapeMember(label: "PaymentOption", required: false, type: .enum), 
+            AWSShapeMember(label: "SavingsPlansPurchaseRecommendationDetails", required: false, type: .list), 
+            AWSShapeMember(label: "SavingsPlansPurchaseRecommendationSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "SavingsPlansType", required: false, type: .enum), 
+            AWSShapeMember(label: "TermInYears", required: false, type: .enum)
+        ]
+
+        /// The lookback period in days, used to generate the recommendation.
+        public let lookbackPeriodInDays: LookbackPeriodInDays?
+        /// The payment option used to generate the recommendation.
+        public let paymentOption: PaymentOption?
+        /// Details for the Savings Plans we recommend you to purchase to cover existing, Savings Plans eligible workloads.
+        public let savingsPlansPurchaseRecommendationDetails: [SavingsPlansPurchaseRecommendationDetail]?
+        /// Summary metrics for your Savings Plans Recommendations. 
+        public let savingsPlansPurchaseRecommendationSummary: SavingsPlansPurchaseRecommendationSummary?
+        /// The requested Savings Plans recommendation type.
+        public let savingsPlansType: SupportedSavingsPlansType?
+        /// The Savings Plans recommendation term in years, used to generate the recommendation.
+        public let termInYears: TermInYears?
+
+        public init(lookbackPeriodInDays: LookbackPeriodInDays? = nil, paymentOption: PaymentOption? = nil, savingsPlansPurchaseRecommendationDetails: [SavingsPlansPurchaseRecommendationDetail]? = nil, savingsPlansPurchaseRecommendationSummary: SavingsPlansPurchaseRecommendationSummary? = nil, savingsPlansType: SupportedSavingsPlansType? = nil, termInYears: TermInYears? = nil) {
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.paymentOption = paymentOption
+            self.savingsPlansPurchaseRecommendationDetails = savingsPlansPurchaseRecommendationDetails
+            self.savingsPlansPurchaseRecommendationSummary = savingsPlansPurchaseRecommendationSummary
+            self.savingsPlansType = savingsPlansType
+            self.termInYears = termInYears
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lookbackPeriodInDays = "LookbackPeriodInDays"
+            case paymentOption = "PaymentOption"
+            case savingsPlansPurchaseRecommendationDetails = "SavingsPlansPurchaseRecommendationDetails"
+            case savingsPlansPurchaseRecommendationSummary = "SavingsPlansPurchaseRecommendationSummary"
+            case savingsPlansType = "SavingsPlansType"
+            case termInYears = "TermInYears"
+        }
+    }
+
+    public struct SavingsPlansPurchaseRecommendationDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "CurrentAverageHourlyOnDemandSpend", required: false, type: .string), 
+            AWSShapeMember(label: "CurrentMaximumHourlyOnDemandSpend", required: false, type: .string), 
+            AWSShapeMember(label: "CurrentMinimumHourlyOnDemandSpend", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedAverageUtilization", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedMonthlySavingsAmount", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedOnDemandCost", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedROI", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedSavingsAmount", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedSavingsPercentage", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedSPCost", required: false, type: .string), 
+            AWSShapeMember(label: "HourlyCommitmentToPurchase", required: false, type: .string), 
+            AWSShapeMember(label: "SavingsPlansDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "UpfrontCost", required: false, type: .string)
+        ]
+
+        /// The AccountID the recommendation is generated for.
+        public let accountId: String?
+        /// The currency code Amazon Web Services used to generate the recommendations and present potential savings.
+        public let currencyCode: String?
+        /// The average value of hourly On-Demand spend over the lookback period of the applicable usage type.
+        public let currentAverageHourlyOnDemandSpend: String?
+        /// The highest value of hourly On-Demand spend over the lookback period of the applicable usage type.
+        public let currentMaximumHourlyOnDemandSpend: String?
+        /// The lowest value of hourly On-Demand spend over the lookback period of the applicable usage type.
+        public let currentMinimumHourlyOnDemandSpend: String?
+        /// The estimated utilization of the recommended Savings Plans.
+        public let estimatedAverageUtilization: String?
+        /// The estimated monthly savings amount, based on the recommended Savings Plans.
+        public let estimatedMonthlySavingsAmount: String?
+        /// The remaining On-Demand cost estimated to not be covered by the recommended Savings Plans, over the length of the lookback period.
+        public let estimatedOnDemandCost: String?
+        /// The estimated return on investment based on the recommended Savings Plans purchased. This is calculated as estimatedSavingsAmount/ estimatedSPCost*100.
+        public let estimatedROI: String?
+        /// The estimated savings amount based on the recommended Savings Plans over the length of the lookback period.
+        public let estimatedSavingsAmount: String?
+        /// The estimated savings percentage relative to the total cost of applicable On-Demand usage over the lookback period.
+        public let estimatedSavingsPercentage: String?
+        /// The cost of the recommended Savings Plans over the length of the lookback period.
+        public let estimatedSPCost: String?
+        /// The recommended hourly commitment level for the Savings Plans type, and configuration based on the usage during the lookback period.
+        public let hourlyCommitmentToPurchase: String?
+        /// Details for your recommended Savings Plans.
+        public let savingsPlansDetails: SavingsPlansDetails?
+        /// The upfront cost of the recommended Savings Plans, based on the selected payment option.
+        public let upfrontCost: String?
+
+        public init(accountId: String? = nil, currencyCode: String? = nil, currentAverageHourlyOnDemandSpend: String? = nil, currentMaximumHourlyOnDemandSpend: String? = nil, currentMinimumHourlyOnDemandSpend: String? = nil, estimatedAverageUtilization: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedOnDemandCost: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, estimatedSPCost: String? = nil, hourlyCommitmentToPurchase: String? = nil, savingsPlansDetails: SavingsPlansDetails? = nil, upfrontCost: String? = nil) {
+            self.accountId = accountId
+            self.currencyCode = currencyCode
+            self.currentAverageHourlyOnDemandSpend = currentAverageHourlyOnDemandSpend
+            self.currentMaximumHourlyOnDemandSpend = currentMaximumHourlyOnDemandSpend
+            self.currentMinimumHourlyOnDemandSpend = currentMinimumHourlyOnDemandSpend
+            self.estimatedAverageUtilization = estimatedAverageUtilization
+            self.estimatedMonthlySavingsAmount = estimatedMonthlySavingsAmount
+            self.estimatedOnDemandCost = estimatedOnDemandCost
+            self.estimatedROI = estimatedROI
+            self.estimatedSavingsAmount = estimatedSavingsAmount
+            self.estimatedSavingsPercentage = estimatedSavingsPercentage
+            self.estimatedSPCost = estimatedSPCost
+            self.hourlyCommitmentToPurchase = hourlyCommitmentToPurchase
+            self.savingsPlansDetails = savingsPlansDetails
+            self.upfrontCost = upfrontCost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case currencyCode = "CurrencyCode"
+            case currentAverageHourlyOnDemandSpend = "CurrentAverageHourlyOnDemandSpend"
+            case currentMaximumHourlyOnDemandSpend = "CurrentMaximumHourlyOnDemandSpend"
+            case currentMinimumHourlyOnDemandSpend = "CurrentMinimumHourlyOnDemandSpend"
+            case estimatedAverageUtilization = "EstimatedAverageUtilization"
+            case estimatedMonthlySavingsAmount = "EstimatedMonthlySavingsAmount"
+            case estimatedOnDemandCost = "EstimatedOnDemandCost"
+            case estimatedROI = "EstimatedROI"
+            case estimatedSavingsAmount = "EstimatedSavingsAmount"
+            case estimatedSavingsPercentage = "EstimatedSavingsPercentage"
+            case estimatedSPCost = "EstimatedSPCost"
+            case hourlyCommitmentToPurchase = "HourlyCommitmentToPurchase"
+            case savingsPlansDetails = "SavingsPlansDetails"
+            case upfrontCost = "UpfrontCost"
+        }
+    }
+
+    public struct SavingsPlansPurchaseRecommendationMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GenerationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "RecommendationId", required: false, type: .string)
+        ]
+
+        /// The timestamp showing when the recommendations were generated.
+        public let generationTimestamp: String?
+        /// The unique identifier for the recommendation set.
+        public let recommendationId: String?
+
+        public init(generationTimestamp: String? = nil, recommendationId: String? = nil) {
+            self.generationTimestamp = generationTimestamp
+            self.recommendationId = recommendationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generationTimestamp = "GenerationTimestamp"
+            case recommendationId = "RecommendationId"
+        }
+    }
+
+    public struct SavingsPlansPurchaseRecommendationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrencyCode", required: false, type: .string), 
+            AWSShapeMember(label: "CurrentOnDemandSpend", required: false, type: .string), 
+            AWSShapeMember(label: "DailyCommitmentToPurchase", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedMonthlySavingsAmount", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedROI", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedSavingsAmount", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedSavingsPercentage", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedTotalCost", required: false, type: .string), 
+            AWSShapeMember(label: "HourlyCommitmentToPurchase", required: false, type: .string), 
+            AWSShapeMember(label: "TotalRecommendationCount", required: false, type: .string)
+        ]
+
+        /// The currency code Amazon Web Services used to generate the recommendations and present potential savings.
+        public let currencyCode: String?
+        /// The current total on demand spend of the applicable usage types over the lookback period.
+        public let currentOnDemandSpend: String?
+        /// The recommended Savings Plans cost on a daily (24 hourly) basis.
+        public let dailyCommitmentToPurchase: String?
+        /// The estimated monthly savings amount, based on the recommended Savings Plans purchase.
+        public let estimatedMonthlySavingsAmount: String?
+        /// The estimated return on investment based on the recommended Savings Plans and estimated savings.
+        public let estimatedROI: String?
+        /// The estimated total savings over the lookback period, based on the purchase of the recommended Savings Plans.
+        public let estimatedSavingsAmount: String?
+        /// The estimated savings relative to the total cost of On-Demand usage, over the lookback period. This is calculated as estimatedSavingsAmount/ CurrentOnDemandSpend*100.
+        public let estimatedSavingsPercentage: String?
+        /// The estimated total cost of the usage after purchasing the recommended Savings Plans. This is a sum of the cost of Savings Plans during this term, and the remaining On-Demand usage.
+        public let estimatedTotalCost: String?
+        /// The recommended hourly commitment based on the recommendation parameters.
+        public let hourlyCommitmentToPurchase: String?
+        /// The aggregate number of Savings Plans recommendations that exist for your account.
+        public let totalRecommendationCount: String?
+
+        public init(currencyCode: String? = nil, currentOnDemandSpend: String? = nil, dailyCommitmentToPurchase: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, estimatedTotalCost: String? = nil, hourlyCommitmentToPurchase: String? = nil, totalRecommendationCount: String? = nil) {
+            self.currencyCode = currencyCode
+            self.currentOnDemandSpend = currentOnDemandSpend
+            self.dailyCommitmentToPurchase = dailyCommitmentToPurchase
+            self.estimatedMonthlySavingsAmount = estimatedMonthlySavingsAmount
+            self.estimatedROI = estimatedROI
+            self.estimatedSavingsAmount = estimatedSavingsAmount
+            self.estimatedSavingsPercentage = estimatedSavingsPercentage
+            self.estimatedTotalCost = estimatedTotalCost
+            self.hourlyCommitmentToPurchase = hourlyCommitmentToPurchase
+            self.totalRecommendationCount = totalRecommendationCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyCode = "CurrencyCode"
+            case currentOnDemandSpend = "CurrentOnDemandSpend"
+            case dailyCommitmentToPurchase = "DailyCommitmentToPurchase"
+            case estimatedMonthlySavingsAmount = "EstimatedMonthlySavingsAmount"
+            case estimatedROI = "EstimatedROI"
+            case estimatedSavingsAmount = "EstimatedSavingsAmount"
+            case estimatedSavingsPercentage = "EstimatedSavingsPercentage"
+            case estimatedTotalCost = "EstimatedTotalCost"
+            case hourlyCommitmentToPurchase = "HourlyCommitmentToPurchase"
+            case totalRecommendationCount = "TotalRecommendationCount"
+        }
+    }
+
+    public struct SavingsPlansSavings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NetSavings", required: false, type: .string), 
+            AWSShapeMember(label: "OnDemandCostEquivalent", required: false, type: .string)
+        ]
+
+        /// The savings amount that you are accumulating for the usage that is covered by a Savings Plans, when compared to the On-Demand equivalent of the same usage.
+        public let netSavings: String?
+        /// How much the amount that the usage would have cost if it was accrued at the On-Demand rate.
+        public let onDemandCostEquivalent: String?
+
+        public init(netSavings: String? = nil, onDemandCostEquivalent: String? = nil) {
+            self.netSavings = netSavings
+            self.onDemandCostEquivalent = onDemandCostEquivalent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case netSavings = "NetSavings"
+            case onDemandCostEquivalent = "OnDemandCostEquivalent"
+        }
+    }
+
+    public struct SavingsPlansUtilization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TotalCommitment", required: false, type: .string), 
+            AWSShapeMember(label: "UnusedCommitment", required: false, type: .string), 
+            AWSShapeMember(label: "UsedCommitment", required: false, type: .string), 
+            AWSShapeMember(label: "UtilizationPercentage", required: false, type: .string)
+        ]
+
+        /// The total amount of Savings Plans commitment that's been purchased in an account (or set of accounts).
+        public let totalCommitment: String?
+        /// The amount of your Savings Plans commitment that was not consumed from Savings Plans eligible usage in a specific period.
+        public let unusedCommitment: String?
+        /// The amount of your Savings Plans commitment that was consumed from Savings Plans eligible usage in a specific period.
+        public let usedCommitment: String?
+        /// The amount of UsedCommitment divided by the TotalCommitment for your Savings Plans.
+        public let utilizationPercentage: String?
+
+        public init(totalCommitment: String? = nil, unusedCommitment: String? = nil, usedCommitment: String? = nil, utilizationPercentage: String? = nil) {
+            self.totalCommitment = totalCommitment
+            self.unusedCommitment = unusedCommitment
+            self.usedCommitment = usedCommitment
+            self.utilizationPercentage = utilizationPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalCommitment = "TotalCommitment"
+            case unusedCommitment = "UnusedCommitment"
+            case usedCommitment = "UsedCommitment"
+            case utilizationPercentage = "UtilizationPercentage"
+        }
+    }
+
+    public struct SavingsPlansUtilizationAggregates: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmortizedCommitment", required: false, type: .structure), 
+            AWSShapeMember(label: "Savings", required: false, type: .structure), 
+            AWSShapeMember(label: "Utilization", required: true, type: .structure)
+        ]
+
+        /// The total amortized commitment for a Savings Plans. This includes the sum of the upfront and recurring Savings Plans fees.
+        public let amortizedCommitment: SavingsPlansAmortizedCommitment?
+        /// The amount saved by using existing Savings Plans. Savings returns both net savings from Savings Plans, as well as the onDemandCostEquivalent of the Savings Plans when considering the utilization rate.
+        public let savings: SavingsPlansSavings?
+        /// A ratio of your effectiveness of using existing Savings Plans to apply to workloads that are Savings Plans eligible.
+        public let utilization: SavingsPlansUtilization
+
+        public init(amortizedCommitment: SavingsPlansAmortizedCommitment? = nil, savings: SavingsPlansSavings? = nil, utilization: SavingsPlansUtilization) {
+            self.amortizedCommitment = amortizedCommitment
+            self.savings = savings
+            self.utilization = utilization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amortizedCommitment = "AmortizedCommitment"
+            case savings = "Savings"
+            case utilization = "Utilization"
+        }
+    }
+
+    public struct SavingsPlansUtilizationByTime: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmortizedCommitment", required: false, type: .structure), 
+            AWSShapeMember(label: "Savings", required: false, type: .structure), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure), 
+            AWSShapeMember(label: "Utilization", required: true, type: .structure)
+        ]
+
+        /// The total amortized commitment for a Savings Plans. This includes the sum of the upfront and recurring Savings Plans fees.
+        public let amortizedCommitment: SavingsPlansAmortizedCommitment?
+        /// The amount saved by using existing Savings Plans. Savings returns both net savings from Savings Plans as well as the onDemandCostEquivalent of the Savings Plans when considering the utilization rate.
+        public let savings: SavingsPlansSavings?
+        public let timePeriod: DateInterval
+        /// A ratio of your effectiveness of using existing Savings Plans to apply to workloads that are Savings Plans eligible.
+        public let utilization: SavingsPlansUtilization
+
+        public init(amortizedCommitment: SavingsPlansAmortizedCommitment? = nil, savings: SavingsPlansSavings? = nil, timePeriod: DateInterval, utilization: SavingsPlansUtilization) {
+            self.amortizedCommitment = amortizedCommitment
+            self.savings = savings
+            self.timePeriod = timePeriod
+            self.utilization = utilization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amortizedCommitment = "AmortizedCommitment"
+            case savings = "Savings"
+            case timePeriod = "TimePeriod"
+            case utilization = "Utilization"
+        }
+    }
+
+    public struct SavingsPlansUtilizationDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmortizedCommitment", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "Savings", required: false, type: .structure), 
+            AWSShapeMember(label: "SavingsPlanArn", required: false, type: .string), 
+            AWSShapeMember(label: "Utilization", required: false, type: .structure)
+        ]
+
+        /// The total amortized commitment for a Savings Plans. Includes the sum of the upfront and recurring Savings Plans fees.
+        public let amortizedCommitment: SavingsPlansAmortizedCommitment?
+        /// The attribute that applies to a specific Dimension.
+        public let attributes: [String: String]?
+        /// The amount saved by using existing Savings Plans. Savings returns both net savings from savings plans as well as the onDemandCostEquivalent of the Savings Plans when considering the utilization rate.
+        public let savings: SavingsPlansSavings?
+        /// The unique Amazon Resource Name (ARN) for a particular Savings Plan.
+        public let savingsPlanArn: String?
+        /// A ratio of your effectiveness of using existing Savings Plans to apply to workloads that are Savings Plans eligible.
+        public let utilization: SavingsPlansUtilization?
+
+        public init(amortizedCommitment: SavingsPlansAmortizedCommitment? = nil, attributes: [String: String]? = nil, savings: SavingsPlansSavings? = nil, savingsPlanArn: String? = nil, utilization: SavingsPlansUtilization? = nil) {
+            self.amortizedCommitment = amortizedCommitment
+            self.attributes = attributes
+            self.savings = savings
+            self.savingsPlanArn = savingsPlanArn
+            self.utilization = utilization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amortizedCommitment = "AmortizedCommitment"
+            case attributes = "Attributes"
+            case savings = "Savings"
+            case savingsPlanArn = "SavingsPlanArn"
+            case utilization = "Utilization"
+        }
+    }
+
     public struct ServiceSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EC2Specification", required: false, type: .structure)
@@ -2031,6 +2856,12 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case eC2Specification = "EC2Specification"
         }
+    }
+
+    public enum SupportedSavingsPlansType: String, CustomStringConvertible, Codable {
+        case computeSp = "COMPUTE_SP"
+        case ec2InstanceSp = "EC2_INSTANCE_SP"
+        public var description: String { return self.rawValue }
     }
 
     public struct TagValues: AWSShape {

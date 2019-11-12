@@ -24,6 +24,7 @@ public enum ECRErrorType: AWSErrorType {
     case repositoryNotEmptyException(message: String?)
     case repositoryNotFoundException(message: String?)
     case repositoryPolicyNotFoundException(message: String?)
+    case scanNotFoundException(message: String?)
     case serverException(message: String?)
     case tooManyTagsException(message: String?)
     case uploadNotFoundException(message: String?)
@@ -76,6 +77,8 @@ extension ECRErrorType {
             self = .repositoryNotFoundException(message: message)
         case "RepositoryPolicyNotFoundException":
             self = .repositoryPolicyNotFoundException(message: message)
+        case "ScanNotFoundException":
+            self = .scanNotFoundException(message: message)
         case "ServerException":
             self = .serverException(message: message)
         case "TooManyTagsException":
@@ -131,6 +134,8 @@ extension ECRErrorType : CustomStringConvertible {
             return "RepositoryNotFoundException: \(message ?? "")"
         case .repositoryPolicyNotFoundException(let message):
             return "RepositoryPolicyNotFoundException: \(message ?? "")"
+        case .scanNotFoundException(let message):
+            return "ScanNotFoundException: \(message ?? "")"
         case .serverException(let message):
             return "ServerException: \(message ?? "")"
         case .tooManyTagsException(let message):

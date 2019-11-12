@@ -720,6 +720,7 @@ extension EFS {
     }
 
     public enum TransitionToIARules: String, CustomStringConvertible, Codable {
+        case after7Days = "AFTER_7_DAYS"
         case after14Days = "AFTER_14_DAYS"
         case after30Days = "AFTER_30_DAYS"
         case after60Days = "AFTER_60_DAYS"

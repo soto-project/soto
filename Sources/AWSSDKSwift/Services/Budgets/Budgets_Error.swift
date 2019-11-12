@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for Budgets
 public enum BudgetsErrorType: AWSErrorType {
+    case accessDeniedException(message: String?)
     case creationLimitExceededException(message: String?)
     case duplicateRecordException(message: String?)
     case expiredNextTokenException(message: String?)
@@ -20,6 +21,8 @@ extension BudgetsErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "AccessDeniedException":
+            self = .accessDeniedException(message: message)
         case "CreationLimitExceededException":
             self = .creationLimitExceededException(message: message)
         case "DuplicateRecordException":
@@ -43,6 +46,8 @@ extension BudgetsErrorType {
 extension BudgetsErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
         case .creationLimitExceededException(let message):
             return "CreationLimitExceededException: \(message ?? "")"
         case .duplicateRecordException(let message):

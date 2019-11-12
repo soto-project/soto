@@ -177,11 +177,11 @@ extension Support {
         public let language: String?
         /// The five most recent communications between you and AWS Support Center, including the IDs of any attachments to the communications. Also includes a nextToken that you can use to retrieve earlier communications.
         public let recentCommunications: RecentCaseCommunications?
-        /// The code for the AWS service returned by the call to DescribeServices.
+        /// The code for the AWS service. You can get a list of codes and the corresponding service names by calling DescribeServices.
         public let serviceCode: String?
         /// The code for the severity level returned by the call to DescribeSeverityLevels.
         public let severityCode: String?
-        /// The status of the case.
+        /// The status of the case. Valid values: resolved | pending-customer-action | opened | unassigned | work-in-progress.
         public let status: String?
         /// The subject line for the case in the AWS Support Center.
         public let subject: String?
@@ -258,7 +258,7 @@ extension Support {
         public let body: String?
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
         public let caseId: String?
-        /// The email address of the account that submitted the AWS Support case.
+        /// The identity of the account that submitted, or responded to, the support case. Customer entries include the role or IAM user as well as the email address. For example, "AdminRole (Role) &lt;someone@example.com&gt;. Entries from the AWS Support team display "Amazon Web Services," and do not show an email address. 
         public let submittedBy: String?
         /// The time the communication was created.
         public let timeCreated: String?
@@ -301,13 +301,13 @@ extension Support {
         public let ccEmailAddresses: [String]?
         /// The communication body text when you create an AWS Support case by calling CreateCase.
         public let communicationBody: String
-        /// The type of issue for the case. You can specify either "customer-service" or "technical." If you do not indicate a value, the default is "technical."
+        /// The type of issue for the case. You can specify either "customer-service" or "technical." If you do not indicate a value, the default is "technical."  Service limit increases are not supported by the Support API; you must submit service limit increase requests in Support Center. 
         public let issueType: String?
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
         /// The code for the AWS service returned by the call to DescribeServices.
         public let serviceCode: String?
-        /// The code for the severity level returned by the call to DescribeSeverityLevels.  The availability of severity levels depends on each customer's support subscription. In other words, your subscription may not necessarily require the urgent level of response time. 
+        /// The code for the severity level returned by the call to DescribeSeverityLevels.  The availability of severity levels depends on the support plan for the account. 
         public let severityCode: String?
         /// The title of the AWS Support case.
         public let subject: String
@@ -892,9 +892,9 @@ extension Support {
             AWSShapeMember(label: "name", required: false, type: .string)
         ]
 
-        /// One of four values: "low," "medium," "high," and "urgent". These values correspond to response times returned to the caller in severityLevel.name. 
+        /// The code for case severity level. Valid values: low | normal | high | urgent | critical 
         public let code: String?
-        /// The name of the severity level that corresponds to the severity level code.
+        /// The name of the severity level that corresponds to the severity level code.  The values returned by the API differ from the values that are displayed in the AWS Support Center. For example, for the code "low", the API name is "Low", but the name in the Support Center is "General guidance". These are the Support Center code/name mappings:    low: General guidance    normal: System impaired    high: Production system impaired    urgent: Production system down    critical: Business-critical system down    For more information, see Choosing a Severity 
         public let name: String?
 
         public init(code: String? = nil, name: String? = nil) {
@@ -973,7 +973,7 @@ extension Support {
         public let checkId: String
         /// The amount of time, in milliseconds, until the Trusted Advisor check is eligible for refresh.
         public let millisUntilNextRefreshable: Int64
-        /// The status of the Trusted Advisor check for which a refresh has been requested: "none", "enqueued", "processing", "success", or "abandoned".
+        /// The status of the Trusted Advisor check for which a refresh has been requested:     none: The check is not refreshed or the non-success status exceeds the timeout    enqueued: The check refresh requests has entered the refresh queue    processing: The check refresh request is picked up by the rule processing engine    success: The check is successfully refreshed    abandoned: The check refresh has failed  
         public let status: String
 
         public init(checkId: String, millisUntilNextRefreshable: Int64, status: String) {
@@ -1104,7 +1104,7 @@ extension Support {
 
         /// Specifies whether the AWS resource was ignored by Trusted Advisor because it was marked as suppressed by the user.
         public let isSuppressed: Bool?
-        /// Additional information about the identified resource. The exact metadata and its order can be obtained by inspecting the TrustedAdvisorCheckDescription object returned by the call to DescribeTrustedAdvisorChecks. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data. 
+        /// Additional information about the identified resource. The exact metadata and its order can be obtained by inspecting the TrustedAdvisorCheckDescription object returned by the call to DescribeTrustedAdvisorChecks. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data.
         public let metadata: [String]
         /// The AWS region in which the identified resource is located.
         public let region: String?

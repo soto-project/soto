@@ -508,7 +508,7 @@ extension Comprehend {
             try validate(self.dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, min: 20)
             try validate(self.dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
             try validate(self.documentClassifierName, name:"documentClassifierName", parent: name, max: 63)
-            try validate(self.documentClassifierName, name:"documentClassifierName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.documentClassifierName, name:"documentClassifierName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
             try self.outputDataConfig?.validate(name: "\(name).outputDataConfig")
             try self.tags?.forEach {
@@ -597,7 +597,7 @@ extension Comprehend {
             try validate(self.dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
             try validate(self.recognizerName, name:"recognizerName", parent: name, max: 63)
-            try validate(self.recognizerName, name:"recognizerName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.recognizerName, name:"recognizerName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1977,7 +1977,7 @@ extension Comprehend {
 
         /// Detailed information about the accuracy of the entity recognizer for a specific item on the list of entity types. 
         public let evaluationMetrics: EntityTypesEvaluationMetrics?
-        /// indicates the number of times the given entity name was seen in the training data. 
+        /// Indicates the number of times the given entity type was seen in the training data. 
         public let numberOfTrainMentions: Int?
         /// Type of entity from the list of entity types in the metadata of an entity recognizer. 
         public let `type`: String?
@@ -2326,6 +2326,12 @@ extension Comprehend {
         case de = "de"
         case it = "it"
         case pt = "pt"
+        case ar = "ar"
+        case hi = "hi"
+        case ja = "ja"
+        case ko = "ko"
+        case zh = "zh"
+        case zhTw = "zh-TW"
         public var description: String { return self.rawValue }
     }
 

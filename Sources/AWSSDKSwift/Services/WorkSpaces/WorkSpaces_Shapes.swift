@@ -432,7 +432,7 @@ extension WorkSpaces {
         public let customSecurityGroupId: String?
         /// The organizational unit (OU) in the directory for the WorkSpace machine accounts.
         public let defaultOu: String?
-        /// The public IP address to attach to all WorkSpaces that are created or rebuilt.
+        /// Specifies whether to automatically assign a public IP address to WorkSpaces in this directory by default. If enabled, the public IP address allows outbound internet access from your WorkSpaces when you’re using an internet gateway in the Amazon VPC in which your WorkSpaces are located. If you're using a Network Address Translation (NAT) gateway for outbound internet access from your VPC, or if your WorkSpaces are in public subnets and you manually assign them Elastic IP addresses, you should disable this setting. This setting applies to new WorkSpaces that you launch or to existing WorkSpaces that you rebuild. For more information, see  Configure a VPC for Amazon WorkSpaces.
         public let enableInternetAccess: Bool?
         /// Specifies whether the directory is enabled for Amazon WorkDocs.
         public let enableWorkDocs: Bool?
@@ -965,7 +965,7 @@ extension WorkSpaces {
             AWSShapeMember(label: "RestoreSnapshots", required: false, type: .list)
         ]
 
-        /// Information about the snapshots that can be used to rebuild a WorkSpace. These snapshots include the root volume.
+        /// Information about the snapshots that can be used to rebuild a WorkSpace. These snapshots include the user volume.
         public let rebuildSnapshots: [Snapshot]?
         /// Information about the snapshots that can be used to restore a WorkSpace. These snapshots include both the root volume and the user volume.
         public let restoreSnapshots: [Snapshot]?
@@ -2400,7 +2400,7 @@ extension WorkSpaces {
         public let rootVolumeSizeGib: Int?
         /// The running mode. For more information, see Manage the WorkSpace Running Mode.
         public let runningMode: RunningMode?
-        /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60 minute intervals.
+        /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60-minute intervals.
         public let runningModeAutoStopTimeoutInMinutes: Int?
         /// The size of the user storage.
         public let userVolumeSizeGib: Int?

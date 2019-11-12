@@ -144,11 +144,6 @@ extension Amplify {
         }
     }
 
-    public enum ArtifactType: String, CustomStringConvertible, Codable {
-        case test = "TEST"
-        public var description: String { return self.rawValue }
-    }
-
     public struct AutoBranchCreationConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
@@ -158,6 +153,7 @@ extension Amplify {
             AWSShapeMember(label: "enablePullRequestPreview", required: false, type: .boolean), 
             AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
             AWSShapeMember(label: "framework", required: false, type: .string), 
+            AWSShapeMember(label: "pullRequestEnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "stage", required: false, type: .enum)
         ]
 
@@ -175,10 +171,12 @@ extension Amplify {
         public let environmentVariables: [String: String]?
         ///  Framework for the auto created branch. 
         public let framework: String?
+        ///  The Amplify Environment name for the pull request. 
+        public let pullRequestEnvironmentName: String?
         ///  Stage for the auto created branch. 
         public let stage: Stage?
 
-        public init(basicAuthCredentials: String? = nil, buildSpec: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, stage: Stage? = nil) {
+        public init(basicAuthCredentials: String? = nil, buildSpec: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil) {
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
             self.enableAutoBuild = enableAutoBuild
@@ -186,6 +184,7 @@ extension Amplify {
             self.enablePullRequestPreview = enablePullRequestPreview
             self.environmentVariables = environmentVariables
             self.framework = framework
+            self.pullRequestEnvironmentName = pullRequestEnvironmentName
             self.stage = stage
         }
 
@@ -198,6 +197,7 @@ extension Amplify {
                 try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
             try validate(self.framework, name:"framework", parent: name, max: 255)
+            try validate(self.pullRequestEnvironmentName, name:"pullRequestEnvironmentName", parent: name, max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -208,6 +208,7 @@ extension Amplify {
             case enablePullRequestPreview = "enablePullRequestPreview"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
+            case pullRequestEnvironmentName = "pullRequestEnvironmentName"
             case stage = "stage"
         }
     }
@@ -216,6 +217,7 @@ extension Amplify {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "activeJobId", required: true, type: .string), 
             AWSShapeMember(label: "associatedResources", required: false, type: .list), 
+            AWSShapeMember(label: "backendEnvironmentArn", required: false, type: .string), 
             AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
             AWSShapeMember(label: "branchArn", required: true, type: .string), 
             AWSShapeMember(label: "branchName", required: true, type: .string), 
@@ -231,6 +233,7 @@ extension Amplify {
             AWSShapeMember(label: "enablePullRequestPreview", required: true, type: .boolean), 
             AWSShapeMember(label: "environmentVariables", required: true, type: .map), 
             AWSShapeMember(label: "framework", required: true, type: .string), 
+            AWSShapeMember(label: "pullRequestEnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "sourceBranch", required: false, type: .string), 
             AWSShapeMember(label: "stage", required: true, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .map), 
@@ -244,6 +247,8 @@ extension Amplify {
         public let activeJobId: String
         ///  List of custom resources that are linked to this branch. 
         public let associatedResources: [String]?
+        ///  ARN for a Backend Environment, part of an Amplify App. 
+        public let backendEnvironmentArn: String?
         ///  Basic Authorization credentials for a branch, part of an Amplify App. 
         public let basicAuthCredentials: String?
         ///  ARN for a branch, part of an Amplify App. 
@@ -274,6 +279,8 @@ extension Amplify {
         public let environmentVariables: [String: String]
         ///  Framework for a branch, part of an Amplify App. 
         public let framework: String
+        ///  The Amplify Environment name for the pull request. 
+        public let pullRequestEnvironmentName: String?
         ///  The source branch if the branch is a pull request branch. 
         public let sourceBranch: String?
         ///  Stage for a branch, part of an Amplify App. 
@@ -289,9 +296,10 @@ extension Amplify {
         ///  Last updated date and time for a branch, part of an Amplify App. 
         public let updateTime: TimeStamp
 
-        public init(activeJobId: String, associatedResources: [String]? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, createTime: TimeStamp, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePullRequestPreview: Bool, environmentVariables: [String: String], framework: String, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: TimeStamp) {
+        public init(activeJobId: String, associatedResources: [String]? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, createTime: TimeStamp, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePullRequestPreview: Bool, environmentVariables: [String: String], framework: String, pullRequestEnvironmentName: String? = nil, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: TimeStamp) {
             self.activeJobId = activeJobId
             self.associatedResources = associatedResources
+            self.backendEnvironmentArn = backendEnvironmentArn
             self.basicAuthCredentials = basicAuthCredentials
             self.branchArn = branchArn
             self.branchName = branchName
@@ -307,6 +315,7 @@ extension Amplify {
             self.enablePullRequestPreview = enablePullRequestPreview
             self.environmentVariables = environmentVariables
             self.framework = framework
+            self.pullRequestEnvironmentName = pullRequestEnvironmentName
             self.sourceBranch = sourceBranch
             self.stage = stage
             self.tags = tags
@@ -319,6 +328,7 @@ extension Amplify {
         private enum CodingKeys: String, CodingKey {
             case activeJobId = "activeJobId"
             case associatedResources = "associatedResources"
+            case backendEnvironmentArn = "backendEnvironmentArn"
             case basicAuthCredentials = "basicAuthCredentials"
             case branchArn = "branchArn"
             case branchName = "branchName"
@@ -334,6 +344,7 @@ extension Amplify {
             case enablePullRequestPreview = "enablePullRequestPreview"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
+            case pullRequestEnvironmentName = "pullRequestEnvironmentName"
             case sourceBranch = "sourceBranch"
             case stage = "stage"
             case tags = "tags"
@@ -493,6 +504,7 @@ extension Amplify {
     public struct CreateBranchRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "backendEnvironmentArn", required: false, type: .string), 
             AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
             AWSShapeMember(label: "branchName", required: true, type: .string), 
             AWSShapeMember(label: "buildSpec", required: false, type: .string), 
@@ -504,6 +516,7 @@ extension Amplify {
             AWSShapeMember(label: "enablePullRequestPreview", required: false, type: .boolean), 
             AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
             AWSShapeMember(label: "framework", required: false, type: .string), 
+            AWSShapeMember(label: "pullRequestEnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "stage", required: false, type: .enum), 
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "ttl", required: false, type: .string)
@@ -511,6 +524,8 @@ extension Amplify {
 
         ///  Unique Id for an Amplify App. 
         public let appId: String
+        ///  ARN for a Backend Environment, part of an Amplify App. 
+        public let backendEnvironmentArn: String?
         ///  Basic Authorization credentials for the branch. 
         public let basicAuthCredentials: String?
         ///  Name for the branch. 
@@ -533,6 +548,8 @@ extension Amplify {
         public let environmentVariables: [String: String]?
         ///  Framework for the branch. 
         public let framework: String?
+        ///  The Amplify Environment name for the pull request. 
+        public let pullRequestEnvironmentName: String?
         ///  Stage for the branch. 
         public let stage: Stage?
         ///  Tag for the branch. 
@@ -540,8 +557,9 @@ extension Amplify {
         ///  The content TTL for the website in seconds. 
         public let ttl: String?
 
-        public init(appId: String, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
+        public init(appId: String, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
             self.appId = appId
+            self.backendEnvironmentArn = backendEnvironmentArn
             self.basicAuthCredentials = basicAuthCredentials
             self.branchName = branchName
             self.buildSpec = buildSpec
@@ -553,6 +571,7 @@ extension Amplify {
             self.enablePullRequestPreview = enablePullRequestPreview
             self.environmentVariables = environmentVariables
             self.framework = framework
+            self.pullRequestEnvironmentName = pullRequestEnvironmentName
             self.stage = stage
             self.tags = tags
             self.ttl = ttl
@@ -561,6 +580,8 @@ extension Amplify {
         public func validate(name: String) throws {
             try validate(self.appId, name:"appId", parent: name, max: 255)
             try validate(self.appId, name:"appId", parent: name, min: 1)
+            try validate(self.backendEnvironmentArn, name:"backendEnvironmentArn", parent: name, max: 1000)
+            try validate(self.backendEnvironmentArn, name:"backendEnvironmentArn", parent: name, min: 1)
             try validate(self.basicAuthCredentials, name:"basicAuthCredentials", parent: name, max: 2000)
             try validate(self.branchName, name:"branchName", parent: name, max: 255)
             try validate(self.branchName, name:"branchName", parent: name, min: 1)
@@ -573,6 +594,7 @@ extension Amplify {
                 try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
             try validate(self.framework, name:"framework", parent: name, max: 255)
+            try validate(self.pullRequestEnvironmentName, name:"pullRequestEnvironmentName", parent: name, max: 20)
             try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
@@ -583,6 +605,7 @@ extension Amplify {
 
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
+            case backendEnvironmentArn = "backendEnvironmentArn"
             case basicAuthCredentials = "basicAuthCredentials"
             case branchName = "branchName"
             case buildSpec = "buildSpec"
@@ -594,6 +617,7 @@ extension Amplify {
             case enablePullRequestPreview = "enablePullRequestPreview"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
+            case pullRequestEnvironmentName = "pullRequestEnvironmentName"
             case stage = "stage"
             case tags = "tags"
             case ttl = "ttl"
@@ -694,7 +718,7 @@ extension Amplify {
         public let appId: String
         ///  Domain name for the Domain Association. 
         public let domainName: String
-        ///  Enables automated creation of Subdomains for branches. 
+        ///  Enables automated creation of Subdomains for branches. (Currently not supported) 
         public let enableAutoSubDomain: Bool?
         ///  Setting structure for the Subdomain. 
         public let subDomainSettings: [SubDomainSetting]
@@ -1072,7 +1096,7 @@ extension Amplify {
         public let domainName: String
         ///  Status fo the Domain Association. 
         public let domainStatus: DomainStatus
-        ///  Enables automated creation of Subdomains for branches. 
+        ///  Enables automated creation of Subdomains for branches. (Currently not supported) 
         public let enableAutoSubDomain: Bool
         ///  Reason for the current status of the Domain Association. 
         public let statusReason: String
@@ -1578,7 +1602,6 @@ extension Amplify {
     public struct ListArtifactsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
-            AWSShapeMember(label: "artifactType", required: false, type: .enum), 
             AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
             AWSShapeMember(label: "jobId", location: .uri(locationName: "jobId"), required: true, type: .string), 
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -1587,8 +1610,6 @@ extension Amplify {
 
         ///  Unique Id for an Amplify App. 
         public let appId: String
-        ///  Type for an artifact. 
-        public let artifactType: ArtifactType?
         ///  Name for a branch, part of an Amplify App. 
         public let branchName: String
         ///  Unique Id for an Job. 
@@ -1598,9 +1619,8 @@ extension Amplify {
         ///  Pagination token. Set to null to start listing artifacts from start. If non-null pagination token is returned in a result, then pass its value in here to list more artifacts. 
         public let nextToken: String?
 
-        public init(appId: String, artifactType: ArtifactType? = nil, branchName: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(appId: String, branchName: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appId = appId
-            self.artifactType = artifactType
             self.branchName = branchName
             self.jobId = jobId
             self.maxResults = maxResults
@@ -1620,7 +1640,6 @@ extension Amplify {
 
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
-            case artifactType = "artifactType"
             case branchName = "branchName"
             case jobId = "jobId"
             case maxResults = "maxResults"
@@ -2508,6 +2527,7 @@ extension Amplify {
     public struct UpdateBranchRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "appId", location: .uri(locationName: "appId"), required: true, type: .string), 
+            AWSShapeMember(label: "backendEnvironmentArn", required: false, type: .string), 
             AWSShapeMember(label: "basicAuthCredentials", required: false, type: .string), 
             AWSShapeMember(label: "branchName", location: .uri(locationName: "branchName"), required: true, type: .string), 
             AWSShapeMember(label: "buildSpec", required: false, type: .string), 
@@ -2519,12 +2539,15 @@ extension Amplify {
             AWSShapeMember(label: "enablePullRequestPreview", required: false, type: .boolean), 
             AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
             AWSShapeMember(label: "framework", required: false, type: .string), 
+            AWSShapeMember(label: "pullRequestEnvironmentName", required: false, type: .string), 
             AWSShapeMember(label: "stage", required: false, type: .enum), 
             AWSShapeMember(label: "ttl", required: false, type: .string)
         ]
 
         ///  Unique Id for an Amplify App. 
         public let appId: String
+        ///  ARN for a Backend Environment, part of an Amplify App. 
+        public let backendEnvironmentArn: String?
         ///  Basic Authorization credentials for the branch. 
         public let basicAuthCredentials: String?
         ///  Name for the branch. 
@@ -2547,13 +2570,16 @@ extension Amplify {
         public let environmentVariables: [String: String]?
         ///  Framework for the branch. 
         public let framework: String?
+        ///  The Amplify Environment name for the pull request. 
+        public let pullRequestEnvironmentName: String?
         ///  Stage for the branch. 
         public let stage: Stage?
         ///  The content TTL for the website in seconds. 
         public let ttl: String?
 
-        public init(appId: String, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
+        public init(appId: String, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
             self.appId = appId
+            self.backendEnvironmentArn = backendEnvironmentArn
             self.basicAuthCredentials = basicAuthCredentials
             self.branchName = branchName
             self.buildSpec = buildSpec
@@ -2565,6 +2591,7 @@ extension Amplify {
             self.enablePullRequestPreview = enablePullRequestPreview
             self.environmentVariables = environmentVariables
             self.framework = framework
+            self.pullRequestEnvironmentName = pullRequestEnvironmentName
             self.stage = stage
             self.ttl = ttl
         }
@@ -2572,6 +2599,8 @@ extension Amplify {
         public func validate(name: String) throws {
             try validate(self.appId, name:"appId", parent: name, max: 255)
             try validate(self.appId, name:"appId", parent: name, min: 1)
+            try validate(self.backendEnvironmentArn, name:"backendEnvironmentArn", parent: name, max: 1000)
+            try validate(self.backendEnvironmentArn, name:"backendEnvironmentArn", parent: name, min: 1)
             try validate(self.basicAuthCredentials, name:"basicAuthCredentials", parent: name, max: 2000)
             try validate(self.branchName, name:"branchName", parent: name, max: 255)
             try validate(self.branchName, name:"branchName", parent: name, min: 1)
@@ -2584,10 +2613,12 @@ extension Amplify {
                 try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
             try validate(self.framework, name:"framework", parent: name, max: 255)
+            try validate(self.pullRequestEnvironmentName, name:"pullRequestEnvironmentName", parent: name, max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
             case appId = "appId"
+            case backendEnvironmentArn = "backendEnvironmentArn"
             case basicAuthCredentials = "basicAuthCredentials"
             case branchName = "branchName"
             case buildSpec = "buildSpec"
@@ -2599,6 +2630,7 @@ extension Amplify {
             case enablePullRequestPreview = "enablePullRequestPreview"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
+            case pullRequestEnvironmentName = "pullRequestEnvironmentName"
             case stage = "stage"
             case ttl = "ttl"
         }
@@ -2633,7 +2665,7 @@ extension Amplify {
         public let appId: String
         ///  Name of the domain. 
         public let domainName: String
-        ///  Enables automated creation of Subdomains for branches. 
+        ///  Enables automated creation of Subdomains for branches. (Currently not supported) 
         public let enableAutoSubDomain: Bool?
         ///  Setting structure for the Subdomain. 
         public let subDomainSettings: [SubDomainSetting]

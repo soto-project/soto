@@ -611,7 +611,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "TargetEndpointArn", required: true, type: .string)
         ]
 
-        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS. 
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
         public let cdcStartTime: TimeStamp?
@@ -2628,7 +2628,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "TableMappings", required: false, type: .string)
         ]
 
-        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS. 
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
         public let cdcStartTime: TimeStamp?
@@ -3578,7 +3578,12 @@ extension DatabaseMigrationService {
     public struct ReplicationTaskStats: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ElapsedTimeMillis", required: false, type: .long), 
+            AWSShapeMember(label: "FreshStartDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FullLoadFinishDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "FullLoadProgressPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "FullLoadStartDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StopDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "TablesErrored", required: false, type: .integer), 
             AWSShapeMember(label: "TablesLoaded", required: false, type: .integer), 
             AWSShapeMember(label: "TablesLoading", required: false, type: .integer), 
@@ -3587,8 +3592,18 @@ extension DatabaseMigrationService {
 
         /// The elapsed time of the task, in milliseconds.
         public let elapsedTimeMillis: Int64?
+        /// The date the replication task was started either with a fresh start or a target reload.
+        public let freshStartDate: TimeStamp?
+        /// The date the replication task full load was completed.
+        public let fullLoadFinishDate: TimeStamp?
         /// The percent complete for the full load migration task.
         public let fullLoadProgressPercent: Int?
+        /// The date the the replication task full load was started.
+        public let fullLoadStartDate: TimeStamp?
+        /// The date the replication task was started either with a fresh start or a resume. For more information, see StartReplicationTaskType.
+        public let startDate: TimeStamp?
+        /// The date the replication task was stopped.
+        public let stopDate: TimeStamp?
         /// The number of errors that have occurred during this task.
         public let tablesErrored: Int?
         /// The number of tables loaded for this task.
@@ -3598,9 +3613,14 @@ extension DatabaseMigrationService {
         /// The number of tables queued for this task.
         public let tablesQueued: Int?
 
-        public init(elapsedTimeMillis: Int64? = nil, fullLoadProgressPercent: Int? = nil, tablesErrored: Int? = nil, tablesLoaded: Int? = nil, tablesLoading: Int? = nil, tablesQueued: Int? = nil) {
+        public init(elapsedTimeMillis: Int64? = nil, freshStartDate: TimeStamp? = nil, fullLoadFinishDate: TimeStamp? = nil, fullLoadProgressPercent: Int? = nil, fullLoadStartDate: TimeStamp? = nil, startDate: TimeStamp? = nil, stopDate: TimeStamp? = nil, tablesErrored: Int? = nil, tablesLoaded: Int? = nil, tablesLoading: Int? = nil, tablesQueued: Int? = nil) {
             self.elapsedTimeMillis = elapsedTimeMillis
+            self.freshStartDate = freshStartDate
+            self.fullLoadFinishDate = fullLoadFinishDate
             self.fullLoadProgressPercent = fullLoadProgressPercent
+            self.fullLoadStartDate = fullLoadStartDate
+            self.startDate = startDate
+            self.stopDate = stopDate
             self.tablesErrored = tablesErrored
             self.tablesLoaded = tablesLoaded
             self.tablesLoading = tablesLoading
@@ -3609,7 +3629,12 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case elapsedTimeMillis = "ElapsedTimeMillis"
+            case freshStartDate = "FreshStartDate"
+            case fullLoadFinishDate = "FullLoadFinishDate"
             case fullLoadProgressPercent = "FullLoadProgressPercent"
+            case fullLoadStartDate = "FullLoadStartDate"
+            case startDate = "StartDate"
+            case stopDate = "StopDate"
             case tablesErrored = "TablesErrored"
             case tablesLoaded = "TablesLoaded"
             case tablesLoading = "TablesLoading"
@@ -3799,7 +3824,7 @@ extension DatabaseMigrationService {
             AWSShapeMember(label: "StartReplicationTaskType", required: true, type: .enum)
         ]
 
-        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.  The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”  When you use this task setting with a source PostgreSQL database, a logical replication slot should already be created and associated with the source endpoint. You can verify this by setting the slotName extra connection attribute to the name of this logical replication slot. For more information, see Extra Connection Attributes When Using PostgreSQL as a Source for AWS DMS. 
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
         public let cdcStartTime: TimeStamp?

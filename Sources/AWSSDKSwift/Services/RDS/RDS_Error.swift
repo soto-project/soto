@@ -9,6 +9,9 @@ public enum RDSErrorType: AWSErrorType {
     case authorizationQuotaExceededFault(message: String?)
     case backupPolicyNotFoundFault(message: String?)
     case certificateNotFoundFault(message: String?)
+    case customAvailabilityZoneAlreadyExistsFault(message: String?)
+    case customAvailabilityZoneNotFoundFault(message: String?)
+    case customAvailabilityZoneQuotaExceededFault(message: String?)
     case dBClusterAlreadyExistsFault(message: String?)
     case dBClusterBacktrackNotFoundFault(message: String?)
     case dBClusterEndpointAlreadyExistsFault(message: String?)
@@ -51,6 +54,8 @@ public enum RDSErrorType: AWSErrorType {
     case globalClusterAlreadyExistsFault(message: String?)
     case globalClusterNotFoundFault(message: String?)
     case globalClusterQuotaExceededFault(message: String?)
+    case installationMediaAlreadyExistsFault(message: String?)
+    case installationMediaNotFoundFault(message: String?)
     case instanceQuotaExceededFault(message: String?)
     case insufficientDBClusterCapacityFault(message: String?)
     case insufficientDBInstanceCapacityFault(message: String?)
@@ -116,6 +121,12 @@ extension RDSErrorType {
             self = .backupPolicyNotFoundFault(message: message)
         case "CertificateNotFound":
             self = .certificateNotFoundFault(message: message)
+        case "CustomAvailabilityZoneAlreadyExists":
+            self = .customAvailabilityZoneAlreadyExistsFault(message: message)
+        case "CustomAvailabilityZoneNotFound":
+            self = .customAvailabilityZoneNotFoundFault(message: message)
+        case "CustomAvailabilityZoneQuotaExceeded":
+            self = .customAvailabilityZoneQuotaExceededFault(message: message)
         case "DBClusterAlreadyExistsFault":
             self = .dBClusterAlreadyExistsFault(message: message)
         case "DBClusterBacktrackNotFoundFault":
@@ -200,6 +211,10 @@ extension RDSErrorType {
             self = .globalClusterNotFoundFault(message: message)
         case "GlobalClusterQuotaExceededFault":
             self = .globalClusterQuotaExceededFault(message: message)
+        case "InstallationMediaAlreadyExists":
+            self = .installationMediaAlreadyExistsFault(message: message)
+        case "InstallationMediaNotFound":
+            self = .installationMediaNotFoundFault(message: message)
         case "InstanceQuotaExceeded":
             self = .instanceQuotaExceededFault(message: message)
         case "InsufficientDBClusterCapacityFault":
@@ -311,6 +326,12 @@ extension RDSErrorType : CustomStringConvertible {
             return "BackupPolicyNotFoundFault: \(message ?? "")"
         case .certificateNotFoundFault(let message):
             return "CertificateNotFound: \(message ?? "")"
+        case .customAvailabilityZoneAlreadyExistsFault(let message):
+            return "CustomAvailabilityZoneAlreadyExists: \(message ?? "")"
+        case .customAvailabilityZoneNotFoundFault(let message):
+            return "CustomAvailabilityZoneNotFound: \(message ?? "")"
+        case .customAvailabilityZoneQuotaExceededFault(let message):
+            return "CustomAvailabilityZoneQuotaExceeded: \(message ?? "")"
         case .dBClusterAlreadyExistsFault(let message):
             return "DBClusterAlreadyExistsFault: \(message ?? "")"
         case .dBClusterBacktrackNotFoundFault(let message):
@@ -395,6 +416,10 @@ extension RDSErrorType : CustomStringConvertible {
             return "GlobalClusterNotFoundFault: \(message ?? "")"
         case .globalClusterQuotaExceededFault(let message):
             return "GlobalClusterQuotaExceededFault: \(message ?? "")"
+        case .installationMediaAlreadyExistsFault(let message):
+            return "InstallationMediaAlreadyExists: \(message ?? "")"
+        case .installationMediaNotFoundFault(let message):
+            return "InstallationMediaNotFound: \(message ?? "")"
         case .instanceQuotaExceededFault(let message):
             return "InstanceQuotaExceeded: \(message ?? "")"
         case .insufficientDBClusterCapacityFault(let message):

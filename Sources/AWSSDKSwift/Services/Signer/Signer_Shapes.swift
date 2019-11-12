@@ -81,7 +81,7 @@ extension Signer {
         public let profileName: String?
         /// The IAM principal that requested the signing job.
         public let requestedBy: String?
-        /// Name of the S3 bucket where the signed code image is saved by AWS Signer.
+        /// Name of the S3 bucket where the signed code image is saved by code signing.
         public let signedObject: SignedObject?
         /// Amazon Resource Name (ARN) of your code signing certificate.
         public let signingMaterial: SigningMaterial?
@@ -156,9 +156,9 @@ extension Signer {
             AWSShapeMember(label: "defaultValue", required: true, type: .enum)
         ]
 
-        /// The set of accepted encryption algorithms that are allowed in an AWS Signer job.
+        /// The set of accepted encryption algorithms that are allowed in a code signing job.
         public let allowedValues: [EncryptionAlgorithm]
-        /// The default encryption algorithm that is used by an AWS Signer job.
+        /// The default encryption algorithm that is used by a code signing job.
         public let defaultValue: EncryptionAlgorithm
 
         public init(allowedValues: [EncryptionAlgorithm], defaultValue: EncryptionAlgorithm) {
@@ -266,14 +266,18 @@ extension Signer {
 
     public struct GetSigningProfileResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "overrides", required: false, type: .structure), 
             AWSShapeMember(label: "platformId", required: false, type: .string), 
             AWSShapeMember(label: "profileName", required: false, type: .string), 
             AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
             AWSShapeMember(label: "signingParameters", required: false, type: .map), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
 
+        /// The Amazon Resource Name (ARN) for the signing profile.
+        public let arn: String?
         /// A list of overrides applied by the target signing profile for signing operations.
         public let overrides: SigningPlatformOverrides?
         /// The ID of the platform that is used by the target signing profile.
@@ -286,23 +290,29 @@ extension Signer {
         public let signingParameters: [String: String]?
         /// The status of the target signing profile.
         public let status: SigningProfileStatus?
+        /// A list of tags associated with the signing profile.
+        public let tags: [String: String]?
 
-        public init(overrides: SigningPlatformOverrides? = nil, platformId: String? = nil, profileName: String? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, status: SigningProfileStatus? = nil) {
+        public init(arn: String? = nil, overrides: SigningPlatformOverrides? = nil, platformId: String? = nil, profileName: String? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, status: SigningProfileStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
             self.overrides = overrides
             self.platformId = platformId
             self.profileName = profileName
             self.signingMaterial = signingMaterial
             self.signingParameters = signingParameters
             self.status = status
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case overrides = "overrides"
             case platformId = "platformId"
             case profileName = "profileName"
             case signingMaterial = "signingMaterial"
             case signingParameters = "signingParameters"
             case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -318,9 +328,9 @@ extension Signer {
             AWSShapeMember(label: "defaultValue", required: true, type: .enum)
         ]
 
-        /// The set of accepted hash algorithms allowed in an AWS Signer job.
+        /// The set of accepted hash algorithms allowed in a code signing job.
         public let allowedValues: [HashAlgorithm]
-        /// The default hash algorithm that is used in an AWS Signer job.
+        /// The default hash algorithm that is used in a code signing job.
         public let defaultValue: HashAlgorithm
 
         public init(allowedValues: [HashAlgorithm], defaultValue: HashAlgorithm) {
@@ -521,13 +531,48 @@ extension Signer {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the signing profile.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+
+        /// A list of tags associated with the signing profile.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct PutSigningProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "overrides", required: false, type: .structure), 
             AWSShapeMember(label: "platformId", required: true, type: .string), 
             AWSShapeMember(label: "profileName", location: .uri(locationName: "profileName"), required: true, type: .string), 
             AWSShapeMember(label: "signingMaterial", required: true, type: .structure), 
-            AWSShapeMember(label: "signingParameters", required: false, type: .map)
+            AWSShapeMember(label: "signingParameters", required: false, type: .map), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
 
         /// A subfield of platform. This specifies any different configuration options that you want to apply to the chosen platform (such as a different hash-algorithm or signing-algorithm).
@@ -540,19 +585,28 @@ extension Signer {
         public let signingMaterial: SigningMaterial
         /// Map of key-value pairs for signing. These can include any information that you want to use during signing.
         public let signingParameters: [String: String]?
+        /// Tags to be associated with the signing profile being created.
+        public let tags: [String: String]?
 
-        public init(overrides: SigningPlatformOverrides? = nil, platformId: String, profileName: String, signingMaterial: SigningMaterial, signingParameters: [String: String]? = nil) {
+        public init(overrides: SigningPlatformOverrides? = nil, platformId: String, profileName: String, signingMaterial: SigningMaterial, signingParameters: [String: String]? = nil, tags: [String: String]? = nil) {
             self.overrides = overrides
             self.platformId = platformId
             self.profileName = profileName
             self.signingMaterial = signingMaterial
             self.signingParameters = signingParameters
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try validate(self.profileName, name:"profileName", parent: name, max: 20)
             try validate(self.profileName, name:"profileName", parent: name, min: 2)
             try validate(self.profileName, name:"profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -561,6 +615,7 @@ extension Signer {
             case profileName = "profileName"
             case signingMaterial = "signingMaterial"
             case signingParameters = "signingParameters"
+            case tags = "tags"
         }
     }
 
@@ -675,9 +730,9 @@ extension Signer {
             AWSShapeMember(label: "hashAlgorithmOptions", required: true, type: .structure)
         ]
 
-        /// The encryption algorithm options that are available for an AWS Signer job.
+        /// The encryption algorithm options that are available for a code signing job.
         public let encryptionAlgorithmOptions: EncryptionAlgorithmOptions
-        /// The hash algorithm options that are available for an AWS Signer job.
+        /// The hash algorithm options that are available for a a code signing job.
         public let hashAlgorithmOptions: HashAlgorithmOptions
 
         public init(encryptionAlgorithmOptions: EncryptionAlgorithmOptions, hashAlgorithmOptions: HashAlgorithmOptions) {
@@ -697,9 +752,9 @@ extension Signer {
             AWSShapeMember(label: "hashAlgorithm", required: false, type: .enum)
         ]
 
-        /// A specified override of the default encryption algorithm that is used in an AWS Signer job.
+        /// A specified override of the default encryption algorithm that is used in a code signing job.
         public let encryptionAlgorithm: EncryptionAlgorithm?
-        /// A specified override of the default hash algorithm that is used in an AWS Signer job.
+        /// A specified override of the default hash algorithm that is used in a code signing job.
         public let hashAlgorithm: HashAlgorithm?
 
         public init(encryptionAlgorithm: EncryptionAlgorithm? = nil, hashAlgorithm: HashAlgorithm? = nil) {
@@ -719,9 +774,9 @@ extension Signer {
             AWSShapeMember(label: "supportedFormats", required: true, type: .list)
         ]
 
-        /// The default format of an AWS Signer signing image.
+        /// The default format of a code signing signing image.
         public let defaultFormat: ImageFormat
-        /// The supported formats of an AWS Signer signing image.
+        /// The supported formats of a code signing signing image.
         public let supportedFormats: [ImageFormat]
 
         public init(defaultFormat: ImageFormat, supportedFormats: [ImageFormat]) {
@@ -806,21 +861,20 @@ extension Signer {
             AWSShapeMember(label: "target", required: false, type: .string)
         ]
 
-        /// The category of an AWS Signer platform.
+        /// The category of a code signing platform.
         public let category: Category?
-        /// The display name of an AWS Signer platform.
+        /// The display name of a code signing platform.
         public let displayName: String?
-        /// The maximum size (in MB) of code that can be signed by a AWS Signer platform.
+        /// The maximum size (in MB) of code that can be signed by a code signing platform.
         public let maxSizeInMB: Int?
-        /// Any partner entities linked to an AWS Signer platform.
+        /// Any partner entities linked to a code signing platform.
         public let partner: String?
-        /// The ID of an AWS Signer platform.
+        /// The ID of a code signing; platform.
         public let platformId: String?
-        /// The configuration of an AWS Signer platform. This includes the designated hash algorithm and encryption algorithm of a signing platform.
+        /// The configuration of a code signing platform. This includes the designated hash algorithm and encryption algorithm of a signing platform.
         public let signingConfiguration: SigningConfiguration?
-        /// The signing image format that is used by an AWS Signer platform.
         public let signingImageFormat: SigningImageFormat?
-        /// The types of targets that can be signed by an AWS Signer platform.
+        /// The types of targets that can be signed by a code signing platform.
         public let target: String?
 
         public init(category: Category? = nil, displayName: String? = nil, maxSizeInMB: Int? = nil, partner: String? = nil, platformId: String? = nil, signingConfiguration: SigningConfiguration? = nil, signingImageFormat: SigningImageFormat? = nil, target: String? = nil) {
@@ -851,6 +905,7 @@ extension Signer {
             AWSShapeMember(label: "signingConfiguration", required: false, type: .structure)
         ]
 
+        /// A signing configuration that overrides the default encryption or hash algorithm of a signing job.
         public let signingConfiguration: SigningConfigurationOverrides?
 
         public init(signingConfiguration: SigningConfigurationOverrides? = nil) {
@@ -864,38 +919,48 @@ extension Signer {
 
     public struct SigningProfile: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "platformId", required: false, type: .string), 
             AWSShapeMember(label: "profileName", required: false, type: .string), 
             AWSShapeMember(label: "signingMaterial", required: false, type: .structure), 
             AWSShapeMember(label: "signingParameters", required: false, type: .map), 
-            AWSShapeMember(label: "status", required: false, type: .enum)
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
 
+        /// Amazon Resource Name (ARN) for the signing profile.
+        public let arn: String?
         /// The ID of a platform that is available for use by a signing profile.
         public let platformId: String?
-        /// The name of the AWS Signer profile.
+        /// The name of the signing profile.
         public let profileName: String?
         /// The ACM certificate that is available for use by a signing profile.
         public let signingMaterial: SigningMaterial?
-        /// The parameters that are available for use by an AWS Signer user.
+        /// The parameters that are available for use by a code signing user.
         public let signingParameters: [String: String]?
-        /// The status of an AWS Signer profile.
+        /// The status of a code signing profile.
         public let status: SigningProfileStatus?
+        /// A list of tags associated with the signing profile.
+        public let tags: [String: String]?
 
-        public init(platformId: String? = nil, profileName: String? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, status: SigningProfileStatus? = nil) {
+        public init(arn: String? = nil, platformId: String? = nil, profileName: String? = nil, signingMaterial: SigningMaterial? = nil, signingParameters: [String: String]? = nil, status: SigningProfileStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
             self.platformId = platformId
             self.profileName = profileName
             self.signingMaterial = signingMaterial
             self.signingParameters = signingParameters
             self.status = status
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case platformId = "platformId"
             case profileName = "profileName"
             case signingMaterial = "signingMaterial"
             case signingParameters = "signingParameters"
             case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -982,5 +1047,84 @@ extension Signer {
         private enum CodingKeys: String, CodingKey {
             case jobId = "jobId"
         }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .map)
+        ]
+
+        /// Amazon Resource Name (ARN) for the signing profile.
+        public let resourceArn: String
+        /// One or more tags to be associated with the signing profile.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.key, name:"tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+
+        /// Amazon Resource Name (ARN) for the signing profile .
+        public let resourceArn: String
+        /// A list of tag keys to be removed from the signing profile .
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 }

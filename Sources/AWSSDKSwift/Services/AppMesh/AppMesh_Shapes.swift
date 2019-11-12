@@ -32,8 +32,8 @@ extension AppMesh {
             AWSShapeMember(label: "value", required: true, type: .string)
         ]
 
-        /// The name of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service instance
-        ///          that contains the specified key and value is returned.
+        /// The name of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service
+        ///          instance that contains the specified key and value is returned.
         public let key: String
         /// The value of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service
         ///          instance that contains the specified key and value is returned.
@@ -978,9 +978,9 @@ extension AppMesh {
             AWSShapeMember(label: "value", required: false, type: .long)
         ]
 
-        /// The unit of time between retry attempts.
+        /// A unit of time.
         public let unit: DurationUnit?
-        /// The duration of time between retry attempts.
+        /// A number of time units.
         public let value: Int64?
 
         public init(unit: DurationUnit? = nil, value: Int64? = nil) {
@@ -1061,6 +1061,264 @@ extension AppMesh {
         }
     }
 
+    public struct GrpcRetryPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "grpcRetryEvents", required: false, type: .list), 
+            AWSShapeMember(label: "httpRetryEvents", required: false, type: .list), 
+            AWSShapeMember(label: "maxRetries", required: true, type: .long), 
+            AWSShapeMember(label: "perRetryTimeout", required: true, type: .structure), 
+            AWSShapeMember(label: "tcpRetryEvents", required: false, type: .list)
+        ]
+
+        /// Specify at least one of the valid values.
+        public let grpcRetryEvents: [GrpcRetryPolicyEvent]?
+        /// Specify at least one of the following values.
+        ///          
+        ///             
+        ///                
+        ///                   server-error – HTTP status codes 500, 501,
+        ///                   502, 503, 504, 505, 506, 507, 508, 510, and 511
+        ///             
+        ///             
+        ///                
+        ///                   gateway-error – HTTP status codes 502,
+        ///                   503, and 504
+        ///             
+        ///             
+        ///                
+        ///                   client-error – HTTP status code 409
+        ///             
+        ///             
+        ///                
+        ///                   stream-error – Retry on refused
+        ///                   stream
+        ///             
+        ///          
+        public let httpRetryEvents: [String]?
+        /// The maximum number of retry attempts.
+        public let maxRetries: Int64
+        /// An object that represents a duration of time.
+        public let perRetryTimeout: Duration
+        /// Specify a valid value.
+        public let tcpRetryEvents: [TcpRetryPolicyEvent]?
+
+        public init(grpcRetryEvents: [GrpcRetryPolicyEvent]? = nil, httpRetryEvents: [String]? = nil, maxRetries: Int64, perRetryTimeout: Duration, tcpRetryEvents: [TcpRetryPolicyEvent]? = nil) {
+            self.grpcRetryEvents = grpcRetryEvents
+            self.httpRetryEvents = httpRetryEvents
+            self.maxRetries = maxRetries
+            self.perRetryTimeout = perRetryTimeout
+            self.tcpRetryEvents = tcpRetryEvents
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.grpcRetryEvents, name:"grpcRetryEvents", parent: name, max: 5)
+            try validate(self.grpcRetryEvents, name:"grpcRetryEvents", parent: name, min: 1)
+            try self.httpRetryEvents?.forEach {
+                try validate($0, name: "httpRetryEvents[]", parent: name, max: 25)
+                try validate($0, name: "httpRetryEvents[]", parent: name, min: 1)
+            }
+            try validate(self.httpRetryEvents, name:"httpRetryEvents", parent: name, max: 25)
+            try validate(self.httpRetryEvents, name:"httpRetryEvents", parent: name, min: 1)
+            try validate(self.maxRetries, name:"maxRetries", parent: name, min: 0)
+            try self.perRetryTimeout.validate(name: "\(name).perRetryTimeout")
+            try validate(self.tcpRetryEvents, name:"tcpRetryEvents", parent: name, max: 1)
+            try validate(self.tcpRetryEvents, name:"tcpRetryEvents", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grpcRetryEvents = "grpcRetryEvents"
+            case httpRetryEvents = "httpRetryEvents"
+            case maxRetries = "maxRetries"
+            case perRetryTimeout = "perRetryTimeout"
+            case tcpRetryEvents = "tcpRetryEvents"
+        }
+    }
+
+    public enum GrpcRetryPolicyEvent: String, CustomStringConvertible, Codable {
+        case cancelled = "cancelled"
+        case deadlineExceeded = "deadline-exceeded"
+        case `internal` = "internal"
+        case resourceExhausted = "resource-exhausted"
+        case unavailable = "unavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GrpcRoute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "action", required: true, type: .structure), 
+            AWSShapeMember(label: "match", required: true, type: .structure), 
+            AWSShapeMember(label: "retryPolicy", required: false, type: .structure)
+        ]
+
+        /// An object that represents the action to take if a match is determined.
+        public let action: GrpcRouteAction
+        /// An object that represents the criteria for determining a request match.
+        public let match: GrpcRouteMatch
+        /// An object that represents a retry policy.
+        public let retryPolicy: GrpcRetryPolicy?
+
+        public init(action: GrpcRouteAction, match: GrpcRouteMatch, retryPolicy: GrpcRetryPolicy? = nil) {
+            self.action = action
+            self.match = match
+            self.retryPolicy = retryPolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.action.validate(name: "\(name).action")
+            try self.match.validate(name: "\(name).match")
+            try self.retryPolicy?.validate(name: "\(name).retryPolicy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case match = "match"
+            case retryPolicy = "retryPolicy"
+        }
+    }
+
+    public struct GrpcRouteAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "weightedTargets", required: true, type: .list)
+        ]
+
+        /// An object that represents the targets that traffic is routed to when a request matches the route.
+        public let weightedTargets: [WeightedTarget]
+
+        public init(weightedTargets: [WeightedTarget]) {
+            self.weightedTargets = weightedTargets
+        }
+
+        public func validate(name: String) throws {
+            try self.weightedTargets.forEach {
+                try $0.validate(name: "\(name).weightedTargets[]")
+            }
+            try validate(self.weightedTargets, name:"weightedTargets", parent: name, max: 10)
+            try validate(self.weightedTargets, name:"weightedTargets", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case weightedTargets = "weightedTargets"
+        }
+    }
+
+    public struct GrpcRouteMatch: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metadata", required: false, type: .list), 
+            AWSShapeMember(label: "methodName", required: false, type: .string), 
+            AWSShapeMember(label: "serviceName", required: false, type: .string)
+        ]
+
+        /// An object that represents the data to match from the request.
+        public let metadata: [GrpcRouteMetadata]?
+        /// The method name to match from the request. If you specify a name, you must also specify a serviceName.
+        public let methodName: String?
+        /// The fully qualified domain name for the service to match from the request.
+        public let serviceName: String?
+
+        public init(metadata: [GrpcRouteMetadata]? = nil, methodName: String? = nil, serviceName: String? = nil) {
+            self.metadata = metadata
+            self.methodName = methodName
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.metadata?.forEach {
+                try $0.validate(name: "\(name).metadata[]")
+            }
+            try validate(self.metadata, name:"metadata", parent: name, max: 10)
+            try validate(self.metadata, name:"metadata", parent: name, min: 1)
+            try validate(self.methodName, name:"methodName", parent: name, max: 50)
+            try validate(self.methodName, name:"methodName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "metadata"
+            case methodName = "methodName"
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct GrpcRouteMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "invert", required: false, type: .boolean), 
+            AWSShapeMember(label: "match", required: false, type: .structure), 
+            AWSShapeMember(label: "name", required: true, type: .string)
+        ]
+
+        /// Specify True to match anything except the match criteria. The default value is False.
+        public let invert: Bool?
+        /// An object that represents the data to match from the request.
+        public let match: GrpcRouteMetadataMatchMethod?
+        /// The name of the route.
+        public let name: String
+
+        public init(invert: Bool? = nil, match: GrpcRouteMetadataMatchMethod? = nil, name: String) {
+            self.invert = invert
+            self.match = match
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.match?.validate(name: "\(name).match")
+            try validate(self.name, name:"name", parent: name, max: 50)
+            try validate(self.name, name:"name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invert = "invert"
+            case match = "match"
+            case name = "name"
+        }
+    }
+
+    public struct GrpcRouteMetadataMatchMethod: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "exact", required: false, type: .string), 
+            AWSShapeMember(label: "prefix", required: false, type: .string), 
+            AWSShapeMember(label: "range", required: false, type: .structure), 
+            AWSShapeMember(label: "regex", required: false, type: .string), 
+            AWSShapeMember(label: "suffix", required: false, type: .string)
+        ]
+
+        /// The value sent by the client must match the specified value exactly.
+        public let exact: String?
+        /// The value sent by the client must begin with the specified characters.
+        public let prefix: String?
+        /// An object that represents the range of values to match on.
+        public let range: MatchRange?
+        /// The value sent by the client must include the specified characters.
+        public let regex: String?
+        /// The value sent by the client must end with the specified characters.
+        public let suffix: String?
+
+        public init(exact: String? = nil, prefix: String? = nil, range: MatchRange? = nil, regex: String? = nil, suffix: String? = nil) {
+            self.exact = exact
+            self.prefix = prefix
+            self.range = range
+            self.regex = regex
+            self.suffix = suffix
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.exact, name:"exact", parent: name, max: 255)
+            try validate(self.exact, name:"exact", parent: name, min: 1)
+            try validate(self.prefix, name:"prefix", parent: name, max: 255)
+            try validate(self.prefix, name:"prefix", parent: name, min: 1)
+            try validate(self.regex, name:"regex", parent: name, max: 255)
+            try validate(self.regex, name:"regex", parent: name, min: 1)
+            try validate(self.suffix, name:"suffix", parent: name, max: 255)
+            try validate(self.suffix, name:"suffix", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exact = "exact"
+            case prefix = "prefix"
+            case range = "range"
+            case regex = "regex"
+            case suffix = "suffix"
+        }
+    }
+
     public struct HeaderMatchMethod: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "exact", required: false, type: .string), 
@@ -1070,15 +1328,15 @@ extension AppMesh {
             AWSShapeMember(label: "suffix", required: false, type: .string)
         ]
 
-        /// The header value sent by the client must match the specified value exactly.
+        /// The value sent by the client must match the specified value exactly.
         public let exact: String?
-        /// The header value sent by the client must begin with the specified characters.
+        /// The value sent by the client must begin with the specified characters.
         public let prefix: String?
-        /// The object that specifies the range of numbers that the header value sent by the client must be included in.
+        /// An object that represents the range of values to match on.
         public let range: MatchRange?
-        /// The header value sent by the client must include the specified characters.
+        /// The value sent by the client must include the specified characters.
         public let regex: String?
-        /// The header value sent by the client must end with the specified characters.
+        /// The value sent by the client must end with the specified characters.
         public let suffix: String?
 
         public init(exact: String? = nil, prefix: String? = nil, range: MatchRange? = nil, regex: String? = nil, suffix: String? = nil) {
@@ -1200,12 +1458,12 @@ extension AppMesh {
         ///             
         ///                
         ///                   server-error – HTTP status codes 500, 501,
-        ///                502, 503, 504, 505, 506, 507, 508, 510, and 511
+        ///                   502, 503, 504, 505, 506, 507, 508, 510, and 511
         ///             
         ///             
         ///                
         ///                   gateway-error – HTTP status codes 502,
-        ///                503, and 504
+        ///                   503, and 504
         ///             
         ///             
         ///                
@@ -1214,13 +1472,13 @@ extension AppMesh {
         ///             
         ///                
         ///                   stream-error – Retry on refused
-        ///                stream
+        ///                   stream
         ///             
         ///          
         public let httpRetryEvents: [String]?
-        /// The maximum number of retry attempts. If no value is specified, the default is 1.
+        /// The maximum number of retry attempts.
         public let maxRetries: Int64
-        /// An object that represents the retry duration.
+        /// An object that represents a duration of time.
         public let perRetryTimeout: Duration
         /// Specify a valid value.
         public let tcpRetryEvents: [TcpRetryPolicyEvent]?
@@ -1260,9 +1518,9 @@ extension AppMesh {
             AWSShapeMember(label: "retryPolicy", required: false, type: .structure)
         ]
 
-        /// The action to take if a match is determined.
+        /// An object that represents the action to take if a match is determined.
         public let action: HttpRouteAction
-        /// The criteria for determining an HTTP request match.
+        /// An object that represents the criteria for determining a request match.
         public let match: HttpRouteMatch
         /// An object that represents a retry policy.
         public let retryPolicy: HttpRetryPolicy?
@@ -1291,8 +1549,7 @@ extension AppMesh {
             AWSShapeMember(label: "weightedTargets", required: true, type: .list)
         ]
 
-        /// The targets that traffic is routed to when a request matches the route. You can specify
-        ///          one or more targets and their relative weights to distribute traffic with.
+        /// An object that represents the targets that traffic is routed to when a request matches the route.
         public let weightedTargets: [WeightedTarget]
 
         public init(weightedTargets: [WeightedTarget]) {
@@ -1319,7 +1576,7 @@ extension AppMesh {
             AWSShapeMember(label: "name", required: true, type: .string)
         ]
 
-        /// Specify True to match the opposite of the HeaderMatchMethod method and value. The default value is False.
+        /// Specify True to match anything except the match criteria. The default value is False.
         public let invert: Bool?
         /// The HeaderMatchMethod object.
         public let match: HeaderMatchMethod?
@@ -1353,9 +1610,9 @@ extension AppMesh {
             AWSShapeMember(label: "scheme", required: false, type: .enum)
         ]
 
-        /// The client request headers to match on.
+        /// An object that represents the client request headers to match on.
         public let headers: [HttpRouteHeader]?
-        /// The client request header method to match on.
+        /// The client request method to match on. Specify only one.
         public let method: HttpMethod?
         /// Specifies the path to match requests with. This parameter must always start with
         ///             /, which by itself matches all requests to the virtual service name. You
@@ -1364,7 +1621,7 @@ extension AppMesh {
         ///             my-service.local/metrics, your prefix should be
         ///          /metrics.
         public let prefix: String
-        /// The client request header scheme to match on.
+        /// The client request scheme to match on. Specify only one.
         public let scheme: HttpScheme?
 
         public init(headers: [HttpRouteHeader]? = nil, method: HttpMethod? = nil, prefix: String, scheme: HttpScheme? = nil) {
@@ -1985,7 +2242,7 @@ extension AppMesh {
 
         /// The port used for the port mapping.
         public let port: Int
-        /// The protocol used for the port mapping.
+        /// The protocol used for the port mapping. Specify one protocol.
         public let `protocol`: PortProtocol
 
         public init(port: Int, protocol: PortProtocol) {
@@ -2005,7 +2262,9 @@ extension AppMesh {
     }
 
     public enum PortProtocol: String, CustomStringConvertible, Codable {
+        case grpc = "grpc"
         case http = "http"
+        case http2 = "http2"
         case tcp = "tcp"
         public var description: String { return self.rawValue }
     }
@@ -2124,25 +2383,36 @@ extension AppMesh {
 
     public struct RouteSpec: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "grpcRoute", required: false, type: .structure), 
+            AWSShapeMember(label: "http2Route", required: false, type: .structure), 
             AWSShapeMember(label: "httpRoute", required: false, type: .structure), 
             AWSShapeMember(label: "priority", required: false, type: .integer), 
             AWSShapeMember(label: "tcpRoute", required: false, type: .structure)
         ]
 
-        /// The HTTP routing information for the route.
+        /// An object that represents the specification of a GRPC route.
+        public let grpcRoute: GrpcRoute?
+        /// An object that represents the specification of an HTTP2 route.
+        public let http2Route: HttpRoute?
+        /// An object that represents the specification of an HTTP route.
         public let httpRoute: HttpRoute?
-        /// The priority for the route. Routes are matched based on the specified value, where 0 is the highest priority.
+        /// The priority for the route. Routes are matched based on the specified value, where 0 is
+        ///          the highest priority.
         public let priority: Int?
-        /// The TCP routing information for the route.
+        /// An object that represents the specification of a TCP route.
         public let tcpRoute: TcpRoute?
 
-        public init(httpRoute: HttpRoute? = nil, priority: Int? = nil, tcpRoute: TcpRoute? = nil) {
+        public init(grpcRoute: GrpcRoute? = nil, http2Route: HttpRoute? = nil, httpRoute: HttpRoute? = nil, priority: Int? = nil, tcpRoute: TcpRoute? = nil) {
+            self.grpcRoute = grpcRoute
+            self.http2Route = http2Route
             self.httpRoute = httpRoute
             self.priority = priority
             self.tcpRoute = tcpRoute
         }
 
         public func validate(name: String) throws {
+            try self.grpcRoute?.validate(name: "\(name).grpcRoute")
+            try self.http2Route?.validate(name: "\(name).http2Route")
             try self.httpRoute?.validate(name: "\(name).httpRoute")
             try validate(self.priority, name:"priority", parent: name, max: 1000)
             try validate(self.priority, name:"priority", parent: name, min: 0)
@@ -2150,6 +2420,8 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case grpcRoute = "grpcRoute"
+            case http2Route = "http2Route"
             case httpRoute = "httpRoute"
             case priority = "priority"
             case tcpRoute = "tcpRoute"
@@ -2308,8 +2580,7 @@ extension AppMesh {
             AWSShapeMember(label: "weightedTargets", required: true, type: .list)
         ]
 
-        /// The targets that traffic is routed to when a request matches the route. You can specify
-        ///          one or more targets and their relative weights to distribute traffic with.
+        /// An object that represents the targets that traffic is routed to when a request matches the route.
         public let weightedTargets: [WeightedTarget]
 
         public init(weightedTargets: [WeightedTarget]) {
@@ -2762,7 +3033,7 @@ extension AppMesh {
         /// The backends that the virtual node is expected to send outbound traffic to.
         public let backends: [Backend]?
         /// The listeners that the virtual node is expected to receive inbound traffic from.
-        ///          Currently only one listener is supported per virtual node.
+        ///          You can specify one listener.
         public let listeners: [Listener]?
         /// The inbound and outbound access logging information for the virtual node.
         public let logging: Logging?
@@ -2933,7 +3204,7 @@ extension AppMesh {
         ]
 
         /// The listeners that the virtual router is expected to receive inbound traffic from.
-        ///          Currently only one listener is supported per virtual router.
+        ///          You can specify one listener.
         public let listeners: [VirtualRouterListener]?
 
         public init(listeners: [VirtualRouterListener]? = nil) {

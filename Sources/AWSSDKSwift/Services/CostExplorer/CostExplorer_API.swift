@@ -35,6 +35,11 @@ public struct CostExplorer {
         return client.send(operation: "GetCostAndUsage", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Retrieves cost and usage metrics with resources for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Master accounts in an organization in AWS Organizations have access to all member accounts. This API is currently available for the Amazon Elastic Compute Cloud – Compute service only.  This is an opt-in only feature. You can enable this feature from the Cost Explorer Settings page. For information on how to access the Settings page, see Controlling Access for Cost Explorer in the AWS Billing and Cost Management User Guide. 
+    public func getCostAndUsageWithResources(_ input: GetCostAndUsageWithResourcesRequest) -> Future<GetCostAndUsageWithResourcesResponse> {
+        return client.send(operation: "GetCostAndUsageWithResources", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves a forecast for how much Amazon Web Services predicts that you will spend over the forecast time period that you select, based on your past costs. 
     public func getCostForecast(_ input: GetCostForecastRequest) -> Future<GetCostForecastResponse> {
         return client.send(operation: "GetCostForecast", path: "/", httpMethod: "POST", input: input)
@@ -63,6 +68,26 @@ public struct CostExplorer {
     ///  Creates recommendations that helps you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate instances, along with providing savings detail and metrics. For details on calculation and function, see Optimizing Your Cost with Rightsizing Recommendations.
     public func getRightsizingRecommendation(_ input: GetRightsizingRecommendationRequest) -> Future<GetRightsizingRecommendationResponse> {
         return client.send(operation: "GetRightsizingRecommendation", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s master account can see the coverage of the associated member accounts. For any time period, you can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY    To determine valid values for a dimension, use the GetDimensionValues operation.
+    public func getSavingsPlansCoverage(_ input: GetSavingsPlansCoverageRequest) -> Future<GetSavingsPlansCoverageResponse> {
+        return client.send(operation: "GetSavingsPlansCoverage", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves your request parameters, Savings Plan Recommendations Summary and Details.
+    public func getSavingsPlansPurchaseRecommendation(_ input: GetSavingsPlansPurchaseRecommendationRequest) -> Future<GetSavingsPlansPurchaseRecommendationResponse> {
+        return client.send(operation: "GetSavingsPlansPurchaseRecommendation", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the Savings Plans utilization for your account across date ranges with daily or monthly granularity. Master accounts in an organization have access to member accounts. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values.  You cannot group by any dimension values for GetSavingsPlansUtilization. 
+    public func getSavingsPlansUtilization(_ input: GetSavingsPlansUtilizationRequest) -> Future<GetSavingsPlansUtilizationResponse> {
+        return client.send(operation: "GetSavingsPlansUtilization", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves attribute data along with aggregate utilization and savings data for a given time period. This doesn't support granular or grouped data (daily/monthly) in response. You can't retrieve data by dates in a single response similar to GetSavingsPlanUtilization, but you have the option to make multiple calls to GetSavingsPlanUtilizationDetails by providing individual dates. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values.   GetSavingsPlanUtilizationDetails internally groups data by SavingsPlansArn. 
+    public func getSavingsPlansUtilizationDetails(_ input: GetSavingsPlansUtilizationDetailsRequest) -> Future<GetSavingsPlansUtilizationDetailsResponse> {
+        return client.send(operation: "GetSavingsPlansUtilizationDetails", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Queries for available tag keys and tag values for a specified period. You can search the tag values for an arbitrary string. 

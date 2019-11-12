@@ -50,7 +50,7 @@ public struct ECR {
         return client.send(operation: "CompleteLayerUpload", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an image repository.
+    ///  Creates an Amazon Elastic Container Registry (Amazon ECR) repository, where users can push and pull Docker images. For more information, see Amazon ECR Repositories in the Amazon Elastic Container Registry User Guide.
     public func createRepository(_ input: CreateRepositoryRequest) -> Future<CreateRepositoryResponse> {
         return client.send(operation: "CreateRepository", path: "/", httpMethod: "POST", input: input)
     }
@@ -68,6 +68,11 @@ public struct ECR {
     ///  Deletes the repository policy from a specified repository.
     public func deleteRepositoryPolicy(_ input: DeleteRepositoryPolicyRequest) -> Future<DeleteRepositoryPolicyResponse> {
         return client.send(operation: "DeleteRepositoryPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the image scan findings for the specified image.
+    public func describeImageScanFindings(_ input: DescribeImageScanFindingsRequest) -> Future<DescribeImageScanFindingsResponse> {
+        return client.send(operation: "DescribeImageScanFindings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns metadata about the images in a repository, including image size, image tags, and creation date.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
@@ -125,7 +130,12 @@ public struct ECR {
         return client.send(operation: "PutImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the image tag mutability settings for a repository.
+    ///  Updates the image scanning configuration for a repository.
+    public func putImageScanningConfiguration(_ input: PutImageScanningConfigurationRequest) -> Future<PutImageScanningConfigurationResponse> {
+        return client.send(operation: "PutImageScanningConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the image tag mutability settings for a repository. When a repository is configured with tag immutability, all image tags within the repository will be prevented them from being overwritten. For more information, see Image Tag Mutability in the Amazon Elastic Container Registry User Guide.
     public func putImageTagMutability(_ input: PutImageTagMutabilityRequest) -> Future<PutImageTagMutabilityResponse> {
         return client.send(operation: "PutImageTagMutability", path: "/", httpMethod: "POST", input: input)
     }
@@ -138,6 +148,11 @@ public struct ECR {
     ///  Applies a repository policy on a specified repository to control access permissions. For more information, see Amazon ECR Repository Policies in the Amazon Elastic Container Registry User Guide.
     public func setRepositoryPolicy(_ input: SetRepositoryPolicyRequest) -> Future<SetRepositoryPolicyResponse> {
         return client.send(operation: "SetRepositoryPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts an image vulnerability scan. An image scan can only be started once per day on an individual image. This limit includes if an image was scanned on initial push. For more information, see Image Scanning in the Amazon Elastic Container Registry User Guide.
+    public func startImageScan(_ input: StartImageScanRequest) -> Future<StartImageScanResponse> {
+        return client.send(operation: "StartImageScan", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a preview of the specified lifecycle policy. This allows you to see the results before creating the lifecycle policy.

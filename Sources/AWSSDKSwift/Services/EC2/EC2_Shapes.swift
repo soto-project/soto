@@ -4353,7 +4353,8 @@ extension EC2 {
             AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
             AWSShapeMember(label: "InputStorageLocation", required: true, type: .structure), 
             AWSShapeMember(label: "LogsStorageLocation", required: false, type: .structure), 
-            AWSShapeMember(label: "Name", required: false, type: .string)
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), required: false, type: .list, encoding: .list(member:"item"))
         ]
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
@@ -4368,14 +4369,17 @@ extension EC2 {
         public let logsStorageLocation: StorageLocation?
         /// A name for the AFI.
         public let name: String?
+        /// The tags to apply to the FPGA image during creation.
+        public let tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, inputStorageLocation: StorageLocation, logsStorageLocation: StorageLocation? = nil, name: String? = nil) {
+        public init(clientToken: String? = nil, description: String? = nil, dryRun: Bool? = nil, inputStorageLocation: StorageLocation, logsStorageLocation: StorageLocation? = nil, name: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
             self.inputStorageLocation = inputStorageLocation
             self.logsStorageLocation = logsStorageLocation
             self.name = name
+            self.tagSpecifications = tagSpecifications
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4385,6 +4389,7 @@ extension EC2 {
             case inputStorageLocation = "InputStorageLocation"
             case logsStorageLocation = "LogsStorageLocation"
             case name = "Name"
+            case tagSpecifications = "TagSpecification"
         }
     }
 
@@ -5633,7 +5638,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// The ID of the source network interface.
         public let networkInterfaceId: String
-        /// The number of bytes in each packet to mirror. These are bytes after the VXLAN header. Do not specify this parameter when you want to mirror the entire packet. To mirror a subset of the packet, set this to the length (in bytes) that you want to mirror. For example, if you set this value to 1network0, then the first 100 bytes that meet the filter criteria are copied to the target. If you do not want to mirror the entire packet, use the PacketLength parameter to specify the number of bytes in each packet to mirror.
+        /// The number of bytes in each packet to mirror. These are bytes after the VXLAN header. Do not specify this parameter when you want to mirror the entire packet. To mirror a subset of the packet, set this to the length (in bytes) that you want to mirror. For example, if you set this value to 100, then the first 100 bytes that meet the filter criteria are copied to the target. If you do not want to mirror the entire packet, use the PacketLength parameter to specify the number of bytes in each packet to mirror.
         public let packetLength: Int?
         /// The session number determines the order in which sessions are evaluated when an interface is used by multiple sessions. The first session with a matching filter is the one that mirrors the packets. Valid values are 1-32766.
         public let sessionNumber: Int
@@ -20161,6 +20166,8 @@ extension EC2 {
         case u6Tb1Metal = "u-6tb1.metal"
         case u9Tb1Metal = "u-9tb1.metal"
         case u12Tb1Metal = "u-12tb1.metal"
+        case u18Tb1Metal = "u-18tb1.metal"
+        case u24Tb1Metal = "u-24tb1.metal"
         case a1Medium = "a1.medium"
         case a1Large = "a1.large"
         case a1Xlarge = "a1.xlarge"
@@ -25597,7 +25604,7 @@ extension EC2 {
         public let instanceCount: Int
         /// Specified for Reserved Instance Marketplace offerings to limit the total order and ensure that the Reserved Instances are not purchased at unexpected prices.
         public let limitPrice: ReservedInstanceLimitPrice?
-        /// The time at which to purchase the Reserved Instance.
+        /// The time at which to purchase the Reserved Instance, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let purchaseTime: TimeStamp?
         /// The ID of the Reserved Instance offering to purchase.
         public let reservedInstancesOfferingId: String
@@ -26471,7 +26478,7 @@ extension EC2 {
         public let elasticGpuSpecifications: [ElasticGpuSpecification]?
         ///  The elastic inference accelerator for the instance. 
         public let elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAccelerator]?
-        /// Indicates whether an instance is enabled for hibernation. This parameter is valid only if the instance meets the hibernation prerequisites. Hibernation is currently supported only for Amazon Linux. For more information, see Hibernate Your Instance in the Amazon Elastic Compute Cloud User Guide.
+        /// Indicates whether an instance is enabled for hibernation. This parameter is valid only if the instance meets the hibernation prerequisites. For more information, see Hibernate Your Instance in the Amazon Elastic Compute Cloud User Guide.
         public let hibernationOptions: LaunchTemplateHibernationOptionsRequest?
         /// The IAM instance profile.
         public let iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecificationRequest?
@@ -30234,11 +30241,11 @@ extension EC2 {
             AWSShapeMember(label: "SingleInstanceType", location: .body(locationName: "singleInstanceType"), required: false, type: .boolean)
         ]
 
-        /// Indicates how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the EC2 Fleet. If the allocation strategy is lowestPrice, EC2 Fleet launches instances from the Spot Instance pools with the lowest price. This is the default allocation strategy. If the allocation strategy is diversified, EC2 Fleet launches instances from all the Spot Instance pools that you specify. If the allocation strategy is capacityOptimized, EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
+        /// Indicates how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the EC2 Fleet. If the allocation strategy is lowest-price, EC2 Fleet launches instances from the Spot Instance pools with the lowest price. This is the default allocation strategy. If the allocation strategy is diversified, EC2 Fleet launches instances from all the Spot Instance pools that you specify. If the allocation strategy is capacity-optimized, EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
         public let allocationStrategy: SpotAllocationStrategy?
         /// The behavior when a Spot Instance is interrupted. The default is terminate.
         public let instanceInterruptionBehavior: SpotInstanceInterruptionBehavior?
-        /// The number of Spot pools across which to allocate your target Spot capacity. Valid only when AllocationStrategy is set to lowestPrice. EC2 Fleet selects the cheapest Spot pools and evenly allocates your target Spot capacity across the number of Spot pools that you specify.
+        /// The number of Spot pools across which to allocate your target Spot capacity. Valid only when AllocationStrategy is set to lowest-price. EC2 Fleet selects the cheapest Spot pools and evenly allocates your target Spot capacity across the number of Spot pools that you specify.
         public let instancePoolsToUseCount: Int?
         /// The maximum amount per hour for Spot Instances that you're willing to pay.
         public let maxTotalPrice: String?
@@ -30281,7 +30288,7 @@ extension EC2 {
             AWSShapeMember(label: "SingleInstanceType", required: false, type: .boolean)
         ]
 
-        /// Indicates how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the EC2 Fleet. If the allocation strategy is lowestPrice, EC2 Fleet launches instances from the Spot Instance pools with the lowest price. This is the default allocation strategy. If the allocation strategy is diversified, EC2 Fleet launches instances from all the Spot Instance pools that you specify. If the allocation strategy is capacityOptimized, EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
+        /// Indicates how to allocate the target Spot Instance capacity across the Spot Instance pools specified by the EC2 Fleet. If the allocation strategy is lowest-price, EC2 Fleet launches instances from the Spot Instance pools with the lowest price. This is the default allocation strategy. If the allocation strategy is diversified, EC2 Fleet launches instances from all the Spot Instance pools that you specify. If the allocation strategy is capacity-optimized, EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
         public let allocationStrategy: SpotAllocationStrategy?
         /// The behavior when a Spot Instance is interrupted. The default is terminate.
         public let instanceInterruptionBehavior: SpotInstanceInterruptionBehavior?
@@ -30901,7 +30908,7 @@ extension EC2 {
             AWSShapeMember(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .list, encoding: .list(member:"item"))
         ]
 
-        /// The type of resource to tag. Currently, the resource types that support tagging on creation are: capacity-reservation | client-vpn-endpoint | dedicated-host | fleet | instance | launch-template | snapshot | transit-gateway | transit-gateway-attachment | transit-gateway-route-table | volume. To tag a resource after it has been created, see CreateTags.
+        /// The type of resource to tag. Currently, the resource types that support tagging on creation are: capacity-reservation | client-vpn-endpoint | dedicated-host | fleet | fpga-image | instance | launch-template | snapshot | traffic-mirror-filter | traffic-mirror-session | traffic-mirror-target | transit-gateway | transit-gateway-attachment | transit-gateway-route-table | volume. To tag a resource after it has been created, see CreateTags.
         public let resourceType: ResourceType?
         /// The tags to apply to the resource.
         public let tags: [Tag]?

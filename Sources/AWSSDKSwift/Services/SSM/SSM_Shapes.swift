@@ -5819,7 +5819,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(self.target, name:"target", parent: name, max: 50)
+            try validate(self.target, name:"target", parent: name, max: 400)
             try validate(self.target, name:"target", parent: name, min: 1)
         }
 
@@ -12285,7 +12285,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try validate(self.value, name:"value", parent: name, max: 200)
+            try validate(self.value, name:"value", parent: name, max: 400)
             try validate(self.value, name:"value", parent: name, min: 1)
         }
 
@@ -12570,7 +12570,7 @@ extension SSM {
                 try validate($0.key, name:"parameters.key", parent: name, max: 255)
                 try validate($0.key, name:"parameters.key", parent: name, min: 1)
             }
-            try validate(self.target, name:"target", parent: name, max: 50)
+            try validate(self.target, name:"target", parent: name, max: 400)
             try validate(self.target, name:"target", parent: name, min: 1)
         }
 

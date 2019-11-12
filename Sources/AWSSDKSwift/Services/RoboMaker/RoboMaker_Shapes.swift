@@ -514,6 +514,7 @@ extension RoboMaker {
         public func validate(name: String) throws {
             try validate(self.greengrassGroupId, name:"greengrassGroupId", parent: name, max: 1224)
             try validate(self.greengrassGroupId, name:"greengrassGroupId", parent: name, min: 1)
+            try validate(self.greengrassGroupId, name:"greengrassGroupId", parent: name, pattern: ".*")
             try validate(self.name, name:"name", parent: name, max: 255)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
@@ -1236,19 +1237,23 @@ extension RoboMaker {
     public struct DeploymentConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "concurrentDeploymentPercentage", required: false, type: .integer), 
+            AWSShapeMember(label: "downloadConditionFile", required: false, type: .structure), 
             AWSShapeMember(label: "failureThresholdPercentage", required: false, type: .integer), 
             AWSShapeMember(label: "robotDeploymentTimeoutInSeconds", required: false, type: .long)
         ]
 
         /// The percentage of robots receiving the deployment at the same time.
         public let concurrentDeploymentPercentage: Int?
+        /// The download condition file.
+        public let downloadConditionFile: S3Object?
         /// The percentage of deployments that need to fail before stopping deployment.
         public let failureThresholdPercentage: Int?
         /// The amount of time, in seconds, to wait for deployment to a single robot to complete. Choose a time between 1 minute and 7 days. The default is 5 hours.
         public let robotDeploymentTimeoutInSeconds: Int64?
 
-        public init(concurrentDeploymentPercentage: Int? = nil, failureThresholdPercentage: Int? = nil, robotDeploymentTimeoutInSeconds: Int64? = nil) {
+        public init(concurrentDeploymentPercentage: Int? = nil, downloadConditionFile: S3Object? = nil, failureThresholdPercentage: Int? = nil, robotDeploymentTimeoutInSeconds: Int64? = nil) {
             self.concurrentDeploymentPercentage = concurrentDeploymentPercentage
+            self.downloadConditionFile = downloadConditionFile
             self.failureThresholdPercentage = failureThresholdPercentage
             self.robotDeploymentTimeoutInSeconds = robotDeploymentTimeoutInSeconds
         }
@@ -1256,12 +1261,14 @@ extension RoboMaker {
         public func validate(name: String) throws {
             try validate(self.concurrentDeploymentPercentage, name:"concurrentDeploymentPercentage", parent: name, max: 100)
             try validate(self.concurrentDeploymentPercentage, name:"concurrentDeploymentPercentage", parent: name, min: 1)
+            try self.downloadConditionFile?.validate(name: "\(name).downloadConditionFile")
             try validate(self.failureThresholdPercentage, name:"failureThresholdPercentage", parent: name, max: 100)
             try validate(self.failureThresholdPercentage, name:"failureThresholdPercentage", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case concurrentDeploymentPercentage = "concurrentDeploymentPercentage"
+            case downloadConditionFile = "downloadConditionFile"
             case failureThresholdPercentage = "failureThresholdPercentage"
             case robotDeploymentTimeoutInSeconds = "robotDeploymentTimeoutInSeconds"
         }
@@ -1336,6 +1343,7 @@ extension RoboMaker {
         case prelaunchfilefailure = "PreLaunchFileFailure"
         case postlaunchfilefailure = "PostLaunchFileFailure"
         case badpermissionerror = "BadPermissionError"
+        case downloadconditionfailed = "DownloadConditionFailed"
         case internalservererror = "InternalServerError"
         public var description: String { return self.rawValue }
     }
@@ -1375,6 +1383,7 @@ extension RoboMaker {
                 try validate($0.key, name:"environmentVariables.key", parent: name, pattern: "[A-Z_][A-Z0-9_]*")
                 try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
             try validate(self.launchFile, name:"launchFile", parent: name, max: 1024)
             try validate(self.launchFile, name:"launchFile", parent: name, min: 1)
@@ -1384,8 +1393,10 @@ extension RoboMaker {
             try validate(self.packageName, name:"packageName", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
             try validate(self.postLaunchFile, name:"postLaunchFile", parent: name, max: 1024)
             try validate(self.postLaunchFile, name:"postLaunchFile", parent: name, min: 1)
+            try validate(self.postLaunchFile, name:"postLaunchFile", parent: name, pattern: ".*")
             try validate(self.preLaunchFile, name:"preLaunchFile", parent: name, max: 1024)
             try validate(self.preLaunchFile, name:"preLaunchFile", parent: name, min: 1)
+            try validate(self.preLaunchFile, name:"preLaunchFile", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2130,6 +2141,7 @@ extension RoboMaker {
                 try validate($0.key, name:"environmentVariables.key", parent: name, pattern: "[A-Z_][A-Z0-9_]*")
                 try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name:"environmentVariables[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
             try validate(self.launchFile, name:"launchFile", parent: name, max: 1024)
             try validate(self.launchFile, name:"launchFile", parent: name, min: 1)
@@ -3022,6 +3034,7 @@ extension RoboMaker {
     public enum RobotDeploymentStep: String, CustomStringConvertible, Codable {
         case validating = "Validating"
         case downloadingextracting = "DownloadingExtracting"
+        case executingdownloadcondition = "ExecutingDownloadCondition"
         case executingprelaunch = "ExecutingPreLaunch"
         case launching = "Launching"
         case executingpostlaunch = "ExecutingPostLaunch"
@@ -3053,12 +3066,14 @@ extension RoboMaker {
 
     public enum RobotSoftwareSuiteType: String, CustomStringConvertible, Codable {
         case ros = "ROS"
+        case ros2 = "ROS2"
         public var description: String { return self.rawValue }
     }
 
     public enum RobotSoftwareSuiteVersionType: String, CustomStringConvertible, Codable {
         case kinetic = "Kinetic"
         case melodic = "Melodic"
+        case dashing = "Dashing"
         public var description: String { return self.rawValue }
     }
 
@@ -3092,6 +3107,42 @@ extension RoboMaker {
         private enum CodingKeys: String, CodingKey {
             case etag = "etag"
             case s3Key = "s3Key"
+        }
+    }
+
+    public struct S3Object: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucket", required: true, type: .string), 
+            AWSShapeMember(label: "etag", required: false, type: .string), 
+            AWSShapeMember(label: "key", required: true, type: .string)
+        ]
+
+        /// The bucket containing the object.
+        public let bucket: String
+        /// The etag of the object.
+        public let etag: String?
+        /// The key of the object.
+        public let key: String
+
+        public init(bucket: String, etag: String? = nil, key: String) {
+            self.bucket = bucket
+            self.etag = etag
+            self.key = key
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bucket, name:"bucket", parent: name, max: 63)
+            try validate(self.bucket, name:"bucket", parent: name, min: 3)
+            try validate(self.bucket, name:"bucket", parent: name, pattern: "[a-z0-9][a-z0-9.\\-]*[a-z0-9]")
+            try validate(self.key, name:"key", parent: name, max: 1024)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case etag = "etag"
+            case key = "key"
         }
     }
 
@@ -3222,6 +3273,7 @@ extension RoboMaker {
         public let maxJobDurationInSeconds: Int64?
         /// The name of the simulation job.
         public let name: String?
+        /// Information about a network interface.
         public let networkInterface: NetworkInterface?
         /// Location for output files generated by the simulation job.
         public let outputLocation: OutputLocation?
@@ -3390,7 +3442,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.version, name:"version", parent: name, pattern: "7|9|Kinetic|Melodic")
+            try validate(self.version, name:"version", parent: name, pattern: "7|9|Kinetic|Melodic|Dashing")
         }
 
         private enum CodingKeys: String, CodingKey {
