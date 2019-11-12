@@ -11,7 +11,7 @@ public struct ApiGatewayV2 {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -22,7 +22,8 @@ public struct ApiGatewayV2 {
             apiVersion: "2018-11-29",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [ApiGatewayV2ErrorType.self]
+            possibleErrorTypes: [ApiGatewayV2ErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

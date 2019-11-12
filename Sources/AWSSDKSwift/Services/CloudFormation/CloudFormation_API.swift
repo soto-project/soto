@@ -11,7 +11,7 @@ public struct CloudFormation {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -22,7 +22,8 @@ public struct CloudFormation {
             apiVersion: "2010-05-15",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [CloudFormationErrorType.self]
+            possibleErrorTypes: [CloudFormationErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 
