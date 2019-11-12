@@ -77,7 +77,7 @@ public struct Amplify {
         return client.send(operation: "DeleteWebhook", path: "/webhooks/{webhookId}", httpMethod: "DELETE", input: input)
     }
 
-    ///   Retrieve website access logs for a specific time range via a pre-signed URL. Optionally, deliver the logs to a given S3 bucket. 
+    ///   Retrieve website access logs for a specific time range via a pre-signed URL. 
     public func generateAccessLogs(_ input: GenerateAccessLogsRequest) -> Future<GenerateAccessLogsResult> {
         return client.send(operation: "GenerateAccessLogs", path: "/apps/{appId}/accesslogs", httpMethod: "POST", input: input)
     }

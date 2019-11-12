@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for Chime
 public enum ChimeErrorType: AWSErrorType {
+    case accessDeniedException(message: String?)
     case badRequestException(message: String?)
     case conflictException(message: String?)
     case forbiddenException(message: String?)
@@ -23,6 +24,8 @@ extension ChimeErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "AccessDeniedException":
+            self = .accessDeniedException(message: message)
         case "BadRequestException":
             self = .badRequestException(message: message)
         case "ConflictException":
@@ -52,6 +55,8 @@ extension ChimeErrorType {
 extension ChimeErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
         case .badRequestException(let message):
             return "BadRequestException: \(message ?? "")"
         case .conflictException(let message):

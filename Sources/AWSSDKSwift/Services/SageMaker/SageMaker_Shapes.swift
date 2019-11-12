@@ -7130,6 +7130,9 @@ extension SageMaker {
         case mlEia1Medium = "ml.eia1.medium"
         case mlEia1Large = "ml.eia1.large"
         case mlEia1Xlarge = "ml.eia1.xlarge"
+        case mlEia2Medium = "ml.eia2.medium"
+        case mlEia2Large = "ml.eia2.large"
+        case mlEia2Xlarge = "ml.eia2.xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -7579,6 +7582,9 @@ extension SageMaker {
         case mlEia1Medium = "ml.eia1.medium"
         case mlEia1Large = "ml.eia1.large"
         case mlEia1Xlarge = "ml.eia1.xlarge"
+        case mlEia2Medium = "ml.eia2.medium"
+        case mlEia2Large = "ml.eia2.large"
+        case mlEia2Xlarge = "ml.eia2.xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -7598,6 +7604,12 @@ extension SageMaker {
         case mlM54Xlarge = "ml.m5.4xlarge"
         case mlM512Xlarge = "ml.m5.12xlarge"
         case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlM5DLarge = "ml.m5d.large"
+        case mlM5DXlarge = "ml.m5d.xlarge"
+        case mlM5D2Xlarge = "ml.m5d.2xlarge"
+        case mlM5D4Xlarge = "ml.m5d.4xlarge"
+        case mlM5D12Xlarge = "ml.m5d.12xlarge"
+        case mlM5D24Xlarge = "ml.m5d.24xlarge"
         case mlC4Large = "ml.c4.large"
         case mlC4Xlarge = "ml.c4.xlarge"
         case mlC42Xlarge = "ml.c4.2xlarge"
@@ -7615,6 +7627,12 @@ extension SageMaker {
         case mlC54Xlarge = "ml.c5.4xlarge"
         case mlC59Xlarge = "ml.c5.9xlarge"
         case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlC5DLarge = "ml.c5d.large"
+        case mlC5DXlarge = "ml.c5d.xlarge"
+        case mlC5D2Xlarge = "ml.c5d.2xlarge"
+        case mlC5D4Xlarge = "ml.c5d.4xlarge"
+        case mlC5D9Xlarge = "ml.c5d.9xlarge"
+        case mlC5D18Xlarge = "ml.c5d.18xlarge"
         case mlG4DnXlarge = "ml.g4dn.xlarge"
         case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
         case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
@@ -7627,6 +7645,12 @@ extension SageMaker {
         case mlR54Xlarge = "ml.r5.4xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
+        case mlR5DLarge = "ml.r5d.large"
+        case mlR5DXlarge = "ml.r5d.xlarge"
+        case mlR5D2Xlarge = "ml.r5d.2xlarge"
+        case mlR5D4Xlarge = "ml.r5d.4xlarge"
+        case mlR5D12Xlarge = "ml.r5d.12xlarge"
+        case mlR5D24Xlarge = "ml.r5d.24xlarge"
         public var description: String { return self.rawValue }
     }
 

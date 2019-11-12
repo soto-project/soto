@@ -5,6 +5,28 @@ import AWSSDKSwiftCore
 
 extension ECR {
 
+    public struct Attribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
+        ]
+
+        /// The attribute key.
+        public let key: String
+        /// The value assigned to the attribute key.
+        public let value: String?
+
+        public init(key: String, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
     public struct AuthorizationData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorizationToken", required: false, type: .string), 
@@ -302,11 +324,14 @@ extension ECR {
 
     public struct CreateRepositoryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageScanningConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "imageTagMutability", required: false, type: .enum), 
             AWSShapeMember(label: "repositoryName", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
         ]
 
+        /// The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities after being pushed to the repository.
+        public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability?
         /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
@@ -314,7 +339,8 @@ extension ECR {
         /// The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
 
-        public init(imageTagMutability: ImageTagMutability? = nil, repositoryName: String, tags: [Tag]? = nil) {
+        public init(imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, repositoryName: String, tags: [Tag]? = nil) {
+            self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTagMutability = imageTagMutability
             self.repositoryName = repositoryName
             self.tags = tags
@@ -327,6 +353,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case imageScanningConfiguration = "imageScanningConfiguration"
             case imageTagMutability = "imageTagMutability"
             case repositoryName = "repositoryName"
             case tags = "tags"
@@ -518,6 +545,93 @@ extension ECR {
         }
     }
 
+    public struct DescribeImageScanFindingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageId", required: true, type: .structure), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+
+        public let imageId: ImageIdentifier
+        /// The maximum number of image scan results returned by DescribeImageScanFindings in paginated output. When this parameter is used, DescribeImageScanFindings only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImageScanFindings request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeImageScanFindings returns up to 100 results and a nextToken value, if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated DescribeImageScanFindings request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The AWS account ID associated with the registry that contains the repository in which to describe the image scan findings for. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The repository for the image for which to describe the scan findings.
+        public let repositoryName: String
+
+        public init(imageId: ImageIdentifier, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
+            self.imageId = imageId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try self.imageId.validate(name: "\(name).imageId")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "imageId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct DescribeImageScanFindingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageId", required: false, type: .structure), 
+            AWSShapeMember(label: "imageScanFindings", required: false, type: .structure), 
+            AWSShapeMember(label: "imageScanStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
+        ]
+
+        public let imageId: ImageIdentifier?
+        /// The information contained in the image scan findings.
+        public let imageScanFindings: ImageScanFindings?
+        /// The current state of the scan.
+        public let imageScanStatus: ImageScanStatus?
+        /// The nextToken value to include in a future DescribeImageScanFindings request. When the results of a DescribeImageScanFindings request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+
+        public init(imageId: ImageIdentifier? = nil, imageScanFindings: ImageScanFindings? = nil, imageScanStatus: ImageScanStatus? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+            self.imageId = imageId
+            self.imageScanFindings = imageScanFindings
+            self.imageScanStatus = imageScanStatus
+            self.nextToken = nextToken
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "imageId"
+            case imageScanFindings = "imageScanFindings"
+            case imageScanStatus = "imageScanStatus"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
     public struct DescribeImagesFilter: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "tagStatus", required: false, type: .enum)
@@ -678,6 +792,16 @@ extension ECR {
             case nextToken = "nextToken"
             case repositories = "repositories"
         }
+    }
+
+    public enum FindingSeverity: String, CustomStringConvertible, Codable {
+        case informational = "INFORMATIONAL"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case high = "HIGH"
+        case critical = "CRITICAL"
+        case undefined = "UNDEFINED"
+        public var description: String { return self.rawValue }
     }
 
     public struct GetAuthorizationTokenRequest: AWSShape {
@@ -1040,6 +1164,8 @@ extension ECR {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "imageDigest", required: false, type: .string), 
             AWSShapeMember(label: "imagePushedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "imageScanFindingsSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "imageScanStatus", required: false, type: .structure), 
             AWSShapeMember(label: "imageSizeInBytes", required: false, type: .long), 
             AWSShapeMember(label: "imageTags", required: false, type: .list), 
             AWSShapeMember(label: "registryId", required: false, type: .string), 
@@ -1050,6 +1176,10 @@ extension ECR {
         public let imageDigest: String?
         /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository. 
         public let imagePushedAt: TimeStamp?
+        /// A summary of the last completed image scan.
+        public let imageScanFindingsSummary: ImageScanFindingsSummary?
+        /// The current state of the scan.
+        public let imageScanStatus: ImageScanStatus?
         /// The size, in bytes, of the image in the repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
         public let imageSizeInBytes: Int64?
         /// The list of tags associated with this image.
@@ -1059,9 +1189,11 @@ extension ECR {
         /// The name of the repository to which this image belongs.
         public let repositoryName: String?
 
-        public init(imageDigest: String? = nil, imagePushedAt: TimeStamp? = nil, imageSizeInBytes: Int64? = nil, imageTags: [String]? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+        public init(imageDigest: String? = nil, imagePushedAt: TimeStamp? = nil, imageScanFindingsSummary: ImageScanFindingsSummary? = nil, imageScanStatus: ImageScanStatus? = nil, imageSizeInBytes: Int64? = nil, imageTags: [String]? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.imageDigest = imageDigest
             self.imagePushedAt = imagePushedAt
+            self.imageScanFindingsSummary = imageScanFindingsSummary
+            self.imageScanStatus = imageScanStatus
             self.imageSizeInBytes = imageSizeInBytes
             self.imageTags = imageTags
             self.registryId = registryId
@@ -1071,6 +1203,8 @@ extension ECR {
         private enum CodingKeys: String, CodingKey {
             case imageDigest = "imageDigest"
             case imagePushedAt = "imagePushedAt"
+            case imageScanFindingsSummary = "imageScanFindingsSummary"
+            case imageScanStatus = "imageScanStatus"
             case imageSizeInBytes = "imageSizeInBytes"
             case imageTags = "imageTags"
             case registryId = "registryId"
@@ -1138,6 +1272,141 @@ extension ECR {
         private enum CodingKeys: String, CodingKey {
             case imageDigest = "imageDigest"
             case imageTag = "imageTag"
+        }
+    }
+
+    public struct ImageScanFinding: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: false, type: .list), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "severity", required: false, type: .enum), 
+            AWSShapeMember(label: "uri", required: false, type: .string)
+        ]
+
+        /// A collection of attributes of the host from which the finding is generated.
+        public let attributes: [Attribute]?
+        /// The description of the finding.
+        public let description: String?
+        /// The name associated with the finding, usually a CVE number.
+        public let name: String?
+        /// The finding severity.
+        public let severity: FindingSeverity?
+        /// A link containing additional details about the security vulnerability.
+        public let uri: String?
+
+        public init(attributes: [Attribute]? = nil, description: String? = nil, name: String? = nil, severity: FindingSeverity? = nil, uri: String? = nil) {
+            self.attributes = attributes
+            self.description = description
+            self.name = name
+            self.severity = severity
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case description = "description"
+            case name = "name"
+            case severity = "severity"
+            case uri = "uri"
+        }
+    }
+
+    public struct ImageScanFindings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "findings", required: false, type: .list), 
+            AWSShapeMember(label: "findingSeverityCounts", required: false, type: .map), 
+            AWSShapeMember(label: "imageScanCompletedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "vulnerabilitySourceUpdatedAt", required: false, type: .timestamp)
+        ]
+
+        /// The findings from the image scan.
+        public let findings: [ImageScanFinding]?
+        /// The image vulnerability counts, sorted by severity.
+        public let findingSeverityCounts: [FindingSeverity: Int]?
+        /// The time of the last completed image scan.
+        public let imageScanCompletedAt: TimeStamp?
+        /// The time when the vulnerability data was last scanned.
+        public let vulnerabilitySourceUpdatedAt: TimeStamp?
+
+        public init(findings: [ImageScanFinding]? = nil, findingSeverityCounts: [FindingSeverity: Int]? = nil, imageScanCompletedAt: TimeStamp? = nil, vulnerabilitySourceUpdatedAt: TimeStamp? = nil) {
+            self.findings = findings
+            self.findingSeverityCounts = findingSeverityCounts
+            self.imageScanCompletedAt = imageScanCompletedAt
+            self.vulnerabilitySourceUpdatedAt = vulnerabilitySourceUpdatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "findings"
+            case findingSeverityCounts = "findingSeverityCounts"
+            case imageScanCompletedAt = "imageScanCompletedAt"
+            case vulnerabilitySourceUpdatedAt = "vulnerabilitySourceUpdatedAt"
+        }
+    }
+
+    public struct ImageScanFindingsSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "findingSeverityCounts", required: false, type: .map), 
+            AWSShapeMember(label: "imageScanCompletedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "vulnerabilitySourceUpdatedAt", required: false, type: .timestamp)
+        ]
+
+        /// The image vulnerability counts, sorted by severity.
+        public let findingSeverityCounts: [FindingSeverity: Int]?
+        /// The time of the last completed image scan.
+        public let imageScanCompletedAt: TimeStamp?
+        /// The time when the vulnerability data was last scanned.
+        public let vulnerabilitySourceUpdatedAt: TimeStamp?
+
+        public init(findingSeverityCounts: [FindingSeverity: Int]? = nil, imageScanCompletedAt: TimeStamp? = nil, vulnerabilitySourceUpdatedAt: TimeStamp? = nil) {
+            self.findingSeverityCounts = findingSeverityCounts
+            self.imageScanCompletedAt = imageScanCompletedAt
+            self.vulnerabilitySourceUpdatedAt = vulnerabilitySourceUpdatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingSeverityCounts = "findingSeverityCounts"
+            case imageScanCompletedAt = "imageScanCompletedAt"
+            case vulnerabilitySourceUpdatedAt = "vulnerabilitySourceUpdatedAt"
+        }
+    }
+
+    public struct ImageScanStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum)
+        ]
+
+        /// The description of the image scan status.
+        public let description: String?
+        /// The current state of an image scan.
+        public let status: ScanStatus?
+
+        public init(description: String? = nil, status: ScanStatus? = nil) {
+            self.description = description
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case status = "status"
+        }
+    }
+
+    public struct ImageScanningConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scanOnPush", required: false, type: .boolean)
+        ]
+
+        /// The setting that determines whether images are scanned after being pushed to a repository. If set to true, images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the StartImageScan API.
+        public let scanOnPush: Bool?
+
+        public init(scanOnPush: Bool? = nil) {
+            self.scanOnPush = scanOnPush
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scanOnPush = "scanOnPush"
         }
     }
 
@@ -1509,6 +1778,8 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try validate(self.imageManifest, name:"imageManifest", parent: name, max: 4194304)
+            try validate(self.imageManifest, name:"imageManifest", parent: name, min: 1)
             try validate(self.imageTag, name:"imageTag", parent: name, max: 300)
             try validate(self.imageTag, name:"imageTag", parent: name, min: 1)
             try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
@@ -1539,6 +1810,67 @@ extension ECR {
 
         private enum CodingKeys: String, CodingKey {
             case image = "image"
+        }
+    }
+
+    public struct PutImageScanningConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageScanningConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+
+        /// The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities after being pushed to the repository.
+        public let imageScanningConfiguration: ImageScanningConfiguration
+        /// The AWS account ID associated with the registry that contains the repository in which to update the image scanning configuration setting. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The name of the repository in which to update the image scanning configuration setting.
+        public let repositoryName: String
+
+        public init(imageScanningConfiguration: ImageScanningConfiguration, registryId: String? = nil, repositoryName: String) {
+            self.imageScanningConfiguration = imageScanningConfiguration
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageScanningConfiguration = "imageScanningConfiguration"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct PutImageScanningConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageScanningConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
+        ]
+
+        /// The image scanning configuration setting for the repository.
+        public let imageScanningConfiguration: ImageScanningConfiguration?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+
+        public init(imageScanningConfiguration: ImageScanningConfiguration? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+            self.imageScanningConfiguration = imageScanningConfiguration
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageScanningConfiguration = "imageScanningConfiguration"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
         }
     }
 
@@ -1669,6 +2001,7 @@ extension ECR {
     public struct Repository: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "imageScanningConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "imageTagMutability", required: false, type: .enum), 
             AWSShapeMember(label: "registryId", required: false, type: .string), 
             AWSShapeMember(label: "repositoryArn", required: false, type: .string), 
@@ -1678,6 +2011,7 @@ extension ECR {
 
         /// The date and time, in JavaScript date format, when the repository was created.
         public let createdAt: TimeStamp?
+        public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tag mutability setting for the repository.
         public let imageTagMutability: ImageTagMutability?
         /// The AWS account ID associated with the registry that contains the repository.
@@ -1689,8 +2023,9 @@ extension ECR {
         /// The URI for the repository. You can use this URI for Docker push or pull operations.
         public let repositoryUri: String?
 
-        public init(createdAt: TimeStamp? = nil, imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, repositoryUri: String? = nil) {
+        public init(createdAt: TimeStamp? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, repositoryUri: String? = nil) {
             self.createdAt = createdAt
+            self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTagMutability = imageTagMutability
             self.registryId = registryId
             self.repositoryArn = repositoryArn
@@ -1700,12 +2035,20 @@ extension ECR {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case imageScanningConfiguration = "imageScanningConfiguration"
             case imageTagMutability = "imageTagMutability"
             case registryId = "registryId"
             case repositoryArn = "repositoryArn"
             case repositoryName = "repositoryName"
             case repositoryUri = "repositoryUri"
         }
+    }
+
+    public enum ScanStatus: String, CustomStringConvertible, Codable {
+        case inProgress = "IN_PROGRESS"
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
     }
 
     public struct SetRepositoryPolicyRequest: AWSShape {
@@ -1771,6 +2114,71 @@ extension ECR {
 
         private enum CodingKeys: String, CodingKey {
             case policyText = "policyText"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct StartImageScanRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageId", required: true, type: .structure), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
+        ]
+
+        public let imageId: ImageIdentifier
+        /// The AWS account ID associated with the registry that contains the repository in which to start an image scan request. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The name of the repository that contains the images to scan.
+        public let repositoryName: String
+
+        public init(imageId: ImageIdentifier, registryId: String? = nil, repositoryName: String) {
+            self.imageId = imageId
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try self.imageId.validate(name: "\(name).imageId")
+            try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")
+            try validate(self.repositoryName, name:"repositoryName", parent: name, max: 256)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, min: 2)
+            try validate(self.repositoryName, name:"repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "imageId"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct StartImageScanResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "imageId", required: false, type: .structure), 
+            AWSShapeMember(label: "imageScanStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "registryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
+        ]
+
+        public let imageId: ImageIdentifier?
+        /// The current state of the scan.
+        public let imageScanStatus: ImageScanStatus?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+
+        public init(imageId: ImageIdentifier? = nil, imageScanStatus: ImageScanStatus? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+            self.imageId = imageId
+            self.imageScanStatus = imageScanStatus
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "imageId"
+            case imageScanStatus = "imageScanStatus"
             case registryId = "registryId"
             case repositoryName = "repositoryName"
         }
@@ -1966,6 +2374,8 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try validate(self.layerPartBlob, name:"layerPartBlob", parent: name, max: 20971520)
+            try validate(self.layerPartBlob, name:"layerPartBlob", parent: name, min: 0)
             try validate(self.partFirstByte, name:"partFirstByte", parent: name, min: 0)
             try validate(self.partLastByte, name:"partLastByte", parent: name, min: 0)
             try validate(self.registryId, name:"registryId", parent: name, pattern: "[0-9]{12}")

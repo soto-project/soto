@@ -4028,6 +4028,7 @@ extension S3 {
         case objectlockretainuntildate = "ObjectLockRetainUntilDate"
         case objectlockmode = "ObjectLockMode"
         case objectlocklegalholdstatus = "ObjectLockLegalHoldStatus"
+        case intelligenttieringaccesstier = "IntelligentTieringAccessTier"
         public var description: String { return self.rawValue }
     }
 
@@ -7626,6 +7627,28 @@ extension S3 {
 
     }
 
+    public struct ScanRange: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "End", required: false, type: .long), 
+            AWSShapeMember(label: "Start", required: false, type: .long)
+        ]
+
+        /// Specifies the end of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is one less than the size of the object being queried.
+        public let end: Int64?
+        /// Specifies the start of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is 0.
+        public let start: Int64?
+
+        public init(end: Int64? = nil, start: Int64? = nil) {
+            self.end = end
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "End"
+            case start = "Start"
+        }
+    }
+
     public struct SelectObjectContentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
@@ -7635,6 +7658,7 @@ extension S3 {
             AWSShapeMember(label: "Key", location: .uri(locationName: "Key"), required: true, type: .string), 
             AWSShapeMember(label: "OutputSerialization", required: true, type: .structure), 
             AWSShapeMember(label: "RequestProgress", required: false, type: .structure), 
+            AWSShapeMember(label: "ScanRange", required: false, type: .structure), 
             AWSShapeMember(label: "SSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm"), required: false, type: .string), 
             AWSShapeMember(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
             AWSShapeMember(label: "SSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"), required: false, type: .string)
@@ -7654,6 +7678,8 @@ extension S3 {
         public let outputSerialization: OutputSerialization
         /// Specifies if periodic request progress information should be enabled.
         public let requestProgress: RequestProgress?
+        /// Specifies the byte range of the object to get the records from. A record is processed when its first byte is contained by the range. This parameter is optional, but when specified, it must not be empty. See RFC 2616, Section 14.35.1 about how to specify the start and end of the range.
+        public let scanRange: ScanRange?
         /// The SSE Algorithm used to encrypt the object. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
         public let sSECustomerAlgorithm: String?
         /// The SSE Customer Key. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
@@ -7661,7 +7687,7 @@ extension S3 {
         /// The SSE Customer Key MD5. For more information, see  Server-Side Encryption (Using Customer-Provided Encryption Keys. 
         public let sSECustomerKeyMD5: String?
 
-        public init(bucket: String, expression: String, expressionType: ExpressionType, inputSerialization: InputSerialization, key: String, outputSerialization: OutputSerialization, requestProgress: RequestProgress? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil) {
+        public init(bucket: String, expression: String, expressionType: ExpressionType, inputSerialization: InputSerialization, key: String, outputSerialization: OutputSerialization, requestProgress: RequestProgress? = nil, scanRange: ScanRange? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil) {
             self.bucket = bucket
             self.expression = expression
             self.expressionType = expressionType
@@ -7669,6 +7695,7 @@ extension S3 {
             self.key = key
             self.outputSerialization = outputSerialization
             self.requestProgress = requestProgress
+            self.scanRange = scanRange
             self.sSECustomerAlgorithm = sSECustomerAlgorithm
             self.sSECustomerKey = sSECustomerKey
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
@@ -7687,6 +7714,7 @@ extension S3 {
             case key = "Key"
             case outputSerialization = "OutputSerialization"
             case requestProgress = "RequestProgress"
+            case scanRange = "ScanRange"
             case sSECustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
             case sSECustomerKey = "x-amz-server-side-encryption-customer-key"
             case sSECustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"

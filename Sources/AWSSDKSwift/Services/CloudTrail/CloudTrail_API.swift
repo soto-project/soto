@@ -28,12 +28,12 @@ public struct CloudTrail {
         )
     }
 
-    ///  Adds one or more tags to a trail, up to a limit of 50. Tags must be unique per trail. Overwrites an existing tag's value when a new value is specified for an existing tag key. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail that applies to all regions only from the region in which the trail was created (that is, from its home region).
+    ///  Adds one or more tags to a trail, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique for a trail; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail that applies to all AWS Regions only from the Region in which the trail was created (also known as its home region).
     public func addTags(_ input: AddTagsRequest) -> Future<AddTagsResponse> {
         return client.send(operation: "AddTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a trail that specifies the settings for delivery of log data to an Amazon S3 bucket. A maximum of five trails can exist in a region, irrespective of the region in which they were created.
+    ///  Creates a trail that specifies the settings for delivery of log data to an Amazon S3 bucket. 
     public func createTrail(_ input: CreateTrailRequest) -> Future<CreateTrailResponse> {
         return client.send(operation: "CreateTrail", path: "/", httpMethod: "POST", input: input)
     }
@@ -43,7 +43,7 @@ public struct CloudTrail {
         return client.send(operation: "DeleteTrail", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves settings for the trail associated with the current region for your account.
+    ///  Retrieves settings for one or more trails associated with the current region for your account.
     public func describeTrails(_ input: DescribeTrailsRequest) -> Future<DescribeTrailsResponse> {
         return client.send(operation: "DescribeTrails", path: "/", httpMethod: "POST", input: input)
     }
@@ -51,6 +51,11 @@ public struct CloudTrail {
     ///  Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following:   If your event selector includes read-only events, write-only events, or all events. This applies to both management events and data events.   If your event selector includes management events.   If your event selector includes data events, the Amazon S3 objects or AWS Lambda functions that you are logging for data events.   For more information, see Logging Data and Management Events for Trails  in the AWS CloudTrail User Guide.
     public func getEventSelectors(_ input: GetEventSelectorsRequest) -> Future<GetEventSelectorsResponse> {
         return client.send(operation: "GetEventSelectors", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns settings information for a specified trail.
+    public func getTrail(_ input: GetTrailRequest) -> Future<GetTrailResponse> {
+        return client.send(operation: "GetTrail", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a JSON-formatted list of information about the specified trail. Fields include information on delivery errors, Amazon SNS and Amazon S3 errors, and start and stop logging times for each trail. This operation returns trail status from a single region. To return trail status from all regions, you must call the operation on each region.
@@ -68,7 +73,12 @@ public struct CloudTrail {
         return client.send(operation: "ListTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Looks up management events captured by CloudTrail. Events for a region can be looked up in that region during the last 90 days. Lookup supports the following attributes:   AWS access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to one per second per account. If this limit is exceeded, a throttling error occurs.   Events that occurred during the selected time range will not be available for lookup if CloudTrail logging was not enabled when the events occurred. 
+    ///  Lists trails that are in the current account.
+    public func listTrails(_ input: ListTrailsRequest) -> Future<ListTrailsResponse> {
+        return client.send(operation: "ListTrails", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Looks up management events captured by CloudTrail. You can look up events that occurred in a region within the last 90 days. Lookup supports the following attributes:   AWS access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to one per second per account. If this limit is exceeded, a throttling error occurs. Events that occurred during the selected time range will not be available for lookup if CloudTrail logging was not enabled when the events occurred. 
     public func lookupEvents(_ input: LookupEventsRequest) -> Future<LookupEventsResponse> {
         return client.send(operation: "LookupEvents", path: "/", httpMethod: "POST", input: input)
     }

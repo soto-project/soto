@@ -47,7 +47,7 @@ public struct Batch {
         return client.send(operation: "DeleteComputeEnvironment", path: "/v1/deletecomputeenvironment", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified job queue. You must first disable submissions for a queue with the UpdateJobQueue operation. All jobs in the queue are terminated when you delete a job queue. It is not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request. 
+    ///  Deletes the specified job queue. You must first disable submissions for a queue with the UpdateJobQueue operation. All jobs in the queue are terminated when you delete a job queue. It is not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request.
     public func deleteJobQueue(_ input: DeleteJobQueueRequest) -> Future<DeleteJobQueueResponse> {
         return client.send(operation: "DeleteJobQueue", path: "/v1/deletejobqueue", httpMethod: "POST", input: input)
     }
@@ -82,12 +82,12 @@ public struct Batch {
         return client.send(operation: "ListJobs", path: "/v1/listjobs", httpMethod: "POST", input: input)
     }
 
-    ///  Registers an AWS Batch job definition. 
+    ///  Registers an AWS Batch job definition.
     public func registerJobDefinition(_ input: RegisterJobDefinitionRequest) -> Future<RegisterJobDefinitionResponse> {
         return client.send(operation: "RegisterJobDefinition", path: "/v1/registerjobdefinition", httpMethod: "POST", input: input)
     }
 
-    ///  Submits an AWS Batch job from a job definition. Parameters specified during SubmitJob override parameters defined in the job definition. 
+    ///  Submits an AWS Batch job from a job definition. Parameters specified during SubmitJob override parameters defined in the job definition.
     public func submitJob(_ input: SubmitJobRequest) -> Future<SubmitJobResponse> {
         return client.send(operation: "SubmitJob", path: "/v1/submitjob", httpMethod: "POST", input: input)
     }

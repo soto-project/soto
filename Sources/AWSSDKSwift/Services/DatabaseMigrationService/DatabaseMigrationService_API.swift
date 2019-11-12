@@ -48,7 +48,7 @@ public struct DatabaseMigrationService {
         return client.send(operation: "CreateEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates the replication instance using the specified parameters.
+    ///  Creates the replication instance using the specified parameters. AWS DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the AWS CLI and AWS DMS API. For information on the required permissions, see IAM Permissions Needed to Use AWS DMS.
     public func createReplicationInstance(_ input: CreateReplicationInstanceMessage) -> Future<CreateReplicationInstanceResponse> {
         return client.send(operation: "CreateReplicationInstance", path: "/", httpMethod: "POST", input: input)
     }

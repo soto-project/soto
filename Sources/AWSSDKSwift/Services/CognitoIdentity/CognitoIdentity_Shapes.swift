@@ -49,6 +49,7 @@ extension CognitoIdentity {
 
     public struct CreateIdentityPoolInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowClassicFlow", required: false, type: .boolean), 
             AWSShapeMember(label: "AllowUnauthenticatedIdentities", required: true, type: .boolean), 
             AWSShapeMember(label: "CognitoIdentityProviders", required: false, type: .list), 
             AWSShapeMember(label: "DeveloperProviderName", required: false, type: .string), 
@@ -59,6 +60,8 @@ extension CognitoIdentity {
             AWSShapeMember(label: "SupportedLoginProviders", required: false, type: .map)
         ]
 
+        /// Enables or disables the Basic (Classic) authentication flow. For more information, see Identity Pools (Federated Identities) Authentication Flow in the Amazon Cognito Developer Guide.
+        public let allowClassicFlow: Bool?
         /// TRUE if the identity pool supports unauthenticated logins.
         public let allowUnauthenticatedIdentities: Bool
         /// An array of Amazon Cognito user pools and their client IDs.
@@ -76,7 +79,8 @@ extension CognitoIdentity {
         /// Optional key:value pairs mapping provider names to provider app IDs.
         public let supportedLoginProviders: [String: String]?
 
-        public init(allowUnauthenticatedIdentities: Bool, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolName: String, identityPoolTags: [String: String]? = nil, openIdConnectProviderARNs: [String]? = nil, samlProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil) {
+        public init(allowClassicFlow: Bool? = nil, allowUnauthenticatedIdentities: Bool, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolName: String, identityPoolTags: [String: String]? = nil, openIdConnectProviderARNs: [String]? = nil, samlProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil) {
+            self.allowClassicFlow = allowClassicFlow
             self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
             self.cognitoIdentityProviders = cognitoIdentityProviders
             self.developerProviderName = developerProviderName
@@ -96,7 +100,7 @@ extension CognitoIdentity {
             try validate(self.developerProviderName, name:"developerProviderName", parent: name, pattern: "[\\w._-]+")
             try validate(self.identityPoolName, name:"identityPoolName", parent: name, max: 128)
             try validate(self.identityPoolName, name:"identityPoolName", parent: name, min: 1)
-            try validate(self.identityPoolName, name:"identityPoolName", parent: name, pattern: "[\\w ]+")
+            try validate(self.identityPoolName, name:"identityPoolName", parent: name, pattern: "[\\w\\s+=,.@-]+")
             try self.identityPoolTags?.forEach {
                 try validate($0.key, name:"identityPoolTags.key", parent: name, max: 128)
                 try validate($0.key, name:"identityPoolTags.key", parent: name, min: 1)
@@ -121,6 +125,7 @@ extension CognitoIdentity {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowClassicFlow = "AllowClassicFlow"
             case allowUnauthenticatedIdentities = "AllowUnauthenticatedIdentities"
             case cognitoIdentityProviders = "CognitoIdentityProviders"
             case developerProviderName = "DeveloperProviderName"
@@ -469,7 +474,7 @@ extension CognitoIdentity {
         public let identityPoolId: String
         /// A set of optional name-value pairs that map provider names to provider tokens. Each name-value pair represents a user from a public provider or developer provider. If the user is from a developer provider, the name-value pair will follow the syntax "developer_provider_name": "developer_user_identifier". The developer provider is the "domain" by which Cognito will refer to your users; you provided this domain while creating/updating the identity pool. The developer user identifier is an identifier from your backend that uniquely identifies a user. When you create an identity pool, you can specify the supported logins.
         public let logins: [String: String]
-        /// The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.
+        /// The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.  Please provide for a small grace period, usually no more than 5 minutes, to account for clock skew. 
         public let tokenDuration: Int64?
 
         public init(identityId: String? = nil, identityPoolId: String, logins: [String: String], tokenDuration: Int64? = nil) {
@@ -616,6 +621,7 @@ extension CognitoIdentity {
 
     public struct IdentityPool: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowClassicFlow", required: false, type: .boolean), 
             AWSShapeMember(label: "AllowUnauthenticatedIdentities", required: true, type: .boolean), 
             AWSShapeMember(label: "CognitoIdentityProviders", required: false, type: .list), 
             AWSShapeMember(label: "DeveloperProviderName", required: false, type: .string), 
@@ -627,6 +633,8 @@ extension CognitoIdentity {
             AWSShapeMember(label: "SupportedLoginProviders", required: false, type: .map)
         ]
 
+        /// Enables or disables the Basic (Classic) authentication flow. For more information, see Identity Pools (Federated Identities) Authentication Flow in the Amazon Cognito Developer Guide.
+        public let allowClassicFlow: Bool?
         /// TRUE if the identity pool supports unauthenticated logins.
         public let allowUnauthenticatedIdentities: Bool
         /// A list representing an Amazon Cognito user pool and its client ID.
@@ -646,7 +654,8 @@ extension CognitoIdentity {
         /// Optional key:value pairs mapping provider names to provider app IDs.
         public let supportedLoginProviders: [String: String]?
 
-        public init(allowUnauthenticatedIdentities: Bool, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolId: String, identityPoolName: String, identityPoolTags: [String: String]? = nil, openIdConnectProviderARNs: [String]? = nil, samlProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil) {
+        public init(allowClassicFlow: Bool? = nil, allowUnauthenticatedIdentities: Bool, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolId: String, identityPoolName: String, identityPoolTags: [String: String]? = nil, openIdConnectProviderARNs: [String]? = nil, samlProviderARNs: [String]? = nil, supportedLoginProviders: [String: String]? = nil) {
+            self.allowClassicFlow = allowClassicFlow
             self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
             self.cognitoIdentityProviders = cognitoIdentityProviders
             self.developerProviderName = developerProviderName
@@ -670,7 +679,7 @@ extension CognitoIdentity {
             try validate(self.identityPoolId, name:"identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
             try validate(self.identityPoolName, name:"identityPoolName", parent: name, max: 128)
             try validate(self.identityPoolName, name:"identityPoolName", parent: name, min: 1)
-            try validate(self.identityPoolName, name:"identityPoolName", parent: name, pattern: "[\\w ]+")
+            try validate(self.identityPoolName, name:"identityPoolName", parent: name, pattern: "[\\w\\s+=,.@-]+")
             try self.identityPoolTags?.forEach {
                 try validate($0.key, name:"identityPoolTags.key", parent: name, max: 128)
                 try validate($0.key, name:"identityPoolTags.key", parent: name, min: 1)
@@ -695,6 +704,7 @@ extension CognitoIdentity {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowClassicFlow = "AllowClassicFlow"
             case allowUnauthenticatedIdentities = "AllowUnauthenticatedIdentities"
             case cognitoIdentityProviders = "CognitoIdentityProviders"
             case developerProviderName = "DeveloperProviderName"
@@ -1187,15 +1197,15 @@ extension CognitoIdentity {
     public struct TagResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "Tags", required: false, type: .map)
+            AWSShapeMember(label: "Tags", required: true, type: .map)
         ]
 
         /// The Amazon Resource Name (ARN) of the identity pool to assign the tags to.
         public let resourceArn: String
         /// The tags to assign to the identity pool.
-        public let tags: [String: String]?
+        public let tags: [String: String]
 
-        public init(resourceArn: String, tags: [String: String]? = nil) {
+        public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -1203,7 +1213,7 @@ extension CognitoIdentity {
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
-            try self.tags?.forEach {
+            try self.tags.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
@@ -1339,15 +1349,15 @@ extension CognitoIdentity {
     public struct UntagResourceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeMember(label: "TagKeys", required: false, type: .list)
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
 
         /// The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to.
         public let resourceArn: String
         /// The keys of the tags to remove from the user pool.
-        public let tagKeys: [String]?
+        public let tagKeys: [String]
 
-        public init(resourceArn: String, tagKeys: [String]? = nil) {
+        public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
         }
@@ -1355,7 +1365,7 @@ extension CognitoIdentity {
         public func validate(name: String) throws {
             try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
             try validate(self.resourceArn, name:"resourceArn", parent: name, min: 20)
-            try self.tagKeys?.forEach {
+            try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }

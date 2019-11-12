@@ -741,14 +741,18 @@ extension Personalize {
 
     public struct CreateSolutionVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "solutionArn", required: true, type: .string)
+            AWSShapeMember(label: "solutionArn", required: true, type: .string), 
+            AWSShapeMember(label: "trainingMode", required: false, type: .enum)
         ]
 
         /// The Amazon Resource Name (ARN) of the solution containing the training configuration information.
         public let solutionArn: String
+        /// The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the native-recipe-hrnn-coldstart recipe. 
+        public let trainingMode: TrainingMode?
 
-        public init(solutionArn: String) {
+        public init(solutionArn: String, trainingMode: TrainingMode? = nil) {
             self.solutionArn = solutionArn
+            self.trainingMode = trainingMode
         }
 
         public func validate(name: String) throws {
@@ -758,6 +762,7 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case solutionArn = "solutionArn"
+            case trainingMode = "trainingMode"
         }
     }
 
@@ -2081,9 +2086,9 @@ extension Personalize {
             AWSShapeMember(label: "maxParallelTrainingJobs", required: false, type: .string)
         ]
 
-        /// The maximum number of training jobs.
+        /// The maximum number of training jobs when you create a solution version. The maximum value for maxNumberOfTrainingJobs is 40.
         public let maxNumberOfTrainingJobs: String?
-        /// The maximum number of parallel training jobs.
+        /// The maximum number of parallel training jobs when you create a solution version. The maximum value for maxParallelTrainingJobs is 10.
         public let maxParallelTrainingJobs: String?
 
         public init(maxNumberOfTrainingJobs: String? = nil, maxParallelTrainingJobs: String? = nil) {
@@ -2952,7 +2957,8 @@ extension Personalize {
             AWSShapeMember(label: "solutionConfig", required: false, type: .structure), 
             AWSShapeMember(label: "solutionVersionArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .string), 
-            AWSShapeMember(label: "trainingHours", required: false, type: .double)
+            AWSShapeMember(label: "trainingHours", required: false, type: .double), 
+            AWSShapeMember(label: "trainingMode", required: false, type: .enum)
         ]
 
         /// The date and time (in Unix time) that this version of the solution was created.
@@ -2961,11 +2967,11 @@ extension Personalize {
         public let datasetGroupArn: String?
         /// The event type (for example, 'click' or 'like') that is used for training the model.
         public let eventType: String?
-        /// If training a solution version fails, the reason behind the failure.
+        /// If training a solution version fails, the reason for the failure.
         public let failureReason: String?
         /// The date and time (in Unix time) that the solution was last updated.
         public let lastUpdatedDateTime: TimeStamp?
-        /// When true, Amazon Personalize performs a search for the most optimal recipe according to the solution configuration. When false (the default), Amazon Personalize uses recipeArn.
+        /// When true, Amazon Personalize searches for the most optimal recipe according to the solution configuration. When false (the default), Amazon Personalize uses recipeArn.
         public let performAutoML: Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe. The default is false.
         public let performHPO: Bool?
@@ -2977,12 +2983,14 @@ extension Personalize {
         public let solutionConfig: SolutionConfig?
         /// The ARN of the solution version.
         public let solutionVersionArn: String?
-        /// The status of the solution version. A solution version can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED  
+        /// The status of the solution version. A solution version can be in one of the following states:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED  
         public let status: String?
-        /// The time used to train the model. 
+        /// The time used to train the model. You are billed for the time it takes to train a model. This field is visible only after Amazon Personalize successfully trains a model.
         public let trainingHours: Double?
+        /// The scope of training used to create the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the training data that has changed since the creation of the last solution version. Choose UPDATE when you want to start recommending items added to the dataset without retraining the model.  The UPDATE option can only be used after you've created a solution version with the FULL option and the training solution uses the native-recipe-hrnn-coldstart. 
+        public let trainingMode: TrainingMode?
 
-        public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingHours: Double? = nil) {
+        public init(creationDateTime: TimeStamp? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingHours: Double? = nil, trainingMode: TrainingMode? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
@@ -2996,6 +3004,7 @@ extension Personalize {
             self.solutionVersionArn = solutionVersionArn
             self.status = status
             self.trainingHours = trainingHours
+            self.trainingMode = trainingMode
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3012,6 +3021,7 @@ extension Personalize {
             case solutionVersionArn = "solutionVersionArn"
             case status = "status"
             case trainingHours = "trainingHours"
+            case trainingMode = "trainingMode"
         }
     }
 
@@ -3050,6 +3060,12 @@ extension Personalize {
             case solutionVersionArn = "solutionVersionArn"
             case status = "status"
         }
+    }
+
+    public enum TrainingMode: String, CustomStringConvertible, Codable {
+        case full = "FULL"
+        case update = "UPDATE"
+        public var description: String { return self.rawValue }
     }
 
     public struct UpdateCampaignRequest: AWSShape {

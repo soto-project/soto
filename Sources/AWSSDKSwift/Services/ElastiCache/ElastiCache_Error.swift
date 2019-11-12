@@ -39,7 +39,9 @@ public enum ElastiCacheErrorType: AWSErrorType {
     case nodeQuotaForClusterExceededFault(message: String?)
     case nodeQuotaForCustomerExceededFault(message: String?)
     case replicationGroupAlreadyExistsFault(message: String?)
+    case replicationGroupAlreadyUnderMigrationFault(message: String?)
     case replicationGroupNotFoundFault(message: String?)
+    case replicationGroupNotUnderMigrationFault(message: String?)
     case reservedCacheNodeAlreadyExistsFault(message: String?)
     case reservedCacheNodeNotFoundFault(message: String?)
     case reservedCacheNodeQuotaExceededFault(message: String?)
@@ -133,8 +135,12 @@ extension ElastiCacheErrorType {
             self = .nodeQuotaForCustomerExceededFault(message: message)
         case "ReplicationGroupAlreadyExists":
             self = .replicationGroupAlreadyExistsFault(message: message)
+        case "ReplicationGroupAlreadyUnderMigrationFault":
+            self = .replicationGroupAlreadyUnderMigrationFault(message: message)
         case "ReplicationGroupNotFoundFault":
             self = .replicationGroupNotFoundFault(message: message)
+        case "ReplicationGroupNotUnderMigrationFault":
+            self = .replicationGroupNotUnderMigrationFault(message: message)
         case "ReservedCacheNodeAlreadyExists":
             self = .reservedCacheNodeAlreadyExistsFault(message: message)
         case "ReservedCacheNodeNotFound":
@@ -242,8 +248,12 @@ extension ElastiCacheErrorType : CustomStringConvertible {
             return "NodeQuotaForCustomerExceeded: \(message ?? "")"
         case .replicationGroupAlreadyExistsFault(let message):
             return "ReplicationGroupAlreadyExists: \(message ?? "")"
+        case .replicationGroupAlreadyUnderMigrationFault(let message):
+            return "ReplicationGroupAlreadyUnderMigrationFault: \(message ?? "")"
         case .replicationGroupNotFoundFault(let message):
             return "ReplicationGroupNotFoundFault: \(message ?? "")"
+        case .replicationGroupNotUnderMigrationFault(let message):
+            return "ReplicationGroupNotUnderMigrationFault: \(message ?? "")"
         case .reservedCacheNodeAlreadyExistsFault(let message):
             return "ReservedCacheNodeAlreadyExists: \(message ?? "")"
         case .reservedCacheNodeNotFoundFault(let message):

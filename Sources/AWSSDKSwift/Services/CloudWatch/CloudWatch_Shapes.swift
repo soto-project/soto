@@ -1354,6 +1354,7 @@ extension CloudWatch {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Label", required: false, type: .string), 
             AWSShapeMember(label: "MetricStat", required: false, type: .structure), 
+            AWSShapeMember(label: "Period", required: false, type: .integer), 
             AWSShapeMember(label: "ReturnData", required: false, type: .boolean)
         ]
 
@@ -1365,14 +1366,17 @@ extension CloudWatch {
         public let label: String?
         /// The metric to be returned, along with statistics, period, and units. Use this parameter only if this object is retrieving a metric and not performing a math expression on returned data. Within one MetricDataQuery object, you must specify either Expression or MetricStat but not both.
         public let metricStat: MetricStat?
+        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData operation that includes a StorageResolution of 1 second. Use this field only when you are performing a GetMetricData operation, and only when you are specifying the Expression field. Do not use this field with a PutMetricAlarm operation or when you are specifying a MetricStat in a GetMetricData operation. 
+        public let period: Int?
         /// When used in GetMetricData, this option indicates whether to return the timestamps and raw data values of this metric. If you are performing this call just to do math expressions and do not also need the raw data returned, you can specify False. If you omit this, the default of True is used. When used in PutMetricAlarm, specify True for the one expression result to use as the alarm. For all other metrics and expressions in the same PutMetricAlarm operation, specify ReturnData as False.
         public let returnData: Bool?
 
-        public init(expression: String? = nil, id: String, label: String? = nil, metricStat: MetricStat? = nil, returnData: Bool? = nil) {
+        public init(expression: String? = nil, id: String, label: String? = nil, metricStat: MetricStat? = nil, period: Int? = nil, returnData: Bool? = nil) {
             self.expression = expression
             self.id = id
             self.label = label
             self.metricStat = metricStat
+            self.period = period
             self.returnData = returnData
         }
 
@@ -1382,6 +1386,7 @@ extension CloudWatch {
             try validate(self.id, name:"id", parent: name, max: 255)
             try validate(self.id, name:"id", parent: name, min: 1)
             try self.metricStat?.validate(name: "\(name).metricStat")
+            try validate(self.period, name:"period", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1389,6 +1394,7 @@ extension CloudWatch {
             case id = "Id"
             case label = "Label"
             case metricStat = "MetricStat"
+            case period = "Period"
             case returnData = "ReturnData"
         }
     }
@@ -1512,7 +1518,7 @@ extension CloudWatch {
 
         /// The metric to return, including the metric name, namespace, and dimensions.
         public let metric: Metric
-        /// The period, in seconds, to use when retrieving the metric.
+        /// The granularity, in seconds, of the returned data points. For metrics with regular resolution, a period can be as short as one minute (60 seconds) and must be a multiple of 60. For high-resolution metrics that are collected at intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution metrics are those metrics stored by a PutMetricData call that includes a StorageResolution of 1 second. If the StartTime parameter specifies a time stamp that is greater than 3 hours ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).  
         public let period: Int
         /// The statistic to return. It can include any CloudWatch statistic or extended statistic.
         public let stat: String
@@ -2025,9 +2031,9 @@ extension CloudWatch {
             AWSShapeMember(label: "Tags", required: true, type: .list, encoding: .list(member:"member"))
         ]
 
-        /// The ARN of the CloudWatch resource that you're adding tags to. For more information on ARN format, see Example ARNs in the Amazon Web Services General Reference.
+        /// The ARN of the CloudWatch alarm that you're adding tags to. The ARN format is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  
         public let resourceARN: String
-        /// The list of key-value pairs to associate with the resource.
+        /// The list of key-value pairs to associate with the alarm.
         public let tags: [Tag]
 
         public init(resourceARN: String, tags: [Tag]) {
