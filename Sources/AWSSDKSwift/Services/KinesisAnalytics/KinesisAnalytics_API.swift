@@ -11,7 +11,7 @@ public struct KinesisAnalytics {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct KinesisAnalytics {
             apiVersion: "2015-08-14",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [KinesisAnalyticsErrorType.self]
+            possibleErrorTypes: [KinesisAnalyticsErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

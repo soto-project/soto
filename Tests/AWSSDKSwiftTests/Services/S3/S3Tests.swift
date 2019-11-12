@@ -133,6 +133,18 @@ class S3Tests: XCTestCase {
     }
 
     func testMultipleUpload() throws {
+        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        defer {
+            XCTAssertNoThrow(try eventLoopGroup.syncShutdownGracefully())
+        }
+        
+        let s3client = S3(
+            accessKeyId: "key",
+            secretAccessKey: "secret",
+            region: .apnortheast1,
+            endpoint: "http://localhost:4569",
+            eventLoopGroupProvider: .shared(eventLoopGroup))
+        
         // uploads 100 files at the same time and then downloads them to check they uploaded correctly
         var responses : [Future<Void>] = []
         for i in 0..<100 {
@@ -141,7 +153,7 @@ class S3Tests: XCTestCase {
             let data = text.data(using: .utf8)!
 
             let request = S3.PutObjectRequest(body: data, bucket: TestData.shared.bucket, key: objectName)
-            let response = client.putObject(request)
+            let response = s3client.putObject(request)
                 .flatMap { (response)->Future<S3.GetObjectOutput> in
                     let request = S3.GetObjectRequest(bucket: TestData.shared.bucket, key: objectName)
                     return self.client.getObject(request)
@@ -154,7 +166,7 @@ class S3Tests: XCTestCase {
             responses.append(response)
         }
         
-        _ = try EventLoopFuture.whenAllSucceed(responses, on: AWSClient.eventGroup.next()).wait()
+        _ = try EventLoopFuture.whenAllSucceed(responses, on: eventLoopGroup.next()).wait()
     }
 
     static var allTests : [(String, (S3Tests) -> () throws -> Void)] {

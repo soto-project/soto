@@ -11,7 +11,7 @@ public struct ImportExport {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -24,7 +24,8 @@ public struct ImportExport {
             serviceEndpoints: ["aws-global": "importexport.amazonaws.com"],
             partitionEndpoint: "aws-global",
             middlewares: middlewares,
-            possibleErrorTypes: [ImportExportErrorType.self]
+            possibleErrorTypes: [ImportExportErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

@@ -11,7 +11,7 @@ public struct ELBV2 {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -22,7 +22,8 @@ public struct ELBV2 {
             apiVersion: "2015-12-01",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [ELBV2ErrorType.self]
+            possibleErrorTypes: [ELBV2ErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

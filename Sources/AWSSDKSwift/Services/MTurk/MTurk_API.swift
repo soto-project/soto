@@ -11,7 +11,7 @@ public struct MTurk {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -24,7 +24,8 @@ public struct MTurk {
             endpoint: endpoint,
             serviceEndpoints: ["sandbox": "mturk-requester-sandbox.us-east-1.amazonaws.com"],
             middlewares: middlewares,
-            possibleErrorTypes: [MTurkErrorType.self]
+            possibleErrorTypes: [MTurkErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

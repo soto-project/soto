@@ -11,7 +11,7 @@ public struct CloudDirectory {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -22,7 +22,8 @@ public struct CloudDirectory {
             apiVersion: "2017-01-11",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [CloudDirectoryErrorType.self]
+            possibleErrorTypes: [CloudDirectoryErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

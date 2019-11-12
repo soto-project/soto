@@ -110,10 +110,11 @@ public extension S3 {
     ///     - input: The GetObjectRequest shape that contains the details of the object request.
     ///     - partSize: Size of each part to be downloaded
     ///     - filename: Filename to save download to
-    ///     - on: EventLoop to process downloaded parts
+    ///     - on: EventLoop to process downloaded parts, if nil an eventLoop is taken from the clients eventLoopGroup
     ///     - progress: Callback that returns the progress of the download. It is called after each part is downloaded with a value between 0.0 and 1.0 indicating how far the download is complete (1.0 meaning finished).
     /// - returns: A future that will receive the complete file size once the multipart download has finished.
-    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, filename: String, on eventLoop: EventLoop = AWSClient.eventGroup.next(), progress: @escaping (Double) throws -> () = { _ in }) -> Future<Int64> {
+    func multipartDownload(_ input: GetObjectRequest, partSize: Int = 5*1024*1024, filename: String, on eventLoop: EventLoop? = nil, progress: @escaping (Double) throws -> () = { _ in }) -> Future<Int64> {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
         return eventLoop.submit {  () -> Foundation.FileHandle in
             FileManager.default.createFile(atPath: filename, contents: nil)
             return try FileHandle(forWritingTo: URL(fileURLWithPath: filename))
@@ -218,10 +219,11 @@ public extension S3 {
     ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
     ///     - partSize: Size of each part to upload. This has to be at least 5MB
     ///     - filename: Name of file to upload
-    ///     - on: EventLoop to process parts for upload
+    ///     - on: EventLoop to process parts for upload, if nil an eventLoop is taken from the clients eventLoopGroup
     ///     - progress: Callback that returns the progress of the upload. It is called after each part is uploaded with a value between 0.0 and 1.0 indicating how far the upload is complete (1.0 meaning finished).
     /// - returns: A Future that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
-    func multipartUpload(_ input: CreateMultipartUploadRequest, partSize: Int = 5*1024*1024, filename: String, on eventLoop: EventLoop = AWSClient.eventGroup.next(), progress: @escaping (Double) throws->() = { _ in }) -> Future<CompleteMultipartUploadOutput> {
+    func multipartUpload(_ input: CreateMultipartUploadRequest, partSize: Int = 5*1024*1024, filename: String, on eventLoop: EventLoop? = nil, progress: @escaping (Double) throws->() = { _ in }) -> Future<CompleteMultipartUploadOutput> {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
         var fileSize : UInt64 = 0
         return eventLoop.submit {  () -> FileHandle in
             fileSize = try FileManager.default.attributesOfItem(atPath: filename)[.size] as? UInt64 ?? UInt64.max

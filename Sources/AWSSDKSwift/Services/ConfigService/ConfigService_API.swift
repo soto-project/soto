@@ -11,7 +11,7 @@ public struct ConfigService {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct ConfigService {
             apiVersion: "2014-11-12",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [ConfigServiceErrorType.self]
+            possibleErrorTypes: [ConfigServiceErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

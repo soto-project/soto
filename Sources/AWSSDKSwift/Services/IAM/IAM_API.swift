@@ -11,7 +11,7 @@ public struct IAM {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -24,7 +24,8 @@ public struct IAM {
             serviceEndpoints: ["aws-global": "iam.amazonaws.com"],
             partitionEndpoint: "aws-global",
             middlewares: middlewares,
-            possibleErrorTypes: [IAMErrorType.self]
+            possibleErrorTypes: [IAMErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

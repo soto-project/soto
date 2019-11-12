@@ -11,7 +11,7 @@ public struct ApplicationAutoScaling {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -24,7 +24,8 @@ public struct ApplicationAutoScaling {
             apiVersion: "2016-02-06",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [ApplicationAutoScalingErrorType.self]
+            possibleErrorTypes: [ApplicationAutoScalingErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 
