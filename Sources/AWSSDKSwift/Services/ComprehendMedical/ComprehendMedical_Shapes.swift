@@ -508,6 +508,7 @@ extension ComprehendMedical {
         case direction = "DIRECTION"
         case quality = "QUALITY"
         case quantity = "QUANTITY"
+        case dxName = "DX_NAME"
         public var description: String { return self.rawValue }
     }
 
