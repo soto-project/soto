@@ -7,4 +7,6 @@ XCTMain([
      testCase(IAMTests.allTests),
      testCase(DynamoDBTests.allTests),
      testCase(S3Tests.allTests),
+     testCase(SNSTests.allTests),
+     testCase(SQSTests.allTests),
 ])
