@@ -52,8 +52,6 @@ let servicePatches : [String: [Patch]] = [
         Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ca-central-1"),
         Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"cn-northwest-1"),
         Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"me-south-1"),
-        // Add validation check for bucket name. To ensure we aren't creating buckets containing '.' in their name
-        Patch(.add, entry:["shapes", "BucketName"], key:"pattern", value:"^[a-z0-9][a-z0-9-]+[a-z0-9]$")
     ]
 ]
 
