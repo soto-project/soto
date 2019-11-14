@@ -18,7 +18,9 @@ class S3Tests: XCTestCase {
             accessKeyId: "key",
             secretAccessKey: "secret",
             region: .apnortheast1,
-            endpoint: "http://localhost:4572"
+            endpoint: "http://localhost:4572",
+            middlewares: [AWSLoggingMiddleware()]
+//            ,eventLoopGroupProvider: .shared(MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount))
     )
 
     class TestData {
@@ -229,7 +231,7 @@ class S3Tests: XCTestCase {
 
             // uploads 100 files at the same time and then downloads them to check they uploaded correctly
             var responses : [Future<Void>] = []
-            for i in 0..<100 {
+            for i in 0..<16 {
                 let objectName = "testMultiple\(i).txt"
                 let text = "Testing, testing,1,2,1,\(i)"
                 let data = text.data(using: .utf8)!
@@ -238,9 +240,11 @@ class S3Tests: XCTestCase {
                 let response = client.putObject(request)
                     .flatMap { (response)->Future<S3.GetObjectOutput> in
                         let request = S3.GetObjectRequest(bucket: testData.bucket, key: objectName)
+                        print("Put \(objectName)")
                         return self.client.getObject(request)
                     }
                     .flatMapThrowing { response in
+                        print("Get \(objectName)")
                         guard let body = response.body else {throw AWSError(message: "Get \(objectName) failed", rawBody: "") }
                         guard text == String(data: body, encoding: .utf8) else {throw AWSError(message: "Get \(objectName) contents is incorrect", rawBody: "") }
                         return
@@ -248,7 +252,13 @@ class S3Tests: XCTestCase {
                 responses.append(response)
             }
 
-            _ = try EventLoopFuture.whenAllSucceed(responses, on: client.client.eventLoopGroup.next()).wait()
+            let results = try EventLoopFuture.whenAllComplete(responses, on: client.client.eventLoopGroup.next()).wait()
+            
+            for r in results {
+                if case .failure(let error) = r {
+                    XCTFail(error.localizedDescription)
+                }
+            }
         }
      }
 
@@ -305,7 +315,7 @@ class S3Tests: XCTestCase {
             XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename"), "https://bucket.s3.us-east-1.amazonaws.com/filename")
             XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=test&test2=test2"), "https://bucket.s3.us-east-1.amazonaws.com/filename?test=test&test2=test2")
             XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=%3D"), "https://bucket.s3.us-east-1.amazonaws.com/filename?test=%3D")
-            //XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/file%20name"), "https://bucket.s3.us-east-1.amazonaws.com/file%20name")
+            XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/file%20name"), "https://bucket.s3.us-east-1.amazonaws.com/file%20name")
         }
     }
 
