@@ -11,7 +11,7 @@ public struct ECR {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -25,7 +25,8 @@ public struct ECR {
             endpoint: endpoint,
             serviceEndpoints: ["ap-east-1": "api.ecr.ap-east-1.amazonaws.com", "ap-northeast-1": "api.ecr.ap-northeast-1.amazonaws.com", "ap-northeast-2": "api.ecr.ap-northeast-2.amazonaws.com", "ap-south-1": "api.ecr.ap-south-1.amazonaws.com", "ap-southeast-1": "api.ecr.ap-southeast-1.amazonaws.com", "ap-southeast-2": "api.ecr.ap-southeast-2.amazonaws.com", "ca-central-1": "api.ecr.ca-central-1.amazonaws.com", "eu-central-1": "api.ecr.eu-central-1.amazonaws.com", "eu-north-1": "api.ecr.eu-north-1.amazonaws.com", "eu-west-1": "api.ecr.eu-west-1.amazonaws.com", "eu-west-2": "api.ecr.eu-west-2.amazonaws.com", "eu-west-3": "api.ecr.eu-west-3.amazonaws.com", "me-south-1": "api.ecr.me-south-1.amazonaws.com", "sa-east-1": "api.ecr.sa-east-1.amazonaws.com", "us-east-1": "api.ecr.us-east-1.amazonaws.com", "us-east-2": "api.ecr.us-east-2.amazonaws.com", "us-west-1": "api.ecr.us-west-1.amazonaws.com", "us-west-2": "api.ecr.us-west-2.amazonaws.com"],
             middlewares: middlewares,
-            possibleErrorTypes: [ECRErrorType.self]
+            possibleErrorTypes: [ECRErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 
@@ -49,7 +50,7 @@ public struct ECR {
         return client.send(operation: "CompleteLayerUpload", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an image repository.
+    ///  Creates an Amazon Elastic Container Registry (Amazon ECR) repository, where users can push and pull Docker images. For more information, see Amazon ECR Repositories in the Amazon Elastic Container Registry User Guide.
     public func createRepository(_ input: CreateRepositoryRequest) -> Future<CreateRepositoryResponse> {
         return client.send(operation: "CreateRepository", path: "/", httpMethod: "POST", input: input)
     }
@@ -67,6 +68,11 @@ public struct ECR {
     ///  Deletes the repository policy from a specified repository.
     public func deleteRepositoryPolicy(_ input: DeleteRepositoryPolicyRequest) -> Future<DeleteRepositoryPolicyResponse> {
         return client.send(operation: "DeleteRepositoryPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the image scan findings for the specified image.
+    public func describeImageScanFindings(_ input: DescribeImageScanFindingsRequest) -> Future<DescribeImageScanFindingsResponse> {
+        return client.send(operation: "DescribeImageScanFindings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns metadata about the images in a repository, including image size, image tags, and creation date.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
@@ -124,7 +130,12 @@ public struct ECR {
         return client.send(operation: "PutImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the image tag mutability settings for a repository.
+    ///  Updates the image scanning configuration for a repository.
+    public func putImageScanningConfiguration(_ input: PutImageScanningConfigurationRequest) -> Future<PutImageScanningConfigurationResponse> {
+        return client.send(operation: "PutImageScanningConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the image tag mutability settings for a repository. When a repository is configured with tag immutability, all image tags within the repository will be prevented them from being overwritten. For more information, see Image Tag Mutability in the Amazon Elastic Container Registry User Guide.
     public func putImageTagMutability(_ input: PutImageTagMutabilityRequest) -> Future<PutImageTagMutabilityResponse> {
         return client.send(operation: "PutImageTagMutability", path: "/", httpMethod: "POST", input: input)
     }
@@ -137,6 +148,11 @@ public struct ECR {
     ///  Applies a repository policy on a specified repository to control access permissions. For more information, see Amazon ECR Repository Policies in the Amazon Elastic Container Registry User Guide.
     public func setRepositoryPolicy(_ input: SetRepositoryPolicyRequest) -> Future<SetRepositoryPolicyResponse> {
         return client.send(operation: "SetRepositoryPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts an image vulnerability scan. An image scan can only be started once per day on an individual image. This limit includes if an image was scanned on initial push. For more information, see Image Scanning in the Amazon Elastic Container Registry User Guide.
+    public func startImageScan(_ input: StartImageScanRequest) -> Future<StartImageScanResponse> {
+        return client.send(operation: "StartImageScan", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Starts a preview of the specified lifecycle policy. This allows you to see the results before creating the lifecycle policy.

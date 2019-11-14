@@ -50,7 +50,7 @@ extension Cloud9 {
             try validate(self.instanceType, name:"instanceType", parent: name, pattern: "^[a-z][1-9][.][a-z0-9]+$")
             try validate(self.name, name:"name", parent: name, max: 60)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.ownerArn, name:"ownerArn", parent: name, pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
+            try validate(self.ownerArn, name:"ownerArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=/:,.@-]{1,64}\\/[\\w+=/:,.@-]{1,64}))$")
             try validate(self.subnetId, name:"subnetId", parent: name, max: 30)
             try validate(self.subnetId, name:"subnetId", parent: name, min: 5)
         }
@@ -105,7 +105,7 @@ extension Cloud9 {
 
         public func validate(name: String) throws {
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(self.userArn, name:"userArn", parent: name, pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
+            try validate(self.userArn, name:"userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=/:,.@-]{1,64}\\/[\\w+=/:,.@-]{1,64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -150,7 +150,7 @@ extension Cloud9 {
 
         public func validate(name: String) throws {
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(self.userArn, name:"userArn", parent: name, pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
+            try validate(self.userArn, name:"userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=/:,.@-]{1,64}\\/[\\w+=/:,.@-]{1,64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -228,7 +228,7 @@ extension Cloud9 {
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 25)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
-            try validate(self.userArn, name:"userArn", parent: name, pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
+            try validate(self.userArn, name:"userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=/:,.@-]{1,64}\\/[\\w+=/:,.@-]{1,64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -405,7 +405,7 @@ extension Cloud9 {
         public let failureResource: String?
         /// Any informational message about the lifecycle state of the environment.
         public let reason: String?
-        /// The current creation or deletion lifecycle state of the environment.    CREATED: The environment was successfully created.    DELETE_FAILED: The environment failed to delete.    DELETING: The environment is in the process of being deleted.  
+        /// The current creation or deletion lifecycle state of the environment.    CREATING: The environment is in the process of being created.    CREATED: The environment was successfully created.    CREATE_FAILED: The environment failed to be created.    DELETING: The environment is in the process of being deleted.    DELETE_FAILED: The environment failed to delete.  
         public let status: EnvironmentLifecycleStatus?
 
         public init(failureResource: String? = nil, reason: String? = nil, status: EnvironmentLifecycleStatus? = nil) {
@@ -422,7 +422,9 @@ extension Cloud9 {
     }
 
     public enum EnvironmentLifecycleStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
         case created = "CREATED"
+        case createFailed = "CREATE_FAILED"
         case deleting = "DELETING"
         case deleteFailed = "DELETE_FAILED"
         public var description: String { return self.rawValue }
@@ -566,7 +568,7 @@ extension Cloud9 {
 
         public func validate(name: String) throws {
             try validate(self.environmentId, name:"environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try validate(self.userArn, name:"userArn", parent: name, pattern: "arn:aws:(iam|sts)::\\d+:(root|user|federated-user|assumed-role)\\/?\\S*")
+            try validate(self.userArn, name:"userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=/:,.@-]{1,64}\\/[\\w+=/:,.@-]{1,64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {

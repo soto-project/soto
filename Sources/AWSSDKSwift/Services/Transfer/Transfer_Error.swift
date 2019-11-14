@@ -10,6 +10,7 @@ public enum TransferErrorType: AWSErrorType {
     case resourceExistsException(message: String?)
     case resourceNotFoundException(message: String?)
     case serviceUnavailableException(message: String?)
+    case throttlingException(message: String?)
 }
 
 extension TransferErrorType {
@@ -31,6 +32,8 @@ extension TransferErrorType {
             self = .resourceNotFoundException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
+        case "ThrottlingException":
+            self = .throttlingException(message: message)
         default:
             return nil
         }
@@ -52,6 +55,8 @@ extension TransferErrorType : CustomStringConvertible {
             return "ResourceNotFoundException: \(message ?? "")"
         case .serviceUnavailableException(let message):
             return "ServiceUnavailableException: \(message ?? "")"
+        case .throttlingException(let message):
+            return "ThrottlingException: \(message ?? "")"
         }
     }
 }

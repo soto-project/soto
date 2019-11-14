@@ -53,6 +53,10 @@ extension OpsWorksCM {
         }
 
         public func validate(name: String) throws {
+            try self.engineAttributes.forEach {
+                try $0.validate(name: "\(name).engineAttributes[]")
+            }
+            try validate(self.nodeName, name:"nodeName", parent: name, max: 10000)
             try validate(self.nodeName, name:"nodeName", parent: name, pattern: "^[\\-\\p{Alnum}_:.]+$")
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
@@ -236,6 +240,8 @@ extension OpsWorksCM {
         }
 
         public func validate(name: String) throws {
+            try validate(self.description, name:"description", parent: name, max: 10000)
+            try validate(self.description, name:"description", parent: name, pattern: "(?s).*")
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
             try validate(self.serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
@@ -269,6 +275,9 @@ extension OpsWorksCM {
             AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
             AWSShapeMember(label: "BackupId", required: false, type: .string), 
             AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CustomCertificate", required: false, type: .string), 
+            AWSShapeMember(label: "CustomDomain", required: false, type: .string), 
+            AWSShapeMember(label: "CustomPrivateKey", required: false, type: .string), 
             AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
             AWSShapeMember(label: "Engine", required: false, type: .string), 
             AWSShapeMember(label: "EngineAttributes", required: false, type: .list), 
@@ -291,6 +300,12 @@ extension OpsWorksCM {
         public let backupId: String?
         ///  The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number is exceeded. The default value is 1. 
         public let backupRetentionCount: Int?
+        /// A PEM-formatted HTTPS certificate. The value can be be a single, self-signed certificate, or a certificate chain. If you specify a custom certificate, you must also specify values for CustomDomain and CustomPrivateKey. The following are requirements for the CustomCertificate value:   You can provide either a self-signed, custom certificate, or the full certificate chain.   The certificate must be a valid X509 certificate, or a certificate chain in PEM format.   The certificate must be valid at the time of upload. A certificate can't be used before its validity period begins (the certificate's NotBefore date), or after it expires (the certificate's NotAfter date).   The certificate’s common name or subject alternative names (SANs), if present, must match the value of CustomDomain.   The certificate must match the value of CustomPrivateKey.  
+        public let customCertificate: String?
+        /// An optional public endpoint of a server, such as https://aws.my-company.com. To access the server, create a CNAME DNS record in your preferred DNS service that points the custom domain to the endpoint that is generated when the server is created (the value of the CreateServer Endpoint attribute). You cannot access the server by using the generated Endpoint value if the server is using a custom domain. If you specify a custom domain, you must also specify values for CustomCertificate and CustomPrivateKey.
+        public let customDomain: String?
+        /// A private key in PEM format for connecting to the server by using HTTPS. The private key must not be encrypted; it cannot be protected by a password or passphrase. If you specify a custom private key, you must also specify values for CustomDomain and CustomCertificate.
+        public let customPrivateKey: String?
         ///  Enable or disable scheduled backups. Valid values are true or false. The default value is true. 
         public let disableAutomatedBackup: Bool?
         ///  The configuration management engine to use. Valid values include ChefAutomate and Puppet. 
@@ -320,10 +335,13 @@ extension OpsWorksCM {
         ///  The IDs of subnets in which to launch the server EC2 instance.   Amazon EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC must have "Auto Assign Public IP" enabled.   EC2-VPC customers: This field is optional. If you do not specify subnet IDs, your EC2 instances are created in a default subnet that is selected by Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public IP" enabled.  For more information about supported Amazon EC2 platforms, see Supported Platforms.
         public let subnetIds: [String]?
 
-        public init(associatePublicIpAddress: Bool? = nil, backupId: String? = nil, backupRetentionCount: Int? = nil, disableAutomatedBackup: Bool? = nil, engine: String? = nil, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String, instanceType: String, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverName: String, serviceRoleArn: String, subnetIds: [String]? = nil) {
+        public init(associatePublicIpAddress: Bool? = nil, backupId: String? = nil, backupRetentionCount: Int? = nil, customCertificate: String? = nil, customDomain: String? = nil, customPrivateKey: String? = nil, disableAutomatedBackup: Bool? = nil, engine: String? = nil, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String, instanceType: String, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverName: String, serviceRoleArn: String, subnetIds: [String]? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.backupId = backupId
             self.backupRetentionCount = backupRetentionCount
+            self.customCertificate = customCertificate
+            self.customDomain = customDomain
+            self.customPrivateKey = customPrivateKey
             self.disableAutomatedBackup = disableAutomatedBackup
             self.engine = engine
             self.engineAttributes = engineAttributes
@@ -342,20 +360,55 @@ extension OpsWorksCM {
 
         public func validate(name: String) throws {
             try validate(self.backupId, name:"backupId", parent: name, max: 79)
+            try validate(self.backupId, name:"backupId", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-\\.\\:]*")
             try validate(self.backupRetentionCount, name:"backupRetentionCount", parent: name, min: 1)
+            try validate(self.customCertificate, name:"customCertificate", parent: name, max: 2097152)
+            try validate(self.customCertificate, name:"customCertificate", parent: name, pattern: "(?s)\\s*-----BEGIN CERTIFICATE-----.+-----END CERTIFICATE-----\\s*")
+            try validate(self.customDomain, name:"customDomain", parent: name, max: 253)
+            try validate(self.customDomain, name:"customDomain", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try validate(self.customPrivateKey, name:"customPrivateKey", parent: name, max: 4096)
+            try validate(self.customPrivateKey, name:"customPrivateKey", parent: name, pattern: "(?ms)\\s*^-----BEGIN (?-s:.*)PRIVATE KEY-----$.*?^-----END (?-s:.*)PRIVATE KEY-----$\\s*")
+            try validate(self.engine, name:"engine", parent: name, max: 10000)
+            try validate(self.engine, name:"engine", parent: name, pattern: "(?s).*")
+            try self.engineAttributes?.forEach {
+                try $0.validate(name: "\(name).engineAttributes[]")
+            }
+            try validate(self.engineModel, name:"engineModel", parent: name, max: 10000)
+            try validate(self.engineModel, name:"engineModel", parent: name, pattern: "(?s).*")
+            try validate(self.engineVersion, name:"engineVersion", parent: name, max: 10000)
+            try validate(self.engineVersion, name:"engineVersion", parent: name, pattern: "(?s).*")
+            try validate(self.instanceProfileArn, name:"instanceProfileArn", parent: name, max: 10000)
             try validate(self.instanceProfileArn, name:"instanceProfileArn", parent: name, pattern: "arn:aws:iam::[0-9]{12}:instance-profile/.*")
+            try validate(self.instanceType, name:"instanceType", parent: name, max: 10000)
+            try validate(self.instanceType, name:"instanceType", parent: name, pattern: "(?s).*")
+            try validate(self.keyPair, name:"keyPair", parent: name, max: 10000)
+            try validate(self.keyPair, name:"keyPair", parent: name, pattern: ".*")
+            try validate(self.preferredBackupWindow, name:"preferredBackupWindow", parent: name, max: 10000)
             try validate(self.preferredBackupWindow, name:"preferredBackupWindow", parent: name, pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
+            try validate(self.preferredMaintenanceWindow, name:"preferredMaintenanceWindow", parent: name, max: 10000)
             try validate(self.preferredMaintenanceWindow, name:"preferredMaintenanceWindow", parent: name, pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 10000)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "(?s).*")
+            }
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
             try validate(self.serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+            try validate(self.serviceRoleArn, name:"serviceRoleArn", parent: name, max: 10000)
             try validate(self.serviceRoleArn, name:"serviceRoleArn", parent: name, pattern: "arn:aws:iam::[0-9]{12}:role/.*")
+            try self.subnetIds?.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 10000)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "(?s).*")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case associatePublicIpAddress = "AssociatePublicIpAddress"
             case backupId = "BackupId"
             case backupRetentionCount = "BackupRetentionCount"
+            case customCertificate = "CustomCertificate"
+            case customDomain = "CustomDomain"
+            case customPrivateKey = "CustomPrivateKey"
             case disableAutomatedBackup = "DisableAutomatedBackup"
             case engine = "Engine"
             case engineAttributes = "EngineAttributes"
@@ -404,6 +457,7 @@ extension OpsWorksCM {
 
         public func validate(name: String) throws {
             try validate(self.backupId, name:"backupId", parent: name, max: 79)
+            try validate(self.backupId, name:"backupId", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-\\.\\:]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -501,7 +555,10 @@ extension OpsWorksCM {
 
         public func validate(name: String) throws {
             try validate(self.backupId, name:"backupId", parent: name, max: 79)
+            try validate(self.backupId, name:"backupId", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-\\.\\:]*")
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 10000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "(?s).*")
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
             try validate(self.serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
@@ -559,6 +616,8 @@ extension OpsWorksCM {
 
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 10000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "(?s).*")
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
             try validate(self.serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
@@ -610,6 +669,8 @@ extension OpsWorksCM {
         }
 
         public func validate(name: String) throws {
+            try validate(self.nodeAssociationStatusToken, name:"nodeAssociationStatusToken", parent: name, max: 10000)
+            try validate(self.nodeAssociationStatusToken, name:"nodeAssociationStatusToken", parent: name, pattern: "(?s).*")
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
             try validate(self.serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
@@ -665,6 +726,8 @@ extension OpsWorksCM {
 
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 10000)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "(?s).*")
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
             try validate(self.serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
@@ -720,6 +783,10 @@ extension OpsWorksCM {
         }
 
         public func validate(name: String) throws {
+            try self.engineAttributes?.forEach {
+                try $0.validate(name: "\(name).engineAttributes[]")
+            }
+            try validate(self.nodeName, name:"nodeName", parent: name, max: 10000)
             try validate(self.nodeName, name:"nodeName", parent: name, pattern: "^[\\-\\p{Alnum}_:.]+$")
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
@@ -766,6 +833,13 @@ extension OpsWorksCM {
             self.value = value
         }
 
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 10000)
+            try validate(self.name, name:"name", parent: name, pattern: "(?s).*")
+            try validate(self.value, name:"value", parent: name, max: 10000)
+            try validate(self.value, name:"value", parent: name, pattern: "(?s).*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
@@ -793,6 +867,11 @@ extension OpsWorksCM {
         }
 
         public func validate(name: String) throws {
+            try validate(self.exportAttributeName, name:"exportAttributeName", parent: name, max: 10000)
+            try validate(self.exportAttributeName, name:"exportAttributeName", parent: name, pattern: "(?s).*")
+            try self.inputAttributes?.forEach {
+                try $0.validate(name: "\(name).inputAttributes[]")
+            }
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
             try validate(self.serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
@@ -866,6 +945,11 @@ extension OpsWorksCM {
 
         public func validate(name: String) throws {
             try validate(self.backupId, name:"backupId", parent: name, max: 79)
+            try validate(self.backupId, name:"backupId", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-\\.\\:]*")
+            try validate(self.instanceType, name:"instanceType", parent: name, max: 10000)
+            try validate(self.instanceType, name:"instanceType", parent: name, pattern: "(?s).*")
+            try validate(self.keyPair, name:"keyPair", parent: name, max: 10000)
+            try validate(self.keyPair, name:"keyPair", parent: name, pattern: ".*")
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
             try validate(self.serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
@@ -893,6 +977,7 @@ extension OpsWorksCM {
             AWSShapeMember(label: "BackupRetentionCount", required: false, type: .integer), 
             AWSShapeMember(label: "CloudFormationStackArn", required: false, type: .string), 
             AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CustomDomain", required: false, type: .string), 
             AWSShapeMember(label: "DisableAutomatedBackup", required: false, type: .boolean), 
             AWSShapeMember(label: "Endpoint", required: false, type: .string), 
             AWSShapeMember(label: "Engine", required: false, type: .string), 
@@ -922,9 +1007,11 @@ extension OpsWorksCM {
         public let cloudFormationStackArn: String?
         /// Time stamp of server creation. Example 2016-07-29T13:38:47.520Z 
         public let createdAt: TimeStamp?
+        /// An optional public endpoint of a server, such as https://aws.my-company.com. You cannot access the server by using the Endpoint value if the server has a CustomDomain specified.
+        public let customDomain: String?
         /// Disables automated backups. The number of stored backups is dependent on the value of PreferredBackupCount. 
         public let disableAutomatedBackup: Bool?
-        ///  A DNS name that can be used to access the engine. Example: myserver-asdfghjkl.us-east-1.opsworks.io 
+        ///  A DNS name that can be used to access the engine. Example: myserver-asdfghjkl.us-east-1.opsworks.io. You cannot access the server by using the Endpoint value if the server has a CustomDomain specified. 
         public let endpoint: String?
         /// The engine type of the server. Valid values in this release include ChefAutomate and Puppet. 
         public let engine: String?
@@ -961,11 +1048,12 @@ extension OpsWorksCM {
         ///  The subnet IDs specified in a CreateServer request. 
         public let subnetIds: [String]?
 
-        public init(associatePublicIpAddress: Bool? = nil, backupRetentionCount: Int? = nil, cloudFormationStackArn: String? = nil, createdAt: TimeStamp? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, engine: String? = nil, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverArn: String? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: ServerStatus? = nil, statusReason: String? = nil, subnetIds: [String]? = nil) {
+        public init(associatePublicIpAddress: Bool? = nil, backupRetentionCount: Int? = nil, cloudFormationStackArn: String? = nil, createdAt: TimeStamp? = nil, customDomain: String? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, engine: String? = nil, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverArn: String? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: ServerStatus? = nil, statusReason: String? = nil, subnetIds: [String]? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.backupRetentionCount = backupRetentionCount
             self.cloudFormationStackArn = cloudFormationStackArn
             self.createdAt = createdAt
+            self.customDomain = customDomain
             self.disableAutomatedBackup = disableAutomatedBackup
             self.endpoint = endpoint
             self.engine = engine
@@ -992,6 +1080,7 @@ extension OpsWorksCM {
             case backupRetentionCount = "BackupRetentionCount"
             case cloudFormationStackArn = "CloudFormationStackArn"
             case createdAt = "CreatedAt"
+            case customDomain = "CustomDomain"
             case disableAutomatedBackup = "DisableAutomatedBackup"
             case endpoint = "Endpoint"
             case engine = "Engine"
@@ -1080,6 +1169,9 @@ extension OpsWorksCM {
         }
 
         public func validate(name: String) throws {
+            try self.engineAttributes?.forEach {
+                try $0.validate(name: "\(name).engineAttributes[]")
+            }
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
             try validate(self.serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
@@ -1132,6 +1224,8 @@ extension OpsWorksCM {
             try validate(self.attributeName, name:"attributeName", parent: name, max: 64)
             try validate(self.attributeName, name:"attributeName", parent: name, min: 1)
             try validate(self.attributeName, name:"attributeName", parent: name, pattern: "[A-Z][A-Z0-9_]*")
+            try validate(self.attributeValue, name:"attributeValue", parent: name, max: 10000)
+            try validate(self.attributeValue, name:"attributeValue", parent: name, pattern: "(?s).*")
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)
             try validate(self.serverName, name:"serverName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
@@ -1188,7 +1282,9 @@ extension OpsWorksCM {
         }
 
         public func validate(name: String) throws {
+            try validate(self.preferredBackupWindow, name:"preferredBackupWindow", parent: name, max: 10000)
             try validate(self.preferredBackupWindow, name:"preferredBackupWindow", parent: name, pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
+            try validate(self.preferredMaintenanceWindow, name:"preferredMaintenanceWindow", parent: name, max: 10000)
             try validate(self.preferredMaintenanceWindow, name:"preferredMaintenanceWindow", parent: name, pattern: "^((Mon|Tue|Wed|Thu|Fri|Sat|Sun):)?([0-1][0-9]|2[0-3]):[0-5][0-9]$")
             try validate(self.serverName, name:"serverName", parent: name, max: 40)
             try validate(self.serverName, name:"serverName", parent: name, min: 1)

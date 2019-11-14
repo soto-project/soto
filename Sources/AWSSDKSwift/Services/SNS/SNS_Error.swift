@@ -36,51 +36,51 @@ extension SNSErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "AuthorizationErrorException":
+        case "AuthorizationError":
             self = .authorizationErrorException(message: message)
-        case "ConcurrentAccessException":
+        case "ConcurrentAccess":
             self = .concurrentAccessException(message: message)
-        case "EndpointDisabledException":
+        case "EndpointDisabled":
             self = .endpointDisabledException(message: message)
-        case "FilterPolicyLimitExceededException":
+        case "FilterPolicyLimitExceeded":
             self = .filterPolicyLimitExceededException(message: message)
-        case "InternalErrorException":
+        case "InternalError":
             self = .internalErrorException(message: message)
-        case "InvalidParameterException":
+        case "InvalidParameter":
             self = .invalidParameterException(message: message)
-        case "InvalidParameterValueException":
+        case "ParameterValueInvalid":
             self = .invalidParameterValueException(message: message)
-        case "InvalidSecurityException":
+        case "InvalidSecurity":
             self = .invalidSecurityException(message: message)
-        case "KMSAccessDeniedException":
+        case "KMSAccessDenied":
             self = .kMSAccessDeniedException(message: message)
-        case "KMSDisabledException":
+        case "KMSDisabled":
             self = .kMSDisabledException(message: message)
-        case "KMSInvalidStateException":
+        case "KMSInvalidState":
             self = .kMSInvalidStateException(message: message)
-        case "KMSNotFoundException":
+        case "KMSNotFound":
             self = .kMSNotFoundException(message: message)
         case "KMSOptInRequired":
             self = .kMSOptInRequired(message: message)
-        case "KMSThrottlingException":
+        case "KMSThrottling":
             self = .kMSThrottlingException(message: message)
-        case "NotFoundException":
+        case "NotFound":
             self = .notFoundException(message: message)
-        case "PlatformApplicationDisabledException":
+        case "PlatformApplicationDisabled":
             self = .platformApplicationDisabledException(message: message)
-        case "ResourceNotFoundException":
+        case "ResourceNotFound":
             self = .resourceNotFoundException(message: message)
-        case "StaleTagException":
+        case "StaleTag":
             self = .staleTagException(message: message)
-        case "SubscriptionLimitExceededException":
+        case "SubscriptionLimitExceeded":
             self = .subscriptionLimitExceededException(message: message)
-        case "TagLimitExceededException":
+        case "TagLimitExceeded":
             self = .tagLimitExceededException(message: message)
-        case "TagPolicyException":
+        case "TagPolicy":
             self = .tagPolicyException(message: message)
-        case "ThrottledException":
+        case "Throttled":
             self = .throttledException(message: message)
-        case "TopicLimitExceededException":
+        case "TopicLimitExceeded":
             self = .topicLimitExceededException(message: message)
         default:
             return nil
@@ -92,51 +92,51 @@ extension SNSErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
         case .authorizationErrorException(let message):
-            return "AuthorizationErrorException: \(message ?? "")"
+            return "AuthorizationError: \(message ?? "")"
         case .concurrentAccessException(let message):
-            return "ConcurrentAccessException: \(message ?? "")"
+            return "ConcurrentAccess: \(message ?? "")"
         case .endpointDisabledException(let message):
-            return "EndpointDisabledException: \(message ?? "")"
+            return "EndpointDisabled: \(message ?? "")"
         case .filterPolicyLimitExceededException(let message):
-            return "FilterPolicyLimitExceededException: \(message ?? "")"
+            return "FilterPolicyLimitExceeded: \(message ?? "")"
         case .internalErrorException(let message):
-            return "InternalErrorException: \(message ?? "")"
+            return "InternalError: \(message ?? "")"
         case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
+            return "InvalidParameter: \(message ?? "")"
         case .invalidParameterValueException(let message):
-            return "InvalidParameterValueException: \(message ?? "")"
+            return "ParameterValueInvalid: \(message ?? "")"
         case .invalidSecurityException(let message):
-            return "InvalidSecurityException: \(message ?? "")"
+            return "InvalidSecurity: \(message ?? "")"
         case .kMSAccessDeniedException(let message):
-            return "KMSAccessDeniedException: \(message ?? "")"
+            return "KMSAccessDenied: \(message ?? "")"
         case .kMSDisabledException(let message):
-            return "KMSDisabledException: \(message ?? "")"
+            return "KMSDisabled: \(message ?? "")"
         case .kMSInvalidStateException(let message):
-            return "KMSInvalidStateException: \(message ?? "")"
+            return "KMSInvalidState: \(message ?? "")"
         case .kMSNotFoundException(let message):
-            return "KMSNotFoundException: \(message ?? "")"
+            return "KMSNotFound: \(message ?? "")"
         case .kMSOptInRequired(let message):
             return "KMSOptInRequired: \(message ?? "")"
         case .kMSThrottlingException(let message):
-            return "KMSThrottlingException: \(message ?? "")"
+            return "KMSThrottling: \(message ?? "")"
         case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
+            return "NotFound: \(message ?? "")"
         case .platformApplicationDisabledException(let message):
-            return "PlatformApplicationDisabledException: \(message ?? "")"
+            return "PlatformApplicationDisabled: \(message ?? "")"
         case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
+            return "ResourceNotFound: \(message ?? "")"
         case .staleTagException(let message):
-            return "StaleTagException: \(message ?? "")"
+            return "StaleTag: \(message ?? "")"
         case .subscriptionLimitExceededException(let message):
-            return "SubscriptionLimitExceededException: \(message ?? "")"
+            return "SubscriptionLimitExceeded: \(message ?? "")"
         case .tagLimitExceededException(let message):
-            return "TagLimitExceededException: \(message ?? "")"
+            return "TagLimitExceeded: \(message ?? "")"
         case .tagPolicyException(let message):
-            return "TagPolicyException: \(message ?? "")"
+            return "TagPolicy: \(message ?? "")"
         case .throttledException(let message):
-            return "ThrottledException: \(message ?? "")"
+            return "Throttled: \(message ?? "")"
         case .topicLimitExceededException(let message):
-            return "TopicLimitExceededException: \(message ?? "")"
+            return "TopicLimitExceeded: \(message ?? "")"
         }
     }
 }

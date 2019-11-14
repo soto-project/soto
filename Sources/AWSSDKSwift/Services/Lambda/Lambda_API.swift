@@ -11,7 +11,7 @@ public struct Lambda {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -22,7 +22,8 @@ public struct Lambda {
             apiVersion: "2015-03-31",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [LambdaErrorType.self]
+            possibleErrorTypes: [LambdaErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

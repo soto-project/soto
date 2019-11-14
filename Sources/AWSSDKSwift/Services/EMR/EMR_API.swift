@@ -11,7 +11,7 @@ public struct EMR {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct EMR {
             apiVersion: "2009-03-31",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [EMRErrorType.self]
+            possibleErrorTypes: [EMRErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

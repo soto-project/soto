@@ -5,13 +5,13 @@ import AWSSDKSwiftCore
 import NIO
 
 /**
-Amazon Relational Database Service   Amazon Relational Database Service (Amazon RDS) is a web service that makes it easier to set up, operate, and scale a relational database in the cloud. It provides cost-efficient, resizable capacity for an industry-standard relational database and manages common database administration tasks, freeing up developers to focus on what makes their applications and businesses unique. Amazon RDS gives you access to the capabilities of a MySQL, MariaDB, PostgreSQL, Microsoft SQL Server, Oracle, or Amazon Aurora database server. These capabilities mean that the code, applications, and tools you already use today with your existing databases work with Amazon RDS without modification. Amazon RDS automatically backs up your database and maintains the database software that powers your DB instance. Amazon RDS is flexible: you can scale your DB instance's compute resources and storage capacity to meet your application's demand. As with all Amazon Web Services, there are no up-front investments, and you pay only for the resources you use. This interface reference for Amazon RDS contains documentation for a programming or command line interface you can use to manage Amazon RDS. Note that Amazon RDS is asynchronous, which means that some interfaces might require techniques such as polling or callback functions to determine when a command has been applied. In this reference, the parameter descriptions indicate whether a command is applied immediately, on the next instance reboot, or during the maintenance window. The reference structure is as follows, and we list following some related topics from the user guide.  Amazon RDS API Reference    For the alphabetical list of API actions, see API Actions.   For the alphabetical list of data types, see Data Types.   For a list of common query parameters, see Common Parameters.   For descriptions of the error codes, see Common Errors.    Amazon RDS User Guide    For a summary of the Amazon RDS interfaces, see Available RDS Interfaces.   For more information about how to use the Query API, see Using the Query API.  
+Amazon Relational Database Service   Amazon Relational Database Service (Amazon RDS) is a web service that makes it easier to set up, operate, and scale a relational database in the cloud. It provides cost-efficient, resizeable capacity for an industry-standard relational database and manages common database administration tasks, freeing up developers to focus on what makes their applications and businesses unique. Amazon RDS gives you access to the capabilities of a MySQL, MariaDB, PostgreSQL, Microsoft SQL Server, Oracle, or Amazon Aurora database server. These capabilities mean that the code, applications, and tools you already use today with your existing databases work with Amazon RDS without modification. Amazon RDS automatically backs up your database and maintains the database software that powers your DB instance. Amazon RDS is flexible: you can scale your DB instance's compute resources and storage capacity to meet your application's demand. As with all Amazon Web Services, there are no up-front investments, and you pay only for the resources you use. This interface reference for Amazon RDS contains documentation for a programming or command line interface you can use to manage Amazon RDS. Note that Amazon RDS is asynchronous, which means that some interfaces might require techniques such as polling or callback functions to determine when a command has been applied. In this reference, the parameter descriptions indicate whether a command is applied immediately, on the next instance reboot, or during the maintenance window. The reference structure is as follows, and we list following some related topics from the user guide.  Amazon RDS API Reference    For the alphabetical list of API actions, see API Actions.   For the alphabetical list of data types, see Data Types.   For a list of common query parameters, see Common Parameters.   For descriptions of the error codes, see Common Errors.    Amazon RDS User Guide    For a summary of the Amazon RDS interfaces, see Available RDS Interfaces.   For more information about how to use the Query API, see Using the Query API.  
 */
 public struct RDS {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -22,7 +22,8 @@ public struct RDS {
             apiVersion: "2014-10-31",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [RDSErrorType.self]
+            possibleErrorTypes: [RDSErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 
@@ -66,7 +67,7 @@ public struct RDS {
         return client.send(operation: "CopyDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared manual DB cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB cluster snapshot. You can copy an encrypted DB cluster snapshot from another AWS Region. In that case, the AWS Region where you call the CopyDBClusterSnapshot action is the destination AWS Region for the encrypted DB cluster snapshot to be copied to. To copy an encrypted DB cluster snapshot from another AWS Region, you must provide the following values:    KmsKeyId - The AWS Key Management System (AWS KMS) key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region.    PreSignedUrl - A URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot action to be called in the source AWS Region where the DB cluster snapshot is copied from. The pre-signed URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.    TargetDBClusterSnapshotIdentifier - The identifier for the new copy of the DB cluster snapshot in the destination AWS Region.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the ARN format for the source AWS Region and is the same value as the SourceDBClusterSnapshotIdentifier in the pre-signed URL.    To cancel the copy operation once it is in progress, delete the target DB cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that DB cluster snapshot is in "copying" status. For more information on copying encrypted DB cluster snapshots from one AWS Region to another, see  Copying a Snapshot in the Amazon Aurora User Guide.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    ///  Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared manual DB cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB cluster snapshot. You can copy an encrypted DB cluster snapshot from another AWS Region. In that case, the AWS Region where you call the CopyDBClusterSnapshot action is the destination AWS Region for the encrypted DB cluster snapshot to be copied to. To copy an encrypted DB cluster snapshot from another AWS Region, you must provide the following values:    KmsKeyId - The AWS Key Management System (AWS KMS) key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region.    PreSignedUrl - A URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot action to be called in the source AWS Region where the DB cluster snapshot is copied from. The pre-signed URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region.     TargetDBClusterSnapshotIdentifier - The identifier for the new copy of the DB cluster snapshot in the destination AWS Region.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the ARN format for the source AWS Region and is the same value as the SourceDBClusterSnapshotIdentifier in the pre-signed URL.    To cancel the copy operation once it is in progress, delete the target DB cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that DB cluster snapshot is in "copying" status. For more information on copying encrypted DB cluster snapshots from one AWS Region to another, see  Copying a Snapshot in the Amazon Aurora User Guide.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func copyDBClusterSnapshot(_ input: CopyDBClusterSnapshotMessage) -> Future<CopyDBClusterSnapshotResult> {
         return client.send(operation: "CopyDBClusterSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -84,6 +85,11 @@ public struct RDS {
     ///  Copies the specified option group.
     public func copyOptionGroup(_ input: CopyOptionGroupMessage) -> Future<CopyOptionGroupResult> {
         return client.send(operation: "CopyOptionGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a custom Availability Zone (AZ). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the  RDS on VMware User Guide.  
+    public func createCustomAvailabilityZone(_ input: CreateCustomAvailabilityZoneMessage) -> Future<CreateCustomAvailabilityZoneResult> {
+        return client.send(operation: "CreateCustomAvailabilityZone", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new Amazon Aurora DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon RDS MySQL DB instance. For cross-region replication where the DB cluster identified by ReplicationSourceIdentifier is encrypted, you must also specify the PreSignedUrl parameter. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
@@ -151,6 +157,11 @@ public struct RDS {
         return client.send(operation: "CreateOptionGroup", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes a custom Availability Zone (AZ). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the  RDS on VMware User Guide.  
+    public func deleteCustomAvailabilityZone(_ input: DeleteCustomAvailabilityZoneMessage) -> Future<DeleteCustomAvailabilityZoneResult> {
+        return client.send(operation: "DeleteCustomAvailabilityZone", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func deleteDBCluster(_ input: DeleteDBClusterMessage) -> Future<DeleteDBClusterResult> {
         return client.send(operation: "DeleteDBCluster", path: "/", httpMethod: "POST", input: input)
@@ -211,6 +222,11 @@ public struct RDS {
         return client.send(operation: "DeleteGlobalCluster", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the installation medium for a DB engine that requires an on-premises customer provided license, such as Microsoft SQL Server.
+    public func deleteInstallationMedia(_ input: DeleteInstallationMediaMessage) -> Future<InstallationMedia> {
+        return client.send(operation: "DeleteInstallationMedia", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes an existing option group.
     @discardableResult public func deleteOptionGroup(_ input: DeleteOptionGroupMessage) -> Future<Void> {
         return client.send(operation: "DeleteOptionGroup", path: "/", httpMethod: "POST", input: input)
@@ -224,6 +240,11 @@ public struct RDS {
     ///  Lists the set of CA certificates provided by Amazon RDS for this AWS account.
     public func describeCertificates(_ input: DescribeCertificatesMessage) -> Future<CertificateMessage> {
         return client.send(operation: "DescribeCertificates", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about custom Availability Zones (AZs). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the  RDS on VMware User Guide.  
+    public func describeCustomAvailabilityZones(_ input: DescribeCustomAvailabilityZonesMessage) -> Future<CustomAvailabilityZoneMessage> {
+        return client.send(operation: "DescribeCustomAvailabilityZones", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
@@ -341,6 +362,11 @@ public struct RDS {
         return client.send(operation: "DescribeGlobalClusters", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes the available installation media for a DB engine that requires an on-premises customer provided license, such as Microsoft SQL Server.
+    public func describeInstallationMedia(_ input: DescribeInstallationMediaMessage) -> Future<InstallationMediaMessage> {
+        return client.send(operation: "DescribeInstallationMedia", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Describes all available options.
     public func describeOptionGroupOptions(_ input: DescribeOptionGroupOptionsMessage) -> Future<OptionGroupOptionsMessage> {
         return client.send(operation: "DescribeOptionGroupOptions", path: "/", httpMethod: "POST", input: input)
@@ -389,6 +415,11 @@ public struct RDS {
     ///  Forces a failover for a DB cluster. A failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary instance (the cluster writer). Amazon Aurora will automatically fail over to an Aurora Replica, if one exists, when the primary instance fails. You can force a failover when you want to simulate a failure of a primary instance for testing. Because each instance in a DB cluster has its own endpoint address, you will need to clean up and re-establish any existing connections that use those endpoint addresses when the failover is complete. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func failoverDBCluster(_ input: FailoverDBClusterMessage) -> Future<FailoverDBClusterResult> {
         return client.send(operation: "FailoverDBCluster", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Imports the installation media for a DB engine that requires an on-premises customer provided license, such as SQL Server.
+    public func importInstallationMedia(_ input: ImportInstallationMediaMessage) -> Future<InstallationMedia> {
+        return client.send(operation: "ImportInstallationMedia", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all tags on an Amazon RDS resource. For an overview on tagging an Amazon RDS resource, see Tagging Amazon RDS Resources in the Amazon RDS User Guide.
@@ -521,7 +552,7 @@ public struct RDS {
         return client.send(operation: "RestoreDBClusterFromS3", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new DB cluster from a DB snapshot or DB cluster snapshot. If a DB snapshot is specified, the target DB cluster is created from the source DB snapshot with a default configuration and default security group. If a DB cluster snapshot is specified, the target DB cluster is created from the source DB cluster restore point with the same configuration as the original source DB cluster, except that the new DB cluster is created with the default security group. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
+    ///  Creates a new DB cluster from a DB snapshot or DB cluster snapshot. If a DB snapshot is specified, the target DB cluster is created from the source DB snapshot with a default configuration and default security group. If a DB cluster snapshot is specified, the target DB cluster is created from the source DB cluster restore point with the same configuration as the original source DB cluster. If you don't specify a security group, the new DB cluster is associated with the default security group. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. 
     public func restoreDBClusterFromSnapshot(_ input: RestoreDBClusterFromSnapshotMessage) -> Future<RestoreDBClusterFromSnapshotResult> {
         return client.send(operation: "RestoreDBClusterFromSnapshot", path: "/", httpMethod: "POST", input: input)
     }

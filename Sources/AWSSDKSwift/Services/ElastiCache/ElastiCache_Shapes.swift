@@ -55,6 +55,18 @@ extension ElastiCache {
         }
     }
 
+    public enum AuthTokenUpdateStatus: String, CustomStringConvertible, Codable {
+        case setting = "SETTING"
+        case rotating = "ROTATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthTokenUpdateStrategyType: String, CustomStringConvertible, Codable {
+        case set = "SET"
+        case rotate = "ROTATE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AuthorizeCacheSecurityGroupIngressMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CacheSecurityGroupName", required: true, type: .string), 
@@ -191,6 +203,7 @@ extension ElastiCache {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "AuthTokenEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AuthTokenLastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "CacheClusterCreateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "CacheClusterId", required: false, type: .string), 
@@ -220,6 +233,8 @@ extension ElastiCache {
         public let atRestEncryptionEnabled: Bool?
         /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false 
         public let authTokenEnabled: Bool?
+        /// The date the auth token was last modified
+        public let authTokenLastModifiedDate: TimeStamp?
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
         /// The date and time when the cluster was created.
@@ -266,9 +281,10 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false 
         public let transitEncryptionEnabled: Bool?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheClusterStatus: String? = nil, cacheNodes: [CacheNode]? = nil, cacheNodeType: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: [CacheSecurityGroupMembership]? = nil, cacheSubnetGroupName: String? = nil, clientDownloadLandingPage: String? = nil, configurationEndpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, numCacheNodes: Int? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: TimeStamp? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheClusterStatus: String? = nil, cacheNodes: [CacheNode]? = nil, cacheNodeType: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: [CacheSecurityGroupMembership]? = nil, cacheSubnetGroupName: String? = nil, clientDownloadLandingPage: String? = nil, configurationEndpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, numCacheNodes: Int? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, replicationGroupId: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
+            self.authTokenLastModifiedDate = authTokenLastModifiedDate
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.cacheClusterCreateTime = cacheClusterCreateTime
             self.cacheClusterId = cacheClusterId
@@ -297,6 +313,7 @@ extension ElastiCache {
         private enum CodingKeys: String, CodingKey {
             case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
             case authTokenEnabled = "AuthTokenEnabled"
+            case authTokenLastModifiedDate = "AuthTokenLastModifiedDate"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case cacheClusterCreateTime = "CacheClusterCreateTime"
             case cacheClusterId = "CacheClusterId"
@@ -838,6 +855,44 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
+    public struct CompleteMigrationMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Force", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string)
+        ]
+
+        /// Forces the migration to stop without ensuring that data is in sync. It is recommended to use this option only to abort the migration and not recommended when application wants to continue migration to ElastiCache.
+        public let force: Bool?
+        /// The ID of the replication group to which data is being migrated.
+        public let replicationGroupId: String
+
+        public init(force: Bool? = nil, replicationGroupId: String) {
+            self.force = force
+            self.replicationGroupId = replicationGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case force = "Force"
+            case replicationGroupId = "ReplicationGroupId"
+        }
+    }
+
+    public struct CompleteMigrationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
+        ]
+
+        public let replicationGroup: ReplicationGroup?
+
+        public init(replicationGroup: ReplicationGroup? = nil) {
+            self.replicationGroup = replicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
+        }
+    }
+
     public struct ConfigureShard: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NewReplicaCount", required: true, type: .integer), 
@@ -946,7 +1001,7 @@ extension ElastiCache {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
 
-        ///  Reserved parameter. The password used to access a password protected server. Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   Cannot contain any of the following characters: '/', '"', or '@'.    For more information, see AUTH password at http://redis.io/commands/AUTH.
+        ///  Reserved parameter. The password used to access a password protected server. Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &amp;, #, $, ^, &lt;, &gt;, and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
         public let authToken: String?
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
@@ -1221,7 +1276,7 @@ extension ElastiCache {
 
         /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false 
         public let atRestEncryptionEnabled: Bool?
-        ///  Reserved parameter. The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   Cannot contain any of the following characters: '/', '"', or '@'.    For more information, see AUTH password at http://redis.io/commands/AUTH.
+        ///  Reserved parameter. The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &amp;, #, $, ^, &lt;, &gt;, and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
         public let authToken: String?
         /// Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails. If true, Multi-AZ is enabled for this replication group. If false, Multi-AZ is disabled for this replication group.  AutomaticFailoverEnabled must be enabled for Redis (cluster mode enabled) replication groups. Default: false Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 node types.   Redis (cluster mode enabled): T1 node types.  
         public let automaticFailoverEnabled: Bool?
@@ -1410,6 +1465,28 @@ extension ElastiCache {
 
         private enum CodingKeys: String, CodingKey {
             case snapshot = "Snapshot"
+        }
+    }
+
+    public struct CustomerNodeEndpoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
+        ]
+
+        /// The address of the node endpoint
+        public let address: String?
+        /// The port of the node endpoint
+        public let port: Int?
+
+        public init(address: String? = nil, port: Int? = nil) {
+            self.address = address
+            self.port = port
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case port = "Port"
         }
     }
 
@@ -2450,6 +2527,8 @@ extension ElastiCache {
     public struct ModifyCacheClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
+            AWSShapeMember(label: "AuthToken", required: false, type: .string), 
+            AWSShapeMember(label: "AuthTokenUpdateStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "AZMode", required: false, type: .enum), 
             AWSShapeMember(label: "CacheClusterId", required: true, type: .string), 
@@ -2470,9 +2549,13 @@ extension ElastiCache {
 
         /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification.  Valid values: true | false  Default: false 
         public let applyImmediately: Bool?
+        /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update parameter. Password constraints:   Must be only printable ASCII characters   Must be at least 16 characters and no more than 128 characters in length   Cannot contain any of the following characters: '/', '"', or '@', '%'    For more information, see AUTH password at AUTH.
+        public let authToken: String?
+        /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set    For more information, see Authenticating Users with Redis AUTH 
+        public let authTokenUpdateStrategy: AuthTokenUpdateStrategyType?
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
-        /// Specifies whether the new nodes in this Memcached cluster are all created in a single Availability Zone or created across multiple Availability Zones. Valid values: single-az | cross-az. This option is only supported for Memcached clusters.  You cannot specify single-az if the Memcached cluster already has cache nodes in different Availability Zones. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes are located in different Availability Zones. For instructions on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached. 
+        /// Specifies whether the new nodes in this Memcached cluster are all created in a single Availability Zone or created across multiple Availability Zones. Valid values: single-az | cross-az. This option is only supported for Memcached clusters.  You cannot specify single-az if the Memcached cluster already has cache nodes in different Availability Zones. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes are located in different Availability Zones.  
         public let aZMode: AZMode?
         /// The cluster identifier. This value is stored as a lowercase string.
         public let cacheClusterId: String
@@ -2503,8 +2586,10 @@ extension ElastiCache {
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster. 
         public let snapshotWindow: String?
 
-        public init(applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, newAvailabilityZones: [String]? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, numCacheNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil) {
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, newAvailabilityZones: [String]? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, numCacheNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil) {
             self.applyImmediately = applyImmediately
+            self.authToken = authToken
+            self.authTokenUpdateStrategy = authTokenUpdateStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.aZMode = aZMode
             self.cacheClusterId = cacheClusterId
@@ -2525,6 +2610,8 @@ extension ElastiCache {
 
         private enum CodingKeys: String, CodingKey {
             case applyImmediately = "ApplyImmediately"
+            case authToken = "AuthToken"
+            case authTokenUpdateStrategy = "AuthTokenUpdateStrategy"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case aZMode = "AZMode"
             case cacheClusterId = "CacheClusterId"
@@ -2628,6 +2715,8 @@ extension ElastiCache {
     public struct ModifyReplicationGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
+            AWSShapeMember(label: "AuthToken", required: false, type: .string), 
+            AWSShapeMember(label: "AuthTokenUpdateStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "AutomaticFailoverEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
@@ -2648,6 +2737,10 @@ extension ElastiCache {
 
         /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false  Default: false 
         public let applyImmediately: Bool?
+        /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update-strategy  parameter. Password constraints:   Must be only printable ASCII characters   Must be at least 16 characters and no more than 128 characters in length   Cannot contain any of the following characters: '/', '"', or '@', '%'    For more information, see AUTH password at AUTH.
+        public let authToken: String?
+        /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set    For more information, see Authenticating Users with Redis AUTH 
+        public let authTokenUpdateStrategy: AuthTokenUpdateStrategyType?
         /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. Valid values: true | false  Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 node types.   Redis (cluster mode enabled): T1 node types.  
         public let automaticFailoverEnabled: Bool?
         /// This parameter is currently disabled.
@@ -2681,8 +2774,10 @@ extension ElastiCache {
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of the node group (shard) specified by SnapshottingClusterId. Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
         public let snapshotWindow: String?
 
-        public init(applyImmediately: Bool? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil) {
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil) {
             self.applyImmediately = applyImmediately
+            self.authToken = authToken
+            self.authTokenUpdateStrategy = authTokenUpdateStrategy
             self.automaticFailoverEnabled = automaticFailoverEnabled
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.cacheNodeType = cacheNodeType
@@ -2703,6 +2798,8 @@ extension ElastiCache {
 
         private enum CodingKeys: String, CodingKey {
             case applyImmediately = "ApplyImmediately"
+            case authToken = "AuthToken"
+            case authTokenUpdateStrategy = "AuthTokenUpdateStrategy"
             case automaticFailoverEnabled = "AutomaticFailoverEnabled"
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case cacheNodeType = "CacheNodeType"
@@ -3185,12 +3282,15 @@ extension ElastiCache {
 
     public struct PendingModifiedValues: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthTokenStatus", required: false, type: .enum), 
             AWSShapeMember(label: "CacheNodeIdsToRemove", required: false, type: .list, encoding: .list(member:"CacheNodeId")), 
             AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
             AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
             AWSShapeMember(label: "NumCacheNodes", required: false, type: .integer)
         ]
 
+        /// The auth token status
+        public let authTokenStatus: AuthTokenUpdateStatus?
         /// A list of cache node IDs that are being removed (or will be removed) from the cluster. A node ID is a 4-digit numeric identifier (0001, 0002, etc.).
         public let cacheNodeIdsToRemove: [String]?
         /// The cache node type that this cluster or replication group is scaled to.
@@ -3200,7 +3300,8 @@ extension ElastiCache {
         /// The new number of cache nodes for the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
         public let numCacheNodes: Int?
 
-        public init(cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, engineVersion: String? = nil, numCacheNodes: Int? = nil) {
+        public init(authTokenStatus: AuthTokenUpdateStatus? = nil, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, engineVersion: String? = nil, numCacheNodes: Int? = nil) {
+            self.authTokenStatus = authTokenStatus
             self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
             self.cacheNodeType = cacheNodeType
             self.engineVersion = engineVersion
@@ -3208,6 +3309,7 @@ extension ElastiCache {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authTokenStatus = "AuthTokenStatus"
             case cacheNodeIdsToRemove = "CacheNodeIdsToRemove"
             case cacheNodeType = "CacheNodeType"
             case engineVersion = "EngineVersion"
@@ -3376,6 +3478,7 @@ extension ElastiCache {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AtRestEncryptionEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "AuthTokenEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AuthTokenLastModifiedDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "AutomaticFailover", required: false, type: .enum), 
             AWSShapeMember(label: "CacheNodeType", required: false, type: .string), 
             AWSShapeMember(label: "ClusterEnabled", required: false, type: .boolean), 
@@ -3397,6 +3500,8 @@ extension ElastiCache {
         public let atRestEncryptionEnabled: Bool?
         /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false 
         public let authTokenEnabled: Bool?
+        /// The date the auth token was last modified
+        public let authTokenLastModifiedDate: TimeStamp?
         /// Indicates the status of Multi-AZ with automatic failover for this Redis replication group. Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 node types.   Redis (cluster mode enabled): T1 node types.  
         public let automaticFailover: AutomaticFailoverStatus?
         /// The name of the compute and memory capacity node type for each node in the replication group.
@@ -3428,9 +3533,10 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false 
         public let transitEncryptionEnabled: Bool?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, kmsKeyId: String? = nil, memberClusters: [String]? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: TimeStamp? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, kmsKeyId: String? = nil, memberClusters: [String]? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
+            self.authTokenLastModifiedDate = authTokenLastModifiedDate
             self.automaticFailover = automaticFailover
             self.cacheNodeType = cacheNodeType
             self.clusterEnabled = clusterEnabled
@@ -3451,6 +3557,7 @@ extension ElastiCache {
         private enum CodingKeys: String, CodingKey {
             case atRestEncryptionEnabled = "AtRestEncryptionEnabled"
             case authTokenEnabled = "AuthTokenEnabled"
+            case authTokenLastModifiedDate = "AuthTokenLastModifiedDate"
             case automaticFailover = "AutomaticFailover"
             case cacheNodeType = "CacheNodeType"
             case clusterEnabled = "ClusterEnabled"
@@ -3493,11 +3600,14 @@ extension ElastiCache {
 
     public struct ReplicationGroupPendingModifiedValues: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthTokenStatus", required: false, type: .enum), 
             AWSShapeMember(label: "AutomaticFailoverStatus", required: false, type: .enum), 
             AWSShapeMember(label: "PrimaryClusterId", required: false, type: .string), 
             AWSShapeMember(label: "Resharding", required: false, type: .structure)
         ]
 
+        /// The auth token status
+        public let authTokenStatus: AuthTokenUpdateStatus?
         /// Indicates the status of Multi-AZ with automatic failover for this Redis replication group. Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled): T1 node types.   Redis (cluster mode enabled): T1 node types.  
         public let automaticFailoverStatus: PendingAutomaticFailoverStatus?
         /// The primary cluster ID that is applied immediately (if --apply-immediately was specified), or during the next maintenance window.
@@ -3505,13 +3615,15 @@ extension ElastiCache {
         /// The status of an online resharding operation.
         public let resharding: ReshardingStatus?
 
-        public init(automaticFailoverStatus: PendingAutomaticFailoverStatus? = nil, primaryClusterId: String? = nil, resharding: ReshardingStatus? = nil) {
+        public init(authTokenStatus: AuthTokenUpdateStatus? = nil, automaticFailoverStatus: PendingAutomaticFailoverStatus? = nil, primaryClusterId: String? = nil, resharding: ReshardingStatus? = nil) {
+            self.authTokenStatus = authTokenStatus
             self.automaticFailoverStatus = automaticFailoverStatus
             self.primaryClusterId = primaryClusterId
             self.resharding = resharding
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authTokenStatus = "AuthTokenStatus"
             case automaticFailoverStatus = "AutomaticFailoverStatus"
             case primaryClusterId = "PrimaryClusterId"
             case resharding = "Resharding"
@@ -4110,6 +4222,44 @@ extension ElastiCache {
         case cacheSubnetGroup = "cache-subnet-group"
         case replicationGroup = "replication-group"
         public var description: String { return self.rawValue }
+    }
+
+    public struct StartMigrationMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomerNodeEndpointList", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ReplicationGroupId", required: true, type: .string)
+        ]
+
+        /// List of endpoints from which data should be migrated. For Redis (cluster mode disabled), list should have only one element.
+        public let customerNodeEndpointList: [CustomerNodeEndpoint]
+        /// The ID of the replication group to which data should be migrated.
+        public let replicationGroupId: String
+
+        public init(customerNodeEndpointList: [CustomerNodeEndpoint], replicationGroupId: String) {
+            self.customerNodeEndpointList = customerNodeEndpointList
+            self.replicationGroupId = replicationGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerNodeEndpointList = "CustomerNodeEndpointList"
+            case replicationGroupId = "ReplicationGroupId"
+        }
+    }
+
+    public struct StartMigrationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationGroup", required: false, type: .structure)
+        ]
+
+        public let replicationGroup: ReplicationGroup?
+
+        public init(replicationGroup: ReplicationGroup? = nil) {
+            self.replicationGroup = replicationGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationGroup = "ReplicationGroup"
+        }
     }
 
     public struct Subnet: AWSShape {

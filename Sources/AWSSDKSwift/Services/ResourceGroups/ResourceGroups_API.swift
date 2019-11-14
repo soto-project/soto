@@ -11,7 +11,7 @@ public struct ResourceGroups {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct ResourceGroups {
             endpoint: endpoint,
             serviceEndpoints: ["fips-us-east-1": "resource-groups-fips.us-east-1.amazonaws.com", "fips-us-east-2": "resource-groups-fips.us-east-2.amazonaws.com", "fips-us-west-1": "resource-groups-fips.us-west-1.amazonaws.com", "fips-us-west-2": "resource-groups-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
-            possibleErrorTypes: [ResourceGroupsErrorType.self]
+            possibleErrorTypes: [ResourceGroupsErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

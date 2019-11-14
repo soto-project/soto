@@ -21,13 +21,13 @@ extension IoTEvents {
 
         /// Information needed to clear the timer.
         public let clearTimer: ClearTimerAction?
-        /// Sends information about the detector model instance and the event which triggered the action to a Kinesis Data Firehose stream.
+        /// Sends information about the detector model instance and the event which triggered the action to a Kinesis Data Firehose delivery stream.
         public let firehose: FirehoseAction?
         /// Sends an IoT Events input, passing in information about the detector model instance and the event which triggered the action.
         public let iotEvents: IotEventsAction?
         /// Publishes an MQTT message with the given topic to the AWS IoT message broker.
         public let iotTopicPublish: IotTopicPublishAction?
-        /// Calls a Lambda function, passing in information about the detector model instance and the event which triggered the action.
+        /// Calls an AWS Lambda function, passing in information about the detector model instance and the event which triggered the action.
         public let lambda: LambdaAction?
         /// Information needed to reset the timer.
         public let resetTimer: ResetTimerAction?
@@ -37,7 +37,7 @@ extension IoTEvents {
         public let setVariable: SetVariableAction?
         /// Sends an Amazon SNS message.
         public let sns: SNSTopicPublishAction?
-        /// Sends information about the detector model instance and the event which triggered the action to an AWS SQS queue.
+        /// Sends information about the detector model instance and the event which triggered the action to an Amazon SQS queue.
         public let sqs: SqsAction?
 
         public init(clearTimer: ClearTimerAction? = nil, firehose: FirehoseAction? = nil, iotEvents: IotEventsAction? = nil, iotTopicPublish: IotTopicPublishAction? = nil, lambda: LambdaAction? = nil, resetTimer: ResetTimerAction? = nil, setTimer: SetTimerAction? = nil, setVariable: SetVariableAction? = nil, sns: SNSTopicPublishAction? = nil, sqs: SqsAction? = nil) {
@@ -129,6 +129,7 @@ extension IoTEvents {
             AWSShapeMember(label: "detectorModelDefinition", required: true, type: .structure), 
             AWSShapeMember(label: "detectorModelDescription", required: false, type: .string), 
             AWSShapeMember(label: "detectorModelName", required: true, type: .string), 
+            AWSShapeMember(label: "evaluationMethod", required: false, type: .enum), 
             AWSShapeMember(label: "key", required: false, type: .string), 
             AWSShapeMember(label: "roleArn", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list)
@@ -140,17 +141,20 @@ extension IoTEvents {
         public let detectorModelDescription: String?
         /// The name of the detector model.
         public let detectorModelName: String
-        /// The input attribute key used to identify a device or system in order to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression to specify the attribute-value pair in the message payload of each input that is used to identify the device associated with the input.
+        /// When set to SERIAL, variables are updated and event conditions evaluated in the order that the events are defined. When set to BATCH, variables are updated and events performed only after all event conditions are evaluated.
+        public let evaluationMethod: EvaluationMethod?
+        /// The input attribute key used to identify a device or system to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression to specify the attribute-value pair in the message payload of each input that is used to identify the device associated with the input.
         public let key: String?
         /// The ARN of the role that grants permission to AWS IoT Events to perform its operations.
         public let roleArn: String
         /// Metadata that can be used to manage the detector model.
         public let tags: [Tag]?
 
-        public init(detectorModelDefinition: DetectorModelDefinition, detectorModelDescription: String? = nil, detectorModelName: String, key: String? = nil, roleArn: String, tags: [Tag]? = nil) {
+        public init(detectorModelDefinition: DetectorModelDefinition, detectorModelDescription: String? = nil, detectorModelName: String, evaluationMethod: EvaluationMethod? = nil, key: String? = nil, roleArn: String, tags: [Tag]? = nil) {
             self.detectorModelDefinition = detectorModelDefinition
             self.detectorModelDescription = detectorModelDescription
             self.detectorModelName = detectorModelName
+            self.evaluationMethod = evaluationMethod
             self.key = key
             self.roleArn = roleArn
             self.tags = tags
@@ -176,6 +180,7 @@ extension IoTEvents {
             case detectorModelDefinition = "detectorModelDefinition"
             case detectorModelDescription = "detectorModelDescription"
             case detectorModelName = "detectorModelName"
+            case evaluationMethod = "evaluationMethod"
             case key = "key"
             case roleArn = "roleArn"
             case tags = "tags"
@@ -493,6 +498,7 @@ extension IoTEvents {
             AWSShapeMember(label: "detectorModelDescription", required: false, type: .string), 
             AWSShapeMember(label: "detectorModelName", required: false, type: .string), 
             AWSShapeMember(label: "detectorModelVersion", required: false, type: .string), 
+            AWSShapeMember(label: "evaluationMethod", required: false, type: .enum), 
             AWSShapeMember(label: "key", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "roleArn", required: false, type: .string), 
@@ -509,7 +515,9 @@ extension IoTEvents {
         public let detectorModelName: String?
         /// The version of the detector model.
         public let detectorModelVersion: String?
-        /// The input attribute key used to identify a device or system in order to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression to specify the attribute-value pair in the message payload of each input that is used to identify the device associated with the input.
+        /// When set to SERIAL, variables are updated and event conditions evaluated in the order that the events are defined. When set to BATCH, variables are updated and events performed only after all event conditions are evaluated.
+        public let evaluationMethod: EvaluationMethod?
+        /// The input attribute key used to identify a device or system to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression to specify the attribute-value pair in the message payload of each input that is used to identify the device associated with the input.
         public let key: String?
         /// The time the detector model was last updated.
         public let lastUpdateTime: TimeStamp?
@@ -518,12 +526,13 @@ extension IoTEvents {
         /// The status of the detector model.
         public let status: DetectorModelVersionStatus?
 
-        public init(creationTime: TimeStamp? = nil, detectorModelArn: String? = nil, detectorModelDescription: String? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, key: String? = nil, lastUpdateTime: TimeStamp? = nil, roleArn: String? = nil, status: DetectorModelVersionStatus? = nil) {
+        public init(creationTime: TimeStamp? = nil, detectorModelArn: String? = nil, detectorModelDescription: String? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, evaluationMethod: EvaluationMethod? = nil, key: String? = nil, lastUpdateTime: TimeStamp? = nil, roleArn: String? = nil, status: DetectorModelVersionStatus? = nil) {
             self.creationTime = creationTime
             self.detectorModelArn = detectorModelArn
             self.detectorModelDescription = detectorModelDescription
             self.detectorModelName = detectorModelName
             self.detectorModelVersion = detectorModelVersion
+            self.evaluationMethod = evaluationMethod
             self.key = key
             self.lastUpdateTime = lastUpdateTime
             self.roleArn = roleArn
@@ -536,6 +545,7 @@ extension IoTEvents {
             case detectorModelDescription = "detectorModelDescription"
             case detectorModelName = "detectorModelName"
             case detectorModelVersion = "detectorModelVersion"
+            case evaluationMethod = "evaluationMethod"
             case key = "key"
             case lastUpdateTime = "lastUpdateTime"
             case roleArn = "roleArn"
@@ -618,6 +628,7 @@ extension IoTEvents {
             AWSShapeMember(label: "detectorModelArn", required: false, type: .string), 
             AWSShapeMember(label: "detectorModelName", required: false, type: .string), 
             AWSShapeMember(label: "detectorModelVersion", required: false, type: .string), 
+            AWSShapeMember(label: "evaluationMethod", required: false, type: .enum), 
             AWSShapeMember(label: "lastUpdateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "roleArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum)
@@ -631,6 +642,8 @@ extension IoTEvents {
         public let detectorModelName: String?
         /// The ID of the detector model version.
         public let detectorModelVersion: String?
+        /// When set to SERIAL, variables are updated and event conditions evaluated in the order that the events are defined. When set to BATCH, variables are updated and events performed only after all event conditions are evaluated.
+        public let evaluationMethod: EvaluationMethod?
         /// The last time the detector model version was updated.
         public let lastUpdateTime: TimeStamp?
         /// The ARN of the role that grants the detector model permission to perform its tasks.
@@ -638,11 +651,12 @@ extension IoTEvents {
         /// The status of the detector model version.
         public let status: DetectorModelVersionStatus?
 
-        public init(creationTime: TimeStamp? = nil, detectorModelArn: String? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, lastUpdateTime: TimeStamp? = nil, roleArn: String? = nil, status: DetectorModelVersionStatus? = nil) {
+        public init(creationTime: TimeStamp? = nil, detectorModelArn: String? = nil, detectorModelName: String? = nil, detectorModelVersion: String? = nil, evaluationMethod: EvaluationMethod? = nil, lastUpdateTime: TimeStamp? = nil, roleArn: String? = nil, status: DetectorModelVersionStatus? = nil) {
             self.creationTime = creationTime
             self.detectorModelArn = detectorModelArn
             self.detectorModelName = detectorModelName
             self.detectorModelVersion = detectorModelVersion
+            self.evaluationMethod = evaluationMethod
             self.lastUpdateTime = lastUpdateTime
             self.roleArn = roleArn
             self.status = status
@@ -653,10 +667,17 @@ extension IoTEvents {
             case detectorModelArn = "detectorModelArn"
             case detectorModelName = "detectorModelName"
             case detectorModelVersion = "detectorModelVersion"
+            case evaluationMethod = "evaluationMethod"
             case lastUpdateTime = "lastUpdateTime"
             case roleArn = "roleArn"
             case status = "status"
         }
+    }
+
+    public enum EvaluationMethod: String, CustomStringConvertible, Codable {
+        case batch = "BATCH"
+        case serial = "SERIAL"
+        public var description: String { return self.rawValue }
     }
 
     public struct Event: AWSShape {
@@ -700,9 +721,9 @@ extension IoTEvents {
             AWSShapeMember(label: "separator", required: false, type: .string)
         ]
 
-        /// The name of the Kinesis Data Firehose stream where the data is written.
+        /// The name of the Kinesis Data Firehose delivery stream where the data is written.
         public let deliveryStreamName: String
-        /// A character separator that is used to separate records written to the Kinesis Data Firehose stream. Valid values are: '\n' (newline), '\t' (tab), '\r\n' (Windows newline), ',' (comma).
+        /// A character separator that is used to separate records written to the Kinesis Data Firehose delivery stream. Valid values are: '\n' (newline), '\t' (tab), '\r\n' (Windows newline), ',' (comma).
         public let separator: String?
 
         public init(deliveryStreamName: String, separator: String? = nil) {
@@ -909,7 +930,7 @@ extension IoTEvents {
             AWSShapeMember(label: "functionArn", required: true, type: .string)
         ]
 
-        /// The ARN of the Lambda function which is executed.
+        /// The ARN of the AWS Lambda function which is executed.
         public let functionArn: String
 
         public init(functionArn: String) {
@@ -1373,7 +1394,7 @@ extension IoTEvents {
             AWSShapeMember(label: "useBase64", required: false, type: .boolean)
         ]
 
-        /// The URL of the SQS queue where the data is written.
+        /// The URL of the Amazon SQS queue where the data is written.
         public let queueUrl: String
         /// Set this to TRUE if you want the data to be Base-64 encoded before it is written to the queue. Otherwise, set this to FALSE.
         public let useBase64: Bool?
@@ -1582,6 +1603,7 @@ extension IoTEvents {
             AWSShapeMember(label: "detectorModelDefinition", required: true, type: .structure), 
             AWSShapeMember(label: "detectorModelDescription", required: false, type: .string), 
             AWSShapeMember(label: "detectorModelName", location: .uri(locationName: "detectorModelName"), required: true, type: .string), 
+            AWSShapeMember(label: "evaluationMethod", required: false, type: .enum), 
             AWSShapeMember(label: "roleArn", required: true, type: .string)
         ]
 
@@ -1591,13 +1613,16 @@ extension IoTEvents {
         public let detectorModelDescription: String?
         /// The name of the detector model that is updated.
         public let detectorModelName: String
+        /// When set to SERIAL, variables are updated and event conditions evaluated in the order that the events are defined. When set to BATCH, variables are updated and events performed only after all event conditions are evaluated.
+        public let evaluationMethod: EvaluationMethod?
         /// The ARN of the role that grants permission to AWS IoT Events to perform its operations.
         public let roleArn: String
 
-        public init(detectorModelDefinition: DetectorModelDefinition, detectorModelDescription: String? = nil, detectorModelName: String, roleArn: String) {
+        public init(detectorModelDefinition: DetectorModelDefinition, detectorModelDescription: String? = nil, detectorModelName: String, evaluationMethod: EvaluationMethod? = nil, roleArn: String) {
             self.detectorModelDefinition = detectorModelDefinition
             self.detectorModelDescription = detectorModelDescription
             self.detectorModelName = detectorModelName
+            self.evaluationMethod = evaluationMethod
             self.roleArn = roleArn
         }
 
@@ -1615,6 +1640,7 @@ extension IoTEvents {
             case detectorModelDefinition = "detectorModelDefinition"
             case detectorModelDescription = "detectorModelDescription"
             case detectorModelName = "detectorModelName"
+            case evaluationMethod = "evaluationMethod"
             case roleArn = "roleArn"
         }
     }

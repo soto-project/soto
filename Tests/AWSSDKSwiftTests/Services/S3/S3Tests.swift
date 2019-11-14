@@ -26,7 +26,7 @@ class S3Tests: XCTestCase {
         let bucket : String
         let bodyData : Data
         let key : String
-        
+
         init(_ testName: String, client: S3) throws {
             let testName = testName.lowercased().filter { return $0.isLetter }
             self.client = client
@@ -43,7 +43,7 @@ class S3Tests: XCTestCase {
                 print("Bucket (\(self.bucket)) already exists")
             }
         }
-        
+
         deinit {
             attempt {
                 let objects = try client.listObjects(S3.ListObjectsRequest(bucket: self.bucket)).wait()
@@ -62,7 +62,7 @@ class S3Tests: XCTestCase {
     }
 
     //MARK: TESTS
-    
+
     func testPutObject() {
         attempt {
             let testData = try TestData(#function, client: client)
@@ -139,13 +139,13 @@ class S3Tests: XCTestCase {
             for i in 0..<dataSize {
                 data[i] = UInt8.random(in:0...255)
             }
-            
+
             let filename = testData.key
             try data.write(to: URL(fileURLWithPath: filename))
 
             _ = try client.multipartUpload(multiPartUploadRequest, partSize: 5*1024*1024, filename: filename).wait()
             let object = try client.getObject(S3.GetObjectRequest(bucket: testData.bucket, key: filename)).wait()
-            
+
             XCTAssertEqual(object.body, data)
             try FileManager.default.removeItem(atPath: filename)
         }
@@ -287,7 +287,7 @@ class S3Tests: XCTestCase {
                 responses.append(response)
             }
             _ = try EventLoopFuture.whenAllSucceed(responses, on: AWSClient.eventGroup.next()).wait()
-            
+
             let list = try listObjects(bucket: testData.bucket, count:5).wait()
             XCTAssertEqual(list.count, 16)
         }
@@ -298,7 +298,7 @@ class S3Tests: XCTestCase {
         let request = try AWSRequest(region: .useast1, url: url, serviceProtocol: client.client.serviceProtocol, operation: "TestOperation", httpMethod: "GET", httpHeaders: [:], body: .empty).applyMiddlewares(client.client.middlewares)
         return request.url.relativeString
     }
-    
+
     func testS3VirtualAddressing() {
         attempt {
             XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket"), "https://bucket.s3.us-east-1.amazonaws.com/")
@@ -308,7 +308,7 @@ class S3Tests: XCTestCase {
             //XCTAssertEqual(try testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/file%20name"), "https://bucket.s3.us-east-1.amazonaws.com/file%20name")
         }
     }
-    
+
     static var allTests : [(String, (S3Tests) -> () throws -> Void)] {
         return [
             ("testPutObject", testPutObject),

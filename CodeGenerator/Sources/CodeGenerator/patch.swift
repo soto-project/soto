@@ -20,6 +20,14 @@ let servicePatches : [String: [Patch]] = [
         Patch(.replace, entry:["shapes", "HttpVersion", "enum", 0], value:"HTTP1_1", originalValue:"http1.1"),
         Patch(.replace, entry:["shapes", "HttpVersion", "enum", 1], value:"HTTP2", originalValue:"http2")
     ],
+    "CloudWatch" : [
+        // Patch error shape to avoid warning in generated code. Both errors have the same code "ResourceNotFound"
+        Patch(.replace, entry:["operations", "GetDashboard", "errors", 1, "shape"], value:"ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
+        Patch(.replace, entry:["operations", "DeleteDashboards", "errors", 1, "shape"], value:"ResourceNotFoundException", originalValue: "DashboardNotFoundError")
+    ],
+    "ComprehendMedical" : [
+        Patch(.add, entry:["shapes", "EntitySubType", "enum"], value:"DX_NAME")
+    ],
     "DirectoryService" : [
         // DirectoryService clashes with a macOS framework, so need to rename the framework
         Patch(.replace, entry:["serviceName"], value:"AWSDirectoryService", originalValue:"DirectoryService")

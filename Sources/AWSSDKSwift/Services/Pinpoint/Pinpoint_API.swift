@@ -11,7 +11,7 @@ public struct Pinpoint {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct Pinpoint {
             apiVersion: "2016-12-01",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [PinpointErrorType.self]
+            possibleErrorTypes: [PinpointErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 
@@ -50,6 +51,11 @@ public struct Pinpoint {
     ///  Creates an import job for an application.
     public func createImportJob(_ input: CreateImportJobRequest) -> Future<CreateImportJobResponse> {
         return client.send(operation: "CreateImportJob", path: "/v1/apps/{application-id}/jobs/import", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a journey for an application.
+    public func createJourney(_ input: CreateJourneyRequest) -> Future<CreateJourneyResponse> {
+        return client.send(operation: "CreateJourney", path: "/v1/apps/{application-id}/journeys", httpMethod: "POST", input: input)
     }
 
     ///  Creates a message template that you can use in messages that are sent through a push notification channel.
@@ -130,6 +136,11 @@ public struct Pinpoint {
     ///  Disables the GCM channel for an application and deletes any existing settings for the channel.
     public func deleteGcmChannel(_ input: DeleteGcmChannelRequest) -> Future<DeleteGcmChannelResponse> {
         return client.send(operation: "DeleteGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes a journey from an application.
+    public func deleteJourney(_ input: DeleteJourneyRequest) -> Future<DeleteJourneyResponse> {
+        return client.send(operation: "DeleteJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Deletes a message template that was designed for use in messages that were sent through a push notification channel.
@@ -217,7 +228,7 @@ public struct Pinpoint {
         return client.send(operation: "GetCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves information about the activity performed by a campaign.
+    ///  Retrieves information about all the activities for a campaign.
     public func getCampaignActivities(_ input: GetCampaignActivitiesRequest) -> Future<GetCampaignActivitiesResponse> {
         return client.send(operation: "GetCampaignActivities", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/activities", httpMethod: "GET", input: input)
     }
@@ -232,7 +243,7 @@ public struct Pinpoint {
         return client.send(operation: "GetCampaignVersion", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/versions/{version}", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves information about the status, configuration, and other settings for all versions of a specific campaign.
+    ///  Retrieves information about the status, configuration, and other settings for all versions of a campaign.
     public func getCampaignVersions(_ input: GetCampaignVersionsRequest) -> Future<GetCampaignVersionsResponse> {
         return client.send(operation: "GetCampaignVersions", path: "/v1/apps/{application-id}/campaigns/{campaign-id}/versions", httpMethod: "GET", input: input)
     }
@@ -292,6 +303,26 @@ public struct Pinpoint {
         return client.send(operation: "GetImportJobs", path: "/v1/apps/{application-id}/jobs/import", httpMethod: "GET", input: input)
     }
 
+    ///  Retrieves information about the status, configuration, and other settings for a journey.
+    public func getJourney(_ input: GetJourneyRequest) -> Future<GetJourneyResponse> {
+        return client.send(operation: "GetJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
+    public func getJourneyDateRangeKpi(_ input: GetJourneyDateRangeKpiRequest) -> Future<GetJourneyDateRangeKpiResponse> {
+        return client.send(operation: "GetJourneyDateRangeKpi", path: "/v1/apps/{application-id}/journeys/{journey-id}/kpis/daterange/{kpi-name}", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
+    public func getJourneyExecutionActivityMetrics(_ input: GetJourneyExecutionActivityMetricsRequest) -> Future<GetJourneyExecutionActivityMetricsResponse> {
+        return client.send(operation: "GetJourneyExecutionActivityMetrics", path: "/v1/apps/{application-id}/journeys/{journey-id}/activities/{journey-activity-id}/execution-metrics", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
+    public func getJourneyExecutionMetrics(_ input: GetJourneyExecutionMetricsRequest) -> Future<GetJourneyExecutionMetricsResponse> {
+        return client.send(operation: "GetJourneyExecutionMetrics", path: "/v1/apps/{application-id}/journeys/{journey-id}/execution-metrics", httpMethod: "GET", input: input)
+    }
+
     ///  Retrieves the content and settings for a message template that you can use in messages that are sent through a push notification channel.
     public func getPushTemplate(_ input: GetPushTemplateRequest) -> Future<GetPushTemplateResponse> {
         return client.send(operation: "GetPushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "GET", input: input)
@@ -347,7 +378,12 @@ public struct Pinpoint {
         return client.send(operation: "GetVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
+    ///  Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
+    public func listJourneys(_ input: ListJourneysRequest) -> Future<ListJourneysResponse> {
+        return client.send(operation: "ListJourneys", path: "/v1/apps/{application-id}/journeys", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves all the tags (keys and values) that are associated with an application, campaign, journey, message template, or segment.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/v1/tags/{resource-arn}", httpMethod: "GET", input: input)
     }
@@ -387,12 +423,12 @@ public struct Pinpoint {
         return client.send(operation: "SendUsersMessages", path: "/v1/apps/{application-id}/users-messages", httpMethod: "POST", input: input)
     }
 
-    ///  Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
+    ///  Adds one or more tags (keys and values) to an application, campaign, journey, message template, or segment.
     @discardableResult public func tagResource(_ input: TagResourceRequest) -> Future<Void> {
         return client.send(operation: "TagResource", path: "/v1/tags/{resource-arn}", httpMethod: "POST", input: input)
     }
 
-    ///  Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
+    ///  Removes one or more tags (keys and values) from an application, campaign, journey, message template, or segment.
     @discardableResult public func untagResource(_ input: UntagResourceRequest) -> Future<Void> {
         return client.send(operation: "UntagResource", path: "/v1/tags/{resource-arn}", httpMethod: "DELETE", input: input)
     }
@@ -432,7 +468,7 @@ public struct Pinpoint {
         return client.send(operation: "UpdateBaiduChannel", path: "/v1/apps/{application-id}/channels/baidu", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates the settings for a campaign.
+    ///  Updates the configuration and other settings for a campaign.
     public func updateCampaign(_ input: UpdateCampaignRequest) -> Future<UpdateCampaignResponse> {
         return client.send(operation: "UpdateCampaign", path: "/v1/apps/{application-id}/campaigns/{campaign-id}", httpMethod: "PUT", input: input)
     }
@@ -460,6 +496,16 @@ public struct Pinpoint {
     ///  Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
     public func updateGcmChannel(_ input: UpdateGcmChannelRequest) -> Future<UpdateGcmChannelResponse> {
         return client.send(operation: "UpdateGcmChannel", path: "/v1/apps/{application-id}/channels/gcm", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the configuration and other settings for a journey.
+    public func updateJourney(_ input: UpdateJourneyRequest) -> Future<UpdateJourneyResponse> {
+        return client.send(operation: "UpdateJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Cancels an active journey.
+    public func updateJourneyState(_ input: UpdateJourneyStateRequest) -> Future<UpdateJourneyStateResponse> {
+        return client.send(operation: "UpdateJourneyState", path: "/v1/apps/{application-id}/journeys/{journey-id}/state", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an existing message template that you can use in messages that are sent through a push notification channel.

@@ -29,37 +29,37 @@ extension SQSErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "BatchEntryIdsNotDistinct":
+        case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct":
             self = .batchEntryIdsNotDistinct(message: message)
-        case "BatchRequestTooLong":
+        case "AWS.SimpleQueueService.BatchRequestTooLong":
             self = .batchRequestTooLong(message: message)
-        case "EmptyBatchRequest":
+        case "AWS.SimpleQueueService.EmptyBatchRequest":
             self = .emptyBatchRequest(message: message)
         case "InvalidAttributeName":
             self = .invalidAttributeName(message: message)
-        case "InvalidBatchEntryId":
+        case "AWS.SimpleQueueService.InvalidBatchEntryId":
             self = .invalidBatchEntryId(message: message)
         case "InvalidIdFormat":
             self = .invalidIdFormat(message: message)
         case "InvalidMessageContents":
             self = .invalidMessageContents(message: message)
-        case "MessageNotInflight":
+        case "AWS.SimpleQueueService.MessageNotInflight":
             self = .messageNotInflight(message: message)
         case "OverLimit":
             self = .overLimit(message: message)
-        case "PurgeQueueInProgress":
+        case "AWS.SimpleQueueService.PurgeQueueInProgress":
             self = .purgeQueueInProgress(message: message)
-        case "QueueDeletedRecently":
+        case "AWS.SimpleQueueService.QueueDeletedRecently":
             self = .queueDeletedRecently(message: message)
-        case "QueueDoesNotExist":
+        case "AWS.SimpleQueueService.NonExistentQueue":
             self = .queueDoesNotExist(message: message)
-        case "QueueNameExists":
+        case "QueueAlreadyExists":
             self = .queueNameExists(message: message)
         case "ReceiptHandleIsInvalid":
             self = .receiptHandleIsInvalid(message: message)
-        case "TooManyEntriesInBatchRequest":
+        case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest":
             self = .tooManyEntriesInBatchRequest(message: message)
-        case "UnsupportedOperation":
+        case "AWS.SimpleQueueService.UnsupportedOperation":
             self = .unsupportedOperation(message: message)
         default:
             return nil
@@ -71,37 +71,37 @@ extension SQSErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
         case .batchEntryIdsNotDistinct(let message):
-            return "BatchEntryIdsNotDistinct: \(message ?? "")"
+            return "AWS.SimpleQueueService.BatchEntryIdsNotDistinct: \(message ?? "")"
         case .batchRequestTooLong(let message):
-            return "BatchRequestTooLong: \(message ?? "")"
+            return "AWS.SimpleQueueService.BatchRequestTooLong: \(message ?? "")"
         case .emptyBatchRequest(let message):
-            return "EmptyBatchRequest: \(message ?? "")"
+            return "AWS.SimpleQueueService.EmptyBatchRequest: \(message ?? "")"
         case .invalidAttributeName(let message):
             return "InvalidAttributeName: \(message ?? "")"
         case .invalidBatchEntryId(let message):
-            return "InvalidBatchEntryId: \(message ?? "")"
+            return "AWS.SimpleQueueService.InvalidBatchEntryId: \(message ?? "")"
         case .invalidIdFormat(let message):
             return "InvalidIdFormat: \(message ?? "")"
         case .invalidMessageContents(let message):
             return "InvalidMessageContents: \(message ?? "")"
         case .messageNotInflight(let message):
-            return "MessageNotInflight: \(message ?? "")"
+            return "AWS.SimpleQueueService.MessageNotInflight: \(message ?? "")"
         case .overLimit(let message):
             return "OverLimit: \(message ?? "")"
         case .purgeQueueInProgress(let message):
-            return "PurgeQueueInProgress: \(message ?? "")"
+            return "AWS.SimpleQueueService.PurgeQueueInProgress: \(message ?? "")"
         case .queueDeletedRecently(let message):
-            return "QueueDeletedRecently: \(message ?? "")"
+            return "AWS.SimpleQueueService.QueueDeletedRecently: \(message ?? "")"
         case .queueDoesNotExist(let message):
-            return "QueueDoesNotExist: \(message ?? "")"
+            return "AWS.SimpleQueueService.NonExistentQueue: \(message ?? "")"
         case .queueNameExists(let message):
-            return "QueueNameExists: \(message ?? "")"
+            return "QueueAlreadyExists: \(message ?? "")"
         case .receiptHandleIsInvalid(let message):
             return "ReceiptHandleIsInvalid: \(message ?? "")"
         case .tooManyEntriesInBatchRequest(let message):
-            return "TooManyEntriesInBatchRequest: \(message ?? "")"
+            return "AWS.SimpleQueueService.TooManyEntriesInBatchRequest: \(message ?? "")"
         case .unsupportedOperation(let message):
-            return "UnsupportedOperation: \(message ?? "")"
+            return "AWS.SimpleQueueService.UnsupportedOperation: \(message ?? "")"
         }
     }
 }

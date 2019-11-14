@@ -11,7 +11,7 @@ public struct STS {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -21,10 +21,11 @@ public struct STS {
             serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2011-06-15",
             endpoint: endpoint,
-            serviceEndpoints: ["ap-east-1": "sts.ap-east-1.amazonaws.com", "ap-northeast-1": "sts.ap-northeast-1.amazonaws.com", "ap-northeast-2": "sts.ap-northeast-2.amazonaws.com", "ap-south-1": "sts.ap-south-1.amazonaws.com", "ap-southeast-1": "sts.ap-southeast-1.amazonaws.com", "ap-southeast-2": "sts.ap-southeast-2.amazonaws.com", "aws-global": "sts.aws-global.amazonaws.com", "ca-central-1": "sts.ca-central-1.amazonaws.com", "eu-central-1": "sts.eu-central-1.amazonaws.com", "eu-north-1": "sts.eu-north-1.amazonaws.com", "eu-west-1": "sts.eu-west-1.amazonaws.com", "eu-west-2": "sts.eu-west-2.amazonaws.com", "eu-west-3": "sts.eu-west-3.amazonaws.com", "me-south-1": "sts.me-south-1.amazonaws.com", "sa-east-1": "sts.sa-east-1.amazonaws.com", "us-east-1": "sts.us-east-1.amazonaws.com", "us-east-1-fips": "sts-fips.us-east-1.amazonaws.com", "us-east-2": "sts.us-east-2.amazonaws.com", "us-east-2-fips": "sts-fips.us-east-2.amazonaws.com", "us-west-1": "sts.us-west-1.amazonaws.com", "us-west-1-fips": "sts-fips.us-west-1.amazonaws.com", "us-west-2": "sts.us-west-2.amazonaws.com", "us-west-2-fips": "sts-fips.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["ap-east-1": "sts.ap-east-1.amazonaws.com", "ap-northeast-1": "sts.ap-northeast-1.amazonaws.com", "ap-northeast-2": "sts.ap-northeast-2.amazonaws.com", "ap-south-1": "sts.ap-south-1.amazonaws.com", "ap-southeast-1": "sts.ap-southeast-1.amazonaws.com", "ap-southeast-2": "sts.ap-southeast-2.amazonaws.com", "aws-global": "sts.amazonaws.com", "ca-central-1": "sts.ca-central-1.amazonaws.com", "eu-central-1": "sts.eu-central-1.amazonaws.com", "eu-north-1": "sts.eu-north-1.amazonaws.com", "eu-west-1": "sts.eu-west-1.amazonaws.com", "eu-west-2": "sts.eu-west-2.amazonaws.com", "eu-west-3": "sts.eu-west-3.amazonaws.com", "me-south-1": "sts.me-south-1.amazonaws.com", "sa-east-1": "sts.sa-east-1.amazonaws.com", "us-east-1": "sts.us-east-1.amazonaws.com", "us-east-1-fips": "sts-fips.us-east-1.amazonaws.com", "us-east-2": "sts.us-east-2.amazonaws.com", "us-east-2-fips": "sts-fips.us-east-2.amazonaws.com", "us-west-1": "sts.us-west-1.amazonaws.com", "us-west-1-fips": "sts-fips.us-west-1.amazonaws.com", "us-west-2": "sts.us-west-2.amazonaws.com", "us-west-2-fips": "sts-fips.us-west-2.amazonaws.com"],
             partitionEndpoint: "aws-global",
             middlewares: middlewares,
-            possibleErrorTypes: [STSErrorType.self]
+            possibleErrorTypes: [STSErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

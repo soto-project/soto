@@ -11,7 +11,7 @@ public struct Amplify {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -22,7 +22,8 @@ public struct Amplify {
             apiVersion: "2017-07-25",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [AmplifyErrorType.self]
+            possibleErrorTypes: [AmplifyErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 
@@ -76,7 +77,7 @@ public struct Amplify {
         return client.send(operation: "DeleteWebhook", path: "/webhooks/{webhookId}", httpMethod: "DELETE", input: input)
     }
 
-    ///   Retrieve website access logs for a specific time range via a pre-signed URL. Optionally, deliver the logs to a given S3 bucket. 
+    ///   Retrieve website access logs for a specific time range via a pre-signed URL. 
     public func generateAccessLogs(_ input: GenerateAccessLogsRequest) -> Future<GenerateAccessLogsResult> {
         return client.send(operation: "GenerateAccessLogs", path: "/apps/{appId}/accesslogs", httpMethod: "POST", input: input)
     }

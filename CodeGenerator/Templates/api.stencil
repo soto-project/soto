@@ -17,7 +17,7 @@ public struct {{ name }} {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
 {% if middlewareClass %}
         let middlewares = [{{middlewareClass}}] + middlewares
 {% endif %}
@@ -42,9 +42,11 @@ public struct {{ name }} {
 {% if partitionEndpoint %}
             partitionEndpoint: "{{partitionEndpoint}}",
 {% endif %}
-            middlewares: middlewares{% if errorTypes %},
-            possibleErrorTypes: [{{errorTypes}}.self]
+            middlewares: middlewares,
+{% if errorTypes %}
+            possibleErrorTypes: [{{errorTypes}}.self],
 {% endif %}
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 {%for op in operations %}

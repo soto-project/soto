@@ -2674,6 +2674,14 @@ extension GameLift {
         case c42Xlarge = "c4.2xlarge"
         case c44Xlarge = "c4.4xlarge"
         case c48Xlarge = "c4.8xlarge"
+        case c5Large = "c5.large"
+        case c5Xlarge = "c5.xlarge"
+        case c52Xlarge = "c5.2xlarge"
+        case c54Xlarge = "c5.4xlarge"
+        case c59Xlarge = "c5.9xlarge"
+        case c512Xlarge = "c5.12xlarge"
+        case c518Xlarge = "c5.18xlarge"
+        case c524Xlarge = "c5.24xlarge"
         case r3Large = "r3.large"
         case r3Xlarge = "r3.xlarge"
         case r32Xlarge = "r3.2xlarge"
@@ -2685,6 +2693,14 @@ extension GameLift {
         case r44Xlarge = "r4.4xlarge"
         case r48Xlarge = "r4.8xlarge"
         case r416Xlarge = "r4.16xlarge"
+        case r5Large = "r5.large"
+        case r5Xlarge = "r5.xlarge"
+        case r52Xlarge = "r5.2xlarge"
+        case r54Xlarge = "r5.4xlarge"
+        case r58Xlarge = "r5.8xlarge"
+        case r512Xlarge = "r5.12xlarge"
+        case r516Xlarge = "r5.16xlarge"
+        case r524Xlarge = "r5.24xlarge"
         case m3Medium = "m3.medium"
         case m3Large = "m3.large"
         case m3Xlarge = "m3.xlarge"
@@ -2694,6 +2710,14 @@ extension GameLift {
         case m42Xlarge = "m4.2xlarge"
         case m44Xlarge = "m4.4xlarge"
         case m410Xlarge = "m4.10xlarge"
+        case m5Large = "m5.large"
+        case m5Xlarge = "m5.xlarge"
+        case m52Xlarge = "m5.2xlarge"
+        case m54Xlarge = "m5.4xlarge"
+        case m58Xlarge = "m5.8xlarge"
+        case m512Xlarge = "m5.12xlarge"
+        case m516Xlarge = "m5.16xlarge"
+        case m524Xlarge = "m5.24xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -4040,6 +4064,7 @@ extension GameLift {
     public enum OperatingSystem: String, CustomStringConvertible, Codable {
         case windows2012 = "WINDOWS_2012"
         case amazonLinux = "AMAZON_LINUX"
+        case amazonLinux2 = "AMAZON_LINUX_2"
         public var description: String { return self.rawValue }
     }
 

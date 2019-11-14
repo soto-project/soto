@@ -5,7 +5,9 @@ import AWSSDKSwiftCore
 /// Error enum for Signer
 public enum SignerErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
+    case badRequestException(message: String?)
     case internalServiceErrorException(message: String?)
+    case notFoundException(message: String?)
     case resourceNotFoundException(message: String?)
     case throttlingException(message: String?)
     case validationException(message: String?)
@@ -20,8 +22,12 @@ extension SignerErrorType {
         switch errorCode {
         case "AccessDeniedException":
             self = .accessDeniedException(message: message)
+        case "BadRequestException":
+            self = .badRequestException(message: message)
         case "InternalServiceErrorException":
             self = .internalServiceErrorException(message: message)
+        case "NotFoundException":
+            self = .notFoundException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
         case "ThrottlingException":
@@ -39,8 +45,12 @@ extension SignerErrorType : CustomStringConvertible {
         switch self {
         case .accessDeniedException(let message):
             return "AccessDeniedException: \(message ?? "")"
+        case .badRequestException(let message):
+            return "BadRequestException: \(message ?? "")"
         case .internalServiceErrorException(let message):
             return "InternalServiceErrorException: \(message ?? "")"
+        case .notFoundException(let message):
+            return "NotFoundException: \(message ?? "")"
         case .resourceNotFoundException(let message):
             return "ResourceNotFoundException: \(message ?? "")"
         case .throttlingException(let message):

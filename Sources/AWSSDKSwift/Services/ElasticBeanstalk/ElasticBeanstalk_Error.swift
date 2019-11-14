@@ -42,7 +42,7 @@ extension ElasticBeanstalkErrorType {
             self = .invalidRequestException(message: message)
         case "ManagedActionInvalidStateException":
             self = .managedActionInvalidStateException(message: message)
-        case "OperationInProgressException":
+        case "OperationInProgressFailure":
             self = .operationInProgressException(message: message)
         case "PlatformVersionStillReferencedException":
             self = .platformVersionStillReferencedException(message: message)
@@ -54,7 +54,7 @@ extension ElasticBeanstalkErrorType {
             self = .s3LocationNotInServiceRegionException(message: message)
         case "S3SubscriptionRequiredException":
             self = .s3SubscriptionRequiredException(message: message)
-        case "SourceBundleDeletionException":
+        case "SourceBundleDeletionFailure":
             self = .sourceBundleDeletionException(message: message)
         case "TooManyApplicationVersionsException":
             self = .tooManyApplicationVersionsException(message: message)
@@ -90,7 +90,7 @@ extension ElasticBeanstalkErrorType : CustomStringConvertible {
         case .managedActionInvalidStateException(let message):
             return "ManagedActionInvalidStateException: \(message ?? "")"
         case .operationInProgressException(let message):
-            return "OperationInProgressException: \(message ?? "")"
+            return "OperationInProgressFailure: \(message ?? "")"
         case .platformVersionStillReferencedException(let message):
             return "PlatformVersionStillReferencedException: \(message ?? "")"
         case .resourceNotFoundException(let message):
@@ -102,7 +102,7 @@ extension ElasticBeanstalkErrorType : CustomStringConvertible {
         case .s3SubscriptionRequiredException(let message):
             return "S3SubscriptionRequiredException: \(message ?? "")"
         case .sourceBundleDeletionException(let message):
-            return "SourceBundleDeletionException: \(message ?? "")"
+            return "SourceBundleDeletionFailure: \(message ?? "")"
         case .tooManyApplicationVersionsException(let message):
             return "TooManyApplicationVersionsException: \(message ?? "")"
         case .tooManyApplicationsException(let message):

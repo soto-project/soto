@@ -11,7 +11,7 @@ public struct Pricing {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -24,7 +24,8 @@ public struct Pricing {
             apiVersion: "2017-10-15",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [PricingErrorType.self]
+            possibleErrorTypes: [PricingErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

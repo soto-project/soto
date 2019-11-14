@@ -8,7 +8,7 @@ public struct PersonalizeRuntime {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -20,7 +20,8 @@ public struct PersonalizeRuntime {
             apiVersion: "2018-05-22",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [PersonalizeRuntimeErrorType.self]
+            possibleErrorTypes: [PersonalizeRuntimeErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

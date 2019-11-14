@@ -15,6 +15,51 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public struct ContactFlowSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "ContactFlowType", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the contact flow.
+        public let arn: String?
+        /// The type of contact flow.
+        public let contactFlowType: ContactFlowType?
+        /// The identifier of the contact flow.
+        public let id: String?
+        /// The name of the contact flow.
+        public let name: String?
+
+        public init(arn: String? = nil, contactFlowType: ContactFlowType? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.contactFlowType = contactFlowType
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case contactFlowType = "ContactFlowType"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public enum ContactFlowType: String, CustomStringConvertible, Codable {
+        case contactFlow = "CONTACT_FLOW"
+        case customerQueue = "CUSTOMER_QUEUE"
+        case customerHold = "CUSTOMER_HOLD"
+        case customerWhisper = "CUSTOMER_WHISPER"
+        case agentHold = "AGENT_HOLD"
+        case agentWhisper = "AGENT_WHISPER"
+        case outboundWhisper = "OUTBOUND_WHISPER"
+        case agentTransfer = "AGENT_TRANSFER"
+        case queueTransfer = "QUEUE_TRANSFER"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateUserRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryUserId", required: false, type: .string), 
@@ -28,23 +73,23 @@ extension Connect {
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
 
-        /// The unique identifier for the user account in the directory service directory used for identity management. If Amazon Connect is unable to access the existing directory, you can use the DirectoryUserId to authenticate users. If you include the parameter, it is assumed that Amazon Connect cannot access the directory. If the parameter is not included, the UserIdentityInfo is used to authenticate users from your existing directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an InvalidRequestException is returned.
+        /// The identifier of the user account in the directory used for identity management. If Amazon Connect cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Amazon Connect cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
         public let directoryUserId: String?
-        /// The unique identifier for the hierarchy group to assign to the user created.
+        /// The identifier of the hierarchy group for the user.
         public let hierarchyGroupId: String?
-        /// Information about the user, including email address, first name, and last name.
+        /// The information about the identity of the user.
         public let identityInfo: UserIdentityInfo?
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The password for the user account to create. This is required if you are using Amazon Connect for identity management. If you are using SAML for identity management and include this parameter, an InvalidRequestException is returned.
+        /// The password for the user account. A password is required if you are using Amazon Connect for identity management. Otherwise, it is an error to include a password.
         public let password: String?
-        /// Specifies the phone settings for the user, including AfterContactWorkTimeLimit, AutoAccept, DeskPhoneNumber, and PhoneType.
+        /// The phone settings for the user.
         public let phoneConfig: UserPhoneConfig
-        /// The unique identifier for the routing profile to assign to the user created.
+        /// The identifier of the routing profile for the user.
         public let routingProfileId: String
-        /// The unique identifier of the security profile to assign to the user created.
+        /// The identifier of the security profile for the user.
         public let securityProfileIds: [String]
-        /// The user name in Amazon Connect for the account to create. If you are using SAML for identity management in your Amazon Connect, the value for Username can include up to 64 characters from [a-zA-Z0-9_-.\@]+.
+        /// The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can include up to 64 characters from [a-zA-Z0-9_-.\@]+.
         public let username: String
 
         public init(directoryUserId: String? = nil, hierarchyGroupId: String? = nil, identityInfo: UserIdentityInfo? = nil, instanceId: String, password: String? = nil, phoneConfig: UserPhoneConfig, routingProfileId: String, securityProfileIds: [String], username: String) {
@@ -91,9 +136,9 @@ extension Connect {
             AWSShapeMember(label: "UserId", required: false, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of the user account created.
+        /// The Amazon Resource Name (ARN) of the user account.
         public let userArn: String?
-        /// The unique identifier for the user account in Amazon Connect
+        /// The identifier of the user account.
         public let userId: String?
 
         public init(userArn: String? = nil, userId: String? = nil) {
@@ -115,9 +160,9 @@ extension Connect {
             AWSShapeMember(label: "RefreshTokenExpiration", required: false, type: .timestamp)
         ]
 
-        /// An access token generated for a federated user to access Amazon Connect
+        /// An access token generated for a federated user to access Amazon Connect.
         public let accessToken: String?
-        /// A token generated with an expiration time for the session a user is logged in to Amazon Connect
+        /// A token generated with an expiration time for the session a user is logged in to Amazon Connect.
         public let accessTokenExpiration: TimeStamp?
         /// Renews a token generated for a user to access the Amazon Connect instance.
         public let refreshToken: String?
@@ -167,9 +212,9 @@ extension Connect {
             AWSShapeMember(label: "Value", required: false, type: .double)
         ]
 
-        /// The metric in a CurrentMetricData object.
+        /// Information about the metric.
         public let metric: CurrentMetric?
-        /// The value of the metric in the CurrentMetricData object.
+        /// The value of the metric.
         public let value: Double?
 
         public init(metric: CurrentMetric? = nil, value: Double? = nil) {
@@ -203,9 +248,9 @@ extension Connect {
             AWSShapeMember(label: "Dimensions", required: false, type: .structure)
         ]
 
-        /// The Collections for the CurrentMetricResult object.
+        /// The set of metrics.
         public let collections: [CurrentMetricData]?
-        /// The Dimensions for the CurrentMetricResult object.
+        /// The dimensions for the metrics.
         public let dimensions: Dimensions?
 
         public init(collections: [CurrentMetricData]? = nil, dimensions: Dimensions? = nil) {
@@ -225,9 +270,9 @@ extension Connect {
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
 
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The unique identifier of the user to delete.
+        /// The identifier of the user.
         public let userId: String
 
         public init(instanceId: String, userId: String) {
@@ -252,9 +297,9 @@ extension Connect {
             AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string)
         ]
 
-        /// The identifier for the hierarchy group to return.
+        /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
 
         public init(hierarchyGroupId: String, instanceId: String) {
@@ -278,7 +323,7 @@ extension Connect {
             AWSShapeMember(label: "HierarchyGroup", required: false, type: .structure)
         ]
 
-        /// Returns a HierarchyGroup object.
+        /// Information about the hierarchy group.
         public let hierarchyGroup: HierarchyGroup?
 
         public init(hierarchyGroup: HierarchyGroup? = nil) {
@@ -295,7 +340,7 @@ extension Connect {
             AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string)
         ]
 
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
 
         public init(instanceId: String) {
@@ -317,7 +362,7 @@ extension Connect {
             AWSShapeMember(label: "HierarchyStructure", required: false, type: .structure)
         ]
 
-        /// A HierarchyStructure object.
+        /// Information about the hierarchy structure.
         public let hierarchyStructure: HierarchyStructure?
 
         public init(hierarchyStructure: HierarchyStructure? = nil) {
@@ -335,9 +380,9 @@ extension Connect {
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
 
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// Unique identifier for the user account to return.
+        /// The identifier of the user account.
         public let userId: String
 
         public init(instanceId: String, userId: String) {
@@ -361,7 +406,7 @@ extension Connect {
             AWSShapeMember(label: "User", required: false, type: .structure)
         ]
 
-        /// A User object that contains information about the user account and configuration settings.
+        /// Information about the user account and configuration settings.
         public let user: User?
 
         public init(user: User? = nil) {
@@ -379,9 +424,9 @@ extension Connect {
             AWSShapeMember(label: "Queue", required: false, type: .structure)
         ]
 
-        /// The channel used for grouping and filters. Only VOICE is supported.
+        /// The channel used for grouping and filters.
         public let channel: Channel?
-        /// A QueueReference object used as one part of dimension for the metrics results.
+        /// Information about the queue for which metrics are returned.
         public let queue: QueueReference?
 
         public init(channel: Channel? = nil, queue: QueueReference? = nil) {
@@ -401,9 +446,9 @@ extension Connect {
             AWSShapeMember(label: "Queues", required: false, type: .list)
         ]
 
-        /// The Channel to use as a filter for the metrics returned. Only VOICE is supported.
+        /// The channel to use to filter the metrics.
         public let channels: [Channel]?
-        /// A list of up to 100 queue IDs or queue ARNs to use to filter the metrics retrieved. You can include both IDs and ARNs in a request.
+        /// The queues to use to filter the metrics. You can specify up to 100 queues per request.
         public let queues: [String]?
 
         public init(channels: [Channel]? = nil, queues: [String]? = nil) {
@@ -429,9 +474,9 @@ extension Connect {
             AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string)
         ]
 
-        /// The ID for the initial contact in Amazon Connect associated with the attributes to update.
+        /// The identifier of the initial contact.
         public let initialContactId: String
-        /// The instance ID for the instance from which to retrieve contact attributes.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
 
         public init(initialContactId: String, instanceId: String) {
@@ -457,7 +502,7 @@ extension Connect {
             AWSShapeMember(label: "Attributes", required: false, type: .map)
         ]
 
-        /// The attributes to update.
+        /// Information about the attributes.
         public let attributes: [String: String]?
 
         public init(attributes: [String: String]? = nil) {
@@ -479,17 +524,17 @@ extension Connect {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// A list of CurrentMetric objects for the metrics to retrieve. Each CurrentMetric includes a name of a metric to retrieve and the unit to use for it. You must list each metric to retrieve data for in the request. The following metrics are available:  AGENTS_AVAILABLE  Unit: COUNT  AGENTS_ONLINE  Unit: COUNT  AGENTS_ON_CALL  Unit: COUNT  AGENTS_STAFFED  Unit: COUNT  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT  AGENTS_NON_PRODUCTIVE  Unit: COUNT  AGENTS_ERROR  Unit: COUNT  CONTACTS_IN_QUEUE  Unit: COUNT  OLDEST_CONTACT_AGE  Unit: SECONDS  CONTACTS_SCHEDULED  Unit: COUNT  
+        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available:  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT  AGENTS_AVAILABLE  Unit: COUNT  AGENTS_ERROR  Unit: COUNT  AGENTS_NON_PRODUCTIVE  Unit: COUNT  AGENTS_ON_CALL  Unit: COUNT  AGENTS_ONLINE  Unit: COUNT  AGENTS_STAFFED  Unit: COUNT  CONTACTS_IN_QUEUE  Unit: COUNT  CONTACTS_SCHEDULED  Unit: COUNT  OLDEST_CONTACT_AGE  Unit: SECONDS  
         public let currentMetrics: [CurrentMetric]
-        /// A Filters object that contains a list of queue IDs or queue ARNs, up to 100, or list of Channels to use to filter the metrics returned in the response. Metric data is retrieved only for the resources associated with the queue IDs, ARNs, or Channels included in the filter. You can include both IDs and ARNs in the same request. To retrieve metrics for all queues, add the queue ID or ARN for each queue in your instance. Only VOICE is supported for Channels. To find the ARN for a queue, open the queue you want to use in the Amazon Connect Queue editor. The ARN for the queue is displayed in the address bar as part of the URL. For example, the queue ARN is the set of characters at the end of the URL, after 'id=' such as arn:aws:connect:us-east-1:270923740243:instance/78fb859d-1b7d-44b1-8aa3-12f0835c5855/queue/1d1a4575-9618-40ab-bbeb-81e45795fe61. The queue ID is also included in the URL, and is the string after 'queue/'.
+        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. The only supported channel is VOICE.
         public let filters: Filters
-        /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. If you group by CHANNEL, you should include a Channels filter. The only supported channel is VOICE. If no Grouping is included in the request, a summary of CurrentMetrics is returned.
+        /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. If you group by CHANNEL, you should include a Channels filter. The only supported channel is VOICE. If no Grouping is included in the request, a summary of metrics is returned.
         public let groupings: [Grouping]?
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        ///  MaxResults indicates the maximum number of results to return per page in the response, between 1 and 100.
+        /// The maximimum number of results to return per page.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the NextToken must use the same request parameters as the request that generated the token.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the token must use the same request parameters as the request that generated the token.
         public let nextToken: String?
 
         public init(currentMetrics: [CurrentMetric], filters: Filters, groupings: [Grouping]? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -527,11 +572,11 @@ extension Connect {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// The time at which CurrentMetricData was retrieved and cached for pagination.
+        /// The time at which the metrics were retrieved and cached for pagination.
         public let dataSnapshotTime: TimeStamp?
-        /// A list of CurrentMetricResult objects organized by Dimensions combining with CurrentMetricDataCollections.  Dimensions is the resourceId specified in the Filters of the request.   Collections is a list of CurrentMetricData objects with corresponding values to the CurrentMetrics specified in the request. If no Grouping is specified in the request, Collections is a summary for the CurrentMetric returned.
+        /// Information about the real-time metrics.
         public let metricResults: [CurrentMetricResult]?
-        /// A string returned in the response. Use the value returned in the response as the value of the NextToken in a subsequent request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the NextToken must use the same request parameters as the request that generated the token. 
+        /// If there are additional results, this is the token for the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the token must use the same request parameters as the request that generated the token.
         public let nextToken: String?
 
         public init(dataSnapshotTime: TimeStamp? = nil, metricResults: [CurrentMetricResult]? = nil, nextToken: String? = nil) {
@@ -552,7 +597,7 @@ extension Connect {
             AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string)
         ]
 
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
 
         public init(instanceId: String) {
@@ -598,21 +643,21 @@ extension Connect {
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
         ]
 
-        /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the StartTime timestamp. The time range between StartTime and EndTime must be less than 24 hours.
+        /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
         public let endTime: TimeStamp
-        /// A Filters object that contains a list of queue IDs or queue ARNs, up to 100, or a list of Channels to use to filter the metrics returned in the response. Metric data is retrieved only for the resources associated with the IDs, ARNs, or Channels included in the filter. You can use both IDs and ARNs together in a request. Only VOICE is supported for Channel. To find the ARN for a queue, open the queue you want to use in the Amazon Connect Queue editor. The ARN for the queue is displayed in the address bar as part of the URL. For example, the queue ARN is the set of characters at the end of the URL, after 'id=' such as arn:aws:connect:us-east-1:270923740243:instance/78fb859d-1b7d-44b1-8aa3-12f0835c5855/queue/1d1a4575-9618-40ab-bbeb-81e45795fe61. The queue ID is also included in the URL, and is the string after 'queue/'.
+        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. The only supported channel is VOICE.
         public let filters: Filters
-        /// The grouping applied to the metrics returned. For example, when results are grouped by queueId, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. The current version supports grouping by Queue If no Grouping is included in the request, a summary of HistoricalMetrics for all queues is returned.
+        /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. The only supported grouping is QUEUE. If no grouping is specified, a summary of metrics for all queues is returned.
         public let groupings: [Grouping]?
-        /// A list of HistoricalMetric objects that contain the metrics to retrieve with the request. A HistoricalMetric object contains: HistoricalMetricName, Statistic, Threshold, and Unit. You must list each metric to retrieve data for in the request. For each historical metric you include in the request, you must include a Unit and a Statistic.  The following historical metrics are available:  CONTACTS_QUEUED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED  Unit: COUNT Statistics: SUM  CONTACTS_ABANDONED  Unit: COUNT Statistics: SUM  CONTACTS_CONSULTED  Unit: COUNT Statistics: SUM  CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistics: SUM  CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistics: SUM  CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistics: SUM  CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistics: SUM  CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistics: SUM  CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistics: SUM  CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistics: SUM  CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistics: SUM  CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistics: SUM  CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistics: SUM  API_CONTACTS_HANDLED  Unit: COUNT Statistics: SUM  CONTACTS_MISSED  Unit: COUNT Statistics: SUM  OCCUPANCY  Unit: PERCENT Statistics: AVG  HANDLE_TIME  Unit: SECONDS Statistics: AVG  AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistics: AVG  QUEUED_TIME  Unit: SECONDS Statistics: MAX  ABANDON_TIME  Unit: COUNT Statistics: SUM  QUEUE_ANSWER_TIME  Unit: SECONDS Statistics: AVG  HOLD_TIME  Unit: SECONDS Statistics: AVG  INTERACTION_TIME  Unit: SECONDS Statistics: AVG  INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistics: AVG  SERVICE_LEVEL  Unit: PERCENT Statistics: AVG Threshold: Only "Less than" comparisons are supported, with the following service level thresholds: 15, 20, 25, 30, 45, 60, 90, 120, 180, 240, 300, 600  
+        /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available:  ABANDON_TIME  Unit: SECONDS Statistic: AVG  AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG  API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM  CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM  CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM  CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM  CONTACTS_MISSED  Unit: COUNT Statistic: SUM  CONTACTS_QUEUED  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM  HANDLE_TIME  Unit: SECONDS Statistic: AVG  HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_TIME  Unit: SECONDS Statistic: AVG  OCCUPANCY  Unit: PERCENT Statistic: AVG  QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG  QUEUED_TIME  Unit: SECONDS Statistic: MAX  SERVICE_LEVEL  Unit: PERCENT Statistic: AVG Threshold: Only "Less than" comparisons are supported, with the following service level thresholds: 15, 20, 25, 30, 45, 60, 90, 120, 180, 240, 300, 600  
         public let historicalMetrics: [HistoricalMetric]
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// Indicates the maximum number of results to return per page in the response, between 1-100.
+        /// The maximimum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        /// The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be specified using a multiple of 5 minutes, such as 10:05, 10:10, 10:15.  StartTime cannot be earlier than 24 hours before the time of the request. Historical metrics are available in Amazon Connect only for 24 hours.
+        /// The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be specified using a multiple of 5 minutes, such as 10:05, 10:10, 10:15. The start time cannot be earlier than 24 hours before the time of the request. Historical metrics are available only for 24 hours.
         public let startTime: TimeStamp
 
         public init(endTime: TimeStamp, filters: Filters, groupings: [Grouping]? = nil, historicalMetrics: [HistoricalMetric], instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: TimeStamp) {
@@ -653,9 +698,9 @@ extension Connect {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// A list of HistoricalMetricResult objects, organized by Dimensions, which is the ID of the resource specified in the Filters used for the request. The metrics are combined with the metrics included in Collections, which is a list of HisotricalMetricData objects. If no Grouping is specified in the request, Collections includes summary data for the HistoricalMetrics.
+        /// Information about the historical metrics. If no grouping is specified, a summary of metric data is returned.
         public let metricResults: [HistoricalMetricResult]?
-        /// A string returned in the response. Use the value returned in the response as the value of the NextToken in a subsequent request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the NextToken must use the same request parameters as the request that generated the token. 
+        /// If there are additional results, this is the token for the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the token must use the same request parameters as the request that generated the token.
         public let nextToken: String?
 
         public init(metricResults: [HistoricalMetricResult]? = nil, nextToken: String? = nil) {
@@ -684,15 +729,15 @@ extension Connect {
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) for the hierarchy group.
+        /// The Amazon Resource Name (ARN) of the hierarchy group.
         public let arn: String?
-        /// A HierarchyPath object that contains information about the levels in the hierarchy group.
+        /// Information about the levels in the hierarchy group.
         public let hierarchyPath: HierarchyPath?
-        /// The identifier for the hierarchy group.
+        /// The identifier of the hierarchy group.
         public let id: String?
-        /// The identifier for the level in the hierarchy group.
+        /// The identifier of the level in the hierarchy group.
         public let levelId: String?
-        /// The name of the hierarchy group in your instance.
+        /// The name of the hierarchy group.
         public let name: String?
 
         public init(arn: String? = nil, hierarchyPath: HierarchyPath? = nil, id: String? = nil, levelId: String? = nil, name: String? = nil) {
@@ -719,7 +764,7 @@ extension Connect {
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
 
-        /// The ARN for the hierarchy group.
+        /// The Amazon Resource Name (ARN) of the hierarchy group.
         public let arn: String?
         /// The identifier of the hierarchy group.
         public let id: String?
@@ -746,11 +791,11 @@ extension Connect {
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
 
-        /// The ARN for the hierarchy group level.
+        /// The Amazon Resource Name (ARN) of the hierarchy level.
         public let arn: String?
-        /// The identifier for the hierarchy group level.
+        /// The identifier of the hierarchy level.
         public let id: String?
-        /// The name of the hierarchy group level.
+        /// The name of the hierarchy level.
         public let name: String?
 
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
@@ -775,15 +820,15 @@ extension Connect {
             AWSShapeMember(label: "LevelTwo", required: false, type: .structure)
         ]
 
-        /// A HierarchyGroupSummary object that contains information about the level of the hierarchy group, including ARN, Id, and Name.
+        /// Information about level five.
         public let levelFive: HierarchyGroupSummary?
-        /// A HierarchyGroupSummary object that contains information about the level of the hierarchy group, including ARN, Id, and Name.
+        /// Information about level four.
         public let levelFour: HierarchyGroupSummary?
-        /// A HierarchyGroupSummary object that contains information about the level of the hierarchy group, including ARN, Id, and Name.
+        /// Information about level one.
         public let levelOne: HierarchyGroupSummary?
-        /// A HierarchyGroupSummary object that contains information about the level of the hierarchy group, including ARN, Id, and Name.
+        /// Information about level three.
         public let levelThree: HierarchyGroupSummary?
-        /// A HierarchyGroupSummary object that contains information about the level of the hierarchy group, including ARN, Id, and Name.
+        /// Information about level two.
         public let levelTwo: HierarchyGroupSummary?
 
         public init(levelFive: HierarchyGroupSummary? = nil, levelFour: HierarchyGroupSummary? = nil, levelOne: HierarchyGroupSummary? = nil, levelThree: HierarchyGroupSummary? = nil, levelTwo: HierarchyGroupSummary? = nil) {
@@ -812,15 +857,15 @@ extension Connect {
             AWSShapeMember(label: "LevelTwo", required: false, type: .structure)
         ]
 
-        /// A HierarchyLevel object that contains information about the hierarchy group level.
+        /// Information about level five.
         public let levelFive: HierarchyLevel?
-        /// A HierarchyLevel object that contains information about the hierarchy group level.
+        /// Information about level four.
         public let levelFour: HierarchyLevel?
-        /// A HierarchyLevel object that contains information about the hierarchy group level.
+        /// Information about level one.
         public let levelOne: HierarchyLevel?
-        /// A HierarchyLevel object that contains information about the hierarchy group level.
+        /// Information about level three.
         public let levelThree: HierarchyLevel?
-        /// A HierarchyLevel object that contains information about the hierarchy group level.
+        /// Information about level two.
         public let levelTwo: HierarchyLevel?
 
         public init(levelFive: HierarchyLevel? = nil, levelFour: HierarchyLevel? = nil, levelOne: HierarchyLevel? = nil, levelThree: HierarchyLevel? = nil, levelTwo: HierarchyLevel? = nil) {
@@ -848,7 +893,7 @@ extension Connect {
             AWSShapeMember(label: "Unit", required: false, type: .enum)
         ]
 
-        /// The name of the historical metric.
+        /// The name of the metric.
         public let name: HistoricalMetricName?
         /// The statistic for the metric.
         public let statistic: Statistic?
@@ -878,9 +923,9 @@ extension Connect {
             AWSShapeMember(label: "Value", required: false, type: .double)
         ]
 
-        /// A HistoricalMetric object.
+        /// Information about the metric.
         public let metric: HistoricalMetric?
-        /// The Value of the metric.
+        /// The value of the metric.
         public let value: Double?
 
         public init(metric: HistoricalMetric? = nil, value: Double? = nil) {
@@ -929,9 +974,9 @@ extension Connect {
             AWSShapeMember(label: "Dimensions", required: false, type: .structure)
         ]
 
-        /// A list of HistoricalMetricData objects.
+        /// The set of metrics.
         public let collections: [HistoricalMetricData]?
-        /// The Dimensions for the metrics.
+        /// The dimension for the metrics.
         public let dimensions: Dimensions?
 
         public init(collections: [HistoricalMetricData]? = nil, dimensions: Dimensions? = nil) {
@@ -945,6 +990,281 @@ extension Connect {
         }
     }
 
+    public struct HoursOfOperationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the hours of operation.
+        public let arn: String?
+        /// The identifier of the hours of operation.
+        public let id: String?
+        /// The name of the hours of operation.
+        public let name: String?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct ListContactFlowsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactFlowTypes", location: .querystring(locationName: "contactFlowTypes"), required: false, type: .list), 
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// The type of contact flow.
+        public let contactFlowTypes: [ContactFlowType]?
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(contactFlowTypes: [ContactFlowType]? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.contactFlowTypes = contactFlowTypes
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contactFlowTypes, name:"contactFlowTypes", parent: name, max: 10)
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowTypes = "contactFlowTypes"
+            case instanceId = "InstanceId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListContactFlowsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContactFlowSummaryList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Information about the contact flows.
+        public let contactFlowSummaryList: [ContactFlowSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(contactFlowSummaryList: [ContactFlowSummary]? = nil, nextToken: String? = nil) {
+            self.contactFlowSummaryList = contactFlowSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowSummaryList = "ContactFlowSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListHoursOfOperationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListHoursOfOperationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HoursOfOperationSummaryList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Information about the hours of operation.
+        public let hoursOfOperationSummaryList: [HoursOfOperationSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(hoursOfOperationSummaryList: [HoursOfOperationSummary]? = nil, nextToken: String? = nil) {
+            self.hoursOfOperationSummaryList = hoursOfOperationSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hoursOfOperationSummaryList = "HoursOfOperationSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPhoneNumbersRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumberCountryCodes", location: .querystring(locationName: "phoneNumberCountryCodes"), required: false, type: .list), 
+            AWSShapeMember(label: "PhoneNumberTypes", location: .querystring(locationName: "phoneNumberTypes"), required: false, type: .list)
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The ISO country code.
+        public let phoneNumberCountryCodes: [PhoneNumberCountryCode]?
+        /// The type of phone number.
+        public let phoneNumberTypes: [PhoneNumberType]?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, phoneNumberCountryCodes: [PhoneNumberCountryCode]? = nil, phoneNumberTypes: [PhoneNumberType]? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.phoneNumberCountryCodes = phoneNumberCountryCodes
+            self.phoneNumberTypes = phoneNumberTypes
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.phoneNumberCountryCodes, name:"phoneNumberCountryCodes", parent: name, max: 10)
+            try validate(self.phoneNumberTypes, name:"phoneNumberTypes", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case phoneNumberCountryCodes = "phoneNumberCountryCodes"
+            case phoneNumberTypes = "phoneNumberTypes"
+        }
+    }
+
+    public struct ListPhoneNumbersResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumberSummaryList", required: false, type: .list)
+        ]
+
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Information about the phone numbers.
+        public let phoneNumberSummaryList: [PhoneNumberSummary]?
+
+        public init(nextToken: String? = nil, phoneNumberSummaryList: [PhoneNumberSummary]? = nil) {
+            self.nextToken = nextToken
+            self.phoneNumberSummaryList = phoneNumberSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case phoneNumberSummaryList = "PhoneNumberSummaryList"
+        }
+    }
+
+    public struct ListQueuesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "QueueTypes", location: .querystring(locationName: "queueTypes"), required: false, type: .list)
+        ]
+
+        /// The identifier of the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximimum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The type of queue.
+        public let queueTypes: [QueueType]?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, queueTypes: [QueueType]? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.queueTypes = queueTypes
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 100)
+            try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.queueTypes, name:"queueTypes", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case queueTypes = "queueTypes"
+        }
+    }
+
+    public struct ListQueuesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "QueueSummaryList", required: false, type: .list)
+        ]
+
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Information about the queues.
+        public let queueSummaryList: [QueueSummary]?
+
+        public init(nextToken: String? = nil, queueSummaryList: [QueueSummary]? = nil) {
+            self.nextToken = nextToken
+            self.queueSummaryList = queueSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case queueSummaryList = "QueueSummaryList"
+        }
+    }
+
     public struct ListRoutingProfilesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceId", location: .uri(locationName: "InstanceId"), required: true, type: .string), 
@@ -952,9 +1272,9 @@ extension Connect {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximum number of routing profiles to return in the response.
+        /// The maximimum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -985,9 +1305,9 @@ extension Connect {
             AWSShapeMember(label: "RoutingProfileSummaryList", required: false, type: .list)
         ]
 
-        /// A string returned in the response. Use the value returned in the response as the value of the NextToken in a subsequent request to retrieve the next set of results.
+        /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
-        /// An array of RoutingProfileSummary objects that include the ARN, Id, and Name of the routing profile.
+        /// Information about the routing profiles.
         public let routingProfileSummaryList: [RoutingProfileSummary]?
 
         public init(nextToken: String? = nil, routingProfileSummaryList: [RoutingProfileSummary]? = nil) {
@@ -1008,9 +1328,9 @@ extension Connect {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximum number of security profiles to return.
+        /// The maximimum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -1041,9 +1361,9 @@ extension Connect {
             AWSShapeMember(label: "SecurityProfileSummaryList", required: false, type: .list)
         ]
 
-        /// A string returned in the response. Use the value returned in the response as the value of the NextToken in a subsequent request to retrieve the next set of results.
+        /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
-        /// An array of SecurityProfileSummary objects.
+        /// Information about the security profiles.
         public let securityProfileSummaryList: [SecurityProfileSummary]?
 
         public init(nextToken: String? = nil, securityProfileSummaryList: [SecurityProfileSummary]? = nil) {
@@ -1064,9 +1384,9 @@ extension Connect {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximum number of hierarchy groups to return.
+        /// The maximimum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -1097,9 +1417,9 @@ extension Connect {
             AWSShapeMember(label: "UserHierarchyGroupSummaryList", required: false, type: .list)
         ]
 
-        /// A string returned in the response. Use the value returned in the response as the value of the NextToken in a subsequent request to retrieve the next set of results.
+        /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
-        /// An array of HierarchyGroupSummary objects.
+        /// Information about the hierarchy groups.
         public let userHierarchyGroupSummaryList: [HierarchyGroupSummary]?
 
         public init(nextToken: String? = nil, userHierarchyGroupSummaryList: [HierarchyGroupSummary]? = nil) {
@@ -1120,9 +1440,9 @@ extension Connect {
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
 
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The maximum number of results to return in the response.
+        /// The maximimum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -1153,9 +1473,9 @@ extension Connect {
             AWSShapeMember(label: "UserSummaryList", required: false, type: .list)
         ]
 
-        /// A string returned in the response. Use the value returned in the response as the value of the NextToken in a subsequent request to retrieve the next set of results.
+        /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
-        /// An array of UserSummary objects that contain information about the users in your instance.
+        /// Information about the users.
         public let userSummaryList: [UserSummary]?
 
         public init(nextToken: String? = nil, userSummaryList: [UserSummary]? = nil) {
@@ -1167,6 +1487,290 @@ extension Connect {
             case nextToken = "NextToken"
             case userSummaryList = "UserSummaryList"
         }
+    }
+
+    public enum PhoneNumberCountryCode: String, CustomStringConvertible, Codable {
+        case af = "AF"
+        case al = "AL"
+        case dz = "DZ"
+        case `as` = "AS"
+        case ad = "AD"
+        case ao = "AO"
+        case ai = "AI"
+        case aq = "AQ"
+        case ag = "AG"
+        case ar = "AR"
+        case am = "AM"
+        case aw = "AW"
+        case au = "AU"
+        case at = "AT"
+        case az = "AZ"
+        case bs = "BS"
+        case bh = "BH"
+        case bd = "BD"
+        case bb = "BB"
+        case by = "BY"
+        case be = "BE"
+        case bz = "BZ"
+        case bj = "BJ"
+        case bm = "BM"
+        case bt = "BT"
+        case bo = "BO"
+        case ba = "BA"
+        case bw = "BW"
+        case br = "BR"
+        case io = "IO"
+        case vg = "VG"
+        case bn = "BN"
+        case bg = "BG"
+        case bf = "BF"
+        case bi = "BI"
+        case kh = "KH"
+        case cm = "CM"
+        case ca = "CA"
+        case cv = "CV"
+        case ky = "KY"
+        case cf = "CF"
+        case td = "TD"
+        case cl = "CL"
+        case cn = "CN"
+        case cx = "CX"
+        case cc = "CC"
+        case co = "CO"
+        case km = "KM"
+        case ck = "CK"
+        case cr = "CR"
+        case hr = "HR"
+        case cu = "CU"
+        case cw = "CW"
+        case cy = "CY"
+        case cz = "CZ"
+        case cd = "CD"
+        case dk = "DK"
+        case dj = "DJ"
+        case dm = "DM"
+        case `do` = "DO"
+        case tl = "TL"
+        case ec = "EC"
+        case eg = "EG"
+        case sv = "SV"
+        case gq = "GQ"
+        case er = "ER"
+        case ee = "EE"
+        case et = "ET"
+        case fk = "FK"
+        case fo = "FO"
+        case fj = "FJ"
+        case fi = "FI"
+        case fr = "FR"
+        case pf = "PF"
+        case ga = "GA"
+        case gm = "GM"
+        case ge = "GE"
+        case de = "DE"
+        case gh = "GH"
+        case gi = "GI"
+        case gr = "GR"
+        case gl = "GL"
+        case gd = "GD"
+        case gu = "GU"
+        case gt = "GT"
+        case gg = "GG"
+        case gn = "GN"
+        case gw = "GW"
+        case gy = "GY"
+        case ht = "HT"
+        case hn = "HN"
+        case hk = "HK"
+        case hu = "HU"
+        case `is` = "IS"
+        case `in` = "IN"
+        case id = "ID"
+        case ir = "IR"
+        case iq = "IQ"
+        case ie = "IE"
+        case im = "IM"
+        case il = "IL"
+        case it = "IT"
+        case ci = "CI"
+        case jm = "JM"
+        case jp = "JP"
+        case je = "JE"
+        case jo = "JO"
+        case kz = "KZ"
+        case ke = "KE"
+        case ki = "KI"
+        case kw = "KW"
+        case kg = "KG"
+        case la = "LA"
+        case lv = "LV"
+        case lb = "LB"
+        case ls = "LS"
+        case lr = "LR"
+        case ly = "LY"
+        case li = "LI"
+        case lt = "LT"
+        case lu = "LU"
+        case mo = "MO"
+        case mk = "MK"
+        case mg = "MG"
+        case mw = "MW"
+        case my = "MY"
+        case mv = "MV"
+        case ml = "ML"
+        case mt = "MT"
+        case mh = "MH"
+        case mr = "MR"
+        case mu = "MU"
+        case yt = "YT"
+        case mx = "MX"
+        case fm = "FM"
+        case md = "MD"
+        case mc = "MC"
+        case mn = "MN"
+        case me = "ME"
+        case ms = "MS"
+        case ma = "MA"
+        case mz = "MZ"
+        case mm = "MM"
+        case na = "NA"
+        case nr = "NR"
+        case np = "NP"
+        case nl = "NL"
+        case an = "AN"
+        case nc = "NC"
+        case nz = "NZ"
+        case ni = "NI"
+        case ne = "NE"
+        case ng = "NG"
+        case nu = "NU"
+        case kp = "KP"
+        case mp = "MP"
+        case no = "NO"
+        case om = "OM"
+        case pk = "PK"
+        case pw = "PW"
+        case pa = "PA"
+        case pg = "PG"
+        case py = "PY"
+        case pe = "PE"
+        case ph = "PH"
+        case pn = "PN"
+        case pl = "PL"
+        case pt = "PT"
+        case pr = "PR"
+        case qa = "QA"
+        case cg = "CG"
+        case re = "RE"
+        case ro = "RO"
+        case ru = "RU"
+        case rw = "RW"
+        case bl = "BL"
+        case sh = "SH"
+        case kn = "KN"
+        case lc = "LC"
+        case mf = "MF"
+        case pm = "PM"
+        case vc = "VC"
+        case ws = "WS"
+        case sm = "SM"
+        case st = "ST"
+        case sa = "SA"
+        case sn = "SN"
+        case rs = "RS"
+        case sc = "SC"
+        case sl = "SL"
+        case sg = "SG"
+        case sx = "SX"
+        case sk = "SK"
+        case si = "SI"
+        case sb = "SB"
+        case so = "SO"
+        case za = "ZA"
+        case kr = "KR"
+        case es = "ES"
+        case lk = "LK"
+        case sd = "SD"
+        case sr = "SR"
+        case sj = "SJ"
+        case sz = "SZ"
+        case se = "SE"
+        case ch = "CH"
+        case sy = "SY"
+        case tw = "TW"
+        case tj = "TJ"
+        case tz = "TZ"
+        case th = "TH"
+        case tg = "TG"
+        case tk = "TK"
+        case to = "TO"
+        case tt = "TT"
+        case tn = "TN"
+        case tr = "TR"
+        case tm = "TM"
+        case tc = "TC"
+        case tv = "TV"
+        case vi = "VI"
+        case ug = "UG"
+        case ua = "UA"
+        case ae = "AE"
+        case gb = "GB"
+        case us = "US"
+        case uy = "UY"
+        case uz = "UZ"
+        case vu = "VU"
+        case va = "VA"
+        case ve = "VE"
+        case vn = "VN"
+        case wf = "WF"
+        case eh = "EH"
+        case ye = "YE"
+        case zm = "ZM"
+        case zw = "ZW"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct PhoneNumberSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
+            AWSShapeMember(label: "PhoneNumberCountryCode", required: false, type: .enum), 
+            AWSShapeMember(label: "PhoneNumberType", required: false, type: .enum)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the phone number.
+        public let arn: String?
+        /// The identifier of the phone number.
+        public let id: String?
+        /// The phone number.
+        public let phoneNumber: String?
+        /// The ISO country code.
+        public let phoneNumberCountryCode: PhoneNumberCountryCode?
+        /// The type of phone number.
+        public let phoneNumberType: PhoneNumberType?
+
+        public init(arn: String? = nil, id: String? = nil, phoneNumber: String? = nil, phoneNumberCountryCode: PhoneNumberCountryCode? = nil, phoneNumberType: PhoneNumberType? = nil) {
+            self.arn = arn
+            self.id = id
+            self.phoneNumber = phoneNumber
+            self.phoneNumberCountryCode = phoneNumberCountryCode
+            self.phoneNumberType = phoneNumberType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case phoneNumber = "PhoneNumber"
+            case phoneNumberCountryCode = "PhoneNumberCountryCode"
+            case phoneNumberType = "PhoneNumberType"
+        }
+    }
+
+    public enum PhoneNumberType: String, CustomStringConvertible, Codable {
+        case tollFree = "TOLL_FREE"
+        case did = "DID"
+        public var description: String { return self.rawValue }
     }
 
     public enum PhoneType: String, CustomStringConvertible, Codable {
@@ -1181,9 +1785,9 @@ extension Connect {
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of queue.
+        /// The Amazon Resource Name (ARN) of the queue.
         public let arn: String?
-        /// The ID of the queue associated with the metrics returned.
+        /// The identifier of the queue.
         public let id: String?
 
         public init(arn: String? = nil, id: String? = nil) {
@@ -1197,6 +1801,44 @@ extension Connect {
         }
     }
 
+    public struct QueueSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "QueueType", required: false, type: .enum)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the queue.
+        public let arn: String?
+        /// The identifier of the queue.
+        public let id: String?
+        /// The name of the queue.
+        public let name: String?
+        /// The type of queue.
+        public let queueType: QueueType?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil, queueType: QueueType? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+            self.queueType = queueType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case name = "Name"
+            case queueType = "QueueType"
+        }
+    }
+
+    public enum QueueType: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case agent = "AGENT"
+        public var description: String { return self.rawValue }
+    }
+
     public struct RoutingProfileSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: false, type: .string), 
@@ -1204,7 +1846,7 @@ extension Connect {
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
 
-        /// The ARN of the routing profile.
+        /// The Amazon Resource Name (ARN) of the routing profile.
         public let arn: String?
         /// The identifier of the routing profile.
         public let id: String?
@@ -1231,7 +1873,7 @@ extension Connect {
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
 
-        /// The ARN of the security profile.
+        /// The Amazon Resource Name (ARN) of the security profile.
         public let arn: String?
         /// The identifier of the security profile.
         public let id: String?
@@ -1262,19 +1904,19 @@ extension Connect {
             AWSShapeMember(label: "SourcePhoneNumber", required: false, type: .string)
         ]
 
-        /// Specify a custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters. For example, if you want play a greeting when the customer answers the call, you can pass the customer name in attributes similar to the following:
+        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned. If the contact is disconnected, a new contact is started.
         public let clientToken: String?
-        /// The identifier for the contact flow to connect the outbound call to. To find the ContactFlowId, open the contact flow you want to use in the Amazon Connect contact flow editor. The ID for the contact flow is displayed in the address bar as part of the URL. For example, the contact flow ID is the set of characters at the end of the URL, after 'contact-flow/' such as 78ea8fd5-2659-4f2b-b528-699760ccfc1b.
+        /// The identifier of the contact flow for the outbound call.
         public let contactFlowId: String
-        /// The phone number of the customer in E.164 format.
+        /// The phone number of the customer, in E.164 format.
         public let destinationPhoneNumber: String
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The queue to add the call to. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue used will be the queue defined in the contact flow. To find the QueueId, open the queue you want to use in the Amazon Connect Queue editor. The ID for the queue is displayed in the address bar as part of the URL. For example, the queue ID is the set of characters at the end of the URL, after 'queue/' such as queue/aeg40574-2d01-51c3-73d6-bf8624d2168c.
+        /// The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number.
         public let queueId: String?
-        /// The phone number, in E.164 format, associated with your Amazon Connect instance to use for the outbound call.
+        /// The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
         public let sourcePhoneNumber: String?
 
         public init(attributes: [String: String]? = nil, clientToken: String? = StartOutboundVoiceContactRequest.idempotencyToken(), contactFlowId: String, destinationPhoneNumber: String, instanceId: String, queueId: String? = nil, sourcePhoneNumber: String? = nil) {
@@ -1316,7 +1958,7 @@ extension Connect {
             AWSShapeMember(label: "ContactId", required: false, type: .string)
         ]
 
-        /// The unique identifier of this contact within your Amazon Connect instance.
+        /// The identifier of this contact within the Amazon Connect instance.
         public let contactId: String?
 
         public init(contactId: String? = nil) {
@@ -1341,9 +1983,9 @@ extension Connect {
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
 
-        /// The unique identifier of the contact to end.
+        /// The ID of the contact.
         public let contactId: String
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
 
         public init(contactId: String, instanceId: String) {
@@ -1378,9 +2020,9 @@ extension Connect {
             AWSShapeMember(label: "ThresholdValue", required: false, type: .double)
         ]
 
-        /// The Threshold to use to compare service level metrics to. Only "Less than" (LT) comparisons are supported.
+        /// The type of comparison. Only "less than" (LT) comparisons are supported.
         public let comparison: Comparison?
-        /// The value of the threshold to compare the metric to. Only "Less than" (LT) comparisons are supported.
+        /// The threshold value to compare.
         public let thresholdValue: Double?
 
         public init(comparison: Comparison? = nil, thresholdValue: Double? = nil) {
@@ -1408,11 +2050,11 @@ extension Connect {
             AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
 
-        /// Specify a custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+        /// The Amazon Connect attributes. These attributes can be accessed in contact flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]
-        /// The unique identifier of the contact for which to update attributes. This is the identifier for the contact associated with the first interaction with the contact center.
+        /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let initialContactId: String
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
 
         public init(attributes: [String: String], initialContactId: String, instanceId: String) {
@@ -1456,11 +2098,11 @@ extension Connect {
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
 
-        /// The identifier for the hierarchy group to assign to the user.
+        /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String?
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The identifier of the user account to assign the hierarchy group to.
+        /// The identifier of the user account.
         public let userId: String
 
         public init(hierarchyGroupId: String? = nil, instanceId: String, userId: String) {
@@ -1488,11 +2130,11 @@ extension Connect {
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
 
-        /// A UserIdentityInfo object.
+        /// The identity information for the user.
         public let identityInfo: UserIdentityInfo
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The identifier for the user account to update identity information for.
+        /// The identifier of the user account.
         public let userId: String
 
         public init(identityInfo: UserIdentityInfo, instanceId: String, userId: String) {
@@ -1521,11 +2163,11 @@ extension Connect {
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
 
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// A UserPhoneConfig object that contains settings for AfterContactWorkTimeLimit, AutoAccept, DeskPhoneNumber, and PhoneType to assign to the user.
+        /// Information about phone configuration settings for the user.
         public let phoneConfig: UserPhoneConfig
-        /// The identifier for the user account to change phone settings for.
+        /// The identifier of the user account.
         public let userId: String
 
         public init(instanceId: String, phoneConfig: UserPhoneConfig, userId: String) {
@@ -1554,11 +2196,11 @@ extension Connect {
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
 
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The identifier of the routing profile to assign to the user.
+        /// The identifier of the routing profile for the user.
         public let routingProfileId: String
-        /// The identifier for the user account to assign the routing profile to.
+        /// The identifier of the user account.
         public let userId: String
 
         public init(instanceId: String, routingProfileId: String, userId: String) {
@@ -1586,11 +2228,11 @@ extension Connect {
             AWSShapeMember(label: "UserId", location: .uri(locationName: "UserId"), required: true, type: .string)
         ]
 
-        /// The identifier for your Amazon Connect instance. To find the ID of your instance, open the AWS console and select Amazon Connect. Select the alias of the instance in the Instance alias column. The instance ID is displayed in the Overview section of your instance settings. For example, the instance ID is the set of characters at the end of the instance ARN, after instance/, such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         public let instanceId: String
-        /// The identifiers for the security profiles to assign to the user.
+        /// The identifiers of the security profiles for the user.
         public let securityProfileIds: [String]
-        /// The identifier of the user account to assign the security profiles.
+        /// The identifier of the user account.
         public let userId: String
 
         public init(instanceId: String, securityProfileIds: [String], userId: String) {
@@ -1626,21 +2268,21 @@ extension Connect {
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
 
-        /// The ARN of the user account.
+        /// The Amazon Resource Name (ARN) of the user account.
         public let arn: String?
-        /// The directory Id for the user account in the existing directory used for identity management.
+        /// The identifier of the user account in the directory used for identity management.
         public let directoryUserId: String?
-        /// The identifier for the hierarchy group assigned to the user.
+        /// The identifier of the hierarchy group for the user.
         public let hierarchyGroupId: String?
         /// The identifier of the user account.
         public let id: String?
-        /// A UserIdentityInfo object.
+        /// Information about the user identity.
         public let identityInfo: UserIdentityInfo?
-        /// A UserPhoneConfig object.
+        /// Information about the phone configuration for the user.
         public let phoneConfig: UserPhoneConfig?
-        /// The identifier of the routing profile assigned to the user.
+        /// The identifier of the routing profile for the user.
         public let routingProfileId: String?
-        /// The identifier(s) for the security profile assigned to the user.
+        /// The identifiers of the security profiles for the user.
         public let securityProfileIds: [String]?
         /// The user name assigned to the user account.
         public let username: String?
@@ -1677,11 +2319,11 @@ extension Connect {
             AWSShapeMember(label: "LastName", required: false, type: .string)
         ]
 
-        /// The email address added to the user account. If you are using SAML for identity management and include this parameter, an InvalidRequestException is returned.
+        /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public let email: String?
-        /// The first name used in the user account. This is required if you are using Amazon Connect or SAML for identity management.
+        /// The first name. This is required if you are using Amazon Connect or SAML for identity management.
         public let firstName: String?
-        /// The last name used in the user account. This is required if you are using Amazon Connect or SAML for identity management.
+        /// The last name. This is required if you are using Amazon Connect or SAML for identity management.
         public let lastName: String?
 
         public init(email: String? = nil, firstName: String? = nil, lastName: String? = nil) {
@@ -1712,13 +2354,13 @@ extension Connect {
             AWSShapeMember(label: "PhoneType", required: true, type: .enum)
         ]
 
-        /// The After Call Work (ACW) timeout setting, in seconds, for the user.
+        /// The After Call Work (ACW) timeout setting, in seconds.
         public let afterContactWorkTimeLimit: Int?
-        /// The Auto accept setting for the user, Yes or No.
+        /// The Auto accept setting.
         public let autoAccept: Bool?
         /// The phone number for the user's desk phone.
         public let deskPhoneNumber: String?
-        /// The phone type selected for the user, either Soft phone or Desk phone.
+        /// The phone type.
         public let phoneType: PhoneType
 
         public init(afterContactWorkTimeLimit: Int? = nil, autoAccept: Bool? = nil, deskPhoneNumber: String? = nil, phoneType: PhoneType) {
@@ -1747,11 +2389,11 @@ extension Connect {
             AWSShapeMember(label: "Username", required: false, type: .string)
         ]
 
-        /// The ARN for the user account.
+        /// The Amazon Resource Name (ARN) of the user account.
         public let arn: String?
-        /// The identifier for the user account.
+        /// The identifier of the user account.
         public let id: String?
-        /// The Amazon Connect user name for the user account.
+        /// The Amazon Connect user name of the user account.
         public let username: String?
 
         public init(arn: String? = nil, id: String? = nil, username: String? = nil) {

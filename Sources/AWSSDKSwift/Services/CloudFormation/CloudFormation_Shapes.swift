@@ -40,7 +40,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Value", required: false, type: .integer)
         ]
 
-        /// The name of the account limit.
+        /// The name of the account limit. Values: ConcurrentResourcesLimit | StackLimit | StackOutputsLimit 
         public let name: String?
         /// The value that is associated with the account limit name.
         public let value: Int?
@@ -117,6 +117,7 @@ extension CloudFormation {
         case add = "Add"
         case modify = "Modify"
         case remove = "Remove"
+        case `import` = "Import"
         public var description: String { return self.rawValue }
     }
 
@@ -189,6 +190,7 @@ extension CloudFormation {
     public enum ChangeSetType: String, CustomStringConvertible, Codable {
         case create = "CREATE"
         case update = "UPDATE"
+        case `import` = "IMPORT"
         public var description: String { return self.rawValue }
     }
 
@@ -268,6 +270,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "NotificationARNs", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ResourcesToImport", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ResourceTypes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "RoleARN", required: false, type: .string), 
             AWSShapeMember(label: "RollbackConfiguration", required: false, type: .structure), 
@@ -278,11 +281,11 @@ extension CloudFormation {
             AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean)
         ]
 
-        /// In some cases, you must explicity acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation.  This capacity does not apply to creating change sets, and specifying it when creating change sets has no effect. Also, change sets do not currently support nested stacks. If you want to create a stack from a stack template that contains macros and nested stacks, you must create or update the stack directly from the template using the CreateStack or UpdateStack action, and specifying this capability.  For more information on macros, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
+        /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation.  This capacity does not apply to creating change sets, and specifying it when creating change sets has no effect. Also, change sets do not currently support nested stacks. If you want to create a stack from a stack template that contains macros and nested stacks, you must create or update the stack directly from the template using the CreateStack or UpdateStack action, and specifying this capability.  For more information on macros, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
         public let capabilities: [Capability]?
         /// The name of the change set. The name must be unique among all change sets that are associated with the specified stack. A change set name can contain only alphanumeric, case sensitive characters and hyphens. It must start with an alphabetic character and cannot exceed 128 characters.
         public let changeSetName: String
-        /// The type of change set operation. To create a change set for a new stack, specify CREATE. To create a change set for an existing stack, specify UPDATE. If you create a change set for a new stack, AWS Cloudformation creates a stack with a unique stack ID, but no template or resources. The stack will be in the  REVIEW_IN_PROGRESS  state until you execute the change set. By default, AWS CloudFormation specifies UPDATE. You can't use the UPDATE type to create a change set for a new stack or the CREATE type to create a change set for an existing stack.
+        /// The type of change set operation. To create a change set for a new stack, specify CREATE. To create a change set for an existing stack, specify UPDATE. To create a change set for an import operation, specify IMPORT. If you create a change set for a new stack, AWS Cloudformation creates a stack with a unique stack ID, but no template or resources. The stack will be in the  REVIEW_IN_PROGRESS  state until you execute the change set. By default, AWS CloudFormation specifies UPDATE. You can't use the UPDATE type to create a change set for a new stack or the CREATE type to create a change set for an existing stack.
         public let changeSetType: ChangeSetType?
         /// A unique identifier for this CreateChangeSet request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to create another change set with the same name. You might retry CreateChangeSet requests to ensure that AWS CloudFormation successfully received them.
         public let clientToken: String?
@@ -292,6 +295,8 @@ extension CloudFormation {
         public let notificationARNs: [String]?
         /// A list of Parameter structures that specify input parameters for the change set. For more information, see the Parameter data type.
         public let parameters: [Parameter]?
+        /// The resources to import into your stack.
+        public let resourcesToImport: [ResourceToImport]?
         /// The template resource types that you have permissions to work with if you execute this change set, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource type that you're updating, the stack update fails. By default, AWS CloudFormation grants permissions to all resource types. AWS Identity and Access Management (IAM) uses this parameter for condition keys in IAM policies for AWS CloudFormation. For more information, see Controlling Access with AWS Identity and Access Management in the AWS CloudFormation User Guide.
         public let resourceTypes: [String]?
         /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes when executing the change set. AWS CloudFormation uses the role's credentials to make calls on your behalf. AWS CloudFormation uses this role for all future operations on the stack. As long as users have permission to operate on the stack, AWS CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, AWS CloudFormation uses the role that was previously associated with the stack. If no role is available, AWS CloudFormation uses a temporary session that is generated from your user credentials.
@@ -309,7 +314,7 @@ extension CloudFormation {
         /// Whether to reuse the template that is associated with the stack to create the change set.
         public let usePreviousTemplate: Bool?
 
-        public init(capabilities: [Capability]? = nil, changeSetName: String, changeSetType: ChangeSetType? = nil, clientToken: String? = nil, description: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
+        public init(capabilities: [Capability]? = nil, changeSetName: String, changeSetType: ChangeSetType? = nil, clientToken: String? = nil, description: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourcesToImport: [ResourceToImport]? = nil, resourceTypes: [String]? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
             self.capabilities = capabilities
             self.changeSetName = changeSetName
             self.changeSetType = changeSetType
@@ -317,6 +322,7 @@ extension CloudFormation {
             self.description = description
             self.notificationARNs = notificationARNs
             self.parameters = parameters
+            self.resourcesToImport = resourcesToImport
             self.resourceTypes = resourceTypes
             self.roleARN = roleARN
             self.rollbackConfiguration = rollbackConfiguration
@@ -336,6 +342,10 @@ extension CloudFormation {
             try validate(self.description, name:"description", parent: name, max: 1024)
             try validate(self.description, name:"description", parent: name, min: 1)
             try validate(self.notificationARNs, name:"notificationARNs", parent: name, max: 5)
+            try self.resourcesToImport?.forEach {
+                try $0.validate(name: "\(name).resourcesToImport[]")
+            }
+            try validate(self.resourcesToImport, name:"resourcesToImport", parent: name, max: 200)
             try self.resourceTypes?.forEach {
                 try validate($0, name: "resourceTypes[]", parent: name, max: 256)
                 try validate($0, name: "resourceTypes[]", parent: name, min: 1)
@@ -362,6 +372,7 @@ extension CloudFormation {
             case description = "Description"
             case notificationARNs = "NotificationARNs"
             case parameters = "Parameters"
+            case resourcesToImport = "ResourcesToImport"
             case resourceTypes = "ResourceTypes"
             case roleARN = "RoleARN"
             case rollbackConfiguration = "RollbackConfiguration"
@@ -416,7 +427,7 @@ extension CloudFormation {
             AWSShapeMember(label: "TimeoutInMinutes", required: false, type: .integer)
         ]
 
-        /// In some cases, you must explicity acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation. Change sets do not currently support nested stacks. If you want to create a stack from a stack template that contains macros and nested stacks, you must create the stack directly from the template using this capability.  You should only create stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without AWS CloudFormation being notified.  For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
+        /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation. Change sets do not currently support nested stacks. If you want to create a stack from a stack template that contains macros and nested stacks, you must create the stack directly from the template using this capability.  You should only create stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without AWS CloudFormation being notified.  For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
         public let capabilities: [Capability]?
         /// A unique identifier for this CreateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to create a stack with the same name. You might retry CreateStack requests to ensure that AWS CloudFormation successfully received them. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002. 
         public let clientRequestToken: String?
@@ -620,7 +631,7 @@ extension CloudFormation {
 
         /// The Amazon Resource Number (ARN) of the IAM role to use to create this stack set.  Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites: Granting Permissions for Stack Set Operations in the AWS CloudFormation User Guide.
         public let administrationRoleARN: String?
-        /// In some cases, you must explicity acknowledge that your stack set template contains certain capabilities in order for AWS CloudFormation to create the stack set and related stack instances.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stack sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some templates contain macros. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  Stack sets do not currently support macros in stack templates. (This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation.) Even if you specify this capability, if you include a macro in your template the stack set operation will fail.   
+        /// In some cases, you must explicitly acknowledge that your stack set template contains certain capabilities in order for AWS CloudFormation to create the stack set and related stack instances.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stack sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some templates contain macros. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  Stack sets do not currently support macros in stack templates. (This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation.) Even if you specify this capability, if you include a macro in your template the stack set operation will fail.   
         public let capabilities: [Capability]?
         /// A unique identifier for this CreateStackSet request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to create another stack set with the same name. You might retry CreateStackSet requests to ensure that AWS CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically. 
         public let clientRequestToken: String?
@@ -1864,6 +1875,7 @@ extension CloudFormation {
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Metadata", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ResourceIdentifierSummaries", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ResourceTypes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
@@ -1880,18 +1892,21 @@ extension CloudFormation {
         public let metadata: String?
         /// A list of parameter declarations that describe various properties for each parameter.
         public let parameters: [ParameterDeclaration]?
+        /// A list of resource identifier summaries that describe the target resources of an import operation and the properties you can provide during the import to identify the target resources. For example, BucketName is a possible identifier property for an AWS::S3::Bucket resource. 
+        public let resourceIdentifierSummaries: [ResourceIdentifierSummary]?
         /// A list of all the template resource types that are defined in the template, such as AWS::EC2::Instance, AWS::Dynamo::Table, and Custom::MyCustomInstance.
         public let resourceTypes: [String]?
         /// The AWS template format version, which identifies the capabilities of the template.
         public let version: String?
 
-        public init(capabilities: [Capability]? = nil, capabilitiesReason: String? = nil, declaredTransforms: [String]? = nil, description: String? = nil, metadata: String? = nil, parameters: [ParameterDeclaration]? = nil, resourceTypes: [String]? = nil, version: String? = nil) {
+        public init(capabilities: [Capability]? = nil, capabilitiesReason: String? = nil, declaredTransforms: [String]? = nil, description: String? = nil, metadata: String? = nil, parameters: [ParameterDeclaration]? = nil, resourceIdentifierSummaries: [ResourceIdentifierSummary]? = nil, resourceTypes: [String]? = nil, version: String? = nil) {
             self.capabilities = capabilities
             self.capabilitiesReason = capabilitiesReason
             self.declaredTransforms = declaredTransforms
             self.description = description
             self.metadata = metadata
             self.parameters = parameters
+            self.resourceIdentifierSummaries = resourceIdentifierSummaries
             self.resourceTypes = resourceTypes
             self.version = version
         }
@@ -1903,6 +1918,7 @@ extension CloudFormation {
             case description = "Description"
             case metadata = "Metadata"
             case parameters = "Parameters"
+            case resourceIdentifierSummaries = "ResourceIdentifierSummaries"
             case resourceTypes = "ResourceTypes"
             case version = "Version"
         }
@@ -2680,6 +2696,33 @@ extension CloudFormation {
         }
     }
 
+    public struct ResourceIdentifierSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogicalResourceIds", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ResourceIdentifiers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string)
+        ]
+
+        /// The logical IDs of the target resources of the specified ResourceType, as defined in the import template.
+        public let logicalResourceIds: [String]?
+        /// The resource properties you can provide during the import to identify your target resources. For example, BucketName is a possible identifier property for AWS::S3::Bucket resources.
+        public let resourceIdentifiers: [String]?
+        /// The template resource type of the target resources, such as AWS::S3::Bucket.
+        public let resourceType: String?
+
+        public init(logicalResourceIds: [String]? = nil, resourceIdentifiers: [String]? = nil, resourceType: String? = nil) {
+            self.logicalResourceIds = logicalResourceIds
+            self.resourceIdentifiers = resourceIdentifiers
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalResourceIds = "LogicalResourceIds"
+            case resourceIdentifiers = "ResourceIdentifiers"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public enum ResourceSignalStatus: String, CustomStringConvertible, Codable {
         case success = "SUCCESS"
         case failure = "FAILURE"
@@ -2697,6 +2740,12 @@ extension CloudFormation {
         case updateInProgress = "UPDATE_IN_PROGRESS"
         case updateFailed = "UPDATE_FAILED"
         case updateComplete = "UPDATE_COMPLETE"
+        case importFailed = "IMPORT_FAILED"
+        case importComplete = "IMPORT_COMPLETE"
+        case importInProgress = "IMPORT_IN_PROGRESS"
+        case importRollbackInProgress = "IMPORT_ROLLBACK_IN_PROGRESS"
+        case importRollbackFailed = "IMPORT_ROLLBACK_FAILED"
+        case importRollbackComplete = "IMPORT_ROLLBACK_COMPLETE"
         public var description: String { return self.rawValue }
     }
 
@@ -2724,6 +2773,44 @@ extension CloudFormation {
             case attribute = "Attribute"
             case name = "Name"
             case requiresRecreation = "RequiresRecreation"
+        }
+    }
+
+    public struct ResourceToImport: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogicalResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceIdentifier", required: true, type: .map, encoding: .map(entry:"entry", key: "key", value: "value")), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .string)
+        ]
+
+        /// The logical ID of the target resource as specified in the template.
+        public let logicalResourceId: String
+        /// A key-value pair that identifies the target resource. The key is an identifier property (for example, BucketName for AWS::S3::Bucket resources) and the value is the actual property value (for example, MyS3Bucket).
+        public let resourceIdentifier: [String: String]
+        /// The type of resource to import into your stack, such as AWS::S3::Bucket. 
+        public let resourceType: String
+
+        public init(logicalResourceId: String, resourceIdentifier: [String: String], resourceType: String) {
+            self.logicalResourceId = logicalResourceId
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceIdentifier.forEach {
+                try validate($0.key, name:"resourceIdentifier.key", parent: name, max: 2048)
+                try validate($0.key, name:"resourceIdentifier.key", parent: name, min: 1)
+                try validate($0.value, name:"resourceIdentifier[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name:"resourceIdentifier[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try validate(self.resourceType, name:"resourceType", parent: name, max: 256)
+            try validate(self.resourceType, name:"resourceType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalResourceId = "LogicalResourceId"
+            case resourceIdentifier = "ResourceIdentifier"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -2906,7 +2993,7 @@ extension CloudFormation {
         public let roleARN: String?
         /// The rollback triggers for AWS CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.
         public let rollbackConfiguration: RollbackConfiguration?
-        /// For nested stacks--stacks created as resources for another stack--the stack ID of the the top-level stack to which the nested stack ultimately belongs. For more information, see Working with Nested Stacks in the AWS CloudFormation User Guide.
+        /// For nested stacks--stacks created as resources for another stack--the stack ID of the top-level stack to which the nested stack ultimately belongs. For more information, see Working with Nested Stacks in the AWS CloudFormation User Guide.
         public let rootId: String?
         /// Unique identifier of the stack.
         public let stackId: String?
@@ -3814,6 +3901,11 @@ extension CloudFormation {
         case updateRollbackCompleteCleanupInProgress = "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS"
         case updateRollbackComplete = "UPDATE_ROLLBACK_COMPLETE"
         case reviewInProgress = "REVIEW_IN_PROGRESS"
+        case importInProgress = "IMPORT_IN_PROGRESS"
+        case importComplete = "IMPORT_COMPLETE"
+        case importRollbackInProgress = "IMPORT_ROLLBACK_IN_PROGRESS"
+        case importRollbackFailed = "IMPORT_ROLLBACK_FAILED"
+        case importRollbackComplete = "IMPORT_ROLLBACK_COMPLETE"
         public var description: String { return self.rawValue }
     }
 
@@ -3842,7 +3934,7 @@ extension CloudFormation {
         public let lastUpdatedTime: TimeStamp?
         /// For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see Working with Nested Stacks in the AWS CloudFormation User Guide.
         public let parentId: String?
-        /// For nested stacks--stacks created as resources for another stack--the stack ID of the the top-level stack to which the nested stack ultimately belongs. For more information, see Working with Nested Stacks in the AWS CloudFormation User Guide.
+        /// For nested stacks--stacks created as resources for another stack--the stack ID of the top-level stack to which the nested stack ultimately belongs. For more information, see Working with Nested Stacks in the AWS CloudFormation User Guide.
         public let rootId: String?
         /// Unique stack identifier.
         public let stackId: String?
@@ -4007,7 +4099,7 @@ extension CloudFormation {
             AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean)
         ]
 
-        /// In some cases, you must explicity acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to update the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually updating the stack. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation. Change sets do not currently support nested stacks. If you want to update a stack from a stack template that contains macros and nested stacks, you must update the stack directly from the template using this capability.  You should only update stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without AWS CloudFormation being notified.  For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
+        /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to update the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually updating the stack. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation. Change sets do not currently support nested stacks. If you want to update a stack from a stack template that contains macros and nested stacks, you must update the stack directly from the template using this capability.  You should only update stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without AWS CloudFormation being notified.  For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  
         public let capabilities: [Capability]?
         /// A unique identifier for this UpdateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to update a stack with the same name. You might retry UpdateStack requests to ensure that AWS CloudFormation successfully received them. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002. 
         public let clientRequestToken: String?
@@ -4217,7 +4309,7 @@ extension CloudFormation {
         public let accounts: [String]?
         /// The Amazon Resource Number (ARN) of the IAM role to use to update this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Granting Permissions for Stack Set Operations in the AWS CloudFormation User Guide. If you specified a customized administrator role when you created the stack set, you must specify a customized administrator role, even if it is the same customized administrator role used with this stack set previously.
         public let administrationRoleARN: String?
-        /// In some cases, you must explicity acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to update the stack set and its associated stack instances.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some templates contain macros. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  Stack sets do not currently support macros in stack templates. (This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation.) Even if you specify this capability, if you include a macro in your template the stack set operation will fail.   
+        /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for AWS CloudFormation to update the stack set and its associated stack instances.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your AWS account; for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.    If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.    If you don't specify either of these capabilities, AWS CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group      AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User      AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some templates contain macros. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. For more information, see Using AWS CloudFormation Macros to Perform Custom Processing on Templates.  Stack sets do not currently support macros in stack templates. (This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by AWS CloudFormation.) Even if you specify this capability, if you include a macro in your template the stack set operation will fail.   
         public let capabilities: [Capability]?
         /// A brief description of updates that you are making.
         public let description: String?

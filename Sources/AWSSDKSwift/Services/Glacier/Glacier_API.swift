@@ -13,7 +13,7 @@ public struct Glacier {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         let middlewares = [GlacierRequestMiddleware(apiVersion: "2012-06-01")] + middlewares
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -25,7 +25,8 @@ public struct Glacier {
             apiVersion: "2012-06-01",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [GlacierErrorType.self]
+            possibleErrorTypes: [GlacierErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

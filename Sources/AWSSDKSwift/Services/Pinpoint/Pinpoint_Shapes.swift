@@ -313,6 +313,7 @@ extension Pinpoint {
     public struct APNSMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "APNSPushType", required: false, type: .string), 
             AWSShapeMember(label: "Badge", required: false, type: .integer), 
             AWSShapeMember(label: "Body", required: false, type: .string), 
             AWSShapeMember(label: "Category", required: false, type: .string), 
@@ -333,6 +334,8 @@ extension Pinpoint {
 
         /// The action to occur if the recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This setting uses the deep-linking features of the iOS platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
+        /// The type of push notification to send. Valid values are: alert - For a standard notification that's displayed on recipients' devices and prompts a recipient to interact with the notification. background - For a silent notification that delivers content in the background and isn't displayed on recipients' devices. complication - For a notification that contains update information for an app’s complication timeline. fileprovider - For a notification that signals changes to a File Provider extension. mdm - For a notification that tells managed devices to contact the MDM server. voip - For a notification that provides information about an incoming VoIP call. Amazon Pinpoint specifies this value in the apns-push-type request header when it sends the notification message to APNs. If you don't specify a value for this property, Amazon Pinpoint sets the value to alert or background automatically, based on the value that you specify for the SilentPush or RawContent property of the message. For more information about the apns-push-type request header, see Sending Notification Requests to APNs on the Apple Developer website.
+        public let aPNSPushType: String?
         /// The key that indicates whether and how to modify the badge of your app's icon when the recipient receives the push notification. If this key isn't included in the dictionary, the badge doesn't change. To remove the badge, set this value to 0.
         public let badge: Int?
         /// The body of the notification message.
@@ -345,11 +348,11 @@ extension Pinpoint {
         public let data: [String: String]?
         /// The URL of an image or video to display in the push notification.
         public let mediaUrl: String?
-        /// The authentication method that you want Amazon Pinpoint to use when authenticating with Apple Push Notification service (APNs), CERTIFICATE or TOKEN.
+        /// The authentication method that you want Amazon Pinpoint to use when authenticating with APNs, CERTIFICATE or TOKEN.
         public let preferredAuthenticationMethod: String?
         /// para>5 - Low priority, the notification might be delayed, delivered as part of a group, or throttled./listitem> 10 - High priority, the notification is sent immediately. This is the default value. A high priority notification should trigger an alert, play a sound, or badge your app's icon on the recipient's device./para> Amazon Pinpoint specifies this value in the apns-priority request header when it sends the notification message to APNs. The equivalent values for Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), are normal, for 5, and high, for 10. If you specify an FCM value for this property, Amazon Pinpoint accepts and converts the value to the corresponding APNs value.
         public let priority: String?
-        /// The raw, JSON-formatted string to use as the payload for the notification message. This value overrides the message. If you specify the raw content of an APNs push notification, the message payload has to include the content-available key. The value of the content-available key has to be an integer, and can only be 0 or 1. If you're sending a standard notification, set the value of content-available to 0. If you're sending a silent (background) notification, set the value of content-available to 1. Additionally, silent notification payloads can't include the alert, badge, or sound keys. For more information, see Generating a Remote Notification and Pushing Background Updates to Your App on the Apple Developer website.
+        /// The raw, JSON-formatted string to use as the payload for the notification message. This value overrides all other content for the message. If you specify the raw content of an APNs push notification, the message payload has to include the content-available key. The value of the content-available key has to be an integer, and can only be 0 or 1. If you're sending a standard notification, set the value of content-available to 0. If you're sending a silent (background) notification, set the value of content-available to 1. Additionally, silent notification payloads can't include the alert, badge, or sound keys. For more information, see Generating a Remote Notification and Pushing Background Updates to Your App on the Apple Developer website.
         public let rawContent: String?
         /// Specifies whether the notification is a silent push notification. A silent (or background) push notification isn't displayed on recipients' devices. You can use silent push notifications to make small updates to your app, or to display messages in an in-app message center. Amazon Pinpoint uses this property to determine the correct value for the apns-push-type request header when it sends the notification message to APNs. If you specify a value of true for this property, Amazon Pinpoint sets the value for the apns-push-type header field to background. If you specify the raw content of an APNs push notification, the message payload has to include the content-available key. For silent (background) notifications, set the value of content-available to 1. Additionally, the message payload for a silent notification can't include the alert, badge, or sound keys. For more information, see Generating a Remote Notification and Pushing Background Updates to Your App on the Apple Developer website. Apple has indicated that they will throttle "excessive" background notifications based on current traffic volumes. To prevent your notifications being throttled, Apple recommends that you send no more than 3 silent push notifications to each recipient per hour.
         public let silentPush: Bool?
@@ -366,8 +369,9 @@ extension Pinpoint {
         /// The URL to open in the recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
 
-        public init(action: Action? = nil, badge: Int? = nil, body: String? = nil, category: String? = nil, collapseId: String? = nil, data: [String: String]? = nil, mediaUrl: String? = nil, preferredAuthenticationMethod: String? = nil, priority: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, threadId: String? = nil, timeToLive: Int? = nil, title: String? = nil, url: String? = nil) {
+        public init(action: Action? = nil, aPNSPushType: String? = nil, badge: Int? = nil, body: String? = nil, category: String? = nil, collapseId: String? = nil, data: [String: String]? = nil, mediaUrl: String? = nil, preferredAuthenticationMethod: String? = nil, priority: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, threadId: String? = nil, timeToLive: Int? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
+            self.aPNSPushType = aPNSPushType
             self.badge = badge
             self.body = body
             self.category = category
@@ -388,6 +392,7 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
+            case aPNSPushType = "APNSPushType"
             case badge = "Badge"
             case body = "Body"
             case category = "Category"
@@ -850,6 +855,53 @@ extension Pinpoint {
         }
     }
 
+    public struct Activity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConditionalSplit", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EMAIL", required: false, type: .structure), 
+            AWSShapeMember(label: "Holdout", required: false, type: .structure), 
+            AWSShapeMember(label: "MultiCondition", required: false, type: .structure), 
+            AWSShapeMember(label: "RandomSplit", required: false, type: .structure), 
+            AWSShapeMember(label: "Wait", required: false, type: .structure)
+        ]
+
+        /// The settings for a yes/no split activity. This type of activity sends participants down one of two paths in a journey, based on conditions that you specify.
+        public let conditionalSplit: ConditionalSplitActivity?
+        /// The custom description of the activity.
+        public let description: String?
+        /// The settings for an email activity. This type of activity sends an email message to participants.
+        public let email: EmailMessageActivity?
+        /// The settings for a holdout activity. This type of activity stops a journey for a specified percentage of participants.
+        public let holdout: HoldoutActivity?
+        /// The settings for a multivariate split activity. This type of activity sends participants down one of as many as five paths in a journey, based on conditions that you specify.
+        public let multiCondition: MultiConditionalSplitActivity?
+        /// The settings for a random split activity. This type of activity randomly sends specified percentages of participants down one of as many as five paths in a journey, based on conditions that you specify.
+        public let randomSplit: RandomSplitActivity?
+        /// The settings for a wait activity. This type of activity waits for a certain amount of time or until a specific date and time before moving participants to the next activity in a journey.
+        public let wait: WaitActivity?
+
+        public init(conditionalSplit: ConditionalSplitActivity? = nil, description: String? = nil, email: EmailMessageActivity? = nil, holdout: HoldoutActivity? = nil, multiCondition: MultiConditionalSplitActivity? = nil, randomSplit: RandomSplitActivity? = nil, wait: WaitActivity? = nil) {
+            self.conditionalSplit = conditionalSplit
+            self.description = description
+            self.email = email
+            self.holdout = holdout
+            self.multiCondition = multiCondition
+            self.randomSplit = randomSplit
+            self.wait = wait
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionalSplit = "ConditionalSplit"
+            case description = "Description"
+            case email = "EMAIL"
+            case holdout = "Holdout"
+            case multiCondition = "MultiCondition"
+            case randomSplit = "RandomSplit"
+            case wait = "Wait"
+        }
+    }
+
     public struct ActivityResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
@@ -881,7 +933,7 @@ extension Pinpoint {
         public let scheduledStart: String?
         /// The actual start time, in ISO 8601 format, of the activity.
         public let start: String?
-        /// The state of the activity. Possible values are: PENDING, INITIALIZING, RUNNING, PAUSED, CANCELLED, and COMPLETED.
+        /// The current status of the activity. Possible values are: PENDING, INITIALIZING, RUNNING, PAUSED, CANCELLED, and COMPLETED.
         public let state: String?
         /// The total number of endpoints that the campaign successfully delivered messages to.
         public let successfulEndpointCount: Int?
@@ -1035,11 +1087,11 @@ extension Pinpoint {
         public let applicationId: String
         /// The last date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
         public let endTime: TimeStamp
-        /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of valid values, see the Amazon Pinpoint Developer Guide.
+        /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of possible values, see the Amazon Pinpoint Developer Guide.
         public let kpiName: String
         /// An array of objects that contains the results of the query. Each object contains the value for the metric and metadata about that value.
         public let kpiResult: BaseKpiResult
-        /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the Application Metrics resource. The Application Metrics resource returns all results in a single page.
+        /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the Application Metrics resource because the resource returns all results in a single page.
         public let nextToken: String?
         /// The first date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
         public let startTime: TimeStamp
@@ -1112,7 +1164,7 @@ extension Pinpoint {
         public let lastModifiedDate: String?
         /// The default sending limits for campaigns in the application.
         public let limits: CampaignLimits?
-        /// The default quiet time for campaigns in the application. Quiet time is a specific time range when campaigns don't send messages to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign, even if quiet time is enabled.
+        /// The default quiet time for campaigns and journeys in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled.
         public let quietTime: QuietTime?
 
         public init(applicationId: String, campaignHook: CampaignHook? = nil, lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
@@ -1193,7 +1245,7 @@ extension Pinpoint {
         public let applicationId: String
         /// An array that specifies the names of the attributes that were removed from the endpoints.
         public let attributes: [String]?
-        /// The type of attribute or attributes that were removed from the endpoints. Valid values are: endpoint-custom-attributes - Custom attributes that describe endpoints. endpoint-custom-metrics - Custom metrics that your app reports to Amazon Pinpoint for endpoints. endpoint-user-attributes - Custom attributes that describe users.
+        /// The type of attribute or attributes that were removed from the endpoints. Valid values are: endpoint-custom-attributes - Custom attributes that describe endpoints. endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint for endpoints. endpoint-user-attributes - Custom attributes that describe users.
         public let attributeType: String
 
         public init(applicationId: String, attributes: [String]? = nil, attributeType: String) {
@@ -1390,7 +1442,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Rows", required: true, type: .list)
         ]
 
-        /// An array of objects that provides the results of a query that retrieved the data for a standard metric that applies to an application or campaign.
+        /// An array of objects that provides the results of a query that retrieved the data for a standard metric that applies to an application, campaign, or journey.
         public let rows: [ResultRow]
 
         public init(rows: [ResultRow]) {
@@ -1419,11 +1471,11 @@ extension Pinpoint {
         public let campaignId: String
         /// The last date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
         public let endTime: TimeStamp
-        /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of valid values, see the Amazon Pinpoint Developer Guide.
+        /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of possible values, see the Amazon Pinpoint Developer Guide.
         public let kpiName: String
         /// An array of objects that contains the results of the query. Each object contains the value for the metric and metadata about that value.
         public let kpiResult: BaseKpiResult
-        /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the Campaign Metrics resource. The Campaign Metrics resource returns all results in a single page.
+        /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the Campaign Metrics resource because the resource returns all results in a single page.
         public let nextToken: String?
         /// The first date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
         public let startTime: TimeStamp
@@ -1721,7 +1773,7 @@ extension Pinpoint {
             AWSShapeMember(label: "CampaignStatus", required: false, type: .enum)
         ]
 
-        /// The status of the campaign, or the status of a treatment that belongs to an A/B test campaign. If a campaign uses A/B testing, the campaign has a status of COMPLETED only when all campaign treatments have a status of COMPLETED.
+        /// The current status of the campaign, or the current status of a treatment that belongs to an A/B test campaign. If a campaign uses A/B testing, the campaign has a status of COMPLETED only if all campaign treatments have a status of COMPLETED.
         public let campaignStatus: CampaignStatus?
 
         public init(campaignStatus: CampaignStatus? = nil) {
@@ -1851,6 +1903,60 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case channels = "Channels"
+        }
+    }
+
+    public struct Condition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Conditions", required: false, type: .list), 
+            AWSShapeMember(label: "Operator", required: false, type: .enum)
+        ]
+
+        /// The conditions to evaluate for the activity.
+        public let conditions: [SimpleCondition]?
+        /// Specifies how to handle multiple conditions for the activity. For example, if you specify two conditions for an activity, whether both or only one of the conditions must be met for the activity to be performed.
+        public let `operator`: Operator?
+
+        public init(conditions: [SimpleCondition]? = nil, operator: Operator? = nil) {
+            self.conditions = conditions
+            self.`operator` = `operator`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "Conditions"
+            case `operator` = "Operator"
+        }
+    }
+
+    public struct ConditionalSplitActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Condition", required: false, type: .structure), 
+            AWSShapeMember(label: "EvaluationWaitTime", required: false, type: .structure), 
+            AWSShapeMember(label: "FalseActivity", required: false, type: .string), 
+            AWSShapeMember(label: "TrueActivity", required: false, type: .string)
+        ]
+
+        /// The conditions that define the paths for the activity, and the relationship between the conditions.
+        public let condition: Condition?
+        /// The amount of time to wait before determining whether the conditions are met, or the date and time when Amazon Pinpoint determines whether the conditions are met.
+        public let evaluationWaitTime: WaitTime?
+        /// The unique identifier for the activity to perform if the condition isn't met.
+        public let falseActivity: String?
+        /// The unique identifier for the activity to perform if the condition is met.
+        public let trueActivity: String?
+
+        public init(condition: Condition? = nil, evaluationWaitTime: WaitTime? = nil, falseActivity: String? = nil, trueActivity: String? = nil) {
+            self.condition = condition
+            self.evaluationWaitTime = evaluationWaitTime
+            self.falseActivity = falseActivity
+            self.trueActivity = trueActivity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
+            case evaluationWaitTime = "EvaluationWaitTime"
+            case falseActivity = "FalseActivity"
+            case trueActivity = "TrueActivity"
         }
     }
 
@@ -2072,6 +2178,46 @@ extension Pinpoint {
         }
     }
 
+    public struct CreateJourneyRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "WriteJourneyRequest"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "WriteJourneyRequest", required: true, type: .structure)
+        ]
+
+        public let applicationId: String
+        public let writeJourneyRequest: WriteJourneyRequest
+
+        public init(applicationId: String, writeJourneyRequest: WriteJourneyRequest) {
+            self.applicationId = applicationId
+            self.writeJourneyRequest = writeJourneyRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case writeJourneyRequest = "WriteJourneyRequest"
+        }
+    }
+
+    public struct CreateJourneyResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "JourneyResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JourneyResponse", required: true, type: .structure)
+        ]
+
+        public let journeyResponse: JourneyResponse
+
+        public init(journeyResponse: JourneyResponse) {
+            self.journeyResponse = journeyResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case journeyResponse = "JourneyResponse"
+        }
+    }
+
     public struct CreatePushTemplateRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "PushNotificationTemplateRequest"
@@ -2199,8 +2345,11 @@ extension Pinpoint {
             AWSShapeMember(label: "RequestID", required: false, type: .string)
         ]
 
+        /// The Amazon Resource Name (ARN) of the message template that was created.
         public let arn: String?
+        /// The message that's returned from the API for the request to create the message template.
         public let message: String?
+        /// The unique identifier for the request to create the message template.
         public let requestID: String?
 
         public init(arn: String? = nil, message: String? = nil, requestID: String? = nil) {
@@ -2772,6 +2921,44 @@ extension Pinpoint {
         }
     }
 
+    public struct DeleteJourneyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JourneyId", location: .uri(locationName: "journey-id"), required: true, type: .string)
+        ]
+
+        public let applicationId: String
+        public let journeyId: String
+
+        public init(applicationId: String, journeyId: String) {
+            self.applicationId = applicationId
+            self.journeyId = journeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case journeyId = "journey-id"
+        }
+    }
+
+    public struct DeleteJourneyResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "JourneyResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JourneyResponse", required: true, type: .structure)
+        ]
+
+        public let journeyResponse: JourneyResponse
+
+        public init(journeyResponse: JourneyResponse) {
+            self.journeyResponse = journeyResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case journeyResponse = "JourneyResponse"
+        }
+    }
+
     public struct DeletePushTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string)
@@ -3237,6 +3424,33 @@ extension Pinpoint {
         }
     }
 
+    public struct EmailMessageActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "NextActivity", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateName", required: false, type: .string)
+        ]
+
+        /// The "From" address to use for the message.
+        public let messageConfig: JourneyEmailMessage?
+        /// The unique identifier for the next activity to perform, after the message is sent.
+        public let nextActivity: String?
+        /// The name of the email template to use for the message.
+        public let templateName: String?
+
+        public init(messageConfig: JourneyEmailMessage? = nil, nextActivity: String? = nil, templateName: String? = nil) {
+            self.messageConfig = messageConfig
+            self.nextActivity = nextActivity
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageConfig = "MessageConfig"
+            case nextActivity = "NextActivity"
+            case templateName = "TemplateName"
+        }
+    }
+
     public struct EmailTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HtmlPart", required: false, type: .string), 
@@ -3282,6 +3496,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TextPart", required: false, type: .string)
         ]
 
+        /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
         /// The date when the message template was created.
         public let creationDate: String
@@ -3864,6 +4079,28 @@ extension Pinpoint {
         }
     }
 
+    public struct EventCondition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dimensions", required: true, type: .structure), 
+            AWSShapeMember(label: "MessageActivity", required: false, type: .string)
+        ]
+
+        /// The dimensions for the event filter to use for the activity.
+        public let dimensions: EventDimensions
+        /// The message identifier (message_id) for the message to use when determining whether message events meet the condition.
+        public let messageActivity: String?
+
+        public init(dimensions: EventDimensions, messageActivity: String? = nil) {
+            self.dimensions = dimensions
+            self.messageActivity = messageActivity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case messageActivity = "MessageActivity"
+        }
+    }
+
     public struct EventDimensions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Attributes", required: false, type: .map), 
@@ -3871,11 +4108,11 @@ extension Pinpoint {
             AWSShapeMember(label: "Metrics", required: false, type: .map)
         ]
 
-        /// One or more custom attributes that your app reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create an event filter.
+        /// One or more custom attributes that your application reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create an event filter.
         public let attributes: [String: AttributeDimension]?
-        /// The name of the event that causes the campaign to be sent. This can be a standard type of event that Amazon Pinpoint generates, such as _session.start, or a custom event that's specific to your app.
+        /// The name of the event that causes the campaign to be sent or the journey activity to be performed. This can be a standard type of event that Amazon Pinpoint generates, such as _email.delivered, or a custom event that's specific to your application.
         public let eventType: SetDimension?
-        /// One or more custom metrics that your app reports to Amazon Pinpoint. You can use these metrics as selection criteria when you create an event filter.
+        /// One or more custom metrics that your application reports to Amazon Pinpoint. You can use these metrics as selection criteria when you create an event filter.
         public let metrics: [String: MetricDimension]?
 
         public init(attributes: [String: AttributeDimension]? = nil, eventType: SetDimension? = nil, metrics: [String: MetricDimension]? = nil) {
@@ -5432,6 +5669,198 @@ extension Pinpoint {
         }
     }
 
+    public struct GetJourneyDateRangeKpiRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "EndTime", location: .querystring(locationName: "end-time"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "JourneyId", location: .uri(locationName: "journey-id"), required: true, type: .string), 
+            AWSShapeMember(label: "KpiName", location: .uri(locationName: "kpi-name"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", location: .querystring(locationName: "start-time"), required: false, type: .timestamp)
+        ]
+
+        public let applicationId: String
+        public let endTime: TimeStamp?
+        public let journeyId: String
+        public let kpiName: String
+        public let nextToken: String?
+        public let pageSize: String?
+        public let startTime: TimeStamp?
+
+        public init(applicationId: String, endTime: TimeStamp? = nil, journeyId: String, kpiName: String, nextToken: String? = nil, pageSize: String? = nil, startTime: TimeStamp? = nil) {
+            self.applicationId = applicationId
+            self.endTime = endTime
+            self.journeyId = journeyId
+            self.kpiName = kpiName
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case endTime = "end-time"
+            case journeyId = "journey-id"
+            case kpiName = "kpi-name"
+            case nextToken = "next-token"
+            case pageSize = "page-size"
+            case startTime = "start-time"
+        }
+    }
+
+    public struct GetJourneyDateRangeKpiResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "JourneyDateRangeKpiResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JourneyDateRangeKpiResponse", required: true, type: .structure)
+        ]
+
+        public let journeyDateRangeKpiResponse: JourneyDateRangeKpiResponse
+
+        public init(journeyDateRangeKpiResponse: JourneyDateRangeKpiResponse) {
+            self.journeyDateRangeKpiResponse = journeyDateRangeKpiResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case journeyDateRangeKpiResponse = "JourneyDateRangeKpiResponse"
+        }
+    }
+
+    public struct GetJourneyExecutionActivityMetricsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JourneyActivityId", location: .uri(locationName: "journey-activity-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JourneyId", location: .uri(locationName: "journey-id"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string)
+        ]
+
+        public let applicationId: String
+        public let journeyActivityId: String
+        public let journeyId: String
+        public let nextToken: String?
+        public let pageSize: String?
+
+        public init(applicationId: String, journeyActivityId: String, journeyId: String, nextToken: String? = nil, pageSize: String? = nil) {
+            self.applicationId = applicationId
+            self.journeyActivityId = journeyActivityId
+            self.journeyId = journeyId
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case journeyActivityId = "journey-activity-id"
+            case journeyId = "journey-id"
+            case nextToken = "next-token"
+            case pageSize = "page-size"
+        }
+    }
+
+    public struct GetJourneyExecutionActivityMetricsResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "JourneyExecutionActivityMetricsResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JourneyExecutionActivityMetricsResponse", required: true, type: .structure)
+        ]
+
+        public let journeyExecutionActivityMetricsResponse: JourneyExecutionActivityMetricsResponse
+
+        public init(journeyExecutionActivityMetricsResponse: JourneyExecutionActivityMetricsResponse) {
+            self.journeyExecutionActivityMetricsResponse = journeyExecutionActivityMetricsResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case journeyExecutionActivityMetricsResponse = "JourneyExecutionActivityMetricsResponse"
+        }
+    }
+
+    public struct GetJourneyExecutionMetricsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JourneyId", location: .uri(locationName: "journey-id"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string)
+        ]
+
+        public let applicationId: String
+        public let journeyId: String
+        public let nextToken: String?
+        public let pageSize: String?
+
+        public init(applicationId: String, journeyId: String, nextToken: String? = nil, pageSize: String? = nil) {
+            self.applicationId = applicationId
+            self.journeyId = journeyId
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case journeyId = "journey-id"
+            case nextToken = "next-token"
+            case pageSize = "page-size"
+        }
+    }
+
+    public struct GetJourneyExecutionMetricsResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "JourneyExecutionMetricsResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JourneyExecutionMetricsResponse", required: true, type: .structure)
+        ]
+
+        public let journeyExecutionMetricsResponse: JourneyExecutionMetricsResponse
+
+        public init(journeyExecutionMetricsResponse: JourneyExecutionMetricsResponse) {
+            self.journeyExecutionMetricsResponse = journeyExecutionMetricsResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case journeyExecutionMetricsResponse = "JourneyExecutionMetricsResponse"
+        }
+    }
+
+    public struct GetJourneyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JourneyId", location: .uri(locationName: "journey-id"), required: true, type: .string)
+        ]
+
+        public let applicationId: String
+        public let journeyId: String
+
+        public init(applicationId: String, journeyId: String) {
+            self.applicationId = applicationId
+            self.journeyId = journeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case journeyId = "journey-id"
+        }
+    }
+
+    public struct GetJourneyResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "JourneyResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JourneyResponse", required: true, type: .structure)
+        ]
+
+        public let journeyResponse: JourneyResponse
+
+        public init(journeyResponse: JourneyResponse) {
+            self.journeyResponse = journeyResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case journeyResponse = "JourneyResponse"
+        }
+    }
+
     public struct GetPushTemplateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TemplateName", location: .uri(locationName: "template-name"), required: true, type: .string)
@@ -5866,6 +6295,28 @@ extension Pinpoint {
         }
     }
 
+    public struct HoldoutActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextActivity", required: false, type: .string), 
+            AWSShapeMember(label: "Percentage", required: true, type: .integer)
+        ]
+
+        /// The unique identifier for the next activity to perform, after performing the holdout activity.
+        public let nextActivity: String?
+        /// The percentage of participants who shouldn't continue the journey.
+        public let percentage: Int
+
+        public init(nextActivity: String? = nil, percentage: Int) {
+            self.nextActivity = nextActivity
+            self.percentage = percentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextActivity = "NextActivity"
+            case percentage = "Percentage"
+        }
+    }
+
     public struct ImportJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DefineSegment", required: false, type: .boolean), 
@@ -6100,13 +6551,380 @@ extension Pinpoint {
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
         case created = "CREATED"
+        case preparingForInitialization = "PREPARING_FOR_INITIALIZATION"
         case initializing = "INITIALIZING"
         case processing = "PROCESSING"
+        case pendingJob = "PENDING_JOB"
         case completing = "COMPLETING"
         case completed = "COMPLETED"
         case failing = "FAILING"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
+    }
+
+    public struct JourneyDateRangeKpiResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
+            AWSShapeMember(label: "EndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "JourneyId", required: true, type: .string), 
+            AWSShapeMember(label: "KpiName", required: true, type: .string), 
+            AWSShapeMember(label: "KpiResult", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
+        ]
+
+        /// The unique identifier for the application that the metric applies to.
+        public let applicationId: String
+        /// The last date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
+        public let endTime: TimeStamp
+        /// The unique identifier for the journey that the metric applies to.
+        public let journeyId: String
+        /// The name of the metric, also referred to as a key performance indicator (KPI), that the data was retrieved for. This value describes the associated metric and consists of two or more terms, which are comprised of lowercase alphanumeric characters, separated by a hyphen. For a list of possible values, see the Amazon Pinpoint Developer Guide.
+        public let kpiName: String
+        /// An array of objects that contains the results of the query. Each object contains the value for the metric and metadata about that value.
+        public let kpiResult: BaseKpiResult
+        /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null for the Journey Engagement Metrics resource because the resource returns all results in a single page.
+        public let nextToken: String?
+        /// The first date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
+        public let startTime: TimeStamp
+
+        public init(applicationId: String, endTime: TimeStamp, journeyId: String, kpiName: String, kpiResult: BaseKpiResult, nextToken: String? = nil, startTime: TimeStamp) {
+            self.applicationId = applicationId
+            self.endTime = endTime
+            self.journeyId = journeyId
+            self.kpiName = kpiName
+            self.kpiResult = kpiResult
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case endTime = "EndTime"
+            case journeyId = "JourneyId"
+            case kpiName = "KpiName"
+            case kpiResult = "KpiResult"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct JourneyEmailMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FromAddress", required: false, type: .string)
+        ]
+
+        /// The verified email address to send the email message from. The default address is the FromAddress specified for the email channel for the application.
+        public let fromAddress: String?
+
+        public init(fromAddress: String? = nil) {
+            self.fromAddress = fromAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromAddress = "FromAddress"
+        }
+    }
+
+    public struct JourneyExecutionActivityMetricsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActivityType", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
+            AWSShapeMember(label: "JourneyActivityId", required: true, type: .string), 
+            AWSShapeMember(label: "JourneyId", required: true, type: .string), 
+            AWSShapeMember(label: "LastEvaluatedTime", required: true, type: .string), 
+            AWSShapeMember(label: "Metrics", required: true, type: .map)
+        ]
+
+        /// The type of activity that the metric applies to. Possible values are: CONDITIONAL_SPLIT - For a yes/no split activity, which is an activity that sends participants down one of two paths in a journey. HOLDOUT - For a holdout activity, which is an activity that stops a journey for a specified percentage of participants. MESSAGE - For an email activity, which is an activity that sends an email message to participants. MULTI_CONDITIONAL_SPLIT - For a multivariate split activity, which is an activity that sends participants down one of as many as five paths in a journey. RANDOM_SPLIT - For a random split activity, which is an activity that sends specified percentages of participants down one of as many as five paths in a journey. WAIT - For a wait activity, which is an activity that waits for a certain amount of time or until a specific date and time before moving participants to the next activity in a journey.
+        public let activityType: String
+        /// The unique identifier for the application that the metric applies to.
+        public let applicationId: String
+        /// The unique identifier for the activity that the metric applies to.
+        public let journeyActivityId: String
+        /// The unique identifier for the journey that the metric applies to.
+        public let journeyId: String
+        /// The date and time, in ISO 8601 format, when Amazon Pinpoint last evaluated the execution status of the activity and updated the data for the metric.
+        public let lastEvaluatedTime: String
+        /// A JSON object that contains the results of the query. The results vary depending on the type of activity (ActivityType). For information about the structure and contents of the results, see the Amazon Pinpoint Developer Guide.
+        public let metrics: [String: String]
+
+        public init(activityType: String, applicationId: String, journeyActivityId: String, journeyId: String, lastEvaluatedTime: String, metrics: [String: String]) {
+            self.activityType = activityType
+            self.applicationId = applicationId
+            self.journeyActivityId = journeyActivityId
+            self.journeyId = journeyId
+            self.lastEvaluatedTime = lastEvaluatedTime
+            self.metrics = metrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activityType = "ActivityType"
+            case applicationId = "ApplicationId"
+            case journeyActivityId = "JourneyActivityId"
+            case journeyId = "JourneyId"
+            case lastEvaluatedTime = "LastEvaluatedTime"
+            case metrics = "Metrics"
+        }
+    }
+
+    public struct JourneyExecutionMetricsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
+            AWSShapeMember(label: "JourneyId", required: true, type: .string), 
+            AWSShapeMember(label: "LastEvaluatedTime", required: true, type: .string), 
+            AWSShapeMember(label: "Metrics", required: true, type: .map)
+        ]
+
+        /// The unique identifier for the application that the metric applies to.
+        public let applicationId: String
+        /// The unique identifier for the journey that the metric applies to.
+        public let journeyId: String
+        /// The date and time, in ISO 8601 format, when Amazon Pinpoint last evaluated the journey and updated the data for the metric.
+        public let lastEvaluatedTime: String
+        /// A JSON object that contains the results of the query. For information about the structure and contents of the results, see the Amazon Pinpoint Developer Guide.
+        public let metrics: [String: String]
+
+        public init(applicationId: String, journeyId: String, lastEvaluatedTime: String, metrics: [String: String]) {
+            self.applicationId = applicationId
+            self.journeyId = journeyId
+            self.lastEvaluatedTime = lastEvaluatedTime
+            self.metrics = metrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case journeyId = "JourneyId"
+            case lastEvaluatedTime = "LastEvaluatedTime"
+            case metrics = "Metrics"
+        }
+    }
+
+    public struct JourneyLimits: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DailyCap", required: false, type: .integer), 
+            AWSShapeMember(label: "EndpointReentryCap", required: false, type: .integer), 
+            AWSShapeMember(label: "MessagesPerSecond", required: false, type: .integer)
+        ]
+
+        /// The maximum number of messages that the journey can send to a single participant during a 24-hour period. The maximum value is 100.
+        public let dailyCap: Int?
+        /// The maximum number of times that a participant can enter the journey. The maximum value is 100. To allow participants to enter the journey an unlimited number of times, set this value to 0.
+        public let endpointReentryCap: Int?
+        /// The maximum number of messages that the journey can send each second.
+        public let messagesPerSecond: Int?
+
+        public init(dailyCap: Int? = nil, endpointReentryCap: Int? = nil, messagesPerSecond: Int? = nil) {
+            self.dailyCap = dailyCap
+            self.endpointReentryCap = endpointReentryCap
+            self.messagesPerSecond = messagesPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dailyCap = "DailyCap"
+            case endpointReentryCap = "EndpointReentryCap"
+            case messagesPerSecond = "MessagesPerSecond"
+        }
+    }
+
+    public struct JourneyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Activities", required: false, type: .map), 
+            AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "Limits", required: false, type: .structure), 
+            AWSShapeMember(label: "LocalTime", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "QuietTime", required: false, type: .structure), 
+            AWSShapeMember(label: "RefreshFrequency", required: false, type: .string), 
+            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
+            AWSShapeMember(label: "StartActivity", required: false, type: .string), 
+            AWSShapeMember(label: "StartCondition", required: false, type: .structure), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+
+        /// The configuration and other settings for the activities that comprise the journey.
+        public let activities: [String: Activity]?
+        /// The unique identifier for the application that the journey applies to.
+        public let applicationId: String
+        /// The date, in ISO 8601 format, when the journey was created.
+        public let creationDate: String?
+        /// The unique identifier for the journey.
+        public let id: String
+        /// The date, in ISO 8601 format, when the journey was last modified.
+        public let lastModifiedDate: String?
+        /// The messaging and entry limits for the journey.
+        public let limits: JourneyLimits?
+        /// Specifies whether the journey's scheduled start and end times use each participant's local time. If this value is true, the schedule uses each participant's local time.
+        public let localTime: Bool?
+        /// The name of the journey.
+        public let name: String
+        /// The quiet time settings for the journey. Quiet time is a specific time range when a journey doesn't send messages to participants, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint for the participant is set to a valid value. The current time in the participant's time zone is later than or equal to the time specified by the QuietTime.Start property for the journey. The current time in the participant's time zone is earlier than or equal to the time specified by the QuietTime.End property for the journey. If any of the preceding conditions isn't met, the participant will receive messages from the journey, even if quiet time is enabled.
+        public let quietTime: QuietTime?
+        /// The frequency with which Amazon Pinpoint evaluates segment and event data for the journey, as a duration in ISO 8601 format.
+        public let refreshFrequency: String?
+        /// The schedule settings for the journey.
+        public let schedule: JourneySchedule?
+        /// The unique identifier for the first activity in the journey.
+        public let startActivity: String?
+        /// The segment that defines which users are participants in the journey.
+        public let startCondition: StartCondition?
+        /// The current status of the journey. Possible values are: DRAFT - The journey is being developed and hasn't been published yet. ACTIVE - The journey has been developed and published. Depending on the journey's schedule, the journey may currently be running or scheduled to start running at a later time. If a journey's status is ACTIVE, you can't add, change, or remove activities from it. COMPLETED - The journey has been published and has finished running. All participants have entered the journey and no participants are waiting to complete the journey or any activities in the journey. CANCELLED - The journey has been stopped. If a journey's status is CANCELLED, you can't add, change, or remove activities or segment settings from the journey. CLOSED - The journey has been published and has started running. It may have also passed its scheduled end time, or passed its scheduled start time and a refresh frequency hasn't been specified for it. If a journey's status is CLOSED, you can't add participants to it, and no existing participants can enter the journey for the first time. However, any existing participants who are currently waiting to start an activity may resume the journey.
+        public let state: State?
+        /// A string-to-string map of key-value pairs that identifies the tags that are associated with the journey. Each tag consists of a required tag key and an associated tag value.
+        public let tags: [String: String]?
+
+        public init(activities: [String: Activity]? = nil, applicationId: String, creationDate: String? = nil, id: String, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, schedule: JourneySchedule? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, tags: [String: String]? = nil) {
+            self.activities = activities
+            self.applicationId = applicationId
+            self.creationDate = creationDate
+            self.id = id
+            self.lastModifiedDate = lastModifiedDate
+            self.limits = limits
+            self.localTime = localTime
+            self.name = name
+            self.quietTime = quietTime
+            self.refreshFrequency = refreshFrequency
+            self.schedule = schedule
+            self.startActivity = startActivity
+            self.startCondition = startCondition
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activities = "Activities"
+            case applicationId = "ApplicationId"
+            case creationDate = "CreationDate"
+            case id = "Id"
+            case lastModifiedDate = "LastModifiedDate"
+            case limits = "Limits"
+            case localTime = "LocalTime"
+            case name = "Name"
+            case quietTime = "QuietTime"
+            case refreshFrequency = "RefreshFrequency"
+            case schedule = "Schedule"
+            case startActivity = "StartActivity"
+            case startCondition = "StartCondition"
+            case state = "State"
+            case tags = "tags"
+        }
+    }
+
+    public struct JourneySchedule: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Timezone", required: false, type: .string)
+        ]
+
+        /// The scheduled time, in ISO 8601 format, when the journey ended or will end.
+        public let endTime: TimeStamp?
+        /// The scheduled time, in ISO 8601 format, when the journey began or will begin.
+        public let startTime: TimeStamp?
+        /// The starting UTC offset for the journey schedule, if the value of the journey's LocalTime property is true. Valid values are: UTC,
+        ///                   UTC+01, UTC+02, UTC+03, UTC+03:30, UTC+04, UTC+04:30, UTC+05, UTC+05:30,
+        ///                   UTC+05:45, UTC+06, UTC+06:30, UTC+07, UTC+08, UTC+08:45, UTC+09, UTC+09:30,
+        ///                   UTC+10, UTC+10:30, UTC+11, UTC+12, UTC+12:45, UTC+13, UTC+13:45, UTC-02,
+        ///                   UTC-02:30, UTC-03, UTC-03:30, UTC-04, UTC-05, UTC-06, UTC-07, UTC-08, UTC-09,
+        ///                   UTC-09:30, UTC-10, and UTC-11.
+        public let timezone: String?
+
+        public init(endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, timezone: String? = nil) {
+            self.endTime = endTime
+            self.startTime = startTime
+            self.timezone = timezone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+            case timezone = "Timezone"
+        }
+    }
+
+    public struct JourneyStateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+
+        /// The status of the journey. Currently, the only supported value is CANCELLED. If you cancel a journey, Amazon Pinpoint continues to perform activities that are currently in progress, until those activities are complete. Amazon Pinpoint also continues to collect and aggregate analytics data for those activities, until they are complete, and any activities that were complete when you cancelled the journey. After you cancel a journey, you can't add, change, or remove any activities from the journey. In addition, Amazon Pinpoint stops evaluating the journey and doesn't perform any activities that haven't started.
+        public let state: State?
+
+        public init(state: State? = nil) {
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+        }
+    }
+
+    public struct JourneysResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// An array of responses, one for each journey that's associated with the application.
+        public let item: [JourneyResponse]
+        /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
+        public let nextToken: String?
+
+        public init(item: [JourneyResponse], nextToken: String? = nil) {
+            self.item = item
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListJourneysRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "PageSize", location: .querystring(locationName: "page-size"), required: false, type: .string), 
+            AWSShapeMember(label: "Token", location: .querystring(locationName: "token"), required: false, type: .string)
+        ]
+
+        public let applicationId: String
+        public let pageSize: String?
+        public let token: String?
+
+        public init(applicationId: String, pageSize: String? = nil, token: String? = nil) {
+            self.applicationId = applicationId
+            self.pageSize = pageSize
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case pageSize = "page-size"
+            case token = "token"
+        }
+    }
+
+    public struct ListJourneysResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "JourneysResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JourneysResponse", required: true, type: .structure)
+        ]
+
+        public let journeysResponse: JourneysResponse
+
+        public init(journeysResponse: JourneysResponse) {
+            self.journeysResponse = journeysResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case journeysResponse = "JourneysResponse"
+        }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
@@ -6475,6 +7293,55 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
+    public struct MultiConditionalBranch: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Condition", required: false, type: .structure), 
+            AWSShapeMember(label: "NextActivity", required: false, type: .string)
+        ]
+
+        /// The condition to evaluate for the activity path.
+        public let condition: SimpleCondition?
+        /// The unique identifier for the next activity to perform, after completing the activity for the path.
+        public let nextActivity: String?
+
+        public init(condition: SimpleCondition? = nil, nextActivity: String? = nil) {
+            self.condition = condition
+            self.nextActivity = nextActivity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
+            case nextActivity = "NextActivity"
+        }
+    }
+
+    public struct MultiConditionalSplitActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Branches", required: false, type: .list), 
+            AWSShapeMember(label: "DefaultActivity", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluationWaitTime", required: false, type: .structure)
+        ]
+
+        /// The paths for the activity, including the conditions for entering each path and the activity to perform for each path.
+        public let branches: [MultiConditionalBranch]?
+        /// The activity to perform by default for any path in the activity.
+        public let defaultActivity: String?
+        /// The amount of time to wait or the date and time when Amazon Pinpoint determines whether the conditions are met.
+        public let evaluationWaitTime: WaitTime?
+
+        public init(branches: [MultiConditionalBranch]? = nil, defaultActivity: String? = nil, evaluationWaitTime: WaitTime? = nil) {
+            self.branches = branches
+            self.defaultActivity = defaultActivity
+            self.evaluationWaitTime = evaluationWaitTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branches = "Branches"
+            case defaultActivity = "DefaultActivity"
+            case evaluationWaitTime = "EvaluationWaitTime"
+        }
+    }
+
     public struct NumberValidateRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IsoCountryCode", required: false, type: .string), 
@@ -6578,6 +7445,12 @@ extension Pinpoint {
             case timezone = "Timezone"
             case zipCode = "ZipCode"
         }
+    }
+
+    public enum `Operator`: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case any = "ANY"
+        public var description: String { return self.rawValue }
     }
 
     public struct PhoneNumberValidateRequest: AWSShape {
@@ -6744,6 +7617,7 @@ extension Pinpoint {
         public let adm: AndroidPushNotificationTemplate?
         /// The message template that's used for the APNs (Apple Push Notification service) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public let apns: APNSPushNotificationTemplate?
+        /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
         /// The message template that's used for the Baidu (Baidu Cloud Push) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public let baidu: AndroidPushNotificationTemplate?
@@ -6893,6 +7767,45 @@ extension Pinpoint {
         }
     }
 
+    public struct RandomSplitActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Branches", required: false, type: .list)
+        ]
+
+        /// The paths for the activity, including the percentage of participants to enter each path and the activity to perform for each path.
+        public let branches: [RandomSplitEntry]?
+
+        public init(branches: [RandomSplitEntry]? = nil) {
+            self.branches = branches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branches = "Branches"
+        }
+    }
+
+    public struct RandomSplitEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextActivity", required: false, type: .string), 
+            AWSShapeMember(label: "Percentage", required: false, type: .integer)
+        ]
+
+        /// The unique identifier for the next activity to perform, after completing the activity for the path.
+        public let nextActivity: String?
+        /// The percentage of participants to send down the activity path.
+        public let percentage: Int?
+
+        public init(nextActivity: String? = nil, percentage: Int? = nil) {
+            self.nextActivity = nextActivity
+            self.percentage = percentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextActivity = "NextActivity"
+            case percentage = "Percentage"
+        }
+    }
+
     public struct RawEmail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Data", required: false, type: .blob)
@@ -6990,7 +7903,7 @@ extension Pinpoint {
 
         /// An array of objects that defines the field and field values that were used to group data in a result set that contains multiple results. This value is null if the data in a result set isn’t grouped.
         public let groupedBys: [ResultRowValue]
-        /// An array of objects that provides pre-aggregated values for a standard metric that applies to an application or campaign.
+        /// An array of objects that provides pre-aggregated values for a standard metric that applies to an application, campaign, or journey.
         public let values: [ResultRowValue]
 
         public init(groupedBys: [ResultRowValue], values: [ResultRowValue]) {
@@ -7011,9 +7924,9 @@ extension Pinpoint {
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
 
-        /// The name of the field that Amazon Pinpoint uses to store the value specified by the Value property.
+        /// The friendly name of the metric whose value is specified by the Value property.
         public let key: String
-        ///  The data type of the value specified by the Value property.
+        /// The data type of the value specified by the Value property.
         public let `type`: String
         /// In a Values object, the value for the metric that the query retrieved data for. In a GroupedBys object, the value for the field that was used to group data in a result set that contains multiple results (Values objects).
         public let value: String
@@ -7215,6 +8128,7 @@ extension Pinpoint {
             AWSShapeMember(label: "TemplateType", required: true, type: .enum)
         ]
 
+        /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
         /// The message body that's used in text messages that are based on the message template.
         public let body: String?
@@ -7261,7 +8175,7 @@ extension Pinpoint {
             AWSShapeMember(label: "Timezone", required: false, type: .string)
         ]
 
-        /// The scheduled time, in ISO 8601 format, for the campaign to end.
+        /// The scheduled time, in ISO 8601 format, when the campaign ended or will end.
         public let endTime: String?
         /// The type of event that causes the campaign to be sent, if the value of the Frequency property is EVENT.
         public let eventFilter: CampaignEventFilter?
@@ -7271,7 +8185,7 @@ extension Pinpoint {
         public let isLocalTime: Bool?
         /// The default quiet time for the campaign. Quiet time is a specific time range when a campaign doesn't send messages to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the campaign. The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the campaign. If any of the preceding conditions isn't met, the endpoint will receive messages from the campaign, even if quiet time is enabled.
         public let quietTime: QuietTime?
-        /// The scheduled time, in ISO 8601 format, for the campaign to begin.
+        /// The scheduled time, in ISO 8601 format, when the campaign began or will begin.
         public let startTime: String
         /// The starting UTC offset for the campaign schedule, if the value of the IsLocalTime property is true. Valid values are: UTC, UTC+01, UTC+02, UTC+03, UTC+03:30, UTC+04, UTC+04:30, UTC+05,
         ///                   UTC+05:30, UTC+05:45, UTC+06, UTC+06:30, UTC+07, UTC+08, UTC+09, UTC+09:30,
@@ -7314,6 +8228,23 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case recency = "Recency"
+        }
+    }
+
+    public struct SegmentCondition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SegmentId", required: true, type: .string)
+        ]
+
+        /// The unique identifier for the segment to associate with the activity.
+        public let segmentId: String
+
+        public init(segmentId: String) {
+            self.segmentId = segmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentId = "SegmentId"
         }
     }
 
@@ -7839,6 +8770,33 @@ extension Pinpoint {
         }
     }
 
+    public struct SimpleCondition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventCondition", required: false, type: .structure), 
+            AWSShapeMember(label: "SegmentCondition", required: false, type: .structure), 
+            AWSShapeMember(label: "SegmentDimensions", location: .body(locationName: "segmentDimensions"), required: false, type: .structure)
+        ]
+
+        /// The dimension settings for the event that's associated with the activity.
+        public let eventCondition: EventCondition?
+        /// The segment that's associated with the activity.
+        public let segmentCondition: SegmentCondition?
+        /// The dimension settings for the segment that's associated with the activity.
+        public let segmentDimensions: SegmentDimensions?
+
+        public init(eventCondition: EventCondition? = nil, segmentCondition: SegmentCondition? = nil, segmentDimensions: SegmentDimensions? = nil) {
+            self.eventCondition = eventCondition
+            self.segmentCondition = segmentCondition
+            self.segmentDimensions = segmentDimensions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventCondition = "EventCondition"
+            case segmentCondition = "SegmentCondition"
+            case segmentDimensions = "segmentDimensions"
+        }
+    }
+
     public struct SimpleEmail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HtmlPart", required: false, type: .structure), 
@@ -7895,6 +8853,37 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
+    public struct StartCondition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SegmentStartCondition", required: false, type: .structure)
+        ]
+
+        /// The custom description of the condition.
+        public let description: String?
+        /// The segment that's associated with the first activity in the journey. This segment determines which users are participants in the journey.
+        public let segmentStartCondition: SegmentCondition?
+
+        public init(description: String? = nil, segmentStartCondition: SegmentCondition? = nil) {
+            self.description = description
+            self.segmentStartCondition = segmentStartCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case segmentStartCondition = "SegmentStartCondition"
+        }
+    }
+
+    public enum State: String, CustomStringConvertible, Codable {
+        case draft = "DRAFT"
+        case active = "ACTIVE"
+        case completed = "COMPLETED"
+        case cancelled = "CANCELLED"
+        case closed = "CLOSED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct TagResourceRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "TagsModel"
@@ -7922,7 +8911,7 @@ extension Pinpoint {
             AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: true, type: .map)
         ]
 
-        /// A string-to-string map of key-value pairs that defines the tags for an application, campaign, message template, or segment. Each project, campaign, message template, or segment can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
+        /// A string-to-string map of key-value pairs that defines the tags for an application, campaign, journey, message template, or segment. Each of these resources can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]
 
         public init(tags: [String: String]) {
@@ -8023,6 +9012,7 @@ extension Pinpoint {
     public enum TemplateType: String, CustomStringConvertible, Codable {
         case email = "EMAIL"
         case sms = "SMS"
+        case voice = "VOICE"
         case push = "PUSH"
         public var description: String { return self.rawValue }
     }
@@ -8069,9 +9059,9 @@ extension Pinpoint {
         public let schedule: Schedule?
         /// The allocated percentage of users (segment members) that the treatment is sent to.
         public let sizePercent: Int
-        /// The status of the treatment.
+        /// The current status of the treatment.
         public let state: CampaignState?
-        /// The message template that’s used for the treatment.
+        /// The message template to use for the treatment.
         public let templateConfiguration: TemplateConfiguration?
         /// The custom description of the treatment.
         public let treatmentDescription: String?
@@ -8673,6 +9663,94 @@ extension Pinpoint {
         }
     }
 
+    public struct UpdateJourneyRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "WriteJourneyRequest"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JourneyId", location: .uri(locationName: "journey-id"), required: true, type: .string), 
+            AWSShapeMember(label: "WriteJourneyRequest", required: true, type: .structure)
+        ]
+
+        public let applicationId: String
+        public let journeyId: String
+        public let writeJourneyRequest: WriteJourneyRequest
+
+        public init(applicationId: String, journeyId: String, writeJourneyRequest: WriteJourneyRequest) {
+            self.applicationId = applicationId
+            self.journeyId = journeyId
+            self.writeJourneyRequest = writeJourneyRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case journeyId = "journey-id"
+            case writeJourneyRequest = "WriteJourneyRequest"
+        }
+    }
+
+    public struct UpdateJourneyResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "JourneyResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JourneyResponse", required: true, type: .structure)
+        ]
+
+        public let journeyResponse: JourneyResponse
+
+        public init(journeyResponse: JourneyResponse) {
+            self.journeyResponse = journeyResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case journeyResponse = "JourneyResponse"
+        }
+    }
+
+    public struct UpdateJourneyStateRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "JourneyStateRequest"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", location: .uri(locationName: "application-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JourneyId", location: .uri(locationName: "journey-id"), required: true, type: .string), 
+            AWSShapeMember(label: "JourneyStateRequest", required: true, type: .structure)
+        ]
+
+        public let applicationId: String
+        public let journeyId: String
+        public let journeyStateRequest: JourneyStateRequest
+
+        public init(applicationId: String, journeyId: String, journeyStateRequest: JourneyStateRequest) {
+            self.applicationId = applicationId
+            self.journeyId = journeyId
+            self.journeyStateRequest = journeyStateRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "application-id"
+            case journeyId = "journey-id"
+            case journeyStateRequest = "JourneyStateRequest"
+        }
+    }
+
+    public struct UpdateJourneyStateResponse: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "JourneyResponse"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JourneyResponse", required: true, type: .structure)
+        ]
+
+        public let journeyResponse: JourneyResponse
+
+        public init(journeyResponse: JourneyResponse) {
+            self.journeyResponse = journeyResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case journeyResponse = "JourneyResponse"
+        }
+    }
+
     public struct UpdatePushTemplateRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "PushNotificationTemplateRequest"
@@ -8904,7 +9982,6 @@ extension Pinpoint {
             AWSShapeMember(label: "IsArchived", required: false, type: .boolean), 
             AWSShapeMember(label: "LastModifiedBy", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
-            AWSShapeMember(label: "OriginationNumber", required: false, type: .string), 
             AWSShapeMember(label: "Platform", required: true, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .integer)
         ]
@@ -8925,13 +10002,12 @@ extension Pinpoint {
         public let lastModifiedBy: String?
         /// The date and time, in ISO 8601 format, when the voice channel was last modified.
         public let lastModifiedDate: String?
-        public let originationNumber: String?
         /// The type of messaging or notification platform for the channel. For the voice channel, this value is VOICE.
         public let platform: String
         /// The current version of the voice channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, originationNumber: String? = nil, platform: String, version: Int? = nil) {
+        public init(applicationId: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, hasCredential: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, platform: String, version: Int? = nil) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -8940,7 +10016,6 @@ extension Pinpoint {
             self.isArchived = isArchived
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedDate = lastModifiedDate
-            self.originationNumber = originationNumber
             self.platform = platform
             self.version = version
         }
@@ -8954,7 +10029,6 @@ extension Pinpoint {
             case isArchived = "IsArchived"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedDate = "LastModifiedDate"
-            case originationNumber = "OriginationNumber"
             case platform = "Platform"
             case version = "Version"
         }
@@ -8997,6 +10071,50 @@ extension Pinpoint {
         }
     }
 
+    public struct WaitActivity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextActivity", required: false, type: .string), 
+            AWSShapeMember(label: "WaitTime", required: false, type: .structure)
+        ]
+
+        /// The unique identifier for the next activity to perform, after performing the wait activity.
+        public let nextActivity: String?
+        /// The amount of time to wait or the date and time when the activity moves participants to the next activity in the journey.
+        public let waitTime: WaitTime?
+
+        public init(nextActivity: String? = nil, waitTime: WaitTime? = nil) {
+            self.nextActivity = nextActivity
+            self.waitTime = waitTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextActivity = "NextActivity"
+            case waitTime = "WaitTime"
+        }
+    }
+
+    public struct WaitTime: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WaitFor", required: false, type: .string), 
+            AWSShapeMember(label: "WaitUntil", required: false, type: .string)
+        ]
+
+        /// The amount of time, as a duration in ISO 8601 format, to wait before determining whether the activity's conditions have been met or moving participants to the next activity in the journey.
+        public let waitFor: String?
+        /// The date and time, in ISO 8601 format, when Amazon Pinpoint determines whether the activity's conditions have been met or the activity moves participants to the next activity in the journey.
+        public let waitUntil: String?
+
+        public init(waitFor: String? = nil, waitUntil: String? = nil) {
+            self.waitFor = waitFor
+            self.waitUntil = waitUntil
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case waitFor = "WaitFor"
+            case waitUntil = "WaitUntil"
+        }
+    }
+
     public struct WriteApplicationSettingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CampaignHook", required: false, type: .structure), 
@@ -9011,7 +10129,7 @@ extension Pinpoint {
         public let cloudWatchMetricsEnabled: Bool?
         /// The default sending limits for campaigns in the application. To override these limits for a specific campaign, use the Campaign resource to define custom limits for the campaign.
         public let limits: CampaignLimits?
-        /// The default quiet time for campaigns in the application. Quiet time is a specific time range when campaigns don't send messages to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign, even if quiet time is enabled. To override the default quiet time settings for a specific campaign, use the Campaign resource to define a custom quiet time for the campaign.
+        /// The default quiet time for campaigns and journeys in the application. Quiet time is a specific time range when messages aren't sent to endpoints, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint is set to a valid value. The current time in the endpoint's time zone is later than or equal to the time specified by the QuietTime.Start property for the application (or a campaign or journey that has custom quiet time settings). The current time in the endpoint's time zone is earlier than or equal to the time specified by the QuietTime.End property for the application (or a campaign or journey that has custom quiet time settings). If any of the preceding conditions isn't met, the endpoint will receive messages from a campaign or journey, even if quiet time is enabled. To override the default quiet time settings for a specific campaign or journey, use the Campaign resource or the Journey resource to define a custom quiet time for the campaign or journey.
         public let quietTime: QuietTime?
 
         public init(campaignHook: CampaignHook? = nil, cloudWatchMetricsEnabled: Bool? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
@@ -9137,6 +10255,78 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case destinationStreamArn = "DestinationStreamArn"
             case roleArn = "RoleArn"
+        }
+    }
+
+    public struct WriteJourneyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Activities", required: false, type: .map), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .string), 
+            AWSShapeMember(label: "Limits", required: false, type: .structure), 
+            AWSShapeMember(label: "LocalTime", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "QuietTime", required: false, type: .structure), 
+            AWSShapeMember(label: "RefreshFrequency", required: false, type: .string), 
+            AWSShapeMember(label: "Schedule", required: false, type: .structure), 
+            AWSShapeMember(label: "StartActivity", required: false, type: .string), 
+            AWSShapeMember(label: "StartCondition", required: false, type: .structure), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+
+        /// The configuration and other settings for the activities that comprise the journey.
+        public let activities: [String: Activity]?
+        /// The date, in ISO 8601 format, when the journey was created.
+        public let creationDate: String?
+        /// The date, in ISO 8601 format, when the journey was last modified.
+        public let lastModifiedDate: String?
+        /// The messaging and entry limits for the journey.
+        public let limits: JourneyLimits?
+        /// Specifies whether the journey's scheduled start and end times use each participant's local time. To base the schedule on each participant's local time, set this value to true.
+        public let localTime: Bool?
+        /// The name of the journey. A journey name can contain a maximum of 150 characters. The characters can be alphanumeric characters or symbols, such as underscores (_) or hyphens (-). A journey name can't contain any spaces.
+        public let name: String
+        /// The quiet time settings for the journey. Quiet time is a specific time range when a journey doesn't send messages to participants, if all the following conditions are met: The EndpointDemographic.Timezone property of the endpoint for the participant is set to a valid value. The current time in the participant's time zone is later than or equal to the time specified by the QuietTime.Start property for the journey. The current time in the participant's time zone is earlier than or equal to the time specified by the QuietTime.End property for the journey. If any of the preceding conditions isn't met, the participant will receive messages from the journey, even if quiet time is enabled.
+        public let quietTime: QuietTime?
+        /// The frequency with which Amazon Pinpoint evaluates segment and event data for the journey, as a duration in ISO 8601 format.
+        public let refreshFrequency: String?
+        /// The schedule settings for the journey.
+        public let schedule: JourneySchedule?
+        /// The unique identifier for the first activity in the journey.
+        public let startActivity: String?
+        /// The segment that defines which users are participants in the journey.
+        public let startCondition: StartCondition?
+        /// The status of the journey. Valid values are: DRAFT - Saves the journey and doesn't publish it. ACTIVE - Saves and publishes the journey. Depending on the journey's schedule, the journey starts running immediately or at the scheduled start time. If a journey's status is ACTIVE, you can't add, change, or remove activities from it. The CANCELLED, COMPLETED, and CLOSED values are not supported in requests to create or update a journey. To cancel a journey, use the Journey State resource.
+        public let state: State?
+
+        public init(activities: [String: Activity]? = nil, creationDate: String? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, schedule: JourneySchedule? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil) {
+            self.activities = activities
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.limits = limits
+            self.localTime = localTime
+            self.name = name
+            self.quietTime = quietTime
+            self.refreshFrequency = refreshFrequency
+            self.schedule = schedule
+            self.startActivity = startActivity
+            self.startCondition = startCondition
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activities = "Activities"
+            case creationDate = "CreationDate"
+            case lastModifiedDate = "LastModifiedDate"
+            case limits = "Limits"
+            case localTime = "LocalTime"
+            case name = "Name"
+            case quietTime = "QuietTime"
+            case refreshFrequency = "RefreshFrequency"
+            case schedule = "Schedule"
+            case startActivity = "StartActivity"
+            case startCondition = "StartCondition"
+            case state = "State"
         }
     }
 

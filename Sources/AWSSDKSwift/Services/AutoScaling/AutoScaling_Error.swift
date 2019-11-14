@@ -20,17 +20,17 @@ extension AutoScalingErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
-        case "AlreadyExistsFault":
+        case "AlreadyExists":
             self = .alreadyExistsFault(message: message)
         case "InvalidNextToken":
             self = .invalidNextToken(message: message)
-        case "LimitExceededFault":
+        case "LimitExceeded":
             self = .limitExceededFault(message: message)
-        case "ResourceContentionFault":
+        case "ResourceContention":
             self = .resourceContentionFault(message: message)
-        case "ResourceInUseFault":
+        case "ResourceInUse":
             self = .resourceInUseFault(message: message)
-        case "ScalingActivityInProgressFault":
+        case "ScalingActivityInProgress":
             self = .scalingActivityInProgressFault(message: message)
         case "ServiceLinkedRoleFailure":
             self = .serviceLinkedRoleFailure(message: message)
@@ -44,17 +44,17 @@ extension AutoScalingErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
         case .alreadyExistsFault(let message):
-            return "AlreadyExistsFault: \(message ?? "")"
+            return "AlreadyExists: \(message ?? "")"
         case .invalidNextToken(let message):
             return "InvalidNextToken: \(message ?? "")"
         case .limitExceededFault(let message):
-            return "LimitExceededFault: \(message ?? "")"
+            return "LimitExceeded: \(message ?? "")"
         case .resourceContentionFault(let message):
-            return "ResourceContentionFault: \(message ?? "")"
+            return "ResourceContention: \(message ?? "")"
         case .resourceInUseFault(let message):
-            return "ResourceInUseFault: \(message ?? "")"
+            return "ResourceInUse: \(message ?? "")"
         case .scalingActivityInProgressFault(let message):
-            return "ScalingActivityInProgressFault: \(message ?? "")"
+            return "ScalingActivityInProgress: \(message ?? "")"
         case .serviceLinkedRoleFailure(let message):
             return "ServiceLinkedRoleFailure: \(message ?? "")"
         }

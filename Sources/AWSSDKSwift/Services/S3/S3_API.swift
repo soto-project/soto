@@ -10,7 +10,7 @@ public struct S3 {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         let middlewares = [S3RequestMiddleware()] + middlewares
         self.client = AWSClient(
             accessKeyId: accessKeyId,
@@ -24,7 +24,8 @@ public struct S3 {
             serviceEndpoints: ["ap-east-1": "s3.ap-east-1.amazonaws.com", "ap-northeast-1": "s3.ap-northeast-1.amazonaws.com", "ap-northeast-2": "s3.ap-northeast-2.amazonaws.com", "ap-south-1": "s3.ap-south-1.amazonaws.com", "ap-southeast-1": "s3.ap-southeast-1.amazonaws.com", "ap-southeast-2": "s3.ap-southeast-2.amazonaws.com", "ca-central-1": "s3.ca-central-1.amazonaws.com", "eu-central-1": "s3.eu-central-1.amazonaws.com", "eu-north-1": "s3.eu-north-1.amazonaws.com", "eu-west-1": "s3.eu-west-1.amazonaws.com", "eu-west-2": "s3.eu-west-2.amazonaws.com", "eu-west-3": "s3.eu-west-3.amazonaws.com", "me-south-1": "s3.me-south-1.amazonaws.com", "s3-external-1": "s3-external-1.amazonaws.com", "sa-east-1": "s3.sa-east-1.amazonaws.com", "us-east-1": "s3.amazonaws.com", "us-east-2": "s3.us-east-2.amazonaws.com", "us-west-1": "s3.us-west-1.amazonaws.com", "us-west-2": "s3.us-west-2.amazonaws.com"],
             partitionEndpoint: "us-east-1",
             middlewares: middlewares,
-            possibleErrorTypes: [S3ErrorType.self]
+            possibleErrorTypes: [S3ErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 

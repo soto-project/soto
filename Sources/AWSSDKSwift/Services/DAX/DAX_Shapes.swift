@@ -125,7 +125,7 @@ extension DAX {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// The Availability Zones (AZs) in which the cluster nodes will be created. All nodes belonging to the cluster are placed in these Availability Zones. Use this parameter if you want to distribute the nodes across multiple AZs.
+        /// The Availability Zones (AZs) in which the cluster nodes will reside after the cluster has been created or updated. If provided, the length of this list must equal the ReplicationFactor parameter. If you omit this parameter, DAX will spread the nodes across Availability Zones for the highest availability.
         public let availabilityZones: [String]?
         /// The cluster identifier. This parameter is stored as a lowercase string.  Constraints:    A name must contain from 1 to 20 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.  
         public let clusterName: String
@@ -141,7 +141,7 @@ extension DAX {
         public let parameterGroupName: String?
         /// Specifies the weekly time range during which maintenance on the DAX cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:05:00-sun:09:00   If you don't specify a preferred maintenance window when you create or modify a cache cluster, DAX assigns a 60-minute maintenance window on a randomly selected day of the week. 
         public let preferredMaintenanceWindow: String?
-        /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to 2 or more.  AWS recommends that you have at least two read replicas per cluster. 
+        /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to a number between 3 (one primary and two read replicas) and 10 (one primary and nine read replicas). If the AvailabilityZones parameter is provided, its length must equal the ReplicationFactor.  AWS recommends that you have at least two read replicas per cluster. 
         public let replicationFactor: Int
         /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node.
         public let securityGroupIds: [String]?
@@ -1240,7 +1240,7 @@ extension DAX {
             AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string)
         ]
 
-        /// The Availability Zone (AZ) for subnet subnet.
+        /// The Availability Zone (AZ) for the subnet.
         public let subnetAvailabilityZone: String?
         /// The system-assigned identifier for the subnet.
         public let subnetIdentifier: String?

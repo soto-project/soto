@@ -11,7 +11,7 @@ public struct DatabaseMigrationService {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct DatabaseMigrationService {
             apiVersion: "2016-01-01",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [DatabaseMigrationServiceErrorType.self]
+            possibleErrorTypes: [DatabaseMigrationServiceErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 
@@ -47,7 +48,7 @@ public struct DatabaseMigrationService {
         return client.send(operation: "CreateEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates the replication instance using the specified parameters.
+    ///  Creates the replication instance using the specified parameters. AWS DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the AWS CLI and AWS DMS API. For information on the required permissions, see IAM Permissions Needed to Use AWS DMS.
     public func createReplicationInstance(_ input: CreateReplicationInstanceMessage) -> Future<CreateReplicationInstanceResponse> {
         return client.send(operation: "CreateReplicationInstance", path: "/", httpMethod: "POST", input: input)
     }

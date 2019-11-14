@@ -11,7 +11,7 @@ public struct DAX {
 
     public let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil, region: AWSSDKSwiftCore.Region? = nil, endpoint: String? = nil, middlewares: [AWSServiceMiddleware] = [], eventLoopGroupProvider: AWSClient.EventLoopGroupProvider = .useAWSClientShared) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -23,7 +23,8 @@ public struct DAX {
             apiVersion: "2017-04-19",
             endpoint: endpoint,
             middlewares: middlewares,
-            possibleErrorTypes: [DAXErrorType.self]
+            possibleErrorTypes: [DAXErrorType.self],
+            eventLoopGroupProvider: eventLoopGroupProvider
         )
     }
 
@@ -72,7 +73,7 @@ public struct DAX {
         return client.send(operation: "DescribeDefaultParameters", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns events related to DAX clusters and parameter groups. You can obtain events specific to a particular DAX cluster or parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
+    ///  Returns events related to DAX clusters and parameter groups. You can obtain events specific to a particular DAX cluster or parameter group by providing the name as a parameter. By default, only the events occurring within the last 24 hours are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     public func describeEvents(_ input: DescribeEventsRequest) -> Future<DescribeEventsResponse> {
         return client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
@@ -102,7 +103,7 @@ public struct DAX {
         return client.send(operation: "ListTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to REBOOTING.
+    ///  Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to REBOOTING.   RebootNode restarts the DAX engine process and does not remove the contents of the cache.  
     public func rebootNode(_ input: RebootNodeRequest) -> Future<RebootNodeResponse> {
         return client.send(operation: "RebootNode", path: "/", httpMethod: "POST", input: input)
     }
