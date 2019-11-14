@@ -45,14 +45,6 @@ class APIGatewayTests: XCTestCase {
         }
     }
 
-    /// setup test
-    func setup(_ testData: inout TestData) throws {
-    }
-    
-    /// teardown test
-    func tearDown(_ testData: TestData) {
-    }
-    
     //MARK: TESTS
     
     func testGetRestApis() {

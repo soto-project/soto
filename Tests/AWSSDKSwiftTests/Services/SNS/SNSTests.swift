@@ -40,8 +40,8 @@ class SNSTests: XCTestCase {
         
         deinit {
             attempt {
-             //   let request = SNS.DeleteTopicInput(topicArn: self.topicArn)
-               // _ = try client.deleteTopic(request).wait()
+                let request = SNS.DeleteTopicInput(topicArn: self.topicArn)
+                _ = try client.deleteTopic(request).wait()
             }
         }
     }
@@ -81,6 +81,7 @@ class SNSTests: XCTestCase {
 
     static var allTests : [(String, (SNSTests) -> () throws -> Void)] {
         return [
+            ("testCreateDelete", testCreateDelete),
             ("testListTopics", testListTopics),
             ("testSetTopicAttributes", testSetTopicAttributes),
         ]

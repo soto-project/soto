@@ -248,7 +248,7 @@ class S3Tests: XCTestCase {
                 responses.append(response)
             }
 
-            _ = try EventLoopFuture.whenAllSucceed(responses, on: AWSClient.eventGroup.next()).wait()
+            _ = try EventLoopFuture.whenAllSucceed(responses, on: client.client.eventLoopGroup.next()).wait()
         }
      }
 
@@ -263,7 +263,7 @@ class S3Tests: XCTestCase {
                 if let token = response.nextContinuationToken {
                     return listObjectsPart(token: token)
                 } else {
-                    return AWSClient.eventGroup.next().makeSucceededFuture(list)
+                    return self.client.client.eventLoopGroup.next().makeSucceededFuture(list)
                 }
             }
             return objects
@@ -286,7 +286,7 @@ class S3Tests: XCTestCase {
                 let response = client.putObject(request).map { _ in }
                 responses.append(response)
             }
-            _ = try EventLoopFuture.whenAllSucceed(responses, on: AWSClient.eventGroup.next()).wait()
+            _ = try EventLoopFuture.whenAllSucceed(responses, on: client.client.eventLoopGroup.next()).wait()
 
             let list = try listObjects(bucket: testData.bucket, count:5).wait()
             XCTAssertEqual(list.count, 16)
