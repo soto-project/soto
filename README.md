@@ -17,7 +17,7 @@ AWSSDKSwift works on both Linux, macOS and iOS. Version 4 is dependent on swift-
 
 ## Documentation
 
-Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) for instructions and browsing api references.
+Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-swift/index.html) to browse the api reference.
 
 ## Installation
 
