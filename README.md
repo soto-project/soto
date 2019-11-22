@@ -1,7 +1,6 @@
-# aws-sdk-swift
+# AWS SDK Swift
 
-AWS SDK for the Swift programming language.
-This library doesn't depend on Objective-C Runtime, So you can use this with Linux.
+AWS SDK for the Swift programming language working on Linux, macOS and iOS.
 
 [<img src="http://img.shields.io/badge/swift-5.0-brightgreen.svg" alt="Swift 5.0" />](https://swift.org)
 [<img src="https://travis-ci.org/swift-aws/aws-sdk-swift.svg?branch=master">](https://travis-ci.org/swift-aws/aws-sdk-swift)
@@ -144,6 +143,14 @@ func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
 
 The simplest way to upgrade from an existing 1.0 or 2.0 implementation is to call `.wait()` on existing synchronous calls. However it is recommend to rewrite your synchronous code to work with the returned future objects. It is no longer necessary to use a DispatchQueue.
 
+## EventLoopGroup management
+
+The AWS SDK has its own `EventLoopGroup` but it is recommended that you provide your own `EventLoopGroup` for the SDK to work off. You can do this when you construct your client.
+```
+let s3 = S3(region:.uswest2, eventLoopGroupProvider: .shared(myEventLoopGroup)
+```
+The EventLoopGroup types you can use depend on the platform you are running on. On Linux use `MultiThreadedEventLoopGroup`, on macOS use `MultiThreadedEventLoopGroup` or `NIOTSEventLoopGroup` and iOS use `NIOTSEventLoopGroup`. Using the `NIOTSEventLoopGroup` will mean you use [NIO Transport Services](https://github.com/apple/swift-nio-transport-services) and the Apple Network framework.
+
 ## Using `aws-sdk-swift` with Vapor
 
 Integration with Vapor is pretty straight forward. Although be sure you use the correct version of AWSSDKSwift depending on which version of Vapor you are using. See the compatibility section for details. Below is a simple Vapor 3 example.
@@ -177,7 +184,7 @@ final class MyController {
     }
 }
 ```
-
+<!--
 ## Using the `aws-sdk-swift` with the swift REPL (OS X)
 
 
@@ -199,7 +206,7 @@ s3.createBucket(createBucketRequest).whenSuccess { response in
 }
 
 ```
-
+-->
 ## Speed Up Compilation
 
 By specifying only those modules necessary for your application, only those modules will compile which makes for fast compilation.
