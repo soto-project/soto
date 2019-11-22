@@ -153,7 +153,7 @@ The EventLoopGroup types you can use depend on the platform you are running on. 
 
 ## Using `aws-sdk-swift` with Vapor
 
-Integration with Vapor is pretty straight forward. Although be sure you use the correct version of AWSSDKSwift depending on which version of Vapor you are using. See the compatibility section for details. Below is a simple Vapor 3 example.
+Integration with Vapor is pretty straight forward. Although be sure you use the correct version of AWSSDKSwift depending on which version of Vapor you are using. See the compatibility section for details. Below is a simple Vapor 3 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If your AWS SDK is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
 
 ```swift
 import Vapor
