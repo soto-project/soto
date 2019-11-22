@@ -154,24 +154,27 @@ import HTTP
 import SES
 
 final class MyController {
+    struct EmailData: Content {
+        let address: String
+        let subject: String
+        let message: String
+    }
+    func sendUserEmailFromJSON(_ req: Request) throws -> Future<HTTPStatus> {
+        return try req.content.decode(EmailData.self)
+            .flatMap { (emailData)->EventLoopFuture<SES.SendEmailResponse> in
+                let client = SES(region: .uswest1)
 
-     func sendUserEmailFromJSON(_ req: Request) throws -> Future<HTTPStatus> {
-          return try req.content.decode(EmailData.self).map { emailData in
-              return emailData
-          }
-          .flatMap { emailData -> Future<HTTPStatus> in
-              let client = SES(region: .uswest1)
+                let destination = SES.Destination(toAddresses: [emailData.address])
+                let message = SES.Message(body:SES.Body(text:SES.Content(data:emailData.message)), subject:SES.Content(data:emailData.subject))
+                let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source:"awssdkswift@me.com")
 
-              let sendEmailRequest = SES.SendEmailRequest(destination: emailData.address, message: emailData.message)
-
-              return client.sendEmail(sendEmailRequest)
-                .hopTo(eventLoop: req.eventLoop)
-                .map { response -> HTTPResponseStatus in
-                  // print(response)
-                  return HTTPStatus.ok
-              }
-          }
-     }
+                return client.sendEmail(sendEmailRequest)
+            }
+            .hopTo(eventLoop: req.eventLoop)
+            .map { response -> HTTPResponseStatus in
+                return HTTPStatus.ok
+        }
+    }
 }
 ```
 
