@@ -12,20 +12,15 @@ custom_categories:
       - ACM
       - ACMErrorType
 
-  - name: ACMPCA
-    children:
-      - ACMPCA
-      - ACMPCAErrorType
-
   - name: APIGateway
     children:
       - APIGateway
       - APIGatewayErrorType
 
-  - name: AlexaForBusiness
+  - name: ACMPCA
     children:
-      - AlexaForBusiness
-      - AlexaForBusinessErrorType
+      - ACMPCA
+      - ACMPCAErrorType
 
   - name: AWSBackup
     children:
@@ -37,15 +32,20 @@ custom_categories:
       - AWSDirectoryService
       - AWSDirectoryServiceErrorType
 
-  - name: ApiGatewayManagementApi
+  - name: AlexaForBusiness
     children:
-      - ApiGatewayManagementApi
-      - ApiGatewayManagementApiErrorType
+      - AlexaForBusiness
+      - AlexaForBusinessErrorType
 
   - name: Amplify
     children:
       - Amplify
       - AmplifyErrorType
+
+  - name: ApiGatewayManagementApi
+    children:
+      - ApiGatewayManagementApi
+      - ApiGatewayManagementApiErrorType
 
   - name: ApiGatewayV2
     children:
@@ -62,15 +62,15 @@ custom_categories:
       - AppStream
       - AppStreamErrorType
 
-  - name: AppSync
-    children:
-      - AppSync
-      - AppSyncErrorType
-
   - name: ApplicationAutoScaling
     children:
       - ApplicationAutoScaling
       - ApplicationAutoScalingErrorType
+
+  - name: AppSync
+    children:
+      - AppSync
+      - AppSyncErrorType
 
   - name: ApplicationDiscoveryService
     children:
@@ -112,15 +112,15 @@ custom_categories:
       - Chime
       - ChimeErrorType
 
-  - name: Cloud9
-    children:
-      - Cloud9
-      - Cloud9ErrorType
-
   - name: CloudDirectory
     children:
       - CloudDirectory
       - CloudDirectoryErrorType
+
+  - name: Cloud9
+    children:
+      - Cloud9
+      - Cloud9ErrorType
 
   - name: CloudFormation
     children:
@@ -142,15 +142,15 @@ custom_categories:
       - CloudHSMV2
       - CloudHSMV2ErrorType
 
-  - name: CloudSearch
-    children:
-      - CloudSearch
-      - CloudSearchErrorType
-
   - name: CloudSearchDomain
     children:
       - CloudSearchDomain
       - CloudSearchDomainErrorType
+
+  - name: CloudSearch
+    children:
+      - CloudSearch
+      - CloudSearchErrorType
 
   - name: CloudTrail
     children:
@@ -191,6 +191,11 @@ custom_categories:
     children:
       - CodePipeline
       - CodePipelineErrorType
+
+  - name: CodeStarNotifications
+    children:
+      - CodeStarNotifications
+      - CodeStarNotificationsErrorType
 
   - name: CodeStar
     children:
@@ -352,15 +357,20 @@ custom_categories:
       - ElasticTranscoder
       - ElasticTranscoderErrorType
 
-  - name: FMS
-    children:
-      - FMS
-      - FMSErrorType
-
   - name: ElasticsearchService
     children:
       - ElasticsearchService
       - ElasticsearchServiceErrorType
+
+  - name: EventBridge
+    children:
+      - EventBridge
+      - EventBridgeErrorType
+
+  - name: FMS
+    children:
+      - FMS
+      - FMSErrorType
 
   - name: FSx
     children:
@@ -371,6 +381,16 @@ custom_categories:
     children:
       - Firehose
       - FirehoseErrorType
+
+  - name: ForecastQueryService
+    children:
+      - ForecastQueryService
+      - ForecastQueryServiceErrorType
+
+  - name: ForecastService
+    children:
+      - ForecastService
+      - ForecastServiceErrorType
 
   - name: GameLift
     children:
@@ -511,6 +531,11 @@ custom_categories:
     children:
       - KinesisVideoMedia
       - KinesisVideoMediaErrorType
+
+  - name: LakeFormation
+    children:
+      - LakeFormation
+      - LakeFormationErrorType
 
   - name: Lambda
     children:
@@ -697,6 +722,16 @@ custom_categories:
       - Pricing
       - PricingErrorType
 
+  - name: QLDB
+    children:
+      - QLDB
+      - QLDBErrorType
+
+  - name: QLDBSession
+    children:
+      - QLDBSession
+      - QLDBSessionErrorType
+
   - name: QuickSight
     children:
       - QuickSight
@@ -757,6 +792,11 @@ custom_categories:
       - Route53Resolver
       - Route53ResolverErrorType
 
+  - name: S3+multipart
+    children:
+      - S3+multipart
+      - S3+multipartErrorType
+
   - name: S3
     children:
       - S3
@@ -797,6 +837,16 @@ custom_categories:
       - SSM
       - SSMErrorType
 
+  - name: SSO
+    children:
+      - SSO
+      - SSOErrorType
+
+  - name: SSOOIDC
+    children:
+      - SSOOIDC
+      - SSOOIDCErrorType
+
   - name: STS
     children:
       - STS
@@ -816,6 +866,11 @@ custom_categories:
     children:
       - SageMakerRuntime
       - SageMakerRuntimeErrorType
+
+  - name: SavingsPlans
+    children:
+      - SavingsPlans
+      - SavingsPlansErrorType
 
   - name: SecretsManager
     children:
@@ -921,6 +976,11 @@ custom_categories:
     children:
       - WorkMail
       - WorkMailErrorType
+
+  - name: WorkMailMessageFlow
+    children:
+      - WorkMailMessageFlow
+      - WorkMailMessageFlowErrorType
 
   - name: WorkSpaces
     children:

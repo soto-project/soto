@@ -62,7 +62,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -180,7 +179,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.storageClassAnalysis.validate(name: "\(name).storageClassAnalysis")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -200,10 +198,6 @@ extension S3 {
 
         public init(s3BucketDestination: AnalyticsS3BucketDestination) {
             self.s3BucketDestination = s3BucketDestination
-        }
-
-        public func validate(name: String) throws {
-            try self.s3BucketDestination.validate(name: "\(name).s3BucketDestination")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -265,10 +259,6 @@ extension S3 {
             self.bucketAccountId = bucketAccountId
             self.format = format
             self.prefix = prefix
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -659,7 +649,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -954,7 +943,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.copySource, name:"copySource", parent: name, pattern: "\\/.+\\/.+")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
@@ -1118,10 +1106,6 @@ extension S3 {
             self.grantWrite = grantWrite
             self.grantWriteACP = grantWriteACP
             self.objectLockEnabledForBucket = objectLockEnabledForBucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1317,7 +1301,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -1422,10 +1405,6 @@ extension S3 {
             self.id = id
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case id = "id"
@@ -1443,10 +1422,6 @@ extension S3 {
             self.bucket = bucket
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
         }
@@ -1462,10 +1437,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1489,10 +1460,6 @@ extension S3 {
             self.id = id
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case id = "id"
@@ -1508,10 +1475,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1535,10 +1498,6 @@ extension S3 {
             self.id = id
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case id = "id"
@@ -1554,10 +1513,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1577,10 +1532,6 @@ extension S3 {
             self.bucket = bucket
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
         }
@@ -1595,10 +1546,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1617,10 +1564,6 @@ extension S3 {
             self.bucket = bucket
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
         }
@@ -1635,10 +1578,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1761,7 +1700,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -1811,7 +1749,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -1875,7 +1812,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try self.delete.validate(name: "\(name).delete")
         }
 
@@ -1898,10 +1834,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1963,10 +1895,6 @@ extension S3 {
             self.bucket = bucket
             self.encryptionConfiguration = encryptionConfiguration
             self.storageClass = storageClass
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2166,10 +2094,6 @@ extension S3 {
             self.bucket = bucket
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
         }
@@ -2205,10 +2129,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2251,10 +2171,6 @@ extension S3 {
             self.id = id
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case id = "id"
@@ -2286,10 +2202,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2325,10 +2237,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2371,10 +2279,6 @@ extension S3 {
             self.id = id
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case id = "id"
@@ -2406,10 +2310,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2444,10 +2344,6 @@ extension S3 {
             self.bucket = bucket
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
         }
@@ -2480,10 +2376,6 @@ extension S3 {
             self.bucket = bucket
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
         }
@@ -2514,10 +2406,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2560,10 +2448,6 @@ extension S3 {
             self.id = id
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case id = "id"
@@ -2580,10 +2464,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2619,10 +2499,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2661,10 +2537,6 @@ extension S3 {
             self.bucket = bucket
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
         }
@@ -2697,10 +2569,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2736,10 +2604,6 @@ extension S3 {
             self.bucket = bucket
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
         }
@@ -2770,10 +2634,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2812,10 +2672,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2860,10 +2716,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2918,7 +2770,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -2973,7 +2824,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -3014,10 +2864,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3272,7 +3118,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -3342,7 +3187,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -3392,7 +3236,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -3443,7 +3286,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -3483,10 +3325,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3578,10 +3416,6 @@ extension S3 {
 
         public init(bucket: String) {
             self.bucket = bucket
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3795,7 +3629,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -3923,10 +3756,6 @@ extension S3 {
             self.schedule = schedule
         }
 
-        public func validate(name: String) throws {
-            try self.destination.validate(name: "\(name).destination")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case destination = "Destination"
             case filter = "Filter"
@@ -3948,10 +3777,6 @@ extension S3 {
 
         public init(s3BucketDestination: InventoryS3BucketDestination) {
             self.s3BucketDestination = s3BucketDestination
-        }
-
-        public func validate(name: String) throws {
-            try self.s3BucketDestination.validate(name: "\(name).s3BucketDestination")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4058,10 +3883,6 @@ extension S3 {
             self.encryption = encryption
             self.format = format
             self.prefix = prefix
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4359,10 +4180,6 @@ extension S3 {
             self.continuationToken = continuationToken
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case continuationToken = "continuation-token"
@@ -4417,10 +4234,6 @@ extension S3 {
             self.continuationToken = continuationToken
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case continuationToken = "continuation-token"
@@ -4473,10 +4286,6 @@ extension S3 {
         public init(bucket: String, continuationToken: String? = nil) {
             self.bucket = bucket
             self.continuationToken = continuationToken
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4608,10 +4417,6 @@ extension S3 {
             self.uploadIdMarker = uploadIdMarker
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case delimiter = "delimiter"
@@ -4726,10 +4531,6 @@ extension S3 {
             self.versionIdMarker = versionIdMarker
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case delimiter = "delimiter"
@@ -4828,10 +4629,6 @@ extension S3 {
             self.maxKeys = maxKeys
             self.prefix = prefix
             self.requestPayer = requestPayer
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4961,10 +4758,6 @@ extension S3 {
             self.startAfter = startAfter
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case continuationToken = "continuation-token"
@@ -5087,7 +4880,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -5836,10 +5628,6 @@ extension S3 {
             self.bucket = bucket
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case accelerateConfiguration = "AccelerateConfiguration"
             case bucket = "Bucket"
@@ -5891,10 +5679,6 @@ extension S3 {
             self.grantWriteACP = grantWriteACP
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case accessControlPolicy = "AccessControlPolicy"
             case acl = "x-amz-acl"
@@ -5933,7 +5717,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.analyticsConfiguration.validate(name: "\(name).analyticsConfiguration")
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5963,10 +5746,6 @@ extension S3 {
             self.cORSConfiguration = cORSConfiguration
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case contentMD5 = "Content-MD5"
@@ -5994,10 +5773,6 @@ extension S3 {
             self.bucket = bucket
             self.contentMD5 = contentMD5
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6030,11 +5805,6 @@ extension S3 {
             self.inventoryConfiguration = inventoryConfiguration
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-            try self.inventoryConfiguration.validate(name: "\(name).inventoryConfiguration")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case id = "id"
@@ -6060,7 +5830,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try self.lifecycleConfiguration?.validate(name: "\(name).lifecycleConfiguration")
         }
 
@@ -6090,10 +5859,6 @@ extension S3 {
             self.lifecycleConfiguration = lifecycleConfiguration
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case contentMD5 = "Content-MD5"
@@ -6119,10 +5884,6 @@ extension S3 {
             self.bucket = bucket
             self.bucketLoggingStatus = bucketLoggingStatus
             self.contentMD5 = contentMD5
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6156,7 +5917,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try self.metricsConfiguration.validate(name: "\(name).metricsConfiguration")
         }
 
@@ -6184,10 +5944,6 @@ extension S3 {
             self.notificationConfiguration = notificationConfiguration
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case notificationConfiguration = "NotificationConfiguration"
@@ -6212,10 +5968,6 @@ extension S3 {
             self.bucket = bucket
             self.contentMD5 = contentMD5
             self.notificationConfiguration = notificationConfiguration
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6247,10 +5999,6 @@ extension S3 {
             self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
             self.contentMD5 = contentMD5
             self.policy = policy
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6287,7 +6035,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try self.replicationConfiguration.validate(name: "\(name).replicationConfiguration")
         }
 
@@ -6319,10 +6066,6 @@ extension S3 {
             self.requestPaymentConfiguration = requestPaymentConfiguration
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case contentMD5 = "Content-MD5"
@@ -6351,7 +6094,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try self.tagging.validate(name: "\(name).tagging")
         }
 
@@ -6386,10 +6128,6 @@ extension S3 {
             self.versioningConfiguration = versioningConfiguration
         }
 
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case contentMD5 = "Content-MD5"
@@ -6419,7 +6157,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try self.websiteConfiguration.validate(name: "\(name).websiteConfiguration")
         }
 
@@ -6502,7 +6239,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -6573,7 +6309,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -6631,10 +6366,6 @@ extension S3 {
             self.objectLockConfiguration = objectLockConfiguration
             self.requestPayer = requestPayer
             self.token = token
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6832,7 +6563,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -6925,7 +6655,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -6983,7 +6712,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
             try self.tagging.validate(name: "\(name).tagging")
         }
@@ -7018,10 +6746,6 @@ extension S3 {
             self.bucket = bucket
             self.contentMD5 = contentMD5
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
-        }
-
-        public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7212,7 +6936,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.destination.validate(name: "\(name).destination")
             try self.filter?.validate(name: "\(name).filter")
         }
 
@@ -7391,7 +7114,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
             try self.restoreRequest?.validate(name: "\(name).restoreRequest")
         }
@@ -7586,7 +7308,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucketName, name:"bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try self.tagging?.validate(name: "\(name).tagging")
         }
 
@@ -7702,7 +7423,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 
@@ -7878,10 +7598,6 @@ extension S3 {
             self.dataExport = dataExport
         }
 
-        public func validate(name: String) throws {
-            try self.dataExport?.validate(name: "\(name).dataExport")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dataExport = "DataExport"
         }
@@ -7901,10 +7617,6 @@ extension S3 {
         public init(destination: AnalyticsExportDestination, outputSchemaVersion: StorageClassAnalysisSchemaVersion) {
             self.destination = destination
             self.outputSchemaVersion = outputSchemaVersion
-        }
-
-        public func validate(name: String) throws {
-            try self.destination.validate(name: "\(name).destination")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8219,7 +7931,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.copySource, name:"copySource", parent: name, pattern: "\\/.+\\/.+")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
@@ -8340,7 +8051,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.bucket, name:"bucket", parent: name, pattern: "^[a-z0-9][a-z0-9-]+[a-z0-9]$")
             try validate(self.key, name:"key", parent: name, min: 1)
         }
 

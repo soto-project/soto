@@ -33,6 +33,8 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         if paths.count > 0 {
             guard let host = request.url.host, host.contains("amazonaws.com") else { return }
             let bucket = paths.removeFirst() // bucket
+            // if bucket name contains a period don't do virtual address look up
+            guard !bucket.contains(".") else { return }
             var urlPath: String
             if let firstHostComponent = host.components(separatedBy: ".").first, bucket == firstHostComponent {
                 // Bucket name is part of host. No need to append bucket
