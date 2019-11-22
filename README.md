@@ -24,26 +24,20 @@ Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-sw
 
 ### Swift Package Manager
 
-Package.swift
-
+AWSSDKSwift uses the Swift Package Manager to manager its code dependencies. To use AWSSDKSwift in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
 ```swift
-import PackageDescription
-
-let package = Package(
-    name: "MyAWSApp",
     dependencies: [
-        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "3.3.0")
+        .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "4.0.0")
     ],
+```
+Then add target dependencies for each of the AWSSDKSwift targets you want to use.
+```swift
     targets: [
-      .target(
-          name: "MyAWSApp",
-          dependencies: ["S3", "SES", "CloudFront", "ELBV2", "IAM", "Kinesis"]),
-      .testTarget(
-          name: "MyAWSToolTests",
-          dependencies: ["MyAWSApp"]),
+      .target(name: "MyAWSApp", dependencies: ["S3", "SES", "CloudFront", "ELBV2", "IAM", "Kinesis"]),
     ]
 )
 ```
+Alternatively if you are using Xcode 11+ you can use the Swift Package integration and add a dependency to AWSSDKSwift through that. 
 
 ## Contributing
 
@@ -59,7 +53,7 @@ If you find a security vulnerability, please contact <yuki@miketokyo.com> and re
 
 ## Configuring Credentials
 
-Before using the SDK, ensure that you've configured credentials.
+Before using the SDK, you will need AWS credentials to sign all your requests. Credentials can be accessed in the following ways.
 
 ### Via EC2 Instance Profile
 
@@ -104,6 +98,9 @@ let ec2 = EC2(
     secretAccessKey: "YOUR_AWS_SECRET_ACCESS_KEY"
 )
 ```
+### Without Credentials
+
+Some services like CognitoIdentityProvider don't require credentials to access some of their functions. Explicitly set `accessKeyId` and `secretAccessKey` to "". This will disable all other credential access functions and send requests unsigned.
 
 ## Using `aws-sdk-swift`
 
@@ -111,80 +108,45 @@ AWS Swift Modules can be imported into any swift project. Each module provides a
 
 The underlying aws-sdk-swift httpclient returns a [swift-nio EventLoopFuture object](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html). An EventLoopFuture _is not_ the response, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread.
 
-However, operations that require inspection or use of the response require code to be written in a slightly different manner that equivalent synchronous logic. There are numerous references available online to aid in understanding this concept.
-
-The recommended manner to interact with futures is chaining.
-
-```swift
-import S3 //ensure this module is specified as a dependency in your package.swift
-import NIO
-
-let bucket = "my-bucket"
-
-let s3 = S3(
-    accessKeyId: "Your-Access-Key",
-    secretAccessKey: "Your-Secret-Key",
-    region: .uswest2
-)
-
-// Create Bucket, Put an Object, Get the Object
-let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
-
-s3.createBucket(createBucketRequest).flatMap { response -> Future<S3.PutObjectOutput> in
-    // Upload text file to the s3
-    let bodyData = "hello world".data(using: .utf8)!
-    let putObjectRequest = S3.PutObjectRequest(acl: .publicRead, bucket: bucket, contentLength: Int64(bodyData.count), body: bodyData, key: "hello.txt")
-    return s3.putObject(putObjectRequest)
-}.flatMap { response -> Future<S3.GetObjectOutput> in
-    let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
-    return s3.getObject(getObjectRequest)
-}.whenSuccess { response in
-    if let body = response.body {
-        print(String(data: body, encoding: .utf8))
-    }
-}
-```
-
-Or you can use the nested method
-
+The recommended manner to interact with futures is chaining. The following function returns an EventLoopFuture that creates an S3 bucket, puts a file in the bucket, then reads the file back from the bucket and finally prints the contents of the file. Each of these operations are chained together. The output of one being the input of the next. 
 
 ```swift
 import S3 //ensure this module is specified as a dependency in your package.swift
 
 let bucket = "my-bucket"
 
-let s3 = S3(
-    accessKeyId: "Your-Access-Key",
-    secretAccessKey: "Your-Secret-Key",
-    region: .uswest1
-)
+let s3 = S3(accessKeyId: "Your-Access-Key", secretAccessKey: "Your-Secret-Key", region: .uswest2)
 
-// Create Bucket, Put an Object, Get the Object
-let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
+func createBucketPutGetObject() -> EventLoopFuture<S3.GetObjectOutput> {
+    // Create Bucket, Put an Object, Get the Object
+    let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
 
-s3.createBucket(createBucketRequest).whenSuccess { response in
-    let bodyData = "hello world".data(using: .utf8)!
-    let putObjectRequest = S3.PutObjectRequest(acl: .publicRead, key: "hello.txt", body: bodyData, contentLength: Int64(bodyData.count), bucket: bucket)
-
-    s3.putObject(putObjectRequest).whenSuccess { response in
-        let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
-        s3.getObject(getObjectRequest).whenSuccess { response in
-            if let body = response.body {
-                print(String(data: body, encoding: .utf8))
-            }
+    s3.createBucket(createBucketRequest)
+        .flatMap { response -> Future<S3.PutObjectOutput> in
+            // Upload text file to the s3
+            let bodyData = "hello world".data(using: .utf8)!
+            let putObjectRequest = S3.PutObjectRequest(acl: .publicRead, body: bodyData, bucket: bucket, contentLength: Int64(bodyData.count), key: "hello.txt")
+            return s3.putObject(putObjectRequest)
         }
+        .flatMap { response -> Future<S3.GetObjectOutput> in
+            let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
+            return s3.getObject(getObjectRequest)
+        }
+        .whenSuccess { response in
+            if let body = response.body {
+                print(String(data: body, encoding: .utf8)!)
+            }
     }
 }
 ```
+
 ## upgrading from <3.0.x
 
-The simplest way to upgrade from an existing 1.0 or 2.0 implementation is to call `.wait()` on existing synchronous calls.
-
-However it is recommend to rewrite your synchronous code to work with the returned future objects. It is no longer necessary to use a DispatchQueue.
+The simplest way to upgrade from an existing 1.0 or 2.0 implementation is to call `.wait()` on existing synchronous calls. However it is recommend to rewrite your synchronous code to work with the returned future objects. It is no longer necessary to use a DispatchQueue.
 
 ## Using `aws-sdk-swift` with Vapor
 
-Integration with vapor is pretty straight forward.
+Integration with Vapor is pretty straight forward. Although be sure you use the correct version of AWSSDKSwift depending on which version of Vapor you are using. See the compatibility section for details. Below is a simple Vapor 3 example.
 
 ```swift
 import Vapor
@@ -194,20 +156,13 @@ import SES
 final class MyController {
 
      func sendUserEmailFromJSON(_ req: Request) throws -> Future<HTTPStatus> {
-
           return try req.content.decode(EmailData.self).map { emailData in
               return emailData
-          }.flatMap(to: HTTPStatus.self) { emailData -> Future<HTTPStatus> in
-              let client = SES(
-                  accessKeyId: "Your-Access-Key",
-                  secretAccessKey: "Your-Secret-Key",
-                  region: .uswest1
-              )
+          }
+          .flatMap { emailData -> Future<HTTPStatus> in
+              let client = SES(region: .uswest1)
 
-              let sendEmailRequest = SES.SendEmailRequest(
-                  destination: emailData.address,
-                  message: emailData.message
-              )
+              let sendEmailRequest = SES.SendEmailRequest(destination: emailData.address, message: emailData.message)
 
               return client.sendEmail(sendEmailRequest)
                 .hopTo(eventLoop: req.eventLoop)
@@ -225,18 +180,13 @@ final class MyController {
 
 ```swift
 
-$ brew install libressl
-$ swift -I .build/debug -L/usr/local/Cellar/libressl/2.7.2/lib -lssl -lcrypto -I/usr/local/Cellar/libressl/2.7.2/include
+$ swift -I .build/debug
 1> import Foundation
 2> import S3
 
 let bucket = "my-bucket"
 
-let s3 = S3(
-    accessKeyId: "Your-Access-Key",
-    secretAccessKey: "Your-Secret-Key",
-    region: .uswest1
-)
+let s3 = S3(accessKeyId: "Your-Access-Key", secretAccessKey: "Your-Secret-Key", region: .uswest1)
 
 // Create Bucket, Put an Object, Get the Object
 let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
