@@ -23,7 +23,7 @@ Visit the `aws-sdk-swift` [documentation](https://swift-aws.github.io/aws-sdk-sw
 
 ### Swift Package Manager
 
-AWSSDKSwift uses the Swift Package Manager to manager its code dependencies. To use AWSSDKSwift in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
+AWSSDKSwift uses the Swift Package Manager to manage its code dependencies. To use AWSSDKSwift in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
 ```swift
     dependencies: [
         .package(url: "https://github.com/swift-aws/aws-sdk-swift.git", from: "4.0.0")
@@ -52,7 +52,7 @@ If you find a security vulnerability, please contact <yuki@miketokyo.com> and re
 
 ## Configuring Credentials
 
-Before using the SDK, you will need AWS credentials to sign all your requests. Credentials can be accessed in the following ways.
+Before using the SDK, you will need AWS credentials to sign all your requests. Credentials can be provided in the following ways.
 
 ### Via EC2 Instance Profile
 
@@ -107,7 +107,7 @@ AWS Swift Modules can be imported into any swift project. Each module provides a
 
 The underlying aws-sdk-swift httpclient returns a [swift-nio EventLoopFuture object](https://apple.github.io/swift-nio/docs/current/NIO/Classes/EventLoopFuture.html). An EventLoopFuture _is not_ the response, but rather a container object that will be populated with the response sometime later. In this manner calls to AWS do not block the main thread.
 
-The recommended manner to interact with futures is chaining. The following function returns an EventLoopFuture that creates an S3 bucket, puts a file in the bucket, then reads the file back from the bucket and finally prints the contents of the file. Each of these operations are chained together. The output of one being the input of the next. 
+The recommended manner to interact with futures is chaining. The following function returns an EventLoopFuture that creates an S3 bucket, puts a file in the bucket, reads the file back from the bucket and finally prints the contents of the file. Each of these operations are chained together. The output of one being the input of the next. 
 
 ```swift
 import S3 //ensure this module is specified as a dependency in your package.swift
