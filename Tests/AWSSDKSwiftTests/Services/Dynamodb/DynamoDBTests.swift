@@ -11,6 +11,8 @@ import Dispatch
 import XCTest
 @testable import DynamoDB
 
+// testing json service
+
 class DynamoDBTests: XCTestCase {
 
     var client = DynamoDB(

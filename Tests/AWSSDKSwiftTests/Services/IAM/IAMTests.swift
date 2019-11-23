@@ -8,6 +8,8 @@ import Foundation
 @testable import AWSSDKSwiftCore
 @testable import IAM
 
+//testing query service
+
 class IAMTests: XCTestCase {
 
     let client = IAM(

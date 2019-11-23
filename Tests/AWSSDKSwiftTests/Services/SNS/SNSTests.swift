@@ -12,6 +12,8 @@ enum SNSTestsError : Error {
     case noTopicArn
 }
 
+// testing query service
+
 class SNSTests: XCTestCase {
 
     let client = SNS(

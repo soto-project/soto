@@ -12,6 +12,8 @@ enum APIGatewayTestsError : Error {
     case noRestApi
 }
 
+//testing restjson service
+
 class APIGatewayTests: XCTestCase {
 
     let client = APIGateway(

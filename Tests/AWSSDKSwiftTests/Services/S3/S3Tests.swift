@@ -12,6 +12,8 @@ import XCTest
 @testable import S3
 @testable import AWSSDKSwiftCore
 
+// testing xml service
+
 class S3Tests: XCTestCase {
 
     var client = S3(

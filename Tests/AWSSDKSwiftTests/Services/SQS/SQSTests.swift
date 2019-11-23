@@ -12,6 +12,8 @@ enum SQSTestsError : Error {
     case noQueueUrl
 }
 
+// testing query service
+
 class SQSTests: XCTestCase {
 
     let client = SQS(
