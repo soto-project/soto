@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#docker run -d -p 4567:4567 -p 4569:4569 -p 4572:4572 -p 4575:4575 -p 4576:4576 -p 4593:4593 -e SERVICES='apigateway,dynamodb,iam,s3,sns,sqs' localstack/localstack
-
 CONTAINER_ID=$(docker container ls | grep localstack/localstack | awk {'print $1'})
 COMMAND=$1
 
@@ -19,7 +17,7 @@ get_container_id()
 start()
 {
     if [ -z "$CONTAINER_ID" ]; then
-        docker run -d -p 4567:4567 -p 4569:4569 -p 4572:4572 -p 4575:4575 -p 4576:4576 -p 4593:4593 -e SERVICES='apigateway,dynamodb,iam,s3,sns,sqs' localstack/localstack
+        docker run -d -p 4567-4597:4567-4597 -e SERVICES='apigateway,dynamodb,iam,s3,sns,sqs' localstack/localstack
     else
         echo "Localstack is already running"
     fi
