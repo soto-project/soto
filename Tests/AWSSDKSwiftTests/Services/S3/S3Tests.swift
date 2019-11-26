@@ -262,7 +262,22 @@ class S3Tests: XCTestCase {
                 }
             }
         }
-     }
+    }
+    
+    func testGetAclRequestPayer() {
+        attempt {
+            let testData = try TestData(#function, client: client)
+            let putRequest = S3.PutObjectRequest(
+                body: testData.bodyData,
+                bucket: testData.bucket,
+                contentLength: Int64(testData.bodyData.count),
+                key: testData.key
+            )
+            _ = try client.putObject(putRequest).wait()
+            let request = S3.GetObjectAclRequest(bucket: testData.bucket, key: testData.key, requestPayer: .requester)
+            let response = try client.getObjectAcl(request).wait()
+        }
+    }
 
     func listObjects(bucket : String, count: Int) -> Future<[S3.Object]> {
         var list : [S3.Object] = []
