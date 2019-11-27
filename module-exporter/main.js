@@ -91,6 +91,7 @@ co(function *() {
       "ECR",
       "CloudFront",
       "IAM",
+      "SES"
   ]
   for(var index in entries){
     var path = entries[index];
