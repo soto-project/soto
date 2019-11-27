@@ -31,30 +31,24 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         /// process URL into form ${bucket}.s3.amazon.com
         var paths = request.url.path.components(separatedBy: "/").filter({ $0 != "" })
         if paths.count > 0 {
-            switch request.httpMethod.lowercased() {
-            case "get":
-                guard let host = request.url.host, host.contains("amazonaws.com") else { break }
-                let query = request.url.query != nil ? "?\(request.url.query!)" : ""
-                request.url = URL(string: "\(request.url.scheme ?? "https")://\(paths.removeFirst()).\(host)/\(paths.joined(separator: "/"))\(query)")!
-            default:
-                guard let host = request.url.host, host.contains("amazonaws.com") else { break }
-                var pathes = request.url.path.components(separatedBy: "/")
-                if paths.count > 1 {
-                    _ = pathes.removeFirst() // /
-                    let bucket = pathes.removeFirst() // bucket
-                    var urlString: String
-                    if let firstHostComponent = host.components(separatedBy: ".").first, bucket == firstHostComponent {
-                        // Bucket name is part of host. No need to append bucket
-                        urlString = "https://\(host)/\(pathes.joined(separator: "/"))"
-                    } else {
-                        urlString = "https://\(bucket).\(host)/\(pathes.joined(separator: "/"))"
-                    }
-                    if let query = request.url.query {
-                        urlString += "?\(query)"
-                    }
-                    request.url = URL(string: urlString)!
-                }
+            guard let host = request.url.host, host.contains("amazonaws.com") else { return }
+            let bucket = paths.removeFirst() // bucket
+            // if bucket name contains a period don't do virtual address look up
+            guard !bucket.contains(".") else { return }
+            var urlPath: String
+            if let firstHostComponent = host.components(separatedBy: ".").first, bucket == firstHostComponent {
+                // Bucket name is part of host. No need to append bucket
+                urlPath = "\(host)/\(paths.joined(separator: "/"))"
+            } else {
+                urlPath = "\(bucket).\(host)/\(paths.joined(separator: "/"))"
             }
+            // add percent encoding back into path as converting from URL to String has removed it
+            urlPath = urlPath.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? urlPath
+            var urlString = "\(request.url.scheme ?? "https")://\(urlPath)"
+            if let query = request.url.query {
+                urlString += "?\(query)"
+            }
+            request.url = URL(string: urlString)!
         }
     }
 
