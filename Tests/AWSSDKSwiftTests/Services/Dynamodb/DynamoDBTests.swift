@@ -16,11 +16,9 @@ import XCTest
 class DynamoDBTests: XCTestCase {
 
     var client = DynamoDB(
-            accessKeyId: "key",
-            secretAccessKey: "secret",
-            region: .apnortheast1,
-            endpoint: "http://localhost:4569"
-        )
+        region: .useast1,
+        endpoint: ProcessInfo.processInfo.environment["DYNAMODB_ENDPOINT"] ?? "http://localhost:4569"
+    )
 
     class TestData {
         var client: DynamoDB

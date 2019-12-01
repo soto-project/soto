@@ -17,10 +17,8 @@ enum APIGatewayTestsError : Error {
 class APIGatewayTests: XCTestCase {
 
     let client = APIGateway(
-            accessKeyId: "key",
-            secretAccessKey: "secret",
-            region: .apnortheast1,
-            endpoint: "http://localhost:4567"
+        region: .useast1,
+        endpoint: ProcessInfo.processInfo.environment["APIGATEWAY_ENDPOINT"] ?? "http://localhost:4567"
     )
 
     class TestData {

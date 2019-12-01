@@ -13,10 +13,8 @@ import Foundation
 class IAMTests: XCTestCase {
 
     let client = IAM(
-            accessKeyId: "key",
-            secretAccessKey: "secret",
-            region: .apnortheast1,
-            endpoint: "http://localhost:4593"
+        region: .useast1,
+        endpoint: ProcessInfo.processInfo.environment["IAM_ENDPOINT"] ?? "http://localhost:4593"
     )
 
     class TestData {

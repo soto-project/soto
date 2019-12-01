@@ -17,10 +17,8 @@ enum SQSTestsError : Error {
 class SQSTests: XCTestCase {
 
     let client = SQS(
-            accessKeyId: "key",
-            secretAccessKey: "secret",
-            region: .apnortheast1,
-            endpoint: "http://localhost:4576"
+        region: .useast1,
+        endpoint: ProcessInfo.processInfo.environment["SQS_ENDPOINT"] ?? "http://localhost:4576"
     )
 
     class TestData {

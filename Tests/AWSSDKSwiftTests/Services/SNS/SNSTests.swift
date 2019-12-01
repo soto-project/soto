@@ -17,10 +17,8 @@ enum SNSTestsError : Error {
 class SNSTests: XCTestCase {
 
     let client = SNS(
-            accessKeyId: "key",
-            secretAccessKey: "secret",
-            region: .apnortheast1,
-            endpoint: "http://localhost:4575"
+        region: .useast1,
+        endpoint: ProcessInfo.processInfo.environment["SNS_ENDPOINT"] ?? "http://localhost:4575"
     )
 
     class TestData {

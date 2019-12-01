@@ -17,12 +17,9 @@ import XCTest
 class S3Tests: XCTestCase {
 
     var client = S3(
-            accessKeyId: "key",
-            secretAccessKey: "secret",
-            region: .apnortheast1,
-            endpoint: "http://localhost:4572",
-            middlewares: [AWSLoggingMiddleware()]
-//            ,eventLoopGroupProvider: .shared(MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount))
+        region: .euwest1,
+        endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4572",
+        middlewares: [AWSLoggingMiddleware()]
     )
 
     class TestData {
@@ -275,7 +272,7 @@ class S3Tests: XCTestCase {
             )
             _ = try client.putObject(putRequest).wait()
             let request = S3.GetObjectAclRequest(bucket: testData.bucket, key: testData.key, requestPayer: .requester)
-            let response = try client.getObjectAcl(request).wait()
+            _ = try client.getObjectAcl(request).wait()
         }
     }
 
