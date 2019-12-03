@@ -17,6 +17,8 @@ enum SSMTestsError : Error {
 class SSMTests: XCTestCase {
 
     let client = SSM(
+        accessKeyId: "key",
+        secretAccessKey: "secret",
         region: .useast1,
         endpoint: ProcessInfo.processInfo.environment["SSM_ENDPOINT"] ?? "http://localhost:4583",
         middlewares: [AWSLoggingMiddleware()]

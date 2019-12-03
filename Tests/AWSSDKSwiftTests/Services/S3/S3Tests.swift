@@ -17,6 +17,8 @@ import XCTest
 class S3Tests: XCTestCase {
 
     var client = S3(
+        accessKeyId: "key",
+        secretAccessKey: "secret",
         region: .euwest1,
         endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4572",
         middlewares: [AWSLoggingMiddleware()]
