@@ -16,7 +16,6 @@ jobs:
     - name: Install
       run: |
         brew install sourcekitten
-        brew install jq
         gem install jazzy
         npm install lodash fs globby
     - name: Build
