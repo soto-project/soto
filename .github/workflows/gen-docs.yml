@@ -1,6 +1,7 @@
 name: Generate Documentation
 
 on:
+  push:
   release:
     types: [published]
 
@@ -24,7 +25,7 @@ jobs:
     - name: Commit
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        REMOTE_BRANCH: "gh-pages"
+        REMOTE_BRANCH: "gh-pages2"
       run: |
         REMOTE_REPO="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
         git config user.name "${GITHUB_ACTOR}"

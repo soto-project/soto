@@ -23,10 +23,6 @@ create_aws_sdk_swift_docs_json() {
     done;
 }
 
-combine_docs_json() {
-    jq -s '[.[][]]' ./*.json > awssdkswift.json;
-}
-
 run_jazzy() {
 # use theme apple-thin-nav else docs are 50+ GB!
     jazzy --clean --theme jazzy/themes/apple-thin-nav/
@@ -35,10 +31,11 @@ run_jazzy() {
 tidy_up() {
     ls *.json | xargs rm -f
     rm -rf docs/docsets
+    rm .jazzy.yaml
 }
 
 create_jazzy_yaml
+create_aws_sdk_swift_core_docs_json
 create_aws_sdk_swift_docs_json
-combine_docs_json
 run_jazzy
 tidy_up
