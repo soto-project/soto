@@ -1,5 +1,5 @@
 sourcekitten_sourcefile:
-  - AWSSDKSwiftCore
+  - AWSSDKSwiftCore.json
 <% for(service of services) { %>
   - <%=service%>.json<% } %>
 
@@ -12,7 +12,12 @@ readme: README.md
 custom_categories:
   - name: AWSSDKSwiftCore
     children:
-      - AWSSDKSwiftCore
+      - AWSClient
+      - AWSShape
+      - AWSRequest
+      - AWSResponse
+      - AWSServiceMiddleware
+      - AWSLoggingMiddleware
 <% for(service of services) { %>
   - name: <%=service%>
     children:

@@ -9,11 +9,7 @@ create_jazzy_yaml() {
 }
 
 create_aws_sdk_swift_core_docs_json() {
-    git clone https://github.com/swift-aws/aws-sdk-swift-core.git
-    cd aws-sdk-swift-core
-    sourcekitten doc --spm-module "AWSSDKSwiftCore" > ../AWSSDKSwiftCore.json;
-    cd ..
-    rm -rf aws-sdk-swift-core
+    sourcekitten doc --spm-module "AWSSDKSwiftCore" > AWSSDKSwiftCore.json
 }
 
 create_aws_sdk_swift_docs_json() {
