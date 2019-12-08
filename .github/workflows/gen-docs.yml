@@ -1,9 +1,9 @@
 name: Generate Documentation
 
 on:
-  push:
   release:
     types: [published]
+    branches: "master"
 
 jobs:
   build:
