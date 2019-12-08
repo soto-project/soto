@@ -12,5 +12,6 @@ do
 done
 
 echo $COMMIT_OPTS
+./build-json-doc.sh 0 1
 ./build-doc.sh
 ./commit-doc.sh $COMMIT_OPTS

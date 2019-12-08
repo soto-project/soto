@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -eux
 
@@ -9,14 +9,22 @@ create_jazzy_yaml() {
 }
 
 create_aws_sdk_swift_core_docs_json() {
-    sourcekitten doc --spm-module "AWSSDKSwiftCore" > AWSSDKSwiftCore.json
+    git clone https://github.com/swift-aws/aws-sdk-swift-core.git
+    cd aws-sdk-swift-core
+    sourcekitten doc --spm-module "AWSSDKSwiftCore" > ../sourcekitten/AWSSDKSwiftCore.json;
+    cd ..
+    rm -rf aws-sdk-swift-core
 }
 
 create_aws_sdk_swift_docs_json() {
-    for d in Sources/AWSSDKSwift/Services/*;
-    do moduleName="$(basename "$d")";
-        sourcekitten doc --spm-module "$moduleName" > "$moduleName".json;
+    for d in Sources/AWSSDKSwift/Services/*; do
+        moduleName="$(basename "$d")";
+        sourcekitten doc --spm-module "$moduleName" > sourcekitten/"$moduleName".json
     done;
+}
+
+combine_docs_json() {
+    jq -s '[.[][]]' sourcekitten/*.json > sourcekitten/awssdkswift.json;
 }
 
 run_jazzy() {
@@ -25,13 +33,11 @@ run_jazzy() {
 }
 
 tidy_up() {
-    ls *.json | xargs rm -f
+    rm -rf sourcekitten
     rm -rf docs/docsets
     rm .jazzy.yaml
 }
 
 create_jazzy_yaml
-create_aws_sdk_swift_core_docs_json
-create_aws_sdk_swift_docs_json
 run_jazzy
 tidy_up

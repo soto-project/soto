@@ -1,7 +1,7 @@
 sourcekitten_sourcefile:
-  - AWSSDKSwiftCore.json
+  - sourcekitten/AWSSDKSwiftCore.json
 <% for(service of services) { %>
-  - <%=service%>.json<% } %>
+  - sourcekitten/<%=service%>.json<% } %>
 
 author: Yuki Takei, Joe Smith, Jonathan McAllister, Adam Fowler
 author_url: https://github.com/swift-aws
