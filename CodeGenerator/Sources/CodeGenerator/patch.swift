@@ -60,6 +60,10 @@ let servicePatches : [String: [Patch]] = [
         Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"ca-central-1"),
         Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"cn-northwest-1"),
         Patch(.add, entry:["shapes", "BucketLocationConstraint", "enum"], value:"me-south-1"),
+    ],
+    "SQS": [
+        Patch(.remove, entry:["shapes", "SendMessageBatchResult", "required"], value:"Successful"),
+        Patch(.remove, entry:["shapes", "SendMessageBatchResult", "required"], value:"Failed"),
     ]
 ]
 
