@@ -864,16 +864,16 @@ extension SQS {
 
     public struct SendMessageBatchResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Failed", location: .body(locationName: "BatchResultErrorEntry"), required: true, type: .list, encoding: .flatList), 
-            AWSShapeMember(label: "Successful", location: .body(locationName: "SendMessageBatchResultEntry"), required: true, type: .list, encoding: .flatList)
+            AWSShapeMember(label: "Failed", location: .body(locationName: "BatchResultErrorEntry"), required: false, type: .list, encoding: .flatList), 
+            AWSShapeMember(label: "Successful", location: .body(locationName: "SendMessageBatchResultEntry"), required: false, type: .list, encoding: .flatList)
         ]
 
         /// A list of  BatchResultErrorEntry  items with error details about each message that can't be enqueued.
-        public let failed: [BatchResultErrorEntry]
+        public let failed: [BatchResultErrorEntry]?
         /// A list of  SendMessageBatchResultEntry  items.
-        public let successful: [SendMessageBatchResultEntry]
+        public let successful: [SendMessageBatchResultEntry]?
 
-        public init(failed: [BatchResultErrorEntry], successful: [SendMessageBatchResultEntry]) {
+        public init(failed: [BatchResultErrorEntry]? = nil, successful: [SendMessageBatchResultEntry]? = nil) {
             self.failed = failed
             self.successful = successful
         }
