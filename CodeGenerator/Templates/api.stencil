@@ -1,7 +1,7 @@
 {%include "header.stencil" %}
 
+@_exported import AWSSDKSwiftCore
 import Foundation
-import AWSSDKSwiftCore
 import NIO
 
 {% if middlewareFramework %}
