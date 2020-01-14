@@ -33,8 +33,8 @@ class DynamoDBTests: XCTestCase {
 
             let createTableInput = DynamoDB.CreateTableInput(
                 attributeDefinitions: [
-                    DynamoDB.AttributeDefinition(attributeName: "hashKey", attributeType: .s),
-                    DynamoDB.AttributeDefinition(attributeName: "rangeKey", attributeType: .s)
+                    .init(attributeName: "hashKey", attributeType: .s),
+                    .init(attributeName: "rangeKey", attributeType: .s)
                 ],
                 keySchema: [
                     DynamoDB.KeySchemaElement(attributeName: "hashKey", keyType: .hash),

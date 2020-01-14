@@ -42,9 +42,11 @@ class SNSTests: XCTestCase {
         
         deinit {
             attempt {
-                // createTopic() doesn't appear to create a valid topicArn so cannot delete it
-                //let request = SNS.DeleteTopicInput(topicArn: self.topicArn)
-                //_ = try client.deleteTopic(request).wait()
+                // disabled until we get valid topic arn's returned from Localstack
+                #if false
+                let request = SNS.DeleteTopicInput(topicArn: self.topicArn)
+                _ = try client.deleteTopic(request).wait()
+                #endif
             }
         }
     }
@@ -68,8 +70,9 @@ class SNSTests: XCTestCase {
         }
     }
     
-    /* commented out until we get valid topic arn's returned
-     func testSetTopicAttributes() {
+    // disabled until we get valid topic arn's returned from Localstack
+    #if false
+    func testSetTopicAttributes() {
         attempt {
             let testData = try TestData(#function, client: client)
 
@@ -81,8 +84,9 @@ class SNSTests: XCTestCase {
             
             XCTAssertEqual(getTopicAttributesResponse.attributes?["DisplayName"], "aws-test topic")
         }
-    }*/
-
+    }
+    #endif
+    
     static var allTests : [(String, (SNSTests) -> () throws -> Void)] {
         return [
             ("testCreateDelete", testCreateDelete),

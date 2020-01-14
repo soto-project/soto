@@ -60,25 +60,17 @@ class SQSTests: XCTestCase {
             let messageId = try client.sendMessage(sendMessageRequest).wait().messageId
             
             // receive message tests the flattened arrays in XML response
-            var foundMessage = false
-            var messages : [SQS.Message] = []
-            repeat {
-                let receiveMessageRequest = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: testData.queueUrl)
-                messages = try client.receiveMessage(receiveMessageRequest).wait().messages ?? []
-                for message in messages {
-                    if messageId == message.messageId {
-                        if let body = message.body {
-                            foundMessage = true
-                            XCTAssertEqual(body, messageBody)
-                        }
-                        if let receiptHandle = message.receiptHandle {
-                            let deleteRequest = SQS.DeleteMessageRequest(queueUrl: testData.queueUrl, receiptHandle: receiptHandle)
-                            try client.deleteMessage(deleteRequest).wait()
-                        }
-                    }
-                }
-            } while messages.count > 0
-            XCTAssertTrue(foundMessage)
+            let receiveMessageRequest = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: testData.queueUrl)
+            let messages = try client.receiveMessage(receiveMessageRequest).wait().messages ?? []
+            
+            let message = try XCTUnwrap(messages.first, "Expected to get first message")
+            XCTAssertEqual(message.messageId, messageId)
+            let body = try XCTUnwrap(message.body, "Expected to have message body")
+            XCTAssertEqual(body, messageBody)
+
+            let receiptHandle = try XCTUnwrap(message.receiptHandle, "Expected to have message receiptHandle")
+            let deleteRequest = SQS.DeleteMessageRequest(queueUrl: testData.queueUrl, receiptHandle: receiptHandle)
+            try client.deleteMessage(deleteRequest).wait()
         }
     }
     
@@ -100,26 +92,17 @@ class SQSTests: XCTestCase {
             let sendMessageRequest = SQS.SendMessageRequest(messageBody: messageBody, queueUrl: testData.queueUrl)
             let messageId = try client.sendMessage(sendMessageRequest).wait().messageId
             
-            // receive message tests the flattened arrays in XML response
-            var foundMessage = false
-            var messages : [SQS.Message] = []
-            repeat {
-                let receiveMessageRequest = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: testData.queueUrl)
-                messages = try client.receiveMessage(receiveMessageRequest).wait().messages ?? []
-                for message in messages {
-                    if messageId == message.messageId {
-                        if let body = message.body {
-                            foundMessage = true
-                            XCTAssertEqual(body, messageBody)
-                        }
-                        if let receiptHandle = message.receiptHandle {
-                            let deleteRequest = SQS.DeleteMessageRequest(queueUrl: testData.queueUrl, receiptHandle: receiptHandle)
-                            try client.deleteMessage(deleteRequest).wait()
-                        }
-                    }
-                }
-            } while messages.count > 0
-            XCTAssertTrue(foundMessage)
+            let receiveMessageRequest = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: testData.queueUrl)
+            let messages = try client.receiveMessage(receiveMessageRequest).wait().messages ?? []
+            
+            let message = try XCTUnwrap(messages.first, "Expected to get first message")
+            XCTAssertEqual(message.messageId, messageId)
+            let body = try XCTUnwrap(message.body, "Expected to have message body")
+            XCTAssertEqual(body, messageBody)
+
+            let receiptHandle = try XCTUnwrap(message.receiptHandle, "Expected to have message receiptHandle")
+            let deleteRequest = SQS.DeleteMessageRequest(queueUrl: testData.queueUrl, receiptHandle: receiptHandle)
+            try client.deleteMessage(deleteRequest).wait()
         }
     }
 
