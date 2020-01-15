@@ -1,4 +1,8 @@
-sourcekitten_sourcefile: awssdkswift.json
+sourcekitten_sourcefile:
+  - sourcekitten/AWSSDKSwiftCore.json
+<% for(service of services) { %>
+  - sourcekitten/<%=service%>.json<% } %>
+
 author: Yuki Takei, Joe Smith, Jonathan McAllister, Adam Fowler
 author_url: https://github.com/swift-aws
 github_url: https://github.com/swift-aws/aws-sdk-swift
@@ -6,6 +10,14 @@ copyright: '© Copyright (c) 2019 Yuki Takei(noppoMan), Joe Smith(Yasumoto), Jon
 readme: README.md
 
 custom_categories:
+  - name: AWSSDKSwiftCore
+    children:
+      - AWSClient
+      - AWSShape
+      - AWSRequest
+      - AWSResponse
+      - AWSServiceMiddleware
+      - AWSLoggingMiddleware
 <% for(service of services) { %>
   - name: <%=service%>
     children:
