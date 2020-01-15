@@ -6,10 +6,9 @@ matrix:
       before_install:
         - docker pull swift:5.1.1
       install:
-        - docker run -d -p 8000:8000 tray/dynamodb-local -inMemory -port 8000
-        - docker run -d -p 4569:4569 lphoward/fake-s3
+        - source scripts/localstack.sh start
       script:
-        - docker run --network=host -v "$(pwd):/root/aws-sdk-swift" swift:5.1.1 /bin/sh -c "apt-get -qq update && apt-get -q -y install tzdata libssl-dev zlib1g-dev && cd /root/aws-sdk-swift && swift test -Xswiftc -DDEBUG"
+        - docker run --network=host -v "$(pwd):/root/aws-sdk-swift" swift:5.1.1 /bin/sh -c "apt-get -qq update && apt-get -q -y install tzdata libssl-dev zlib1g-dev && cd /root/aws-sdk-swift && swift test --parallel -Xswiftc -DDEBUG"
     - os: osx
       language: swift
       osx_image: xcode11
