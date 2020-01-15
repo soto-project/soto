@@ -7,7 +7,9 @@ on:
 
 jobs:
   # Split the generation of the sourcekitten json across 8 jobs to speed up the process.
-  # At the end of each job the results are uploaded as an artifact
+  # At the end of each job the results are uploaded as an artifact. This is required because 
+  # if the process is done in one job it takes over an hour to generate the help files
+  # and the GITHUB_TOKEN expires and it is not possible to commit the changes.
   build-json:
     name: Build sourcekitten json
     runs-on: macOS-latest
