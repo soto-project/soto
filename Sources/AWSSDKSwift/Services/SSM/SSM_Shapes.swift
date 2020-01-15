@@ -5,6 +5,28 @@ import AWSSDKSwiftCore
 
 extension SSM {
 
+    public struct AccountSharingInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "SharedDocumentVersion", required: false, type: .string)
+        ]
+
+        /// The AWS account ID where the current document is shared.
+        public let accountId: String?
+        /// The version of the current document shared with the account.
+        public let sharedDocumentVersion: String?
+
+        public init(accountId: String? = nil, sharedDocumentVersion: String? = nil) {
+            self.accountId = accountId
+            self.sharedDocumentVersion = sharedDocumentVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case sharedDocumentVersion = "SharedDocumentVersion"
+        }
+    }
+
     public struct Activation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActivationId", required: false, type: .string), 
@@ -727,20 +749,25 @@ extension SSM {
     public struct AttachmentsSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
 
-        /// The key of a key and value pair that identifies the location of an attachment to a document.
+        /// The key of a key-value pair that identifies the location of an attachment to a document.
         public let key: AttachmentsSourceKey?
-        /// The URL of the location of a document attachment, such as the URL of an Amazon S3 bucket.
+        /// The name of the document attachment file.
+        public let name: String?
+        /// The value of a key-value pair that identifies the location of an attachment to a document. The format for Value depends on the type of key you specify.   For the key SourceUrl, the value is an S3 bucket location. For example:  "Values": [ "s3://my-bucket/my-folder" ]    For the key S3FileUrl, the value is a file in an S3 bucket. For example:  "Values": [ "s3://my-bucket/my-folder/my-file.py" ]    For the key AttachmentReference, the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example:  "Values": [ "MyOtherDocument/3/my-other-file.py" ]  However, if the SSM document is shared with you from another account, the full SSM document ARN must be specified instead of the document name only. For example:  "Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccountDocument/3/their-file.py" ]   
         public let values: [String]?
 
-        public init(key: AttachmentsSourceKey? = nil, values: [String]? = nil) {
+        public init(key: AttachmentsSourceKey? = nil, name: String? = nil, values: [String]? = nil) {
             self.key = key
+            self.name = name
             self.values = values
         }
 
         public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 1024)
                 try validate($0, name: "values[]", parent: name, min: 1)
@@ -751,12 +778,15 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
+            case name = "Name"
             case values = "Values"
         }
     }
 
     public enum AttachmentsSourceKey: String, CustomStringConvertible, Codable {
         case sourceurl = "SourceUrl"
+        case s3fileurl = "S3FileUrl"
+        case attachmentreference = "AttachmentReference"
         public var description: String { return self.rawValue }
     }
 
@@ -937,6 +967,7 @@ extension SSM {
         case starttimebefore = "StartTimeBefore"
         case starttimeafter = "StartTimeAfter"
         case automationtype = "AutomationType"
+        case tagkey = "TagKey"
         public var description: String { return self.rawValue }
     }
 
@@ -968,7 +999,7 @@ extension SSM {
 
         /// The execution ID.
         public let automationExecutionId: String?
-        /// The status of the execution. Valid values include: Running, Succeeded, Failed, Timed out, or Cancelled.
+        /// The status of the execution.
         public let automationExecutionStatus: AutomationExecutionStatus?
         /// Use this filter with DescribeAutomationExecutions. Specify either Local or CrossAccount. CrossAccount is an Automation that runs in multiple AWS Regions and accounts. For more information, see Executing Automations in Multiple AWS Regions and Accounts in the AWS Systems Manager User Guide. 
         public let automationType: AutomationType?
@@ -984,7 +1015,7 @@ extension SSM {
         public let executedBy: String?
         /// The time the execution finished. This is not populated if the execution is still in progress.
         public let executionEndTime: TimeStamp?
-        /// The time the execution started.&gt;
+        /// The time the execution started.
         public let executionStartTime: TimeStamp?
         /// The list of execution outputs as defined in the Automation document.
         public let failureMessage: String?
@@ -1077,6 +1108,12 @@ extension SSM {
     public enum AutomationType: String, CustomStringConvertible, Codable {
         case crossaccount = "CrossAccount"
         case local = "Local"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CalendarState: String, CustomStringConvertible, Codable {
+        case open = "OPEN"
+        case closed = "CLOSED"
         public var description: String { return self.rawValue }
     }
 
@@ -1179,7 +1216,6 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(self.cloudWatchLogGroupName, name:"cloudWatchLogGroupName", parent: name, max: 512)
             try validate(self.cloudWatchLogGroupName, name:"cloudWatchLogGroupName", parent: name, min: 1)
-            try validate(self.cloudWatchLogGroupName, name:"cloudWatchLogGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1671,8 +1707,6 @@ extension SSM {
                 try validate($0.value, name:"details[\"\($0.key)\"]", parent: name, max: 4096)
                 try validate($0.value, name:"details[\"\($0.key)\"]", parent: name, min: 0)
             }
-            try validate(self.id, name:"id", parent: name, max: 100)
-            try validate(self.id, name:"id", parent: name, min: 1)
             try validate(self.title, name:"title", parent: name, max: 500)
         }
 
@@ -1809,13 +1843,13 @@ extension SSM {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// The name of the registered, managed instance as it will appear in the Amazon EC2 console or when you use the AWS command line tools to list EC2 resources.  Do not enter personally identifiable information in this field. 
+        /// The name of the registered, managed instance as it will appear in the Systems Manager console or when you use the AWS command line tools to list Systems Manager resources.  Do not enter personally identifiable information in this field. 
         public let defaultInstanceName: String?
-        /// A user-defined description of the resource that you want to register with Amazon EC2.   Do not enter personally identifiable information in this field. 
+        /// A user-defined description of the resource that you want to register with Systems Manager.   Do not enter personally identifiable information in this field. 
         public let description: String?
         /// The date by which this activation request should expire. The default value is 24 hours.
         public let expirationDate: TimeStamp?
-        /// The Amazon Identity and Access Management (IAM) role that you want to assign to the managed instance. 
+        /// The Amazon Identity and Access Management (IAM) role that you want to assign to the managed instance. This IAM role must provide AssumeRole permissions for the Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM Service Role for a Hybrid Environment in the AWS Systems Manager User Guide.
         public let iamRole: String
         /// Specify the maximum number of managed instances you want to register. The default value is 1 instance.
         public let registrationLimit: Int?
@@ -2043,7 +2077,7 @@ extension SSM {
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The document version you want to associate with the target(s). Can be a specific version or the default version.
         public let documentVersion: String?
-        /// The instance ID.   InstanceId has been deprecated. To specify an instance ID for an association, use the Targets parameter. If you use the parameter InstanceId, you cannot use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter. 
+        /// The instance ID.   InstanceId has been deprecated. To specify an instance ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with SSM documents that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you cannot use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter. 
         public let instanceId: String?
         /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
@@ -2138,6 +2172,7 @@ extension SSM {
             AWSShapeMember(label: "DocumentFormat", required: false, type: .enum), 
             AWSShapeMember(label: "DocumentType", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Requires", required: false, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TargetType", required: false, type: .string), 
             AWSShapeMember(label: "VersionName", required: false, type: .string)
@@ -2147,12 +2182,14 @@ extension SSM {
         public let attachments: [AttachmentsSource]?
         /// A valid JSON or YAML string.
         public let content: String
-        /// Specify the document format for the request. The document format can be either JSON or YAML. JSON is the default format.
+        /// Specify the document format for the request. The document format can be JSON, YAML, or TEXT. JSON is the default format.
         public let documentFormat: DocumentFormat?
-        /// The type of document to create. Valid document types include: Command, Policy, Automation, Session, and Package.
+        /// The type of document to create.
         public let documentType: DocumentType?
         /// A name for the Systems Manager document.  Do not use the following to begin the names of documents you create. They are reserved by AWS for use as document prefixes:    aws     amazon     amzn    
         public let name: String
+        /// A list of SSM documents required by a document. For example, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document.
+        public let requires: [DocumentRequires]?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an SSM document to identify the types of targets or the environment where it will run. In this case, you could specify the following key name/value pairs:    Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing SSM document, use the AddTagsToResource action. 
         public let tags: [Tag]?
         /// Specify a target type to define the kinds of resources the document can run on. For example, to run a document on EC2 instances, specify the following value: /AWS::EC2::Instance. If you specify a value of '/' the document can run on all types of resources. If you don't specify a value, the document can't run on any resources. For a list of valid resource types, see AWS Resource Types Reference in the AWS CloudFormation User Guide. 
@@ -2160,12 +2197,13 @@ extension SSM {
         /// An optional field specifying the version of the artifact you are creating with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
 
-        public init(attachments: [AttachmentsSource]? = nil, content: String, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, name: String, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
+        public init(attachments: [AttachmentsSource]? = nil, content: String, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, name: String, requires: [DocumentRequires]? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
             self.attachments = attachments
             self.content = content
             self.documentFormat = documentFormat
             self.documentType = documentType
             self.name = name
+            self.requires = requires
             self.tags = tags
             self.targetType = targetType
             self.versionName = versionName
@@ -2175,10 +2213,14 @@ extension SSM {
             try self.attachments?.forEach {
                 try $0.validate(name: "\(name).attachments[]")
             }
-            try validate(self.attachments, name:"attachments", parent: name, max: 1)
+            try validate(self.attachments, name:"attachments", parent: name, max: 20)
             try validate(self.attachments, name:"attachments", parent: name, min: 0)
             try validate(self.content, name:"content", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.requires?.forEach {
+                try $0.validate(name: "\(name).requires[]")
+            }
+            try validate(self.requires, name:"requires", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2194,6 +2236,7 @@ extension SSM {
             case documentFormat = "DocumentFormat"
             case documentType = "DocumentType"
             case name = "Name"
+            case requires = "Requires"
             case tags = "Tags"
             case targetType = "TargetType"
             case versionName = "VersionName"
@@ -2323,16 +2366,20 @@ extension SSM {
 
     public struct CreateOpsItemRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Category", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: true, type: .string), 
             AWSShapeMember(label: "Notifications", required: false, type: .list), 
             AWSShapeMember(label: "OperationalData", required: false, type: .map), 
             AWSShapeMember(label: "Priority", required: false, type: .integer), 
             AWSShapeMember(label: "RelatedOpsItems", required: false, type: .list), 
+            AWSShapeMember(label: "Severity", required: false, type: .string), 
             AWSShapeMember(label: "Source", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Title", required: true, type: .string)
         ]
 
+        /// Specify a category to assign to an OpsItem. 
+        public let category: String?
         /// Information about the OpsItem. 
         public let description: String
         /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
@@ -2343,6 +2390,8 @@ extension SSM {
         public let priority: Int?
         /// One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
         public let relatedOpsItems: [RelatedOpsItem]?
+        /// Specify a severity to assign to an OpsItem.
+        public let severity: String?
         /// The origin of the OpsItem, such as Amazon EC2 or AWS Systems Manager.
         public let source: String
         /// Optional metadata that you assign to a resource. You can restrict access to OpsItems by using an inline IAM policy that specifies tags. For more information, see Getting Started with OpsCenter in the AWS Systems Manager User Guide. Tags use a key-value pair. For example:  Key=Department,Value=Finance   To add tags to an existing OpsItem, use the AddTagsToResource action. 
@@ -2350,18 +2399,22 @@ extension SSM {
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String
 
-        public init(description: String, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, source: String, tags: [Tag]? = nil, title: String) {
+        public init(category: String? = nil, description: String, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, source: String, tags: [Tag]? = nil, title: String) {
+            self.category = category
             self.description = description
             self.notifications = notifications
             self.operationalData = operationalData
             self.priority = priority
             self.relatedOpsItems = relatedOpsItems
+            self.severity = severity
             self.source = source
             self.tags = tags
             self.title = title
         }
 
         public func validate(name: String) throws {
+            try validate(self.category, name:"category", parent: name, max: 64)
+            try validate(self.category, name:"category", parent: name, min: 1)
             try validate(self.description, name:"description", parent: name, max: 1024)
             try validate(self.description, name:"description", parent: name, min: 1)
             try self.operationalData?.forEach {
@@ -2370,6 +2423,8 @@ extension SSM {
             }
             try validate(self.priority, name:"priority", parent: name, max: 5)
             try validate(self.priority, name:"priority", parent: name, min: 1)
+            try validate(self.severity, name:"severity", parent: name, max: 64)
+            try validate(self.severity, name:"severity", parent: name, min: 1)
             try validate(self.source, name:"source", parent: name, max: 64)
             try validate(self.source, name:"source", parent: name, min: 1)
             try self.tags?.forEach {
@@ -2381,11 +2436,13 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case category = "Category"
             case description = "Description"
             case notifications = "Notifications"
             case operationalData = "OperationalData"
             case priority = "Priority"
             case relatedOpsItems = "RelatedOpsItems"
+            case severity = "Severity"
             case source = "Source"
             case tags = "Tags"
             case title = "Title"
@@ -2538,29 +2595,42 @@ extension SSM {
 
     public struct CreateResourceDataSyncRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3Destination", required: true, type: .structure), 
-            AWSShapeMember(label: "SyncName", required: true, type: .string)
+            AWSShapeMember(label: "S3Destination", required: false, type: .structure), 
+            AWSShapeMember(label: "SyncName", required: true, type: .string), 
+            AWSShapeMember(label: "SyncSource", required: false, type: .structure), 
+            AWSShapeMember(label: "SyncType", required: false, type: .string)
         ]
 
         /// Amazon S3 configuration details for the sync.
-        public let s3Destination: ResourceDataSyncS3Destination
+        public let s3Destination: ResourceDataSyncS3Destination?
         /// A name for the configuration.
         public let syncName: String
+        /// Specify information about the data sources to synchronize.
+        public let syncSource: ResourceDataSyncSource?
+        /// Specify SyncToDestination to create a resource data sync that synchronizes data from multiple AWS Regions to an Amazon S3 bucket. Specify SyncFromSource to synchronize data from multiple AWS accounts and Regions, as listed in AWS Organizations.
+        public let syncType: String?
 
-        public init(s3Destination: ResourceDataSyncS3Destination, syncName: String) {
+        public init(s3Destination: ResourceDataSyncS3Destination? = nil, syncName: String, syncSource: ResourceDataSyncSource? = nil, syncType: String? = nil) {
             self.s3Destination = s3Destination
             self.syncName = syncName
+            self.syncSource = syncSource
+            self.syncType = syncType
         }
 
         public func validate(name: String) throws {
-            try self.s3Destination.validate(name: "\(name).s3Destination")
+            try self.s3Destination?.validate(name: "\(name).s3Destination")
             try validate(self.syncName, name:"syncName", parent: name, max: 64)
             try validate(self.syncName, name:"syncName", parent: name, min: 1)
+            try self.syncSource?.validate(name: "\(name).syncSource")
+            try validate(self.syncType, name:"syncType", parent: name, max: 64)
+            try validate(self.syncType, name:"syncType", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case s3Destination = "S3Destination"
             case syncName = "SyncName"
+            case syncSource = "SyncSource"
+            case syncType = "SyncType"
         }
     }
 
@@ -2645,19 +2715,23 @@ extension SSM {
     public struct DeleteDocumentRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Force", required: false, type: .boolean), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "VersionName", required: false, type: .string)
         ]
 
         /// The version of the document that you want to delete. If not provided, all versions of the document are deleted.
         public let documentVersion: String?
+        /// Some SSM document types require that you specify a Force flag before you can delete the document. For example, you must specify a Force flag to delete a document of type ApplicationConfigurationSchema. You can restrict access to the Force flag in an AWS Identity and Access Management (IAM) policy.
+        public let force: Bool?
         /// The name of the document.
         public let name: String
         /// The version name of the document that you want to delete. If not provided, all versions of the document are deleted.
         public let versionName: String?
 
-        public init(documentVersion: String? = nil, name: String, versionName: String? = nil) {
+        public init(documentVersion: String? = nil, force: Bool? = nil, name: String, versionName: String? = nil) {
             self.documentVersion = documentVersion
+            self.force = force
             self.name = name
             self.versionName = versionName
         }
@@ -2670,6 +2744,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case documentVersion = "DocumentVersion"
+            case force = "Force"
             case name = "Name"
             case versionName = "VersionName"
         }
@@ -2910,23 +2985,30 @@ extension SSM {
 
     public struct DeleteResourceDataSyncRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "SyncName", required: true, type: .string)
+            AWSShapeMember(label: "SyncName", required: true, type: .string), 
+            AWSShapeMember(label: "SyncType", required: false, type: .string)
         ]
 
         /// The name of the configuration to delete.
         public let syncName: String
+        /// Specify the type of resource data sync to delete.
+        public let syncType: String?
 
-        public init(syncName: String) {
+        public init(syncName: String, syncType: String? = nil) {
             self.syncName = syncName
+            self.syncType = syncType
         }
 
         public func validate(name: String) throws {
             try validate(self.syncName, name:"syncName", parent: name, max: 64)
             try validate(self.syncName, name:"syncName", parent: name, min: 1)
+            try validate(self.syncType, name:"syncType", parent: name, max: 64)
+            try validate(self.syncType, name:"syncType", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case syncName = "SyncName"
+            case syncType = "SyncType"
         }
     }
 
@@ -3621,18 +3703,23 @@ extension SSM {
 
     public struct DescribeDocumentPermissionResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "AccountIds", required: false, type: .list)
+            AWSShapeMember(label: "AccountIds", required: false, type: .list), 
+            AWSShapeMember(label: "AccountSharingInfoList", required: false, type: .list)
         ]
 
         /// The account IDs that have permission to use this document. The ID can be either an AWS account or All.
         public let accountIds: [String]?
+        /// A list of of AWS accounts where the current document is shared and the version shared with each account.
+        public let accountSharingInfoList: [AccountSharingInfo]?
 
-        public init(accountIds: [String]? = nil) {
+        public init(accountIds: [String]? = nil, accountSharingInfoList: [AccountSharingInfo]? = nil) {
             self.accountIds = accountIds
+            self.accountSharingInfoList = accountSharingInfoList
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "AccountIds"
+            case accountSharingInfoList = "AccountSharingInfoList"
         }
     }
 
@@ -4773,7 +4860,7 @@ extension SSM {
             AWSShapeMember(label: "ParameterFilters", required: false, type: .list)
         ]
 
-        /// One or more filters. Use a filter to return a more specific list of results.
+        /// This data type is deprecated. Instead, use ParameterFilters.
         public let filters: [ParametersFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -4918,6 +5005,7 @@ extension SSM {
             AWSShapeMember(label: "InstancesWithFailedPatches", required: false, type: .integer), 
             AWSShapeMember(label: "InstancesWithInstalledOtherPatches", required: false, type: .integer), 
             AWSShapeMember(label: "InstancesWithInstalledPatches", required: false, type: .integer), 
+            AWSShapeMember(label: "InstancesWithInstalledPendingRebootPatches", required: false, type: .integer), 
             AWSShapeMember(label: "InstancesWithInstalledRejectedPatches", required: false, type: .integer), 
             AWSShapeMember(label: "InstancesWithMissingPatches", required: false, type: .integer), 
             AWSShapeMember(label: "InstancesWithNotApplicablePatches", required: false, type: .integer), 
@@ -4932,6 +5020,8 @@ extension SSM {
         public let instancesWithInstalledOtherPatches: Int?
         /// The number of instances with installed patches.
         public let instancesWithInstalledPatches: Int?
+        /// The number of instances with patches installed by Patch Manager that have not been rebooted after the patch installation. The status of these instances is NON_COMPLIANT.
+        public let instancesWithInstalledPendingRebootPatches: Int?
         /// The number of instances with patches installed that are specified in a RejectedPatches list. Patches with a status of INSTALLED_REJECTED were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstancesWithInstalledRejectedPatches will always be 0 (zero). 
         public let instancesWithInstalledRejectedPatches: Int?
         /// The number of instances with missing patches from the patch baseline.
@@ -4941,11 +5031,12 @@ extension SSM {
         /// The number of instances with NotApplicable patches beyond the supported limit, which are not reported by name to Systems Manager Inventory.
         public let instancesWithUnreportedNotApplicablePatches: Int?
 
-        public init(instances: Int? = nil, instancesWithFailedPatches: Int? = nil, instancesWithInstalledOtherPatches: Int? = nil, instancesWithInstalledPatches: Int? = nil, instancesWithInstalledRejectedPatches: Int? = nil, instancesWithMissingPatches: Int? = nil, instancesWithNotApplicablePatches: Int? = nil, instancesWithUnreportedNotApplicablePatches: Int? = nil) {
+        public init(instances: Int? = nil, instancesWithFailedPatches: Int? = nil, instancesWithInstalledOtherPatches: Int? = nil, instancesWithInstalledPatches: Int? = nil, instancesWithInstalledPendingRebootPatches: Int? = nil, instancesWithInstalledRejectedPatches: Int? = nil, instancesWithMissingPatches: Int? = nil, instancesWithNotApplicablePatches: Int? = nil, instancesWithUnreportedNotApplicablePatches: Int? = nil) {
             self.instances = instances
             self.instancesWithFailedPatches = instancesWithFailedPatches
             self.instancesWithInstalledOtherPatches = instancesWithInstalledOtherPatches
             self.instancesWithInstalledPatches = instancesWithInstalledPatches
+            self.instancesWithInstalledPendingRebootPatches = instancesWithInstalledPendingRebootPatches
             self.instancesWithInstalledRejectedPatches = instancesWithInstalledRejectedPatches
             self.instancesWithMissingPatches = instancesWithMissingPatches
             self.instancesWithNotApplicablePatches = instancesWithNotApplicablePatches
@@ -4957,6 +5048,7 @@ extension SSM {
             case instancesWithFailedPatches = "InstancesWithFailedPatches"
             case instancesWithInstalledOtherPatches = "InstancesWithInstalledOtherPatches"
             case instancesWithInstalledPatches = "InstancesWithInstalledPatches"
+            case instancesWithInstalledPendingRebootPatches = "InstancesWithInstalledPendingRebootPatches"
             case instancesWithInstalledRejectedPatches = "InstancesWithInstalledRejectedPatches"
             case instancesWithMissingPatches = "InstancesWithMissingPatches"
             case instancesWithNotApplicablePatches = "InstancesWithNotApplicablePatches"
@@ -5194,6 +5286,7 @@ extension SSM {
             AWSShapeMember(label: "Owner", required: false, type: .string), 
             AWSShapeMember(label: "Parameters", required: false, type: .list), 
             AWSShapeMember(label: "PlatformTypes", required: false, type: .list), 
+            AWSShapeMember(label: "Requires", required: false, type: .list), 
             AWSShapeMember(label: "SchemaVersion", required: false, type: .string), 
             AWSShapeMember(label: "Sha1", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
@@ -5231,6 +5324,8 @@ extension SSM {
         public let parameters: [DocumentParameter]?
         /// The list of OS platforms compatible with this Systems Manager document. 
         public let platformTypes: [PlatformType]?
+        /// A list of SSM documents required by a document. For example, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document.
+        public let requires: [DocumentRequires]?
         /// The schema version.
         public let schemaVersion: String?
         /// The SHA1 hash of the document, which you can use for verification.
@@ -5246,7 +5341,7 @@ extension SSM {
         /// The version of the artifact associated with the document.
         public let versionName: String?
 
-        public init(attachmentsInformation: [AttachmentInformation]? = nil, createdDate: TimeStamp? = nil, defaultVersion: String? = nil, description: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, hash: String? = nil, hashType: DocumentHashType? = nil, latestVersion: String? = nil, name: String? = nil, owner: String? = nil, parameters: [DocumentParameter]? = nil, platformTypes: [PlatformType]? = nil, schemaVersion: String? = nil, sha1: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
+        public init(attachmentsInformation: [AttachmentInformation]? = nil, createdDate: TimeStamp? = nil, defaultVersion: String? = nil, description: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, hash: String? = nil, hashType: DocumentHashType? = nil, latestVersion: String? = nil, name: String? = nil, owner: String? = nil, parameters: [DocumentParameter]? = nil, platformTypes: [PlatformType]? = nil, requires: [DocumentRequires]? = nil, schemaVersion: String? = nil, sha1: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
             self.attachmentsInformation = attachmentsInformation
             self.createdDate = createdDate
             self.defaultVersion = defaultVersion
@@ -5261,6 +5356,7 @@ extension SSM {
             self.owner = owner
             self.parameters = parameters
             self.platformTypes = platformTypes
+            self.requires = requires
             self.schemaVersion = schemaVersion
             self.sha1 = sha1
             self.status = status
@@ -5285,6 +5381,7 @@ extension SSM {
             case owner = "Owner"
             case parameters = "Parameters"
             case platformTypes = "PlatformTypes"
+            case requires = "Requires"
             case schemaVersion = "SchemaVersion"
             case sha1 = "Sha1"
             case status = "Status"
@@ -5332,6 +5429,7 @@ extension SSM {
     public enum DocumentFormat: String, CustomStringConvertible, Codable {
         case yaml = "YAML"
         case json = "JSON"
+        case text = "TEXT"
         public var description: String { return self.rawValue }
     }
 
@@ -5349,6 +5447,7 @@ extension SSM {
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Owner", required: false, type: .string), 
             AWSShapeMember(label: "PlatformTypes", required: false, type: .list), 
+            AWSShapeMember(label: "Requires", required: false, type: .list), 
             AWSShapeMember(label: "SchemaVersion", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TargetType", required: false, type: .string), 
@@ -5367,6 +5466,8 @@ extension SSM {
         public let owner: String?
         /// The operating system platform. 
         public let platformTypes: [PlatformType]?
+        /// A list of SSM documents required by a document. For example, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document.
+        public let requires: [DocumentRequires]?
         /// The schema version.
         public let schemaVersion: String?
         /// The tags, or metadata, that have been applied to the document.
@@ -5376,13 +5477,14 @@ extension SSM {
         /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
 
-        public init(documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, owner: String? = nil, platformTypes: [PlatformType]? = nil, schemaVersion: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
+        public init(documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, owner: String? = nil, platformTypes: [PlatformType]? = nil, requires: [DocumentRequires]? = nil, schemaVersion: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
             self.documentFormat = documentFormat
             self.documentType = documentType
             self.documentVersion = documentVersion
             self.name = name
             self.owner = owner
             self.platformTypes = platformTypes
+            self.requires = requires
             self.schemaVersion = schemaVersion
             self.tags = tags
             self.targetType = targetType
@@ -5396,6 +5498,7 @@ extension SSM {
             case name = "Name"
             case owner = "Owner"
             case platformTypes = "PlatformTypes"
+            case requires = "Requires"
             case schemaVersion = "SchemaVersion"
             case tags = "Tags"
             case targetType = "TargetType"
@@ -5477,6 +5580,33 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
+    public struct DocumentRequires: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+
+        /// The name of the required SSM document. The name can be an Amazon Resource Name (ARN).
+        public let name: String
+        /// The document version required by the current document.
+        public let version: String?
+
+        public init(name: String, version: String? = nil) {
+            self.name = name
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try validate(self.version, name:"version", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
     public enum DocumentStatus: String, CustomStringConvertible, Codable {
         case creating = "Creating"
         case active = "Active"
@@ -5492,6 +5622,10 @@ extension SSM {
         case automation = "Automation"
         case session = "Session"
         case package = "Package"
+        case applicationconfiguration = "ApplicationConfiguration"
+        case applicationconfigurationschema = "ApplicationConfigurationSchema"
+        case deploymentstrategy = "DeploymentStrategy"
+        case changecalendar = "ChangeCalendar"
         public var description: String { return self.rawValue }
     }
 
@@ -5672,6 +5806,55 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case automationExecution = "AutomationExecution"
+        }
+    }
+
+    public struct GetCalendarStateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AtTime", required: false, type: .string), 
+            AWSShapeMember(label: "CalendarNames", required: true, type: .list)
+        ]
+
+        /// (Optional) The specific time for which you want to get calendar state information, in ISO 8601 format. If you do not add AtTime, the current time is assumed.
+        public let atTime: String?
+        /// The names or Amazon Resource Names (ARNs) of the Systems Manager documents that represent the calendar entries for which you want to get the state.
+        public let calendarNames: [String]
+
+        public init(atTime: String? = nil, calendarNames: [String]) {
+            self.atTime = atTime
+            self.calendarNames = calendarNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case atTime = "AtTime"
+            case calendarNames = "CalendarNames"
+        }
+    }
+
+    public struct GetCalendarStateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AtTime", required: false, type: .string), 
+            AWSShapeMember(label: "NextTransitionTime", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+
+        /// The time, as an ISO 8601 string, that you specified in your command. If you did not specify a time, GetCalendarState uses the current time.
+        public let atTime: String?
+        /// The time, as an ISO 8601 string, that the calendar state will change. If the current calendar state is OPEN, NextTransitionTime indicates when the calendar state changes to CLOSED, and vice-versa.
+        public let nextTransitionTime: String?
+        /// The state of the calendar. An OPEN calendar indicates that actions are allowed to proceed, and a CLOSED calendar indicates that actions are not allowed to proceed.
+        public let state: CalendarState?
+
+        public init(atTime: String? = nil, nextTransitionTime: String? = nil, state: CalendarState? = nil) {
+            self.atTime = atTime
+            self.nextTransitionTime = nextTransitionTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case atTime = "AtTime"
+            case nextTransitionTime = "NextTransitionTime"
+            case state = "State"
         }
     }
 
@@ -5996,6 +6179,7 @@ extension SSM {
             AWSShapeMember(label: "DocumentType", required: false, type: .enum), 
             AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Requires", required: false, type: .list), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "StatusInformation", required: false, type: .string), 
             AWSShapeMember(label: "VersionName", required: false, type: .string)
@@ -6013,6 +6197,8 @@ extension SSM {
         public let documentVersion: String?
         /// The name of the Systems Manager document.
         public let name: String?
+        /// A list of SSM documents required by a document. For example, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document.
+        public let requires: [DocumentRequires]?
         /// The status of the Systems Manager document, such as Creating, Active, Updating, Failed, and Deleting.
         public let status: DocumentStatus?
         /// A message returned by AWS Systems Manager that explains the Status value. For example, a Failed status might be explained by the StatusInformation message, "The specified S3 bucket does not exist. Verify that the URL of the S3 bucket is correct."
@@ -6020,13 +6206,14 @@ extension SSM {
         /// The version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
 
-        public init(attachmentsContent: [AttachmentContent]? = nil, content: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, versionName: String? = nil) {
+        public init(attachmentsContent: [AttachmentContent]? = nil, content: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, requires: [DocumentRequires]? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, versionName: String? = nil) {
             self.attachmentsContent = attachmentsContent
             self.content = content
             self.documentFormat = documentFormat
             self.documentType = documentType
             self.documentVersion = documentVersion
             self.name = name
+            self.requires = requires
             self.status = status
             self.statusInformation = statusInformation
             self.versionName = versionName
@@ -6039,6 +6226,7 @@ extension SSM {
             case documentType = "DocumentType"
             case documentVersion = "DocumentVersion"
             case name = "Name"
+            case requires = "Requires"
             case status = "Status"
             case statusInformation = "StatusInformation"
             case versionName = "VersionName"
@@ -6732,30 +6920,38 @@ extension SSM {
 
     public struct GetOpsSummaryRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Aggregators", required: true, type: .list), 
+            AWSShapeMember(label: "Aggregators", required: false, type: .list), 
             AWSShapeMember(label: "Filters", required: false, type: .list), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResultAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "SyncName", required: false, type: .string)
         ]
 
         /// Optional aggregators that return counts of OpsItems based on one or more expressions.
-        public let aggregators: [OpsAggregator]
+        public let aggregators: [OpsAggregator]?
         /// Optional filters used to scope down the returned OpsItems. 
         public let filters: [OpsFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
+        /// The OpsItem data type to return.
+        public let resultAttributes: [OpsResultAttribute]?
+        /// Specify the name of a resource data sync to get.
+        public let syncName: String?
 
-        public init(aggregators: [OpsAggregator], filters: [OpsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(aggregators: [OpsAggregator]? = nil, filters: [OpsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, resultAttributes: [OpsResultAttribute]? = nil, syncName: String? = nil) {
             self.aggregators = aggregators
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.resultAttributes = resultAttributes
+            self.syncName = syncName
         }
 
         public func validate(name: String) throws {
-            try self.aggregators.forEach {
+            try self.aggregators?.forEach {
                 try $0.validate(name: "\(name).aggregators[]")
             }
             try validate(self.aggregators, name:"aggregators", parent: name, max: 12)
@@ -6767,6 +6963,13 @@ extension SSM {
             try validate(self.filters, name:"filters", parent: name, min: 1)
             try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try self.resultAttributes?.forEach {
+                try $0.validate(name: "\(name).resultAttributes[]")
+            }
+            try validate(self.resultAttributes, name:"resultAttributes", parent: name, max: 1)
+            try validate(self.resultAttributes, name:"resultAttributes", parent: name, min: 1)
+            try validate(self.syncName, name:"syncName", parent: name, max: 64)
+            try validate(self.syncName, name:"syncName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6774,6 +6977,8 @@ extension SSM {
             case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case resultAttributes = "ResultAttributes"
+            case syncName = "SyncName"
         }
     }
 
@@ -6918,7 +7123,7 @@ extension SSM {
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        /// Filters to limit the request results.  You can't filter using the parameter name. 
+        /// Filters to limit the request results.
         public let parameterFilters: [ParameterStringFilter]?
         /// The hierarchy for the parameter. Hierarchies start with a forward slash (/) and end with the parameter name. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33 
         public let path: String
@@ -7585,9 +7790,11 @@ extension SSM {
             AWSShapeMember(label: "FailedCount", required: false, type: .integer), 
             AWSShapeMember(label: "InstalledCount", required: false, type: .integer), 
             AWSShapeMember(label: "InstalledOtherCount", required: false, type: .integer), 
+            AWSShapeMember(label: "InstalledPendingRebootCount", required: false, type: .integer), 
             AWSShapeMember(label: "InstalledRejectedCount", required: false, type: .integer), 
             AWSShapeMember(label: "InstallOverrideList", required: false, type: .string), 
             AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "LastNoRebootInstallOperationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "MissingCount", required: false, type: .integer), 
             AWSShapeMember(label: "NotApplicableCount", required: false, type: .integer), 
             AWSShapeMember(label: "Operation", required: true, type: .enum), 
@@ -7595,6 +7802,7 @@ extension SSM {
             AWSShapeMember(label: "OperationStartTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "OwnerInformation", required: false, type: .string), 
             AWSShapeMember(label: "PatchGroup", required: true, type: .string), 
+            AWSShapeMember(label: "RebootOption", required: false, type: .enum), 
             AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
             AWSShapeMember(label: "UnreportedNotApplicableCount", required: false, type: .integer)
         ]
@@ -7607,12 +7815,16 @@ extension SSM {
         public let installedCount: Int?
         /// The number of patches not specified in the patch baseline that are installed on the instance.
         public let installedOtherCount: Int?
+        /// The number of patches installed by Patch Manager since the last time the instance was rebooted.
+        public let installedPendingRebootCount: Int?
         /// The number of instances with patches installed that are specified in a RejectedPatches list. Patches with a status of InstalledRejected were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstalledRejectedCount will always be 0 (zero). 
         public let installedRejectedCount: Int?
         /// An https URL or an Amazon S3 path-style URL to a list of patches to be installed. This patch installation list, which you maintain in an Amazon S3 bucket in YAML format and specify in the SSM document AWS-RunPatchBaseline, overrides the patches specified by the default patch baseline. For more information about the InstallOverrideList parameter, see About the SSM Document AWS-RunPatchBaseline in the AWS Systems Manager User Guide.
         public let installOverrideList: String?
         /// The ID of the managed instance the high-level patch compliance information was collected for.
         public let instanceId: String
+        /// The time of the last attempt to patch the instance with NoReboot specified as the reboot option.
+        public let lastNoRebootInstallOperationTime: TimeStamp?
         /// The number of patches from the patch baseline that are applicable for the instance but aren't currently installed.
         public let missingCount: Int?
         /// The number of patches from the patch baseline that aren't applicable for the instance and therefore aren't installed on the instance. This number may be truncated if the list of patch names is very large. The number of patches beyond this limit are reported in UnreportedNotApplicableCount.
@@ -7627,19 +7839,23 @@ extension SSM {
         public let ownerInformation: String?
         /// The name of the patch group the managed instance belongs to.
         public let patchGroup: String
+        /// Indicates the reboot option specified in the patch baseline.  Reboot options apply to Install operations only. Reboots are not attempted for Patch Manager Scan operations.     RebootIfNeeded: Patch Manager tries to reboot the instance if it installed any patches, or if any patches are detected with a status of InstalledPendingReboot.    NoReboot: Patch Manager attempts to install missing packages without trying to reboot the system. Patches installed with this option are assigned a status of InstalledPendingReboot. These patches might not be in effect until a reboot is performed.  
+        public let rebootOption: RebootOption?
         /// The ID of the patch baseline snapshot used during the patching operation when this compliance data was collected.
         public let snapshotId: String?
         /// The number of patches beyond the supported limit of NotApplicableCount that are not reported by name to Systems Manager Inventory.
         public let unreportedNotApplicableCount: Int?
 
-        public init(baselineId: String, failedCount: Int? = nil, installedCount: Int? = nil, installedOtherCount: Int? = nil, installedRejectedCount: Int? = nil, installOverrideList: String? = nil, instanceId: String, missingCount: Int? = nil, notApplicableCount: Int? = nil, operation: PatchOperationType, operationEndTime: TimeStamp, operationStartTime: TimeStamp, ownerInformation: String? = nil, patchGroup: String, snapshotId: String? = nil, unreportedNotApplicableCount: Int? = nil) {
+        public init(baselineId: String, failedCount: Int? = nil, installedCount: Int? = nil, installedOtherCount: Int? = nil, installedPendingRebootCount: Int? = nil, installedRejectedCount: Int? = nil, installOverrideList: String? = nil, instanceId: String, lastNoRebootInstallOperationTime: TimeStamp? = nil, missingCount: Int? = nil, notApplicableCount: Int? = nil, operation: PatchOperationType, operationEndTime: TimeStamp, operationStartTime: TimeStamp, ownerInformation: String? = nil, patchGroup: String, rebootOption: RebootOption? = nil, snapshotId: String? = nil, unreportedNotApplicableCount: Int? = nil) {
             self.baselineId = baselineId
             self.failedCount = failedCount
             self.installedCount = installedCount
             self.installedOtherCount = installedOtherCount
+            self.installedPendingRebootCount = installedPendingRebootCount
             self.installedRejectedCount = installedRejectedCount
             self.installOverrideList = installOverrideList
             self.instanceId = instanceId
+            self.lastNoRebootInstallOperationTime = lastNoRebootInstallOperationTime
             self.missingCount = missingCount
             self.notApplicableCount = notApplicableCount
             self.operation = operation
@@ -7647,6 +7863,7 @@ extension SSM {
             self.operationStartTime = operationStartTime
             self.ownerInformation = ownerInformation
             self.patchGroup = patchGroup
+            self.rebootOption = rebootOption
             self.snapshotId = snapshotId
             self.unreportedNotApplicableCount = unreportedNotApplicableCount
         }
@@ -7656,9 +7873,11 @@ extension SSM {
             case failedCount = "FailedCount"
             case installedCount = "InstalledCount"
             case installedOtherCount = "InstalledOtherCount"
+            case installedPendingRebootCount = "InstalledPendingRebootCount"
             case installedRejectedCount = "InstalledRejectedCount"
             case installOverrideList = "InstallOverrideList"
             case instanceId = "InstanceId"
+            case lastNoRebootInstallOperationTime = "LastNoRebootInstallOperationTime"
             case missingCount = "MissingCount"
             case notApplicableCount = "NotApplicableCount"
             case operation = "Operation"
@@ -7666,6 +7885,7 @@ extension SSM {
             case operationStartTime = "OperationStartTime"
             case ownerInformation = "OwnerInformation"
             case patchGroup = "PatchGroup"
+            case rebootOption = "RebootOption"
             case snapshotId = "SnapshotId"
             case unreportedNotApplicableCount = "UnreportedNotApplicableCount"
         }
@@ -7877,7 +8097,7 @@ extension SSM {
 
         /// The name of the filter key.
         public let key: String
-        /// The type of filter. Valid values include the following: "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"
+        /// The type of filter.
         public let `type`: InventoryQueryOperatorType?
         /// Inventory filter values. Example: inventory filter where instance IDs are specified as values Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal 
         public let values: [String]
@@ -8316,7 +8536,7 @@ extension SSM {
         public let commandId: String?
         /// (Optional) If set this returns the response of the command executions and any command output. By default this is set to False. 
         public let details: Bool?
-        /// (Optional) One or more filters. Use a filter to return a more specific list of results.
+        /// (Optional) One or more filters. Use a filter to return a more specific list of results. Note that the DocumentName filter is not supported for ListCommandInvocations.
         public let filters: [CommandFilter]?
         /// (Optional) The command execution details for a specific instance ID.
         public let instanceId: String?
@@ -8594,7 +8814,7 @@ extension SSM {
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
-        /// The name of the document about which you want version information.
+        /// The name of the document. You can specify an Amazon Resource Name (ARN).
         public let name: String
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -8608,7 +8828,7 @@ extension SSM {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8861,27 +9081,34 @@ extension SSM {
     public struct ListResourceDataSyncRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", required: false, type: .string)
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SyncType", required: false, type: .string)
         ]
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
+        /// View a list of resource data syncs according to the sync type. Specify SyncToDestination to view resource data syncs that synchronize data to an Amazon S3 buckets. Specify SyncFromSource to view resource data syncs from AWS Organizations or from multiple AWS Regions. 
+        public let syncType: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, syncType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.syncType = syncType
         }
 
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 50)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.syncType, name:"syncType", parent: name, max: 64)
+            try validate(self.syncType, name:"syncType", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case syncType = "SyncType"
         }
     }
 
@@ -9354,9 +9581,11 @@ extension SSM {
 
     public struct MaintenanceWindowRunCommandParameters: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchOutputConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Comment", required: false, type: .string), 
             AWSShapeMember(label: "DocumentHash", required: false, type: .string), 
             AWSShapeMember(label: "DocumentHashType", required: false, type: .enum), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
             AWSShapeMember(label: "NotificationConfig", required: false, type: .structure), 
             AWSShapeMember(label: "OutputS3BucketName", required: false, type: .string), 
             AWSShapeMember(label: "OutputS3KeyPrefix", required: false, type: .string), 
@@ -9365,12 +9594,15 @@ extension SSM {
             AWSShapeMember(label: "TimeoutSeconds", required: false, type: .integer)
         ]
 
+        public let cloudWatchOutputConfig: CloudWatchOutputConfig?
         /// Information about the commands to run.
         public let comment: String?
         /// The SHA-256 or SHA-1 hash created by the system when the document was created. SHA-1 hashes have been deprecated.
         public let documentHash: String?
         /// SHA-256 or SHA-1. SHA-1 hashes have been deprecated.
         public let documentHashType: DocumentHashType?
+        /// The SSM document version to use in the request. You can specify $DEFAULT, $LATEST, or a specific version number. If you run commands by using the AWS CLI, then you must escape the first two options by using a backslash. If you specify a version number, then you don't need to use the backslash. For example: --document-version "\$DEFAULT" --document-version "\$LATEST" --document-version "3"
+        public let documentVersion: String?
         /// Configurations for sending notifications about command status changes on a per-instance basis.
         public let notificationConfig: NotificationConfig?
         /// The name of the Amazon S3 bucket.
@@ -9384,10 +9616,12 @@ extension SSM {
         /// If this time is reached and the command has not already started running, it doesn't run.
         public let timeoutSeconds: Int?
 
-        public init(comment: String? = nil, documentHash: String? = nil, documentHashType: DocumentHashType? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, parameters: [String: [String]]? = nil, serviceRoleArn: String? = nil, timeoutSeconds: Int? = nil) {
+        public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, comment: String? = nil, documentHash: String? = nil, documentHashType: DocumentHashType? = nil, documentVersion: String? = nil, notificationConfig: NotificationConfig? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, parameters: [String: [String]]? = nil, serviceRoleArn: String? = nil, timeoutSeconds: Int? = nil) {
+            self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.comment = comment
             self.documentHash = documentHash
             self.documentHashType = documentHashType
+            self.documentVersion = documentVersion
             self.notificationConfig = notificationConfig
             self.outputS3BucketName = outputS3BucketName
             self.outputS3KeyPrefix = outputS3KeyPrefix
@@ -9397,8 +9631,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.cloudWatchOutputConfig?.validate(name: "\(name).cloudWatchOutputConfig")
             try validate(self.comment, name:"comment", parent: name, max: 100)
             try validate(self.documentHash, name:"documentHash", parent: name, max: 256)
+            try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
             try validate(self.outputS3BucketName, name:"outputS3BucketName", parent: name, max: 63)
             try validate(self.outputS3BucketName, name:"outputS3BucketName", parent: name, min: 3)
             try validate(self.outputS3KeyPrefix, name:"outputS3KeyPrefix", parent: name, max: 500)
@@ -9407,9 +9643,11 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cloudWatchOutputConfig = "CloudWatchOutputConfig"
             case comment = "Comment"
             case documentHash = "DocumentHash"
             case documentHashType = "DocumentHashType"
+            case documentVersion = "DocumentVersion"
             case notificationConfig = "NotificationConfig"
             case outputS3BucketName = "OutputS3BucketName"
             case outputS3KeyPrefix = "OutputS3KeyPrefix"
@@ -9647,7 +9885,8 @@ extension SSM {
             AWSShapeMember(label: "AccountIdsToAdd", required: false, type: .list), 
             AWSShapeMember(label: "AccountIdsToRemove", required: false, type: .list), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "PermissionType", required: true, type: .enum)
+            AWSShapeMember(label: "PermissionType", required: true, type: .enum), 
+            AWSShapeMember(label: "SharedDocumentVersion", required: false, type: .string)
         ]
 
         /// The AWS user accounts that should have access to the document. The account IDs can either be a group of account IDs or All.
@@ -9658,12 +9897,15 @@ extension SSM {
         public let name: String
         /// The permission type for the document. The permission type can be Share.
         public let permissionType: DocumentPermissionType
+        /// (Optional) The version of the document to share. If it's not specified, the system choose the Default version to share.
+        public let sharedDocumentVersion: String?
 
-        public init(accountIdsToAdd: [String]? = nil, accountIdsToRemove: [String]? = nil, name: String, permissionType: DocumentPermissionType) {
+        public init(accountIdsToAdd: [String]? = nil, accountIdsToRemove: [String]? = nil, name: String, permissionType: DocumentPermissionType, sharedDocumentVersion: String? = nil) {
             self.accountIdsToAdd = accountIdsToAdd
             self.accountIdsToRemove = accountIdsToRemove
             self.name = name
             self.permissionType = permissionType
+            self.sharedDocumentVersion = sharedDocumentVersion
         }
 
         public func validate(name: String) throws {
@@ -9676,6 +9918,8 @@ extension SSM {
             }
             try validate(self.accountIdsToRemove, name:"accountIdsToRemove", parent: name, max: 20)
             try validate(self.name, name:"name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try validate(self.sharedDocumentVersion, name:"sharedDocumentVersion", parent: name, max: 8)
+            try validate(self.sharedDocumentVersion, name:"sharedDocumentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|[$]ALL)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9683,6 +9927,7 @@ extension SSM {
             case accountIdsToRemove = "AccountIdsToRemove"
             case name = "Name"
             case permissionType = "PermissionType"
+            case sharedDocumentVersion = "SharedDocumentVersion"
         }
     }
 
@@ -9810,7 +10055,7 @@ extension SSM {
             try validate(self.aggregators, name:"aggregators", parent: name, min: 1)
             try validate(self.aggregatorType, name:"aggregatorType", parent: name, max: 20)
             try validate(self.aggregatorType, name:"aggregatorType", parent: name, min: 1)
-            try validate(self.aggregatorType, name:"aggregatorType", parent: name, pattern: "^(range|count)")
+            try validate(self.aggregatorType, name:"aggregatorType", parent: name, pattern: "^(range|count|sum)")
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
@@ -9822,7 +10067,7 @@ extension SSM {
             try self.values?.forEach {
                 try validate($0.key, name:"values.key", parent: name, max: 32)
                 try validate($0.key, name:"values.key", parent: name, min: 1)
-                try validate($0.value, name:"values[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name:"values[\"\($0.key)\"]", parent: name, max: 2048)
                 try validate($0.value, name:"values[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
@@ -9861,17 +10106,22 @@ extension SSM {
 
     public struct OpsEntityItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CaptureTime", required: false, type: .string), 
             AWSShapeMember(label: "Content", required: false, type: .list)
         ]
 
+        /// The time OpsItem data was captured.
+        public let captureTime: String?
         /// The detailed data content for an OpsItem summaries result item.
         public let content: [[String: String]]?
 
-        public init(content: [[String: String]]? = nil) {
+        public init(captureTime: String? = nil, content: [[String: String]]? = nil) {
+            self.captureTime = captureTime
             self.content = content
         }
 
         private enum CodingKeys: String, CodingKey {
+            case captureTime = "CaptureTime"
             case content = "Content"
         }
     }
@@ -9922,6 +10172,7 @@ extension SSM {
 
     public struct OpsItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Category", required: false, type: .string), 
             AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -9932,12 +10183,15 @@ extension SSM {
             AWSShapeMember(label: "OpsItemId", required: false, type: .string), 
             AWSShapeMember(label: "Priority", required: false, type: .integer), 
             AWSShapeMember(label: "RelatedOpsItems", required: false, type: .list), 
+            AWSShapeMember(label: "Severity", required: false, type: .string), 
             AWSShapeMember(label: "Source", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Title", required: false, type: .string), 
             AWSShapeMember(label: "Version", required: false, type: .string)
         ]
 
+        /// An OpsItem category. Category options include: Availability, Cost, Performance, Recovery, Security.
+        public let category: String?
         /// The ARN of the AWS account that created the OpsItem.
         public let createdBy: String?
         /// The date and time the OpsItem was created.
@@ -9958,6 +10212,8 @@ extension SSM {
         public let priority: Int?
         /// One or more OpsItems that share something in common with the current OpsItem. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
         public let relatedOpsItems: [RelatedOpsItem]?
+        /// The severity of the OpsItem. Severity options range from 1 to 4.
+        public let severity: String?
         /// The origin of the OpsItem, such as Amazon EC2 or AWS Systems Manager. The impacted resource is a subset of source.
         public let source: String?
         /// The OpsItem status. Status can be Open, In Progress, or Resolved. For more information, see Editing OpsItem Details in the AWS Systems Manager User Guide.
@@ -9967,7 +10223,8 @@ extension SSM {
         /// The version of this OpsItem. Each time the OpsItem is edited the version number increments by one.
         public let version: String?
 
-        public init(createdBy: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: TimeStamp? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil, version: String? = nil) {
+        public init(category: String? = nil, createdBy: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: TimeStamp? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil, version: String? = nil) {
+            self.category = category
             self.createdBy = createdBy
             self.createdTime = createdTime
             self.description = description
@@ -9978,6 +10235,7 @@ extension SSM {
             self.opsItemId = opsItemId
             self.priority = priority
             self.relatedOpsItems = relatedOpsItems
+            self.severity = severity
             self.source = source
             self.status = status
             self.title = title
@@ -9985,6 +10243,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case category = "Category"
             case createdBy = "CreatedBy"
             case createdTime = "CreatedTime"
             case description = "Description"
@@ -9995,6 +10254,7 @@ extension SSM {
             case opsItemId = "OpsItemId"
             case priority = "Priority"
             case relatedOpsItems = "RelatedOpsItems"
+            case severity = "Severity"
             case source = "Source"
             case status = "Status"
             case title = "Title"
@@ -10071,6 +10331,8 @@ extension SSM {
         case operationaldatavalue = "OperationalDataValue"
         case resourceid = "ResourceId"
         case automationid = "AutomationId"
+        case category = "Category"
+        case severity = "Severity"
         public var description: String { return self.rawValue }
     }
 
@@ -10108,6 +10370,7 @@ extension SSM {
 
     public struct OpsItemSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Category", required: false, type: .string), 
             AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "LastModifiedBy", required: false, type: .string), 
@@ -10115,11 +10378,14 @@ extension SSM {
             AWSShapeMember(label: "OperationalData", required: false, type: .map), 
             AWSShapeMember(label: "OpsItemId", required: false, type: .string), 
             AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "Severity", required: false, type: .string), 
             AWSShapeMember(label: "Source", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Title", required: false, type: .string)
         ]
 
+        /// A list of OpsItems by category.
+        public let category: String?
         /// The Amazon Resource Name (ARN) of the IAM entity that created the OpsItem.
         public let createdBy: String?
         /// The date and time the OpsItem was created.
@@ -10134,6 +10400,8 @@ extension SSM {
         public let opsItemId: String?
         /// The importance of this OpsItem in relation to other OpsItems in the system.
         public let priority: Int?
+        /// A list of OpsItems by severity.
+        public let severity: String?
         /// The impacted AWS resource.
         public let source: String?
         /// The OpsItem status. Status can be Open, In Progress, or Resolved.
@@ -10141,7 +10409,8 @@ extension SSM {
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
 
-        public init(createdBy: String? = nil, createdTime: TimeStamp? = nil, lastModifiedBy: String? = nil, lastModifiedTime: TimeStamp? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+        public init(category: String? = nil, createdBy: String? = nil, createdTime: TimeStamp? = nil, lastModifiedBy: String? = nil, lastModifiedTime: TimeStamp? = nil, operationalData: [String: OpsItemDataValue]? = nil, opsItemId: String? = nil, priority: Int? = nil, severity: String? = nil, source: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+            self.category = category
             self.createdBy = createdBy
             self.createdTime = createdTime
             self.lastModifiedBy = lastModifiedBy
@@ -10149,12 +10418,14 @@ extension SSM {
             self.operationalData = operationalData
             self.opsItemId = opsItemId
             self.priority = priority
+            self.severity = severity
             self.source = source
             self.status = status
             self.title = title
         }
 
         private enum CodingKeys: String, CodingKey {
+            case category = "Category"
             case createdBy = "CreatedBy"
             case createdTime = "CreatedTime"
             case lastModifiedBy = "LastModifiedBy"
@@ -10162,9 +10433,33 @@ extension SSM {
             case operationalData = "OperationalData"
             case opsItemId = "OpsItemId"
             case priority = "Priority"
+            case severity = "Severity"
             case source = "Source"
             case status = "Status"
             case title = "Title"
+        }
+    }
+
+    public struct OpsResultAttribute: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypeName", required: true, type: .string)
+        ]
+
+        /// Name of the data type. Valid value: AWS:OpsItem, AWS:EC2InstanceInformation, AWS:OpsItemTrendline, or AWS:ComplianceSummary.
+        public let typeName: String
+
+        public init(typeName: String) {
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.typeName, name:"typeName", parent: name, max: 100)
+            try validate(self.typeName, name:"typeName", parent: name, min: 1)
+            try validate(self.typeName, name:"typeName", parent: name, pattern: "^(AWS|Custom):.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typeName = "TypeName"
         }
     }
 
@@ -10412,7 +10707,7 @@ extension SSM {
 
         /// The name of the filter.
         public let key: String
-        /// Valid options are Equals and BeginsWith. For Path filter, valid options are Recursive and OneLevel.
+        /// For all filters used with DescribeParameters, valid options include Equals and BeginsWith. The Name filter additionally supports the Contains option. (Exception: For filters using the key Path, valid options include Recursive and OneLevel.) For filters used with GetParametersByPath, valid options include Equals and BeginsWith. (Exception: For filters using the key Label, the only valid option is Equals.)
         public let option: String?
         /// The value you want to search for.
         public let values: [String]?
@@ -10661,6 +10956,7 @@ extension SSM {
     public enum PatchComplianceDataState: String, CustomStringConvertible, Codable {
         case installed = "INSTALLED"
         case installedOther = "INSTALLED_OTHER"
+        case installedPendingReboot = "INSTALLED_PENDING_REBOOT"
         case installedRejected = "INSTALLED_REJECTED"
         case missing = "MISSING"
         case notApplicable = "NOT_APPLICABLE"
@@ -11082,7 +11378,7 @@ extension SSM {
             AWSShapeMember(label: "Items", required: true, type: .list)
         ]
 
-        /// One or more instance IDs where you want to add or update inventory items.
+        /// An instance ID where you want to add or update inventory items.
         public let instanceId: String
         /// The inventory items that you want to add or update on instances.
         public let items: [InventoryItem]
@@ -11144,7 +11440,7 @@ extension SSM {
         public let description: String?
         /// The KMS Key ID that you want to use to encrypt a parameter. Either the default AWS Key Management Service (AWS KMS) key automatically assigned to your AWS account or a custom key. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your AWS account.   To use your default AWS KMS key, choose the SecureString data type, and do not specify the Key ID when you create the parameter. The system automatically populates Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data type with the Key ID parameter.  
         public let keyId: String?
-        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an AWS Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-/    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Requirements and Constraints for Parameter Names in the AWS Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that are not part of the name. The maximum length for the fully qualified parameter name is 1011 characters.  
+        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an AWS Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-/    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Requirements and Constraints for Parameter Names in the AWS Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that are not part of the name. The maximum length for the fully qualified parameter name is 1011 characters, including the full length of the parameter ARN. For example, the following fully qualified parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName  
         public let name: String
         /// Overwrite an existing parameter. If not specified, will default to "false".
         public let overwrite: Bool?
@@ -11224,6 +11520,12 @@ extension SSM {
             case tier = "Tier"
             case version = "Version"
         }
+    }
+
+    public enum RebootOption: String, CustomStringConvertible, Codable {
+        case rebootifneeded = "RebootIfNeeded"
+        case noreboot = "NoReboot"
+        public var description: String { return self.rawValue }
     }
 
     public struct RegisterDefaultPatchBaselineRequest: AWSShape {
@@ -11709,6 +12011,38 @@ extension SSM {
         }
     }
 
+    public struct ResourceDataSyncAwsOrganizationsSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationalUnits", required: false, type: .list), 
+            AWSShapeMember(label: "OrganizationSourceType", required: true, type: .string)
+        ]
+
+        /// The AWS Organizations organization units included in the sync.
+        public let organizationalUnits: [ResourceDataSyncOrganizationalUnit]?
+        /// If an AWS Organization is present, this is either OrganizationalUnits or EntireOrganization. For OrganizationalUnits, the data is aggregated from a set of organization units. For EntireOrganization, the data is aggregated from the entire AWS Organization. 
+        public let organizationSourceType: String
+
+        public init(organizationalUnits: [ResourceDataSyncOrganizationalUnit]? = nil, organizationSourceType: String) {
+            self.organizationalUnits = organizationalUnits
+            self.organizationSourceType = organizationSourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.organizationalUnits?.forEach {
+                try $0.validate(name: "\(name).organizationalUnits[]")
+            }
+            try validate(self.organizationalUnits, name:"organizationalUnits", parent: name, max: 1000)
+            try validate(self.organizationalUnits, name:"organizationalUnits", parent: name, min: 1)
+            try validate(self.organizationSourceType, name:"organizationSourceType", parent: name, max: 64)
+            try validate(self.organizationSourceType, name:"organizationSourceType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationalUnits = "OrganizationalUnits"
+            case organizationSourceType = "OrganizationSourceType"
+        }
+    }
+
     public struct ResourceDataSyncItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LastStatus", required: false, type: .enum), 
@@ -11717,7 +12051,10 @@ extension SSM {
             AWSShapeMember(label: "LastSyncTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "S3Destination", required: false, type: .structure), 
             AWSShapeMember(label: "SyncCreatedTime", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SyncName", required: false, type: .string)
+            AWSShapeMember(label: "SyncLastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SyncName", required: false, type: .string), 
+            AWSShapeMember(label: "SyncSource", required: false, type: .structure), 
+            AWSShapeMember(label: "SyncType", required: false, type: .string)
         ]
 
         /// The status reported by the last sync.
@@ -11732,17 +12069,26 @@ extension SSM {
         public let s3Destination: ResourceDataSyncS3Destination?
         /// The date and time the configuration was created (UTC).
         public let syncCreatedTime: TimeStamp?
+        /// The date and time the resource data sync was changed. 
+        public let syncLastModifiedTime: TimeStamp?
         /// The name of the Resource Data Sync.
         public let syncName: String?
+        /// Information about the source where the data was synchronized. 
+        public let syncSource: ResourceDataSyncSourceWithState?
+        /// The type of resource data sync. If SyncType is SyncToDestination, then the resource data sync synchronizes data to an Amazon S3 bucket. If the SyncType is SyncFromSource then the resource data sync synchronizes data from AWS Organizations or from multiple AWS Regions.
+        public let syncType: String?
 
-        public init(lastStatus: LastResourceDataSyncStatus? = nil, lastSuccessfulSyncTime: TimeStamp? = nil, lastSyncStatusMessage: String? = nil, lastSyncTime: TimeStamp? = nil, s3Destination: ResourceDataSyncS3Destination? = nil, syncCreatedTime: TimeStamp? = nil, syncName: String? = nil) {
+        public init(lastStatus: LastResourceDataSyncStatus? = nil, lastSuccessfulSyncTime: TimeStamp? = nil, lastSyncStatusMessage: String? = nil, lastSyncTime: TimeStamp? = nil, s3Destination: ResourceDataSyncS3Destination? = nil, syncCreatedTime: TimeStamp? = nil, syncLastModifiedTime: TimeStamp? = nil, syncName: String? = nil, syncSource: ResourceDataSyncSourceWithState? = nil, syncType: String? = nil) {
             self.lastStatus = lastStatus
             self.lastSuccessfulSyncTime = lastSuccessfulSyncTime
             self.lastSyncStatusMessage = lastSyncStatusMessage
             self.lastSyncTime = lastSyncTime
             self.s3Destination = s3Destination
             self.syncCreatedTime = syncCreatedTime
+            self.syncLastModifiedTime = syncLastModifiedTime
             self.syncName = syncName
+            self.syncSource = syncSource
+            self.syncType = syncType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11752,7 +12098,33 @@ extension SSM {
             case lastSyncTime = "LastSyncTime"
             case s3Destination = "S3Destination"
             case syncCreatedTime = "SyncCreatedTime"
+            case syncLastModifiedTime = "SyncLastModifiedTime"
             case syncName = "SyncName"
+            case syncSource = "SyncSource"
+            case syncType = "SyncType"
+        }
+    }
+
+    public struct ResourceDataSyncOrganizationalUnit: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationalUnitId", required: false, type: .string)
+        ]
+
+        /// The AWS Organization unit ID data source for the sync.
+        public let organizationalUnitId: String?
+
+        public init(organizationalUnitId: String? = nil) {
+            self.organizationalUnitId = organizationalUnitId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.organizationalUnitId, name:"organizationalUnitId", parent: name, max: 128)
+            try validate(self.organizationalUnitId, name:"organizationalUnitId", parent: name, min: 1)
+            try validate(self.organizationalUnitId, name:"organizationalUnitId", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationalUnitId = "OrganizationalUnitId"
         }
     }
 
@@ -11808,6 +12180,85 @@ extension SSM {
     public enum ResourceDataSyncS3Format: String, CustomStringConvertible, Codable {
         case jsonserde = "JsonSerDe"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ResourceDataSyncSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsOrganizationsSource", required: false, type: .structure), 
+            AWSShapeMember(label: "IncludeFutureRegions", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceRegions", required: true, type: .list), 
+            AWSShapeMember(label: "SourceType", required: true, type: .string)
+        ]
+
+        /// The field name in SyncSource for the ResourceDataSyncAwsOrganizationsSource type.
+        public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
+        /// Whether to automatically synchronize and aggregate data from new AWS Regions when those Regions come online.
+        public let includeFutureRegions: Bool?
+        /// The SyncSource AWS Regions included in the resource data sync.
+        public let sourceRegions: [String]
+        /// The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in AWS Organizations) or singleAccountMultiRegions.
+        public let sourceType: String
+
+        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String], sourceType: String) {
+            self.awsOrganizationsSource = awsOrganizationsSource
+            self.includeFutureRegions = includeFutureRegions
+            self.sourceRegions = sourceRegions
+            self.sourceType = sourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.awsOrganizationsSource?.validate(name: "\(name).awsOrganizationsSource")
+            try self.sourceRegions.forEach {
+                try validate($0, name: "sourceRegions[]", parent: name, max: 64)
+                try validate($0, name: "sourceRegions[]", parent: name, min: 1)
+            }
+            try validate(self.sourceType, name:"sourceType", parent: name, max: 64)
+            try validate(self.sourceType, name:"sourceType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsOrganizationsSource = "AwsOrganizationsSource"
+            case includeFutureRegions = "IncludeFutureRegions"
+            case sourceRegions = "SourceRegions"
+            case sourceType = "SourceType"
+        }
+    }
+
+    public struct ResourceDataSyncSourceWithState: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsOrganizationsSource", required: false, type: .structure), 
+            AWSShapeMember(label: "IncludeFutureRegions", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceRegions", required: false, type: .list), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string)
+        ]
+
+        /// The field name in SyncSource for the ResourceDataSyncAwsOrganizationsSource type.
+        public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
+        /// Whether to automatically synchronize and aggregate data from new AWS Regions when those Regions come online.
+        public let includeFutureRegions: Bool?
+        /// The SyncSource AWS Regions included in the resource data sync.
+        public let sourceRegions: [String]?
+        /// The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in AWS Organizations) or singleAccountMultiRegions.
+        public let sourceType: String?
+        /// The data type name for including resource data sync state. There are four sync states:  OrganizationNotExists: Your organization doesn't exist.  NoPermissions: The system can't locate the service-linked role. This role is automatically created when a user creates a resource data sync in Explorer.  InvalidOrganizationalUnit: You specified or selected an invalid unit in the resource data sync configuration.  TrustedAccessDisabled: You disabled Systems Manager access in the organization in AWS Organizations.
+        public let state: String?
+
+        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String]? = nil, sourceType: String? = nil, state: String? = nil) {
+            self.awsOrganizationsSource = awsOrganizationsSource
+            self.includeFutureRegions = includeFutureRegions
+            self.sourceRegions = sourceRegions
+            self.sourceType = sourceType
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsOrganizationsSource = "AwsOrganizationsSource"
+            case includeFutureRegions = "IncludeFutureRegions"
+            case sourceRegions = "SourceRegions"
+            case sourceType = "SourceType"
+            case state = "State"
+        }
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
@@ -11881,7 +12332,7 @@ extension SSM {
 
         /// The ID of the session.
         public let sessionId: String?
-        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output).  region represents the Region identifier for an AWS Region supported by AWS Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in the AWS Systems Manager table of regions and endpoints in the AWS General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
+        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output).  region represents the Region identifier for an AWS Region supported by AWS Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager Service Endpoints in the AWS General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
         public let streamUrl: String?
         /// An encrypted token value containing session and caller information. Used to authenticate the connection to the instance.
         public let tokenValue: String?
@@ -12435,6 +12886,7 @@ extension SSM {
             AWSShapeMember(label: "MaxErrors", required: false, type: .string), 
             AWSShapeMember(label: "Mode", required: false, type: .enum), 
             AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TargetLocations", required: false, type: .list), 
             AWSShapeMember(label: "TargetMaps", required: false, type: .list), 
             AWSShapeMember(label: "TargetParameterName", required: false, type: .string), 
@@ -12455,6 +12907,8 @@ extension SSM {
         public let mode: ExecutionMode?
         /// A key-value map of execution parameters, which match the declared parameters in the Automation document.
         public let parameters: [String: [String]]?
+        /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for an automation. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an automation to identify an environment or operating system. In this case, you could specify the following key name/value pairs:    Key=environment,Value=test     Key=OS,Value=Windows     To add tags to an existing patch baseline, use the AddTagsToResource action. 
+        public let tags: [Tag]?
         /// A location is a combination of AWS Regions and/or AWS accounts where you want to run the Automation. Use this action to start an Automation in multiple Regions and multiple accounts. For more information, see Executing Automations in Multiple AWS Regions and Accounts in the AWS Systems Manager User Guide. 
         public let targetLocations: [TargetLocation]?
         /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps cannot be specified together.
@@ -12464,7 +12918,7 @@ extension SSM {
         /// A key-value mapping to target resources. Required if you specify TargetParameterName.
         public let targets: [Target]?
 
-        public init(clientToken: String? = nil, documentName: String, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, parameters: [String: [String]]? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+        public init(clientToken: String? = nil, documentName: String, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, parameters: [String: [String]]? = nil, tags: [Tag]? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
             self.clientToken = clientToken
             self.documentName = documentName
             self.documentVersion = documentVersion
@@ -12472,6 +12926,7 @@ extension SSM {
             self.maxErrors = maxErrors
             self.mode = mode
             self.parameters = parameters
+            self.tags = tags
             self.targetLocations = targetLocations
             self.targetMaps = targetMaps
             self.targetParameterName = targetParameterName
@@ -12496,6 +12951,10 @@ extension SSM {
                 try validate($0.value, name:"parameters[\"\($0.key)\"]", parent: name, max: 10)
                 try validate($0.value, name:"parameters[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 1000)
             try self.targetLocations?.forEach {
                 try $0.validate(name: "\(name).targetLocations[]")
             }
@@ -12520,6 +12979,7 @@ extension SSM {
             case maxErrors = "MaxErrors"
             case mode = "Mode"
             case parameters = "Parameters"
+            case tags = "Tags"
             case targetLocations = "TargetLocations"
             case targetMaps = "TargetMaps"
             case targetParameterName = "TargetParameterName"
@@ -12590,7 +13050,7 @@ extension SSM {
 
         /// The ID of the session.
         public let sessionId: String?
-        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output)   region represents the Region identifier for an AWS Region supported by AWS Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in the AWS Systems Manager table of regions and endpoints in the AWS General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
+        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output)   region represents the Region identifier for an AWS Region supported by AWS Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager Service Endpoints in the AWS General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
         public let streamUrl: String?
         /// An encrypted token value containing session and caller information. Used to authenticate the connection to the instance.
         public let tokenValue: String?
@@ -12668,7 +13128,7 @@ extension SSM {
         public let stepExecutionId: String?
         /// The name of this execution step.
         public let stepName: String?
-        /// The execution status for this step. Valid values include: Pending, InProgress, Success, Cancelled, Failed, and TimedOut.
+        /// The execution status for this step.
         public let stepStatus: AutomationExecutionStatus?
         /// The combination of AWS Regions and accounts targeted by the current Automation execution.
         public let targetLocation: TargetLocation?
@@ -13216,7 +13676,7 @@ extension SSM {
             try self.attachments?.forEach {
                 try $0.validate(name: "\(name).attachments[]")
             }
-            try validate(self.attachments, name:"attachments", parent: name, max: 1)
+            try validate(self.attachments, name:"attachments", parent: name, max: 20)
             try validate(self.attachments, name:"attachments", parent: name, min: 0)
             try validate(self.content, name:"content", parent: name, min: 1)
             try validate(self.documentVersion, name:"documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
@@ -13751,6 +14211,7 @@ extension SSM {
 
     public struct UpdateOpsItemRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Category", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Notifications", required: false, type: .list), 
             AWSShapeMember(label: "OperationalData", required: false, type: .map), 
@@ -13758,10 +14219,13 @@ extension SSM {
             AWSShapeMember(label: "OpsItemId", required: true, type: .string), 
             AWSShapeMember(label: "Priority", required: false, type: .integer), 
             AWSShapeMember(label: "RelatedOpsItems", required: false, type: .list), 
+            AWSShapeMember(label: "Severity", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "Title", required: false, type: .string)
         ]
 
+        /// Specify a new category for an OpsItem.
+        public let category: String?
         /// Update the information about the OpsItem. Provide enough information so that users reading this OpsItem for the first time understand the issue. 
         public let description: String?
         /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
@@ -13776,12 +14240,15 @@ extension SSM {
         public let priority: Int?
         /// One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
         public let relatedOpsItems: [RelatedOpsItem]?
+        /// Specify a new severity for an OpsItem.
+        public let severity: String?
         /// The OpsItem status. Status can be Open, In Progress, or Resolved. For more information, see Editing OpsItem Details in the AWS Systems Manager User Guide.
         public let status: OpsItemStatus?
         /// A short heading that describes the nature of the OpsItem and the impacted resource.
         public let title: String?
 
-        public init(description: String? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, operationalDataToDelete: [String]? = nil, opsItemId: String, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+        public init(category: String? = nil, description: String? = nil, notifications: [OpsItemNotification]? = nil, operationalData: [String: OpsItemDataValue]? = nil, operationalDataToDelete: [String]? = nil, opsItemId: String, priority: Int? = nil, relatedOpsItems: [RelatedOpsItem]? = nil, severity: String? = nil, status: OpsItemStatus? = nil, title: String? = nil) {
+            self.category = category
             self.description = description
             self.notifications = notifications
             self.operationalData = operationalData
@@ -13789,11 +14256,14 @@ extension SSM {
             self.opsItemId = opsItemId
             self.priority = priority
             self.relatedOpsItems = relatedOpsItems
+            self.severity = severity
             self.status = status
             self.title = title
         }
 
         public func validate(name: String) throws {
+            try validate(self.category, name:"category", parent: name, max: 64)
+            try validate(self.category, name:"category", parent: name, min: 1)
             try validate(self.description, name:"description", parent: name, max: 1024)
             try validate(self.description, name:"description", parent: name, min: 1)
             try self.operationalData?.forEach {
@@ -13803,11 +14273,14 @@ extension SSM {
             try validate(self.opsItemId, name:"opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
             try validate(self.priority, name:"priority", parent: name, max: 5)
             try validate(self.priority, name:"priority", parent: name, min: 1)
+            try validate(self.severity, name:"severity", parent: name, max: 64)
+            try validate(self.severity, name:"severity", parent: name, min: 1)
             try validate(self.title, name:"title", parent: name, max: 1024)
             try validate(self.title, name:"title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case category = "Category"
             case description = "Description"
             case notifications = "Notifications"
             case operationalData = "OperationalData"
@@ -13815,6 +14288,7 @@ extension SSM {
             case opsItemId = "OpsItemId"
             case priority = "Priority"
             case relatedOpsItems = "RelatedOpsItems"
+            case severity = "Severity"
             case status = "Status"
             case title = "Title"
         }
@@ -14010,6 +14484,49 @@ extension SSM {
             case rejectedPatchesAction = "RejectedPatchesAction"
             case sources = "Sources"
         }
+    }
+
+    public struct UpdateResourceDataSyncRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SyncName", required: true, type: .string), 
+            AWSShapeMember(label: "SyncSource", required: true, type: .structure), 
+            AWSShapeMember(label: "SyncType", required: true, type: .string)
+        ]
+
+        /// The name of the resource data sync you want to update.
+        public let syncName: String
+        /// Specify information about the data sources to synchronize.
+        public let syncSource: ResourceDataSyncSource
+        /// The type of resource data sync. If SyncType is SyncToDestination, then the resource data sync synchronizes data to an Amazon S3 bucket. If the SyncType is SyncFromSource then the resource data sync synchronizes data from AWS Organizations or from multiple AWS Regions.
+        public let syncType: String
+
+        public init(syncName: String, syncSource: ResourceDataSyncSource, syncType: String) {
+            self.syncName = syncName
+            self.syncSource = syncSource
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.syncName, name:"syncName", parent: name, max: 64)
+            try validate(self.syncName, name:"syncName", parent: name, min: 1)
+            try self.syncSource.validate(name: "\(name).syncSource")
+            try validate(self.syncType, name:"syncType", parent: name, max: 64)
+            try validate(self.syncType, name:"syncType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case syncName = "SyncName"
+            case syncSource = "SyncSource"
+            case syncType = "SyncType"
+        }
+    }
+
+    public struct UpdateResourceDataSyncResult: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateServiceSettingRequest: AWSShape {

@@ -28,7 +28,12 @@ public struct ECS {
         )
     }
 
-    ///  Creates a new Amazon ECS cluster. By default, your account receives a default cluster when you launch your first container instance. However, you can create your own cluster with a unique name with the CreateCluster action.  When you call the CreateCluster API operation, Amazon ECS attempts to create the service-linked role for your account so that required resources in other AWS services can be managed on your behalf. However, if the IAM user that makes the call does not have permissions to create the service-linked role, it is not created. For more information, see Using Service-Linked Roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide. 
+    ///  Creates a new capacity provider. Capacity providers are associated with an Amazon ECS cluster and are used in capacity provider strategies to facilitate cluster auto scaling. Only capacity providers using an Auto Scaling group can be created. Amazon ECS tasks on AWS Fargate use the FARGATE and FARGATE_SPOT capacity providers which are already created and available to all accounts in Regions supported by AWS Fargate.
+    public func createCapacityProvider(_ input: CreateCapacityProviderRequest) -> Future<CreateCapacityProviderResponse> {
+        return client.send(operation: "CreateCapacityProvider", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new Amazon ECS cluster. By default, your account receives a default cluster when you launch your first container instance. However, you can create your own cluster with a unique name with the CreateCluster action.  When you call the CreateCluster API operation, Amazon ECS attempts to create the Amazon ECS service-linked role for your account so that required resources in other AWS services can be managed on your behalf. However, if the IAM user that makes the call does not have permissions to create the service-linked role, it is not created. For more information, see Using Service-Linked Roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide. 
     public func createCluster(_ input: CreateClusterRequest) -> Future<CreateClusterResponse> {
         return client.send(operation: "CreateCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -76,6 +81,11 @@ public struct ECS {
     ///  Deregisters the specified task definition by family and revision. Upon deregistration, the task definition is marked as INACTIVE. Existing tasks and services that reference an INACTIVE task definition continue to run without disruption. Existing services that reference an INACTIVE task definition can still scale up or down by modifying the service's desired count. You cannot use an INACTIVE task definition to run new tasks or create new services, and you cannot update an existing service to reference an INACTIVE task definition. However, there may be up to a 10-minute window following deregistration where these restrictions have not yet taken effect.  At this time, INACTIVE task definitions remain discoverable in your account indefinitely. However, this behavior is subject to change in the future, so you should not rely on INACTIVE task definitions persisting beyond the lifecycle of any associated tasks and services. 
     public func deregisterTaskDefinition(_ input: DeregisterTaskDefinitionRequest) -> Future<DeregisterTaskDefinitionResponse> {
         return client.send(operation: "DeregisterTaskDefinition", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes one or more of your capacity providers.
+    public func describeCapacityProviders(_ input: DescribeCapacityProvidersRequest) -> Future<DescribeCapacityProvidersResponse> {
+        return client.send(operation: "DescribeCapacityProviders", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes one or more of your clusters.
@@ -171,6 +181,11 @@ public struct ECS {
     ///  Create or update an attribute on an Amazon ECS resource. If the attribute does not exist, it is created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use DeleteAttributes. For more information, see Attributes in the Amazon Elastic Container Service Developer Guide.
     public func putAttributes(_ input: PutAttributesRequest) -> Future<PutAttributesResponse> {
         return client.send(operation: "PutAttributes", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies the available capacity providers and the default capacity provider strategy for a cluster. You must specify both the available capacity providers and a default capacity provider strategy for the cluster. If the specified cluster has existing capacity providers associated with it, you must specify all existing capacity providers in addition to any new ones you want to add. Any existing capacity providers associated with a cluster that are omitted from a PutClusterCapacityProviders API call will be disassociated with the cluster. You can only disassociate an existing capacity provider from a cluster if it's not being used by any existing tasks. When creating a service or running a task on a cluster, if no capacity provider or launch type is specified, then the cluster's default capacity provider strategy is used. It is recommended to define a default capacity provider strategy for your cluster, however you may specify an empty array ([]) to bypass defining a default strategy.
+    public func putClusterCapacityProviders(_ input: PutClusterCapacityProvidersRequest) -> Future<PutClusterCapacityProvidersResponse> {
+        return client.send(operation: "PutClusterCapacityProviders", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Registers an EC2 instance into the specified cluster. This instance becomes available to place containers on.

@@ -190,7 +190,7 @@ extension RDS {
             AWSShapeMember(label: "ResourceIdentifier", required: true, type: .string)
         ]
 
-        /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade, hardware-maintenance 
+        /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade, hardware-maintenance, ca-certificate-rotation 
         public let applyAction: String
         /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.  
         public let optInType: String
@@ -224,6 +224,11 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case resourcePendingMaintenanceActions = "ResourcePendingMaintenanceActions"
         }
+    }
+
+    public enum AuthScheme: String, CustomStringConvertible, Codable {
+        case secrets = "SECRETS"
+        public var description: String { return self.rawValue }
     }
 
     public struct AuthorizeDBSecurityGroupIngressMessage: AWSShape {
@@ -360,6 +365,8 @@ extension RDS {
             AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
             AWSShapeMember(label: "CertificateType", required: false, type: .string), 
+            AWSShapeMember(label: "CustomerOverride", required: false, type: .boolean), 
+            AWSShapeMember(label: "CustomerOverrideValidTill", required: false, type: .timestamp), 
             AWSShapeMember(label: "Thumbprint", required: false, type: .string), 
             AWSShapeMember(label: "ValidFrom", required: false, type: .timestamp), 
             AWSShapeMember(label: "ValidTill", required: false, type: .timestamp)
@@ -371,6 +378,10 @@ extension RDS {
         public let certificateIdentifier: String?
         /// The type of the certificate.
         public let certificateType: String?
+        /// Whether there is an override for the default certificate identifier.
+        public let customerOverride: Bool?
+        /// If there is an override for the default certificate identifier, when the override expires.
+        public let customerOverrideValidTill: TimeStamp?
         /// The thumbprint of the certificate.
         public let thumbprint: String?
         /// The starting date from which the certificate is valid.
@@ -378,10 +389,12 @@ extension RDS {
         /// The final date that the certificate continues to be valid.
         public let validTill: TimeStamp?
 
-        public init(certificateArn: String? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil, thumbprint: String? = nil, validFrom: TimeStamp? = nil, validTill: TimeStamp? = nil) {
+        public init(certificateArn: String? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil, customerOverride: Bool? = nil, customerOverrideValidTill: TimeStamp? = nil, thumbprint: String? = nil, validFrom: TimeStamp? = nil, validTill: TimeStamp? = nil) {
             self.certificateArn = certificateArn
             self.certificateIdentifier = certificateIdentifier
             self.certificateType = certificateType
+            self.customerOverride = customerOverride
+            self.customerOverrideValidTill = customerOverrideValidTill
             self.thumbprint = thumbprint
             self.validFrom = validFrom
             self.validTill = validTill
@@ -391,6 +404,8 @@ extension RDS {
             case certificateArn = "CertificateArn"
             case certificateIdentifier = "CertificateIdentifier"
             case certificateType = "CertificateType"
+            case customerOverride = "CustomerOverride"
+            case customerOverrideValidTill = "CustomerOverrideValidTill"
             case thumbprint = "Thumbprint"
             case validFrom = "ValidFrom"
             case validTill = "ValidTill"
@@ -460,6 +475,80 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case disableLogTypes = "DisableLogTypes"
             case enableLogTypes = "EnableLogTypes"
+        }
+    }
+
+    public struct ConnectionPoolConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionBorrowTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "InitQuery", required: false, type: .string), 
+            AWSShapeMember(label: "MaxConnectionsPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxIdleConnectionsPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "SessionPinningFilters", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints: between 1 and 3600, or 0 representing unlimited
+        public let connectionBorrowTimeout: Int?
+        ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.  Default: no initialization query
+        public let initQuery: String?
+        /// The maximum size of the connection pool for each target in a target group. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. Default: 100 Constraints: between 1 and 100
+        public let maxConnectionsPercent: Int?
+        ///  Controls how actively the proxy closes idle database connections in the connection pool. A high value enables the proxy to leave a high percentage of idle connections open. A low value causes the proxy to close idle client connections and return the underlying database connections to the connection pool. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.  Default: 50 Constraints: between 0 and MaxConnectionsPercent 
+        public let maxIdleConnectionsPercent: Int?
+        /// Each item in the list represents a class of SQL operations that normally cause all later statements in a session using a proxy to be pinned to the same underlying database connection. Including an item in the list exempts that class of SQL operations from the pinning behavior. Default: no session pinning filters
+        public let sessionPinningFilters: [String]?
+
+        public init(connectionBorrowTimeout: Int? = nil, initQuery: String? = nil, maxConnectionsPercent: Int? = nil, maxIdleConnectionsPercent: Int? = nil, sessionPinningFilters: [String]? = nil) {
+            self.connectionBorrowTimeout = connectionBorrowTimeout
+            self.initQuery = initQuery
+            self.maxConnectionsPercent = maxConnectionsPercent
+            self.maxIdleConnectionsPercent = maxIdleConnectionsPercent
+            self.sessionPinningFilters = sessionPinningFilters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionBorrowTimeout = "ConnectionBorrowTimeout"
+            case initQuery = "InitQuery"
+            case maxConnectionsPercent = "MaxConnectionsPercent"
+            case maxIdleConnectionsPercent = "MaxIdleConnectionsPercent"
+            case sessionPinningFilters = "SessionPinningFilters"
+        }
+    }
+
+    public struct ConnectionPoolConfigurationInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionBorrowTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "InitQuery", required: false, type: .string), 
+            AWSShapeMember(label: "MaxConnectionsPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxIdleConnectionsPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "SessionPinningFilters", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions.
+        public let connectionBorrowTimeout: Int?
+        ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. This setting is empty by default. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2. 
+        public let initQuery: String?
+        /// The maximum size of the connection pool for each target in a target group. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.
+        public let maxConnectionsPercent: Int?
+        ///  Controls how actively the proxy closes idle database connections in the connection pool. A high value enables the proxy to leave a high percentage of idle connections open. A low value causes the proxy to close idle client connections and return the underlying database connections to the connection pool. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. 
+        public let maxIdleConnectionsPercent: Int?
+        /// Each item in the list represents a class of SQL operations that normally cause all later statements in a session using a proxy to be pinned to the same underlying database connection. Including an item in the list exempts that class of SQL operations from the pinning behavior. Currently, the only allowed value is EXCLUDE_VARIABLE_SETS.
+        public let sessionPinningFilters: [String]?
+
+        public init(connectionBorrowTimeout: Int? = nil, initQuery: String? = nil, maxConnectionsPercent: Int? = nil, maxIdleConnectionsPercent: Int? = nil, sessionPinningFilters: [String]? = nil) {
+            self.connectionBorrowTimeout = connectionBorrowTimeout
+            self.initQuery = initQuery
+            self.maxConnectionsPercent = maxConnectionsPercent
+            self.maxIdleConnectionsPercent = maxIdleConnectionsPercent
+            self.sessionPinningFilters = sessionPinningFilters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionBorrowTimeout = "ConnectionBorrowTimeout"
+            case initQuery = "InitQuery"
+            case maxConnectionsPercent = "MaxConnectionsPercent"
+            case maxIdleConnectionsPercent = "MaxIdleConnectionsPercent"
+            case sessionPinningFilters = "SessionPinningFilters"
         }
     }
 
@@ -777,7 +866,8 @@ extension RDS {
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
             AWSShapeMember(label: "EndpointType", required: true, type: .string), 
             AWSShapeMember(label: "ExcludedMembers", required: false, type: .list, encoding: .list(member:"member")), 
-            AWSShapeMember(label: "StaticMembers", required: false, type: .list, encoding: .list(member:"member"))
+            AWSShapeMember(label: "StaticMembers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
         ]
 
         /// The identifier to use for the new endpoint. This parameter is stored as a lowercase string.
@@ -790,13 +880,16 @@ extension RDS {
         public let excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
         public let staticMembers: [String]?
+        /// The tags to be assigned to the Amazon RDS resource.
+        public let tags: [Tag]?
 
-        public init(dBClusterEndpointIdentifier: String, dBClusterIdentifier: String, endpointType: String, excludedMembers: [String]? = nil, staticMembers: [String]? = nil) {
+        public init(dBClusterEndpointIdentifier: String, dBClusterIdentifier: String, endpointType: String, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, tags: [Tag]? = nil) {
             self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
             self.dBClusterIdentifier = dBClusterIdentifier
             self.endpointType = endpointType
             self.excludedMembers = excludedMembers
             self.staticMembers = staticMembers
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -805,6 +898,7 @@ extension RDS {
             case endpointType = "EndpointType"
             case excludedMembers = "ExcludedMembers"
             case staticMembers = "StaticMembers"
+            case tags = "Tags"
         }
     }
 
@@ -870,7 +964,7 @@ extension RDS {
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for this DB cluster. Valid Values: aurora (for MySQL 5.6-compatible Aurora), aurora-mysql (for MySQL 5.7-compatible Aurora), and aurora-postgresql 
         public let engine: String
-        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster.
+        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster. Limitations and requirements apply to some DB engine modes. For more information, see the following sections in the Amazon Aurora User Guide:     Limitations of Aurora Serverless      Limitations of Parallel Query      Requirements for Aurora Global Databases      Limitations of Multi-Master Clusters   
         public let engineMode: String?
         /// The version number of the database engine to use. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7 
         public let engineVersion: String?
@@ -1153,7 +1247,7 @@ extension RDS {
         public let dBSecurityGroups: [String]?
         /// A DB subnet group to associate with this DB instance. If there is no DB subnet group, then it is a non-VPC DB instance.
         public let dBSubnetGroupName: String?
-        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
+        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance.   Amazon Aurora  Not applicable. You can enable or disable deletion protection for the DB cluster. For more information, see CreateDBCluster. DB instances in a DB cluster can be deleted even when deletion protection is enabled for the DB cluster. 
         public let deletionProtection: Bool?
         /// The Active Directory directory ID to create the DB instance in. Currently, only Microsoft SQL Server and Oracle DB instances can be created in an Active Directory Domain. For Microsoft SQL Server DB instances, Amazon RDS can use Windows Authentication to authenticate users that connect to the DB instance. For more information, see  Using Windows Authentication with an Amazon RDS DB Instance Running Microsoft SQL Server in the Amazon RDS User Guide. For Oracle DB instance, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB instance. For more information, see  Using Kerberos Authentication with Amazon RDS for Oracle in the Amazon RDS User Guide. 
         public let domain: String?
@@ -1169,7 +1263,7 @@ extension RDS {
         public let engine: String
         /// The version number of the database engine to use. For a list of valid engine versions, use the DescribeDBEngineVersions action. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every AWS Region.  Amazon Aurora  Not applicable. The version number of the database engine to be used by the DB instance is managed by the DB cluster.  MariaDB  See MariaDB on Amazon RDS Versions in the Amazon RDS User Guide.   Microsoft SQL Server  See Version and Feature Support on Amazon RDS in the Amazon RDS User Guide.   MySQL  See MySQL on Amazon RDS Versions in the Amazon RDS User Guide.   Oracle  See Oracle Database Engine Release Notes in the Amazon RDS User Guide.   PostgreSQL  See Supported PostgreSQL Database Versions in the Amazon RDS User Guide. 
         public let engineVersion: String?
-        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. For information about valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide.  Constraints: Must be a multiple between 1 and 50 of the storage amount for the DB instance. 
+        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. For information about valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide.  Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL DB instances, must be a multiple between .5 and 50 of the storage amount for the DB instance. For SQL Server DB instances, must be a multiple between 1 and 50 of the storage amount for the DB instance. 
         public let iops: Int?
         /// The AWS KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key.  Amazon Aurora  Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
@@ -1557,6 +1651,85 @@ extension RDS {
 
         private enum CodingKeys: String, CodingKey {
             case dBParameterGroup = "DBParameterGroup"
+        }
+    }
+
+    public struct CreateDBProxyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Auth", required: true, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
+            AWSShapeMember(label: "DebugLogging", required: false, type: .boolean), 
+            AWSShapeMember(label: "EngineFamily", required: true, type: .enum), 
+            AWSShapeMember(label: "IdleClientTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "RequireTLS", required: false, type: .boolean), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag")), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "VpcSubnetIds", required: true, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// The authorization mechanism that the proxy uses.
+        public let auth: [UserAuthConfig]
+        /// The identifier for the proxy. This name must be unique for all proxies owned by your AWS account in the specified AWS Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
+        public let dBProxyName: String
+        /// Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
+        public let debugLogging: Bool?
+        /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. Currently, this value is always MYSQL. The engine family applies to both RDS MySQL and Aurora MySQL.
+        public let engineFamily: EngineFamily
+        /// The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database.
+        public let idleClientTimeout: Int?
+        /// A Boolean parameter that specifies whether Transport Layer Security (TLS) encryption is required for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy.
+        public let requireTLS: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in AWS Secrets Manager.
+        public let roleArn: String
+        /// An optional set of key-value pairs to associate arbitrary data of your choosing with the proxy.
+        public let tags: [Tag]?
+        /// One or more VPC security group IDs to associate with the new proxy.
+        public let vpcSecurityGroupIds: [String]?
+        /// One or more VPC subnet IDs to associate with the new proxy.
+        public let vpcSubnetIds: [String]
+
+        public init(auth: [UserAuthConfig], dBProxyName: String, debugLogging: Bool? = nil, engineFamily: EngineFamily, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+            self.auth = auth
+            self.dBProxyName = dBProxyName
+            self.debugLogging = debugLogging
+            self.engineFamily = engineFamily
+            self.idleClientTimeout = idleClientTimeout
+            self.requireTLS = requireTLS
+            self.roleArn = roleArn
+            self.tags = tags
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auth = "Auth"
+            case dBProxyName = "DBProxyName"
+            case debugLogging = "DebugLogging"
+            case engineFamily = "EngineFamily"
+            case idleClientTimeout = "IdleClientTimeout"
+            case requireTLS = "RequireTLS"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case vpcSubnetIds = "VpcSubnetIds"
+        }
+    }
+
+    public struct CreateDBProxyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBProxy", required: false, type: .structure)
+        ]
+
+        /// The DBProxy structure corresponding to the new proxy.
+        public let dBProxy: DBProxy?
+
+        public init(dBProxy: DBProxy? = nil) {
+            self.dBProxy = dBProxy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxy = "DBProxy"
         }
     }
 
@@ -3506,6 +3679,192 @@ extension RDS {
         }
     }
 
+    public struct DBProxy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Auth", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DBProxyArn", required: false, type: .string), 
+            AWSShapeMember(label: "DBProxyName", required: false, type: .string), 
+            AWSShapeMember(label: "DebugLogging", required: false, type: .boolean), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "EngineFamily", required: false, type: .string), 
+            AWSShapeMember(label: "IdleClientTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "RequireTLS", required: false, type: .boolean), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "UpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "VpcSubnetIds", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// One or more data structures specifying the authorization mechanism to connect to the associated RDS DB instance or Aurora DB cluster.
+        public let auth: [UserAuthConfigInfo]?
+        /// The date and time when the proxy was first created.
+        public let createdDate: TimeStamp?
+        /// The Amazon Resource Name (ARN) for the proxy.
+        public let dBProxyArn: String?
+        /// The identifier for the proxy. This name must be unique for all proxies owned by your AWS account in the specified AWS Region.
+        public let dBProxyName: String?
+        /// Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
+        public let debugLogging: Bool?
+        /// The endpoint that you can use to connect to the proxy. You include the endpoint value in the connection string for a database client application.
+        public let endpoint: String?
+        /// Currently, this value is always MYSQL. The engine family applies to both RDS MySQL and Aurora MySQL.
+        public let engineFamily: String?
+        /// The number of seconds a connection to the proxy can have no activity before the proxy drops the client connection. The proxy keeps the underlying database connection open and puts it back into the connection pool for reuse by later connection requests. Default: 1800 (30 minutes) Constraints: 1 to 28,800
+        public let idleClientTimeout: Int?
+        /// Indicates whether Transport Layer Security (TLS) encryption is required for connections to the proxy.
+        public let requireTLS: Bool?
+        /// The Amazon Resource Name (ARN) for the IAM role that the proxy uses to access Amazon Secrets Manager.
+        public let roleArn: String?
+        /// The current status of this proxy. A status of available means the proxy is ready to handle requests. Other values indicate that you must wait for the proxy to be ready, or take some action to resolve an issue.
+        public let status: DBProxyStatus?
+        /// The date and time when the proxy was last updated.
+        public let updatedDate: TimeStamp?
+        /// Provides a list of VPC security groups that the proxy belongs to.
+        public let vpcSecurityGroupIds: [String]?
+        /// The EC2 subnet IDs for the proxy.
+        public let vpcSubnetIds: [String]?
+
+        public init(auth: [UserAuthConfigInfo]? = nil, createdDate: TimeStamp? = nil, dBProxyArn: String? = nil, dBProxyName: String? = nil, debugLogging: Bool? = nil, endpoint: String? = nil, engineFamily: String? = nil, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, status: DBProxyStatus? = nil, updatedDate: TimeStamp? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+            self.auth = auth
+            self.createdDate = createdDate
+            self.dBProxyArn = dBProxyArn
+            self.dBProxyName = dBProxyName
+            self.debugLogging = debugLogging
+            self.endpoint = endpoint
+            self.engineFamily = engineFamily
+            self.idleClientTimeout = idleClientTimeout
+            self.requireTLS = requireTLS
+            self.roleArn = roleArn
+            self.status = status
+            self.updatedDate = updatedDate
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auth = "Auth"
+            case createdDate = "CreatedDate"
+            case dBProxyArn = "DBProxyArn"
+            case dBProxyName = "DBProxyName"
+            case debugLogging = "DebugLogging"
+            case endpoint = "Endpoint"
+            case engineFamily = "EngineFamily"
+            case idleClientTimeout = "IdleClientTimeout"
+            case requireTLS = "RequireTLS"
+            case roleArn = "RoleArn"
+            case status = "Status"
+            case updatedDate = "UpdatedDate"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case vpcSubnetIds = "VpcSubnetIds"
+        }
+    }
+
+    public enum DBProxyStatus: String, CustomStringConvertible, Codable {
+        case available = "available"
+        case modifying = "modifying"
+        case incompatibleNetwork = "incompatible-network"
+        case insufficientResourceLimits = "insufficient-resource-limits"
+        case creating = "creating"
+        case deleting = "deleting"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DBProxyTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "RdsResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "TargetArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrackedClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// The writer endpoint for the RDS DB instance or Aurora DB cluster.
+        public let endpoint: String?
+        /// The port that the RDS Proxy uses to connect to the target RDS DB instance or Aurora DB cluster.
+        public let port: Int?
+        /// The identifier representing the target. It can be the instance identifier for an RDS DB instance, or the cluster identifier for an Aurora DB cluster.
+        public let rdsResourceId: String?
+        /// The Amazon Resource Name (ARN) for the RDS DB instance or Aurora DB cluster.
+        public let targetArn: String?
+        /// The DB cluster identifier when the target represents an Aurora DB cluster. This field is blank when the target represents an RDS DB instance.
+        public let trackedClusterId: String?
+        /// Specifies the kind of database, such as an RDS DB instance or an Aurora DB cluster, that the target represents.
+        public let `type`: TargetType?
+
+        public init(endpoint: String? = nil, port: Int? = nil, rdsResourceId: String? = nil, targetArn: String? = nil, trackedClusterId: String? = nil, type: TargetType? = nil) {
+            self.endpoint = endpoint
+            self.port = port
+            self.rdsResourceId = rdsResourceId
+            self.targetArn = targetArn
+            self.trackedClusterId = trackedClusterId
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+            case port = "Port"
+            case rdsResourceId = "RdsResourceId"
+            case targetArn = "TargetArn"
+            case trackedClusterId = "TrackedClusterId"
+            case `type` = "Type"
+        }
+    }
+
+    public struct DBProxyTargetGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionPoolConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DBProxyName", required: false, type: .string), 
+            AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "TargetGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "TargetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "UpdatedDate", required: false, type: .timestamp)
+        ]
+
+        /// The settings that determine the size and behavior of the connection pool for the target group.
+        public let connectionPoolConfig: ConnectionPoolConfigurationInfo?
+        /// The date and time when the target group was first created.
+        public let createdDate: TimeStamp?
+        /// The identifier for the RDS proxy associated with this target group.
+        public let dBProxyName: String?
+        /// Whether this target group is the first one used for connection requests by the associated proxy. Because each proxy is currently associated with a single target group, currently this setting is always true.
+        public let isDefault: Bool?
+        /// The current status of this target group. A status of available means the target group is correctly associated with a database. Other values indicate that you must wait for the target group to be ready, or take some action to resolve an issue.
+        public let status: String?
+        /// The Amazon Resource Name (ARN) representing the target group.
+        public let targetGroupArn: String?
+        /// The identifier for the target group. This name must be unique for all target groups owned by your AWS account in the specified AWS Region.
+        public let targetGroupName: String?
+        /// The date and time when the target group was last updated.
+        public let updatedDate: TimeStamp?
+
+        public init(connectionPoolConfig: ConnectionPoolConfigurationInfo? = nil, createdDate: TimeStamp? = nil, dBProxyName: String? = nil, isDefault: Bool? = nil, status: String? = nil, targetGroupArn: String? = nil, targetGroupName: String? = nil, updatedDate: TimeStamp? = nil) {
+            self.connectionPoolConfig = connectionPoolConfig
+            self.createdDate = createdDate
+            self.dBProxyName = dBProxyName
+            self.isDefault = isDefault
+            self.status = status
+            self.targetGroupArn = targetGroupArn
+            self.targetGroupName = targetGroupName
+            self.updatedDate = updatedDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionPoolConfig = "ConnectionPoolConfig"
+            case createdDate = "CreatedDate"
+            case dBProxyName = "DBProxyName"
+            case isDefault = "IsDefault"
+            case status = "Status"
+            case targetGroupArn = "TargetGroupArn"
+            case targetGroupName = "TargetGroupName"
+            case updatedDate = "UpdatedDate"
+        }
+    }
+
     public struct DBSecurityGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSecurityGroupArn", required: false, type: .string), 
@@ -4120,6 +4479,40 @@ extension RDS {
         }
     }
 
+    public struct DeleteDBProxyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBProxyName", required: true, type: .string)
+        ]
+
+        /// The name of the DB proxy to delete.
+        public let dBProxyName: String
+
+        public init(dBProxyName: String) {
+            self.dBProxyName = dBProxyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyName = "DBProxyName"
+        }
+    }
+
+    public struct DeleteDBProxyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBProxy", required: false, type: .structure)
+        ]
+
+        /// The data structure representing the details of the DB proxy that you delete.
+        public let dBProxy: DBProxy?
+
+        public init(dBProxy: DBProxy? = nil) {
+            self.dBProxy = dBProxy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxy = "DBProxy"
+        }
+    }
+
     public struct DeleteDBSecurityGroupMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBSecurityGroupName", required: true, type: .string)
@@ -4285,6 +4678,46 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case optionGroupName = "OptionGroupName"
         }
+    }
+
+    public struct DeregisterDBProxyTargetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterIdentifiers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DBInstanceIdentifiers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
+            AWSShapeMember(label: "TargetGroupName", required: false, type: .string)
+        ]
+
+        /// One or more DB cluster identifiers.
+        public let dBClusterIdentifiers: [String]?
+        /// One or more DB instance identifiers.
+        public let dBInstanceIdentifiers: [String]?
+        /// The identifier of the DBProxy that is associated with the DBProxyTargetGroup.
+        public let dBProxyName: String
+        /// The identifier of the DBProxyTargetGroup.
+        public let targetGroupName: String?
+
+        public init(dBClusterIdentifiers: [String]? = nil, dBInstanceIdentifiers: [String]? = nil, dBProxyName: String, targetGroupName: String? = nil) {
+            self.dBClusterIdentifiers = dBClusterIdentifiers
+            self.dBInstanceIdentifiers = dBInstanceIdentifiers
+            self.dBProxyName = dBProxyName
+            self.targetGroupName = targetGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterIdentifiers = "DBClusterIdentifiers"
+            case dBInstanceIdentifiers = "DBInstanceIdentifiers"
+            case dBProxyName = "DBProxyName"
+            case targetGroupName = "TargetGroupName"
+        }
+    }
+
+    public struct DeregisterDBProxyTargetsResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeAccountAttributesMessage: AWSShape {
@@ -4917,6 +5350,193 @@ extension RDS {
             case marker = "Marker"
             case maxRecords = "MaxRecords"
             case source = "Source"
+        }
+    }
+
+    public struct DescribeDBProxiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBProxyName", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+
+        /// The name of the DB proxy.
+        public let dBProxyName: String?
+        /// This parameter is not currently supported.
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int?
+
+        public init(dBProxyName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dBProxyName = dBProxyName
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxRecords, name:"maxRecords", parent: name, max: 100)
+            try validate(self.maxRecords, name:"maxRecords", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyName = "DBProxyName"
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeDBProxiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBProxies", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+
+        /// A return value representing an arbitrary number of DBProxy data structures.
+        public let dBProxies: [DBProxy]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+
+        public init(dBProxies: [DBProxy]? = nil, marker: String? = nil) {
+            self.dBProxies = dBProxies
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxies = "DBProxies"
+            case marker = "Marker"
+        }
+    }
+
+    public struct DescribeDBProxyTargetGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetGroupName", required: false, type: .string)
+        ]
+
+        /// The identifier of the DBProxy associated with the target group.
+        public let dBProxyName: String
+        /// This parameter is not currently supported.
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int?
+        /// The identifier of the DBProxyTargetGroup to describe.
+        public let targetGroupName: String?
+
+        public init(dBProxyName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, targetGroupName: String? = nil) {
+            self.dBProxyName = dBProxyName
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.targetGroupName = targetGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxRecords, name:"maxRecords", parent: name, max: 100)
+            try validate(self.maxRecords, name:"maxRecords", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyName = "DBProxyName"
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case targetGroupName = "TargetGroupName"
+        }
+    }
+
+    public struct DescribeDBProxyTargetGroupsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TargetGroups", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// An arbitrary number of DBProxyTargetGroup objects, containing details of the corresponding target groups.
+        public let targetGroups: [DBProxyTargetGroup]?
+
+        public init(marker: String? = nil, targetGroups: [DBProxyTargetGroup]? = nil) {
+            self.marker = marker
+            self.targetGroups = targetGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case targetGroups = "TargetGroups"
+        }
+    }
+
+    public struct DescribeDBProxyTargetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetGroupName", required: false, type: .string)
+        ]
+
+        /// The identifier of the DBProxyTarget to describe.
+        public let dBProxyName: String
+        /// This parameter is not currently supported.
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int?
+        /// The identifier of the DBProxyTargetGroup to describe.
+        public let targetGroupName: String?
+
+        public init(dBProxyName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, targetGroupName: String? = nil) {
+            self.dBProxyName = dBProxyName
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.targetGroupName = targetGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxRecords, name:"maxRecords", parent: name, max: 100)
+            try validate(self.maxRecords, name:"maxRecords", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyName = "DBProxyName"
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case targetGroupName = "TargetGroupName"
+        }
+    }
+
+    public struct DescribeDBProxyTargetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Targets", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// An arbitrary number of DBProxyTarget objects, containing details of the corresponding targets.
+        public let targets: [DBProxyTarget]?
+
+        public init(marker: String? = nil, targets: [DBProxyTarget]? = nil) {
+            self.marker = marker
+            self.targets = targets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case targets = "Targets"
         }
     }
 
@@ -5896,6 +6516,11 @@ extension RDS {
         }
     }
 
+    public enum EngineFamily: String, CustomStringConvertible, Codable {
+        case mysql = "MYSQL"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Event: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Date", required: false, type: .timestamp), 
@@ -6254,6 +6879,12 @@ extension RDS {
         }
     }
 
+    public enum IAMAuthMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case required = "REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
     public struct IPRange: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CIDRIP", required: false, type: .string), 
@@ -6448,6 +7079,44 @@ extension RDS {
         }
     }
 
+    public struct ModifyCertificatesMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "RemoveCustomerOverride", required: false, type: .boolean)
+        ]
+
+        /// The new default certificate identifier to override the current one with. To determine the valid values, use the describe-certificates AWS CLI command or the DescribeCertificates API operation.
+        public let certificateIdentifier: String?
+        /// A value that indicates whether to remove the override for the default certificate. If the override is removed, the default certificate is the system default.
+        public let removeCustomerOverride: Bool?
+
+        public init(certificateIdentifier: String? = nil, removeCustomerOverride: Bool? = nil) {
+            self.certificateIdentifier = certificateIdentifier
+            self.removeCustomerOverride = removeCustomerOverride
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateIdentifier = "CertificateIdentifier"
+            case removeCustomerOverride = "RemoveCustomerOverride"
+        }
+    }
+
+    public struct ModifyCertificatesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .structure)
+        ]
+
+        public let certificate: Certificate?
+
+        public init(certificate: Certificate? = nil) {
+            self.certificate = certificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+        }
+    }
+
     public struct ModifyCurrentDBClusterCapacityMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Capacity", required: false, type: .integer), 
@@ -6456,7 +7125,7 @@ extension RDS {
             AWSShapeMember(label: "TimeoutAction", required: false, type: .string)
         ]
 
-        /// The DB cluster capacity. When you change the capacity of a paused Aurora Serverless DB cluster, it automatically resumes. Constraints:   Value must be 1, 2, 4, 8, 16, 32, 64, 128, or 256.  
+        /// The DB cluster capacity. When you change the capacity of a paused Aurora Serverless DB cluster, it automatically resumes. Constraints:   For Aurora MySQL, valid capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256.   For Aurora PostgreSQL, valid capacity values are 2, 4, 8, 16, 32, 64, 192, and 384.  
         public let capacity: Int?
         /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DB cluster.  
         public let dBClusterIdentifier: String
@@ -6723,6 +7392,7 @@ extension RDS {
             AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
             AWSShapeMember(label: "BackupRetentionPeriod", required: false, type: .integer), 
             AWSShapeMember(label: "CACertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateRotationRestart", required: false, type: .boolean), 
             AWSShapeMember(label: "CloudwatchLogsExportConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "CopyTagsToSnapshot", required: false, type: .boolean), 
             AWSShapeMember(label: "DBInstanceClass", required: false, type: .string), 
@@ -6772,6 +7442,8 @@ extension RDS {
         public let backupRetentionPeriod: Int?
         /// Indicates the certificate that needs to be associated with the instance.
         public let cACertificateIdentifier: String?
+        /// A value that indicates whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB instance is restarted.  Set this parameter only if you are not using SSL/TLS to connect to the DB instance.  If you are using SSL/TLS to connect to the DB instance, follow the appropriate instructions for your DB engine to rotate your SSL/TLS certificate:   For more information about rotating your SSL/TLS certificate for RDS DB engines, see  Rotating Your SSL/TLS Certificate. in the Amazon RDS User Guide.    For more information about rotating your SSL/TLS certificate for Aurora DB engines, see  Rotating Your SSL/TLS Certificate in the Amazon Aurora User Guide.   
+        public let certificateRotationRestart: Bool?
         /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB instance. A change to the CloudwatchLogsExportConfiguration parameter is always applied to the DB instance immediately. Therefore, the ApplyImmediately parameter has no effect.
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
         /// A value that indicates whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.  Amazon Aurora  Not applicable. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see ModifyDBCluster.
@@ -6843,13 +7515,14 @@ extension RDS {
         /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible.  Amazon Aurora  Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   If supplied, must match existing VpcSecurityGroupIds.  
         public let vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, certificateRotationRestart: Bool? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, dBParameterGroupName: String? = nil, dBPortNumber: Int? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, newDBInstanceIdentifier: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cACertificateIdentifier = cACertificateIdentifier
+            self.certificateRotationRestart = certificateRotationRestart
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dBInstanceClass = dBInstanceClass
@@ -6894,6 +7567,7 @@ extension RDS {
             case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case cACertificateIdentifier = "CACertificateIdentifier"
+            case certificateRotationRestart = "CertificateRotationRestart"
             case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dBInstanceClass = "DBInstanceClass"
@@ -6970,6 +7644,124 @@ extension RDS {
         }
     }
 
+    public struct ModifyDBProxyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Auth", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
+            AWSShapeMember(label: "DebugLogging", required: false, type: .boolean), 
+            AWSShapeMember(label: "IdleClientTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "NewDBProxyName", required: false, type: .string), 
+            AWSShapeMember(label: "RequireTLS", required: false, type: .boolean), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// The new authentication settings for the DBProxy.
+        public let auth: [UserAuthConfig]?
+        /// The identifier for the DBProxy to modify.
+        public let dBProxyName: String
+        /// Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
+        public let debugLogging: Bool?
+        /// The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database.
+        public let idleClientTimeout: Int?
+        /// The new identifier for the DBProxy. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
+        public let newDBProxyName: String?
+        /// Whether Transport Layer Security (TLS) encryption is required for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy, even if the associated database doesn't use TLS.
+        public let requireTLS: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in AWS Secrets Manager.
+        public let roleArn: String?
+        /// The new list of security groups for the DBProxy.
+        public let securityGroups: [String]?
+
+        public init(auth: [UserAuthConfig]? = nil, dBProxyName: String, debugLogging: Bool? = nil, idleClientTimeout: Int? = nil, newDBProxyName: String? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, securityGroups: [String]? = nil) {
+            self.auth = auth
+            self.dBProxyName = dBProxyName
+            self.debugLogging = debugLogging
+            self.idleClientTimeout = idleClientTimeout
+            self.newDBProxyName = newDBProxyName
+            self.requireTLS = requireTLS
+            self.roleArn = roleArn
+            self.securityGroups = securityGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auth = "Auth"
+            case dBProxyName = "DBProxyName"
+            case debugLogging = "DebugLogging"
+            case idleClientTimeout = "IdleClientTimeout"
+            case newDBProxyName = "NewDBProxyName"
+            case requireTLS = "RequireTLS"
+            case roleArn = "RoleArn"
+            case securityGroups = "SecurityGroups"
+        }
+    }
+
+    public struct ModifyDBProxyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBProxy", required: false, type: .structure)
+        ]
+
+        /// The DBProxy object representing the new settings for the proxy.
+        public let dBProxy: DBProxy?
+
+        public init(dBProxy: DBProxy? = nil) {
+            self.dBProxy = dBProxy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxy = "DBProxy"
+        }
+    }
+
+    public struct ModifyDBProxyTargetGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionPoolConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
+            AWSShapeMember(label: "NewName", required: false, type: .string), 
+            AWSShapeMember(label: "TargetGroupName", required: true, type: .string)
+        ]
+
+        /// The settings that determine the size and behavior of the connection pool for the target group.
+        public let connectionPoolConfig: ConnectionPoolConfiguration?
+        /// The name of the new proxy to which to assign the target group.
+        public let dBProxyName: String
+        /// The new name for the modified DBProxyTarget. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
+        public let newName: String?
+        /// The name of the new target group to assign to the proxy.
+        public let targetGroupName: String
+
+        public init(connectionPoolConfig: ConnectionPoolConfiguration? = nil, dBProxyName: String, newName: String? = nil, targetGroupName: String) {
+            self.connectionPoolConfig = connectionPoolConfig
+            self.dBProxyName = dBProxyName
+            self.newName = newName
+            self.targetGroupName = targetGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionPoolConfig = "ConnectionPoolConfig"
+            case dBProxyName = "DBProxyName"
+            case newName = "NewName"
+            case targetGroupName = "TargetGroupName"
+        }
+    }
+
+    public struct ModifyDBProxyTargetGroupResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBProxyTargetGroup", required: false, type: .structure)
+        ]
+
+        /// The settings of the modified DBProxyTarget.
+        public let dBProxyTargetGroup: DBProxyTargetGroup?
+
+        public init(dBProxyTargetGroup: DBProxyTargetGroup? = nil) {
+            self.dBProxyTargetGroup = dBProxyTargetGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyTargetGroup = "DBProxyTargetGroup"
+        }
+    }
+
     public struct ModifyDBSnapshotAttributeMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeName", required: true, type: .string), 
@@ -7027,7 +7819,7 @@ extension RDS {
 
         /// The identifier of the DB snapshot to modify.
         public let dBSnapshotIdentifier: String
-        /// The engine version to upgrade the DB snapshot to.  The following are the database engines and engine versions that are available when you upgrade a DB snapshot.   MySQL     5.5.46 (supported for 5.1 DB snapshots)    Oracle     12.1.0.2.v8 (supported for 12.1.0.1 DB snapshots)    11.2.0.4.v12 (supported for 11.2.0.2 DB snapshots)    11.2.0.4.v11 (supported for 11.2.0.3 DB snapshots)  
+        /// The engine version to upgrade the DB snapshot to.  The following are the database engines and engine versions that are available when you upgrade a DB snapshot.   MySQL     5.5.46 (supported for 5.1 DB snapshots)    Oracle     12.1.0.2.v8 (supported for 12.1.0.1 DB snapshots)    11.2.0.4.v12 (supported for 11.2.0.2 DB snapshots)    11.2.0.4.v11 (supported for 11.2.0.3 DB snapshots)    PostgreSQL  For the list of engine versions that are available for upgrading a DB snapshot, see  Upgrading the PostgreSQL DB Engine for Amazon RDS. 
         public let engineVersion: String?
         /// The option group to identify with the upgraded DB snapshot.  You can specify this parameter when you upgrade an Oracle DB snapshot. The same option group considerations apply when upgrading a DB snapshot as when upgrading a DB instance. For more information, see Option Group Considerations in the Amazon RDS User Guide. 
         public let optionGroupName: String?
@@ -7940,7 +8732,7 @@ extension RDS {
             AWSShapeMember(label: "OptInStatus", required: false, type: .string)
         ]
 
-        /// The type of pending maintenance action that is available for the resource. Valid actions are system-update, db-upgrade, and hardware-maintenance.
+        /// The type of pending maintenance action that is available for the resource. Valid actions are system-update, db-upgrade, hardware-maintenance, and ca-certificate-rotation.
         public let action: String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
         public let autoAppliedAfterDate: TimeStamp?
@@ -8309,6 +9101,55 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case recurringChargeAmount = "RecurringChargeAmount"
             case recurringChargeFrequency = "RecurringChargeFrequency"
+        }
+    }
+
+    public struct RegisterDBProxyTargetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterIdentifiers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DBInstanceIdentifiers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "DBProxyName", required: true, type: .string), 
+            AWSShapeMember(label: "TargetGroupName", required: false, type: .string)
+        ]
+
+        /// One or more DB cluster identifiers.
+        public let dBClusterIdentifiers: [String]?
+        /// One or more DB instance identifiers.
+        public let dBInstanceIdentifiers: [String]?
+        /// The identifier of the DBProxy that is associated with the DBProxyTargetGroup.
+        public let dBProxyName: String
+        /// The identifier of the DBProxyTargetGroup.
+        public let targetGroupName: String?
+
+        public init(dBClusterIdentifiers: [String]? = nil, dBInstanceIdentifiers: [String]? = nil, dBProxyName: String, targetGroupName: String? = nil) {
+            self.dBClusterIdentifiers = dBClusterIdentifiers
+            self.dBInstanceIdentifiers = dBInstanceIdentifiers
+            self.dBProxyName = dBProxyName
+            self.targetGroupName = targetGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterIdentifiers = "DBClusterIdentifiers"
+            case dBInstanceIdentifiers = "DBInstanceIdentifiers"
+            case dBProxyName = "DBProxyName"
+            case targetGroupName = "TargetGroupName"
+        }
+    }
+
+    public struct RegisterDBProxyTargetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBProxyTargets", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// One or more DBProxyTarget objects that are created when you register targets with a target group.
+        public let dBProxyTargets: [DBProxyTarget]?
+
+        public init(dBProxyTargets: [DBProxyTarget]? = nil) {
+            self.dBProxyTargets = dBProxyTargets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyTargets = "DBProxyTargets"
         }
     }
 
@@ -9828,9 +10669,9 @@ extension RDS {
 
         /// A value that indicates whether to allow or disallow automatic pause for an Aurora DB cluster in serverless DB engine mode. A DB cluster can be paused only when it's idle (it has no connections).  If a DB cluster is paused for more than seven days, the DB cluster might be backed up with a snapshot. In this case, the DB cluster is restored when there is a request to connect to it.  
         public let autoPause: Bool?
-        /// The maximum capacity for an Aurora DB cluster in serverless DB engine mode. Valid capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256. The maximum capacity must be greater than or equal to the minimum capacity.
+        /// The maximum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256. For Aurora PostgreSQL, valid capacity values are 2, 4, 8, 16, 32, 64, 192, and 384. The maximum capacity must be greater than or equal to the minimum capacity.
         public let maxCapacity: Int?
-        /// The minimum capacity for an Aurora DB cluster in serverless DB engine mode. Valid capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256. The minimum capacity must be less than or equal to the maximum capacity.
+        /// The minimum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256. For Aurora PostgreSQL, valid capacity values are 2, 4, 8, 16, 32, 64, 192, and 384. The minimum capacity must be less than or equal to the maximum capacity.
         public let minCapacity: Int?
         /// The time, in seconds, before an Aurora DB cluster in serverless mode is paused.
         public let secondsUntilAutoPause: Int?
@@ -10270,6 +11111,13 @@ extension RDS {
         }
     }
 
+    public enum TargetType: String, CustomStringConvertible, Codable {
+        case rdsInstance = "RDS_INSTANCE"
+        case rdsServerlessEndpoint = "RDS_SERVERLESS_ENDPOINT"
+        case trackedCluster = "TRACKED_CLUSTER"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Timezone: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TimezoneName", required: false, type: .string)
@@ -10321,6 +11169,80 @@ extension RDS {
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case isMajorVersionUpgrade = "IsMajorVersionUpgrade"
+        }
+    }
+
+    public struct UserAuthConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthScheme", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "IAMAuth", required: false, type: .enum), 
+            AWSShapeMember(label: "SecretArn", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+
+        /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
+        public let authScheme: AuthScheme?
+        /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
+        public let description: String?
+        /// Whether to require or disallow AWS Identity and Access Management (IAM) authentication for connections to the proxy.
+        public let iAMAuth: IAMAuthMode?
+        /// The Amazon Resource Name (ARN) representing the secret that the proxy uses to authenticate to the RDS DB instance or Aurora DB cluster. These secrets are stored within Amazon Secrets Manager.
+        public let secretArn: String?
+        /// The name of the database user to which the proxy connects.
+        public let userName: String?
+
+        public init(authScheme: AuthScheme? = nil, description: String? = nil, iAMAuth: IAMAuthMode? = nil, secretArn: String? = nil, userName: String? = nil) {
+            self.authScheme = authScheme
+            self.description = description
+            self.iAMAuth = iAMAuth
+            self.secretArn = secretArn
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authScheme = "AuthScheme"
+            case description = "Description"
+            case iAMAuth = "IAMAuth"
+            case secretArn = "SecretArn"
+            case userName = "UserName"
+        }
+    }
+
+    public struct UserAuthConfigInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthScheme", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "IAMAuth", required: false, type: .enum), 
+            AWSShapeMember(label: "SecretArn", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+
+        /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
+        public let authScheme: AuthScheme?
+        /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
+        public let description: String?
+        /// Whether to require or disallow AWS Identity and Access Management (IAM) authentication for connections to the proxy.
+        public let iAMAuth: IAMAuthMode?
+        /// The Amazon Resource Name (ARN) representing the secret that the proxy uses to authenticate to the RDS DB instance or Aurora DB cluster. These secrets are stored within Amazon Secrets Manager.
+        public let secretArn: String?
+        /// The name of the database user to which the proxy connects.
+        public let userName: String?
+
+        public init(authScheme: AuthScheme? = nil, description: String? = nil, iAMAuth: IAMAuthMode? = nil, secretArn: String? = nil, userName: String? = nil) {
+            self.authScheme = authScheme
+            self.description = description
+            self.iAMAuth = iAMAuth
+            self.secretArn = secretArn
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authScheme = "AuthScheme"
+            case description = "Description"
+            case iAMAuth = "IAMAuth"
+            case secretArn = "SecretArn"
+            case userName = "UserName"
         }
     }
 

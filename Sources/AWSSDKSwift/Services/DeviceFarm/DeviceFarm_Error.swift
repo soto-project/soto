@@ -5,7 +5,9 @@ import AWSSDKSwiftCore
 /// Error enum for DeviceFarm
 public enum DeviceFarmErrorType: AWSErrorType {
     case argumentException(message: String?)
+    case cannotDeleteException(message: String?)
     case idempotencyException(message: String?)
+    case internalServiceException(message: String?)
     case invalidOperationException(message: String?)
     case limitExceededException(message: String?)
     case notEligibleException(message: String?)
@@ -25,8 +27,12 @@ extension DeviceFarmErrorType {
         switch errorCode {
         case "ArgumentException":
             self = .argumentException(message: message)
+        case "CannotDeleteException":
+            self = .cannotDeleteException(message: message)
         case "IdempotencyException":
             self = .idempotencyException(message: message)
+        case "InternalServiceException":
+            self = .internalServiceException(message: message)
         case "InvalidOperationException":
             self = .invalidOperationException(message: message)
         case "LimitExceededException":
@@ -54,8 +60,12 @@ extension DeviceFarmErrorType : CustomStringConvertible {
         switch self {
         case .argumentException(let message):
             return "ArgumentException: \(message ?? "")"
+        case .cannotDeleteException(let message):
+            return "CannotDeleteException: \(message ?? "")"
         case .idempotencyException(let message):
             return "IdempotencyException: \(message ?? "")"
+        case .internalServiceException(let message):
+            return "InternalServiceException: \(message ?? "")"
         case .invalidOperationException(let message):
             return "InvalidOperationException: \(message ?? "")"
         case .limitExceededException(let message):

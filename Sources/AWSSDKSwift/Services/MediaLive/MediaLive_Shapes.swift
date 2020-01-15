@@ -518,11 +518,18 @@ extension MediaLive {
         }
     }
 
+    public enum AudioOnlyHlsSegmentType: String, CustomStringConvertible, Codable {
+        case aac = "AAC"
+        case fmp4 = "FMP4"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AudioOnlyHlsSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AudioGroupId", location: .body(locationName: "audioGroupId"), required: false, type: .string), 
             AWSShapeMember(label: "AudioOnlyImage", location: .body(locationName: "audioOnlyImage"), required: false, type: .structure), 
-            AWSShapeMember(label: "AudioTrackType", location: .body(locationName: "audioTrackType"), required: false, type: .enum)
+            AWSShapeMember(label: "AudioTrackType", location: .body(locationName: "audioTrackType"), required: false, type: .enum), 
+            AWSShapeMember(label: "SegmentType", location: .body(locationName: "segmentType"), required: false, type: .enum)
         ]
 
         /// Specifies the group to which the audio Rendition belongs.
@@ -540,17 +547,21 @@ extension MediaLive {
         /// Alternate Audio, not Auto Select
         /// Alternate rendition that the client will not try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=NO
         public let audioTrackType: AudioOnlyHlsTrackType?
+        /// Specifies the segment type.
+        public let segmentType: AudioOnlyHlsSegmentType?
 
-        public init(audioGroupId: String? = nil, audioOnlyImage: InputLocation? = nil, audioTrackType: AudioOnlyHlsTrackType? = nil) {
+        public init(audioGroupId: String? = nil, audioOnlyImage: InputLocation? = nil, audioTrackType: AudioOnlyHlsTrackType? = nil, segmentType: AudioOnlyHlsSegmentType? = nil) {
             self.audioGroupId = audioGroupId
             self.audioOnlyImage = audioOnlyImage
             self.audioTrackType = audioTrackType
+            self.segmentType = segmentType
         }
 
         private enum CodingKeys: String, CodingKey {
             case audioGroupId = "audioGroupId"
             case audioOnlyImage = "audioOnlyImage"
             case audioTrackType = "audioTrackType"
+            case segmentType = "segmentType"
         }
     }
 
@@ -1667,6 +1678,106 @@ extension MediaLive {
         }
     }
 
+    public struct CreateMultiplexProgramRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"), required: true, type: .string), 
+            AWSShapeMember(label: "MultiplexProgramSettings", location: .body(locationName: "multiplexProgramSettings"), required: true, type: .structure), 
+            AWSShapeMember(label: "ProgramName", location: .body(locationName: "programName"), required: true, type: .string), 
+            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: true, type: .string)
+        ]
+
+        public let multiplexId: String
+        public let multiplexProgramSettings: MultiplexProgramSettings
+        public let programName: String
+        public let requestId: String
+
+        public init(multiplexId: String, multiplexProgramSettings: MultiplexProgramSettings, programName: String, requestId: String = CreateMultiplexProgramRequest.idempotencyToken()) {
+            self.multiplexId = multiplexId
+            self.multiplexProgramSettings = multiplexProgramSettings
+            self.programName = programName
+            self.requestId = requestId
+        }
+
+        public func validate(name: String) throws {
+            try self.multiplexProgramSettings.validate(name: "\(name).multiplexProgramSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexId = "multiplexId"
+            case multiplexProgramSettings = "multiplexProgramSettings"
+            case programName = "programName"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct CreateMultiplexProgramResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexProgram", location: .body(locationName: "multiplexProgram"), required: false, type: .structure)
+        ]
+
+        public let multiplexProgram: MultiplexProgram?
+
+        public init(multiplexProgram: MultiplexProgram? = nil) {
+            self.multiplexProgram = multiplexProgram
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexProgram = "multiplexProgram"
+        }
+    }
+
+    public struct CreateMultiplexRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones"), required: true, type: .list), 
+            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings"), required: true, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "RequestId", location: .body(locationName: "requestId"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+
+        public let availabilityZones: [String]
+        public let multiplexSettings: MultiplexSettings
+        public let name: String
+        public let requestId: String
+        public let tags: [String: String]?
+
+        public init(availabilityZones: [String], multiplexSettings: MultiplexSettings, name: String, requestId: String = CreateMultiplexRequest.idempotencyToken(), tags: [String: String]? = nil) {
+            self.availabilityZones = availabilityZones
+            self.multiplexSettings = multiplexSettings
+            self.name = name
+            self.requestId = requestId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.multiplexSettings.validate(name: "\(name).multiplexSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "availabilityZones"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case requestId = "requestId"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateMultiplexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Multiplex", location: .body(locationName: "multiplex"), required: false, type: .structure)
+        ]
+
+        public let multiplex: Multiplex?
+
+        public init(multiplex: Multiplex? = nil) {
+            self.multiplex = multiplex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplex = "multiplex"
+        }
+    }
+
     public struct CreateTagsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resource-arn"), required: true, type: .string), 
@@ -1821,6 +1932,122 @@ extension MediaLive {
         public init() {
         }
 
+    }
+
+    public struct DeleteMultiplexProgramRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"), required: true, type: .string), 
+            AWSShapeMember(label: "ProgramName", location: .uri(locationName: "programName"), required: true, type: .string)
+        ]
+
+        public let multiplexId: String
+        public let programName: String
+
+        public init(multiplexId: String, programName: String) {
+            self.multiplexId = multiplexId
+            self.programName = programName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexId = "multiplexId"
+            case programName = "programName"
+        }
+    }
+
+    public struct DeleteMultiplexProgramResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
+            AWSShapeMember(label: "MultiplexProgramSettings", location: .body(locationName: "multiplexProgramSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "PacketIdentifiersMap", location: .body(locationName: "packetIdentifiersMap"), required: false, type: .structure), 
+            AWSShapeMember(label: "ProgramName", location: .body(locationName: "programName"), required: false, type: .string)
+        ]
+
+        public let channelId: String?
+        public let multiplexProgramSettings: MultiplexProgramSettings?
+        public let packetIdentifiersMap: MultiplexProgramPacketIdentifiersMap?
+        public let programName: String?
+
+        public init(channelId: String? = nil, multiplexProgramSettings: MultiplexProgramSettings? = nil, packetIdentifiersMap: MultiplexProgramPacketIdentifiersMap? = nil, programName: String? = nil) {
+            self.channelId = channelId
+            self.multiplexProgramSettings = multiplexProgramSettings
+            self.packetIdentifiersMap = packetIdentifiersMap
+            self.programName = programName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "channelId"
+            case multiplexProgramSettings = "multiplexProgramSettings"
+            case packetIdentifiersMap = "packetIdentifiersMap"
+            case programName = "programName"
+        }
+    }
+
+    public struct DeleteMultiplexRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"), required: true, type: .string)
+        ]
+
+        public let multiplexId: String
+
+        public init(multiplexId: String) {
+            self.multiplexId = multiplexId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexId = "multiplexId"
+        }
+    }
+
+    public struct DeleteMultiplexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones"), required: false, type: .list), 
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "ProgramCount", location: .body(locationName: "programCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+
+        public let arn: String?
+        public let availabilityZones: [String]?
+        public let destinations: [MultiplexOutputDestination]?
+        public let id: String?
+        public let multiplexSettings: MultiplexSettings?
+        public let name: String?
+        public let pipelinesRunningCount: Int?
+        public let programCount: Int?
+        public let state: MultiplexState?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, availabilityZones: [String]? = nil, destinations: [MultiplexOutputDestination]? = nil, id: String? = nil, multiplexSettings: MultiplexSettings? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, programCount: Int? = nil, state: MultiplexState? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.availabilityZones = availabilityZones
+            self.destinations = destinations
+            self.id = id
+            self.multiplexSettings = multiplexSettings
+            self.name = name
+            self.pipelinesRunningCount = pipelinesRunningCount
+            self.programCount = programCount
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case destinations = "destinations"
+            case id = "id"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case programCount = "programCount"
+            case state = "state"
+            case tags = "tags"
+        }
     }
 
     public struct DeleteReservationRequest: AWSShape {
@@ -2188,6 +2415,122 @@ extension MediaLive {
             case state = "state"
             case tags = "tags"
             case whitelistRules = "whitelistRules"
+        }
+    }
+
+    public struct DescribeMultiplexProgramRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"), required: true, type: .string), 
+            AWSShapeMember(label: "ProgramName", location: .uri(locationName: "programName"), required: true, type: .string)
+        ]
+
+        public let multiplexId: String
+        public let programName: String
+
+        public init(multiplexId: String, programName: String) {
+            self.multiplexId = multiplexId
+            self.programName = programName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexId = "multiplexId"
+            case programName = "programName"
+        }
+    }
+
+    public struct DescribeMultiplexProgramResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
+            AWSShapeMember(label: "MultiplexProgramSettings", location: .body(locationName: "multiplexProgramSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "PacketIdentifiersMap", location: .body(locationName: "packetIdentifiersMap"), required: false, type: .structure), 
+            AWSShapeMember(label: "ProgramName", location: .body(locationName: "programName"), required: false, type: .string)
+        ]
+
+        public let channelId: String?
+        public let multiplexProgramSettings: MultiplexProgramSettings?
+        public let packetIdentifiersMap: MultiplexProgramPacketIdentifiersMap?
+        public let programName: String?
+
+        public init(channelId: String? = nil, multiplexProgramSettings: MultiplexProgramSettings? = nil, packetIdentifiersMap: MultiplexProgramPacketIdentifiersMap? = nil, programName: String? = nil) {
+            self.channelId = channelId
+            self.multiplexProgramSettings = multiplexProgramSettings
+            self.packetIdentifiersMap = packetIdentifiersMap
+            self.programName = programName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "channelId"
+            case multiplexProgramSettings = "multiplexProgramSettings"
+            case packetIdentifiersMap = "packetIdentifiersMap"
+            case programName = "programName"
+        }
+    }
+
+    public struct DescribeMultiplexRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"), required: true, type: .string)
+        ]
+
+        public let multiplexId: String
+
+        public init(multiplexId: String) {
+            self.multiplexId = multiplexId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexId = "multiplexId"
+        }
+    }
+
+    public struct DescribeMultiplexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones"), required: false, type: .list), 
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "ProgramCount", location: .body(locationName: "programCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+
+        public let arn: String?
+        public let availabilityZones: [String]?
+        public let destinations: [MultiplexOutputDestination]?
+        public let id: String?
+        public let multiplexSettings: MultiplexSettings?
+        public let name: String?
+        public let pipelinesRunningCount: Int?
+        public let programCount: Int?
+        public let state: MultiplexState?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, availabilityZones: [String]? = nil, destinations: [MultiplexOutputDestination]? = nil, id: String? = nil, multiplexSettings: MultiplexSettings? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, programCount: Int? = nil, state: MultiplexState? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.availabilityZones = availabilityZones
+            self.destinations = destinations
+            self.id = id
+            self.multiplexSettings = multiplexSettings
+            self.name = name
+            self.pipelinesRunningCount = pipelinesRunningCount
+            self.programCount = programCount
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case destinations = "destinations"
+            case id = "id"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case programCount = "programCount"
+            case state = "state"
+            case tags = "tags"
         }
     }
 
@@ -2991,6 +3334,7 @@ extension MediaLive {
             AWSShapeMember(label: "BlackoutSlate", location: .body(locationName: "blackoutSlate"), required: false, type: .structure), 
             AWSShapeMember(label: "CaptionDescriptions", location: .body(locationName: "captionDescriptions"), required: false, type: .list), 
             AWSShapeMember(label: "GlobalConfiguration", location: .body(locationName: "globalConfiguration"), required: false, type: .structure), 
+            AWSShapeMember(label: "NielsenConfiguration", location: .body(locationName: "nielsenConfiguration"), required: false, type: .structure), 
             AWSShapeMember(label: "OutputGroups", location: .body(locationName: "outputGroups"), required: true, type: .list), 
             AWSShapeMember(label: "TimecodeConfig", location: .body(locationName: "timecodeConfig"), required: true, type: .structure), 
             AWSShapeMember(label: "VideoDescriptions", location: .body(locationName: "videoDescriptions"), required: true, type: .list)
@@ -3007,18 +3351,21 @@ extension MediaLive {
         public let captionDescriptions: [CaptionDescription]?
         /// Configuration settings that apply to the event as a whole.
         public let globalConfiguration: GlobalConfiguration?
+        /// Nielsen configuration settings.
+        public let nielsenConfiguration: NielsenConfiguration?
         public let outputGroups: [OutputGroup]
         /// Contains settings used to acquire and adjust timecode information from inputs.
         public let timecodeConfig: TimecodeConfig
         public let videoDescriptions: [VideoDescription]
 
-        public init(audioDescriptions: [AudioDescription], availBlanking: AvailBlanking? = nil, availConfiguration: AvailConfiguration? = nil, blackoutSlate: BlackoutSlate? = nil, captionDescriptions: [CaptionDescription]? = nil, globalConfiguration: GlobalConfiguration? = nil, outputGroups: [OutputGroup], timecodeConfig: TimecodeConfig, videoDescriptions: [VideoDescription]) {
+        public init(audioDescriptions: [AudioDescription], availBlanking: AvailBlanking? = nil, availConfiguration: AvailConfiguration? = nil, blackoutSlate: BlackoutSlate? = nil, captionDescriptions: [CaptionDescription]? = nil, globalConfiguration: GlobalConfiguration? = nil, nielsenConfiguration: NielsenConfiguration? = nil, outputGroups: [OutputGroup], timecodeConfig: TimecodeConfig, videoDescriptions: [VideoDescription]) {
             self.audioDescriptions = audioDescriptions
             self.availBlanking = availBlanking
             self.availConfiguration = availConfiguration
             self.blackoutSlate = blackoutSlate
             self.captionDescriptions = captionDescriptions
             self.globalConfiguration = globalConfiguration
+            self.nielsenConfiguration = nielsenConfiguration
             self.outputGroups = outputGroups
             self.timecodeConfig = timecodeConfig
             self.videoDescriptions = videoDescriptions
@@ -3050,6 +3397,7 @@ extension MediaLive {
             case blackoutSlate = "blackoutSlate"
             case captionDescriptions = "captionDescriptions"
             case globalConfiguration = "globalConfiguration"
+            case nielsenConfiguration = "nielsenConfiguration"
             case outputGroups = "outputGroups"
             case timecodeConfig = "timecodeConfig"
             case videoDescriptions = "videoDescriptions"
@@ -3128,6 +3476,23 @@ extension MediaLive {
         }
     }
 
+    public struct Fmp4HlsSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AudioRenditionSets", location: .body(locationName: "audioRenditionSets"), required: false, type: .string)
+        ]
+
+        /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
+        public let audioRenditionSets: String?
+
+        public init(audioRenditionSets: String? = nil) {
+            self.audioRenditionSets = audioRenditionSets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioRenditionSets = "audioRenditionSets"
+        }
+    }
+
     public struct FollowModeScheduleActionStartSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FollowPoint", location: .body(locationName: "followPoint"), required: true, type: .enum), 
@@ -3173,6 +3538,12 @@ extension MediaLive {
         }
     }
 
+    public enum FrameCaptureIntervalUnit: String, CustomStringConvertible, Codable {
+        case milliseconds = "MILLISECONDS"
+        case seconds = "SECONDS"
+        public var description: String { return self.rawValue }
+    }
+
     public struct FrameCaptureOutputSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string)
@@ -3192,23 +3563,28 @@ extension MediaLive {
 
     public struct FrameCaptureSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "CaptureInterval", location: .body(locationName: "captureInterval"), required: true, type: .integer)
+            AWSShapeMember(label: "CaptureInterval", location: .body(locationName: "captureInterval"), required: true, type: .integer), 
+            AWSShapeMember(label: "CaptureIntervalUnits", location: .body(locationName: "captureIntervalUnits"), required: false, type: .enum)
         ]
 
-        /// The frequency, in seconds, for capturing frames for inclusion in the output.  For example, "10" means capture a frame every 10 seconds.
+        /// The frequency at which to capture frames for inclusion in the output. May be specified in either seconds or milliseconds, as specified by captureIntervalUnits.
         public let captureInterval: Int
+        /// Unit for the frame capture interval.
+        public let captureIntervalUnits: FrameCaptureIntervalUnit?
 
-        public init(captureInterval: Int) {
+        public init(captureInterval: Int, captureIntervalUnits: FrameCaptureIntervalUnit? = nil) {
             self.captureInterval = captureInterval
+            self.captureIntervalUnits = captureIntervalUnits
         }
 
         public func validate(name: String) throws {
-            try validate(self.captureInterval, name:"captureInterval", parent: name, max: 3600)
+            try validate(self.captureInterval, name:"captureInterval", parent: name, max: 3600000)
             try validate(self.captureInterval, name:"captureInterval", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case captureInterval = "captureInterval"
+            case captureIntervalUnits = "captureIntervalUnits"
         }
     }
 
@@ -3494,7 +3870,9 @@ extension MediaLive {
         public let gopClosedCadence: Int?
         /// Number of B-frames between reference frames.
         public let gopNumBFrames: Int?
-        /// GOP size (keyframe interval) in units of either frames or seconds per gopSizeUnits. Must be greater than zero.
+        /// GOP size (keyframe interval) in units of either frames or seconds per gopSizeUnits.
+        /// If gopSizeUnits is frames, gopSize must be an integer and must be greater than or equal to 1.
+        /// If gopSizeUnits is seconds, gopSize must be greater than 0, but need not be an integer.
         public let gopSize: Double?
         /// Indicates if the gopSize is specified in frames or seconds. If seconds the system will convert the gopSize into a frame count at run time.
         public let gopSizeUnits: H264GopSizeUnits?
@@ -3505,7 +3883,7 @@ extension MediaLive {
         /// For QVBR: See the tooltip for Quality level
         /// For VBR: Set the maximum bitrate in order to accommodate expected spikes in the complexity of the video.
         public let maxBitrate: Int?
-        /// Only meaningful if sceneChangeDetect is set to enabled.  Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
+        /// Only meaningful if sceneChangeDetect is set to enabled.  Defaults to 5 if multiplex rate control is used.  Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public let minIInterval: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
         public let numRefFrames: Int?
@@ -3529,6 +3907,9 @@ extension MediaLive {
         /// if you want to maintain a specific average bitrate over the duration of the channel.
         /// CBR: Quality varies, depending on the video complexity. Recommended only if you distribute
         /// your assets to devices that cannot handle variable bitrates.
+        /// Multiplex: This rate control mode is only supported (and is required) when the video is being
+        /// delivered to a MediaLive Multiplex in which case the rate control configuration is controlled
+        /// by the properties within the Multiplex Program.
         public let rateControlMode: H264RateControlMode?
         /// Sets the scan type of the output to progressive or top-field-first interlaced.
         public let scanType: H264ScanType?
@@ -3790,6 +4171,7 @@ extension MediaLive {
 
     public enum H265RateControlMode: String, CustomStringConvertible, Codable {
         case cbr = "CBR"
+        case multiplex = "MULTIPLEX"
         case qvbr = "QVBR"
         public var description: String { return self.rawValue }
     }
@@ -3861,7 +4243,9 @@ extension MediaLive {
         public let framerateNumerator: Int
         /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
         public let gopClosedCadence: Int?
-        /// GOP size (keyframe interval) in units of either frames or seconds per gopSizeUnits. Must be greater than zero.
+        /// GOP size (keyframe interval) in units of either frames or seconds per gopSizeUnits.
+        /// If gopSizeUnits is frames, gopSize must be an integer and must be greater than or equal to 1.
+        /// If gopSizeUnits is seconds, gopSize must be greater than 0, but need not be an integer.
         public let gopSize: Double?
         /// Indicates if the gopSize is specified in frames or seconds. If seconds the system will convert the gopSize into a frame count at run time.
         public let gopSizeUnits: H265GopSizeUnits?
@@ -3871,7 +4255,7 @@ extension MediaLive {
         public let lookAheadRateControl: H265LookAheadRateControl?
         /// For QVBR: See the tooltip for Quality level
         public let maxBitrate: Int?
-        /// Only meaningful if sceneChangeDetect is set to enabled.  Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
+        /// Only meaningful if sceneChangeDetect is set to enabled.  Defaults to 5 if multiplex rate control is used.  Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public let minIInterval: Int?
         /// Pixel Aspect Ratio denominator.
         public let parDenominator: Int?
@@ -4214,7 +4598,9 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AdMarkers", location: .body(locationName: "adMarkers"), required: false, type: .list), 
             AWSShapeMember(label: "BaseUrlContent", location: .body(locationName: "baseUrlContent"), required: false, type: .string), 
+            AWSShapeMember(label: "BaseUrlContent1", location: .body(locationName: "baseUrlContent1"), required: false, type: .string), 
             AWSShapeMember(label: "BaseUrlManifest", location: .body(locationName: "baseUrlManifest"), required: false, type: .string), 
+            AWSShapeMember(label: "BaseUrlManifest1", location: .body(locationName: "baseUrlManifest1"), required: false, type: .string), 
             AWSShapeMember(label: "CaptionLanguageMappings", location: .body(locationName: "captionLanguageMappings"), required: false, type: .list), 
             AWSShapeMember(label: "CaptionLanguageSetting", location: .body(locationName: "captionLanguageSetting"), required: false, type: .enum), 
             AWSShapeMember(label: "ClientCache", location: .body(locationName: "clientCache"), required: false, type: .enum), 
@@ -4224,6 +4610,7 @@ extension MediaLive {
             AWSShapeMember(label: "DirectoryStructure", location: .body(locationName: "directoryStructure"), required: false, type: .enum), 
             AWSShapeMember(label: "EncryptionType", location: .body(locationName: "encryptionType"), required: false, type: .enum), 
             AWSShapeMember(label: "HlsCdnSettings", location: .body(locationName: "hlsCdnSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "HlsId3SegmentTagging", location: .body(locationName: "hlsId3SegmentTagging"), required: false, type: .enum), 
             AWSShapeMember(label: "IFrameOnlyPlaylists", location: .body(locationName: "iFrameOnlyPlaylists"), required: false, type: .enum), 
             AWSShapeMember(label: "IndexNSegments", location: .body(locationName: "indexNSegments"), required: false, type: .integer), 
             AWSShapeMember(label: "InputLossAction", location: .body(locationName: "inputLossAction"), required: false, type: .enum), 
@@ -4255,8 +4642,14 @@ extension MediaLive {
         public let adMarkers: [HlsAdMarkers]?
         /// A partial URI prefix that will be prepended to each output in the media .m3u8 file. Can be used if base manifest is delivered from a different URL than the main .m3u8 file.
         public let baseUrlContent: String?
+        /// Optional. One value per output group.
+        /// This field is required only if you are completing Base URL content A, and the downstream system has notified you that the media files for pipeline 1 of all outputs are in a location different from the media files for pipeline 0.
+        public let baseUrlContent1: String?
         /// A partial URI prefix that will be prepended to each output in the media .m3u8 file. Can be used if base manifest is delivered from a different URL than the main .m3u8 file.
         public let baseUrlManifest: String?
+        /// Optional. One value per output group.
+        /// Complete this field only if you are completing Base URL manifest A, and the downstream system has notified you that the child manifest files for pipeline 1 of all outputs are in a location different from the child manifest files for pipeline 0.
+        public let baseUrlManifest1: String?
         /// Mapping of up to 4 caption channels to caption languages.  Is only meaningful if captionLanguageSetting is set to "insert".
         public let captionLanguageMappings: [CaptionLanguageMapping]?
         /// Applies only to 608 Embedded output captions.
@@ -4278,6 +4671,8 @@ extension MediaLive {
         public let encryptionType: HlsEncryptionType?
         /// Parameters that control interactions with the CDN.
         public let hlsCdnSettings: HlsCdnSettings?
+        /// State of HLS ID3 Segment Tagging
+        public let hlsId3SegmentTagging: HlsId3SegmentTaggingState?
         /// DISABLED: Do not create an I-frame-only manifest, but do create the master and media manifests (according to the Output Selection field).
         /// STANDARD: Create an I-frame-only manifest for each output that contains video, as well as the other manifests (according to the Output Selection field). The I-frame manifest contains a #EXT-X-I-FRAMES-ONLY tag to indicate it is I-frame only, and one or more #EXT-X-BYTERANGE entries identifying the I-frame position. For example, #EXT-X-BYTERANGE:160364@1461888"
         public let iFrameOnlyPlaylists: IFrameOnlyPlaylistType?
@@ -4335,10 +4730,12 @@ extension MediaLive {
         /// SINGLEFILE: Applies only if Mode field is VOD. Emit the program as a single .ts media file. The media manifest includes #EXT-X-BYTERANGE tags to index segments for playback. A typical use for this value is when sending the output to AWS Elemental MediaConvert, which can accept only a single media file. Playback while the channel is running is not guaranteed due to HTTP server caching.
         public let tsFileMode: HlsTsFileMode?
 
-        public init(adMarkers: [HlsAdMarkers]? = nil, baseUrlContent: String? = nil, baseUrlManifest: String? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, constantIv: String? = nil, destination: OutputLocationRef, directoryStructure: HlsDirectoryStructure? = nil, encryptionType: HlsEncryptionType? = nil, hlsCdnSettings: HlsCdnSettings? = nil, iFrameOnlyPlaylists: IFrameOnlyPlaylistType? = nil, indexNSegments: Int? = nil, inputLossAction: InputLossActionForHlsOut? = nil, ivInManifest: HlsIvInManifest? = nil, ivSource: HlsIvSource? = nil, keepSegments: Int? = nil, keyFormat: String? = nil, keyFormatVersions: String? = nil, keyProviderSettings: KeyProviderSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minSegmentLength: Int? = nil, mode: HlsMode? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, redundantManifest: HlsRedundantManifest? = nil, segmentationMode: HlsSegmentationMode? = nil, segmentLength: Int? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil, tsFileMode: HlsTsFileMode? = nil) {
+        public init(adMarkers: [HlsAdMarkers]? = nil, baseUrlContent: String? = nil, baseUrlContent1: String? = nil, baseUrlManifest: String? = nil, baseUrlManifest1: String? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, captionLanguageSetting: HlsCaptionLanguageSetting? = nil, clientCache: HlsClientCache? = nil, codecSpecification: HlsCodecSpecification? = nil, constantIv: String? = nil, destination: OutputLocationRef, directoryStructure: HlsDirectoryStructure? = nil, encryptionType: HlsEncryptionType? = nil, hlsCdnSettings: HlsCdnSettings? = nil, hlsId3SegmentTagging: HlsId3SegmentTaggingState? = nil, iFrameOnlyPlaylists: IFrameOnlyPlaylistType? = nil, indexNSegments: Int? = nil, inputLossAction: InputLossActionForHlsOut? = nil, ivInManifest: HlsIvInManifest? = nil, ivSource: HlsIvSource? = nil, keepSegments: Int? = nil, keyFormat: String? = nil, keyFormatVersions: String? = nil, keyProviderSettings: KeyProviderSettings? = nil, manifestCompression: HlsManifestCompression? = nil, manifestDurationFormat: HlsManifestDurationFormat? = nil, minSegmentLength: Int? = nil, mode: HlsMode? = nil, outputSelection: HlsOutputSelection? = nil, programDateTime: HlsProgramDateTime? = nil, programDateTimePeriod: Int? = nil, redundantManifest: HlsRedundantManifest? = nil, segmentationMode: HlsSegmentationMode? = nil, segmentLength: Int? = nil, segmentsPerSubdirectory: Int? = nil, streamInfResolution: HlsStreamInfResolution? = nil, timedMetadataId3Frame: HlsTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timestampDeltaMilliseconds: Int? = nil, tsFileMode: HlsTsFileMode? = nil) {
             self.adMarkers = adMarkers
             self.baseUrlContent = baseUrlContent
+            self.baseUrlContent1 = baseUrlContent1
             self.baseUrlManifest = baseUrlManifest
+            self.baseUrlManifest1 = baseUrlManifest1
             self.captionLanguageMappings = captionLanguageMappings
             self.captionLanguageSetting = captionLanguageSetting
             self.clientCache = clientCache
@@ -4348,6 +4745,7 @@ extension MediaLive {
             self.directoryStructure = directoryStructure
             self.encryptionType = encryptionType
             self.hlsCdnSettings = hlsCdnSettings
+            self.hlsId3SegmentTagging = hlsId3SegmentTagging
             self.iFrameOnlyPlaylists = iFrameOnlyPlaylists
             self.indexNSegments = indexNSegments
             self.inputLossAction = inputLossAction
@@ -4397,7 +4795,9 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case adMarkers = "adMarkers"
             case baseUrlContent = "baseUrlContent"
+            case baseUrlContent1 = "baseUrlContent1"
             case baseUrlManifest = "baseUrlManifest"
+            case baseUrlManifest1 = "baseUrlManifest1"
             case captionLanguageMappings = "captionLanguageMappings"
             case captionLanguageSetting = "captionLanguageSetting"
             case clientCache = "clientCache"
@@ -4407,6 +4807,7 @@ extension MediaLive {
             case directoryStructure = "directoryStructure"
             case encryptionType = "encryptionType"
             case hlsCdnSettings = "hlsCdnSettings"
+            case hlsId3SegmentTagging = "hlsId3SegmentTagging"
             case iFrameOnlyPlaylists = "iFrameOnlyPlaylists"
             case indexNSegments = "indexNSegments"
             case inputLossAction = "inputLossAction"
@@ -4433,6 +4834,35 @@ extension MediaLive {
             case timestampDeltaMilliseconds = "timestampDeltaMilliseconds"
             case tsFileMode = "tsFileMode"
         }
+    }
+
+    public enum HlsH265PackagingType: String, CustomStringConvertible, Codable {
+        case hev1 = "HEV1"
+        case hvc1 = "HVC1"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct HlsId3SegmentTaggingScheduleActionSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tag", location: .body(locationName: "tag"), required: true, type: .string)
+        ]
+
+        /// ID3 tag to insert into each segment. Supports special keyword identifiers to substitute in segment-related values.\nSupported keyword identifiers: https://docs.aws.amazon.com/medialive/latest/ug/variable-data-identifiers.html
+        public let tag: String
+
+        public init(tag: String) {
+            self.tag = tag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tag = "tag"
+        }
+    }
+
+    public enum HlsId3SegmentTaggingState: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
     }
 
     public struct HlsInputSettings: AWSShape {
@@ -4563,11 +4993,15 @@ extension MediaLive {
 
     public struct HlsOutputSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "H265PackagingType", location: .body(locationName: "h265PackagingType"), required: false, type: .enum), 
             AWSShapeMember(label: "HlsSettings", location: .body(locationName: "hlsSettings"), required: true, type: .structure), 
             AWSShapeMember(label: "NameModifier", location: .body(locationName: "nameModifier"), required: false, type: .string), 
             AWSShapeMember(label: "SegmentModifier", location: .body(locationName: "segmentModifier"), required: false, type: .string)
         ]
 
+        /// Only applicable when this output is referencing an H.265 video description.
+        /// Specifies whether MP4 segments should be packaged as HEV1 or HVC1.
+        public let h265PackagingType: HlsH265PackagingType?
         /// Settings regarding the underlying stream. These settings are different for audio-only outputs.
         public let hlsSettings: HlsSettings
         /// String concatenated to the end of the destination filename. Accepts \"Format Identifiers\":#formatIdentifierParameters.
@@ -4575,7 +5009,8 @@ extension MediaLive {
         /// String concatenated to end of segment filenames.
         public let segmentModifier: String?
 
-        public init(hlsSettings: HlsSettings, nameModifier: String? = nil, segmentModifier: String? = nil) {
+        public init(h265PackagingType: HlsH265PackagingType? = nil, hlsSettings: HlsSettings, nameModifier: String? = nil, segmentModifier: String? = nil) {
+            self.h265PackagingType = h265PackagingType
             self.hlsSettings = hlsSettings
             self.nameModifier = nameModifier
             self.segmentModifier = segmentModifier
@@ -4587,6 +5022,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case h265PackagingType = "h265PackagingType"
             case hlsSettings = "hlsSettings"
             case nameModifier = "nameModifier"
             case segmentModifier = "segmentModifier"
@@ -4614,14 +5050,17 @@ extension MediaLive {
     public struct HlsSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AudioOnlyHlsSettings", location: .body(locationName: "audioOnlyHlsSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Fmp4HlsSettings", location: .body(locationName: "fmp4HlsSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "StandardHlsSettings", location: .body(locationName: "standardHlsSettings"), required: false, type: .structure)
         ]
 
         public let audioOnlyHlsSettings: AudioOnlyHlsSettings?
+        public let fmp4HlsSettings: Fmp4HlsSettings?
         public let standardHlsSettings: StandardHlsSettings?
 
-        public init(audioOnlyHlsSettings: AudioOnlyHlsSettings? = nil, standardHlsSettings: StandardHlsSettings? = nil) {
+        public init(audioOnlyHlsSettings: AudioOnlyHlsSettings? = nil, fmp4HlsSettings: Fmp4HlsSettings? = nil, standardHlsSettings: StandardHlsSettings? = nil) {
             self.audioOnlyHlsSettings = audioOnlyHlsSettings
+            self.fmp4HlsSettings = fmp4HlsSettings
             self.standardHlsSettings = standardHlsSettings
         }
 
@@ -4631,6 +5070,7 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case audioOnlyHlsSettings = "audioOnlyHlsSettings"
+            case fmp4HlsSettings = "fmp4HlsSettings"
             case standardHlsSettings = "standardHlsSettings"
         }
     }
@@ -5619,11 +6059,106 @@ extension MediaLive {
         }
     }
 
+    public struct ListMultiplexProgramsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        public let maxResults: Int?
+        public let multiplexId: String
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, multiplexId: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.multiplexId = multiplexId
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case multiplexId = "multiplexId"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListMultiplexProgramsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexPrograms", location: .body(locationName: "multiplexPrograms"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        public let multiplexPrograms: [MultiplexProgramSummary]?
+        public let nextToken: String?
+
+        public init(multiplexPrograms: [MultiplexProgramSummary]? = nil, nextToken: String? = nil) {
+            self.multiplexPrograms = multiplexPrograms
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexPrograms = "multiplexPrograms"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListMultiplexesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListMultiplexesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Multiplexes", location: .body(locationName: "multiplexes"), required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        public let multiplexes: [MultiplexSummary]?
+        public let nextToken: String?
+
+        public init(multiplexes: [MultiplexSummary]? = nil, nextToken: String? = nil) {
+            self.multiplexes = multiplexes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexes = "multiplexes"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListOfferingsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ChannelClass", location: .querystring(locationName: "channelClass"), required: false, type: .string), 
             AWSShapeMember(label: "ChannelConfiguration", location: .querystring(locationName: "channelConfiguration"), required: false, type: .string), 
             AWSShapeMember(label: "Codec", location: .querystring(locationName: "codec"), required: false, type: .string), 
+            AWSShapeMember(label: "Duration", location: .querystring(locationName: "duration"), required: false, type: .string), 
             AWSShapeMember(label: "MaximumBitrate", location: .querystring(locationName: "maximumBitrate"), required: false, type: .string), 
             AWSShapeMember(label: "MaximumFramerate", location: .querystring(locationName: "maximumFramerate"), required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -5637,6 +6172,7 @@ extension MediaLive {
         public let channelClass: String?
         public let channelConfiguration: String?
         public let codec: String?
+        public let duration: String?
         public let maximumBitrate: String?
         public let maximumFramerate: String?
         public let maxResults: Int?
@@ -5646,10 +6182,11 @@ extension MediaLive {
         public let specialFeature: String?
         public let videoQuality: String?
 
-        public init(channelClass: String? = nil, channelConfiguration: String? = nil, codec: String? = nil, maximumBitrate: String? = nil, maximumFramerate: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resolution: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, videoQuality: String? = nil) {
+        public init(channelClass: String? = nil, channelConfiguration: String? = nil, codec: String? = nil, duration: String? = nil, maximumBitrate: String? = nil, maximumFramerate: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resolution: String? = nil, resourceType: String? = nil, specialFeature: String? = nil, videoQuality: String? = nil) {
             self.channelClass = channelClass
             self.channelConfiguration = channelConfiguration
             self.codec = codec
+            self.duration = duration
             self.maximumBitrate = maximumBitrate
             self.maximumFramerate = maximumFramerate
             self.maxResults = maxResults
@@ -5669,6 +6206,7 @@ extension MediaLive {
             case channelClass = "channelClass"
             case channelConfiguration = "channelConfiguration"
             case codec = "codec"
+            case duration = "duration"
             case maximumBitrate = "maximumBitrate"
             case maximumFramerate = "maximumFramerate"
             case maxResults = "maxResults"
@@ -5890,6 +6428,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum M2tsNielsenId3Behavior: String, CustomStringConvertible, Codable {
+        case noPassthrough = "NO_PASSTHROUGH"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum M2tsPcrControl: String, CustomStringConvertible, Codable {
         case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
         case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
@@ -5953,6 +6497,7 @@ extension MediaLive {
             AWSShapeMember(label: "FragmentTime", location: .body(locationName: "fragmentTime"), required: false, type: .double), 
             AWSShapeMember(label: "Klv", location: .body(locationName: "klv"), required: false, type: .enum), 
             AWSShapeMember(label: "KlvDataPids", location: .body(locationName: "klvDataPids"), required: false, type: .string), 
+            AWSShapeMember(label: "NielsenId3Behavior", location: .body(locationName: "nielsenId3Behavior"), required: false, type: .enum), 
             AWSShapeMember(label: "NullPacketBitrate", location: .body(locationName: "nullPacketBitrate"), required: false, type: .double), 
             AWSShapeMember(label: "PatInterval", location: .body(locationName: "patInterval"), required: false, type: .integer), 
             AWSShapeMember(label: "PcrControl", location: .body(locationName: "pcrControl"), required: false, type: .enum), 
@@ -6028,6 +6573,8 @@ extension MediaLive {
         public let klv: M2tsKlv?
         /// Packet Identifier (PID) for input source KLV data to this output. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.  Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
         public let klvDataPids: String?
+        /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
+        public let nielsenId3Behavior: M2tsNielsenId3Behavior?
         /// Value in bits per second of extra null packets to insert into the transport stream. This can be used if a downstream encryption system requires periodic null packets.
         public let nullPacketBitrate: Double?
         /// The number of milliseconds between instances of this table in the output transport stream.  Valid values are 0, 10..1000.
@@ -6069,7 +6616,7 @@ extension MediaLive {
         /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let videoPid: String?
 
-        public init(absentInputAudioBehavior: M2tsAbsentInputAudioBehavior? = nil, arib: M2tsArib? = nil, aribCaptionsPid: String? = nil, aribCaptionsPidControl: M2tsAribCaptionsPidControl? = nil, audioBufferModel: M2tsAudioBufferModel? = nil, audioFramesPerPes: Int? = nil, audioPids: String? = nil, audioStreamType: M2tsAudioStreamType? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, ccDescriptor: M2tsCcDescriptor? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: String? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: String? = nil, ebif: M2tsEbifControl? = nil, ebpAudioInterval: M2tsAudioInterval? = nil, ebpLookaheadMs: Int? = nil, ebpPlacement: M2tsEbpPlacement? = nil, ecmPid: String? = nil, esRateInPes: M2tsEsRateInPes? = nil, etvPlatformPid: String? = nil, etvSignalPid: String? = nil, fragmentTime: Double? = nil, klv: M2tsKlv? = nil, klvDataPids: String? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPeriod: Int? = nil, pcrPid: String? = nil, pmtInterval: Int? = nil, pmtPid: String? = nil, programNum: Int? = nil, rateMode: M2tsRateMode? = nil, scte27Pids: String? = nil, scte35Control: M2tsScte35Control? = nil, scte35Pid: String? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataBehavior: M2tsTimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int? = nil, videoPid: String? = nil) {
+        public init(absentInputAudioBehavior: M2tsAbsentInputAudioBehavior? = nil, arib: M2tsArib? = nil, aribCaptionsPid: String? = nil, aribCaptionsPidControl: M2tsAribCaptionsPidControl? = nil, audioBufferModel: M2tsAudioBufferModel? = nil, audioFramesPerPes: Int? = nil, audioPids: String? = nil, audioStreamType: M2tsAudioStreamType? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, ccDescriptor: M2tsCcDescriptor? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: String? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: String? = nil, ebif: M2tsEbifControl? = nil, ebpAudioInterval: M2tsAudioInterval? = nil, ebpLookaheadMs: Int? = nil, ebpPlacement: M2tsEbpPlacement? = nil, ecmPid: String? = nil, esRateInPes: M2tsEsRateInPes? = nil, etvPlatformPid: String? = nil, etvSignalPid: String? = nil, fragmentTime: Double? = nil, klv: M2tsKlv? = nil, klvDataPids: String? = nil, nielsenId3Behavior: M2tsNielsenId3Behavior? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPeriod: Int? = nil, pcrPid: String? = nil, pmtInterval: Int? = nil, pmtPid: String? = nil, programNum: Int? = nil, rateMode: M2tsRateMode? = nil, scte27Pids: String? = nil, scte35Control: M2tsScte35Control? = nil, scte35Pid: String? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataBehavior: M2tsTimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int? = nil, videoPid: String? = nil) {
             self.absentInputAudioBehavior = absentInputAudioBehavior
             self.arib = arib
             self.aribCaptionsPid = aribCaptionsPid
@@ -6097,6 +6644,7 @@ extension MediaLive {
             self.fragmentTime = fragmentTime
             self.klv = klv
             self.klvDataPids = klvDataPids
+            self.nielsenId3Behavior = nielsenId3Behavior
             self.nullPacketBitrate = nullPacketBitrate
             self.patInterval = patInterval
             self.pcrControl = pcrControl
@@ -6166,6 +6714,7 @@ extension MediaLive {
             case fragmentTime = "fragmentTime"
             case klv = "klv"
             case klvDataPids = "klvDataPids"
+            case nielsenId3Behavior = "nielsenId3Behavior"
             case nullPacketBitrate = "nullPacketBitrate"
             case patInterval = "patInterval"
             case pcrControl = "pcrControl"
@@ -6194,6 +6743,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum M3u8NielsenId3Behavior: String, CustomStringConvertible, Codable {
+        case noPassthrough = "NO_PASSTHROUGH"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum M3u8PcrControl: String, CustomStringConvertible, Codable {
         case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
         case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
@@ -6211,6 +6766,7 @@ extension MediaLive {
             AWSShapeMember(label: "AudioFramesPerPes", location: .body(locationName: "audioFramesPerPes"), required: false, type: .integer), 
             AWSShapeMember(label: "AudioPids", location: .body(locationName: "audioPids"), required: false, type: .string), 
             AWSShapeMember(label: "EcmPid", location: .body(locationName: "ecmPid"), required: false, type: .string), 
+            AWSShapeMember(label: "NielsenId3Behavior", location: .body(locationName: "nielsenId3Behavior"), required: false, type: .enum), 
             AWSShapeMember(label: "PatInterval", location: .body(locationName: "patInterval"), required: false, type: .integer), 
             AWSShapeMember(label: "PcrControl", location: .body(locationName: "pcrControl"), required: false, type: .enum), 
             AWSShapeMember(label: "PcrPeriod", location: .body(locationName: "pcrPeriod"), required: false, type: .integer), 
@@ -6232,6 +6788,8 @@ extension MediaLive {
         public let audioPids: String?
         /// This parameter is unused and deprecated.
         public let ecmPid: String?
+        /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
+        public let nielsenId3Behavior: M3u8NielsenId3Behavior?
         /// The number of milliseconds between instances of this table in the output transport stream. A value of \"0\" writes out the PMT once per segment file.
         public let patInterval: Int?
         /// When set to pcrEveryPesPacket, a Program Clock Reference value is inserted for every Packetized Elementary Stream (PES) header. This parameter is effective only when the PCR PID is the same as the video or audio elementary stream.
@@ -6259,10 +6817,11 @@ extension MediaLive {
         /// Packet Identifier (PID) of the elementary video stream in the transport stream. Can be entered as a decimal or hexadecimal value.
         public let videoPid: String?
 
-        public init(audioFramesPerPes: Int? = nil, audioPids: String? = nil, ecmPid: String? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPeriod: Int? = nil, pcrPid: String? = nil, pmtInterval: Int? = nil, pmtPid: String? = nil, programNum: Int? = nil, scte35Behavior: M3u8Scte35Behavior? = nil, scte35Pid: String? = nil, timedMetadataBehavior: M3u8TimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int? = nil, videoPid: String? = nil) {
+        public init(audioFramesPerPes: Int? = nil, audioPids: String? = nil, ecmPid: String? = nil, nielsenId3Behavior: M3u8NielsenId3Behavior? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPeriod: Int? = nil, pcrPid: String? = nil, pmtInterval: Int? = nil, pmtPid: String? = nil, programNum: Int? = nil, scte35Behavior: M3u8Scte35Behavior? = nil, scte35Pid: String? = nil, timedMetadataBehavior: M3u8TimedMetadataBehavior? = nil, timedMetadataPid: String? = nil, transportStreamId: Int? = nil, videoPid: String? = nil) {
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
             self.ecmPid = ecmPid
+            self.nielsenId3Behavior = nielsenId3Behavior
             self.patInterval = patInterval
             self.pcrControl = pcrControl
             self.pcrPeriod = pcrPeriod
@@ -6296,6 +6855,7 @@ extension MediaLive {
             case audioFramesPerPes = "audioFramesPerPes"
             case audioPids = "audioPids"
             case ecmPid = "ecmPid"
+            case nielsenId3Behavior = "nielsenId3Behavior"
             case patInterval = "patInterval"
             case pcrControl = "pcrControl"
             case pcrPeriod = "pcrPeriod"
@@ -6584,6 +7144,523 @@ extension MediaLive {
         }
     }
 
+    public struct Multiplex: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones"), required: false, type: .list), 
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "ProgramCount", location: .body(locationName: "programCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+
+        /// The unique arn of the multiplex.
+        public let arn: String?
+        /// A list of availability zones for the multiplex.
+        public let availabilityZones: [String]?
+        /// A list of the multiplex output destinations.
+        public let destinations: [MultiplexOutputDestination]?
+        /// The unique id of the multiplex.
+        public let id: String?
+        /// Configuration for a multiplex event.
+        public let multiplexSettings: MultiplexSettings?
+        /// The name of the multiplex.
+        public let name: String?
+        /// The number of currently healthy pipelines.
+        public let pipelinesRunningCount: Int?
+        /// The number of programs in the multiplex.
+        public let programCount: Int?
+        /// The current state of the multiplex.
+        public let state: MultiplexState?
+        /// A collection of key-value pairs.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, availabilityZones: [String]? = nil, destinations: [MultiplexOutputDestination]? = nil, id: String? = nil, multiplexSettings: MultiplexSettings? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, programCount: Int? = nil, state: MultiplexState? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.availabilityZones = availabilityZones
+            self.destinations = destinations
+            self.id = id
+            self.multiplexSettings = multiplexSettings
+            self.name = name
+            self.pipelinesRunningCount = pipelinesRunningCount
+            self.programCount = programCount
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case destinations = "destinations"
+            case id = "id"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case programCount = "programCount"
+            case state = "state"
+            case tags = "tags"
+        }
+    }
+
+    public struct MultiplexGroupSettings: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct MultiplexMediaConnectOutputDestinationSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EntitlementArn", location: .body(locationName: "entitlementArn"), required: false, type: .string)
+        ]
+
+        /// The MediaConnect entitlement ARN available as a Flow source.
+        public let entitlementArn: String?
+
+        public init(entitlementArn: String? = nil) {
+            self.entitlementArn = entitlementArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlementArn = "entitlementArn"
+        }
+    }
+
+    public struct MultiplexOutputDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MediaConnectSettings", location: .body(locationName: "mediaConnectSettings"), required: false, type: .structure)
+        ]
+
+        /// Multiplex MediaConnect output destination settings.
+        public let mediaConnectSettings: MultiplexMediaConnectOutputDestinationSettings?
+
+        public init(mediaConnectSettings: MultiplexMediaConnectOutputDestinationSettings? = nil) {
+            self.mediaConnectSettings = mediaConnectSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaConnectSettings = "mediaConnectSettings"
+        }
+    }
+
+    public struct MultiplexOutputSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destination", location: .body(locationName: "destination"), required: true, type: .structure)
+        ]
+
+        /// Destination is a Multiplex.
+        public let destination: OutputLocationRef
+
+        public init(destination: OutputLocationRef) {
+            self.destination = destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+        }
+    }
+
+    public struct MultiplexProgram: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
+            AWSShapeMember(label: "MultiplexProgramSettings", location: .body(locationName: "multiplexProgramSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "PacketIdentifiersMap", location: .body(locationName: "packetIdentifiersMap"), required: false, type: .structure), 
+            AWSShapeMember(label: "ProgramName", location: .body(locationName: "programName"), required: false, type: .string)
+        ]
+
+        /// The MediaLive channel associated with the program.
+        public let channelId: String?
+        /// The settings for this multiplex program.
+        public let multiplexProgramSettings: MultiplexProgramSettings?
+        /// The packet identifier map for this multiplex program.
+        public let packetIdentifiersMap: MultiplexProgramPacketIdentifiersMap?
+        /// The name of the multiplex program.
+        public let programName: String?
+
+        public init(channelId: String? = nil, multiplexProgramSettings: MultiplexProgramSettings? = nil, packetIdentifiersMap: MultiplexProgramPacketIdentifiersMap? = nil, programName: String? = nil) {
+            self.channelId = channelId
+            self.multiplexProgramSettings = multiplexProgramSettings
+            self.packetIdentifiersMap = packetIdentifiersMap
+            self.programName = programName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "channelId"
+            case multiplexProgramSettings = "multiplexProgramSettings"
+            case packetIdentifiersMap = "packetIdentifiersMap"
+            case programName = "programName"
+        }
+    }
+
+    public struct MultiplexProgramChannelDestinationSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexId", location: .body(locationName: "multiplexId"), required: false, type: .string), 
+            AWSShapeMember(label: "ProgramName", location: .body(locationName: "programName"), required: false, type: .string)
+        ]
+
+        /// The ID of the Multiplex that the encoder is providing output to. You do not need to specify the individual inputs to the Multiplex; MediaLive will handle the connection of the two MediaLive pipelines to the two Multiplex instances.
+        /// The Multiplex must be in the same region as the Channel.
+        public let multiplexId: String?
+        /// The program name of the Multiplex program that the encoder is providing output to.
+        public let programName: String?
+
+        public init(multiplexId: String? = nil, programName: String? = nil) {
+            self.multiplexId = multiplexId
+            self.programName = programName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.multiplexId, name:"multiplexId", parent: name, min: 1)
+            try validate(self.programName, name:"programName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexId = "multiplexId"
+            case programName = "programName"
+        }
+    }
+
+    public struct MultiplexProgramPacketIdentifiersMap: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AudioPids", location: .body(locationName: "audioPids"), required: false, type: .list), 
+            AWSShapeMember(label: "DvbSubPids", location: .body(locationName: "dvbSubPids"), required: false, type: .list), 
+            AWSShapeMember(label: "DvbTeletextPid", location: .body(locationName: "dvbTeletextPid"), required: false, type: .integer), 
+            AWSShapeMember(label: "EtvPlatformPid", location: .body(locationName: "etvPlatformPid"), required: false, type: .integer), 
+            AWSShapeMember(label: "EtvSignalPid", location: .body(locationName: "etvSignalPid"), required: false, type: .integer), 
+            AWSShapeMember(label: "KlvDataPids", location: .body(locationName: "klvDataPids"), required: false, type: .list), 
+            AWSShapeMember(label: "PcrPid", location: .body(locationName: "pcrPid"), required: false, type: .integer), 
+            AWSShapeMember(label: "PmtPid", location: .body(locationName: "pmtPid"), required: false, type: .integer), 
+            AWSShapeMember(label: "PrivateMetadataPid", location: .body(locationName: "privateMetadataPid"), required: false, type: .integer), 
+            AWSShapeMember(label: "Scte27Pids", location: .body(locationName: "scte27Pids"), required: false, type: .list), 
+            AWSShapeMember(label: "Scte35Pid", location: .body(locationName: "scte35Pid"), required: false, type: .integer), 
+            AWSShapeMember(label: "TimedMetadataPid", location: .body(locationName: "timedMetadataPid"), required: false, type: .integer), 
+            AWSShapeMember(label: "VideoPid", location: .body(locationName: "videoPid"), required: false, type: .integer)
+        ]
+
+        public let audioPids: [Int]?
+        public let dvbSubPids: [Int]?
+        public let dvbTeletextPid: Int?
+        public let etvPlatformPid: Int?
+        public let etvSignalPid: Int?
+        public let klvDataPids: [Int]?
+        public let pcrPid: Int?
+        public let pmtPid: Int?
+        public let privateMetadataPid: Int?
+        public let scte27Pids: [Int]?
+        public let scte35Pid: Int?
+        public let timedMetadataPid: Int?
+        public let videoPid: Int?
+
+        public init(audioPids: [Int]? = nil, dvbSubPids: [Int]? = nil, dvbTeletextPid: Int? = nil, etvPlatformPid: Int? = nil, etvSignalPid: Int? = nil, klvDataPids: [Int]? = nil, pcrPid: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, scte27Pids: [Int]? = nil, scte35Pid: Int? = nil, timedMetadataPid: Int? = nil, videoPid: Int? = nil) {
+            self.audioPids = audioPids
+            self.dvbSubPids = dvbSubPids
+            self.dvbTeletextPid = dvbTeletextPid
+            self.etvPlatformPid = etvPlatformPid
+            self.etvSignalPid = etvSignalPid
+            self.klvDataPids = klvDataPids
+            self.pcrPid = pcrPid
+            self.pmtPid = pmtPid
+            self.privateMetadataPid = privateMetadataPid
+            self.scte27Pids = scte27Pids
+            self.scte35Pid = scte35Pid
+            self.timedMetadataPid = timedMetadataPid
+            self.videoPid = videoPid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioPids = "audioPids"
+            case dvbSubPids = "dvbSubPids"
+            case dvbTeletextPid = "dvbTeletextPid"
+            case etvPlatformPid = "etvPlatformPid"
+            case etvSignalPid = "etvSignalPid"
+            case klvDataPids = "klvDataPids"
+            case pcrPid = "pcrPid"
+            case pmtPid = "pmtPid"
+            case privateMetadataPid = "privateMetadataPid"
+            case scte27Pids = "scte27Pids"
+            case scte35Pid = "scte35Pid"
+            case timedMetadataPid = "timedMetadataPid"
+            case videoPid = "videoPid"
+        }
+    }
+
+    public struct MultiplexProgramServiceDescriptor: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProviderName", location: .body(locationName: "providerName"), required: true, type: .string), 
+            AWSShapeMember(label: "ServiceName", location: .body(locationName: "serviceName"), required: true, type: .string)
+        ]
+
+        /// Name of the provider.
+        public let providerName: String
+        /// Name of the service.
+        public let serviceName: String
+
+        public init(providerName: String, serviceName: String) {
+            self.providerName = providerName
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.providerName, name:"providerName", parent: name, max: 256)
+            try validate(self.serviceName, name:"serviceName", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case providerName = "providerName"
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct MultiplexProgramSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProgramNumber", location: .body(locationName: "programNumber"), required: true, type: .integer), 
+            AWSShapeMember(label: "ServiceDescriptor", location: .body(locationName: "serviceDescriptor"), required: false, type: .structure), 
+            AWSShapeMember(label: "VideoSettings", location: .body(locationName: "videoSettings"), required: false, type: .structure)
+        ]
+
+        /// Unique program number.
+        public let programNumber: Int
+        /// Transport stream service descriptor configuration for the Multiplex program.
+        public let serviceDescriptor: MultiplexProgramServiceDescriptor?
+        /// Program video settings configuration.
+        public let videoSettings: MultiplexVideoSettings?
+
+        public init(programNumber: Int, serviceDescriptor: MultiplexProgramServiceDescriptor? = nil, videoSettings: MultiplexVideoSettings? = nil) {
+            self.programNumber = programNumber
+            self.serviceDescriptor = serviceDescriptor
+            self.videoSettings = videoSettings
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.programNumber, name:"programNumber", parent: name, max: 65535)
+            try validate(self.programNumber, name:"programNumber", parent: name, min: 0)
+            try self.serviceDescriptor?.validate(name: "\(name).serviceDescriptor")
+            try self.videoSettings?.validate(name: "\(name).videoSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case programNumber = "programNumber"
+            case serviceDescriptor = "serviceDescriptor"
+            case videoSettings = "videoSettings"
+        }
+    }
+
+    public struct MultiplexProgramSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChannelId", location: .body(locationName: "channelId"), required: false, type: .string), 
+            AWSShapeMember(label: "ProgramName", location: .body(locationName: "programName"), required: false, type: .string)
+        ]
+
+        /// The MediaLive Channel associated with the program.
+        public let channelId: String?
+        /// The name of the multiplex program.
+        public let programName: String?
+
+        public init(channelId: String? = nil, programName: String? = nil) {
+            self.channelId = channelId
+            self.programName = programName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "channelId"
+            case programName = "programName"
+        }
+    }
+
+    public struct MultiplexSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaximumVideoBufferDelayMilliseconds", location: .body(locationName: "maximumVideoBufferDelayMilliseconds"), required: false, type: .integer), 
+            AWSShapeMember(label: "TransportStreamBitrate", location: .body(locationName: "transportStreamBitrate"), required: true, type: .integer), 
+            AWSShapeMember(label: "TransportStreamId", location: .body(locationName: "transportStreamId"), required: true, type: .integer), 
+            AWSShapeMember(label: "TransportStreamReservedBitrate", location: .body(locationName: "transportStreamReservedBitrate"), required: false, type: .integer)
+        ]
+
+        /// Maximum video buffer delay in milliseconds.
+        public let maximumVideoBufferDelayMilliseconds: Int?
+        /// Transport stream bit rate.
+        public let transportStreamBitrate: Int
+        /// Transport stream ID.
+        public let transportStreamId: Int
+        /// Transport stream reserved bit rate.
+        public let transportStreamReservedBitrate: Int?
+
+        public init(maximumVideoBufferDelayMilliseconds: Int? = nil, transportStreamBitrate: Int, transportStreamId: Int, transportStreamReservedBitrate: Int? = nil) {
+            self.maximumVideoBufferDelayMilliseconds = maximumVideoBufferDelayMilliseconds
+            self.transportStreamBitrate = transportStreamBitrate
+            self.transportStreamId = transportStreamId
+            self.transportStreamReservedBitrate = transportStreamReservedBitrate
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maximumVideoBufferDelayMilliseconds, name:"maximumVideoBufferDelayMilliseconds", parent: name, max: 3000)
+            try validate(self.maximumVideoBufferDelayMilliseconds, name:"maximumVideoBufferDelayMilliseconds", parent: name, min: 1000)
+            try validate(self.transportStreamBitrate, name:"transportStreamBitrate", parent: name, max: 100000000)
+            try validate(self.transportStreamBitrate, name:"transportStreamBitrate", parent: name, min: 1000000)
+            try validate(self.transportStreamId, name:"transportStreamId", parent: name, max: 65535)
+            try validate(self.transportStreamId, name:"transportStreamId", parent: name, min: 0)
+            try validate(self.transportStreamReservedBitrate, name:"transportStreamReservedBitrate", parent: name, max: 100000000)
+            try validate(self.transportStreamReservedBitrate, name:"transportStreamReservedBitrate", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumVideoBufferDelayMilliseconds = "maximumVideoBufferDelayMilliseconds"
+            case transportStreamBitrate = "transportStreamBitrate"
+            case transportStreamId = "transportStreamId"
+            case transportStreamReservedBitrate = "transportStreamReservedBitrate"
+        }
+    }
+
+    public struct MultiplexSettingsSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TransportStreamBitrate", location: .body(locationName: "transportStreamBitrate"), required: false, type: .integer)
+        ]
+
+        /// Transport stream bit rate.
+        public let transportStreamBitrate: Int?
+
+        public init(transportStreamBitrate: Int? = nil) {
+            self.transportStreamBitrate = transportStreamBitrate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transportStreamBitrate = "transportStreamBitrate"
+        }
+    }
+
+    public enum MultiplexState: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case createFailed = "CREATE_FAILED"
+        case idle = "IDLE"
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case recovering = "RECOVERING"
+        case stopping = "STOPPING"
+        case deleting = "DELETING"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MultiplexStatmuxVideoSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaximumBitrate", location: .body(locationName: "maximumBitrate"), required: false, type: .integer), 
+            AWSShapeMember(label: "MinimumBitrate", location: .body(locationName: "minimumBitrate"), required: false, type: .integer)
+        ]
+
+        /// Maximum statmux bitrate.
+        public let maximumBitrate: Int?
+        /// Minimum statmux bitrate.
+        public let minimumBitrate: Int?
+
+        public init(maximumBitrate: Int? = nil, minimumBitrate: Int? = nil) {
+            self.maximumBitrate = maximumBitrate
+            self.minimumBitrate = minimumBitrate
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maximumBitrate, name:"maximumBitrate", parent: name, max: 100000000)
+            try validate(self.maximumBitrate, name:"maximumBitrate", parent: name, min: 100000)
+            try validate(self.minimumBitrate, name:"minimumBitrate", parent: name, max: 100000000)
+            try validate(self.minimumBitrate, name:"minimumBitrate", parent: name, min: 100000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumBitrate = "maximumBitrate"
+            case minimumBitrate = "minimumBitrate"
+        }
+    }
+
+    public struct MultiplexSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "ProgramCount", location: .body(locationName: "programCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+
+        /// The unique arn of the multiplex.
+        public let arn: String?
+        /// A list of availability zones for the multiplex.
+        public let availabilityZones: [String]?
+        /// The unique id of the multiplex.
+        public let id: String?
+        /// Configuration for a multiplex event.
+        public let multiplexSettings: MultiplexSettingsSummary?
+        /// The name of the multiplex.
+        public let name: String?
+        /// The number of currently healthy pipelines.
+        public let pipelinesRunningCount: Int?
+        /// The number of programs in the multiplex.
+        public let programCount: Int?
+        /// The current state of the multiplex.
+        public let state: MultiplexState?
+        /// A collection of key-value pairs.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, availabilityZones: [String]? = nil, id: String? = nil, multiplexSettings: MultiplexSettingsSummary? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, programCount: Int? = nil, state: MultiplexState? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.availabilityZones = availabilityZones
+            self.id = id
+            self.multiplexSettings = multiplexSettings
+            self.name = name
+            self.pipelinesRunningCount = pipelinesRunningCount
+            self.programCount = programCount
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case id = "id"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case programCount = "programCount"
+            case state = "state"
+            case tags = "tags"
+        }
+    }
+
+    public struct MultiplexVideoSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConstantBitrate", location: .body(locationName: "constantBitrate"), required: false, type: .integer), 
+            AWSShapeMember(label: "StatmuxSettings", location: .body(locationName: "statmuxSettings"), required: false, type: .structure)
+        ]
+
+        /// The constant bitrate configuration for the video encode.
+        /// When this field is defined, StatmuxSettings must be undefined.
+        public let constantBitrate: Int?
+        /// Statmux rate control settings.
+        /// When this field is defined, ConstantBitrate must be undefined.
+        public let statmuxSettings: MultiplexStatmuxVideoSettings?
+
+        public init(constantBitrate: Int? = nil, statmuxSettings: MultiplexStatmuxVideoSettings? = nil) {
+            self.constantBitrate = constantBitrate
+            self.statmuxSettings = statmuxSettings
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.constantBitrate, name:"constantBitrate", parent: name, max: 100000000)
+            try validate(self.constantBitrate, name:"constantBitrate", parent: name, min: 100000)
+            try self.statmuxSettings?.validate(name: "\(name).statmuxSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constantBitrate = "constantBitrate"
+            case statmuxSettings = "statmuxSettings"
+        }
+    }
+
     public enum NetworkInputServerValidation: String, CustomStringConvertible, Codable {
         case checkCryptographyAndValidateName = "CHECK_CRYPTOGRAPHY_AND_VALIDATE_NAME"
         case checkCryptographyOnly = "CHECK_CRYPTOGRAPHY_ONLY"
@@ -6614,6 +7691,34 @@ extension MediaLive {
             case hlsInputSettings = "hlsInputSettings"
             case serverValidation = "serverValidation"
         }
+    }
+
+    public struct NielsenConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributorId", location: .body(locationName: "distributorId"), required: false, type: .string), 
+            AWSShapeMember(label: "NielsenPcmToId3Tagging", location: .body(locationName: "nielsenPcmToId3Tagging"), required: false, type: .enum)
+        ]
+
+        /// Enter the Distributor ID assigned to your organization by Nielsen.
+        public let distributorId: String?
+        /// Enables Nielsen PCM to ID3 tagging
+        public let nielsenPcmToId3Tagging: NielsenPcmToId3TaggingState?
+
+        public init(distributorId: String? = nil, nielsenPcmToId3Tagging: NielsenPcmToId3TaggingState? = nil) {
+            self.distributorId = distributorId
+            self.nielsenPcmToId3Tagging = nielsenPcmToId3Tagging
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributorId = "distributorId"
+            case nielsenPcmToId3Tagging = "nielsenPcmToId3Tagging"
+        }
+    }
+
+    public enum NielsenPcmToId3TaggingState: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
     }
 
     public struct Offering: AWSShape {
@@ -6740,6 +7845,7 @@ extension MediaLive {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
             AWSShapeMember(label: "MediaPackageSettings", location: .body(locationName: "mediaPackageSettings"), required: false, type: .list), 
+            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "Settings", location: .body(locationName: "settings"), required: false, type: .list)
         ]
 
@@ -6747,12 +7853,15 @@ extension MediaLive {
         public let id: String?
         /// Destination settings for a MediaPackage output; one destination for both encoders.
         public let mediaPackageSettings: [MediaPackageOutputDestinationSettings]?
+        /// Destination settings for a Multiplex output; one destination for both encoders.
+        public let multiplexSettings: MultiplexProgramChannelDestinationSettings?
         /// Destination settings for a standard output; one destination for each redundant encoder.
         public let settings: [OutputDestinationSettings]?
 
-        public init(id: String? = nil, mediaPackageSettings: [MediaPackageOutputDestinationSettings]? = nil, settings: [OutputDestinationSettings]? = nil) {
+        public init(id: String? = nil, mediaPackageSettings: [MediaPackageOutputDestinationSettings]? = nil, multiplexSettings: MultiplexProgramChannelDestinationSettings? = nil, settings: [OutputDestinationSettings]? = nil) {
             self.id = id
             self.mediaPackageSettings = mediaPackageSettings
+            self.multiplexSettings = multiplexSettings
             self.settings = settings
         }
 
@@ -6760,11 +7869,13 @@ extension MediaLive {
             try self.mediaPackageSettings?.forEach {
                 try $0.validate(name: "\(name).mediaPackageSettings[]")
             }
+            try self.multiplexSettings?.validate(name: "\(name).multiplexSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case mediaPackageSettings = "mediaPackageSettings"
+            case multiplexSettings = "multiplexSettings"
             case settings = "settings"
         }
     }
@@ -6842,6 +7953,7 @@ extension MediaLive {
             AWSShapeMember(label: "HlsGroupSettings", location: .body(locationName: "hlsGroupSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "MediaPackageGroupSettings", location: .body(locationName: "mediaPackageGroupSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "MsSmoothGroupSettings", location: .body(locationName: "msSmoothGroupSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "MultiplexGroupSettings", location: .body(locationName: "multiplexGroupSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "RtmpGroupSettings", location: .body(locationName: "rtmpGroupSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "UdpGroupSettings", location: .body(locationName: "udpGroupSettings"), required: false, type: .structure)
         ]
@@ -6851,15 +7963,17 @@ extension MediaLive {
         public let hlsGroupSettings: HlsGroupSettings?
         public let mediaPackageGroupSettings: MediaPackageGroupSettings?
         public let msSmoothGroupSettings: MsSmoothGroupSettings?
+        public let multiplexGroupSettings: MultiplexGroupSettings?
         public let rtmpGroupSettings: RtmpGroupSettings?
         public let udpGroupSettings: UdpGroupSettings?
 
-        public init(archiveGroupSettings: ArchiveGroupSettings? = nil, frameCaptureGroupSettings: FrameCaptureGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil, mediaPackageGroupSettings: MediaPackageGroupSettings? = nil, msSmoothGroupSettings: MsSmoothGroupSettings? = nil, rtmpGroupSettings: RtmpGroupSettings? = nil, udpGroupSettings: UdpGroupSettings? = nil) {
+        public init(archiveGroupSettings: ArchiveGroupSettings? = nil, frameCaptureGroupSettings: FrameCaptureGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil, mediaPackageGroupSettings: MediaPackageGroupSettings? = nil, msSmoothGroupSettings: MsSmoothGroupSettings? = nil, multiplexGroupSettings: MultiplexGroupSettings? = nil, rtmpGroupSettings: RtmpGroupSettings? = nil, udpGroupSettings: UdpGroupSettings? = nil) {
             self.archiveGroupSettings = archiveGroupSettings
             self.frameCaptureGroupSettings = frameCaptureGroupSettings
             self.hlsGroupSettings = hlsGroupSettings
             self.mediaPackageGroupSettings = mediaPackageGroupSettings
             self.msSmoothGroupSettings = msSmoothGroupSettings
+            self.multiplexGroupSettings = multiplexGroupSettings
             self.rtmpGroupSettings = rtmpGroupSettings
             self.udpGroupSettings = udpGroupSettings
         }
@@ -6878,6 +7992,7 @@ extension MediaLive {
             case hlsGroupSettings = "hlsGroupSettings"
             case mediaPackageGroupSettings = "mediaPackageGroupSettings"
             case msSmoothGroupSettings = "msSmoothGroupSettings"
+            case multiplexGroupSettings = "multiplexGroupSettings"
             case rtmpGroupSettings = "rtmpGroupSettings"
             case udpGroupSettings = "udpGroupSettings"
         }
@@ -6906,6 +8021,7 @@ extension MediaLive {
             AWSShapeMember(label: "HlsOutputSettings", location: .body(locationName: "hlsOutputSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "MediaPackageOutputSettings", location: .body(locationName: "mediaPackageOutputSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "MsSmoothOutputSettings", location: .body(locationName: "msSmoothOutputSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "MultiplexOutputSettings", location: .body(locationName: "multiplexOutputSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "RtmpOutputSettings", location: .body(locationName: "rtmpOutputSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "UdpOutputSettings", location: .body(locationName: "udpOutputSettings"), required: false, type: .structure)
         ]
@@ -6915,15 +8031,17 @@ extension MediaLive {
         public let hlsOutputSettings: HlsOutputSettings?
         public let mediaPackageOutputSettings: MediaPackageOutputSettings?
         public let msSmoothOutputSettings: MsSmoothOutputSettings?
+        public let multiplexOutputSettings: MultiplexOutputSettings?
         public let rtmpOutputSettings: RtmpOutputSettings?
         public let udpOutputSettings: UdpOutputSettings?
 
-        public init(archiveOutputSettings: ArchiveOutputSettings? = nil, frameCaptureOutputSettings: FrameCaptureOutputSettings? = nil, hlsOutputSettings: HlsOutputSettings? = nil, mediaPackageOutputSettings: MediaPackageOutputSettings? = nil, msSmoothOutputSettings: MsSmoothOutputSettings? = nil, rtmpOutputSettings: RtmpOutputSettings? = nil, udpOutputSettings: UdpOutputSettings? = nil) {
+        public init(archiveOutputSettings: ArchiveOutputSettings? = nil, frameCaptureOutputSettings: FrameCaptureOutputSettings? = nil, hlsOutputSettings: HlsOutputSettings? = nil, mediaPackageOutputSettings: MediaPackageOutputSettings? = nil, msSmoothOutputSettings: MsSmoothOutputSettings? = nil, multiplexOutputSettings: MultiplexOutputSettings? = nil, rtmpOutputSettings: RtmpOutputSettings? = nil, udpOutputSettings: UdpOutputSettings? = nil) {
             self.archiveOutputSettings = archiveOutputSettings
             self.frameCaptureOutputSettings = frameCaptureOutputSettings
             self.hlsOutputSettings = hlsOutputSettings
             self.mediaPackageOutputSettings = mediaPackageOutputSettings
             self.msSmoothOutputSettings = msSmoothOutputSettings
+            self.multiplexOutputSettings = multiplexOutputSettings
             self.rtmpOutputSettings = rtmpOutputSettings
             self.udpOutputSettings = udpOutputSettings
         }
@@ -6941,6 +8059,7 @@ extension MediaLive {
             case hlsOutputSettings = "hlsOutputSettings"
             case mediaPackageOutputSettings = "mediaPackageOutputSettings"
             case msSmoothOutputSettings = "msSmoothOutputSettings"
+            case multiplexOutputSettings = "multiplexOutputSettings"
             case rtmpOutputSettings = "rtmpOutputSettings"
             case udpOutputSettings = "udpOutputSettings"
         }
@@ -7256,6 +8375,7 @@ extension MediaLive {
     public enum ReservationResolution: String, CustomStringConvertible, Codable {
         case sd = "SD"
         case hd = "HD"
+        case fhd = "FHD"
         case uhd = "UHD"
         public var description: String { return self.rawValue }
     }
@@ -7282,7 +8402,7 @@ extension MediaLive {
         public let maximumFramerate: ReservationMaximumFramerate?
         /// Resolution, e.g. 'HD'
         public let resolution: ReservationResolution?
-        /// Resource type, 'INPUT', 'OUTPUT', or 'CHANNEL'
+        /// Resource type, 'INPUT', 'OUTPUT', 'MULTIPLEX', or 'CHANNEL'
         public let resourceType: ReservationResourceType?
         /// Special feature, e.g. 'AUDIO_NORMALIZATION' (Channels only)
         public let specialFeature: ReservationSpecialFeature?
@@ -7315,6 +8435,7 @@ extension MediaLive {
     public enum ReservationResourceType: String, CustomStringConvertible, Codable {
         case input = "INPUT"
         case output = "OUTPUT"
+        case multiplex = "MULTIPLEX"
         case channel = "CHANNEL"
         public var description: String { return self.rawValue }
     }
@@ -7486,6 +8607,7 @@ extension MediaLive {
 
     public struct ScheduleActionSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HlsId3SegmentTaggingSettings", location: .body(locationName: "hlsId3SegmentTaggingSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "HlsTimedMetadataSettings", location: .body(locationName: "hlsTimedMetadataSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "InputSwitchSettings", location: .body(locationName: "inputSwitchSettings"), required: false, type: .structure), 
             AWSShapeMember(label: "PauseStateSettings", location: .body(locationName: "pauseStateSettings"), required: false, type: .structure), 
@@ -7496,6 +8618,8 @@ extension MediaLive {
             AWSShapeMember(label: "StaticImageDeactivateSettings", location: .body(locationName: "staticImageDeactivateSettings"), required: false, type: .structure)
         ]
 
+        /// Action to insert HLS ID3 segment tagging
+        public let hlsId3SegmentTaggingSettings: HlsId3SegmentTaggingScheduleActionSettings?
         /// Action to insert HLS metadata
         public let hlsTimedMetadataSettings: HlsTimedMetadataScheduleActionSettings?
         /// Action to switch the input
@@ -7513,7 +8637,8 @@ extension MediaLive {
         /// Action to deactivate a static image overlay
         public let staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings?
 
-        public init(hlsTimedMetadataSettings: HlsTimedMetadataScheduleActionSettings? = nil, inputSwitchSettings: InputSwitchScheduleActionSettings? = nil, pauseStateSettings: PauseStateScheduleActionSettings? = nil, scte35ReturnToNetworkSettings: Scte35ReturnToNetworkScheduleActionSettings? = nil, scte35SpliceInsertSettings: Scte35SpliceInsertScheduleActionSettings? = nil, scte35TimeSignalSettings: Scte35TimeSignalScheduleActionSettings? = nil, staticImageActivateSettings: StaticImageActivateScheduleActionSettings? = nil, staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings? = nil) {
+        public init(hlsId3SegmentTaggingSettings: HlsId3SegmentTaggingScheduleActionSettings? = nil, hlsTimedMetadataSettings: HlsTimedMetadataScheduleActionSettings? = nil, inputSwitchSettings: InputSwitchScheduleActionSettings? = nil, pauseStateSettings: PauseStateScheduleActionSettings? = nil, scte35ReturnToNetworkSettings: Scte35ReturnToNetworkScheduleActionSettings? = nil, scte35SpliceInsertSettings: Scte35SpliceInsertScheduleActionSettings? = nil, scte35TimeSignalSettings: Scte35TimeSignalScheduleActionSettings? = nil, staticImageActivateSettings: StaticImageActivateScheduleActionSettings? = nil, staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings? = nil) {
+            self.hlsId3SegmentTaggingSettings = hlsId3SegmentTaggingSettings
             self.hlsTimedMetadataSettings = hlsTimedMetadataSettings
             self.inputSwitchSettings = inputSwitchSettings
             self.pauseStateSettings = pauseStateSettings
@@ -7533,6 +8658,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case hlsId3SegmentTaggingSettings = "hlsId3SegmentTaggingSettings"
             case hlsTimedMetadataSettings = "hlsTimedMetadataSettings"
             case inputSwitchSettings = "inputSwitchSettings"
             case pauseStateSettings = "pauseStateSettings"
@@ -8169,6 +9295,74 @@ extension MediaLive {
         }
     }
 
+    public struct StartMultiplexRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"), required: true, type: .string)
+        ]
+
+        public let multiplexId: String
+
+        public init(multiplexId: String) {
+            self.multiplexId = multiplexId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexId = "multiplexId"
+        }
+    }
+
+    public struct StartMultiplexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones"), required: false, type: .list), 
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "ProgramCount", location: .body(locationName: "programCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+
+        public let arn: String?
+        public let availabilityZones: [String]?
+        public let destinations: [MultiplexOutputDestination]?
+        public let id: String?
+        public let multiplexSettings: MultiplexSettings?
+        public let name: String?
+        public let pipelinesRunningCount: Int?
+        public let programCount: Int?
+        public let state: MultiplexState?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, availabilityZones: [String]? = nil, destinations: [MultiplexOutputDestination]? = nil, id: String? = nil, multiplexSettings: MultiplexSettings? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, programCount: Int? = nil, state: MultiplexState? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.availabilityZones = availabilityZones
+            self.destinations = destinations
+            self.id = id
+            self.multiplexSettings = multiplexSettings
+            self.name = name
+            self.pipelinesRunningCount = pipelinesRunningCount
+            self.programCount = programCount
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case destinations = "destinations"
+            case id = "id"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case programCount = "programCount"
+            case state = "state"
+            case tags = "tags"
+        }
+    }
+
     public struct StartTimecode: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Timecode", location: .body(locationName: "timecode"), required: false, type: .string)
@@ -8400,6 +9594,74 @@ extension MediaLive {
             case pipelineDetails = "pipelineDetails"
             case pipelinesRunningCount = "pipelinesRunningCount"
             case roleArn = "roleArn"
+            case state = "state"
+            case tags = "tags"
+        }
+    }
+
+    public struct StopMultiplexRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"), required: true, type: .string)
+        ]
+
+        public let multiplexId: String
+
+        public init(multiplexId: String) {
+            self.multiplexId = multiplexId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexId = "multiplexId"
+        }
+    }
+
+    public struct StopMultiplexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones"), required: false, type: .list), 
+            AWSShapeMember(label: "Destinations", location: .body(locationName: "destinations"), required: false, type: .list), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "PipelinesRunningCount", location: .body(locationName: "pipelinesRunningCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "ProgramCount", location: .body(locationName: "programCount"), required: false, type: .integer), 
+            AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+
+        public let arn: String?
+        public let availabilityZones: [String]?
+        public let destinations: [MultiplexOutputDestination]?
+        public let id: String?
+        public let multiplexSettings: MultiplexSettings?
+        public let name: String?
+        public let pipelinesRunningCount: Int?
+        public let programCount: Int?
+        public let state: MultiplexState?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, availabilityZones: [String]? = nil, destinations: [MultiplexOutputDestination]? = nil, id: String? = nil, multiplexSettings: MultiplexSettings? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, programCount: Int? = nil, state: MultiplexState? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.availabilityZones = availabilityZones
+            self.destinations = destinations
+            self.id = id
+            self.multiplexSettings = multiplexSettings
+            self.name = name
+            self.pipelinesRunningCount = pipelinesRunningCount
+            self.programCount = programCount
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case availabilityZones = "availabilityZones"
+            case destinations = "destinations"
+            case id = "id"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+            case pipelinesRunningCount = "pipelinesRunningCount"
+            case programCount = "programCount"
             case state = "state"
             case tags = "tags"
         }
@@ -8817,6 +10079,94 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case securityGroup = "securityGroup"
+        }
+    }
+
+    public struct UpdateMultiplexProgramRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"), required: true, type: .string), 
+            AWSShapeMember(label: "MultiplexProgramSettings", location: .body(locationName: "multiplexProgramSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "ProgramName", location: .uri(locationName: "programName"), required: true, type: .string)
+        ]
+
+        public let multiplexId: String
+        public let multiplexProgramSettings: MultiplexProgramSettings?
+        public let programName: String
+
+        public init(multiplexId: String, multiplexProgramSettings: MultiplexProgramSettings? = nil, programName: String) {
+            self.multiplexId = multiplexId
+            self.multiplexProgramSettings = multiplexProgramSettings
+            self.programName = programName
+        }
+
+        public func validate(name: String) throws {
+            try self.multiplexProgramSettings?.validate(name: "\(name).multiplexProgramSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexId = "multiplexId"
+            case multiplexProgramSettings = "multiplexProgramSettings"
+            case programName = "programName"
+        }
+    }
+
+    public struct UpdateMultiplexProgramResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexProgram", location: .body(locationName: "multiplexProgram"), required: false, type: .structure)
+        ]
+
+        public let multiplexProgram: MultiplexProgram?
+
+        public init(multiplexProgram: MultiplexProgram? = nil) {
+            self.multiplexProgram = multiplexProgram
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexProgram = "multiplexProgram"
+        }
+    }
+
+    public struct UpdateMultiplexRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiplexId", location: .uri(locationName: "multiplexId"), required: true, type: .string), 
+            AWSShapeMember(label: "MultiplexSettings", location: .body(locationName: "multiplexSettings"), required: false, type: .structure), 
+            AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string)
+        ]
+
+        public let multiplexId: String
+        public let multiplexSettings: MultiplexSettings?
+        public let name: String?
+
+        public init(multiplexId: String, multiplexSettings: MultiplexSettings? = nil, name: String? = nil) {
+            self.multiplexId = multiplexId
+            self.multiplexSettings = multiplexSettings
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.multiplexSettings?.validate(name: "\(name).multiplexSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplexId = "multiplexId"
+            case multiplexSettings = "multiplexSettings"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateMultiplexResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Multiplex", location: .body(locationName: "multiplex"), required: false, type: .structure)
+        ]
+
+        public let multiplex: Multiplex?
+
+        public init(multiplex: Multiplex? = nil) {
+            self.multiplex = multiplex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiplex = "multiplex"
         }
     }
 

@@ -183,6 +183,85 @@ extension AWSDirectoryService {
 
     }
 
+    public struct Certificate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "CommonName", required: false, type: .string), 
+            AWSShapeMember(label: "ExpiryDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RegisteredDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StateReason", required: false, type: .string)
+        ]
+
+        /// The identifier of the certificate.
+        public let certificateId: String?
+        /// The common name for the certificate.
+        public let commonName: String?
+        /// The date and time when the certificate will expire.
+        public let expiryDateTime: TimeStamp?
+        /// The date and time that the certificate was registered.
+        public let registeredDateTime: TimeStamp?
+        /// The state of the certificate.
+        public let state: CertificateState?
+        /// Describes a state change for the certificate.
+        public let stateReason: String?
+
+        public init(certificateId: String? = nil, commonName: String? = nil, expiryDateTime: TimeStamp? = nil, registeredDateTime: TimeStamp? = nil, state: CertificateState? = nil, stateReason: String? = nil) {
+            self.certificateId = certificateId
+            self.commonName = commonName
+            self.expiryDateTime = expiryDateTime
+            self.registeredDateTime = registeredDateTime
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+            case commonName = "CommonName"
+            case expiryDateTime = "ExpiryDateTime"
+            case registeredDateTime = "RegisteredDateTime"
+            case state = "State"
+            case stateReason = "StateReason"
+        }
+    }
+
+    public struct CertificateInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "CommonName", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+
+        /// The identifier of the certificate.
+        public let certificateId: String?
+        /// The common name for the certificate.
+        public let commonName: String?
+        /// The state of the certificate.
+        public let state: CertificateState?
+
+        public init(certificateId: String? = nil, commonName: String? = nil, state: CertificateState? = nil) {
+            self.certificateId = certificateId
+            self.commonName = commonName
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+            case commonName = "CommonName"
+            case state = "State"
+        }
+    }
+
+    public enum CertificateState: String, CustomStringConvertible, Codable {
+        case registering = "Registering"
+        case registered = "Registered"
+        case registerfailed = "RegisterFailed"
+        case deregistering = "Deregistering"
+        case deregistered = "Deregistered"
+        case deregisterfailed = "DeregisterFailed"
+        public var description: String { return self.rawValue }
+    }
+
     public struct Computer: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComputerAttributes", required: false, type: .list), 
@@ -250,7 +329,7 @@ extension AWSDirectoryService {
 
         /// A DirectoryConnectSettings object that contains additional information for the operation.
         public let connectSettings: DirectoryConnectSettings
-        /// A textual description for the directory.
+        /// A description for the directory.
         public let description: String?
         /// The fully qualified name of the on-premises directory, such as corp.example.com.
         public let name: String
@@ -488,13 +567,13 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "VpcSettings", required: false, type: .structure)
         ]
 
-        /// A textual description for the directory.
+        /// A description for the directory.
         public let description: String?
         /// The fully qualified name for the directory, such as corp.example.com.
         public let name: String
-        /// The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password.
+        /// The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call.
         public let password: String
-        /// The short name of the directory, such as CORP.
+        /// The NetBIOS name of the directory, such as CORP.
         public let shortName: String?
         /// The size of the directory.
         public let size: DirectorySize
@@ -560,7 +639,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "LogGroupName", required: true, type: .string)
         ]
 
-        /// Identifier (ID) of the directory to which you want to subscribe and receive real-time logs to your specified CloudWatch log group.
+        /// Identifier of the directory to which you want to subscribe and receive real-time logs to your specified CloudWatch log group.
         public let directoryId: String
         /// The name of the CloudWatch log group where the real-time domain controller logs are forwarded.
         public let logGroupName: String
@@ -602,15 +681,15 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "VpcSettings", required: true, type: .structure)
         ]
 
-        /// A textual description for the directory. This label will appear on the AWS console Directory Details page after the directory is created.
+        /// A description for the directory. This label will appear on the AWS console Directory Details page after the directory is created.
         public let description: String?
         /// AWS Managed Microsoft AD is available in two editions: Standard and Enterprise. Enterprise is the default.
         public let edition: DirectoryEdition?
-        /// The fully qualified domain name for the directory, such as corp.example.com. This name will resolve inside your VPC only. It does not need to be publicly resolvable.
+        /// The fully qualified domain name for the AWS Managed Microsoft AD directory, such as corp.example.com. This name will resolve inside your VPC only. It does not need to be publicly resolvable.
         public let name: String
-        /// The password for the default administrative user named Admin.
+        /// The password for the default administrative user named Admin. If you need to change the password for the administrator account, you can use the ResetUserPassword API call.
         public let password: String
-        /// The NetBIOS name for your domain. A short identifier for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com. 
+        /// The NetBIOS name for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com. 
         public let shortName: String?
         /// The tags to be assigned to the AWS Managed Microsoft AD directory.
         public let tags: [Tag]?
@@ -867,7 +946,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
 
-        /// Identifier (ID) of the directory whose log subscription you want to delete.
+        /// Identifier of the directory whose log subscription you want to delete.
         public let directoryId: String
 
         public init(directoryId: String) {
@@ -972,6 +1051,41 @@ extension AWSDirectoryService {
         }
     }
 
+    public struct DeregisterCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateId", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
+        ]
+
+        /// The identifier of the certificate.
+        public let certificateId: String
+        /// The identifier of the directory.
+        public let directoryId: String
+
+        public init(certificateId: String, directoryId: String) {
+            self.certificateId = certificateId
+            self.directoryId = directoryId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateId, name:"certificateId", parent: name, pattern: "^c-[0-9a-f]{10}$")
+            try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct DeregisterCertificateResult: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeregisterEventTopicRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
@@ -1007,6 +1121,50 @@ extension AWSDirectoryService {
         public init() {
         }
 
+    }
+
+    public struct DescribeCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateId", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
+        ]
+
+        /// The identifier of the certificate.
+        public let certificateId: String
+        /// The identifier of the directory.
+        public let directoryId: String
+
+        public init(certificateId: String, directoryId: String) {
+            self.certificateId = certificateId
+            self.directoryId = directoryId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateId, name:"certificateId", parent: name, pattern: "^c-[0-9a-f]{10}$")
+            try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct DescribeCertificateResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .structure)
+        ]
+
+        /// Information about the certificate, including registered date time, certificate state, the reason for the state, expiration date time, and certificate common name.
+        public let certificate: Certificate?
+
+        public init(certificate: Certificate? = nil) {
+            self.certificate = certificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+        }
     }
 
     public struct DescribeConditionalForwardersRequest: AWSShape {
@@ -1218,6 +1376,66 @@ extension AWSDirectoryService {
 
         private enum CodingKeys: String, CodingKey {
             case eventTopics = "EventTopics"
+        }
+    }
+
+    public struct DescribeLDAPSSettingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// The identifier of the directory.
+        public let directoryId: String
+        /// Specifies the number of items that should be displayed on one page.
+        public let limit: Int?
+        /// The type of next token used for pagination.
+        public let nextToken: String?
+        /// The type of LDAP security the customer wants to enable, either server or client. Currently supports only Client, (the default).
+        public let `type`: LDAPSType?
+
+        public init(directoryId: String, limit: Int? = nil, nextToken: String? = nil, type: LDAPSType? = nil) {
+            self.directoryId = directoryId
+            self.limit = limit
+            self.nextToken = nextToken
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try validate(self.limit, name:"limit", parent: name, max: 50)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case `type` = "Type"
+        }
+    }
+
+    public struct DescribeLDAPSSettingsResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LDAPSSettingsInfo", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Information about LDAP security for the specified directory, including status of enablement, state last updated date time, and the reason for the state.
+        public let lDAPSSettingsInfo: [LDAPSSettingInfo]?
+        /// The next token used to retrieve the LDAPS settings if the number of setting types exceeds page limit and there is another page.
+        public let nextToken: String?
+
+        public init(lDAPSSettingsInfo: [LDAPSSettingInfo]? = nil, nextToken: String? = nil) {
+            self.lDAPSSettingsInfo = lDAPSSettingsInfo
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lDAPSSettingsInfo = "LDAPSSettingsInfo"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1469,7 +1687,7 @@ extension AWSDirectoryService {
         public let customerUserName: String?
         /// The security group identifier for the AD Connector directory.
         public let securityGroupId: String?
-        /// A list of subnet identifiers in the VPC that the AD connector is in.
+        /// A list of subnet identifiers in the VPC that the AD Connector is in.
         public let subnetIds: [String]?
         /// The identifier of the VPC that the AD Connector is in.
         public let vpcId: String?
@@ -1527,7 +1745,7 @@ extension AWSDirectoryService {
         public let alias: String?
         /// A DirectoryConnectSettingsDescription object that contains additional information about an AD Connector directory. This member is only present if the directory is an AD Connector directory.
         public let connectSettings: DirectoryConnectSettingsDescription?
-        /// The textual description for the directory.
+        /// The description for the directory.
         public let description: String?
         /// The desired number of domain controllers in the directory if the directory is Microsoft AD.
         public let desiredNumberOfDomainControllers: Int?
@@ -1644,9 +1862,9 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "ConnectedDirectoriesLimitReached", required: false, type: .boolean)
         ]
 
-        /// The current number of cloud directories in the region.
+        /// The current number of cloud directories in the Region.
         public let cloudOnlyDirectoriesCurrentCount: Int?
-        /// The maximum number of cloud directories allowed in the region.
+        /// The maximum number of cloud directories allowed in the Region.
         public let cloudOnlyDirectoriesLimit: Int?
         /// Indicates if the cloud directory limit has been reached.
         public let cloudOnlyDirectoriesLimitReached: Bool?
@@ -1656,9 +1874,9 @@ extension AWSDirectoryService {
         public let cloudOnlyMicrosoftADLimit: Int?
         /// Indicates if the AWS Managed Microsoft AD directory limit has been reached.
         public let cloudOnlyMicrosoftADLimitReached: Bool?
-        /// The current number of connected directories in the region.
+        /// The current number of connected directories in the Region.
         public let connectedDirectoriesCurrentCount: Int?
-        /// The maximum number of connected directories allowed in the region.
+        /// The maximum number of connected directories allowed in the Region.
         public let connectedDirectoriesLimit: Int?
         /// Indicates if the connected directory limit has been reached.
         public let connectedDirectoriesLimitReached: Bool?
@@ -1776,6 +1994,40 @@ extension AWSDirectoryService {
             case subnetIds = "SubnetIds"
             case vpcId = "VpcId"
         }
+    }
+
+    public struct DisableLDAPSRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// The identifier of the directory.
+        public let directoryId: String
+        /// The type of LDAP security that the customer wants to enable. The security can be either server or client, but currently only the default Client is supported.
+        public let `type`: LDAPSType?
+
+        public init(directoryId: String, type: LDAPSType? = nil) {
+            self.directoryId = directoryId
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case `type` = "Type"
+        }
+    }
+
+    public struct DisableLDAPSResult: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DisableRadiusRequest: AWSShape {
@@ -1923,6 +2175,40 @@ extension AWSDirectoryService {
         public var description: String { return self.rawValue }
     }
 
+    public struct EnableLDAPSRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// The identifier of the directory.
+        public let directoryId: String
+        /// The type of LDAP security the customer wants to enable. The security can be either server or client, but currently only the default Client is supported.
+        public let `type`: LDAPSType?
+
+        public init(directoryId: String, type: LDAPSType? = nil) {
+            self.directoryId = directoryId
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case `type` = "Type"
+        }
+    }
+
+    public struct EnableLDAPSResult: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct EnableRadiusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
@@ -2051,7 +2337,7 @@ extension AWSDirectoryService {
             AWSShapeMember(label: "DirectoryLimits", required: false, type: .structure)
         ]
 
-        /// A DirectoryLimits object that contains the directory limits for the current region.
+        /// A DirectoryLimits object that contains the directory limits for the current rRegion.
         public let directoryLimits: DirectoryLimits?
 
         public init(directoryLimits: DirectoryLimits? = nil) {
@@ -2180,6 +2466,101 @@ extension AWSDirectoryService {
         case addfailed = "AddFailed"
         case removefailed = "RemoveFailed"
         public var description: String { return self.rawValue }
+    }
+
+    public struct LDAPSSettingInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LDAPSStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LDAPSStatusReason", required: false, type: .string)
+        ]
+
+        /// The date and time when the LDAPS settings were last updated.
+        public let lastUpdatedDateTime: TimeStamp?
+        /// The state of the LDAPS settings.
+        public let lDAPSStatus: LDAPSStatus?
+        /// Describes a state change for LDAPS.
+        public let lDAPSStatusReason: String?
+
+        public init(lastUpdatedDateTime: TimeStamp? = nil, lDAPSStatus: LDAPSStatus? = nil, lDAPSStatusReason: String? = nil) {
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.lDAPSStatus = lDAPSStatus
+            self.lDAPSStatusReason = lDAPSStatusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedDateTime = "LastUpdatedDateTime"
+            case lDAPSStatus = "LDAPSStatus"
+            case lDAPSStatusReason = "LDAPSStatusReason"
+        }
+    }
+
+    public enum LDAPSStatus: String, CustomStringConvertible, Codable {
+        case enabling = "Enabling"
+        case enabled = "Enabled"
+        case enablefailed = "EnableFailed"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LDAPSType: String, CustomStringConvertible, Codable {
+        case client = "Client"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListCertificatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The identifier of the directory.
+        public let directoryId: String
+        /// The number of items that should show up on one page
+        public let limit: Int?
+        /// A token for requesting another page of certificates if the NextToken response element indicates that more certificates are available. Use the value of the returned NextToken element in your request until the token comes back as null. Pass null if this is the first call.
+        public let nextToken: String?
+
+        public init(directoryId: String, limit: Int? = nil, nextToken: String? = nil) {
+            self.directoryId = directoryId
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try validate(self.limit, name:"limit", parent: name, max: 50)
+            try validate(self.limit, name:"limit", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCertificatesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificatesInfo", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list of certificates with basic details including certificate ID, certificate common name, certificate state.
+        public let certificatesInfo: [CertificateInfo]?
+        /// Indicates whether another page of certificates is available when the number of available certificates exceeds the page limit.
+        public let nextToken: String?
+
+        public init(certificatesInfo: [CertificateInfo]? = nil, nextToken: String? = nil) {
+            self.certificatesInfo = certificatesInfo
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificatesInfo = "CertificatesInfo"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct ListIpRoutesRequest: AWSShape {
@@ -2549,6 +2930,51 @@ extension AWSDirectoryService {
         case completed = "Completed"
         case failed = "Failed"
         public var description: String { return self.rawValue }
+    }
+
+    public struct RegisterCertificateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateData", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
+        ]
+
+        /// The certificate PEM string that needs to be registered.
+        public let certificateData: String
+        /// The identifier of the directory.
+        public let directoryId: String
+
+        public init(certificateData: String, directoryId: String) {
+            self.certificateData = certificateData
+            self.directoryId = directoryId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateData, name:"certificateData", parent: name, max: 8192)
+            try validate(self.certificateData, name:"certificateData", parent: name, min: 1)
+            try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateData = "CertificateData"
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct RegisterCertificateResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateId", required: false, type: .string)
+        ]
+
+        /// The identifier of the certificate.
+        public let certificateId: String?
+
+        public init(certificateId: String? = nil) {
+            self.certificateId = certificateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+        }
     }
 
     public struct RegisterEventTopicRequest: AWSShape {

@@ -14,6 +14,7 @@ public enum GameLiftErrorType: AWSErrorType {
     case invalidRequestException(message: String?)
     case limitExceededException(message: String?)
     case notFoundException(message: String?)
+    case taggingFailedException(message: String?)
     case terminalRoutingStrategyException(message: String?)
     case unauthorizedException(message: String?)
     case unsupportedRegionException(message: String?)
@@ -46,6 +47,8 @@ extension GameLiftErrorType {
             self = .limitExceededException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "TaggingFailedException":
+            self = .taggingFailedException(message: message)
         case "TerminalRoutingStrategyException":
             self = .terminalRoutingStrategyException(message: message)
         case "UnauthorizedException":
@@ -81,6 +84,8 @@ extension GameLiftErrorType : CustomStringConvertible {
             return "LimitExceededException: \(message ?? "")"
         case .notFoundException(let message):
             return "NotFoundException: \(message ?? "")"
+        case .taggingFailedException(let message):
+            return "TaggingFailedException: \(message ?? "")"
         case .terminalRoutingStrategyException(let message):
             return "TerminalRoutingStrategyException: \(message ?? "")"
         case .unauthorizedException(let message):

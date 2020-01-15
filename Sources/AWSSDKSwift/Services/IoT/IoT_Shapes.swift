@@ -107,8 +107,10 @@ extension IoT {
             AWSShapeMember(label: "dynamoDBv2", required: false, type: .structure), 
             AWSShapeMember(label: "elasticsearch", required: false, type: .structure), 
             AWSShapeMember(label: "firehose", required: false, type: .structure), 
+            AWSShapeMember(label: "http", required: false, type: .structure), 
             AWSShapeMember(label: "iotAnalytics", required: false, type: .structure), 
             AWSShapeMember(label: "iotEvents", required: false, type: .structure), 
+            AWSShapeMember(label: "iotSiteWise", required: false, type: .structure), 
             AWSShapeMember(label: "kinesis", required: false, type: .structure), 
             AWSShapeMember(label: "lambda", required: false, type: .structure), 
             AWSShapeMember(label: "republish", required: false, type: .structure), 
@@ -131,10 +133,14 @@ extension IoT {
         public let elasticsearch: ElasticsearchAction?
         /// Write to an Amazon Kinesis Firehose stream.
         public let firehose: FirehoseAction?
+        /// Send data to an HTTPS endpoint.
+        public let http: HttpAction?
         /// Sends message data to an AWS IoT Analytics channel.
         public let iotAnalytics: IotAnalyticsAction?
         /// Sends an input to an AWS IoT Events detector.
         public let iotEvents: IotEventsAction?
+        /// Sends data from the MQTT message that triggered the rule to AWS IoT SiteWise asset properties.
+        public let iotSiteWise: IotSiteWiseAction?
         /// Write data to an Amazon Kinesis stream.
         public let kinesis: KinesisAction?
         /// Invoke a Lambda function.
@@ -152,15 +158,17 @@ extension IoT {
         /// Starts execution of a Step Functions state machine.
         public let stepFunctions: StepFunctionsAction?
 
-        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil) {
+        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil) {
             self.cloudwatchAlarm = cloudwatchAlarm
             self.cloudwatchMetric = cloudwatchMetric
             self.dynamoDB = dynamoDB
             self.dynamoDBv2 = dynamoDBv2
             self.elasticsearch = elasticsearch
             self.firehose = firehose
+            self.http = http
             self.iotAnalytics = iotAnalytics
             self.iotEvents = iotEvents
+            self.iotSiteWise = iotSiteWise
             self.kinesis = kinesis
             self.lambda = lambda
             self.republish = republish
@@ -174,7 +182,9 @@ extension IoT {
         public func validate(name: String) throws {
             try self.elasticsearch?.validate(name: "\(name).elasticsearch")
             try self.firehose?.validate(name: "\(name).firehose")
+            try self.http?.validate(name: "\(name).http")
             try self.iotEvents?.validate(name: "\(name).iotEvents")
+            try self.iotSiteWise?.validate(name: "\(name).iotSiteWise")
             try self.republish?.validate(name: "\(name).republish")
             try self.salesforce?.validate(name: "\(name).salesforce")
         }
@@ -186,8 +196,10 @@ extension IoT {
             case dynamoDBv2 = "dynamoDBv2"
             case elasticsearch = "elasticsearch"
             case firehose = "firehose"
+            case http = "http"
             case iotAnalytics = "iotAnalytics"
             case iotEvents = "iotEvents"
+            case iotSiteWise = "iotSiteWise"
             case kinesis = "kinesis"
             case lambda = "lambda"
             case republish = "republish"
@@ -438,6 +450,96 @@ extension IoT {
         }
     }
 
+    public struct AssetPropertyTimestamp: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "offsetInNanos", required: false, type: .string), 
+            AWSShapeMember(label: "timeInSeconds", required: true, type: .string)
+        ]
+
+        /// Optional. A string that contains the nanosecond time offset. Accepts substitution templates.
+        public let offsetInNanos: String?
+        /// A string that contains the time in seconds since epoch. Accepts substitution templates.
+        public let timeInSeconds: String
+
+        public init(offsetInNanos: String? = nil, timeInSeconds: String) {
+            self.offsetInNanos = offsetInNanos
+            self.timeInSeconds = timeInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offsetInNanos = "offsetInNanos"
+            case timeInSeconds = "timeInSeconds"
+        }
+    }
+
+    public struct AssetPropertyValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "quality", required: false, type: .string), 
+            AWSShapeMember(label: "timestamp", required: true, type: .structure), 
+            AWSShapeMember(label: "value", required: true, type: .structure)
+        ]
+
+        /// Optional. A string that describes the quality of the value. Accepts substitution templates. Must be GOOD, BAD, or UNCERTAIN.
+        public let quality: String?
+        /// The asset property value timestamp.
+        public let timestamp: AssetPropertyTimestamp
+        /// The value of the asset property.
+        public let value: AssetPropertyVariant
+
+        public init(quality: String? = nil, timestamp: AssetPropertyTimestamp, value: AssetPropertyVariant) {
+            self.quality = quality
+            self.timestamp = timestamp
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.value.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quality = "quality"
+            case timestamp = "timestamp"
+            case value = "value"
+        }
+    }
+
+    public struct AssetPropertyVariant: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "booleanValue", required: false, type: .string), 
+            AWSShapeMember(label: "doubleValue", required: false, type: .string), 
+            AWSShapeMember(label: "integerValue", required: false, type: .string), 
+            AWSShapeMember(label: "stringValue", required: false, type: .string)
+        ]
+
+        /// Optional. A string that contains the boolean value (true or false) of the value entry. Accepts substitution templates.
+        public let booleanValue: String?
+        /// Optional. A string that contains the double value of the value entry. Accepts substitution templates.
+        public let doubleValue: String?
+        /// Optional. A string that contains the integer value of the value entry. Accepts substitution templates.
+        public let integerValue: String?
+        /// Optional. The string value of the value entry. Accepts substitution templates.
+        public let stringValue: String?
+
+        public init(booleanValue: String? = nil, doubleValue: String? = nil, integerValue: String? = nil, stringValue: String? = nil) {
+            self.booleanValue = booleanValue
+            self.doubleValue = doubleValue
+            self.integerValue = integerValue
+            self.stringValue = stringValue
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.stringValue, name:"stringValue", parent: name, max: 1024)
+            try validate(self.stringValue, name:"stringValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case booleanValue = "booleanValue"
+            case doubleValue = "doubleValue"
+            case integerValue = "integerValue"
+            case stringValue = "stringValue"
+        }
+    }
+
     public struct AssociateTargetsWithJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "comment", required: false, type: .string), 
@@ -599,7 +701,7 @@ extension IoT {
             AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
 
-        /// The principal, such as a certificate or other credential.
+        /// The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
         public let principal: String
         /// The name of the thing.
         public let thingName: String
@@ -1097,6 +1199,34 @@ extension IoT {
         }
     }
 
+    public struct AuthorizerConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "allowAuthorizerOverride", required: false, type: .boolean), 
+            AWSShapeMember(label: "defaultAuthorizerName", required: false, type: .string)
+        ]
+
+        /// A Boolean that specifies whether the domain configuration's authorization service can be overridden.
+        public let allowAuthorizerOverride: Bool?
+        /// The name of the authorization service for a domain configuration.
+        public let defaultAuthorizerName: String?
+
+        public init(allowAuthorizerOverride: Bool? = nil, defaultAuthorizerName: String? = nil) {
+            self.allowAuthorizerOverride = allowAuthorizerOverride
+            self.defaultAuthorizerName = defaultAuthorizerName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.defaultAuthorizerName, name:"defaultAuthorizerName", parent: name, max: 128)
+            try validate(self.defaultAuthorizerName, name:"defaultAuthorizerName", parent: name, min: 1)
+            try validate(self.defaultAuthorizerName, name:"defaultAuthorizerName", parent: name, pattern: "[\\w=,@-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowAuthorizerOverride = "allowAuthorizerOverride"
+            case defaultAuthorizerName = "defaultAuthorizerName"
+        }
+    }
+
     public struct AuthorizerDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorizerArn", required: false, type: .string), 
@@ -1104,6 +1234,7 @@ extension IoT {
             AWSShapeMember(label: "authorizerName", required: false, type: .string), 
             AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "signingDisabled", required: false, type: .boolean), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "tokenKeyName", required: false, type: .string), 
             AWSShapeMember(label: "tokenSigningPublicKeys", required: false, type: .map)
@@ -1119,6 +1250,8 @@ extension IoT {
         public let creationDate: TimeStamp?
         /// The UNIX timestamp of when the authorizer was last updated.
         public let lastModifiedDate: TimeStamp?
+        /// Specifies whether AWS IoT validates the token signature in an authorization request.
+        public let signingDisabled: Bool?
         /// The status of the authorizer.
         public let status: AuthorizerStatus?
         /// The key used to extract the token from the HTTP headers.
@@ -1126,12 +1259,13 @@ extension IoT {
         /// The public keys used to validate the token signature returned by your custom authentication service.
         public let tokenSigningPublicKeys: [String: String]?
 
-        public init(authorizerArn: String? = nil, authorizerFunctionArn: String? = nil, authorizerName: String? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
+        public init(authorizerArn: String? = nil, authorizerFunctionArn: String? = nil, authorizerName: String? = nil, creationDate: TimeStamp? = nil, lastModifiedDate: TimeStamp? = nil, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerArn = authorizerArn
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
             self.creationDate = creationDate
             self.lastModifiedDate = lastModifiedDate
+            self.signingDisabled = signingDisabled
             self.status = status
             self.tokenKeyName = tokenKeyName
             self.tokenSigningPublicKeys = tokenSigningPublicKeys
@@ -1143,6 +1277,7 @@ extension IoT {
             case authorizerName = "authorizerName"
             case creationDate = "creationDate"
             case lastModifiedDate = "lastModifiedDate"
+            case signingDisabled = "signingDisabled"
             case status = "status"
             case tokenKeyName = "tokenKeyName"
             case tokenSigningPublicKeys = "tokenSigningPublicKeys"
@@ -1202,6 +1337,23 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case maximumPerMinute = "maximumPerMinute"
+        }
+    }
+
+    public struct AwsJobPresignedUrlConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "expiresInSec", required: false, type: .long)
+        ]
+
+        /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 1800 seconds. Pre-signed URLs are generated when a request for the job document is received.
+        public let expiresInSec: Int64?
+
+        public init(expiresInSec: Int64? = nil) {
+            self.expiresInSec = expiresInSec
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiresInSec = "expiresInSec"
         }
     }
 
@@ -1989,29 +2141,63 @@ extension IoT {
         }
     }
 
+    public struct ConfirmTopicRuleDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "confirmationToken", location: .uri(locationName: "confirmationToken"), required: true, type: .string)
+        ]
+
+        /// The token used to confirm ownership or access to the topic rule confirmation URL.
+        public let confirmationToken: String
+
+        public init(confirmationToken: String) {
+            self.confirmationToken = confirmationToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.confirmationToken, name:"confirmationToken", parent: name, max: 2048)
+            try validate(self.confirmationToken, name:"confirmationToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confirmationToken = "confirmationToken"
+        }
+    }
+
+    public struct ConfirmTopicRuleDestinationResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct CreateAuthorizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorizerFunctionArn", required: true, type: .string), 
             AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string), 
+            AWSShapeMember(label: "signingDisabled", required: false, type: .boolean), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "tokenKeyName", required: true, type: .string), 
-            AWSShapeMember(label: "tokenSigningPublicKeys", required: true, type: .map)
+            AWSShapeMember(label: "tokenKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "tokenSigningPublicKeys", required: false, type: .map)
         ]
 
         /// The ARN of the authorizer's Lambda function.
         public let authorizerFunctionArn: String
         /// The authorizer name.
         public let authorizerName: String
+        /// Specifies whether AWS IoT validates the token signature in an authorization request.
+        public let signingDisabled: Bool?
         /// The status of the create authorizer request.
         public let status: AuthorizerStatus?
         /// The name of the token key used to extract the token from the HTTP headers.
-        public let tokenKeyName: String
+        public let tokenKeyName: String?
         /// The public keys used to verify the digital signature returned by your custom authentication service.
-        public let tokenSigningPublicKeys: [String: String]
+        public let tokenSigningPublicKeys: [String: String]?
 
-        public init(authorizerFunctionArn: String, authorizerName: String, status: AuthorizerStatus? = nil, tokenKeyName: String, tokenSigningPublicKeys: [String: String]) {
+        public init(authorizerFunctionArn: String, authorizerName: String, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
+            self.signingDisabled = signingDisabled
             self.status = status
             self.tokenKeyName = tokenKeyName
             self.tokenSigningPublicKeys = tokenSigningPublicKeys
@@ -2024,7 +2210,7 @@ extension IoT {
             try validate(self.tokenKeyName, name:"tokenKeyName", parent: name, max: 128)
             try validate(self.tokenKeyName, name:"tokenKeyName", parent: name, min: 1)
             try validate(self.tokenKeyName, name:"tokenKeyName", parent: name, pattern: "[a-zA-Z0-9_-]+")
-            try self.tokenSigningPublicKeys.forEach {
+            try self.tokenSigningPublicKeys?.forEach {
                 try validate($0.key, name:"tokenSigningPublicKeys.key", parent: name, max: 128)
                 try validate($0.key, name:"tokenSigningPublicKeys.key", parent: name, min: 1)
                 try validate($0.key, name:"tokenSigningPublicKeys.key", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -2035,6 +2221,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case authorizerFunctionArn = "authorizerFunctionArn"
             case authorizerName = "authorizerName"
+            case signingDisabled = "signingDisabled"
             case status = "status"
             case tokenKeyName = "tokenKeyName"
             case tokenSigningPublicKeys = "tokenSigningPublicKeys"
@@ -2174,6 +2361,89 @@ extension IoT {
             case certificateArn = "certificateArn"
             case certificateId = "certificateId"
             case certificatePem = "certificatePem"
+        }
+    }
+
+    public struct CreateDomainConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizerConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"), required: true, type: .string), 
+            AWSShapeMember(label: "domainName", required: false, type: .string), 
+            AWSShapeMember(label: "serverCertificateArns", required: false, type: .list), 
+            AWSShapeMember(label: "serviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "validationCertificateArn", required: false, type: .string)
+        ]
+
+        /// An object that specifies the authorization service for a domain.
+        public let authorizerConfig: AuthorizerConfig?
+        /// The name of the domain configuration. This value must be unique to a region.
+        public let domainConfigurationName: String
+        /// The name of the domain.
+        public let domainName: String?
+        /// The ARNs of the certificates that AWS IoT passes to the device during the TLS handshake. Currently you can specify only one certificate ARN. This value is not required for AWS-managed domains.
+        public let serverCertificateArns: [String]?
+        /// The type of service delivered by the endpoint.
+        public let serviceType: ServiceType?
+        /// The certificate used to validate the server certificate and prove domain name ownership. This certificate must be signed by a public certificate authority. This value is not required for AWS-managed domains.
+        public let validationCertificateArn: String?
+
+        public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationName: String, domainName: String? = nil, serverCertificateArns: [String]? = nil, serviceType: ServiceType? = nil, validationCertificateArn: String? = nil) {
+            self.authorizerConfig = authorizerConfig
+            self.domainConfigurationName = domainConfigurationName
+            self.domainName = domainName
+            self.serverCertificateArns = serverCertificateArns
+            self.serviceType = serviceType
+            self.validationCertificateArn = validationCertificateArn
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizerConfig?.validate(name: "\(name).authorizerConfig")
+            try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, max: 128)
+            try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, min: 1)
+            try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, pattern: "[\\w.-]+")
+            try validate(self.domainName, name:"domainName", parent: name, max: 253)
+            try validate(self.domainName, name:"domainName", parent: name, min: 1)
+            try self.serverCertificateArns?.forEach {
+                try validate($0, name: "serverCertificateArns[]", parent: name, max: 2048)
+                try validate($0, name: "serverCertificateArns[]", parent: name, min: 1)
+                try validate($0, name: "serverCertificateArns[]", parent: name, pattern: "arn:aws:acm:[a-z]{2}-(gov-)?[a-z]{4,9}-\\d{1}:\\d{12}:certificate/?[a-zA-Z0-9/-]+")
+            }
+            try validate(self.serverCertificateArns, name:"serverCertificateArns", parent: name, max: 1)
+            try validate(self.serverCertificateArns, name:"serverCertificateArns", parent: name, min: 0)
+            try validate(self.validationCertificateArn, name:"validationCertificateArn", parent: name, max: 2048)
+            try validate(self.validationCertificateArn, name:"validationCertificateArn", parent: name, min: 1)
+            try validate(self.validationCertificateArn, name:"validationCertificateArn", parent: name, pattern: "arn:aws:acm:[a-z]{2}-(gov-)?[a-z]{4,9}-\\d{1}:\\d{12}:certificate/?[a-zA-Z0-9/-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerConfig = "authorizerConfig"
+            case domainConfigurationName = "domainConfigurationName"
+            case domainName = "domainName"
+            case serverCertificateArns = "serverCertificateArns"
+            case serviceType = "serviceType"
+            case validationCertificateArn = "validationCertificateArn"
+        }
+    }
+
+    public struct CreateDomainConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainConfigurationArn", required: false, type: .string), 
+            AWSShapeMember(label: "domainConfigurationName", required: false, type: .string)
+        ]
+
+        /// The ARN of the domain configuration.
+        public let domainConfigurationArn: String?
+        /// The name of the domain configuration.
+        public let domainConfigurationName: String?
+
+        public init(domainConfigurationArn: String? = nil, domainConfigurationName: String? = nil) {
+            self.domainConfigurationArn = domainConfigurationArn
+            self.domainConfigurationName = domainConfigurationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainConfigurationArn = "domainConfigurationArn"
+            case domainConfigurationName = "domainConfigurationName"
         }
     }
 
@@ -2496,9 +2766,11 @@ extension IoT {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "additionalParameters", required: false, type: .map), 
             AWSShapeMember(label: "awsJobExecutionsRolloutConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "awsJobPresignedUrlConfig", required: false, type: .structure), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "files", required: true, type: .list), 
             AWSShapeMember(label: "otaUpdateId", location: .uri(locationName: "otaUpdateId"), required: true, type: .string), 
+            AWSShapeMember(label: "protocols", required: false, type: .list), 
             AWSShapeMember(label: "roleArn", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .list), 
             AWSShapeMember(label: "targets", required: true, type: .list), 
@@ -2509,12 +2781,16 @@ extension IoT {
         public let additionalParameters: [String: String]?
         /// Configuration for the rollout of OTA updates.
         public let awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig?
+        /// Configuration information for pre-signed URLs.
+        public let awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig?
         /// The description of the OTA update.
         public let description: String?
         /// The files to be streamed by the OTA update.
         public let files: [OTAUpdateFile]
         /// The ID of the OTA update to be created.
         public let otaUpdateId: String
+        /// The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose the protocol.
+        public let protocols: [Protocol]?
         /// The IAM role that allows access to the AWS IoT Jobs service.
         public let roleArn: String
         /// Metadata which can be used to manage updates.
@@ -2524,12 +2800,14 @@ extension IoT {
         /// Specifies whether the update will continue to run (CONTINUOUS), or will be complete after all the things specified as targets have completed the update (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected in a target. For example, an update will run on a thing when the thing is added to a target group, even after the update was completed by all things originally in the group. Valid values: CONTINUOUS | SNAPSHOT.
         public let targetSelection: TargetSelection?
 
-        public init(additionalParameters: [String: String]? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, description: String? = nil, files: [OTAUpdateFile], otaUpdateId: String, roleArn: String, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil) {
+        public init(additionalParameters: [String: String]? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, description: String? = nil, files: [OTAUpdateFile], otaUpdateId: String, protocols: [Protocol]? = nil, roleArn: String, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil) {
             self.additionalParameters = additionalParameters
             self.awsJobExecutionsRolloutConfig = awsJobExecutionsRolloutConfig
+            self.awsJobPresignedUrlConfig = awsJobPresignedUrlConfig
             self.description = description
             self.files = files
             self.otaUpdateId = otaUpdateId
+            self.protocols = protocols
             self.roleArn = roleArn
             self.tags = tags
             self.targets = targets
@@ -2548,6 +2826,8 @@ extension IoT {
             try validate(self.otaUpdateId, name:"otaUpdateId", parent: name, max: 128)
             try validate(self.otaUpdateId, name:"otaUpdateId", parent: name, min: 1)
             try validate(self.otaUpdateId, name:"otaUpdateId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.protocols, name:"protocols", parent: name, max: 2)
+            try validate(self.protocols, name:"protocols", parent: name, min: 1)
             try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
             try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
             try validate(self.targets, name:"targets", parent: name, min: 1)
@@ -2556,9 +2836,11 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case additionalParameters = "additionalParameters"
             case awsJobExecutionsRolloutConfig = "awsJobExecutionsRolloutConfig"
+            case awsJobPresignedUrlConfig = "awsJobPresignedUrlConfig"
             case description = "description"
             case files = "files"
             case otaUpdateId = "otaUpdateId"
+            case protocols = "protocols"
             case roleArn = "roleArn"
             case tags = "tags"
             case targets = "targets"
@@ -2725,6 +3007,206 @@ extension IoT {
             case policyArn = "policyArn"
             case policyDocument = "policyDocument"
             case policyVersionId = "policyVersionId"
+        }
+    }
+
+    public struct CreateProvisioningClaimRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string)
+        ]
+
+        /// The name of the provisioning template to use.
+        public let templateName: String
+
+        public init(templateName: String) {
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, max: 36)
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+            try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "templateName"
+        }
+    }
+
+    public struct CreateProvisioningClaimResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "expiration", required: false, type: .timestamp), 
+            AWSShapeMember(label: "keyPair", required: false, type: .structure)
+        ]
+
+        /// The ID of the certificate.
+        public let certificateId: String?
+        /// The provisioning claim certificate.
+        public let certificatePem: String?
+        /// The provisioning claim expiration time.
+        public let expiration: TimeStamp?
+        /// The provisioning claim key pair.
+        public let keyPair: KeyPair?
+
+        public init(certificateId: String? = nil, certificatePem: String? = nil, expiration: TimeStamp? = nil, keyPair: KeyPair? = nil) {
+            self.certificateId = certificateId
+            self.certificatePem = certificatePem
+            self.expiration = expiration
+            self.keyPair = keyPair
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
+            case certificatePem = "certificatePem"
+            case expiration = "expiration"
+            case keyPair = "keyPair"
+        }
+    }
+
+    public struct CreateProvisioningTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "provisioningRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "templateBody", required: true, type: .string), 
+            AWSShapeMember(label: "templateName", required: true, type: .string)
+        ]
+
+        /// The description of the fleet provisioning template.
+        public let description: String?
+        /// True to enable the fleet provisioning template, otherwise false.
+        public let enabled: Bool?
+        /// The role ARN for the role associated with the fleet provisioning template. This IoT role grants permission to provision a device.
+        public let provisioningRoleArn: String
+        /// Metadata which can be used to manage the fleet provisioning template.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags "key1=value1&amp;key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..." 
+        public let tags: [Tag]?
+        /// The JSON formatted contents of the fleet provisioning template.
+        public let templateBody: String
+        /// The name of the fleet provisioning template.
+        public let templateName: String
+
+        public init(description: String? = nil, enabled: Bool? = nil, provisioningRoleArn: String, tags: [Tag]? = nil, templateBody: String, templateName: String) {
+            self.description = description
+            self.enabled = enabled
+            self.provisioningRoleArn = provisioningRoleArn
+            self.tags = tags
+            self.templateBody = templateBody
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name:"description", parent: name, max: 500)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, pattern: "[^\\p{C}]*")
+            try validate(self.provisioningRoleArn, name:"provisioningRoleArn", parent: name, max: 2048)
+            try validate(self.provisioningRoleArn, name:"provisioningRoleArn", parent: name, min: 20)
+            try validate(self.templateName, name:"templateName", parent: name, max: 36)
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+            try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case enabled = "enabled"
+            case provisioningRoleArn = "provisioningRoleArn"
+            case tags = "tags"
+            case templateBody = "templateBody"
+            case templateName = "templateName"
+        }
+    }
+
+    public struct CreateProvisioningTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "defaultVersionId", required: false, type: .integer), 
+            AWSShapeMember(label: "templateArn", required: false, type: .string), 
+            AWSShapeMember(label: "templateName", required: false, type: .string)
+        ]
+
+        /// The default version of the fleet provisioning template.
+        public let defaultVersionId: Int?
+        /// The ARN that identifies the provisioning template.
+        public let templateArn: String?
+        /// The name of the fleet provisioning template.
+        public let templateName: String?
+
+        public init(defaultVersionId: Int? = nil, templateArn: String? = nil, templateName: String? = nil) {
+            self.defaultVersionId = defaultVersionId
+            self.templateArn = templateArn
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultVersionId = "defaultVersionId"
+            case templateArn = "templateArn"
+            case templateName = "templateName"
+        }
+    }
+
+    public struct CreateProvisioningTemplateVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "setAsDefault", location: .querystring(locationName: "setAsDefault"), required: false, type: .boolean), 
+            AWSShapeMember(label: "templateBody", required: true, type: .string), 
+            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string)
+        ]
+
+        /// Sets a fleet provision template version as the default version.
+        public let setAsDefault: Bool?
+        /// The JSON formatted contents of the fleet provisioning template.
+        public let templateBody: String
+        /// The name of the fleet provisioning template.
+        public let templateName: String
+
+        public init(setAsDefault: Bool? = nil, templateBody: String, templateName: String) {
+            self.setAsDefault = setAsDefault
+            self.templateBody = templateBody
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, max: 36)
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+            try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case setAsDefault = "setAsDefault"
+            case templateBody = "templateBody"
+            case templateName = "templateName"
+        }
+    }
+
+    public struct CreateProvisioningTemplateVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "templateArn", required: false, type: .string), 
+            AWSShapeMember(label: "templateName", required: false, type: .string), 
+            AWSShapeMember(label: "versionId", required: false, type: .integer)
+        ]
+
+        /// True if the fleet provisioning template version is the default version, otherwise false.
+        public let isDefaultVersion: Bool?
+        /// The ARN that identifies the provisioning template.
+        public let templateArn: String?
+        /// The name of the fleet provisioning template.
+        public let templateName: String?
+        /// The version of the fleet provisioning template.
+        public let versionId: Int?
+
+        public init(isDefaultVersion: Bool? = nil, templateArn: String? = nil, templateName: String? = nil, versionId: Int? = nil) {
+            self.isDefaultVersion = isDefaultVersion
+            self.templateArn = templateArn
+            self.templateName = templateName
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isDefaultVersion = "isDefaultVersion"
+            case templateArn = "templateArn"
+            case templateName = "templateName"
+            case versionId = "versionId"
         }
     }
 
@@ -3218,6 +3700,44 @@ extension IoT {
         }
     }
 
+    public struct CreateTopicRuleDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationConfiguration", required: true, type: .structure)
+        ]
+
+        /// The topic rule destination configuration.
+        public let destinationConfiguration: TopicRuleDestinationConfiguration
+
+        public init(destinationConfiguration: TopicRuleDestinationConfiguration) {
+            self.destinationConfiguration = destinationConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationConfiguration.validate(name: "\(name).destinationConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationConfiguration = "destinationConfiguration"
+        }
+    }
+
+    public struct CreateTopicRuleDestinationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "topicRuleDestination", required: false, type: .structure)
+        ]
+
+        /// The topic rule destination.
+        public let topicRuleDestination: TopicRuleDestination?
+
+        public init(topicRuleDestination: TopicRuleDestination? = nil) {
+            self.topicRuleDestination = topicRuleDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicRuleDestination = "topicRuleDestination"
+        }
+    }
+
     public struct CreateTopicRuleRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "topicRulePayload"
@@ -3448,6 +3968,37 @@ extension IoT {
         }
     }
 
+    public struct DeleteDomainConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"), required: true, type: .string)
+        ]
+
+        /// The name of the domain configuration to be deleted.
+        public let domainConfigurationName: String
+
+        public init(domainConfigurationName: String) {
+            self.domainConfigurationName = domainConfigurationName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, max: 128)
+            try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, min: 1)
+            try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, pattern: "[\\w.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainConfigurationName = "domainConfigurationName"
+        }
+    }
+
+    public struct DeleteDomainConfigurationResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteDynamicThingGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
@@ -3674,6 +4225,73 @@ extension IoT {
             case policyName = "policyName"
             case policyVersionId = "policyVersionId"
         }
+    }
+
+    public struct DeleteProvisioningTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string)
+        ]
+
+        /// The name of the fleet provision template to delete.
+        public let templateName: String
+
+        public init(templateName: String) {
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, max: 36)
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+            try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "templateName"
+        }
+    }
+
+    public struct DeleteProvisioningTemplateResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteProvisioningTemplateVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string), 
+            AWSShapeMember(label: "versionId", location: .uri(locationName: "versionId"), required: true, type: .integer)
+        ]
+
+        /// The name of the fleet provisioning template version to delete.
+        public let templateName: String
+        /// The fleet provisioning template version ID to delete.
+        public let versionId: Int
+
+        public init(templateName: String, versionId: Int) {
+            self.templateName = templateName
+            self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, max: 36)
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+            try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "templateName"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct DeleteProvisioningTemplateVersionResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteRegistrationCodeRequest: AWSShape {
@@ -3917,6 +4535,31 @@ extension IoT {
     }
 
     public struct DeleteThingTypeResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteTopicRuleDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", location: .uri(locationName: "arn"), required: true, type: .string)
+        ]
+
+        /// The ARN of the topic rule destination to delete.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct DeleteTopicRuleDestinationResponse: AWSShape {
 
 
         public init() {
@@ -4451,6 +5094,81 @@ extension IoT {
         }
     }
 
+    public struct DescribeDomainConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"), required: true, type: .string)
+        ]
+
+        /// The name of the domain configuration.
+        public let domainConfigurationName: String
+
+        public init(domainConfigurationName: String) {
+            self.domainConfigurationName = domainConfigurationName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, max: 128)
+            try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, min: 1)
+            try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, pattern: "[\\w.:-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainConfigurationName = "domainConfigurationName"
+        }
+    }
+
+    public struct DescribeDomainConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizerConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "domainConfigurationArn", required: false, type: .string), 
+            AWSShapeMember(label: "domainConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "domainConfigurationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "domainName", required: false, type: .string), 
+            AWSShapeMember(label: "domainType", required: false, type: .enum), 
+            AWSShapeMember(label: "serverCertificates", required: false, type: .list), 
+            AWSShapeMember(label: "serviceType", required: false, type: .enum)
+        ]
+
+        /// An object that specifies the authorization service for a domain.
+        public let authorizerConfig: AuthorizerConfig?
+        /// The ARN of the domain configuration.
+        public let domainConfigurationArn: String?
+        /// The name of the domain configuration.
+        public let domainConfigurationName: String?
+        /// A Boolean value that specifies the current state of the domain configuration.
+        public let domainConfigurationStatus: DomainConfigurationStatus?
+        /// The name of the domain.
+        public let domainName: String?
+        /// The type of the domain.
+        public let domainType: DomainType?
+        /// A list containing summary information about the server certificate included in the domain configuration.
+        public let serverCertificates: [ServerCertificateSummary]?
+        /// The type of service delivered by the endpoint.
+        public let serviceType: ServiceType?
+
+        public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationArn: String? = nil, domainConfigurationName: String? = nil, domainConfigurationStatus: DomainConfigurationStatus? = nil, domainName: String? = nil, domainType: DomainType? = nil, serverCertificates: [ServerCertificateSummary]? = nil, serviceType: ServiceType? = nil) {
+            self.authorizerConfig = authorizerConfig
+            self.domainConfigurationArn = domainConfigurationArn
+            self.domainConfigurationName = domainConfigurationName
+            self.domainConfigurationStatus = domainConfigurationStatus
+            self.domainName = domainName
+            self.domainType = domainType
+            self.serverCertificates = serverCertificates
+            self.serviceType = serviceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerConfig = "authorizerConfig"
+            case domainConfigurationArn = "domainConfigurationArn"
+            case domainConfigurationName = "domainConfigurationName"
+            case domainConfigurationStatus = "domainConfigurationStatus"
+            case domainName = "domainName"
+            case domainType = "domainType"
+            case serverCertificates = "serverCertificates"
+            case serviceType = "serviceType"
+        }
+    }
+
     public struct DescribeEndpointRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "endpointType", location: .querystring(locationName: "endpointType"), required: false, type: .string)
@@ -4461,6 +5179,10 @@ extension IoT {
 
         public init(endpointType: String? = nil) {
             self.endpointType = endpointType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.endpointType, name:"endpointType", parent: name, max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4739,6 +5461,146 @@ extension IoT {
             case creationDate = "creationDate"
             case lastModifiedDate = "lastModifiedDate"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct DescribeProvisioningTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string)
+        ]
+
+        /// The name of the fleet provisioning template.
+        public let templateName: String
+
+        public init(templateName: String) {
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, max: 36)
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+            try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "templateName"
+        }
+    }
+
+    public struct DescribeProvisioningTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "defaultVersionId", required: false, type: .integer), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "provisioningRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "templateArn", required: false, type: .string), 
+            AWSShapeMember(label: "templateBody", required: false, type: .string), 
+            AWSShapeMember(label: "templateName", required: false, type: .string)
+        ]
+
+        /// The date when the fleet provisioning template was created.
+        public let creationDate: TimeStamp?
+        /// The default fleet template version ID.
+        public let defaultVersionId: Int?
+        /// The description of the fleet provisioning template.
+        public let description: String?
+        /// True if the fleet provisioning template is enabled, otherwise false.
+        public let enabled: Bool?
+        /// The date when the fleet provisioning template was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The ARN of the role associated with the provisioning template. This IoT role grants permission to provision a device.
+        public let provisioningRoleArn: String?
+        /// The ARN of the fleet provisioning template.
+        public let templateArn: String?
+        /// The JSON formatted contents of the fleet provisioning template.
+        public let templateBody: String?
+        /// The name of the fleet provisioning template.
+        public let templateName: String?
+
+        public init(creationDate: TimeStamp? = nil, defaultVersionId: Int? = nil, description: String? = nil, enabled: Bool? = nil, lastModifiedDate: TimeStamp? = nil, provisioningRoleArn: String? = nil, templateArn: String? = nil, templateBody: String? = nil, templateName: String? = nil) {
+            self.creationDate = creationDate
+            self.defaultVersionId = defaultVersionId
+            self.description = description
+            self.enabled = enabled
+            self.lastModifiedDate = lastModifiedDate
+            self.provisioningRoleArn = provisioningRoleArn
+            self.templateArn = templateArn
+            self.templateBody = templateBody
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case defaultVersionId = "defaultVersionId"
+            case description = "description"
+            case enabled = "enabled"
+            case lastModifiedDate = "lastModifiedDate"
+            case provisioningRoleArn = "provisioningRoleArn"
+            case templateArn = "templateArn"
+            case templateBody = "templateBody"
+            case templateName = "templateName"
+        }
+    }
+
+    public struct DescribeProvisioningTemplateVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string), 
+            AWSShapeMember(label: "versionId", location: .uri(locationName: "versionId"), required: true, type: .integer)
+        ]
+
+        /// The template name.
+        public let templateName: String
+        /// The fleet provisioning template version ID.
+        public let versionId: Int
+
+        public init(templateName: String, versionId: Int) {
+            self.templateName = templateName
+            self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.templateName, name:"templateName", parent: name, max: 36)
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+            try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName = "templateName"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct DescribeProvisioningTemplateVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "templateBody", required: false, type: .string), 
+            AWSShapeMember(label: "versionId", required: false, type: .integer)
+        ]
+
+        /// The date when the fleet provisioning template version was created.
+        public let creationDate: TimeStamp?
+        /// True if the fleet provisioning template version is the default version.
+        public let isDefaultVersion: Bool?
+        /// The JSON formatted contents of the fleet provisioning template version.
+        public let templateBody: String?
+        /// The fleet provisioning template version ID.
+        public let versionId: Int?
+
+        public init(creationDate: TimeStamp? = nil, isDefaultVersion: Bool? = nil, templateBody: String? = nil, versionId: Int? = nil) {
+            self.creationDate = creationDate
+            self.isDefaultVersion = isDefaultVersion
+            self.templateBody = templateBody
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case isDefaultVersion = "isDefaultVersion"
+            case templateBody = "templateBody"
+            case versionId = "versionId"
         }
     }
 
@@ -5457,6 +6319,46 @@ extension IoT {
         }
     }
 
+    public enum DomainConfigurationStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DomainConfigurationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainConfigurationArn", required: false, type: .string), 
+            AWSShapeMember(label: "domainConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "serviceType", required: false, type: .enum)
+        ]
+
+        /// The ARN of the domain configuration.
+        public let domainConfigurationArn: String?
+        /// The name of the domain configuration. This value must be unique to a region.
+        public let domainConfigurationName: String?
+        /// The type of service delivered by the endpoint.
+        public let serviceType: ServiceType?
+
+        public init(domainConfigurationArn: String? = nil, domainConfigurationName: String? = nil, serviceType: ServiceType? = nil) {
+            self.domainConfigurationArn = domainConfigurationArn
+            self.domainConfigurationName = domainConfigurationName
+            self.serviceType = serviceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainConfigurationArn = "domainConfigurationArn"
+            case domainConfigurationName = "domainConfigurationName"
+            case serviceType = "serviceType"
+        }
+    }
+
+    public enum DomainType: String, CustomStringConvertible, Codable {
+        case endpoint = "ENDPOINT"
+        case awsManaged = "AWS_MANAGED"
+        case customerManaged = "CUSTOMER_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DynamicGroupStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case building = "BUILDING"
@@ -5761,6 +6663,35 @@ extension IoT {
         }
     }
 
+    public struct Field: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum)
+        ]
+
+        /// The name of the field.
+        public let name: String?
+        /// The datatype of the field.
+        public let `type`: FieldType?
+
+        public init(name: String? = nil, type: FieldType? = nil) {
+            self.name = name
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `type` = "type"
+        }
+    }
+
+    public enum FieldType: String, CustomStringConvertible, Codable {
+        case number = "Number"
+        case string = "String"
+        case boolean = "Boolean"
+        public var description: String { return self.rawValue }
+    }
+
     public struct FileLocation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "s3Location", required: false, type: .structure), 
@@ -5816,6 +6747,63 @@ extension IoT {
             case deliveryStreamName = "deliveryStreamName"
             case roleArn = "roleArn"
             case separator = "separator"
+        }
+    }
+
+    public struct GetCardinalityRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "aggregationField", required: false, type: .string), 
+            AWSShapeMember(label: "indexName", required: false, type: .string), 
+            AWSShapeMember(label: "queryString", required: true, type: .string), 
+            AWSShapeMember(label: "queryVersion", required: false, type: .string)
+        ]
+
+        /// The field to aggregate.
+        public let aggregationField: String?
+        /// The name of the index to search.
+        public let indexName: String?
+        /// The search query.
+        public let queryString: String
+        /// The query version.
+        public let queryVersion: String?
+
+        public init(aggregationField: String? = nil, indexName: String? = nil, queryString: String, queryVersion: String? = nil) {
+            self.aggregationField = aggregationField
+            self.indexName = indexName
+            self.queryString = queryString
+            self.queryVersion = queryVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aggregationField, name:"aggregationField", parent: name, min: 1)
+            try validate(self.indexName, name:"indexName", parent: name, max: 128)
+            try validate(self.indexName, name:"indexName", parent: name, min: 1)
+            try validate(self.indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try validate(self.queryString, name:"queryString", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationField = "aggregationField"
+            case indexName = "indexName"
+            case queryString = "queryString"
+            case queryVersion = "queryVersion"
+        }
+    }
+
+    public struct GetCardinalityResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cardinality", required: false, type: .integer)
+        ]
+
+        /// The approximate count of unique values that match the query.
+        public let cardinality: Int?
+
+        public init(cardinality: Int? = nil) {
+            self.cardinality = cardinality
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cardinality = "cardinality"
         }
     }
 
@@ -6009,6 +6997,72 @@ extension IoT {
         }
     }
 
+    public struct GetPercentilesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "aggregationField", required: false, type: .string), 
+            AWSShapeMember(label: "indexName", required: false, type: .string), 
+            AWSShapeMember(label: "percents", required: false, type: .list), 
+            AWSShapeMember(label: "queryString", required: true, type: .string), 
+            AWSShapeMember(label: "queryVersion", required: false, type: .string)
+        ]
+
+        /// The field to aggregate.
+        public let aggregationField: String?
+        /// The name of the index to search.
+        public let indexName: String?
+        /// The percentile groups returned.
+        public let percents: [Double]?
+        /// The query string.
+        public let queryString: String
+        /// The query version.
+        public let queryVersion: String?
+
+        public init(aggregationField: String? = nil, indexName: String? = nil, percents: [Double]? = nil, queryString: String, queryVersion: String? = nil) {
+            self.aggregationField = aggregationField
+            self.indexName = indexName
+            self.percents = percents
+            self.queryString = queryString
+            self.queryVersion = queryVersion
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aggregationField, name:"aggregationField", parent: name, min: 1)
+            try validate(self.indexName, name:"indexName", parent: name, max: 128)
+            try validate(self.indexName, name:"indexName", parent: name, min: 1)
+            try validate(self.indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.percents?.forEach {
+                try validate($0, name: "percents[]", parent: name, max: 100)
+                try validate($0, name: "percents[]", parent: name, min: 0)
+            }
+            try validate(self.queryString, name:"queryString", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationField = "aggregationField"
+            case indexName = "indexName"
+            case percents = "percents"
+            case queryString = "queryString"
+            case queryVersion = "queryVersion"
+        }
+    }
+
+    public struct GetPercentilesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "percentiles", required: false, type: .list)
+        ]
+
+        /// The percentile values of the aggregated fields.
+        public let percentiles: [PercentPair]?
+
+        public init(percentiles: [PercentPair]? = nil) {
+            self.percentiles = percentiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case percentiles = "percentiles"
+        }
+    }
+
     public struct GetPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
@@ -6120,13 +7174,13 @@ extension IoT {
             AWSShapeMember(label: "policyVersionId", required: false, type: .string)
         ]
 
-        /// The date the policy version was created.
+        /// The date the policy was created.
         public let creationDate: TimeStamp?
         /// The generation ID of the policy version.
         public let generationId: String?
         /// Specifies whether the policy version is the default.
         public let isDefaultVersion: Bool?
-        /// The date the policy version was last modified.
+        /// The date the policy was last modified.
         public let lastModifiedDate: TimeStamp?
         /// The policy ARN.
         public let policyArn: String?
@@ -6193,7 +7247,7 @@ extension IoT {
             AWSShapeMember(label: "queryVersion", required: false, type: .string)
         ]
 
-        /// The aggregation field name. Currently not supported.
+        /// The aggregation field name.
         public let aggregationField: String?
         /// The name of the index to search. The default value is AWS_Things.
         public let indexName: String?
@@ -6239,6 +7293,40 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case statistics = "statistics"
+        }
+    }
+
+    public struct GetTopicRuleDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", location: .uri(locationName: "arn"), required: true, type: .string)
+        ]
+
+        /// The ARN of the topic rule destination.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetTopicRuleDestinationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "topicRuleDestination", required: false, type: .structure)
+        ]
+
+        /// The topic rule destination.
+        public let topicRuleDestination: TopicRuleDestination?
+
+        public init(topicRuleDestination: TopicRuleDestination? = nil) {
+            self.topicRuleDestination = topicRuleDestination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicRuleDestination = "topicRuleDestination"
         }
     }
 
@@ -6344,6 +7432,180 @@ extension IoT {
         }
     }
 
+    public struct HttpAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "auth", required: false, type: .structure), 
+            AWSShapeMember(label: "confirmationUrl", required: false, type: .string), 
+            AWSShapeMember(label: "headers", required: false, type: .list), 
+            AWSShapeMember(label: "url", required: true, type: .string)
+        ]
+
+        /// The authentication method to use when sending data to an HTTPS endpoint.
+        public let auth: HttpAuthorization?
+        /// The URL to which AWS IoT sends a confirmation message. The value of the confirmation URL must be a prefix of the endpoint URL. If you do not specify a confirmation URL AWS IoT uses the endpoint URL as the confirmation URL. If you use substitution templates in the confirmationUrl, you must create and enable topic rule destinations that match each possible value of the substituion template before traffic is allowed to your endpoint URL.
+        public let confirmationUrl: String?
+        /// The HTTP headers to send with the message data.
+        public let headers: [HttpActionHeader]?
+        /// The endpoint URL. If substitution templates are used in the URL, you must also specify a confirmationUrl. If this is a new destination, a new TopicRuleDestination is created if possible.
+        public let url: String
+
+        public init(auth: HttpAuthorization? = nil, confirmationUrl: String? = nil, headers: [HttpActionHeader]? = nil, url: String) {
+            self.auth = auth
+            self.confirmationUrl = confirmationUrl
+            self.headers = headers
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.confirmationUrl, name:"confirmationUrl", parent: name, max: 2000)
+            try self.headers?.forEach {
+                try $0.validate(name: "\(name).headers[]")
+            }
+            try validate(self.headers, name:"headers", parent: name, max: 100)
+            try validate(self.headers, name:"headers", parent: name, min: 0)
+            try validate(self.url, name:"url", parent: name, max: 2000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auth = "auth"
+            case confirmationUrl = "confirmationUrl"
+            case headers = "headers"
+            case url = "url"
+        }
+    }
+
+    public struct HttpActionHeader: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: true, type: .string)
+        ]
+
+        /// The HTTP header key.
+        public let key: String
+        /// The HTTP header value. Substitution templates are supported.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 256)
+            try validate(self.key, name:"key", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct HttpAuthorization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sigv4", required: false, type: .structure)
+        ]
+
+        /// Use Sig V4 authorization. For more information, see Signature Version 4 Signing Process.
+        public let sigv4: SigV4Authorization?
+
+        public init(sigv4: SigV4Authorization? = nil) {
+            self.sigv4 = sigv4
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sigv4 = "sigv4"
+        }
+    }
+
+    public struct HttpContext: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "headers", required: false, type: .map), 
+            AWSShapeMember(label: "queryString", required: false, type: .string)
+        ]
+
+        /// The header keys and values in an HTTP authorization request.
+        public let headers: [String: String]?
+        /// The query string keys and values in an HTTP authorization request.
+        public let queryString: String?
+
+        public init(headers: [String: String]? = nil, queryString: String? = nil) {
+            self.headers = headers
+            self.queryString = queryString
+        }
+
+        public func validate(name: String) throws {
+            try self.headers?.forEach {
+                try validate($0.key, name:"headers.key", parent: name, max: 8192)
+                try validate($0.key, name:"headers.key", parent: name, min: 1)
+                try validate($0.value, name:"headers[\"\($0.key)\"]", parent: name, max: 8192)
+                try validate($0.value, name:"headers[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try validate(self.queryString, name:"queryString", parent: name, max: 4096)
+            try validate(self.queryString, name:"queryString", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case headers = "headers"
+            case queryString = "queryString"
+        }
+    }
+
+    public struct HttpUrlDestinationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "confirmationUrl", required: true, type: .string)
+        ]
+
+        /// The URL AWS IoT uses to confirm ownership of or access to the topic rule destination URL.
+        public let confirmationUrl: String
+
+        public init(confirmationUrl: String) {
+            self.confirmationUrl = confirmationUrl
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.confirmationUrl, name:"confirmationUrl", parent: name, max: 2000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confirmationUrl = "confirmationUrl"
+        }
+    }
+
+    public struct HttpUrlDestinationProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "confirmationUrl", required: false, type: .string)
+        ]
+
+        /// The URL used to confirm the HTTP topic rule destination URL.
+        public let confirmationUrl: String?
+
+        public init(confirmationUrl: String? = nil) {
+            self.confirmationUrl = confirmationUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confirmationUrl = "confirmationUrl"
+        }
+    }
+
+    public struct HttpUrlDestinationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "confirmationUrl", required: false, type: .string)
+        ]
+
+        /// The URL used to confirm ownership of or access to the HTTP topic rule destination URL.
+        public let confirmationUrl: String?
+
+        public init(confirmationUrl: String? = nil) {
+            self.confirmationUrl = confirmationUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confirmationUrl = "confirmationUrl"
+        }
+    }
+
     public struct ImplicitDeny: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "policies", required: false, type: .list)
@@ -6424,6 +7686,35 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case inputName = "inputName"
             case messageId = "messageId"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct IotSiteWiseAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "putAssetPropertyValueEntries", required: true, type: .list), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
+        ]
+
+        /// A list of asset property value entries.
+        public let putAssetPropertyValueEntries: [PutAssetPropertyValueEntry]
+        /// The ARN of the role that grants AWS IoT permission to send an asset property value to AWS IoTSiteWise. ("Action": "iotsitewise:BatchPutAssetPropertyValue"). The trust policy can restrict access to specific asset hierarchy paths.
+        public let roleArn: String
+
+        public init(putAssetPropertyValueEntries: [PutAssetPropertyValueEntry], roleArn: String) {
+            self.putAssetPropertyValueEntries = putAssetPropertyValueEntries
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.putAssetPropertyValueEntries.forEach {
+                try $0.validate(name: "\(name).putAssetPropertyValueEntries[]")
+            }
+            try validate(self.putAssetPropertyValueEntries, name:"putAssetPropertyValueEntries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case putAssetPropertyValueEntries = "putAssetPropertyValueEntries"
             case roleArn = "roleArn"
         }
     }
@@ -7631,6 +8922,61 @@ extension IoT {
         }
     }
 
+    public struct ListDomainConfigurationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "serviceType", location: .querystring(locationName: "serviceType"), required: false, type: .enum)
+        ]
+
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// The result page size.
+        public let pageSize: Int?
+        /// The type of service delivered by the endpoint.
+        public let serviceType: ServiceType?
+
+        public init(marker: String? = nil, pageSize: Int? = nil, serviceType: ServiceType? = nil) {
+            self.marker = marker
+            self.pageSize = pageSize
+            self.serviceType = serviceType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
+            try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case pageSize = "pageSize"
+            case serviceType = "serviceType"
+        }
+    }
+
+    public struct ListDomainConfigurationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "nextMarker", required: false, type: .string)
+        ]
+
+        /// A list of objects that contain summary information about the user's domain configurations.
+        public let domainConfigurations: [DomainConfigurationSummary]?
+        /// The marker for the next set of results.
+        public let nextMarker: String?
+
+        public init(domainConfigurations: [DomainConfigurationSummary]? = nil, nextMarker: String? = nil) {
+            self.domainConfigurations = domainConfigurations
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainConfigurations = "domainConfigurations"
+            case nextMarker = "nextMarker"
+        }
+    }
+
     public struct ListIndicesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -8311,6 +9657,112 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case things = "things"
+        }
+    }
+
+    public struct ListProvisioningTemplateVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string)
+        ]
+
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int?
+        /// A token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The name of the fleet provisioning template.
+        public let templateName: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, templateName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.templateName, name:"templateName", parent: name, max: 36)
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+            try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case templateName = "templateName"
+        }
+    }
+
+    public struct ListProvisioningTemplateVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "versions", required: false, type: .list)
+        ]
+
+        /// A token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The list of fleet provisioning template versions.
+        public let versions: [ProvisioningTemplateVersionSummary]?
+
+        public init(nextToken: String? = nil, versions: [ProvisioningTemplateVersionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case versions = "versions"
+        }
+    }
+
+    public struct ListProvisioningTemplatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int?
+        /// A token to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 250)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListProvisioningTemplatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "templates", required: false, type: .list)
+        ]
+
+        /// A token to retrieve the next set of results.
+        public let nextToken: String?
+        /// A list of fleet provisioning templates
+        public let templates: [ProvisioningTemplateSummary]?
+
+        public init(nextToken: String? = nil, templates: [ProvisioningTemplateSummary]? = nil) {
+            self.nextToken = nextToken
+            self.templates = templates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case templates = "templates"
         }
     }
 
@@ -9272,6 +10724,55 @@ extension IoT {
         }
     }
 
+    public struct ListTopicRuleDestinationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListTopicRuleDestinationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
+        ]
+
+        /// Information about a topic rule destination.
+        public let destinationSummaries: [TopicRuleDestinationSummary]?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(destinationSummaries: [TopicRuleDestinationSummary]? = nil, nextToken: String? = nil) {
+            self.destinationSummaries = destinationSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationSummaries = "destinationSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListTopicRulesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -9703,6 +11204,42 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public struct MqttContext: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientId", required: false, type: .string), 
+            AWSShapeMember(label: "password", required: false, type: .blob), 
+            AWSShapeMember(label: "username", required: false, type: .string)
+        ]
+
+        /// The value of the clientId key in an MQTT authorization request.
+        public let clientId: String?
+        /// The value of the password key in an MQTT authorization request.
+        public let password: Data?
+        /// The value of the username key in an MQTT authorization request.
+        public let username: String?
+
+        public init(clientId: String? = nil, password: Data? = nil, username: String? = nil) {
+            self.clientId = clientId
+            self.password = password
+            self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientId, name:"clientId", parent: name, max: 65535)
+            try validate(self.clientId, name:"clientId", parent: name, min: 1)
+            try validate(self.password, name:"password", parent: name, max: 65535)
+            try validate(self.password, name:"password", parent: name, min: 1)
+            try validate(self.username, name:"username", parent: name, max: 65535)
+            try validate(self.username, name:"username", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "clientId"
+            case password = "password"
+            case username = "username"
+        }
+    }
+
     public struct NonCompliantResource: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "additionalInfo", required: false, type: .map), 
@@ -9778,6 +11315,7 @@ extension IoT {
             AWSShapeMember(label: "awsIotJobArn", required: false, type: .string), 
             AWSShapeMember(label: "awsIotJobId", required: false, type: .string), 
             AWSShapeMember(label: "awsJobExecutionsRolloutConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "awsJobPresignedUrlConfig", required: false, type: .structure), 
             AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "errorInfo", required: false, type: .structure), 
@@ -9786,6 +11324,7 @@ extension IoT {
             AWSShapeMember(label: "otaUpdateFiles", required: false, type: .list), 
             AWSShapeMember(label: "otaUpdateId", required: false, type: .string), 
             AWSShapeMember(label: "otaUpdateStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "protocols", required: false, type: .list), 
             AWSShapeMember(label: "targets", required: false, type: .list), 
             AWSShapeMember(label: "targetSelection", required: false, type: .enum)
         ]
@@ -9798,6 +11337,8 @@ extension IoT {
         public let awsIotJobId: String?
         /// Configuration for the rollout of OTA updates.
         public let awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig?
+        /// Configuration information for pre-signed URLs. Valid when protocols contains HTTP.
+        public let awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig?
         /// The date when the OTA update was created.
         public let creationDate: TimeStamp?
         /// A description of the OTA update.
@@ -9814,16 +11355,19 @@ extension IoT {
         public let otaUpdateId: String?
         /// The status of the OTA update.
         public let otaUpdateStatus: OTAUpdateStatus?
+        /// The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose the protocol.
+        public let protocols: [Protocol]?
         /// The targets of the OTA update.
         public let targets: [String]?
         /// Specifies whether the OTA update will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the OTA update (SNAPSHOT). If continuous, the OTA update may also be run on a thing when a change is detected in a target. For example, an OTA update will run on a thing when the thing is added to a target group, even after the OTA update was completed by all things originally in the group. 
         public let targetSelection: TargetSelection?
 
-        public init(additionalParameters: [String: String]? = nil, awsIotJobArn: String? = nil, awsIotJobId: String? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, creationDate: TimeStamp? = nil, description: String? = nil, errorInfo: ErrorInfo? = nil, lastModifiedDate: TimeStamp? = nil, otaUpdateArn: String? = nil, otaUpdateFiles: [OTAUpdateFile]? = nil, otaUpdateId: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil) {
+        public init(additionalParameters: [String: String]? = nil, awsIotJobArn: String? = nil, awsIotJobId: String? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, creationDate: TimeStamp? = nil, description: String? = nil, errorInfo: ErrorInfo? = nil, lastModifiedDate: TimeStamp? = nil, otaUpdateArn: String? = nil, otaUpdateFiles: [OTAUpdateFile]? = nil, otaUpdateId: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil, protocols: [Protocol]? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil) {
             self.additionalParameters = additionalParameters
             self.awsIotJobArn = awsIotJobArn
             self.awsIotJobId = awsIotJobId
             self.awsJobExecutionsRolloutConfig = awsJobExecutionsRolloutConfig
+            self.awsJobPresignedUrlConfig = awsJobPresignedUrlConfig
             self.creationDate = creationDate
             self.description = description
             self.errorInfo = errorInfo
@@ -9832,6 +11376,7 @@ extension IoT {
             self.otaUpdateFiles = otaUpdateFiles
             self.otaUpdateId = otaUpdateId
             self.otaUpdateStatus = otaUpdateStatus
+            self.protocols = protocols
             self.targets = targets
             self.targetSelection = targetSelection
         }
@@ -9841,6 +11386,7 @@ extension IoT {
             case awsIotJobArn = "awsIotJobArn"
             case awsIotJobId = "awsIotJobId"
             case awsJobExecutionsRolloutConfig = "awsJobExecutionsRolloutConfig"
+            case awsJobPresignedUrlConfig = "awsJobPresignedUrlConfig"
             case creationDate = "creationDate"
             case description = "description"
             case errorInfo = "errorInfo"
@@ -9849,6 +11395,7 @@ extension IoT {
             case otaUpdateFiles = "otaUpdateFiles"
             case otaUpdateId = "otaUpdateId"
             case otaUpdateStatus = "otaUpdateStatus"
+            case protocols = "protocols"
             case targets = "targets"
             case targetSelection = "targetSelection"
         }
@@ -9928,6 +11475,28 @@ extension IoT {
             case transferDate = "transferDate"
             case transferMessage = "transferMessage"
             case transferredTo = "transferredTo"
+        }
+    }
+
+    public struct PercentPair: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "percent", required: false, type: .double), 
+            AWSShapeMember(label: "value", required: false, type: .double)
+        ]
+
+        /// The percentile.
+        public let percent: Double?
+        /// The value of the percentile.
+        public let value: Double?
+
+        public init(percent: Double? = nil, value: Double? = nil) {
+            self.percent = percent
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case percent = "percent"
+            case value = "value"
         }
     }
 
@@ -10043,6 +11612,81 @@ extension IoT {
         }
     }
 
+    public enum `Protocol`: String, CustomStringConvertible, Codable {
+        case mqtt = "MQTT"
+        case http = "HTTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ProvisioningTemplateSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "templateArn", required: false, type: .string), 
+            AWSShapeMember(label: "templateName", required: false, type: .string)
+        ]
+
+        /// The date when the fleet provisioning template summary was created.
+        public let creationDate: TimeStamp?
+        /// The description of the fleet provisioning template.
+        public let description: String?
+        /// True if the fleet provision template is enabled, otherwise false.
+        public let enabled: Bool?
+        /// The date when the fleet provisioning template summary was last modified.
+        public let lastModifiedDate: TimeStamp?
+        /// The ARN of the fleet provisioning template.
+        public let templateArn: String?
+        /// The name of the fleet provisioning template.
+        public let templateName: String?
+
+        public init(creationDate: TimeStamp? = nil, description: String? = nil, enabled: Bool? = nil, lastModifiedDate: TimeStamp? = nil, templateArn: String? = nil, templateName: String? = nil) {
+            self.creationDate = creationDate
+            self.description = description
+            self.enabled = enabled
+            self.lastModifiedDate = lastModifiedDate
+            self.templateArn = templateArn
+            self.templateName = templateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case description = "description"
+            case enabled = "enabled"
+            case lastModifiedDate = "lastModifiedDate"
+            case templateArn = "templateArn"
+            case templateName = "templateName"
+        }
+    }
+
+    public struct ProvisioningTemplateVersionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "versionId", required: false, type: .integer)
+        ]
+
+        /// The date when the fleet provisioning template version was created
+        public let creationDate: TimeStamp?
+        /// True if the fleet provisioning template version is the default version, otherwise false.
+        public let isDefaultVersion: Bool?
+        /// The ID of the fleet privisioning template version.
+        public let versionId: Int?
+
+        public init(creationDate: TimeStamp? = nil, isDefaultVersion: Bool? = nil, versionId: Int? = nil) {
+            self.creationDate = creationDate
+            self.isDefaultVersion = isDefaultVersion
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case isDefaultVersion = "isDefaultVersion"
+            case versionId = "versionId"
+        }
+    }
+
     public struct PublishFindingToSnsParams: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "topicArn", required: true, type: .string)
@@ -10061,6 +11705,52 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case topicArn = "topicArn"
+        }
+    }
+
+    public struct PutAssetPropertyValueEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assetId", required: false, type: .string), 
+            AWSShapeMember(label: "entryId", required: false, type: .string), 
+            AWSShapeMember(label: "propertyAlias", required: false, type: .string), 
+            AWSShapeMember(label: "propertyId", required: false, type: .string), 
+            AWSShapeMember(label: "propertyValues", required: true, type: .list)
+        ]
+
+        /// The ID of the AWS IoT SiteWise asset. You must specify either a propertyAlias or both an aliasId and a propertyId. Accepts substitution templates.
+        public let assetId: String?
+        /// Optional. A unique identifier for this entry that you can define to better track which message caused an error in case of failure. Accepts substitution templates. Defaults to a new UUID.
+        public let entryId: String?
+        /// The name of the property alias associated with your asset property. You must specify either a propertyAlias or both an aliasId and a propertyId. Accepts substitution templates.
+        public let propertyAlias: String?
+        /// The ID of the asset's property. You must specify either a propertyAlias or both an aliasId and a propertyId. Accepts substitution templates.
+        public let propertyId: String?
+        /// A list of property values to insert that each contain timestamp, quality, and value (TQV) information.
+        public let propertyValues: [AssetPropertyValue]
+
+        public init(assetId: String? = nil, entryId: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, propertyValues: [AssetPropertyValue]) {
+            self.assetId = assetId
+            self.entryId = entryId
+            self.propertyAlias = propertyAlias
+            self.propertyId = propertyId
+            self.propertyValues = propertyValues
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.propertyAlias, name:"propertyAlias", parent: name, max: 2048)
+            try validate(self.propertyAlias, name:"propertyAlias", parent: name, min: 1)
+            try self.propertyValues.forEach {
+                try $0.validate(name: "\(name).propertyValues[]")
+            }
+            try validate(self.propertyValues, name:"propertyValues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case entryId = "entryId"
+            case propertyAlias = "propertyAlias"
+            case propertyId = "propertyId"
+            case propertyValues = "propertyValues"
         }
     }
 
@@ -10517,7 +12207,7 @@ extension IoT {
             AWSShapeMember(label: "topic", required: true, type: .string)
         ]
 
-        /// The Quality of Service (QoS) level to use when republishing messages.
+        /// The Quality of Service (QoS) level to use when republishing messages. The default value is 0.
         public let qos: Int?
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
@@ -10549,7 +12239,9 @@ extension IoT {
             AWSShapeMember(label: "clientId", required: false, type: .string), 
             AWSShapeMember(label: "cognitoIdentityPoolId", required: false, type: .string), 
             AWSShapeMember(label: "deviceCertificateId", required: false, type: .string), 
-            AWSShapeMember(label: "policyVersionIdentifier", required: false, type: .structure)
+            AWSShapeMember(label: "iamRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "policyVersionIdentifier", required: false, type: .structure), 
+            AWSShapeMember(label: "roleAliasArn", required: false, type: .string)
         ]
 
         /// The account with which the resource is associated.
@@ -10562,16 +12254,22 @@ extension IoT {
         public let cognitoIdentityPoolId: String?
         /// The ID of the certificate attached to the resource.
         public let deviceCertificateId: String?
+        /// The ARN of the IAM role that has overly permissive actions.
+        public let iamRoleArn: String?
         /// The version of the policy associated with the resource.
         public let policyVersionIdentifier: PolicyVersionIdentifier?
+        /// The ARN of the role alias that has overly permissive actions.
+        public let roleAliasArn: String?
 
-        public init(account: String? = nil, caCertificateId: String? = nil, clientId: String? = nil, cognitoIdentityPoolId: String? = nil, deviceCertificateId: String? = nil, policyVersionIdentifier: PolicyVersionIdentifier? = nil) {
+        public init(account: String? = nil, caCertificateId: String? = nil, clientId: String? = nil, cognitoIdentityPoolId: String? = nil, deviceCertificateId: String? = nil, iamRoleArn: String? = nil, policyVersionIdentifier: PolicyVersionIdentifier? = nil, roleAliasArn: String? = nil) {
             self.account = account
             self.caCertificateId = caCertificateId
             self.clientId = clientId
             self.cognitoIdentityPoolId = cognitoIdentityPoolId
             self.deviceCertificateId = deviceCertificateId
+            self.iamRoleArn = iamRoleArn
             self.policyVersionIdentifier = policyVersionIdentifier
+            self.roleAliasArn = roleAliasArn
         }
 
         public func validate(name: String) throws {
@@ -10584,7 +12282,11 @@ extension IoT {
             try validate(self.deviceCertificateId, name:"deviceCertificateId", parent: name, max: 64)
             try validate(self.deviceCertificateId, name:"deviceCertificateId", parent: name, min: 64)
             try validate(self.deviceCertificateId, name:"deviceCertificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
+            try validate(self.iamRoleArn, name:"iamRoleArn", parent: name, max: 2048)
+            try validate(self.iamRoleArn, name:"iamRoleArn", parent: name, min: 20)
             try self.policyVersionIdentifier?.validate(name: "\(name).policyVersionIdentifier")
+            try validate(self.roleAliasArn, name:"roleAliasArn", parent: name, max: 2048)
+            try validate(self.roleAliasArn, name:"roleAliasArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10593,7 +12295,9 @@ extension IoT {
             case clientId = "clientId"
             case cognitoIdentityPoolId = "cognitoIdentityPoolId"
             case deviceCertificateId = "deviceCertificateId"
+            case iamRoleArn = "iamRoleArn"
             case policyVersionIdentifier = "policyVersionIdentifier"
+            case roleAliasArn = "roleAliasArn"
         }
     }
 
@@ -10604,6 +12308,8 @@ extension IoT {
         case cognitoIdentityPool = "COGNITO_IDENTITY_POOL"
         case clientId = "CLIENT_ID"
         case accountSettings = "ACCOUNT_SETTINGS"
+        case roleAlias = "ROLE_ALIAS"
+        case iamRole = "IAM_ROLE"
         public var description: String { return self.rawValue }
     }
 
@@ -10943,6 +12649,46 @@ extension IoT {
         }
     }
 
+    public enum ServerCertificateStatus: String, CustomStringConvertible, Codable {
+        case invalid = "INVALID"
+        case valid = "VALID"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ServerCertificateSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "serverCertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "serverCertificateStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "serverCertificateStatusDetail", required: false, type: .string)
+        ]
+
+        /// The ARN of the server certificate.
+        public let serverCertificateArn: String?
+        /// The status of the server certificate.
+        public let serverCertificateStatus: ServerCertificateStatus?
+        /// Details that explain the status of the server certificate.
+        public let serverCertificateStatusDetail: String?
+
+        public init(serverCertificateArn: String? = nil, serverCertificateStatus: ServerCertificateStatus? = nil, serverCertificateStatusDetail: String? = nil) {
+            self.serverCertificateArn = serverCertificateArn
+            self.serverCertificateStatus = serverCertificateStatus
+            self.serverCertificateStatusDetail = serverCertificateStatusDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverCertificateArn = "serverCertificateArn"
+            case serverCertificateStatus = "serverCertificateStatus"
+            case serverCertificateStatusDetail = "serverCertificateStatusDetail"
+        }
+    }
+
+    public enum ServiceType: String, CustomStringConvertible, Codable {
+        case data = "DATA"
+        case credentialProvider = "CREDENTIAL_PROVIDER"
+        case jobs = "JOBS"
+        public var description: String { return self.rawValue }
+    }
+
     public struct SetDefaultAuthorizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorizerName", required: true, type: .string)
@@ -11082,6 +12828,33 @@ extension IoT {
             case defaultLogLevel = "defaultLogLevel"
             case disableAllLogs = "disableAllLogs"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct SigV4Authorization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "serviceName", required: true, type: .string), 
+            AWSShapeMember(label: "signingRegion", required: true, type: .string)
+        ]
+
+        /// The ARN of the signing role.
+        public let roleArn: String
+        /// The service name to use while signing with Sig V4.
+        public let serviceName: String
+        /// The signing region.
+        public let signingRegion: String
+
+        public init(roleArn: String, serviceName: String, signingRegion: String) {
+            self.roleArn = roleArn
+            self.serviceName = serviceName
+            self.signingRegion = signingRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case serviceName = "serviceName"
+            case signingRegion = "signingRegion"
         }
     }
 
@@ -11377,18 +13150,53 @@ extension IoT {
 
     public struct Statistics: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "count", required: false, type: .integer)
+            AWSShapeMember(label: "average", required: false, type: .double), 
+            AWSShapeMember(label: "count", required: false, type: .integer), 
+            AWSShapeMember(label: "maximum", required: false, type: .double), 
+            AWSShapeMember(label: "minimum", required: false, type: .double), 
+            AWSShapeMember(label: "stdDeviation", required: false, type: .double), 
+            AWSShapeMember(label: "sum", required: false, type: .double), 
+            AWSShapeMember(label: "sumOfSquares", required: false, type: .double), 
+            AWSShapeMember(label: "variance", required: false, type: .double)
         ]
 
+        /// The average of the aggregated field values.
+        public let average: Double?
         /// The count of things that match the query.
         public let count: Int?
+        /// The maximum aggregated field value.
+        public let maximum: Double?
+        /// The minimum aggregated field value.
+        public let minimum: Double?
+        /// The standard deviation of the aggregated field values.
+        public let stdDeviation: Double?
+        /// The sum of the aggregated field values.
+        public let sum: Double?
+        /// The sum of the squares of the aggregated field values.
+        public let sumOfSquares: Double?
+        /// The variance of the aggregated field values.
+        public let variance: Double?
 
-        public init(count: Int? = nil) {
+        public init(average: Double? = nil, count: Int? = nil, maximum: Double? = nil, minimum: Double? = nil, stdDeviation: Double? = nil, sum: Double? = nil, sumOfSquares: Double? = nil, variance: Double? = nil) {
+            self.average = average
             self.count = count
+            self.maximum = maximum
+            self.minimum = minimum
+            self.stdDeviation = stdDeviation
+            self.sum = sum
+            self.sumOfSquares = sumOfSquares
+            self.variance = variance
         }
 
         private enum CodingKeys: String, CodingKey {
+            case average = "average"
             case count = "count"
+            case maximum = "maximum"
+            case minimum = "minimum"
+            case stdDeviation = "stdDeviation"
+            case sum = "sum"
+            case sumOfSquares = "sumOfSquares"
+            case variance = "variance"
         }
     }
 
@@ -11818,19 +13626,31 @@ extension IoT {
     public struct TestInvokeAuthorizerRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "authorizerName", location: .uri(locationName: "authorizerName"), required: true, type: .string), 
-            AWSShapeMember(label: "token", required: true, type: .string), 
-            AWSShapeMember(label: "tokenSignature", required: true, type: .string)
+            AWSShapeMember(label: "httpContext", required: false, type: .structure), 
+            AWSShapeMember(label: "mqttContext", required: false, type: .structure), 
+            AWSShapeMember(label: "tlsContext", required: false, type: .structure), 
+            AWSShapeMember(label: "token", required: false, type: .string), 
+            AWSShapeMember(label: "tokenSignature", required: false, type: .string)
         ]
 
         /// The custom authorizer name.
         public let authorizerName: String
+        /// Specifies a test HTTP authorization request.
+        public let httpContext: HttpContext?
+        /// Specifies a test MQTT authorization request.
+        public let mqttContext: MqttContext?
+        /// Specifies a test TLS authorization request.
+        public let tlsContext: TlsContext?
         /// The token returned by your custom authentication service.
-        public let token: String
+        public let token: String?
         /// The signature made with the token and your custom authentication service's private key.
-        public let tokenSignature: String
+        public let tokenSignature: String?
 
-        public init(authorizerName: String, token: String, tokenSignature: String) {
+        public init(authorizerName: String, httpContext: HttpContext? = nil, mqttContext: MqttContext? = nil, tlsContext: TlsContext? = nil, token: String? = nil, tokenSignature: String? = nil) {
             self.authorizerName = authorizerName
+            self.httpContext = httpContext
+            self.mqttContext = mqttContext
+            self.tlsContext = tlsContext
             self.token = token
             self.tokenSignature = tokenSignature
         }
@@ -11839,6 +13659,9 @@ extension IoT {
             try validate(self.authorizerName, name:"authorizerName", parent: name, max: 128)
             try validate(self.authorizerName, name:"authorizerName", parent: name, min: 1)
             try validate(self.authorizerName, name:"authorizerName", parent: name, pattern: "[\\w=,@-]+")
+            try self.httpContext?.validate(name: "\(name).httpContext")
+            try self.mqttContext?.validate(name: "\(name).mqttContext")
+            try self.tlsContext?.validate(name: "\(name).tlsContext")
             try validate(self.token, name:"token", parent: name, max: 6144)
             try validate(self.token, name:"token", parent: name, min: 1)
             try validate(self.tokenSignature, name:"tokenSignature", parent: name, max: 2560)
@@ -11848,6 +13671,9 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case authorizerName = "authorizerName"
+            case httpContext = "httpContext"
+            case mqttContext = "mqttContext"
+            case tlsContext = "tlsContext"
             case token = "token"
             case tokenSignature = "tokenSignature"
         }
@@ -12041,17 +13867,27 @@ extension IoT {
 
     public struct ThingGroupIndexingConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customFields", required: false, type: .list), 
+            AWSShapeMember(label: "managedFields", required: false, type: .list), 
             AWSShapeMember(label: "thingGroupIndexingMode", required: true, type: .enum)
         ]
 
+        /// A list of thing group fields to index. This list cannot contain any managed fields. Use the GetIndexingConfiguration API to get a list of managed fields. Contains custom field names and their data type.
+        public let customFields: [Field]?
+        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service.
+        public let managedFields: [Field]?
         /// Thing group indexing mode.
         public let thingGroupIndexingMode: ThingGroupIndexingMode
 
-        public init(thingGroupIndexingMode: ThingGroupIndexingMode) {
+        public init(customFields: [Field]? = nil, managedFields: [Field]? = nil, thingGroupIndexingMode: ThingGroupIndexingMode) {
+            self.customFields = customFields
+            self.managedFields = managedFields
             self.thingGroupIndexingMode = thingGroupIndexingMode
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customFields = "customFields"
+            case managedFields = "managedFields"
             case thingGroupIndexingMode = "thingGroupIndexingMode"
         }
     }
@@ -12119,21 +13955,31 @@ extension IoT {
 
     public struct ThingIndexingConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customFields", required: false, type: .list), 
+            AWSShapeMember(label: "managedFields", required: false, type: .list), 
             AWSShapeMember(label: "thingConnectivityIndexingMode", required: false, type: .enum), 
             AWSShapeMember(label: "thingIndexingMode", required: true, type: .enum)
         ]
 
+        /// Contains custom field names and their data type.
+        public let customFields: [Field]?
+        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service.
+        public let managedFields: [Field]?
         /// Thing connectivity indexing mode. Valid values are:    STATUS – Your thing index contains connectivity status. To enable thing connectivity indexing, thingIndexMode must not be set to OFF.   OFF - Thing connectivity status indexing is disabled.  
         public let thingConnectivityIndexingMode: ThingConnectivityIndexingMode?
         /// Thing indexing mode. Valid values are:   REGISTRY – Your thing index contains registry data only.   REGISTRY_AND_SHADOW - Your thing index contains registry and shadow data.   OFF - Thing indexing is disabled.  
         public let thingIndexingMode: ThingIndexingMode
 
-        public init(thingConnectivityIndexingMode: ThingConnectivityIndexingMode? = nil, thingIndexingMode: ThingIndexingMode) {
+        public init(customFields: [Field]? = nil, managedFields: [Field]? = nil, thingConnectivityIndexingMode: ThingConnectivityIndexingMode? = nil, thingIndexingMode: ThingIndexingMode) {
+            self.customFields = customFields
+            self.managedFields = managedFields
             self.thingConnectivityIndexingMode = thingConnectivityIndexingMode
             self.thingIndexingMode = thingIndexingMode
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customFields = "customFields"
+            case managedFields = "managedFields"
             case thingConnectivityIndexingMode = "thingConnectivityIndexingMode"
             case thingIndexingMode = "thingIndexingMode"
         }
@@ -12253,6 +14099,28 @@ extension IoT {
         }
     }
 
+    public struct TlsContext: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "serverName", required: false, type: .string)
+        ]
+
+        /// The value of the serverName key in a TLS authorization request.
+        public let serverName: String?
+
+        public init(serverName: String? = nil) {
+            self.serverName = serverName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.serverName, name:"serverName", parent: name, max: 253)
+            try validate(self.serverName, name:"serverName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverName = "serverName"
+        }
+    }
+
     public struct TopicRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "actions", required: false, type: .list), 
@@ -12302,6 +14170,99 @@ extension IoT {
             case ruleDisabled = "ruleDisabled"
             case ruleName = "ruleName"
             case sql = "sql"
+        }
+    }
+
+    public struct TopicRuleDestination: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "httpUrlProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "statusReason", required: false, type: .string)
+        ]
+
+        /// The topic rule destination URL.
+        public let arn: String?
+        /// Properties of the HTTP URL.
+        public let httpUrlProperties: HttpUrlDestinationProperties?
+        /// The status of the topic rule destination. Valid values are:  IN_PROGRESS  A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  ENABLED  Confirmation was completed, and traffic to this destination is allowed. You can set status to DISABLED by calling UpdateTopicRuleDestination.  DISABLED  Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopicRuleDestination.  ERROR  Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  
+        public let status: TopicRuleDestinationStatus?
+        /// Additional details or reason why the topic rule destination is in the current status.
+        public let statusReason: String?
+
+        public init(arn: String? = nil, httpUrlProperties: HttpUrlDestinationProperties? = nil, status: TopicRuleDestinationStatus? = nil, statusReason: String? = nil) {
+            self.arn = arn
+            self.httpUrlProperties = httpUrlProperties
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case httpUrlProperties = "httpUrlProperties"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct TopicRuleDestinationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "httpUrlConfiguration", required: false, type: .structure)
+        ]
+
+        /// Configuration of the HTTP URL.
+        public let httpUrlConfiguration: HttpUrlDestinationConfiguration?
+
+        public init(httpUrlConfiguration: HttpUrlDestinationConfiguration? = nil) {
+            self.httpUrlConfiguration = httpUrlConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.httpUrlConfiguration?.validate(name: "\(name).httpUrlConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpUrlConfiguration = "httpUrlConfiguration"
+        }
+    }
+
+    public enum TopicRuleDestinationStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case inProgress = "IN_PROGRESS"
+        case disabled = "DISABLED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TopicRuleDestinationSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "httpUrlSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "statusReason", required: false, type: .string)
+        ]
+
+        /// The topic rule destination ARN.
+        public let arn: String?
+        /// Information about the HTTP URL.
+        public let httpUrlSummary: HttpUrlDestinationSummary?
+        /// The status of the topic rule destination. Valid values are:  IN_PROGRESS  A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  ENABLED  Confirmation was completed, and traffic to this destination is allowed. You can set status to DISABLED by calling UpdateTopicRuleDestination.  DISABLED  Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopicRuleDestination.  ERROR  Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  
+        public let status: TopicRuleDestinationStatus?
+        /// The reason the topic rule destination is in the current status.
+        public let statusReason: String?
+
+        public init(arn: String? = nil, httpUrlSummary: HttpUrlDestinationSummary? = nil, status: TopicRuleDestinationStatus? = nil, statusReason: String? = nil) {
+            self.arn = arn
+            self.httpUrlSummary = httpUrlSummary
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case httpUrlSummary = "httpUrlSummary"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -12788,6 +14749,67 @@ extension IoT {
         }
     }
 
+    public struct UpdateDomainConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "authorizerConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "domainConfigurationName", location: .uri(locationName: "domainConfigurationName"), required: true, type: .string), 
+            AWSShapeMember(label: "domainConfigurationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "removeAuthorizerConfig", required: false, type: .boolean)
+        ]
+
+        /// An object that specifies the authorization service for a domain.
+        public let authorizerConfig: AuthorizerConfig?
+        /// The name of the domain configuration to be updated.
+        public let domainConfigurationName: String
+        /// The status to which the domain configuration should be updated.
+        public let domainConfigurationStatus: DomainConfigurationStatus?
+        /// Removes the authorization configuration from a domain.
+        public let removeAuthorizerConfig: Bool?
+
+        public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationName: String, domainConfigurationStatus: DomainConfigurationStatus? = nil, removeAuthorizerConfig: Bool? = nil) {
+            self.authorizerConfig = authorizerConfig
+            self.domainConfigurationName = domainConfigurationName
+            self.domainConfigurationStatus = domainConfigurationStatus
+            self.removeAuthorizerConfig = removeAuthorizerConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizerConfig?.validate(name: "\(name).authorizerConfig")
+            try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, max: 128)
+            try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, min: 1)
+            try validate(self.domainConfigurationName, name:"domainConfigurationName", parent: name, pattern: "[\\w.:-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizerConfig = "authorizerConfig"
+            case domainConfigurationName = "domainConfigurationName"
+            case domainConfigurationStatus = "domainConfigurationStatus"
+            case removeAuthorizerConfig = "removeAuthorizerConfig"
+        }
+    }
+
+    public struct UpdateDomainConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainConfigurationArn", required: false, type: .string), 
+            AWSShapeMember(label: "domainConfigurationName", required: false, type: .string)
+        ]
+
+        /// The ARN of the domain configuration that was updated.
+        public let domainConfigurationArn: String?
+        /// The name of the domain configuration that was updated.
+        public let domainConfigurationName: String?
+
+        public init(domainConfigurationArn: String? = nil, domainConfigurationName: String? = nil) {
+            self.domainConfigurationArn = domainConfigurationArn
+            self.domainConfigurationName = domainConfigurationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainConfigurationArn = "domainConfigurationArn"
+            case domainConfigurationName = "domainConfigurationName"
+        }
+    }
+
     public struct UpdateDynamicThingGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
@@ -13021,6 +15043,62 @@ extension IoT {
             case actionArn = "actionArn"
             case actionId = "actionId"
         }
+    }
+
+    public struct UpdateProvisioningTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "defaultVersionId", required: false, type: .integer), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "provisioningRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "templateName", location: .uri(locationName: "templateName"), required: true, type: .string)
+        ]
+
+        /// The ID of the default provisioning template version.
+        public let defaultVersionId: Int?
+        /// The description of the fleet provisioning template.
+        public let description: String?
+        /// True to enable the fleet provisioning template, otherwise false.
+        public let enabled: Bool?
+        /// The ARN of the role associated with the provisioning template. This IoT role grants permission to provision a device.
+        public let provisioningRoleArn: String?
+        /// The name of the fleet provisioning template.
+        public let templateName: String
+
+        public init(defaultVersionId: Int? = nil, description: String? = nil, enabled: Bool? = nil, provisioningRoleArn: String? = nil, templateName: String) {
+            self.defaultVersionId = defaultVersionId
+            self.description = description
+            self.enabled = enabled
+            self.provisioningRoleArn = provisioningRoleArn
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name:"description", parent: name, max: 500)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, pattern: "[^\\p{C}]*")
+            try validate(self.provisioningRoleArn, name:"provisioningRoleArn", parent: name, max: 2048)
+            try validate(self.provisioningRoleArn, name:"provisioningRoleArn", parent: name, min: 20)
+            try validate(self.templateName, name:"templateName", parent: name, max: 36)
+            try validate(self.templateName, name:"templateName", parent: name, min: 1)
+            try validate(self.templateName, name:"templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultVersionId = "defaultVersionId"
+            case description = "description"
+            case enabled = "enabled"
+            case provisioningRoleArn = "provisioningRoleArn"
+            case templateName = "templateName"
+        }
+    }
+
+    public struct UpdateProvisioningTemplateResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateRoleAliasRequest: AWSShape {
@@ -13506,6 +15584,36 @@ extension IoT {
     }
 
     public struct UpdateThingResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateTopicRuleDestinationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "status", required: true, type: .enum)
+        ]
+
+        /// The ARN of the topic rule destination.
+        public let arn: String
+        /// The status of the topic rule destination. Valid values are:  IN_PROGRESS  A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  ENABLED  Confirmation was completed, and traffic to this destination is allowed. You can set status to DISABLED by calling UpdateTopicRuleDestination.  DISABLED  Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopicRuleDestination.  ERROR  Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  
+        public let status: TopicRuleDestinationStatus
+
+        public init(arn: String, status: TopicRuleDestinationStatus) {
+            self.arn = arn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case status = "status"
+        }
+    }
+
+    public struct UpdateTopicRuleDestinationResponse: AWSShape {
 
 
         public init() {

@@ -1016,7 +1016,7 @@ extension ConfigService {
         public let configurationItemStatus: ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public let configurationStateId: String?
-        /// A list of CloudTrail event IDs. A populated field indicates that the current configuration was initiated by the events recorded in the CloudTrail log. For more information about CloudTrail, see What Is AWS CloudTrail. An empty field indicates that the current configuration was not initiated by any event.
+        /// A list of CloudTrail event IDs. A populated field indicates that the current configuration was initiated by the events recorded in the CloudTrail log. For more information about CloudTrail, see What Is AWS CloudTrail. An empty field indicates that the current configuration was not initiated by any event. As of Version 1.3, the relatedEvents field is empty. You can access the LookupEvents API in the AWS CloudTrail API Reference to retrieve the events for the resource.
         public let relatedEvents: [String]?
         /// A list of related AWS resources.
         public let relationships: [Relationship]?
@@ -1171,6 +1171,314 @@ extension ConfigService {
         }
     }
 
+    public struct ConformancePackComplianceFilters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
+            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list)
+        ]
+
+        /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT.
+        public let complianceType: ConformancePackComplianceType?
+        /// Filters the results by AWS Config rule names.
+        public let configRuleNames: [String]?
+
+        public init(complianceType: ConformancePackComplianceType? = nil, configRuleNames: [String]? = nil) {
+            self.complianceType = complianceType
+            self.configRuleNames = configRuleNames
+        }
+
+        public func validate(name: String) throws {
+            try self.configRuleNames?.forEach {
+                try validate($0, name: "configRuleNames[]", parent: name, max: 64)
+                try validate($0, name: "configRuleNames[]", parent: name, min: 1)
+            }
+            try validate(self.configRuleNames, name:"configRuleNames", parent: name, max: 10)
+            try validate(self.configRuleNames, name:"configRuleNames", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceType = "ComplianceType"
+            case configRuleNames = "ConfigRuleNames"
+        }
+    }
+
+    public struct ConformancePackComplianceSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackComplianceStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "ConformancePackName", required: true, type: .string)
+        ]
+
+        /// The status of the conformance pack. The allowed values are COMPLIANT and NON_COMPLIANT. 
+        public let conformancePackComplianceStatus: ConformancePackComplianceType
+        /// The name of the conformance pack name.
+        public let conformancePackName: String
+
+        public init(conformancePackComplianceStatus: ConformancePackComplianceType, conformancePackName: String) {
+            self.conformancePackComplianceStatus = conformancePackComplianceStatus
+            self.conformancePackName = conformancePackName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackComplianceStatus = "ConformancePackComplianceStatus"
+            case conformancePackName = "ConformancePackName"
+        }
+    }
+
+    public enum ConformancePackComplianceType: String, CustomStringConvertible, Codable {
+        case compliant = "COMPLIANT"
+        case nonCompliant = "NON_COMPLIANT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ConformancePackDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackArn", required: true, type: .string), 
+            AWSShapeMember(label: "ConformancePackId", required: true, type: .string), 
+            AWSShapeMember(label: "ConformancePackInputParameters", required: false, type: .list), 
+            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
+            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
+            AWSShapeMember(label: "DeliveryS3Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "DeliveryS3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateRequestedTime", required: false, type: .timestamp)
+        ]
+
+        /// Amazon Resource Name (ARN) of the conformance pack.
+        public let conformancePackArn: String
+        /// ID of the conformance pack.
+        public let conformancePackId: String
+        /// A list of ConformancePackInputParameter objects.
+        public let conformancePackInputParameters: [ConformancePackInputParameter]?
+        /// Name of the conformance pack.
+        public let conformancePackName: String
+        /// AWS service that created the conformance pack.
+        public let createdBy: String?
+        /// Conformance pack template that is used to create a pack. The delivery bucket name should start with awsconfigconforms. For example: "Resource": "arn:aws:s3:::your_bucket_name/*".
+        public let deliveryS3Bucket: String
+        /// The prefix for the Amazon S3 bucket.
+        public let deliveryS3KeyPrefix: String?
+        /// Last time when conformation pack update was requested. 
+        public let lastUpdateRequestedTime: TimeStamp?
+
+        public init(conformancePackArn: String, conformancePackId: String, conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, createdBy: String? = nil, deliveryS3Bucket: String, deliveryS3KeyPrefix: String? = nil, lastUpdateRequestedTime: TimeStamp? = nil) {
+            self.conformancePackArn = conformancePackArn
+            self.conformancePackId = conformancePackId
+            self.conformancePackInputParameters = conformancePackInputParameters
+            self.conformancePackName = conformancePackName
+            self.createdBy = createdBy
+            self.deliveryS3Bucket = deliveryS3Bucket
+            self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
+            self.lastUpdateRequestedTime = lastUpdateRequestedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackArn = "ConformancePackArn"
+            case conformancePackId = "ConformancePackId"
+            case conformancePackInputParameters = "ConformancePackInputParameters"
+            case conformancePackName = "ConformancePackName"
+            case createdBy = "CreatedBy"
+            case deliveryS3Bucket = "DeliveryS3Bucket"
+            case deliveryS3KeyPrefix = "DeliveryS3KeyPrefix"
+            case lastUpdateRequestedTime = "LastUpdateRequestedTime"
+        }
+    }
+
+    public struct ConformancePackEvaluationFilters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
+            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceIds", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string)
+        ]
+
+        /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT.
+        public let complianceType: ConformancePackComplianceType?
+        /// Filters the results by AWS Config rule names.
+        public let configRuleNames: [String]?
+        /// Filters the results by resource IDs.  This is valid only when you provide resource type. If there is no resource type, you will see an error. 
+        public let resourceIds: [String]?
+        /// Filters the results by the resource type (for example, "AWS::EC2::Instance"). 
+        public let resourceType: String?
+
+        public init(complianceType: ConformancePackComplianceType? = nil, configRuleNames: [String]? = nil, resourceIds: [String]? = nil, resourceType: String? = nil) {
+            self.complianceType = complianceType
+            self.configRuleNames = configRuleNames
+            self.resourceIds = resourceIds
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.configRuleNames?.forEach {
+                try validate($0, name: "configRuleNames[]", parent: name, max: 64)
+                try validate($0, name: "configRuleNames[]", parent: name, min: 1)
+            }
+            try validate(self.configRuleNames, name:"configRuleNames", parent: name, max: 10)
+            try validate(self.configRuleNames, name:"configRuleNames", parent: name, min: 0)
+            try self.resourceIds?.forEach {
+                try validate($0, name: "resourceIds[]", parent: name, max: 256)
+                try validate($0, name: "resourceIds[]", parent: name, min: 1)
+            }
+            try validate(self.resourceIds, name:"resourceIds", parent: name, max: 5)
+            try validate(self.resourceIds, name:"resourceIds", parent: name, min: 0)
+            try validate(self.resourceType, name:"resourceType", parent: name, max: 256)
+            try validate(self.resourceType, name:"resourceType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceType = "ComplianceType"
+            case configRuleNames = "ConfigRuleNames"
+            case resourceIds = "ResourceIds"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ConformancePackEvaluationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Annotation", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceType", required: true, type: .enum), 
+            AWSShapeMember(label: "ConfigRuleInvokedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EvaluationResultIdentifier", required: true, type: .structure), 
+            AWSShapeMember(label: "ResultRecordedTime", required: true, type: .timestamp)
+        ]
+
+        /// Supplementary information about how the evaluation determined the compliance. 
+        public let annotation: String?
+        /// The compliance type. The allowed values are COMPLIANT and NON_COMPLIANT. 
+        public let complianceType: ConformancePackComplianceType
+        /// The time when AWS Config rule evaluated AWS resource.
+        public let configRuleInvokedTime: TimeStamp
+        public let evaluationResultIdentifier: EvaluationResultIdentifier
+        /// The time when AWS Config recorded the evaluation result. 
+        public let resultRecordedTime: TimeStamp
+
+        public init(annotation: String? = nil, complianceType: ConformancePackComplianceType, configRuleInvokedTime: TimeStamp, evaluationResultIdentifier: EvaluationResultIdentifier, resultRecordedTime: TimeStamp) {
+            self.annotation = annotation
+            self.complianceType = complianceType
+            self.configRuleInvokedTime = configRuleInvokedTime
+            self.evaluationResultIdentifier = evaluationResultIdentifier
+            self.resultRecordedTime = resultRecordedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotation = "Annotation"
+            case complianceType = "ComplianceType"
+            case configRuleInvokedTime = "ConfigRuleInvokedTime"
+            case evaluationResultIdentifier = "EvaluationResultIdentifier"
+            case resultRecordedTime = "ResultRecordedTime"
+        }
+    }
+
+    public struct ConformancePackInputParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterName", required: true, type: .string), 
+            AWSShapeMember(label: "ParameterValue", required: true, type: .string)
+        ]
+
+        /// One part of a key-value pair.
+        public let parameterName: String
+        /// Another part of the key-value pair. 
+        public let parameterValue: String
+
+        public init(parameterName: String, parameterValue: String) {
+            self.parameterName = parameterName
+            self.parameterValue = parameterValue
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.parameterName, name:"parameterName", parent: name, max: 255)
+            try validate(self.parameterName, name:"parameterName", parent: name, min: 0)
+            try validate(self.parameterValue, name:"parameterValue", parent: name, max: 4096)
+            try validate(self.parameterValue, name:"parameterValue", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterName = "ParameterName"
+            case parameterValue = "ParameterValue"
+        }
+    }
+
+    public struct ConformancePackRuleCompliance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
+            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
+        ]
+
+        /// Compliance of the AWS Config rule The allowed values are COMPLIANT and NON_COMPLIANT.
+        public let complianceType: ConformancePackComplianceType?
+        /// Name of the config rule.
+        public let configRuleName: String?
+
+        public init(complianceType: ConformancePackComplianceType? = nil, configRuleName: String? = nil) {
+            self.complianceType = complianceType
+            self.configRuleName = configRuleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceType = "ComplianceType"
+            case configRuleName = "ConfigRuleName"
+        }
+    }
+
+    public enum ConformancePackState: String, CustomStringConvertible, Codable {
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createComplete = "CREATE_COMPLETE"
+        case createFailed = "CREATE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleteFailed = "DELETE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ConformancePackStatusDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackArn", required: true, type: .string), 
+            AWSShapeMember(label: "ConformancePackId", required: true, type: .string), 
+            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
+            AWSShapeMember(label: "ConformancePackState", required: true, type: .enum), 
+            AWSShapeMember(label: "ConformancePackStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateCompletedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdateRequestedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "StackArn", required: true, type: .string)
+        ]
+
+        /// Amazon Resource Name (ARN) of comformance pack.
+        public let conformancePackArn: String
+        /// ID of the conformance pack.
+        public let conformancePackId: String
+        /// Name of the conformance pack.
+        public let conformancePackName: String
+        /// Indicates deployment status of conformance pack. AWS Config sets the state of the conformance pack to:   CREATE_IN_PROGRESS when a conformance pack creation is in progress for an account.   CREATE_COMPLETE when a conformance pack has been successfully created in your account.   CREATE_FAILED when a conformance pack creation failed in your account.   DELETE_IN_PROGRESS when a conformance pack deletion is in progress.    DELETE_FAILED when a conformance pack deletion failed in your account.  
+        public let conformancePackState: ConformancePackState
+        /// The reason of conformance pack creation failure.
+        public let conformancePackStatusReason: String?
+        /// Last time when conformation pack creation and update was successful.
+        public let lastUpdateCompletedTime: TimeStamp?
+        /// Last time when conformation pack creation and update was requested.
+        public let lastUpdateRequestedTime: TimeStamp
+        /// Amazon Resource Name (ARN) of AWS CloudFormation stack. 
+        public let stackArn: String
+
+        public init(conformancePackArn: String, conformancePackId: String, conformancePackName: String, conformancePackState: ConformancePackState, conformancePackStatusReason: String? = nil, lastUpdateCompletedTime: TimeStamp? = nil, lastUpdateRequestedTime: TimeStamp, stackArn: String) {
+            self.conformancePackArn = conformancePackArn
+            self.conformancePackId = conformancePackId
+            self.conformancePackName = conformancePackName
+            self.conformancePackState = conformancePackState
+            self.conformancePackStatusReason = conformancePackStatusReason
+            self.lastUpdateCompletedTime = lastUpdateCompletedTime
+            self.lastUpdateRequestedTime = lastUpdateRequestedTime
+            self.stackArn = stackArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackArn = "ConformancePackArn"
+            case conformancePackId = "ConformancePackId"
+            case conformancePackName = "ConformancePackName"
+            case conformancePackState = "ConformancePackState"
+            case conformancePackStatusReason = "ConformancePackStatusReason"
+            case lastUpdateCompletedTime = "LastUpdateCompletedTime"
+            case lastUpdateRequestedTime = "LastUpdateRequestedTime"
+            case stackArn = "StackArn"
+        }
+    }
+
     public struct DeleteAggregationAuthorizationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AuthorizedAccountId", required: true, type: .string), 
@@ -1266,6 +1574,29 @@ extension ConfigService {
         }
     }
 
+    public struct DeleteConformancePackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackName", required: true, type: .string)
+        ]
+
+        /// Name of the conformance pack you want to delete.
+        public let conformancePackName: String
+
+        public init(conformancePackName: String) {
+            self.conformancePackName = conformancePackName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.conformancePackName, name:"conformancePackName", parent: name, max: 256)
+            try validate(self.conformancePackName, name:"conformancePackName", parent: name, min: 1)
+            try validate(self.conformancePackName, name:"conformancePackName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackName = "ConformancePackName"
+        }
+    }
+
     public struct DeleteDeliveryChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryChannelName", required: true, type: .string)
@@ -1338,6 +1669,29 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case organizationConfigRuleName = "OrganizationConfigRuleName"
+        }
+    }
+
+    public struct DeleteOrganizationConformancePackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationConformancePackName", required: true, type: .string)
+        ]
+
+        /// The name of organization conformance pack that you want to delete.
+        public let organizationConformancePackName: String
+
+        public init(organizationConformancePackName: String) {
+            self.organizationConformancePackName = organizationConformancePackName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.organizationConformancePackName, name:"organizationConformancePackName", parent: name, max: 128)
+            try validate(self.organizationConformancePackName, name:"organizationConformancePackName", parent: name, min: 1)
+            try validate(self.organizationConformancePackName, name:"organizationConformancePackName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationConformancePackName = "OrganizationConformancePackName"
         }
     }
 
@@ -1452,6 +1806,35 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case failedBatches = "FailedBatches"
+        }
+    }
+
+    public struct DeleteResourceConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .string)
+        ]
+
+        /// Unique identifier of the resource.
+        public let resourceId: String
+        /// The type of the resource.
+        public let resourceType: String
+
+        public init(resourceId: String, resourceType: String) {
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 768)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(self.resourceType, name:"resourceType", parent: name, max: 196)
+            try validate(self.resourceType, name:"resourceType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -2162,6 +2545,196 @@ extension ConfigService {
         }
     }
 
+    public struct DescribeConformancePackComplianceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Name of the conformance pack.
+        public let conformancePackName: String
+        /// A ConformancePackComplianceFilters object.
+        public let filters: ConformancePackComplianceFilters?
+        /// The maximum number of AWS Config rules within a conformance pack are returned on each page.
+        public let limit: Int?
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(conformancePackName: String, filters: ConformancePackComplianceFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.conformancePackName = conformancePackName
+            self.filters = filters
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.conformancePackName, name:"conformancePackName", parent: name, max: 256)
+            try validate(self.conformancePackName, name:"conformancePackName", parent: name, min: 1)
+            try validate(self.conformancePackName, name:"conformancePackName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+            try self.filters?.validate(name: "\(name).filters")
+            try validate(self.limit, name:"limit", parent: name, max: 1000)
+            try validate(self.limit, name:"limit", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackName = "ConformancePackName"
+            case filters = "Filters"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeConformancePackComplianceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
+            AWSShapeMember(label: "ConformancePackRuleComplianceList", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Name of the conformance pack.
+        public let conformancePackName: String
+        /// Returns a list of ConformancePackRuleCompliance objects.
+        public let conformancePackRuleComplianceList: [ConformancePackRuleCompliance]
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(conformancePackName: String, conformancePackRuleComplianceList: [ConformancePackRuleCompliance], nextToken: String? = nil) {
+            self.conformancePackName = conformancePackName
+            self.conformancePackRuleComplianceList = conformancePackRuleComplianceList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackName = "ConformancePackName"
+            case conformancePackRuleComplianceList = "ConformancePackRuleComplianceList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeConformancePackStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackNames", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Comma-separated list of conformance pack names.
+        public let conformancePackNames: [String]?
+        /// The maximum number of conformance packs status returned on each page.
+        public let limit: Int?
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(conformancePackNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.conformancePackNames = conformancePackNames
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.conformancePackNames?.forEach {
+                try validate($0, name: "conformancePackNames[]", parent: name, max: 256)
+                try validate($0, name: "conformancePackNames[]", parent: name, min: 1)
+                try validate($0, name: "conformancePackNames[]", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+            }
+            try validate(self.conformancePackNames, name:"conformancePackNames", parent: name, max: 25)
+            try validate(self.conformancePackNames, name:"conformancePackNames", parent: name, min: 0)
+            try validate(self.limit, name:"limit", parent: name, max: 20)
+            try validate(self.limit, name:"limit", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackNames = "ConformancePackNames"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeConformancePackStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackStatusDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list of ConformancePackStatusDetail objects.
+        public let conformancePackStatusDetails: [ConformancePackStatusDetail]?
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(conformancePackStatusDetails: [ConformancePackStatusDetail]? = nil, nextToken: String? = nil) {
+            self.conformancePackStatusDetails = conformancePackStatusDetails
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackStatusDetails = "ConformancePackStatusDetails"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeConformancePacksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackNames", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Comma-separated list of conformance pack names for which you want details. If you do not specify any names, AWS Config returns details for all your conformance packs. 
+        public let conformancePackNames: [String]?
+        /// The maximum number of conformance packs returned on each page.
+        public let limit: Int?
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(conformancePackNames: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.conformancePackNames = conformancePackNames
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.conformancePackNames?.forEach {
+                try validate($0, name: "conformancePackNames[]", parent: name, max: 256)
+                try validate($0, name: "conformancePackNames[]", parent: name, min: 1)
+                try validate($0, name: "conformancePackNames[]", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+            }
+            try validate(self.conformancePackNames, name:"conformancePackNames", parent: name, max: 25)
+            try validate(self.conformancePackNames, name:"conformancePackNames", parent: name, min: 0)
+            try validate(self.limit, name:"limit", parent: name, max: 20)
+            try validate(self.limit, name:"limit", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackNames = "ConformancePackNames"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeConformancePacksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackDetails", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Returns a list of ConformancePackDetail objects.
+        public let conformancePackDetails: [ConformancePackDetail]?
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(conformancePackDetails: [ConformancePackDetail]? = nil, nextToken: String? = nil) {
+            self.conformancePackDetails = conformancePackDetails
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackDetails = "ConformancePackDetails"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DescribeDeliveryChannelStatusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryChannelNames", required: false, type: .list)
@@ -2350,7 +2923,7 @@ extension ConfigService {
 
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
         public let nextToken: String?
-        /// Retuns a list OrganizationConfigRule objects.
+        /// Returns a list of OrganizationConfigRule objects.
         public let organizationConfigRules: [OrganizationConfigRule]?
 
         public init(nextToken: String? = nil, organizationConfigRules: [OrganizationConfigRule]? = nil) {
@@ -2361,6 +2934,128 @@ extension ConfigService {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case organizationConfigRules = "OrganizationConfigRules"
+        }
+    }
+
+    public struct DescribeOrganizationConformancePackStatusesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationConformancePackNames", required: false, type: .list)
+        ]
+
+        /// The maximum number of OrganizationConformancePackStatuses returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100. 
+        public let limit: Int?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
+        public let nextToken: String?
+        /// The names of organization conformance packs for which you want status details. If you do not specify any names, AWS Config returns details for all your organization conformance packs. 
+        public let organizationConformancePackNames: [String]?
+
+        public init(limit: Int? = nil, nextToken: String? = nil, organizationConformancePackNames: [String]? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+            self.organizationConformancePackNames = organizationConformancePackNames
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 0)
+            try self.organizationConformancePackNames?.forEach {
+                try validate($0, name: "organizationConformancePackNames[]", parent: name, max: 128)
+                try validate($0, name: "organizationConformancePackNames[]", parent: name, min: 1)
+                try validate($0, name: "organizationConformancePackNames[]", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+            }
+            try validate(self.organizationConformancePackNames, name:"organizationConformancePackNames", parent: name, max: 25)
+            try validate(self.organizationConformancePackNames, name:"organizationConformancePackNames", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case organizationConformancePackNames = "OrganizationConformancePackNames"
+        }
+    }
+
+    public struct DescribeOrganizationConformancePackStatusesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationConformancePackStatuses", required: false, type: .list)
+        ]
+
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
+        public let nextToken: String?
+        /// A list of OrganizationConformancePackStatus objects. 
+        public let organizationConformancePackStatuses: [OrganizationConformancePackStatus]?
+
+        public init(nextToken: String? = nil, organizationConformancePackStatuses: [OrganizationConformancePackStatus]? = nil) {
+            self.nextToken = nextToken
+            self.organizationConformancePackStatuses = organizationConformancePackStatuses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case organizationConformancePackStatuses = "OrganizationConformancePackStatuses"
+        }
+    }
+
+    public struct DescribeOrganizationConformancePacksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationConformancePackNames", required: false, type: .list)
+        ]
+
+        /// The maximum number of organization config packs returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
+        public let limit: Int?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// The name that you assign to an organization conformance pack.
+        public let organizationConformancePackNames: [String]?
+
+        public init(limit: Int? = nil, nextToken: String? = nil, organizationConformancePackNames: [String]? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+            self.organizationConformancePackNames = organizationConformancePackNames
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 0)
+            try self.organizationConformancePackNames?.forEach {
+                try validate($0, name: "organizationConformancePackNames[]", parent: name, max: 128)
+                try validate($0, name: "organizationConformancePackNames[]", parent: name, min: 1)
+                try validate($0, name: "organizationConformancePackNames[]", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+            }
+            try validate(self.organizationConformancePackNames, name:"organizationConformancePackNames", parent: name, max: 25)
+            try validate(self.organizationConformancePackNames, name:"organizationConformancePackNames", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case organizationConformancePackNames = "OrganizationConformancePackNames"
+        }
+    }
+
+    public struct DescribeOrganizationConformancePacksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationConformancePacks", required: false, type: .list)
+        ]
+
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+        /// Returns a list of OrganizationConformancePacks objects.
+        public let organizationConformancePacks: [OrganizationConformancePack]?
+
+        public init(nextToken: String? = nil, organizationConformancePacks: [OrganizationConformancePack]? = nil) {
+            self.nextToken = nextToken
+            self.organizationConformancePacks = organizationConformancePacks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case organizationConformancePacks = "OrganizationConformancePacks"
         }
     }
 
@@ -3357,6 +4052,135 @@ extension ConfigService {
         }
     }
 
+    public struct GetConformancePackComplianceDetailsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Name of the conformance pack.
+        public let conformancePackName: String
+        /// A ConformancePackEvaluationFilters object.
+        public let filters: ConformancePackEvaluationFilters?
+        /// The maximum number of evaluation results returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
+        public let limit: Int?
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(conformancePackName: String, filters: ConformancePackEvaluationFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.conformancePackName = conformancePackName
+            self.filters = filters
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.conformancePackName, name:"conformancePackName", parent: name, max: 256)
+            try validate(self.conformancePackName, name:"conformancePackName", parent: name, min: 1)
+            try validate(self.conformancePackName, name:"conformancePackName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+            try self.filters?.validate(name: "\(name).filters")
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackName = "ConformancePackName"
+            case filters = "Filters"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetConformancePackComplianceDetailsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
+            AWSShapeMember(label: "ConformancePackRuleEvaluationResults", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Name of the conformance pack.
+        public let conformancePackName: String
+        /// Returns a list of ConformancePackEvaluationResult objects.
+        public let conformancePackRuleEvaluationResults: [ConformancePackEvaluationResult]?
+        /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(conformancePackName: String, conformancePackRuleEvaluationResults: [ConformancePackEvaluationResult]? = nil, nextToken: String? = nil) {
+            self.conformancePackName = conformancePackName
+            self.conformancePackRuleEvaluationResults = conformancePackRuleEvaluationResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackName = "ConformancePackName"
+            case conformancePackRuleEvaluationResults = "ConformancePackRuleEvaluationResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetConformancePackComplianceSummaryRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackNames", required: true, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Names of conformance packs.
+        public let conformancePackNames: [String]
+        /// The maximum number of conformance packs returned on each page.
+        public let limit: Int?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(conformancePackNames: [String], limit: Int? = nil, nextToken: String? = nil) {
+            self.conformancePackNames = conformancePackNames
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.conformancePackNames.forEach {
+                try validate($0, name: "conformancePackNames[]", parent: name, max: 256)
+                try validate($0, name: "conformancePackNames[]", parent: name, min: 1)
+                try validate($0, name: "conformancePackNames[]", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+            }
+            try validate(self.conformancePackNames, name:"conformancePackNames", parent: name, max: 5)
+            try validate(self.conformancePackNames, name:"conformancePackNames", parent: name, min: 1)
+            try validate(self.limit, name:"limit", parent: name, max: 20)
+            try validate(self.limit, name:"limit", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackNames = "ConformancePackNames"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetConformancePackComplianceSummaryResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackComplianceSummaryList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list of ConformancePackComplianceSummary objects. 
+        public let conformancePackComplianceSummaryList: [ConformancePackComplianceSummary]?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(conformancePackComplianceSummaryList: [ConformancePackComplianceSummary]? = nil, nextToken: String? = nil) {
+            self.conformancePackComplianceSummaryList = conformancePackComplianceSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackComplianceSummaryList = "ConformancePackComplianceSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct GetDiscoveredResourceCountsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "limit", required: false, type: .integer), 
@@ -3482,6 +4306,69 @@ extension ConfigService {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case organizationConfigRuleDetailedStatus = "OrganizationConfigRuleDetailedStatus"
+        }
+    }
+
+    public struct GetOrganizationConformancePackDetailedStatusRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationConformancePackName", required: true, type: .string)
+        ]
+
+        /// An OrganizationResourceDetailedStatusFilters object.
+        public let filters: OrganizationResourceDetailedStatusFilters?
+        /// The maximum number of OrganizationConformancePackDetailedStatuses returned on each page. If you do not specify a number, AWS Config uses the default. The default is 100. 
+        public let limit: Int?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
+        public let nextToken: String?
+        /// The name of organization conformance pack for which you want status details for member accounts.
+        public let organizationConformancePackName: String
+
+        public init(filters: OrganizationResourceDetailedStatusFilters? = nil, limit: Int? = nil, nextToken: String? = nil, organizationConformancePackName: String) {
+            self.filters = filters
+            self.limit = limit
+            self.nextToken = nextToken
+            self.organizationConformancePackName = organizationConformancePackName
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try validate(self.limit, name:"limit", parent: name, max: 100)
+            try validate(self.limit, name:"limit", parent: name, min: 0)
+            try validate(self.organizationConformancePackName, name:"organizationConformancePackName", parent: name, max: 128)
+            try validate(self.organizationConformancePackName, name:"organizationConformancePackName", parent: name, min: 1)
+            try validate(self.organizationConformancePackName, name:"organizationConformancePackName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case organizationConformancePackName = "OrganizationConformancePackName"
+        }
+    }
+
+    public struct GetOrganizationConformancePackDetailedStatusResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationConformancePackDetailedStatuses", required: false, type: .list)
+        ]
+
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response. 
+        public let nextToken: String?
+        /// A list of OrganizationConformancePackDetailedStatus objects. 
+        public let organizationConformancePackDetailedStatuses: [OrganizationConformancePackDetailedStatus]?
+
+        public init(nextToken: String? = nil, organizationConformancePackDetailedStatuses: [OrganizationConformancePackDetailedStatus]? = nil) {
+            self.nextToken = nextToken
+            self.organizationConformancePackDetailedStatuses = organizationConformancePackDetailedStatuses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case organizationConformancePackDetailedStatuses = "OrganizationConformancePackDetailedStatuses"
         }
     }
 
@@ -3793,12 +4680,12 @@ extension ConfigService {
         case createSuccessful = "CREATE_SUCCESSFUL"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createFailed = "CREATE_FAILED"
-        case updateSuccessful = "UPDATE_SUCCESSFUL"
-        case updateFailed = "UPDATE_FAILED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
         case deleteSuccessful = "DELETE_SUCCESSFUL"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateFailed = "UPDATE_FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -3897,7 +4784,7 @@ extension ConfigService {
         public let excludedAccounts: [String]?
         /// The timestamp of the last update.
         public let lastUpdateTime: TimeStamp?
-        /// The Amazon Resource Name (ARN) of organization config rule.
+        /// Amazon Resource Name (ARN) of organization config rule.
         public let organizationConfigRuleArn: String
         /// The name that you assign to organization config rule.
         public let organizationConfigRuleName: String
@@ -3967,6 +4854,132 @@ extension ConfigService {
         case oversizedconfigurationitemchangenotification = "OversizedConfigurationItemChangeNotification"
         case schedulednotification = "ScheduledNotification"
         public var description: String { return self.rawValue }
+    }
+
+    public struct OrganizationConformancePack: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackInputParameters", required: false, type: .list), 
+            AWSShapeMember(label: "DeliveryS3Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "DeliveryS3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "ExcludedAccounts", required: false, type: .list), 
+            AWSShapeMember(label: "LastUpdateTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "OrganizationConformancePackArn", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationConformancePackName", required: true, type: .string)
+        ]
+
+        /// A list of ConformancePackInputParameter objects.
+        public let conformancePackInputParameters: [ConformancePackInputParameter]?
+        /// Location of an Amazon S3 bucket where AWS Config can deliver evaluation results and conformance pack template that is used to create a pack. 
+        public let deliveryS3Bucket: String
+        /// Any folder structure you want to add to an Amazon S3 bucket.
+        public let deliveryS3KeyPrefix: String?
+        /// A comma-separated list of accounts excluded from organization conformance pack.
+        public let excludedAccounts: [String]?
+        /// Last time when organization conformation pack was updated.
+        public let lastUpdateTime: TimeStamp
+        /// Amazon Resource Name (ARN) of organization conformance pack.
+        public let organizationConformancePackArn: String
+        /// The name you assign to an organization conformance pack.
+        public let organizationConformancePackName: String
+
+        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, lastUpdateTime: TimeStamp, organizationConformancePackArn: String, organizationConformancePackName: String) {
+            self.conformancePackInputParameters = conformancePackInputParameters
+            self.deliveryS3Bucket = deliveryS3Bucket
+            self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
+            self.excludedAccounts = excludedAccounts
+            self.lastUpdateTime = lastUpdateTime
+            self.organizationConformancePackArn = organizationConformancePackArn
+            self.organizationConformancePackName = organizationConformancePackName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackInputParameters = "ConformancePackInputParameters"
+            case deliveryS3Bucket = "DeliveryS3Bucket"
+            case deliveryS3KeyPrefix = "DeliveryS3KeyPrefix"
+            case excludedAccounts = "ExcludedAccounts"
+            case lastUpdateTime = "LastUpdateTime"
+            case organizationConformancePackArn = "OrganizationConformancePackArn"
+            case organizationConformancePackName = "OrganizationConformancePackName"
+        }
+    }
+
+    public struct OrganizationConformancePackDetailedStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: true, type: .enum)
+        ]
+
+        /// The 12-digit account ID of a member account.
+        public let accountId: String
+        /// The name of conformance pack deployed in the member account.
+        public let conformancePackName: String
+        /// An error code that is returned when conformance pack creation or deletion failed in the member account. 
+        public let errorCode: String?
+        /// An error message indicating that conformance pack account creation or deletion has failed due to an error in the member account. 
+        public let errorMessage: String?
+        /// The timestamp of the last status update.
+        public let lastUpdateTime: TimeStamp?
+        /// Indicates deployment status for conformance pack in a member account. When master account calls PutOrganizationConformancePack action for the first time, conformance pack status is created in the member account. When master account calls PutOrganizationConformancePack action for the second time, conformance pack status is updated in the member account. Conformance pack status is deleted when the master account deletes OrganizationConformancePack and disables service access for config-multiaccountsetup.amazonaws.com.   AWS Config sets the state of the conformance pack to:    CREATE_SUCCESSFUL when conformance pack has been created in the member account.     CREATE_IN_PROGRESS when conformance pack is being created in the member account.    CREATE_FAILED when conformance pack creation has failed in the member account.    DELETE_FAILED when conformance pack deletion has failed in the member account.    DELETE_IN_PROGRESS when conformance pack is being deleted in the member account.    DELETE_SUCCESSFUL when conformance pack has been deleted in the member account.     UPDATE_SUCCESSFUL when conformance pack has been updated in the member account.    UPDATE_IN_PROGRESS when conformance pack is being updated in the member account.    UPDATE_FAILED when conformance pack deletion has failed in the member account.  
+        public let status: OrganizationResourceDetailedStatus
+
+        public init(accountId: String, conformancePackName: String, errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, status: OrganizationResourceDetailedStatus) {
+            self.accountId = accountId
+            self.conformancePackName = conformancePackName
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.lastUpdateTime = lastUpdateTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case conformancePackName = "ConformancePackName"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case lastUpdateTime = "LastUpdateTime"
+            case status = "Status"
+        }
+    }
+
+    public struct OrganizationConformancePackStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OrganizationConformancePackName", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum)
+        ]
+
+        /// An error code that is returned when organization conformance pack creation or deletion has failed in a member account. 
+        public let errorCode: String?
+        /// An error message indicating that organization conformance pack creation or deletion failed due to an error. 
+        public let errorMessage: String?
+        /// The timestamp of the last update.
+        public let lastUpdateTime: TimeStamp?
+        /// The name that you assign to organization conformance pack.
+        public let organizationConformancePackName: String
+        /// Indicates deployment status of an organization conformance pack. When master account calls PutOrganizationConformancePack for the first time, conformance pack status is created in all the member accounts. When master account calls PutOrganizationConformancePack for the second time, conformance pack status is updated in all the member accounts. Additionally, conformance pack status is updated when one or more member accounts join or leave an organization. Conformance pack status is deleted when the master account deletes OrganizationConformancePack in all the member accounts and disables service access for config-multiaccountsetup.amazonaws.com. AWS Config sets the state of the conformance pack to:    CREATE_SUCCESSFUL when an organization conformance pack has been successfully created in all the member accounts.     CREATE_IN_PROGRESS when an organization conformance pack creation is in progress.    CREATE_FAILED when an organization conformance pack creation failed in one or more member accounts within that organization.    DELETE_FAILED when an organization conformance pack deletion failed in one or more member accounts within that organization.    DELETE_IN_PROGRESS when an organization conformance pack deletion is in progress.    DELETE_SUCCESSFUL when an organization conformance pack has been successfully deleted from all the member accounts.    UPDATE_SUCCESSFUL when an organization conformance pack has been successfully updated in all the member accounts.    UPDATE_IN_PROGRESS when an organization conformance pack update is in progress.    UPDATE_FAILED when an organization conformance pack update failed in one or more member accounts within that organization.  
+        public let status: OrganizationResourceStatus
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: TimeStamp? = nil, organizationConformancePackName: String, status: OrganizationResourceStatus) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.lastUpdateTime = lastUpdateTime
+            self.organizationConformancePackName = organizationConformancePackName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case lastUpdateTime = "LastUpdateTime"
+            case organizationConformancePackName = "OrganizationConformancePackName"
+            case status = "Status"
+        }
     }
 
     public struct OrganizationCustomRuleMetadata: AWSShape {
@@ -4120,16 +5133,68 @@ extension ConfigService {
         }
     }
 
+    public enum OrganizationResourceDetailedStatus: String, CustomStringConvertible, Codable {
+        case createSuccessful = "CREATE_SUCCESSFUL"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createFailed = "CREATE_FAILED"
+        case deleteSuccessful = "DELETE_SUCCESSFUL"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateFailed = "UPDATE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct OrganizationResourceDetailedStatusFilters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// The 12-digit account ID of the member account within an organization.
+        public let accountId: String?
+        /// Indicates deployment status for conformance pack in a member account. When master account calls PutOrganizationConformancePack action for the first time, conformance pack status is created in the member account. When master account calls PutOrganizationConformancePack action for the second time, conformance pack status is updated in the member account. Conformance pack status is deleted when the master account deletes OrganizationConformancePack and disables service access for config-multiaccountsetup.amazonaws.com.   AWS Config sets the state of the conformance pack to:    CREATE_SUCCESSFUL when conformance pack has been created in the member account.     CREATE_IN_PROGRESS when conformance pack is being created in the member account.    CREATE_FAILED when conformance pack creation has failed in the member account.    DELETE_FAILED when conformance pack deletion has failed in the member account.    DELETE_IN_PROGRESS when conformance pack is being deleted in the member account.    DELETE_SUCCESSFUL when conformance pack has been deleted in the member account.     UPDATE_SUCCESSFUL when conformance pack has been updated in the member account.    UPDATE_IN_PROGRESS when conformance pack is being updated in the member account.    UPDATE_FAILED when conformance pack deletion has failed in the member account.  
+        public let status: OrganizationResourceDetailedStatus?
+
+        public init(accountId: String? = nil, status: OrganizationResourceDetailedStatus? = nil) {
+            self.accountId = accountId
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case status = "Status"
+        }
+    }
+
+    public enum OrganizationResourceStatus: String, CustomStringConvertible, Codable {
+        case createSuccessful = "CREATE_SUCCESSFUL"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createFailed = "CREATE_FAILED"
+        case deleteSuccessful = "DELETE_SUCCESSFUL"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateFailed = "UPDATE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OrganizationRuleStatus: String, CustomStringConvertible, Codable {
         case createSuccessful = "CREATE_SUCCESSFUL"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createFailed = "CREATE_FAILED"
-        case updateSuccessful = "UPDATE_SUCCESSFUL"
-        case updateFailed = "UPDATE_FAILED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
         case deleteSuccessful = "DELETE_SUCCESSFUL"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateFailed = "UPDATE_FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -4334,6 +5399,85 @@ extension ConfigService {
         }
     }
 
+    public struct PutConformancePackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackInputParameters", required: false, type: .list), 
+            AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
+            AWSShapeMember(label: "DeliveryS3Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "DeliveryS3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateS3Uri", required: false, type: .string)
+        ]
+
+        /// A list of ConformancePackInputParameter objects.
+        public let conformancePackInputParameters: [ConformancePackInputParameter]?
+        /// Name of the conformance pack you want to create.
+        public let conformancePackName: String
+        /// AWS Config stores intermediate files while processing conformance pack template.
+        public let deliveryS3Bucket: String
+        /// The prefix for the Amazon S3 bucket. 
+        public let deliveryS3KeyPrefix: String?
+        /// A string containing full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.  You can only use a YAML template with one resource type, that is, config rule and a remediation action.  
+        public let templateBody: String?
+        /// Location of file containing the template body (s3://bucketname/prefix). The uri must point to the conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same region as the conformance pack.   You must have access to read Amazon S3 bucket. 
+        public let templateS3Uri: String?
+
+        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, deliveryS3Bucket: String, deliveryS3KeyPrefix: String? = nil, templateBody: String? = nil, templateS3Uri: String? = nil) {
+            self.conformancePackInputParameters = conformancePackInputParameters
+            self.conformancePackName = conformancePackName
+            self.deliveryS3Bucket = deliveryS3Bucket
+            self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
+            self.templateBody = templateBody
+            self.templateS3Uri = templateS3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.conformancePackInputParameters?.forEach {
+                try $0.validate(name: "\(name).conformancePackInputParameters[]")
+            }
+            try validate(self.conformancePackInputParameters, name:"conformancePackInputParameters", parent: name, max: 60)
+            try validate(self.conformancePackInputParameters, name:"conformancePackInputParameters", parent: name, min: 0)
+            try validate(self.conformancePackName, name:"conformancePackName", parent: name, max: 256)
+            try validate(self.conformancePackName, name:"conformancePackName", parent: name, min: 1)
+            try validate(self.conformancePackName, name:"conformancePackName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+            try validate(self.deliveryS3Bucket, name:"deliveryS3Bucket", parent: name, max: 63)
+            try validate(self.deliveryS3Bucket, name:"deliveryS3Bucket", parent: name, min: 3)
+            try validate(self.deliveryS3KeyPrefix, name:"deliveryS3KeyPrefix", parent: name, max: 1024)
+            try validate(self.deliveryS3KeyPrefix, name:"deliveryS3KeyPrefix", parent: name, min: 1)
+            try validate(self.templateBody, name:"templateBody", parent: name, max: 51200)
+            try validate(self.templateBody, name:"templateBody", parent: name, min: 1)
+            try validate(self.templateS3Uri, name:"templateS3Uri", parent: name, max: 1024)
+            try validate(self.templateS3Uri, name:"templateS3Uri", parent: name, min: 1)
+            try validate(self.templateS3Uri, name:"templateS3Uri", parent: name, pattern: "s3://.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackInputParameters = "ConformancePackInputParameters"
+            case conformancePackName = "ConformancePackName"
+            case deliveryS3Bucket = "DeliveryS3Bucket"
+            case deliveryS3KeyPrefix = "DeliveryS3KeyPrefix"
+            case templateBody = "TemplateBody"
+            case templateS3Uri = "TemplateS3Uri"
+        }
+    }
+
+    public struct PutConformancePackResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackArn", required: false, type: .string)
+        ]
+
+        /// ARN of the conformance pack.
+        public let conformancePackArn: String?
+
+        public init(conformancePackArn: String? = nil) {
+            self.conformancePackArn = conformancePackArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackArn = "ConformancePackArn"
+        }
+    }
+
     public struct PutDeliveryChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DeliveryChannel", required: true, type: .structure)
@@ -4469,6 +5613,95 @@ extension ConfigService {
         }
     }
 
+    public struct PutOrganizationConformancePackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConformancePackInputParameters", required: false, type: .list), 
+            AWSShapeMember(label: "DeliveryS3Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "DeliveryS3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "ExcludedAccounts", required: false, type: .list), 
+            AWSShapeMember(label: "OrganizationConformancePackName", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateS3Uri", required: false, type: .string)
+        ]
+
+        /// A list of ConformancePackInputParameter objects.
+        public let conformancePackInputParameters: [ConformancePackInputParameter]?
+        /// Location of an Amazon S3 bucket where AWS Config can deliver evaluation results. AWS Config stores intermediate files while processing conformance pack template.  The delivery bucket name should start with awsconfigconforms. For example: "Resource": "arn:aws:s3:::your_bucket_name/*". For more information, see Permissions for cross account bucket access.
+        public let deliveryS3Bucket: String
+        /// The prefix for the Amazon S3 bucket.
+        public let deliveryS3KeyPrefix: String?
+        /// A list of AWS accounts to be excluded from an organization conformance pack while deploying a conformance pack.
+        public let excludedAccounts: [String]?
+        /// Name of the organization conformance pack you want to create.
+        public let organizationConformancePackName: String
+        /// A string containing full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
+        public let templateBody: String?
+        /// Location of file containing the template body. The uri must point to the conformance pack template (max size: 300 KB).  You must have access to read Amazon S3 bucket. 
+        public let templateS3Uri: String?
+
+        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, organizationConformancePackName: String, templateBody: String? = nil, templateS3Uri: String? = nil) {
+            self.conformancePackInputParameters = conformancePackInputParameters
+            self.deliveryS3Bucket = deliveryS3Bucket
+            self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
+            self.excludedAccounts = excludedAccounts
+            self.organizationConformancePackName = organizationConformancePackName
+            self.templateBody = templateBody
+            self.templateS3Uri = templateS3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.conformancePackInputParameters?.forEach {
+                try $0.validate(name: "\(name).conformancePackInputParameters[]")
+            }
+            try validate(self.conformancePackInputParameters, name:"conformancePackInputParameters", parent: name, max: 60)
+            try validate(self.conformancePackInputParameters, name:"conformancePackInputParameters", parent: name, min: 0)
+            try validate(self.deliveryS3Bucket, name:"deliveryS3Bucket", parent: name, max: 63)
+            try validate(self.deliveryS3Bucket, name:"deliveryS3Bucket", parent: name, min: 3)
+            try validate(self.deliveryS3KeyPrefix, name:"deliveryS3KeyPrefix", parent: name, max: 1024)
+            try validate(self.deliveryS3KeyPrefix, name:"deliveryS3KeyPrefix", parent: name, min: 1)
+            try self.excludedAccounts?.forEach {
+                try validate($0, name: "excludedAccounts[]", parent: name, pattern: "\\d{12}")
+            }
+            try validate(self.excludedAccounts, name:"excludedAccounts", parent: name, max: 1000)
+            try validate(self.excludedAccounts, name:"excludedAccounts", parent: name, min: 0)
+            try validate(self.organizationConformancePackName, name:"organizationConformancePackName", parent: name, max: 128)
+            try validate(self.organizationConformancePackName, name:"organizationConformancePackName", parent: name, min: 1)
+            try validate(self.organizationConformancePackName, name:"organizationConformancePackName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+            try validate(self.templateBody, name:"templateBody", parent: name, max: 51200)
+            try validate(self.templateBody, name:"templateBody", parent: name, min: 1)
+            try validate(self.templateS3Uri, name:"templateS3Uri", parent: name, max: 1024)
+            try validate(self.templateS3Uri, name:"templateS3Uri", parent: name, min: 1)
+            try validate(self.templateS3Uri, name:"templateS3Uri", parent: name, pattern: "s3://.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conformancePackInputParameters = "ConformancePackInputParameters"
+            case deliveryS3Bucket = "DeliveryS3Bucket"
+            case deliveryS3KeyPrefix = "DeliveryS3KeyPrefix"
+            case excludedAccounts = "ExcludedAccounts"
+            case organizationConformancePackName = "OrganizationConformancePackName"
+            case templateBody = "TemplateBody"
+            case templateS3Uri = "TemplateS3Uri"
+        }
+    }
+
+    public struct PutOrganizationConformancePackResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationConformancePackArn", required: false, type: .string)
+        ]
+
+        /// ARN of the organization conformance pack.
+        public let organizationConformancePackArn: String?
+
+        public init(organizationConformancePackArn: String? = nil) {
+            self.organizationConformancePackArn = organizationConformancePackArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationConformancePackArn = "OrganizationConformancePackArn"
+        }
+    }
+
     public struct PutRemediationConfigurationsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RemediationConfigurations", required: true, type: .list)
@@ -4570,6 +5803,58 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case failedBatches = "FailedBatches"
+        }
+    }
+
+    public struct PutResourceConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Configuration", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaVersionId", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
+        ]
+
+        /// The configuration object of the resource in valid JSON format. It must match the schema registered with AWS CloudFormation.  The configuration JSON must not exceed 64 KB. 
+        public let configuration: String
+        /// Unique identifier of the resource.
+        public let resourceId: String
+        /// Name of the resource.
+        public let resourceName: String?
+        /// The type of the resource. The custom resource type must be registered with AWS CloudFormation.   You cannot use the organization names “aws”, “amzn”, “amazon”, “alexa”, “custom” with custom resource types. It is the first part of the ResourceType up to the first ::. 
+        public let resourceType: String
+        /// Version of the schema registered for the ResourceType in AWS CloudFormation.
+        public let schemaVersionId: String
+        /// Tags associated with the resource.
+        public let tags: [String: String]?
+
+        public init(configuration: String, resourceId: String, resourceName: String? = nil, resourceType: String, schemaVersionId: String, tags: [String: String]? = nil) {
+            self.configuration = configuration
+            self.resourceId = resourceId
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+            self.schemaVersionId = schemaVersionId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 768)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 1)
+            try validate(self.resourceType, name:"resourceType", parent: name, max: 196)
+            try validate(self.resourceType, name:"resourceType", parent: name, min: 1)
+            try validate(self.schemaVersionId, name:"schemaVersionId", parent: name, max: 128)
+            try validate(self.schemaVersionId, name:"schemaVersionId", parent: name, min: 1)
+            try validate(self.schemaVersionId, name:"schemaVersionId", parent: name, pattern: "[A-Za-z0-9-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case resourceId = "ResourceId"
+            case resourceName = "ResourceName"
+            case resourceType = "ResourceType"
+            case schemaVersionId = "SchemaVersionId"
+            case tags = "Tags"
         }
     }
 

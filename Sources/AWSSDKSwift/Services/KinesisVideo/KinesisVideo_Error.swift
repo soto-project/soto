@@ -4,6 +4,8 @@ import AWSSDKSwiftCore
 
 /// Error enum for KinesisVideo
 public enum KinesisVideoErrorType: AWSErrorType {
+    case accessDeniedException(message: String?)
+    case accountChannelLimitExceededException(message: String?)
     case accountStreamLimitExceededException(message: String?)
     case clientLimitExceededException(message: String?)
     case deviceStreamLimitExceededException(message: String?)
@@ -24,6 +26,10 @@ extension KinesisVideoErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "AccessDeniedException":
+            self = .accessDeniedException(message: message)
+        case "AccountChannelLimitExceededException":
+            self = .accountChannelLimitExceededException(message: message)
         case "AccountStreamLimitExceededException":
             self = .accountStreamLimitExceededException(message: message)
         case "ClientLimitExceededException":
@@ -55,6 +61,10 @@ extension KinesisVideoErrorType {
 extension KinesisVideoErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
+        case .accountChannelLimitExceededException(let message):
+            return "AccountChannelLimitExceededException: \(message ?? "")"
         case .accountStreamLimitExceededException(let message):
             return "AccountStreamLimitExceededException: \(message ?? "")"
         case .clientLimitExceededException(let message):

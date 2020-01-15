@@ -241,6 +241,7 @@ extension AWSBackup {
     public struct BackupRule: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CompletionWindowMinutes", required: false, type: .long), 
+            AWSShapeMember(label: "CopyActions", required: false, type: .list), 
             AWSShapeMember(label: "Lifecycle", required: false, type: .structure), 
             AWSShapeMember(label: "RecoveryPointTags", required: false, type: .map), 
             AWSShapeMember(label: "RuleId", required: false, type: .string), 
@@ -252,6 +253,8 @@ extension AWSBackup {
 
         /// A value in minutes after a backup job is successfully started before it must be completed or it is canceled by AWS Backup. This value is optional.
         public let completionWindowMinutes: Int64?
+        /// An array of CopyAction objects, which contains the details of the copy operation.
+        public let copyActions: [CopyAction]?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. 
         public let lifecycle: Lifecycle?
         /// An array of key-value pair strings that are assigned to resources that are associated with this rule when restored from backup.
@@ -267,8 +270,9 @@ extension AWSBackup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
 
-        public init(completionWindowMinutes: Int64? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
+            self.copyActions = copyActions
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.ruleId = ruleId
@@ -280,6 +284,7 @@ extension AWSBackup {
 
         private enum CodingKeys: String, CodingKey {
             case completionWindowMinutes = "CompletionWindowMinutes"
+            case copyActions = "CopyActions"
             case lifecycle = "Lifecycle"
             case recoveryPointTags = "RecoveryPointTags"
             case ruleId = "RuleId"
@@ -293,6 +298,7 @@ extension AWSBackup {
     public struct BackupRuleInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CompletionWindowMinutes", required: false, type: .long), 
+            AWSShapeMember(label: "CopyActions", required: false, type: .list), 
             AWSShapeMember(label: "Lifecycle", required: false, type: .structure), 
             AWSShapeMember(label: "RecoveryPointTags", required: false, type: .map), 
             AWSShapeMember(label: "RuleName", required: true, type: .string), 
@@ -303,6 +309,8 @@ extension AWSBackup {
 
         /// The amount of time AWS Backup attempts a backup before canceling the job and returning an error.
         public let completionWindowMinutes: Int64?
+        /// An array of CopyAction objects, which contains the details of the copy operation.
+        public let copyActions: [CopyAction]?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days”. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. 
         public let lifecycle: Lifecycle?
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
@@ -316,8 +324,9 @@ extension AWSBackup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
 
-        public init(completionWindowMinutes: Int64? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
+            self.copyActions = copyActions
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.ruleName = ruleName
@@ -333,6 +342,7 @@ extension AWSBackup {
 
         private enum CodingKeys: String, CodingKey {
             case completionWindowMinutes = "CompletionWindowMinutes"
+            case copyActions = "CopyActions"
             case lifecycle = "Lifecycle"
             case recoveryPointTags = "RecoveryPointTags"
             case ruleName = "RuleName"
@@ -352,9 +362,9 @@ extension AWSBackup {
 
         /// The ARN of the IAM role that AWS Backup uses to authenticate when restoring the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
-        /// An array of conditions used to specify a set of resources to assign to a backup plan; for example, "StringEquals": {"ec2:ResourceTag/Department": "accounting".
+        /// An array of conditions used to specify a set of resources to assign to a backup plan; for example, "STRINGEQUALS": {"ec2:ResourceTag/Department": "accounting".
         public let listOfTags: [Condition]?
-        /// An array of strings that either contain Amazon Resource Names (ARNs) or match patterns such as "arn:aws:ec2:us-east-1:123456789012:volume/*" of resources to assign to a backup plan.
+        /// An array of strings that contain Amazon Resource Names (ARNs) of resources to assign to a backup plan.
         public let resources: [String]?
         /// The display name of a resource selection document.
         public let selectionName: String
@@ -423,8 +433,16 @@ extension AWSBackup {
     public enum BackupVaultEvent: String, CustomStringConvertible, Codable {
         case backupJobStarted = "BACKUP_JOB_STARTED"
         case backupJobCompleted = "BACKUP_JOB_COMPLETED"
+        case backupJobSuccessful = "BACKUP_JOB_SUCCESSFUL"
+        case backupJobFailed = "BACKUP_JOB_FAILED"
+        case backupJobExpired = "BACKUP_JOB_EXPIRED"
         case restoreJobStarted = "RESTORE_JOB_STARTED"
         case restoreJobCompleted = "RESTORE_JOB_COMPLETED"
+        case restoreJobSuccessful = "RESTORE_JOB_SUCCESSFUL"
+        case restoreJobFailed = "RESTORE_JOB_FAILED"
+        case copyJobStarted = "COPY_JOB_STARTED"
+        case copyJobSuccessful = "COPY_JOB_SUCCESSFUL"
+        case copyJobFailed = "COPY_JOB_FAILED"
         case recoveryPointModified = "RECOVERY_POINT_MODIFIED"
         case backupPlanCreated = "BACKUP_PLAN_CREATED"
         case backupPlanModified = "BACKUP_PLAN_MODIFIED"
@@ -504,7 +522,7 @@ extension AWSBackup {
 
         /// The key in a key-value pair. For example, in "ec2:ResourceTag/Department": "accounting", "ec2:ResourceTag/Department" is the key.
         public let conditionKey: String
-        /// An operation, such as StringEquals, that is applied to a key-value pair used to filter resources in a selection.
+        /// An operation, such as STRINGEQUALS, that is applied to a key-value pair used to filter resources in a selection.
         public let conditionType: ConditionType
         /// The value in a key-value pair. For example, in "ec2:ResourceTag/Department": "accounting", "accounting" is the value.
         public let conditionValue: String
@@ -524,6 +542,116 @@ extension AWSBackup {
 
     public enum ConditionType: String, CustomStringConvertible, Codable {
         case stringequals = "STRINGEQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CopyAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationBackupVaultArn", required: true, type: .string), 
+            AWSShapeMember(label: "Lifecycle", required: false, type: .structure)
+        ]
+
+        /// An Amazon Resource Name (ARN) that uniquely identifies the destination backup vault for the copied backup. For example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
+        public let destinationBackupVaultArn: String
+        public let lifecycle: Lifecycle?
+
+        public init(destinationBackupVaultArn: String, lifecycle: Lifecycle? = nil) {
+            self.destinationBackupVaultArn = destinationBackupVaultArn
+            self.lifecycle = lifecycle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationBackupVaultArn = "DestinationBackupVaultArn"
+            case lifecycle = "Lifecycle"
+        }
+    }
+
+    public struct CopyJob: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BackupSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "CompletionDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CopyJobId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DestinationBackupVaultArn", required: false, type: .string), 
+            AWSShapeMember(label: "DestinationRecoveryPointArn", required: false, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "SourceBackupVaultArn", required: false, type: .string), 
+            AWSShapeMember(label: "SourceRecoveryPointArn", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string)
+        ]
+
+        /// The size, in bytes, of a copy job.
+        public let backupSizeInBytes: Int64?
+        /// The date and time a job to create a copy job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM. 
+        public let completionDate: TimeStamp?
+        /// Uniquely identifies a request to AWS Backup to copy a resource.
+        public let copyJobId: String?
+        public let createdBy: RecoveryPointCreator?
+        /// The date and time a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM. 
+        public let creationDate: TimeStamp?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a destination copy vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
+        public let destinationBackupVaultArn: String?
+        /// An ARN that uniquely identifies a destination recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45. 
+        public let destinationRecoveryPointArn: String?
+        /// Specifies the IAM role ARN used to copy the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
+        public let iamRoleArn: String?
+        /// The type of AWS resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. 
+        public let resourceArn: String?
+        /// The type of AWS resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. 
+        public let resourceType: String?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a source copy vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault. 
+        public let sourceBackupVaultArn: String?
+        /// An ARN that uniquely identifies a source recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45. 
+        public let sourceRecoveryPointArn: String?
+        /// The current state of a resource recovery point.
+        public let state: CopyJobState?
+        /// A detailed message explaining the status of the job that to copy a resource.
+        public let statusMessage: String?
+
+        public init(backupSizeInBytes: Int64? = nil, completionDate: TimeStamp? = nil, copyJobId: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, destinationBackupVaultArn: String? = nil, destinationRecoveryPointArn: String? = nil, iamRoleArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, sourceRecoveryPointArn: String? = nil, state: CopyJobState? = nil, statusMessage: String? = nil) {
+            self.backupSizeInBytes = backupSizeInBytes
+            self.completionDate = completionDate
+            self.copyJobId = copyJobId
+            self.createdBy = createdBy
+            self.creationDate = creationDate
+            self.destinationBackupVaultArn = destinationBackupVaultArn
+            self.destinationRecoveryPointArn = destinationRecoveryPointArn
+            self.iamRoleArn = iamRoleArn
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+            self.sourceBackupVaultArn = sourceBackupVaultArn
+            self.sourceRecoveryPointArn = sourceRecoveryPointArn
+            self.state = state
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupSizeInBytes = "BackupSizeInBytes"
+            case completionDate = "CompletionDate"
+            case copyJobId = "CopyJobId"
+            case createdBy = "CreatedBy"
+            case creationDate = "CreationDate"
+            case destinationBackupVaultArn = "DestinationBackupVaultArn"
+            case destinationRecoveryPointArn = "DestinationRecoveryPointArn"
+            case iamRoleArn = "IamRoleArn"
+            case resourceArn = "ResourceArn"
+            case resourceType = "ResourceType"
+            case sourceBackupVaultArn = "SourceBackupVaultArn"
+            case sourceRecoveryPointArn = "SourceRecoveryPointArn"
+            case state = "State"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public enum CopyJobState: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case running = "RUNNING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -599,7 +727,7 @@ extension AWSBackup {
 
         /// Uniquely identifies the backup plan to be associated with the selection of resources.
         public let backupPlanId: String
-        /// Specifies the body of a request to assign a set of resources to a backup plan. It includes an array of resources, an optional array of patterns to exclude resources, an optional role to provide access to the AWS service the resource belongs to, and an optional array of tags used to identify a set of resources.
+        /// Specifies the body of a request to assign a set of resources to a backup plan.
         public let backupSelection: BackupSelection
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
         public let creatorRequestId: String?
@@ -1037,6 +1165,40 @@ extension AWSBackup {
             case creatorRequestId = "CreatorRequestId"
             case encryptionKeyArn = "EncryptionKeyArn"
             case numberOfRecoveryPoints = "NumberOfRecoveryPoints"
+        }
+    }
+
+    public struct DescribeCopyJobInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyJobId", location: .uri(locationName: "copyJobId"), required: true, type: .string)
+        ]
+
+        /// Uniquely identifies a request to AWS Backup to copy a resource.
+        public let copyJobId: String
+
+        public init(copyJobId: String) {
+            self.copyJobId = copyJobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyJobId = "copyJobId"
+        }
+    }
+
+    public struct DescribeCopyJobOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyJob", required: false, type: .structure)
+        ]
+
+        /// Contains detailed information about a copy job.
+        public let copyJob: CopyJob?
+
+        public init(copyJob: CopyJob? = nil) {
+            self.copyJob = copyJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyJob = "CopyJob"
         }
     }
 
@@ -1500,7 +1662,7 @@ extension AWSBackup {
 
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
-        /// Specifies the body of a request to assign a set of resources to a backup plan. It includes an array of resources, an optional array of patterns to exclude resources, an optional role to provide access to the AWS service that the resource belongs to, and an optional array of tags used to identify a set of resources.
+        /// Specifies the body of a request to assign a set of resources to a backup plan.
         public let backupSelection: BackupSelection?
         /// The date and time a backup selection is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: TimeStamp?
@@ -1664,7 +1826,7 @@ extension AWSBackup {
         public let backupVaultArn: String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
-        /// A set of metadata key-value pairs that lists the metadata key-value pairs that are required to restore the recovery point.
+        /// The set of metadata key-value pairs that describes the original configuration of the backed-up resource. These values vary depending on the service that is being restored.
         public let restoreMetadata: [String: String]?
 
         public init(backupVaultArn: String? = nil, recoveryPointArn: String? = nil, restoreMetadata: [String: String]? = nil) {
@@ -1685,7 +1847,7 @@ extension AWSBackup {
             AWSShapeMember(label: "ResourceTypes", required: false, type: .list)
         ]
 
-        /// Contains a string with the supported AWS resource types:    EBS for Amazon Elastic Block Store    SGW for AWS Storage Gateway    RDS for Amazon Relational Database Service    DDB for Amazon DynamoDB    EFS for Amazon Elastic File System  
+        /// Contains a string with the supported AWS resource types:    EBS for Amazon Elastic Block Store    Storage Gateway for AWS Storage Gateway    RDS for Amazon Relational Database Service    DDB for Amazon DynamoDB    EFS for Amazon Elastic File System  
         public let resourceTypes: [String]?
 
         public init(resourceTypes: [String]? = nil) {
@@ -1703,7 +1865,7 @@ extension AWSBackup {
             AWSShapeMember(label: "MoveToColdStorageAfterDays", required: false, type: .long)
         ]
 
-        /// Specifies the number of days after creation that a recovery point is deleted. Must be greater than MoveToColdStorageAfterDays.
+        /// Specifies the number of days after creation that a recovery point is deleted. Must be greater than 90 days plus MoveToColdStorageAfterDays.
         public let deleteAfterDays: Int64?
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
         public let moveToColdStorageAfterDays: Int64?
@@ -1739,7 +1901,7 @@ extension AWSBackup {
         public let byCreatedBefore: TimeStamp?
         /// Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
-        /// Returns only backup jobs for the specified resources:    EBS for Amazon Elastic Block Store    SGW for AWS Storage Gateway    RDS for Amazon Relational Database Service    DDB for Amazon DynamoDB    EFS for Amazon Elastic File System  
+        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
         public let byResourceType: String?
         /// Returns only backup jobs that are in the specified state.
         public let byState: BackupJobState?
@@ -2056,6 +2218,86 @@ extension AWSBackup {
 
         private enum CodingKeys: String, CodingKey {
             case backupVaultList = "BackupVaultList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCopyJobsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ByCreatedAfter", location: .querystring(locationName: "createdAfter"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "ByCreatedBefore", location: .querystring(locationName: "createdBefore"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "ByDestinationVaultArn", location: .querystring(locationName: "destinationVaultArn"), required: false, type: .string), 
+            AWSShapeMember(label: "ByResourceArn", location: .querystring(locationName: "resourceArn"), required: false, type: .string), 
+            AWSShapeMember(label: "ByResourceType", location: .querystring(locationName: "resourceType"), required: false, type: .string), 
+            AWSShapeMember(label: "ByState", location: .querystring(locationName: "state"), required: false, type: .enum), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        /// Returns only copy jobs that were created after the specified date.
+        public let byCreatedAfter: TimeStamp?
+        /// Returns only copy jobs that were created before the specified date.
+        public let byCreatedBefore: TimeStamp?
+        /// An Amazon Resource Name (ARN) that uniquely identifies a source backup vault to copy from; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault. 
+        public let byDestinationVaultArn: String?
+        /// Returns only copy jobs that match the specified resource Amazon Resource Name (ARN). 
+        public let byResourceArn: String?
+        /// Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
+        public let byResourceType: String?
+        /// Returns only copy jobs that are in the specified state.
+        public let byState: CopyJobState?
+        /// The maximum number of items to be returned.
+        public let maxResults: Int?
+        /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token. 
+        public let nextToken: String?
+
+        public init(byCreatedAfter: TimeStamp? = nil, byCreatedBefore: TimeStamp? = nil, byDestinationVaultArn: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: CopyJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.byCreatedAfter = byCreatedAfter
+            self.byCreatedBefore = byCreatedBefore
+            self.byDestinationVaultArn = byDestinationVaultArn
+            self.byResourceArn = byResourceArn
+            self.byResourceType = byResourceType
+            self.byState = byState
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.byResourceType, name:"byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case byCreatedAfter = "createdAfter"
+            case byCreatedBefore = "createdBefore"
+            case byDestinationVaultArn = "destinationVaultArn"
+            case byResourceArn = "resourceArn"
+            case byResourceType = "resourceType"
+            case byState = "state"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCopyJobsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyJobs", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// An array of structures containing metadata about your copy jobs returned in JSON format. 
+        public let copyJobs: [CopyJob]?
+        /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token. 
+        public let nextToken: String?
+
+        public init(copyJobs: [CopyJob]? = nil, nextToken: String? = nil) {
+            self.copyJobs = copyJobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyJobs = "CopyJobs"
             case nextToken = "NextToken"
         }
     }
@@ -2699,7 +2941,7 @@ extension AWSBackup {
         public let completeWindowMinutes: Int64?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
-        /// A customer chosen string that can be used to distinguish between calls to StartBackupJob. Idempotency tokens time out after one hour. Therefore, if you call StartBackupJob multiple times with the same idempotency token within one hour, AWS Backup recognizes that you are requesting only one backup job and initiates only one. If you change the idempotency token for each call, AWS Backup recognizes that you are requesting to start multiple backups.
+        /// A customer chosen string that can be used to distinguish between calls to StartBackupJob.
         public let idempotencyToken: String?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. 
         public let lifecycle: Lifecycle?
@@ -2764,6 +3006,73 @@ extension AWSBackup {
         }
     }
 
+    public struct StartCopyJobInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationBackupVaultArn", required: true, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
+            AWSShapeMember(label: "Lifecycle", required: false, type: .structure), 
+            AWSShapeMember(label: "RecoveryPointArn", required: true, type: .string), 
+            AWSShapeMember(label: "SourceBackupVaultName", required: true, type: .string)
+        ]
+
+        /// An Amazon Resource Name (ARN) that uniquely identifies a destination backup vault to copy to; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
+        public let destinationBackupVaultArn: String
+        /// Specifies the IAM role ARN used to copy the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
+        public let iamRoleArn: String
+        /// A customer chosen string that can be used to distinguish between calls to StartCopyJob.
+        public let idempotencyToken: String?
+        public let lifecycle: Lifecycle?
+        /// An ARN that uniquely identifies a recovery point to use for the copy job; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45. 
+        public let recoveryPointArn: String
+        /// The name of a logical source container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens. &gt;
+        public let sourceBackupVaultName: String
+
+        public init(destinationBackupVaultArn: String, iamRoleArn: String, idempotencyToken: String? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String, sourceBackupVaultName: String) {
+            self.destinationBackupVaultArn = destinationBackupVaultArn
+            self.iamRoleArn = iamRoleArn
+            self.idempotencyToken = idempotencyToken
+            self.lifecycle = lifecycle
+            self.recoveryPointArn = recoveryPointArn
+            self.sourceBackupVaultName = sourceBackupVaultName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.sourceBackupVaultName, name:"sourceBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationBackupVaultArn = "DestinationBackupVaultArn"
+            case iamRoleArn = "IamRoleArn"
+            case idempotencyToken = "IdempotencyToken"
+            case lifecycle = "Lifecycle"
+            case recoveryPointArn = "RecoveryPointArn"
+            case sourceBackupVaultName = "SourceBackupVaultName"
+        }
+    }
+
+    public struct StartCopyJobOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyJobId", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp)
+        ]
+
+        /// Uniquely identifies a request to AWS Backup to copy a resource.
+        public let copyJobId: String?
+        /// The date and time that a backup job is started, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM. &gt;
+        public let creationDate: TimeStamp?
+
+        public init(copyJobId: String? = nil, creationDate: TimeStamp? = nil) {
+            self.copyJobId = copyJobId
+            self.creationDate = creationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copyJobId = "CopyJobId"
+            case creationDate = "CreationDate"
+        }
+    }
+
     public struct StartRestoreJobInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
@@ -2775,13 +3084,13 @@ extension AWSBackup {
 
         /// The Amazon Resource Name (ARN) of the IAM role that AWS Backup uses to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
-        /// A customer chosen string that can be used to distinguish between calls to StartRestoreJob. Idempotency tokens time out after one hour. Therefore, if you call StartRestoreJob multiple times with the same idempotency token within one hour, AWS Backup recognizes that you are requesting only one restore job and initiates only one. If you change the idempotency token for each call, AWS Backup recognizes that you are requesting to start multiple restores. 
+        /// A customer chosen string that can be used to distinguish between calls to StartRestoreJob.
         public let idempotencyToken: String?
-        /// A set of metadata key-value pairs. Lists the metadata that the recovery point was created with.
+        /// A set of metadata key-value pairs. Contains information, such as a resource name, required to restore a recovery point.  You can get configuration metadata about a resource at the time it was backed-up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. You need to specify specific metadata to restore an Amazon Elastic File System (Amazon EFS) instance:    file-system-id: ID of the Amazon EFS file system that is backed up by AWS Backup. Returned in GetRecoveryPointRestoreMetadata.    Encrypted: A Boolean value that, if true, specifies that the file system is encrypted. If KmsKeyId is specified, Encrypted must be set to true.    KmsKeyId: Specifies the AWS KMS key that is used to encrypt the restored file system.    PerformanceMode: Specifies the throughput mode of the file system.    CreationToken: A user-supplied value that ensures the uniqueness (idempotency) of the request.    newFileSystem: A Boolean value that, if true, specifies that the recovery point is restored to a new Amazon EFS file system.  
         public let metadata: [String: String]
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
-        /// Starts a job to restore a recovery point for one of the following resources:    EBS for Amazon Elastic Block Store    SGW for AWS Storage Gateway    RDS for Amazon Relational Database Service    DDB for Amazon DynamoDB    EFS for Amazon Elastic File System  
+        /// Starts a job to restore a recovery point for one of the following resources:    EBS for Amazon Elastic Block Store    Storage Gateway for AWS Storage Gateway    RDS for Amazon Relational Database Service    DDB for Amazon DynamoDB    EFS for Amazon Elastic File System  
         public let resourceType: String?
 
         public init(iamRoleArn: String, idempotencyToken: String? = nil, metadata: [String: String], recoveryPointArn: String, resourceType: String? = nil) {

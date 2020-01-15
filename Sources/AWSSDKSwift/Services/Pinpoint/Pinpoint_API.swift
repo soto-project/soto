@@ -22,6 +22,7 @@ public struct Pinpoint {
             serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-12-01",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "pinpoint-fips.us-east-1.amazonaws.com", "fips-us-west-2": "pinpoint-fips.us-west-2.amazonaws.com", "us-east-1": "pinpoint.us-east-1.amazonaws.com", "us-west-2": "pinpoint.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [PinpointErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider
@@ -38,7 +39,7 @@ public struct Pinpoint {
         return client.send(operation: "CreateCampaign", path: "/v1/apps/{application-id}/campaigns", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a message template that you can use in messages that are sent through the email channel.
+    ///  Creates a message template for messages that are sent through the email channel.
     public func createEmailTemplate(_ input: CreateEmailTemplateRequest) -> Future<CreateEmailTemplateResponse> {
         return client.send(operation: "CreateEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "POST", input: input)
     }
@@ -58,7 +59,7 @@ public struct Pinpoint {
         return client.send(operation: "CreateJourney", path: "/v1/apps/{application-id}/journeys", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a message template that you can use in messages that are sent through a push notification channel.
+    ///  Creates a message template for messages that are sent through a push notification channel.
     public func createPushTemplate(_ input: CreatePushTemplateRequest) -> Future<CreatePushTemplateResponse> {
         return client.send(operation: "CreatePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "POST", input: input)
     }
@@ -68,9 +69,14 @@ public struct Pinpoint {
         return client.send(operation: "CreateSegment", path: "/v1/apps/{application-id}/segments", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a message template that you can use in messages that are sent through the SMS channel.
+    ///  Creates a message template for messages that are sent through the SMS channel.
     public func createSmsTemplate(_ input: CreateSmsTemplateRequest) -> Future<CreateSmsTemplateResponse> {
         return client.send(operation: "CreateSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a message template for messages that are sent through the voice channel.
+    public func createVoiceTemplate(_ input: CreateVoiceTemplateRequest) -> Future<CreateVoiceTemplateResponse> {
+        return client.send(operation: "CreateVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: "POST", input: input)
     }
 
     ///  Disables the ADM channel for an application and deletes any existing settings for the channel.
@@ -118,7 +124,7 @@ public struct Pinpoint {
         return client.send(operation: "DeleteEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes a message template that was designed for use in messages that were sent through the email channel.
+    ///  Deletes a message template for messages that were sent through the email channel.
     public func deleteEmailTemplate(_ input: DeleteEmailTemplateRequest) -> Future<DeleteEmailTemplateResponse> {
         return client.send(operation: "DeleteEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "DELETE", input: input)
     }
@@ -143,7 +149,7 @@ public struct Pinpoint {
         return client.send(operation: "DeleteJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes a message template that was designed for use in messages that were sent through a push notification channel.
+    ///  Deletes a message template for messages that were sent through a push notification channel.
     public func deletePushTemplate(_ input: DeletePushTemplateRequest) -> Future<DeletePushTemplateResponse> {
         return client.send(operation: "DeletePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "DELETE", input: input)
     }
@@ -158,7 +164,7 @@ public struct Pinpoint {
         return client.send(operation: "DeleteSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes a message template that was designed for use in messages that were sent through the SMS channel.
+    ///  Deletes a message template for messages that were sent through the SMS channel.
     public func deleteSmsTemplate(_ input: DeleteSmsTemplateRequest) -> Future<DeleteSmsTemplateResponse> {
         return client.send(operation: "DeleteSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "DELETE", input: input)
     }
@@ -171,6 +177,11 @@ public struct Pinpoint {
     ///  Disables the voice channel for an application and deletes any existing settings for the channel.
     public func deleteVoiceChannel(_ input: DeleteVoiceChannelRequest) -> Future<DeleteVoiceChannelResponse> {
         return client.send(operation: "DeleteVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes a message template for messages that were sent through the voice channel.
+    public func deleteVoiceTemplate(_ input: DeleteVoiceTemplateRequest) -> Future<DeleteVoiceTemplateResponse> {
+        return client.send(operation: "DeleteVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: "DELETE", input: input)
     }
 
     ///  Retrieves information about the status and settings of the ADM channel for an application.
@@ -213,7 +224,7 @@ public struct Pinpoint {
         return client.send(operation: "GetApplicationSettings", path: "/v1/apps/{application-id}/settings", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves information about all of your applications.
+    ///  Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
     public func getApps(_ input: GetAppsRequest) -> Future<GetAppsResponse> {
         return client.send(operation: "GetApps", path: "/v1/apps", httpMethod: "GET", input: input)
     }
@@ -263,7 +274,7 @@ public struct Pinpoint {
         return client.send(operation: "GetEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves the content and settings for a message template that you can use in messages that are sent through the email channel.
+    ///  Retrieves the content and settings of a message template for messages that are sent through the email channel.
     public func getEmailTemplate(_ input: GetEmailTemplateRequest) -> Future<GetEmailTemplateResponse> {
         return client.send(operation: "GetEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "GET", input: input)
     }
@@ -323,7 +334,7 @@ public struct Pinpoint {
         return client.send(operation: "GetJourneyExecutionMetrics", path: "/v1/apps/{application-id}/journeys/{journey-id}/execution-metrics", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves the content and settings for a message template that you can use in messages that are sent through a push notification channel.
+    ///  Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
     public func getPushTemplate(_ input: GetPushTemplateRequest) -> Future<GetPushTemplateResponse> {
         return client.send(operation: "GetPushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "GET", input: input)
     }
@@ -348,7 +359,7 @@ public struct Pinpoint {
         return client.send(operation: "GetSegmentVersion", path: "/v1/apps/{application-id}/segments/{segment-id}/versions/{version}", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves information about the configuration, dimension, and other settings for all versions of a specific segment that's associated with an application.
+    ///  Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
     public func getSegmentVersions(_ input: GetSegmentVersionsRequest) -> Future<GetSegmentVersionsResponse> {
         return client.send(operation: "GetSegmentVersions", path: "/v1/apps/{application-id}/segments/{segment-id}/versions", httpMethod: "GET", input: input)
     }
@@ -363,7 +374,7 @@ public struct Pinpoint {
         return client.send(operation: "GetSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves the content and settings for a message template that you can use in messages that are sent through the SMS channel.
+    ///  Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
     public func getSmsTemplate(_ input: GetSmsTemplateRequest) -> Future<GetSmsTemplateResponse> {
         return client.send(operation: "GetSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "GET", input: input)
     }
@@ -378,6 +389,11 @@ public struct Pinpoint {
         return client.send(operation: "GetVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "GET", input: input)
     }
 
+    ///  Retrieves the content and settings of a message template for messages that are sent through the voice channel.
+    public func getVoiceTemplate(_ input: GetVoiceTemplateRequest) -> Future<GetVoiceTemplateResponse> {
+        return client.send(operation: "GetVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: "GET", input: input)
+    }
+
     ///  Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
     public func listJourneys(_ input: ListJourneysRequest) -> Future<ListJourneysResponse> {
         return client.send(operation: "ListJourneys", path: "/v1/apps/{application-id}/journeys", httpMethod: "GET", input: input)
@@ -386,6 +402,11 @@ public struct Pinpoint {
     ///  Retrieves all the tags (keys and values) that are associated with an application, campaign, journey, message template, or segment.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/v1/tags/{resource-arn}", httpMethod: "GET", input: input)
+    }
+
+    ///  Retrieves information about all the versions of a specific message template.
+    public func listTemplateVersions(_ input: ListTemplateVersionsRequest) -> Future<ListTemplateVersionsResponse> {
+        return client.send(operation: "ListTemplateVersions", path: "/v1/templates/{template-name}/{template-type}/versions", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
@@ -478,7 +499,7 @@ public struct Pinpoint {
         return client.send(operation: "UpdateEmailChannel", path: "/v1/apps/{application-id}/channels/email", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates an existing message template that you can use in messages that are sent through the email channel.
+    ///  Updates an existing message template for messages that are sent through the email channel.
     public func updateEmailTemplate(_ input: UpdateEmailTemplateRequest) -> Future<UpdateEmailTemplateResponse> {
         return client.send(operation: "UpdateEmailTemplate", path: "/v1/templates/{template-name}/email", httpMethod: "PUT", input: input)
     }
@@ -503,12 +524,12 @@ public struct Pinpoint {
         return client.send(operation: "UpdateJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: "PUT", input: input)
     }
 
-    ///  Cancels an active journey.
+    ///  Cancels (stops) an active journey.
     public func updateJourneyState(_ input: UpdateJourneyStateRequest) -> Future<UpdateJourneyStateResponse> {
         return client.send(operation: "UpdateJourneyState", path: "/v1/apps/{application-id}/journeys/{journey-id}/state", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates an existing message template that you can use in messages that are sent through a push notification channel.
+    ///  Updates an existing message template for messages that are sent through a push notification channel.
     public func updatePushTemplate(_ input: UpdatePushTemplateRequest) -> Future<UpdatePushTemplateResponse> {
         return client.send(operation: "UpdatePushTemplate", path: "/v1/templates/{template-name}/push", httpMethod: "PUT", input: input)
     }
@@ -523,13 +544,23 @@ public struct Pinpoint {
         return client.send(operation: "UpdateSmsChannel", path: "/v1/apps/{application-id}/channels/sms", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates an existing message template that you can use in messages that are sent through the SMS channel.
+    ///  Updates an existing message template for messages that are sent through the SMS channel.
     public func updateSmsTemplate(_ input: UpdateSmsTemplateRequest) -> Future<UpdateSmsTemplateResponse> {
         return client.send(operation: "UpdateSmsTemplate", path: "/v1/templates/{template-name}/sms", httpMethod: "PUT", input: input)
+    }
+
+    ///  Changes the status of a specific version of a message template to active.
+    public func updateTemplateActiveVersion(_ input: UpdateTemplateActiveVersionRequest) -> Future<UpdateTemplateActiveVersionResponse> {
+        return client.send(operation: "UpdateTemplateActiveVersion", path: "/v1/templates/{template-name}/{template-type}/active-version", httpMethod: "PUT", input: input)
     }
 
     ///  Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
     public func updateVoiceChannel(_ input: UpdateVoiceChannelRequest) -> Future<UpdateVoiceChannelResponse> {
         return client.send(operation: "UpdateVoiceChannel", path: "/v1/apps/{application-id}/channels/voice", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates an existing message template for messages that are sent through the voice channel.
+    public func updateVoiceTemplate(_ input: UpdateVoiceTemplateRequest) -> Future<UpdateVoiceTemplateResponse> {
+        return client.send(operation: "UpdateVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: "PUT", input: input)
     }
 }

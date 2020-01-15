@@ -13,10 +13,12 @@ public enum ECSErrorType: AWSErrorType {
     case clusterContainsTasksException(message: String?)
     case clusterNotFoundException(message: String?)
     case invalidParameterException(message: String?)
+    case limitExceededException(message: String?)
     case missingVersionException(message: String?)
     case noUpdateAvailableException(message: String?)
     case platformTaskDefinitionIncompatibilityException(message: String?)
     case platformUnknownException(message: String?)
+    case resourceInUseException(message: String?)
     case resourceNotFoundException(message: String?)
     case serverException(message: String?)
     case serviceNotActiveException(message: String?)
@@ -52,6 +54,8 @@ extension ECSErrorType {
             self = .clusterNotFoundException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "MissingVersionException":
             self = .missingVersionException(message: message)
         case "NoUpdateAvailableException":
@@ -60,6 +64,8 @@ extension ECSErrorType {
             self = .platformTaskDefinitionIncompatibilityException(message: message)
         case "PlatformUnknownException":
             self = .platformUnknownException(message: message)
+        case "ResourceInUseException":
+            self = .resourceInUseException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
         case "ServerException":
@@ -103,6 +109,8 @@ extension ECSErrorType : CustomStringConvertible {
             return "ClusterNotFoundException: \(message ?? "")"
         case .invalidParameterException(let message):
             return "InvalidParameterException: \(message ?? "")"
+        case .limitExceededException(let message):
+            return "LimitExceededException: \(message ?? "")"
         case .missingVersionException(let message):
             return "MissingVersionException: \(message ?? "")"
         case .noUpdateAvailableException(let message):
@@ -111,6 +119,8 @@ extension ECSErrorType : CustomStringConvertible {
             return "PlatformTaskDefinitionIncompatibilityException: \(message ?? "")"
         case .platformUnknownException(let message):
             return "PlatformUnknownException: \(message ?? "")"
+        case .resourceInUseException(let message):
+            return "ResourceInUseException: \(message ?? "")"
         case .resourceNotFoundException(let message):
             return "ResourceNotFoundException: \(message ?? "")"
         case .serverException(let message):

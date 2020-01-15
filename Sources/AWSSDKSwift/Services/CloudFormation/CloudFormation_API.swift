@@ -77,6 +77,11 @@ public struct CloudFormation {
         return client.send(operation: "DeleteStackSet", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Removes a type or type version from active use in the CloudFormation registry. If a type or type version is deregistered, it cannot be used in CloudFormation operations. To deregister a type, you must individually deregister all registered versions of that type. If a type has only a single registered version, deregistering that version results in the type itself being deregistered.  You cannot deregister the default version of a type, unless it is the only registered version of that type, in which case the type itself is deregistered as well. 
+    public func deregisterType(_ input: DeregisterTypeInput) -> Future<DeregisterTypeOutput> {
+        return client.send(operation: "DeregisterType", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves your account's AWS CloudFormation limits, such as the maximum number of stacks that you can create in your account. For more information about account limits, see AWS CloudFormation Limits in the AWS CloudFormation User Guide.
     public func describeAccountLimits(_ input: DescribeAccountLimitsInput) -> Future<DescribeAccountLimitsOutput> {
         return client.send(operation: "DescribeAccountLimits", path: "/", httpMethod: "POST", input: input)
@@ -132,6 +137,16 @@ public struct CloudFormation {
         return client.send(operation: "DescribeStacks", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns detailed information about a type that has been registered. If you specify a VersionId, DescribeType returns information about that specific type version. Otherwise, it returns information about the default type version.
+    public func describeType(_ input: DescribeTypeInput) -> Future<DescribeTypeOutput> {
+        return client.send(operation: "DescribeType", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a type's registration, including its current status and type and version identifiers. When you initiate a registration request using  RegisterType , you can then use  DescribeTypeRegistration  to monitor the progress of that registration request. Once the registration request has completed, use  DescribeType  to return detailed informaiton about a type.
+    public func describeTypeRegistration(_ input: DescribeTypeRegistrationInput) -> Future<DescribeTypeRegistrationOutput> {
+        return client.send(operation: "DescribeTypeRegistration", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Detects whether a stack's actual configuration differs, or has drifted, from it's expected configuration, as defined in the stack template and any values specified as template parameters. For each resource in the stack that supports drift detection, AWS CloudFormation compares the actual configuration of the resource with its expected template configuration. Only resource properties explicitly defined in the stack template are checked for drift. A stack is considered to have drifted if one or more of its resources differ from their expected template configurations. For more information, see Detecting Unregulated Configuration Changes to Stacks and Resources. Use DetectStackDrift to detect drift on all supported resources for a given stack, or DetectStackResourceDrift to detect drift on individual resources. For a list of stack resources that currently support drift detection, see Resources that Support Drift Detection.  DetectStackDrift can take up to several minutes, depending on the number of resources contained within the stack. Use DescribeStackDriftDetectionStatus to monitor the progress of a detect stack drift operation. Once the drift detection operation has completed, use DescribeStackResourceDrifts to return drift information about the stack and its resources. When detecting drift on a stack, AWS CloudFormation does not detect drift on any nested stacks belonging to that stack. Perform DetectStackDrift directly on the nested stack itself.
     public func detectStackDrift(_ input: DetectStackDriftInput) -> Future<DetectStackDriftOutput> {
         return client.send(operation: "DetectStackDrift", path: "/", httpMethod: "POST", input: input)
@@ -140,6 +155,11 @@ public struct CloudFormation {
     ///  Returns information about whether a resource's actual configuration differs, or has drifted, from it's expected configuration, as defined in the stack template and any values specified as template parameters. This information includes actual and expected property values for resources in which AWS CloudFormation detects drift. Only resource properties explicitly defined in the stack template are checked for drift. For more information about stack and resource drift, see Detecting Unregulated Configuration Changes to Stacks and Resources. Use DetectStackResourceDrift to detect drift on individual resources, or DetectStackDrift to detect drift on all resources in a given stack that support drift detection. Resources that do not currently support drift detection cannot be checked. For a list of resources that support drift detection, see Resources that Support Drift Detection.
     public func detectStackResourceDrift(_ input: DetectStackResourceDriftInput) -> Future<DetectStackResourceDriftOutput> {
         return client.send(operation: "DetectStackResourceDrift", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Detect drift on a stack set. When CloudFormation performs drift detection on a stack set, it performs drift detection on the stack associated with each stack instance in the stack set. For more information, see How CloudFormation Performs Drift Detection on a Stack Set.  DetectStackSetDrift returns the OperationId of the stack set drift detection operation. Use this operation id with  DescribeStackSetOperation  to monitor the progress of the drift detection operation. The drift detection operation may take some time, depending on the number of stack instances included in the stack set, as well as the number of resources included in each stack. Once the operation has completed, use the following actions to return drift information:   Use  DescribeStackSet  to return detailed informaiton about the stack set, including detailed information about the last completed drift operation performed on the stack set. (Information about drift operations that are in progress is not included.)   Use  ListStackInstances  to return a list of stack instances belonging to the stack set, including the drift status and last drift time checked of each instance.   Use  DescribeStackInstance  to return detailed information about a specific stack instance, including its drift status and last drift time checked.   For more information on performing a drift detection operation on a stack set, see Detecting Unmanaged Changes in Stack Sets.  You can only run a single drift detection operation on a given stack set at one time.  To stop a drift detection stack set operation, use  StopStackSetOperation .
+    public func detectStackSetDrift(_ input: DetectStackSetDriftInput) -> Future<DetectStackSetDriftOutput> {
+        return client.send(operation: "DetectStackSetDrift", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns the estimated monthly cost of a template. The return value is an AWS Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
@@ -212,9 +232,39 @@ public struct CloudFormation {
         return client.send(operation: "ListStacks", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns a list of registration tokens for the specified type.
+    public func listTypeRegistrations(_ input: ListTypeRegistrationsInput) -> Future<ListTypeRegistrationsOutput> {
+        return client.send(operation: "ListTypeRegistrations", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns summary information about the versions of a type.
+    public func listTypeVersions(_ input: ListTypeVersionsInput) -> Future<ListTypeVersionsOutput> {
+        return client.send(operation: "ListTypeVersions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns summary information about types that have been registered with CloudFormation.
+    public func listTypes(_ input: ListTypesInput) -> Future<ListTypesOutput> {
+        return client.send(operation: "ListTypes", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Reports progress of a resource handler to CloudFormation. Reserved for use by the CloudFormation CLI. Do not use this API in your code.
+    public func recordHandlerProgress(_ input: RecordHandlerProgressInput) -> Future<RecordHandlerProgressOutput> {
+        return client.send(operation: "RecordHandlerProgress", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Registers a type with the CloudFormation service. Registering a type makes it available for use in CloudFormation templates in your AWS account, and includes:   Validating the resource schema   Determining which handlers have been specified for the resource   Making the resource type available for use in your account   For more information on how to develop types and ready them for registeration, see Creating Resource Providers in the CloudFormation CLI User Guide. Once you have initiated a registration request using  RegisterType , you can use  DescribeTypeRegistration  to monitor the progress of the registration request.
+    public func registerType(_ input: RegisterTypeInput) -> Future<RegisterTypeOutput> {
+        return client.send(operation: "RegisterType", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Sets a stack policy for a specified stack.
     @discardableResult public func setStackPolicy(_ input: SetStackPolicyInput) -> Future<Void> {
         return client.send(operation: "SetStackPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Specify the default version of a type. The default version of a type will be used in CloudFormation operations.
+    public func setTypeDefaultVersion(_ input: SetTypeDefaultVersionInput) -> Future<SetTypeDefaultVersionOutput> {
+        return client.send(operation: "SetTypeDefaultVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Sends a signal to the specified resource with a success or failure status. You can use the SignalResource API in conjunction with a creation policy or update policy. AWS CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource API is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance.

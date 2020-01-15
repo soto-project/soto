@@ -390,6 +390,7 @@ extension AlexaForBusiness {
     public enum BusinessReportInterval: String, CustomStringConvertible, Codable {
         case oneDay = "ONE_DAY"
         case oneWeek = "ONE_WEEK"
+        case thirtyDays = "THIRTY_DAYS"
         public var description: String { return self.rawValue }
     }
 
@@ -1039,6 +1040,38 @@ extension AlexaForBusiness {
         }
     }
 
+    public struct CreateEndOfMeetingReminder: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "ReminderAtMinutes", required: true, type: .list), 
+            AWSShapeMember(label: "ReminderType", required: true, type: .enum)
+        ]
+
+        /// Whether an end of meeting reminder is enabled or not.
+        public let enabled: Bool
+        ///  A range of 3 to 15 minutes that determines when the reminder begins.
+        public let reminderAtMinutes: [Int]
+        /// The type of sound that users hear during the end of meeting reminder. 
+        public let reminderType: EndOfMeetingReminderType
+
+        public init(enabled: Bool, reminderAtMinutes: [Int], reminderType: EndOfMeetingReminderType) {
+            self.enabled = enabled
+            self.reminderAtMinutes = reminderAtMinutes
+            self.reminderType = reminderType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.reminderAtMinutes, name:"reminderAtMinutes", parent: name, max: 1)
+            try validate(self.reminderAtMinutes, name:"reminderAtMinutes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case reminderAtMinutes = "ReminderAtMinutes"
+            case reminderType = "ReminderType"
+        }
+    }
+
     public struct CreateGatewayGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
@@ -1091,6 +1124,63 @@ extension AlexaForBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayGroupArn = "GatewayGroupArn"
+        }
+    }
+
+    public struct CreateInstantBooking: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DurationInMinutes", required: true, type: .integer), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
+        ]
+
+        /// Duration between 15 and 240 minutes at increments of 15 that determines how long to book an available room when a meeting is started with Alexa.
+        public let durationInMinutes: Int
+        /// Whether instant booking is enabled or not.
+        public let enabled: Bool
+
+        public init(durationInMinutes: Int, enabled: Bool) {
+            self.durationInMinutes = durationInMinutes
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInMinutes = "DurationInMinutes"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct CreateMeetingRoomConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndOfMeetingReminder", required: false, type: .structure), 
+            AWSShapeMember(label: "InstantBooking", required: false, type: .structure), 
+            AWSShapeMember(label: "RequireCheckIn", required: false, type: .structure), 
+            AWSShapeMember(label: "RoomUtilizationMetricsEnabled", required: false, type: .boolean)
+        ]
+
+        public let endOfMeetingReminder: CreateEndOfMeetingReminder?
+        /// Settings to automatically book a room for a configured duration if it's free when joining a meeting with Alexa.
+        public let instantBooking: CreateInstantBooking?
+        /// Settings for requiring a check in when a room is reserved. Alexa can cancel a room reservation if it's not checked into to make the room available for others. Users can check in by joining the meeting with Alexa or an AVS device, or by saying “Alexa, check in.”
+        public let requireCheckIn: CreateRequireCheckIn?
+        /// Whether room utilization metrics are enabled or not.
+        public let roomUtilizationMetricsEnabled: Bool?
+
+        public init(endOfMeetingReminder: CreateEndOfMeetingReminder? = nil, instantBooking: CreateInstantBooking? = nil, requireCheckIn: CreateRequireCheckIn? = nil, roomUtilizationMetricsEnabled: Bool? = nil) {
+            self.endOfMeetingReminder = endOfMeetingReminder
+            self.instantBooking = instantBooking
+            self.requireCheckIn = requireCheckIn
+            self.roomUtilizationMetricsEnabled = roomUtilizationMetricsEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.endOfMeetingReminder?.validate(name: "\(name).endOfMeetingReminder")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endOfMeetingReminder = "EndOfMeetingReminder"
+            case instantBooking = "InstantBooking"
+            case requireCheckIn = "RequireCheckIn"
+            case roomUtilizationMetricsEnabled = "RoomUtilizationMetricsEnabled"
         }
     }
 
@@ -1206,6 +1296,7 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "DistanceUnit", required: true, type: .enum), 
             AWSShapeMember(label: "Locale", required: false, type: .string), 
             AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "MeetingRoomConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "ProfileName", required: true, type: .string), 
             AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "SetupModeDisabled", required: false, type: .boolean), 
@@ -1220,10 +1311,12 @@ extension AlexaForBusiness {
         public let clientRequestToken: String?
         /// The distance unit to be used by devices in the profile.
         public let distanceUnit: DistanceUnit
-        /// The locale of the room profile.
+        /// The locale of the room profile. (This is currently only available to a limited preview audience.)
         public let locale: String?
         /// The maximum volume limit for a room profile.
         public let maxVolumeLimit: Int?
+        /// The meeting room settings of a room profile.
+        public let meetingRoomConfiguration: CreateMeetingRoomConfiguration?
         /// The name of a room profile.
         public let profileName: String
         /// Whether PSTN calling is enabled.
@@ -1237,12 +1330,13 @@ extension AlexaForBusiness {
         /// A wake word for Alexa, Echo, Amazon, or a computer.
         public let wakeWord: WakeWord
 
-        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, locale: String? = nil, maxVolumeLimit: Int? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
+        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: CreateMeetingRoomConfiguration? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
             self.address = address
             self.clientRequestToken = clientRequestToken
             self.distanceUnit = distanceUnit
             self.locale = locale
             self.maxVolumeLimit = maxVolumeLimit
+            self.meetingRoomConfiguration = meetingRoomConfiguration
             self.profileName = profileName
             self.pSTNEnabled = pSTNEnabled
             self.setupModeDisabled = setupModeDisabled
@@ -1259,6 +1353,7 @@ extension AlexaForBusiness {
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
             try validate(self.locale, name:"locale", parent: name, max: 256)
             try validate(self.locale, name:"locale", parent: name, min: 1)
+            try self.meetingRoomConfiguration?.validate(name: "\(name).meetingRoomConfiguration")
             try validate(self.profileName, name:"profileName", parent: name, max: 100)
             try validate(self.profileName, name:"profileName", parent: name, min: 1)
             try validate(self.profileName, name:"profileName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
@@ -1272,6 +1367,7 @@ extension AlexaForBusiness {
             case distanceUnit = "DistanceUnit"
             case locale = "Locale"
             case maxVolumeLimit = "MaxVolumeLimit"
+            case meetingRoomConfiguration = "MeetingRoomConfiguration"
             case profileName = "ProfileName"
             case pSTNEnabled = "PSTNEnabled"
             case setupModeDisabled = "SetupModeDisabled"
@@ -1295,6 +1391,28 @@ extension AlexaForBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case profileArn = "ProfileArn"
+        }
+    }
+
+    public struct CreateRequireCheckIn: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "ReleaseAfterMinutes", required: true, type: .integer)
+        ]
+
+        /// Whether require check in is enabled or not.
+        public let enabled: Bool
+        /// Duration between 5 and 20 minutes to determine when to release the room if it's not checked into.
+        public let releaseAfterMinutes: Int
+
+        public init(enabled: Bool, releaseAfterMinutes: Int) {
+            self.enabled = enabled
+            self.releaseAfterMinutes = releaseAfterMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case releaseAfterMinutes = "ReleaseAfterMinutes"
         }
     }
 
@@ -2432,6 +2550,41 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public struct EndOfMeetingReminder: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReminderAtMinutes", required: false, type: .list), 
+            AWSShapeMember(label: "ReminderType", required: false, type: .enum)
+        ]
+
+        /// Whether an end of meeting reminder is enabled or not.
+        public let enabled: Bool?
+        /// A range of 3 to 15 minutes that determines when the reminder begins.
+        public let reminderAtMinutes: [Int]?
+        /// The type of sound that users hear during the end of meeting reminder. 
+        public let reminderType: EndOfMeetingReminderType?
+
+        public init(enabled: Bool? = nil, reminderAtMinutes: [Int]? = nil, reminderType: EndOfMeetingReminderType? = nil) {
+            self.enabled = enabled
+            self.reminderAtMinutes = reminderAtMinutes
+            self.reminderType = reminderType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case reminderAtMinutes = "ReminderAtMinutes"
+            case reminderType = "ReminderType"
+        }
+    }
+
+    public enum EndOfMeetingReminderType: String, CustomStringConvertible, Codable {
+        case announcementTimeCheck = "ANNOUNCEMENT_TIME_CHECK"
+        case announcementVariableTimeLeft = "ANNOUNCEMENT_VARIABLE_TIME_LEFT"
+        case chime = "CHIME"
+        case knock = "KNOCK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnrollmentStatus: String, CustomStringConvertible, Codable {
         case initialized = "INITIALIZED"
         case pending = "PENDING"
@@ -3159,6 +3312,28 @@ extension AlexaForBusiness {
         }
     }
 
+    public struct InstantBooking: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DurationInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+
+        /// Duration between 15 and 240 minutes at increments of 15 that determines how long to book an available room when a meeting is started with Alexa. 
+        public let durationInMinutes: Int?
+        /// Whether instant booking is enabled or not.
+        public let enabled: Bool?
+
+        public init(durationInMinutes: Int? = nil, enabled: Bool? = nil) {
+            self.durationInMinutes = durationInMinutes
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInMinutes = "DurationInMinutes"
+            case enabled = "Enabled"
+        }
+    }
+
     public struct ListBusinessReportSchedulesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
@@ -3440,13 +3615,13 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "SkillType", required: false, type: .enum)
         ]
 
-        /// Whether the skill is enabled under the user's account, or if it requires linking to be used.
+        /// Whether the skill is enabled under the user's account.
         public let enablementType: EnablementTypeFilter?
-        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Required.
+        /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
-        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
+        /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
-        /// The ARN of the skill group for which to list enabled skills. Required.
+        /// The ARN of the skill group for which to list enabled skills.
         public let skillGroupArn: String?
         /// Whether the skill is publicly available or is a private skill.
         public let skillType: SkillTypeFilter?
@@ -3725,6 +3900,38 @@ extension AlexaForBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public struct MeetingRoomConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndOfMeetingReminder", required: false, type: .structure), 
+            AWSShapeMember(label: "InstantBooking", required: false, type: .structure), 
+            AWSShapeMember(label: "RequireCheckIn", required: false, type: .structure), 
+            AWSShapeMember(label: "RoomUtilizationMetricsEnabled", required: false, type: .boolean)
+        ]
+
+        /// Settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending. 
+        public let endOfMeetingReminder: EndOfMeetingReminder?
+        /// Settings to automatically book the room if available for a configured duration when joining a meeting with Alexa. 
+        public let instantBooking: InstantBooking?
+        /// Settings for requiring a check in when a room is reserved. Alexa can cancel a room reservation if it's not checked into. This makes the room available for others. Users can check in by joining the meeting with Alexa or an AVS device, or by saying “Alexa, check in.” 
+        public let requireCheckIn: RequireCheckIn?
+        /// Whether room utilization metrics are enabled or not.
+        public let roomUtilizationMetricsEnabled: Bool?
+
+        public init(endOfMeetingReminder: EndOfMeetingReminder? = nil, instantBooking: InstantBooking? = nil, requireCheckIn: RequireCheckIn? = nil, roomUtilizationMetricsEnabled: Bool? = nil) {
+            self.endOfMeetingReminder = endOfMeetingReminder
+            self.instantBooking = instantBooking
+            self.requireCheckIn = requireCheckIn
+            self.roomUtilizationMetricsEnabled = roomUtilizationMetricsEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endOfMeetingReminder = "EndOfMeetingReminder"
+            case instantBooking = "InstantBooking"
+            case requireCheckIn = "RequireCheckIn"
+            case roomUtilizationMetricsEnabled = "RoomUtilizationMetricsEnabled"
+        }
+    }
+
     public struct MeetingSetting: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RequirePin", required: true, type: .enum)
@@ -3949,6 +4156,7 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
             AWSShapeMember(label: "Locale", required: false, type: .string), 
             AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "MeetingRoomConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
             AWSShapeMember(label: "ProfileName", required: false, type: .string), 
             AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
@@ -3966,10 +4174,12 @@ extension AlexaForBusiness {
         public let distanceUnit: DistanceUnit?
         /// Retrieves if the profile is default or not.
         public let isDefault: Bool?
-        /// The locale of a room profile.
+        /// The locale of a room profile. (This is currently available only to a limited preview audience.)
         public let locale: String?
         /// The max volume limit of a room profile.
         public let maxVolumeLimit: Int?
+        /// Meeting room settings of a room profile.
+        public let meetingRoomConfiguration: MeetingRoomConfiguration?
         /// The ARN of a room profile.
         public let profileArn: String?
         /// The name of a room profile.
@@ -3985,13 +4195,14 @@ extension AlexaForBusiness {
         /// The wake word of a room profile.
         public let wakeWord: WakeWord?
 
-        public init(address: String? = nil, addressBookArn: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+        public init(address: String? = nil, addressBookArn: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: MeetingRoomConfiguration? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.addressBookArn = addressBookArn
             self.distanceUnit = distanceUnit
             self.isDefault = isDefault
             self.locale = locale
             self.maxVolumeLimit = maxVolumeLimit
+            self.meetingRoomConfiguration = meetingRoomConfiguration
             self.profileArn = profileArn
             self.profileName = profileName
             self.pSTNEnabled = pSTNEnabled
@@ -4008,6 +4219,7 @@ extension AlexaForBusiness {
             case isDefault = "IsDefault"
             case locale = "Locale"
             case maxVolumeLimit = "MaxVolumeLimit"
+            case meetingRoomConfiguration = "MeetingRoomConfiguration"
             case profileArn = "ProfileArn"
             case profileName = "ProfileName"
             case pSTNEnabled = "PSTNEnabled"
@@ -4037,7 +4249,7 @@ extension AlexaForBusiness {
         public let distanceUnit: DistanceUnit?
         /// Retrieves if the profile data is default or not.
         public let isDefault: Bool?
-        /// The locale of a room profile.
+        /// The locale of a room profile. (This is currently available only to a limited preview audience.)
         public let locale: String?
         /// The ARN of a room profile.
         public let profileArn: String?
@@ -4045,7 +4257,7 @@ extension AlexaForBusiness {
         public let profileName: String?
         /// The temperature unit of a room profile.
         public let temperatureUnit: TemperatureUnit?
-        /// The timezone of a room profile.
+        /// The time zone of a room profile.
         public let timezone: String?
         /// The wake word of a room profile.
         public let wakeWord: WakeWord?
@@ -4328,6 +4540,28 @@ extension AlexaForBusiness {
         public init() {
         }
 
+    }
+
+    public struct RequireCheckIn: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReleaseAfterMinutes", required: false, type: .integer)
+        ]
+
+        /// Whether require check in is enabled or not.
+        public let enabled: Bool?
+        /// Duration between 5 and 20 minutes to determine when to release the room if it's not checked into. 
+        public let releaseAfterMinutes: Int?
+
+        public init(enabled: Bool? = nil, releaseAfterMinutes: Int? = nil) {
+            self.enabled = enabled
+            self.releaseAfterMinutes = releaseAfterMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case releaseAfterMinutes = "ReleaseAfterMinutes"
+        }
     }
 
     public enum RequirePin: String, CustomStringConvertible, Codable {
@@ -5629,7 +5863,7 @@ extension AlexaForBusiness {
 
         /// The key of a tag. Tag keys are case-sensitive. 
         public let key: String
-        /// The value of a tag. Tag values are case-sensitive and can be null.
+        /// The value of a tag. Tag values are case sensitive and can be null.
         public let value: String
 
         public init(key: String, value: String) {
@@ -6038,6 +6272,38 @@ extension AlexaForBusiness {
 
     }
 
+    public struct UpdateEndOfMeetingReminder: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReminderAtMinutes", required: false, type: .list), 
+            AWSShapeMember(label: "ReminderType", required: false, type: .enum)
+        ]
+
+        /// Whether an end of meeting reminder is enabled or not.
+        public let enabled: Bool?
+        /// Updates settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending. 
+        public let reminderAtMinutes: [Int]?
+        /// The type of sound that users hear during the end of meeting reminder. 
+        public let reminderType: EndOfMeetingReminderType?
+
+        public init(enabled: Bool? = nil, reminderAtMinutes: [Int]? = nil, reminderType: EndOfMeetingReminderType? = nil) {
+            self.enabled = enabled
+            self.reminderAtMinutes = reminderAtMinutes
+            self.reminderType = reminderType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.reminderAtMinutes, name:"reminderAtMinutes", parent: name, max: 1)
+            try validate(self.reminderAtMinutes, name:"reminderAtMinutes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case reminderAtMinutes = "ReminderAtMinutes"
+            case reminderType = "ReminderType"
+        }
+    }
+
     public struct UpdateGatewayGroupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -6134,6 +6400,64 @@ extension AlexaForBusiness {
 
     }
 
+    public struct UpdateInstantBooking: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DurationInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+
+        /// Duration between 15 and 240 minutes at increments of 15 that determines how long to book an available room when a meeting is started with Alexa.
+        public let durationInMinutes: Int?
+        /// Whether instant booking is enabled or not.
+        public let enabled: Bool?
+
+        public init(durationInMinutes: Int? = nil, enabled: Bool? = nil) {
+            self.durationInMinutes = durationInMinutes
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInMinutes = "DurationInMinutes"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct UpdateMeetingRoomConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndOfMeetingReminder", required: false, type: .structure), 
+            AWSShapeMember(label: "InstantBooking", required: false, type: .structure), 
+            AWSShapeMember(label: "RequireCheckIn", required: false, type: .structure), 
+            AWSShapeMember(label: "RoomUtilizationMetricsEnabled", required: false, type: .boolean)
+        ]
+
+        /// Settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending. 
+        public let endOfMeetingReminder: UpdateEndOfMeetingReminder?
+        /// Settings to automatically book an available room available for a configured duration when joining a meeting with Alexa.
+        public let instantBooking: UpdateInstantBooking?
+        /// Settings for requiring a check in when a room is reserved. Alexa can cancel a room reservation if it's not checked into to make the room available for others. Users can check in by joining the meeting with Alexa or an AVS device, or by saying “Alexa, check in.” 
+        public let requireCheckIn: UpdateRequireCheckIn?
+        /// Whether room utilization metrics are enabled or not.
+        public let roomUtilizationMetricsEnabled: Bool?
+
+        public init(endOfMeetingReminder: UpdateEndOfMeetingReminder? = nil, instantBooking: UpdateInstantBooking? = nil, requireCheckIn: UpdateRequireCheckIn? = nil, roomUtilizationMetricsEnabled: Bool? = nil) {
+            self.endOfMeetingReminder = endOfMeetingReminder
+            self.instantBooking = instantBooking
+            self.requireCheckIn = requireCheckIn
+            self.roomUtilizationMetricsEnabled = roomUtilizationMetricsEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.endOfMeetingReminder?.validate(name: "\(name).endOfMeetingReminder")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endOfMeetingReminder = "EndOfMeetingReminder"
+            case instantBooking = "InstantBooking"
+            case requireCheckIn = "RequireCheckIn"
+            case roomUtilizationMetricsEnabled = "RoomUtilizationMetricsEnabled"
+        }
+    }
+
     public struct UpdateNetworkProfileRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
@@ -6218,6 +6542,7 @@ extension AlexaForBusiness {
             AWSShapeMember(label: "IsDefault", required: false, type: .boolean), 
             AWSShapeMember(label: "Locale", required: false, type: .string), 
             AWSShapeMember(label: "MaxVolumeLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "MeetingRoomConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "ProfileArn", required: false, type: .string), 
             AWSShapeMember(label: "ProfileName", required: false, type: .string), 
             AWSShapeMember(label: "PSTNEnabled", required: false, type: .boolean), 
@@ -6233,10 +6558,12 @@ extension AlexaForBusiness {
         public let distanceUnit: DistanceUnit?
         /// Sets the profile as default if selected. If this is missing, no update is done to the default status.
         public let isDefault: Bool?
-        /// The updated locale for the room profile.
+        /// The updated locale for the room profile. (This is currently only available to a limited preview audience.)
         public let locale: String?
         /// The updated maximum volume limit for the room profile.
         public let maxVolumeLimit: Int?
+        /// The updated meeting room settings of a room profile.
+        public let meetingRoomConfiguration: UpdateMeetingRoomConfiguration?
         /// The ARN of the room profile to update. Required.
         public let profileArn: String?
         /// The updated name for the room profile.
@@ -6252,12 +6579,13 @@ extension AlexaForBusiness {
         /// The updated wake word for the room profile.
         public let wakeWord: WakeWord?
 
-        public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+        public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: UpdateMeetingRoomConfiguration? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.distanceUnit = distanceUnit
             self.isDefault = isDefault
             self.locale = locale
             self.maxVolumeLimit = maxVolumeLimit
+            self.meetingRoomConfiguration = meetingRoomConfiguration
             self.profileArn = profileArn
             self.profileName = profileName
             self.pSTNEnabled = pSTNEnabled
@@ -6272,6 +6600,7 @@ extension AlexaForBusiness {
             try validate(self.address, name:"address", parent: name, min: 1)
             try validate(self.locale, name:"locale", parent: name, max: 256)
             try validate(self.locale, name:"locale", parent: name, min: 1)
+            try self.meetingRoomConfiguration?.validate(name: "\(name).meetingRoomConfiguration")
             try validate(self.profileArn, name:"profileArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try validate(self.profileName, name:"profileName", parent: name, max: 100)
             try validate(self.profileName, name:"profileName", parent: name, min: 1)
@@ -6286,6 +6615,7 @@ extension AlexaForBusiness {
             case isDefault = "IsDefault"
             case locale = "Locale"
             case maxVolumeLimit = "MaxVolumeLimit"
+            case meetingRoomConfiguration = "MeetingRoomConfiguration"
             case profileArn = "ProfileArn"
             case profileName = "ProfileName"
             case pSTNEnabled = "PSTNEnabled"
@@ -6302,6 +6632,28 @@ extension AlexaForBusiness {
         public init() {
         }
 
+    }
+
+    public struct UpdateRequireCheckIn: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReleaseAfterMinutes", required: false, type: .integer)
+        ]
+
+        /// Whether require check in is enabled or not.
+        public let enabled: Bool?
+        /// Duration between 5 and 20 minutes to determine when to release the room if it's not checked into. 
+        public let releaseAfterMinutes: Int?
+
+        public init(enabled: Bool? = nil, releaseAfterMinutes: Int? = nil) {
+            self.enabled = enabled
+            self.releaseAfterMinutes = releaseAfterMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case releaseAfterMinutes = "ReleaseAfterMinutes"
+        }
     }
 
     public struct UpdateRoomRequest: AWSShape {

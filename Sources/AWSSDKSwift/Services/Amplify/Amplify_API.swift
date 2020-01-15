@@ -32,6 +32,11 @@ public struct Amplify {
         return client.send(operation: "CreateApp", path: "/apps", httpMethod: "POST", input: input)
     }
 
+    ///   Creates a new backend environment for an Amplify App. 
+    public func createBackendEnvironment(_ input: CreateBackendEnvironmentRequest) -> Future<CreateBackendEnvironmentResult> {
+        return client.send(operation: "CreateBackendEnvironment", path: "/apps/{appId}/backendenvironments", httpMethod: "POST", input: input)
+    }
+
     ///   Creates a new Branch for an Amplify App. 
     public func createBranch(_ input: CreateBranchRequest) -> Future<CreateBranchResult> {
         return client.send(operation: "CreateBranch", path: "/apps/{appId}/branches", httpMethod: "POST", input: input)
@@ -55,6 +60,11 @@ public struct Amplify {
     ///   Delete an existing Amplify App by appId. 
     public func deleteApp(_ input: DeleteAppRequest) -> Future<DeleteAppResult> {
         return client.send(operation: "DeleteApp", path: "/apps/{appId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///   Delete backend environment for an Amplify App. 
+    public func deleteBackendEnvironment(_ input: DeleteBackendEnvironmentRequest) -> Future<DeleteBackendEnvironmentResult> {
+        return client.send(operation: "DeleteBackendEnvironment", path: "/apps/{appId}/backendenvironments/{environmentName}", httpMethod: "DELETE", input: input)
     }
 
     ///   Deletes a branch for an Amplify App. 
@@ -92,6 +102,11 @@ public struct Amplify {
         return client.send(operation: "GetArtifactUrl", path: "/artifacts/{artifactId}", httpMethod: "GET", input: input)
     }
 
+    ///   Retrieves a backend environment for an Amplify App. 
+    public func getBackendEnvironment(_ input: GetBackendEnvironmentRequest) -> Future<GetBackendEnvironmentResult> {
+        return client.send(operation: "GetBackendEnvironment", path: "/apps/{appId}/backendenvironments/{environmentName}", httpMethod: "GET", input: input)
+    }
+
     ///   Retrieves a branch for an Amplify App. 
     public func getBranch(_ input: GetBranchRequest) -> Future<GetBranchResult> {
         return client.send(operation: "GetBranch", path: "/apps/{appId}/branches/{branchName}", httpMethod: "GET", input: input)
@@ -120,6 +135,11 @@ public struct Amplify {
     ///   List artifacts with an app, a branch, a job and an artifact type. 
     public func listArtifacts(_ input: ListArtifactsRequest) -> Future<ListArtifactsResult> {
         return client.send(operation: "ListArtifacts", path: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts", httpMethod: "GET", input: input)
+    }
+
+    ///   Lists backend environments for an Amplify App. 
+    public func listBackendEnvironments(_ input: ListBackendEnvironmentsRequest) -> Future<ListBackendEnvironmentsResult> {
+        return client.send(operation: "ListBackendEnvironments", path: "/apps/{appId}/backendenvironments", httpMethod: "GET", input: input)
     }
 
     ///   Lists branches for an Amplify App. 

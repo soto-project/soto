@@ -6,6 +6,7 @@ import AWSSDKSwiftCore
 public enum FirehoseErrorType: AWSErrorType {
     case concurrentModificationException(message: String?)
     case invalidArgumentException(message: String?)
+    case invalidKMSResourceException(message: String?)
     case limitExceededException(message: String?)
     case resourceInUseException(message: String?)
     case resourceNotFoundException(message: String?)
@@ -23,6 +24,8 @@ extension FirehoseErrorType {
             self = .concurrentModificationException(message: message)
         case "InvalidArgumentException":
             self = .invalidArgumentException(message: message)
+        case "InvalidKMSResourceException":
+            self = .invalidKMSResourceException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "ResourceInUseException":
@@ -44,6 +47,8 @@ extension FirehoseErrorType : CustomStringConvertible {
             return "ConcurrentModificationException: \(message ?? "")"
         case .invalidArgumentException(let message):
             return "InvalidArgumentException: \(message ?? "")"
+        case .invalidKMSResourceException(let message):
+            return "InvalidKMSResourceException: \(message ?? "")"
         case .limitExceededException(let message):
             return "LimitExceededException: \(message ?? "")"
         case .resourceInUseException(let message):

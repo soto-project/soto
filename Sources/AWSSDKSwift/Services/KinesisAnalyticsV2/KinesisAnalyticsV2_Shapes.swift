@@ -333,6 +333,69 @@ extension KinesisAnalyticsV2 {
         }
     }
 
+    public struct AddApplicationVpcConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
+            AWSShapeMember(label: "VpcConfiguration", required: true, type: .structure)
+        ]
+
+        /// The name of an existing application.
+        public let applicationName: String
+        /// The version of the application to which you want to add the input processing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
+        public let currentApplicationVersionId: Int64
+        /// Description of the VPC to add to the application.
+        public let vpcConfiguration: VpcConfiguration
+
+        public init(applicationName: String, currentApplicationVersionId: Int64, vpcConfiguration: VpcConfiguration) {
+            self.applicationName = applicationName
+            self.currentApplicationVersionId = currentApplicationVersionId
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(self.applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(self.applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(self.currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(self.currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try self.vpcConfiguration.validate(name: "\(name).vpcConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct AddApplicationVpcConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationARN", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationVersionId", required: false, type: .long), 
+            AWSShapeMember(label: "VpcConfigurationDescription", required: false, type: .structure)
+        ]
+
+        /// The ARN of the application.
+        public let applicationARN: String?
+        /// Provides the current application version. Kinesis Data Analytics updates the ApplicationVersionId each time you update the application. 
+        public let applicationVersionId: Int64?
+        /// The parameters of the new VPC configuration.
+        public let vpcConfigurationDescription: VpcConfigurationDescription?
+
+        public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, vpcConfigurationDescription: VpcConfigurationDescription? = nil) {
+            self.applicationARN = applicationARN
+            self.applicationVersionId = applicationVersionId
+            self.vpcConfigurationDescription = vpcConfigurationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationARN = "ApplicationARN"
+            case applicationVersionId = "ApplicationVersionId"
+            case vpcConfigurationDescription = "VpcConfigurationDescription"
+        }
+    }
+
     public struct ApplicationCodeConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeContent", required: false, type: .structure), 
@@ -413,7 +476,8 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationSnapshotConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "EnvironmentProperties", required: false, type: .structure), 
             AWSShapeMember(label: "FlinkApplicationConfiguration", required: false, type: .structure), 
-            AWSShapeMember(label: "SqlApplicationConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "SqlApplicationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcConfigurations", required: false, type: .list)
         ]
 
         /// The code location and type parameters for a Java-based Kinesis Data Analytics application.
@@ -426,13 +490,16 @@ extension KinesisAnalyticsV2 {
         public let flinkApplicationConfiguration: FlinkApplicationConfiguration?
         /// The creation and update parameters for an SQL-based Kinesis Data Analytics application.
         public let sqlApplicationConfiguration: SqlApplicationConfiguration?
+        /// The array of descriptions of VPC configurations available to the application.
+        public let vpcConfigurations: [VpcConfiguration]?
 
-        public init(applicationCodeConfiguration: ApplicationCodeConfiguration, applicationSnapshotConfiguration: ApplicationSnapshotConfiguration? = nil, environmentProperties: EnvironmentProperties? = nil, flinkApplicationConfiguration: FlinkApplicationConfiguration? = nil, sqlApplicationConfiguration: SqlApplicationConfiguration? = nil) {
+        public init(applicationCodeConfiguration: ApplicationCodeConfiguration, applicationSnapshotConfiguration: ApplicationSnapshotConfiguration? = nil, environmentProperties: EnvironmentProperties? = nil, flinkApplicationConfiguration: FlinkApplicationConfiguration? = nil, sqlApplicationConfiguration: SqlApplicationConfiguration? = nil, vpcConfigurations: [VpcConfiguration]? = nil) {
             self.applicationCodeConfiguration = applicationCodeConfiguration
             self.applicationSnapshotConfiguration = applicationSnapshotConfiguration
             self.environmentProperties = environmentProperties
             self.flinkApplicationConfiguration = flinkApplicationConfiguration
             self.sqlApplicationConfiguration = sqlApplicationConfiguration
+            self.vpcConfigurations = vpcConfigurations
         }
 
         public func validate(name: String) throws {
@@ -440,6 +507,9 @@ extension KinesisAnalyticsV2 {
             try self.environmentProperties?.validate(name: "\(name).environmentProperties")
             try self.flinkApplicationConfiguration?.validate(name: "\(name).flinkApplicationConfiguration")
             try self.sqlApplicationConfiguration?.validate(name: "\(name).sqlApplicationConfiguration")
+            try self.vpcConfigurations?.forEach {
+                try $0.validate(name: "\(name).vpcConfigurations[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -448,6 +518,7 @@ extension KinesisAnalyticsV2 {
             case environmentProperties = "EnvironmentProperties"
             case flinkApplicationConfiguration = "FlinkApplicationConfiguration"
             case sqlApplicationConfiguration = "SqlApplicationConfiguration"
+            case vpcConfigurations = "VpcConfigurations"
         }
     }
 
@@ -458,7 +529,8 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "EnvironmentPropertyDescriptions", required: false, type: .structure), 
             AWSShapeMember(label: "FlinkApplicationConfigurationDescription", required: false, type: .structure), 
             AWSShapeMember(label: "RunConfigurationDescription", required: false, type: .structure), 
-            AWSShapeMember(label: "SqlApplicationConfigurationDescription", required: false, type: .structure)
+            AWSShapeMember(label: "SqlApplicationConfigurationDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcConfigurationDescriptions", required: false, type: .list)
         ]
 
         /// The details about the application code for a Java-based Kinesis Data Analytics application.
@@ -473,14 +545,17 @@ extension KinesisAnalyticsV2 {
         public let runConfigurationDescription: RunConfigurationDescription?
         /// The details about inputs, outputs, and reference data sources for an SQL-based Kinesis Data Analytics application.
         public let sqlApplicationConfigurationDescription: SqlApplicationConfigurationDescription?
+        /// The array of descriptions of VPC configurations available to the application.
+        public let vpcConfigurationDescriptions: [VpcConfigurationDescription]?
 
-        public init(applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription? = nil, applicationSnapshotConfigurationDescription: ApplicationSnapshotConfigurationDescription? = nil, environmentPropertyDescriptions: EnvironmentPropertyDescriptions? = nil, flinkApplicationConfigurationDescription: FlinkApplicationConfigurationDescription? = nil, runConfigurationDescription: RunConfigurationDescription? = nil, sqlApplicationConfigurationDescription: SqlApplicationConfigurationDescription? = nil) {
+        public init(applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription? = nil, applicationSnapshotConfigurationDescription: ApplicationSnapshotConfigurationDescription? = nil, environmentPropertyDescriptions: EnvironmentPropertyDescriptions? = nil, flinkApplicationConfigurationDescription: FlinkApplicationConfigurationDescription? = nil, runConfigurationDescription: RunConfigurationDescription? = nil, sqlApplicationConfigurationDescription: SqlApplicationConfigurationDescription? = nil, vpcConfigurationDescriptions: [VpcConfigurationDescription]? = nil) {
             self.applicationCodeConfigurationDescription = applicationCodeConfigurationDescription
             self.applicationSnapshotConfigurationDescription = applicationSnapshotConfigurationDescription
             self.environmentPropertyDescriptions = environmentPropertyDescriptions
             self.flinkApplicationConfigurationDescription = flinkApplicationConfigurationDescription
             self.runConfigurationDescription = runConfigurationDescription
             self.sqlApplicationConfigurationDescription = sqlApplicationConfigurationDescription
+            self.vpcConfigurationDescriptions = vpcConfigurationDescriptions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -490,6 +565,7 @@ extension KinesisAnalyticsV2 {
             case flinkApplicationConfigurationDescription = "FlinkApplicationConfigurationDescription"
             case runConfigurationDescription = "RunConfigurationDescription"
             case sqlApplicationConfigurationDescription = "SqlApplicationConfigurationDescription"
+            case vpcConfigurationDescriptions = "VpcConfigurationDescriptions"
         }
     }
 
@@ -499,7 +575,8 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "ApplicationSnapshotConfigurationUpdate", required: false, type: .structure), 
             AWSShapeMember(label: "EnvironmentPropertyUpdates", required: false, type: .structure), 
             AWSShapeMember(label: "FlinkApplicationConfigurationUpdate", required: false, type: .structure), 
-            AWSShapeMember(label: "SqlApplicationConfigurationUpdate", required: false, type: .structure)
+            AWSShapeMember(label: "SqlApplicationConfigurationUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcConfigurationUpdates", required: false, type: .list)
         ]
 
         /// Describes updates to a Java-based Kinesis Data Analytics application's code configuration.
@@ -512,13 +589,16 @@ extension KinesisAnalyticsV2 {
         public let flinkApplicationConfigurationUpdate: FlinkApplicationConfigurationUpdate?
         /// Describes updates to an SQL-based Kinesis Data Analytics application's configuration.
         public let sqlApplicationConfigurationUpdate: SqlApplicationConfigurationUpdate?
+        /// Updates to the array of descriptions of VPC configurations available to the application.
+        public let vpcConfigurationUpdates: [VpcConfigurationUpdate]?
 
-        public init(applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate? = nil, applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate? = nil, environmentPropertyUpdates: EnvironmentPropertyUpdates? = nil, flinkApplicationConfigurationUpdate: FlinkApplicationConfigurationUpdate? = nil, sqlApplicationConfigurationUpdate: SqlApplicationConfigurationUpdate? = nil) {
+        public init(applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate? = nil, applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate? = nil, environmentPropertyUpdates: EnvironmentPropertyUpdates? = nil, flinkApplicationConfigurationUpdate: FlinkApplicationConfigurationUpdate? = nil, sqlApplicationConfigurationUpdate: SqlApplicationConfigurationUpdate? = nil, vpcConfigurationUpdates: [VpcConfigurationUpdate]? = nil) {
             self.applicationCodeConfigurationUpdate = applicationCodeConfigurationUpdate
             self.applicationSnapshotConfigurationUpdate = applicationSnapshotConfigurationUpdate
             self.environmentPropertyUpdates = environmentPropertyUpdates
             self.flinkApplicationConfigurationUpdate = flinkApplicationConfigurationUpdate
             self.sqlApplicationConfigurationUpdate = sqlApplicationConfigurationUpdate
+            self.vpcConfigurationUpdates = vpcConfigurationUpdates
         }
 
         public func validate(name: String) throws {
@@ -526,6 +606,9 @@ extension KinesisAnalyticsV2 {
             try self.environmentPropertyUpdates?.validate(name: "\(name).environmentPropertyUpdates")
             try self.flinkApplicationConfigurationUpdate?.validate(name: "\(name).flinkApplicationConfigurationUpdate")
             try self.sqlApplicationConfigurationUpdate?.validate(name: "\(name).sqlApplicationConfigurationUpdate")
+            try self.vpcConfigurationUpdates?.forEach {
+                try $0.validate(name: "\(name).vpcConfigurationUpdates[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -534,6 +617,7 @@ extension KinesisAnalyticsV2 {
             case environmentPropertyUpdates = "EnvironmentPropertyUpdates"
             case flinkApplicationConfigurationUpdate = "FlinkApplicationConfigurationUpdate"
             case sqlApplicationConfigurationUpdate = "SqlApplicationConfigurationUpdate"
+            case vpcConfigurationUpdates = "VpcConfigurationUpdates"
         }
     }
 
@@ -621,7 +705,7 @@ extension KinesisAnalyticsV2 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.snapshotName, name:"snapshotName", parent: name, max: 128)
+            try validate(self.snapshotName, name:"snapshotName", parent: name, max: 256)
             try validate(self.snapshotName, name:"snapshotName", parent: name, min: 1)
             try validate(self.snapshotName, name:"snapshotName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
@@ -772,13 +856,13 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "MinPauseBetweenCheckpoints", required: false, type: .long)
         ]
 
-        /// Describes whether checkpointing is enabled for a Java-based Kinesis Data Analytics application.
+        /// Describes whether checkpointing is enabled for a Java-based Kinesis Data Analytics application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code. 
         public let checkpointingEnabled: Bool?
-        /// Describes the interval in milliseconds between checkpoint operations. 
+        /// Describes the interval in milliseconds between checkpoint operations.   If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval vaue of 60000, even if this value is set to another value using this API or in application code. 
         public let checkpointInterval: Int64?
-        /// Describes whether the application uses Amazon Kinesis Data Analytics' default checkpointing behavior. 
+        /// Describes whether the application uses Amazon Kinesis Data Analytics' default checkpointing behavior. You must set this property to CUSTOM in order to set the CheckpointingEnabled, CheckpointInterval, or MinPauseBetweenCheckpoints parameters.  If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:    CheckpointingEnabled: true    CheckpointInterval: 60000    MinPauseBetweenCheckpoints: 5000   
         public let configurationType: ConfigurationType
-        /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start. If a checkpoint operation takes longer than the CheckpointInterval, the application otherwise performs continual checkpoint operations. For more information, see  Tuning Checkpointing in the Apache Flink Documentation.
+        /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start. If a checkpoint operation takes longer than the CheckpointInterval, the application otherwise performs continual checkpoint operations. For more information, see  Tuning Checkpointing in the Apache Flink Documentation.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this API or in application code. 
         public let minPauseBetweenCheckpoints: Int64?
 
         public init(checkpointingEnabled: Bool? = nil, checkpointInterval: Int64? = nil, configurationType: ConfigurationType, minPauseBetweenCheckpoints: Int64? = nil) {
@@ -789,7 +873,7 @@ extension KinesisAnalyticsV2 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.checkpointInterval, name:"checkpointInterval", parent: name, min: 0)
+            try validate(self.checkpointInterval, name:"checkpointInterval", parent: name, min: 1)
             try validate(self.minPauseBetweenCheckpoints, name:"minPauseBetweenCheckpoints", parent: name, min: 0)
         }
 
@@ -809,13 +893,13 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "MinPauseBetweenCheckpoints", required: false, type: .long)
         ]
 
-        /// Describes whether checkpointing is enabled for a Java-based Kinesis Data Analytics application.
+        /// Describes whether checkpointing is enabled for a Java-based Kinesis Data Analytics application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code. 
         public let checkpointingEnabled: Bool?
-        /// Describes the interval in milliseconds between checkpoint operations.
+        /// Describes the interval in milliseconds between checkpoint operations.   If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval vaue of 60000, even if this value is set to another value using this API or in application code. 
         public let checkpointInterval: Int64?
-        /// Describes whether the application uses the default checkpointing behavior in Kinesis Data Analytics.
+        /// Describes whether the application uses the default checkpointing behavior in Kinesis Data Analytics.   If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:    CheckpointingEnabled: true    CheckpointInterval: 60000    MinPauseBetweenCheckpoints: 5000   
         public let configurationType: ConfigurationType?
-        /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start.
+        /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start.   If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this API or in application code. 
         public let minPauseBetweenCheckpoints: Int64?
 
         public init(checkpointingEnabled: Bool? = nil, checkpointInterval: Int64? = nil, configurationType: ConfigurationType? = nil, minPauseBetweenCheckpoints: Int64? = nil) {
@@ -841,13 +925,13 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "MinPauseBetweenCheckpointsUpdate", required: false, type: .long)
         ]
 
-        /// Describes updates to whether checkpointing is enabled for an application.
+        /// Describes updates to whether checkpointing is enabled for an application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code. 
         public let checkpointingEnabledUpdate: Bool?
-        /// Describes updates to the interval in milliseconds between checkpoint operations.
+        /// Describes updates to the interval in milliseconds between checkpoint operations.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval vaue of 60000, even if this value is set to another value using this API or in application code. 
         public let checkpointIntervalUpdate: Int64?
-        /// Describes updates to whether the application uses the default checkpointing behavior of Kinesis Data Analytics.
+        /// Describes updates to whether the application uses the default checkpointing behavior of Kinesis Data Analytics. You must set this property to CUSTOM in order to set the CheckpointingEnabled, CheckpointInterval, or MinPauseBetweenCheckpoints parameters.   If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:    CheckpointingEnabled: true    CheckpointInterval: 60000    MinPauseBetweenCheckpoints: 5000   
         public let configurationTypeUpdate: ConfigurationType?
-        /// Describes updates to the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start.
+        /// Describes updates to the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this API or in application code. 
         public let minPauseBetweenCheckpointsUpdate: Int64?
 
         public init(checkpointingEnabledUpdate: Bool? = nil, checkpointIntervalUpdate: Int64? = nil, configurationTypeUpdate: ConfigurationType? = nil, minPauseBetweenCheckpointsUpdate: Int64? = nil) {
@@ -858,7 +942,7 @@ extension KinesisAnalyticsV2 {
         }
 
         public func validate(name: String) throws {
-            try validate(self.checkpointIntervalUpdate, name:"checkpointIntervalUpdate", parent: name, min: 0)
+            try validate(self.checkpointIntervalUpdate, name:"checkpointIntervalUpdate", parent: name, min: 1)
             try validate(self.minPauseBetweenCheckpointsUpdate, name:"minPauseBetweenCheckpointsUpdate", parent: name, min: 0)
         }
 
@@ -1088,7 +1172,7 @@ extension KinesisAnalyticsV2 {
         public let runtimeEnvironment: RuntimeEnvironment
         /// The IAM role used by the application to access Kinesis data streams, Kinesis Data Firehose delivery streams, Amazon S3 objects, and other external resources.
         public let serviceExecutionRole: String
-        /// A list of one or more tags to assign to the application. A tag is a key-value pair that identifies an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management Guide.
+        /// A list of one or more tags to assign to the application. A tag is a key-value pair that identifies an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging.
         public let tags: [Tag]?
 
         public init(applicationConfiguration: ApplicationConfiguration? = nil, applicationDescription: String? = nil, applicationName: String, cloudWatchLoggingOptions: [CloudWatchLoggingOption]? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String, tags: [Tag]? = nil) {
@@ -1169,7 +1253,7 @@ extension KinesisAnalyticsV2 {
             try validate(self.applicationName, name:"applicationName", parent: name, max: 128)
             try validate(self.applicationName, name:"applicationName", parent: name, min: 1)
             try validate(self.applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try validate(self.snapshotName, name:"snapshotName", parent: name, max: 128)
+            try validate(self.snapshotName, name:"snapshotName", parent: name, max: 256)
             try validate(self.snapshotName, name:"snapshotName", parent: name, min: 1)
             try validate(self.snapshotName, name:"snapshotName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
@@ -1493,7 +1577,7 @@ extension KinesisAnalyticsV2 {
             try validate(self.applicationName, name:"applicationName", parent: name, max: 128)
             try validate(self.applicationName, name:"applicationName", parent: name, min: 1)
             try validate(self.applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try validate(self.snapshotName, name:"snapshotName", parent: name, max: 128)
+            try validate(self.snapshotName, name:"snapshotName", parent: name, max: 256)
             try validate(self.snapshotName, name:"snapshotName", parent: name, min: 1)
             try validate(self.snapshotName, name:"snapshotName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
@@ -1511,6 +1595,66 @@ extension KinesisAnalyticsV2 {
         public init() {
         }
 
+    }
+
+    public struct DeleteApplicationVpcConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
+            AWSShapeMember(label: "VpcConfigurationId", required: true, type: .string)
+        ]
+
+        /// The name of an existing application.
+        public let applicationName: String
+        /// The current application version ID. You can retrieve the application version ID using DescribeApplication.
+        public let currentApplicationVersionId: Int64
+        /// The ID of the VPC configuration to delete.
+        public let vpcConfigurationId: String
+
+        public init(applicationName: String, currentApplicationVersionId: Int64, vpcConfigurationId: String) {
+            self.applicationName = applicationName
+            self.currentApplicationVersionId = currentApplicationVersionId
+            self.vpcConfigurationId = vpcConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.applicationName, name:"applicationName", parent: name, max: 128)
+            try validate(self.applicationName, name:"applicationName", parent: name, min: 1)
+            try validate(self.applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(self.currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, max: 999999999)
+            try validate(self.currentApplicationVersionId, name:"currentApplicationVersionId", parent: name, min: 1)
+            try validate(self.vpcConfigurationId, name:"vpcConfigurationId", parent: name, max: 50)
+            try validate(self.vpcConfigurationId, name:"vpcConfigurationId", parent: name, min: 1)
+            try validate(self.vpcConfigurationId, name:"vpcConfigurationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+            case vpcConfigurationId = "VpcConfigurationId"
+        }
+    }
+
+    public struct DeleteApplicationVpcConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationARN", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationVersionId", required: false, type: .long)
+        ]
+
+        /// The ARN of the Kinesis Data Analytics application.
+        public let applicationARN: String?
+        /// The updated version ID of the application.
+        public let applicationVersionId: Int64?
+
+        public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil) {
+            self.applicationARN = applicationARN
+            self.applicationVersionId = applicationVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationARN = "ApplicationARN"
+            case applicationVersionId = "ApplicationVersionId"
+        }
     }
 
     public struct DescribeApplicationRequest: AWSShape {
@@ -1578,7 +1722,7 @@ extension KinesisAnalyticsV2 {
             try validate(self.applicationName, name:"applicationName", parent: name, max: 128)
             try validate(self.applicationName, name:"applicationName", parent: name, min: 1)
             try validate(self.applicationName, name:"applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try validate(self.snapshotName, name:"snapshotName", parent: name, max: 128)
+            try validate(self.snapshotName, name:"snapshotName", parent: name, max: 256)
             try validate(self.snapshotName, name:"snapshotName", parent: name, min: 1)
             try validate(self.snapshotName, name:"snapshotName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
@@ -1861,6 +2005,23 @@ extension KinesisAnalyticsV2 {
             case checkpointConfigurationUpdate = "CheckpointConfigurationUpdate"
             case monitoringConfigurationUpdate = "MonitoringConfigurationUpdate"
             case parallelismConfigurationUpdate = "ParallelismConfigurationUpdate"
+        }
+    }
+
+    public struct FlinkRunConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowNonRestoredState", required: false, type: .boolean)
+        ]
+
+        /// When restoring from a savepoint, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between savepoints to remove stateful parameters, and state data in the savepoint no longer corresponds to valid application data. For more information, see  Allowing Non-Restored State in the Apache Flink documentation.
+        public let allowNonRestoredState: Bool?
+
+        public init(allowNonRestoredState: Bool? = nil) {
+            self.allowNonRestoredState = allowNonRestoredState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowNonRestoredState = "AllowNonRestoredState"
         }
     }
 
@@ -2827,7 +2988,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "MetricsLevel", required: false, type: .enum)
         ]
 
-        /// Describes whether to use the default CloudWatch logging configuration for an application.
+        /// Describes whether to use the default CloudWatch logging configuration for an application. You must set this property to CUSTOM in order to set the LogLevel or MetricsLevel parameters.
         public let configurationType: ConfigurationType
         /// Describes the verbosity of the CloudWatch Logs for an application.
         public let logLevel: LogLevel?
@@ -2881,7 +3042,7 @@ extension KinesisAnalyticsV2 {
             AWSShapeMember(label: "MetricsLevelUpdate", required: false, type: .enum)
         ]
 
-        /// Describes updates to whether to use the default CloudWatch logging configuration for an application.
+        /// Describes updates to whether to use the default CloudWatch logging configuration for an application. You must set this property to CUSTOM in order to set the LogLevel or MetricsLevel parameters.
         public let configurationTypeUpdate: ConfigurationType?
         /// Describes updates to the verbosity of the CloudWatch Logs for an application.
         public let logLevelUpdate: LogLevel?
@@ -3051,9 +3212,9 @@ extension KinesisAnalyticsV2 {
 
         /// Describes whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
         public let autoScalingEnabled: Bool?
-        /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service.
+        /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service. You must set this property to CUSTOM in order to change your application's AutoScalingEnabled, Parallelism, or ParallelismPerKPU properties.
         public let configurationType: ConfigurationType
-        /// Describes the initial number of parallel tasks that a Java-based Kinesis Data Analytics application can perform. The Kinesis Data Analytics service can increase this number automatically if ParallelismConfiguration$AutoScalingEnabled is set to true.
+        /// Describes the initial number of parallel tasks that a Java-based Kinesis Data Analytics application can perform. If AutoScalingEnabled is set to True, Kinesis Data Analytics increases the CurrentParallelism value in response to application load. The service can increase the CurrentParallelism value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public let parallelism: Int?
         /// Describes the number of parallel tasks that a Java-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application. For more information about KPUs, see Amazon Kinesis Data Analytics Pricing.
         public let parallelismPerKPU: Int?
@@ -3091,9 +3252,9 @@ extension KinesisAnalyticsV2 {
         public let autoScalingEnabled: Bool?
         /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service. 
         public let configurationType: ConfigurationType?
-        /// Describes the current number of parallel tasks that a Java-based Kinesis Data Analytics application can perform.
+        /// Describes the current number of parallel tasks that a Java-based Kinesis Data Analytics application can perform. If AutoScalingEnabled is set to True, Kinesis Data Analytics can increase this value in response to application load. The service can increase this value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public let currentParallelism: Int?
-        /// Describes the initial number of parallel tasks that a Java-based Kinesis Data Analytics application can perform. 
+        /// Describes the initial number of parallel tasks that a Java-based Kinesis Data Analytics application can perform. If AutoScalingEnabled is set to True, then Kinesis Data Analytics can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public let parallelism: Int?
         /// Describes the number of parallel tasks that a Java-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application.
         public let parallelismPerKPU: Int?
@@ -3125,11 +3286,11 @@ extension KinesisAnalyticsV2 {
 
         /// Describes updates to whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
         public let autoScalingEnabledUpdate: Bool?
-        /// Describes updates to whether the application uses the default parallelism for the Kinesis Data Analytics service, or if a custom parallelism is used.
+        /// Describes updates to whether the application uses the default parallelism for the Kinesis Data Analytics service, or if a custom parallelism is used. You must set this property to CUSTOM in order to change your application's AutoScalingEnabled, Parallelism, or ParallelismPerKPU properties.
         public let configurationTypeUpdate: ConfigurationType?
         /// Describes updates to the number of parallel tasks an application can perform per Kinesis Processing Unit (KPU) used by the application.
         public let parallelismPerKPUUpdate: Int?
-        /// Describes updates to the initial number of parallel tasks an application can perform.
+        /// Describes updates to the initial number of parallel tasks an application can perform. If AutoScalingEnabled is set to True, then Kinesis Data Analytics can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service will reduce CurrentParallelism down to the Parallelism setting.
         public let parallelismUpdate: Int?
 
         public init(autoScalingEnabledUpdate: Bool? = nil, configurationTypeUpdate: ConfigurationType? = nil, parallelismPerKPUUpdate: Int? = nil, parallelismUpdate: Int? = nil) {
@@ -3360,16 +3521,20 @@ extension KinesisAnalyticsV2 {
     public struct RunConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationRestoreConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "FlinkRunConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "SqlRunConfigurations", required: false, type: .list)
         ]
 
         /// Describes the restore behavior of a restarting application.
         public let applicationRestoreConfiguration: ApplicationRestoreConfiguration?
+        /// Describes the starting parameters for an Apache Flink-based Kinesis Data Analytics application.
+        public let flinkRunConfiguration: FlinkRunConfiguration?
         /// Describes the starting parameters for an SQL-based Kinesis Data Analytics application.
         public let sqlRunConfigurations: [SqlRunConfiguration]?
 
-        public init(applicationRestoreConfiguration: ApplicationRestoreConfiguration? = nil, sqlRunConfigurations: [SqlRunConfiguration]? = nil) {
+        public init(applicationRestoreConfiguration: ApplicationRestoreConfiguration? = nil, flinkRunConfiguration: FlinkRunConfiguration? = nil, sqlRunConfigurations: [SqlRunConfiguration]? = nil) {
             self.applicationRestoreConfiguration = applicationRestoreConfiguration
+            self.flinkRunConfiguration = flinkRunConfiguration
             self.sqlRunConfigurations = sqlRunConfigurations
         }
 
@@ -3382,6 +3547,7 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationRestoreConfiguration = "ApplicationRestoreConfiguration"
+            case flinkRunConfiguration = "FlinkRunConfiguration"
             case sqlRunConfigurations = "SqlRunConfigurations"
         }
     }
@@ -3405,14 +3571,18 @@ extension KinesisAnalyticsV2 {
 
     public struct RunConfigurationUpdate: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ApplicationRestoreConfiguration", required: false, type: .structure)
+            AWSShapeMember(label: "ApplicationRestoreConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "FlinkRunConfiguration", required: false, type: .structure)
         ]
 
         /// Describes updates to the restore behavior of a restarting application.
         public let applicationRestoreConfiguration: ApplicationRestoreConfiguration?
+        /// Describes the starting parameters for an Apache Flink-based Kinesis Data Analytics application.
+        public let flinkRunConfiguration: FlinkRunConfiguration?
 
-        public init(applicationRestoreConfiguration: ApplicationRestoreConfiguration? = nil) {
+        public init(applicationRestoreConfiguration: ApplicationRestoreConfiguration? = nil, flinkRunConfiguration: FlinkRunConfiguration? = nil) {
             self.applicationRestoreConfiguration = applicationRestoreConfiguration
+            self.flinkRunConfiguration = flinkRunConfiguration
         }
 
         public func validate(name: String) throws {
@@ -3421,12 +3591,14 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationRestoreConfiguration = "ApplicationRestoreConfiguration"
+            case flinkRunConfiguration = "FlinkRunConfiguration"
         }
     }
 
     public enum RuntimeEnvironment: String, CustomStringConvertible, Codable {
         case sql10 = "SQL-1_0"
         case flink16 = "FLINK-1_6"
+        case flink18 = "FLINK-1_8"
         public var description: String { return self.rawValue }
     }
 
@@ -4106,6 +4278,104 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationDetail = "ApplicationDetail"
+        }
+    }
+
+    public struct VpcConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list)
+        ]
+
+        /// The array of SecurityGroup IDs used by the VPC configuration.
+        public let securityGroupIds: [String]
+        /// The array of Subnet IDs used by the VPC configuration.
+        public let subnetIds: [String]
+
+        public init(securityGroupIds: [String], subnetIds: [String]) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.securityGroupIds, name:"securityGroupIds", parent: name, max: 5)
+            try validate(self.securityGroupIds, name:"securityGroupIds", parent: name, min: 1)
+            try validate(self.subnetIds, name:"subnetIds", parent: name, max: 16)
+            try validate(self.subnetIds, name:"subnetIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetIds = "SubnetIds"
+        }
+    }
+
+    public struct VpcConfigurationDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
+            AWSShapeMember(label: "VpcConfigurationId", required: true, type: .string), 
+            AWSShapeMember(label: "VpcId", required: true, type: .string)
+        ]
+
+        /// The array of SecurityGroup IDs used by the VPC configuration.
+        public let securityGroupIds: [String]
+        /// The array of Subnet IDs used by the VPC configuration.
+        public let subnetIds: [String]
+        /// The ID of the VPC configuration.
+        public let vpcConfigurationId: String
+        /// The ID of the associated VPC.
+        public let vpcId: String
+
+        public init(securityGroupIds: [String], subnetIds: [String], vpcConfigurationId: String, vpcId: String) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcConfigurationId = vpcConfigurationId
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetIds = "SubnetIds"
+            case vpcConfigurationId = "VpcConfigurationId"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct VpcConfigurationUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityGroupIdUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetIdUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "VpcConfigurationId", required: true, type: .string)
+        ]
+
+        /// Describes updates to the array of SecurityGroup IDs used by the VPC configuration.
+        public let securityGroupIdUpdates: [String]?
+        /// Describes updates to the array of Subnet IDs used by the VPC configuration.
+        public let subnetIdUpdates: [String]?
+        /// Describes an update to the ID of the VPC configuration.
+        public let vpcConfigurationId: String
+
+        public init(securityGroupIdUpdates: [String]? = nil, subnetIdUpdates: [String]? = nil, vpcConfigurationId: String) {
+            self.securityGroupIdUpdates = securityGroupIdUpdates
+            self.subnetIdUpdates = subnetIdUpdates
+            self.vpcConfigurationId = vpcConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.securityGroupIdUpdates, name:"securityGroupIdUpdates", parent: name, max: 5)
+            try validate(self.securityGroupIdUpdates, name:"securityGroupIdUpdates", parent: name, min: 1)
+            try validate(self.subnetIdUpdates, name:"subnetIdUpdates", parent: name, max: 16)
+            try validate(self.subnetIdUpdates, name:"subnetIdUpdates", parent: name, min: 1)
+            try validate(self.vpcConfigurationId, name:"vpcConfigurationId", parent: name, max: 50)
+            try validate(self.vpcConfigurationId, name:"vpcConfigurationId", parent: name, min: 1)
+            try validate(self.vpcConfigurationId, name:"vpcConfigurationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIdUpdates = "SecurityGroupIdUpdates"
+            case subnetIdUpdates = "SubnetIdUpdates"
+            case vpcConfigurationId = "VpcConfigurationId"
         }
     }
 }

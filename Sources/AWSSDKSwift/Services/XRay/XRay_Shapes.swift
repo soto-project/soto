@@ -118,7 +118,7 @@ extension XRay {
             AWSShapeMember(label: "TraceIds", required: true, type: .list)
         ]
 
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
         /// Specify the trace IDs of requests for which to retrieve segments.
         public let traceIds: [String]
@@ -148,7 +148,7 @@ extension XRay {
             AWSShapeMember(label: "UnprocessedTraceIds", required: false, type: .list)
         ]
 
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
         /// Full traces for the specified requests.
         public let traces: [Trace]?
@@ -741,7 +741,7 @@ extension XRay {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
@@ -766,7 +766,7 @@ extension XRay {
 
         /// The collection of all active groups.
         public let groups: [GroupSummary]?
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
 
         public init(groups: [GroupSummary]? = nil, nextToken: String? = nil) {
@@ -785,7 +785,7 @@ extension XRay {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
@@ -803,7 +803,7 @@ extension XRay {
             AWSShapeMember(label: "SamplingRuleRecords", required: false, type: .list)
         ]
 
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
         /// Rule definitions and metadata.
         public let samplingRuleRecords: [SamplingRuleRecord]?
@@ -824,7 +824,7 @@ extension XRay {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
 
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
@@ -842,7 +842,7 @@ extension XRay {
             AWSShapeMember(label: "SamplingStatisticSummaries", required: false, type: .list)
         ]
 
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
         /// Information about the number of requests instrumented for each sampling rule.
         public let samplingStatisticSummaries: [SamplingStatisticSummary]?
@@ -924,7 +924,7 @@ extension XRay {
         public let groupARN: String?
         /// The name of a group to generate a graph based on.
         public let groupName: String?
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
         /// The start of the time frame for which to generate a graph.
         public let startTime: TimeStamp
@@ -966,7 +966,7 @@ extension XRay {
         public let containsOldGroupVersions: Bool?
         /// The end of the time frame for which the graph was generated.
         public let endTime: TimeStamp?
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
         /// The services that have processed a traced request during the specified time frame.
         public let services: [Service]?
@@ -1009,7 +1009,7 @@ extension XRay {
         public let groupARN: String?
         /// The case-sensitive name of the group for which to pull statistics from.
         public let groupName: String?
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
         /// Aggregation period in seconds.
         public let period: Int?
@@ -1055,7 +1055,7 @@ extension XRay {
 
         /// A flag indicating whether or not a group's filter expression has been consistent, or if a returned aggregation may show statistics from an older version of the group's filter expression.
         public let containsOldGroupVersions: Bool?
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
         /// The collection of statistics.
         public let timeSeriesServiceStatistics: [TimeSeriesServiceStatistics]?
@@ -1079,7 +1079,7 @@ extension XRay {
             AWSShapeMember(label: "TraceIds", required: true, type: .list)
         ]
 
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
         /// Trace IDs of requests for which to generate a service graph.
         public let traceIds: [String]
@@ -1108,7 +1108,7 @@ extension XRay {
             AWSShapeMember(label: "Services", required: false, type: .list)
         ]
 
-        /// Pagination token. Not used.
+        /// Pagination token.
         public let nextToken: String?
         /// The services that have processed one of the specified requests.
         public let services: [Service]?
@@ -1185,7 +1185,7 @@ extension XRay {
         public let nextToken: String?
         /// The total number of traces processed, including traces that did not match the specified filter expression.
         public let tracesProcessedCount: Int64?
-        /// Trace IDs and metadata for traces that were found in the specified time frame.
+        /// Trace IDs and annotations for traces that were found in the specified time frame.
         public let traceSummaries: [TraceSummary]?
 
         public init(approximateTime: TimeStamp? = nil, nextToken: String? = nil, tracesProcessedCount: Int64? = nil, traceSummaries: [TraceSummary]? = nil) {
@@ -1339,7 +1339,7 @@ extension XRay {
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
 
-        /// An AWS KMS customer master key (CMK) in one of the following formats:    Alias - The name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456.    ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this format to specify a key in a different account.   Omit this key if you set Type to NONE.
+        /// An AWS KMS customer master key (CMK) in one of the following formats:    Alias - The name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. AWS X-Ray does not support asymmetric CMKs.    ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this format to specify a key in a different account.   Omit this key if you set Type to NONE.
         public let keyId: String?
         /// The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption.
         public let `type`: EncryptionType
@@ -2247,9 +2247,9 @@ extension XRay {
         public let errorRootCauses: [ErrorRootCause]?
         /// A collection of FaultRootCause structures corresponding to the the trace segments.
         public let faultRootCauses: [FaultRootCause]?
-        /// One or more of the segment documents has a 400 series error.
+        /// The root segment document has a 400 series error.
         public let hasError: Bool?
-        /// One or more of the segment documents has a 500 series error.
+        /// The root segment document has a 500 series error.
         public let hasFault: Bool?
         /// One or more of the segment documents has a 429 throttling error.
         public let hasThrottle: Bool?

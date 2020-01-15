@@ -28,6 +28,11 @@ public struct Personalize {
         )
     }
 
+    ///  Creates a batch inference job. The operation can handle up to 50 million records and the input file must be in JSON format. For more information, see recommendations-batch.
+    public func createBatchInferenceJob(_ input: CreateBatchInferenceJobRequest) -> Future<CreateBatchInferenceJobResponse> {
+        return client.send(operation: "CreateBatchInferenceJob", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a campaign by deploying a solution version. When a client calls the GetRecommendations and GetPersonalizedRanking APIs, a campaign is specified in the request.  Minimum Provisioned TPS and Auto-Scaling  A transaction is a single GetRecommendations or GetPersonalizedRanking call. Transactions per second (TPS) is the throughput and unit of billing for Amazon Personalize. The minimum provisioned TPS (minProvisionedTPS) specifies the baseline throughput provisioned by Amazon Personalize, and thus, the minimum billing charge. If your TPS increases beyond minProvisionedTPS, Amazon Personalize auto-scales the provisioned capacity up and down, but never below minProvisionedTPS, to maintain a 70% utilization. There's a short time delay while the capacity is increased that might cause loss of transactions. It's recommended to start with a low minProvisionedTPS, track your usage using Amazon CloudWatch metrics, and then increase the minProvisionedTPS as necessary.  Status  A campaign can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS   To get the campaign status, call DescribeCampaign.  Wait until the status of the campaign is ACTIVE before asking the campaign for recommendations.   Related APIs     ListCampaigns     DescribeCampaign     UpdateCampaign     DeleteCampaign   
     public func createCampaign(_ input: CreateCampaignRequest) -> Future<CreateCampaignResponse> {
         return client.send(operation: "CreateCampaign", path: "/", httpMethod: "POST", input: input)
@@ -103,6 +108,11 @@ public struct Personalize {
         return client.send(operation: "DescribeAlgorithm", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets the properties of a batch inference job including name, Amazon Resource Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate the recommendations.
+    public func describeBatchInferenceJob(_ input: DescribeBatchInferenceJobRequest) -> Future<DescribeBatchInferenceJobResponse> {
+        return client.send(operation: "DescribeBatchInferenceJob", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Describes the given campaign, including its status. A campaign can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS   When the status is CREATE FAILED, the response includes the failureReason key, which describes why. For more information on campaigns, see CreateCampaign.
     public func describeCampaign(_ input: DescribeCampaignRequest) -> Future<DescribeCampaignResponse> {
         return client.send(operation: "DescribeCampaign", path: "/", httpMethod: "POST", input: input)
@@ -156,6 +166,11 @@ public struct Personalize {
     ///  Gets the metrics for the specified solution version.
     public func getSolutionMetrics(_ input: GetSolutionMetricsRequest) -> Future<GetSolutionMetricsResponse> {
         return client.send(operation: "GetSolutionMetrics", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets a list of the batch inference jobs that have been performed off of a solution version.
+    public func listBatchInferenceJobs(_ input: ListBatchInferenceJobsRequest) -> Future<ListBatchInferenceJobsResponse> {
+        return client.send(operation: "ListBatchInferenceJobs", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of campaigns that use the given solution. When a solution is not specified, all the campaigns associated with the account are listed. The response provides the properties for each campaign, including the Amazon Resource Name (ARN). For more information on campaigns, see CreateCampaign.

@@ -27,6 +27,26 @@ extension Rekognition {
         }
     }
 
+    public struct Asset: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroundTruthManifest", required: false, type: .structure)
+        ]
+
+        public let groundTruthManifest: GroundTruthManifest?
+
+        public init(groundTruthManifest: GroundTruthManifest? = nil) {
+            self.groundTruthManifest = groundTruthManifest
+        }
+
+        public func validate(name: String) throws {
+            try self.groundTruthManifest?.validate(name: "\(name).groundTruthManifest")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groundTruthManifest = "GroundTruthManifest"
+        }
+    }
+
     public enum Attribute: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
         case all = "ALL"
@@ -218,11 +238,14 @@ extension Rekognition {
 
     public struct CompareFacesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualityFilter", required: false, type: .enum), 
             AWSShapeMember(label: "SimilarityThreshold", required: false, type: .float), 
             AWSShapeMember(label: "SourceImage", required: true, type: .structure), 
             AWSShapeMember(label: "TargetImage", required: true, type: .structure)
         ]
 
+        /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't compared. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed. The default value is NONE.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
+        public let qualityFilter: QualityFilter?
         /// The minimum level of confidence in the face matches that a match must meet to be included in the FaceMatches array.
         public let similarityThreshold: Float?
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
@@ -230,7 +253,8 @@ extension Rekognition {
         /// The target image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let targetImage: Image
 
-        public init(similarityThreshold: Float? = nil, sourceImage: Image, targetImage: Image) {
+        public init(qualityFilter: QualityFilter? = nil, similarityThreshold: Float? = nil, sourceImage: Image, targetImage: Image) {
+            self.qualityFilter = qualityFilter
             self.similarityThreshold = similarityThreshold
             self.sourceImage = sourceImage
             self.targetImage = targetImage
@@ -244,6 +268,7 @@ extension Rekognition {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case qualityFilter = "QualityFilter"
             case similarityThreshold = "SimilarityThreshold"
             case sourceImage = "SourceImage"
             case targetImage = "TargetImage"
@@ -346,6 +371,12 @@ extension Rekognition {
         }
     }
 
+    public enum ContentClassifier: String, CustomStringConvertible, Codable {
+        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
+        case freeofadultcontent = "FreeOfAdultContent"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ContentModerationDetection: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ModerationLabel", required: false, type: .structure), 
@@ -424,6 +455,112 @@ extension Rekognition {
         }
     }
 
+    public struct CreateProjectRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProjectName", required: true, type: .string)
+        ]
+
+        /// The name of the project to create.
+        public let projectName: String
+
+        public init(projectName: String) {
+            self.projectName = projectName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.projectName, name:"projectName", parent: name, max: 255)
+            try validate(self.projectName, name:"projectName", parent: name, min: 1)
+            try validate(self.projectName, name:"projectName", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectName = "ProjectName"
+        }
+    }
+
+    public struct CreateProjectResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProjectArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the new project. You can use the ARN to configure IAM access to the project. 
+        public let projectArn: String?
+
+        public init(projectArn: String? = nil) {
+            self.projectArn = projectArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectArn = "ProjectArn"
+        }
+    }
+
+    public struct CreateProjectVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "ProjectArn", required: true, type: .string), 
+            AWSShapeMember(label: "TestingData", required: true, type: .structure), 
+            AWSShapeMember(label: "TrainingData", required: true, type: .structure), 
+            AWSShapeMember(label: "VersionName", required: true, type: .string)
+        ]
+
+        /// The Amazon S3 location to store the results of training.
+        public let outputConfig: OutputConfig
+        /// The ARN of the Amazon Rekognition Custom Labels project that manages the model that you want to train.
+        public let projectArn: String
+        /// The dataset to use for testing.
+        public let testingData: TestingData
+        /// The dataset to use for training. 
+        public let trainingData: TrainingData
+        /// A name for the version of the model. This value must be unique.
+        public let versionName: String
+
+        public init(outputConfig: OutputConfig, projectArn: String, testingData: TestingData, trainingData: TrainingData, versionName: String) {
+            self.outputConfig = outputConfig
+            self.projectArn = projectArn
+            self.testingData = testingData
+            self.trainingData = trainingData
+            self.versionName = versionName
+        }
+
+        public func validate(name: String) throws {
+            try self.outputConfig.validate(name: "\(name).outputConfig")
+            try validate(self.projectArn, name:"projectArn", parent: name, max: 2048)
+            try validate(self.projectArn, name:"projectArn", parent: name, min: 20)
+            try validate(self.projectArn, name:"projectArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
+            try self.testingData.validate(name: "\(name).testingData")
+            try self.trainingData.validate(name: "\(name).trainingData")
+            try validate(self.versionName, name:"versionName", parent: name, max: 255)
+            try validate(self.versionName, name:"versionName", parent: name, min: 1)
+            try validate(self.versionName, name:"versionName", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputConfig = "OutputConfig"
+            case projectArn = "ProjectArn"
+            case testingData = "TestingData"
+            case trainingData = "TrainingData"
+            case versionName = "VersionName"
+        }
+    }
+
+    public struct CreateProjectVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProjectVersionArn", required: false, type: .string)
+        ]
+
+        /// The ARN of the model version that was created. Use DescribeProjectVersion to get the current status of the training operation.
+        public let projectVersionArn: String?
+
+        public init(projectVersionArn: String? = nil) {
+            self.projectVersionArn = projectVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectVersionArn = "ProjectVersionArn"
+        }
+    }
+
     public struct CreateStreamProcessorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Input", required: true, type: .structure), 
@@ -485,6 +622,33 @@ extension Rekognition {
 
         private enum CodingKeys: String, CodingKey {
             case streamProcessorArn = "StreamProcessorArn"
+        }
+    }
+
+    public struct CustomLabel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Confidence", required: false, type: .float), 
+            AWSShapeMember(label: "Geometry", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// The confidence that the model has in the detection of the custom label. The range is 0-100. A higher value indicates a higher confidence.
+        public let confidence: Float?
+        /// The location of the detected object on the image that corresponds to the custom label. Includes an axis aligned coarse bounding box surrounding the object and a finer grain polygon for more accurate spatial information.
+        public let geometry: Geometry?
+        /// The name of the custom label.
+        public let name: String?
+
+        public init(confidence: Float? = nil, geometry: Geometry? = nil, name: String? = nil) {
+            self.confidence = confidence
+            self.geometry = geometry
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case geometry = "Geometry"
+            case name = "Name"
         }
     }
 
@@ -664,6 +828,126 @@ extension Rekognition {
         }
     }
 
+    public struct DescribeProjectVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ProjectArn", required: true, type: .string), 
+            AWSShapeMember(label: "VersionNames", required: false, type: .list)
+        ]
+
+        /// The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100. 
+        public let maxResults: Int?
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results. 
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the project that contains the models you want to describe.
+        public let projectArn: String
+        /// A list of model version names that you want to describe. You can add up to 10 model version names to the list. If you don't specify a value, all model descriptions are returned.
+        public let versionNames: [String]?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, projectArn: String, versionNames: [String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.projectArn = projectArn
+            self.versionNames = versionNames
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.projectArn, name:"projectArn", parent: name, max: 2048)
+            try validate(self.projectArn, name:"projectArn", parent: name, min: 20)
+            try validate(self.projectArn, name:"projectArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
+            try self.versionNames?.forEach {
+                try validate($0, name: "versionNames[]", parent: name, max: 255)
+                try validate($0, name: "versionNames[]", parent: name, min: 1)
+                try validate($0, name: "versionNames[]", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            }
+            try validate(self.versionNames, name:"versionNames", parent: name, max: 10)
+            try validate(self.versionNames, name:"versionNames", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case projectArn = "ProjectArn"
+            case versionNames = "VersionNames"
+        }
+    }
+
+    public struct DescribeProjectVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ProjectVersionDescriptions", required: false, type: .list)
+        ]
+
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results. 
+        public let nextToken: String?
+        /// A list of model descriptions. The list is sorted by the creation date and time of the model versions, latest to earliest.
+        public let projectVersionDescriptions: [ProjectVersionDescription]?
+
+        public init(nextToken: String? = nil, projectVersionDescriptions: [ProjectVersionDescription]? = nil) {
+            self.nextToken = nextToken
+            self.projectVersionDescriptions = projectVersionDescriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case projectVersionDescriptions = "ProjectVersionDescriptions"
+        }
+    }
+
+    public struct DescribeProjectsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100. 
+        public let maxResults: Int?
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results. 
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeProjectsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ProjectDescriptions", required: false, type: .list)
+        ]
+
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results. 
+        public let nextToken: String?
+        /// A list of project descriptions. The list is sorted by the date and time the projects are created.
+        public let projectDescriptions: [ProjectDescription]?
+
+        public init(nextToken: String? = nil, projectDescriptions: [ProjectDescription]? = nil) {
+            self.nextToken = nextToken
+            self.projectDescriptions = projectDescriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case projectDescriptions = "ProjectDescriptions"
+        }
+    }
+
     public struct DescribeStreamProcessorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
@@ -746,6 +1030,64 @@ extension Rekognition {
             case status = "Status"
             case statusMessage = "StatusMessage"
             case streamProcessorArn = "StreamProcessorArn"
+        }
+    }
+
+    public struct DetectCustomLabelsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Image", required: true, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "MinConfidence", required: false, type: .float), 
+            AWSShapeMember(label: "ProjectVersionArn", required: true, type: .string)
+        ]
+
+        public let image: Image
+        /// Maximum number of results you want the service to return in the response. The service returns the specified number of highest confidence labels ranked from highest confidence to lowest.
+        public let maxResults: Int?
+        /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence lower than this specified value. If you specify a value of 0, all labels are return, regardless of the default thresholds that the model version applies.
+        public let minConfidence: Float?
+        /// The ARN of the model version that you want to use.
+        public let projectVersionArn: String
+
+        public init(image: Image, maxResults: Int? = nil, minConfidence: Float? = nil, projectVersionArn: String) {
+            self.image = image
+            self.maxResults = maxResults
+            self.minConfidence = minConfidence
+            self.projectVersionArn = projectVersionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.image.validate(name: "\(name).image")
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 0)
+            try validate(self.minConfidence, name:"minConfidence", parent: name, max: 100)
+            try validate(self.minConfidence, name:"minConfidence", parent: name, min: 0)
+            try validate(self.projectVersionArn, name:"projectVersionArn", parent: name, max: 2048)
+            try validate(self.projectVersionArn, name:"projectVersionArn", parent: name, min: 20)
+            try validate(self.projectVersionArn, name:"projectVersionArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/version\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+            case maxResults = "MaxResults"
+            case minConfidence = "MinConfidence"
+            case projectVersionArn = "ProjectVersionArn"
+        }
+    }
+
+    public struct DetectCustomLabelsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomLabels", required: false, type: .list)
+        ]
+
+        /// An array of custom labels detected in the input image.
+        public let customLabels: [CustomLabel]?
+
+        public init(customLabels: [CustomLabel]? = nil) {
+            self.customLabels = customLabels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customLabels = "CustomLabels"
         }
     }
 
@@ -860,27 +1202,33 @@ extension Rekognition {
 
     public struct DetectModerationLabelsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HumanLoopConfig", required: false, type: .structure), 
             AWSShapeMember(label: "Image", required: true, type: .structure), 
             AWSShapeMember(label: "MinConfidence", required: false, type: .float)
         ]
 
+        /// Sets up the configuration for human evaluation, including the FlowDefinition the image will be sent to.
+        public let humanLoopConfig: HumanLoopConfig?
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
         /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
         public let minConfidence: Float?
 
-        public init(image: Image, minConfidence: Float? = nil) {
+        public init(humanLoopConfig: HumanLoopConfig? = nil, image: Image, minConfidence: Float? = nil) {
+            self.humanLoopConfig = humanLoopConfig
             self.image = image
             self.minConfidence = minConfidence
         }
 
         public func validate(name: String) throws {
+            try self.humanLoopConfig?.validate(name: "\(name).humanLoopConfig")
             try self.image.validate(name: "\(name).image")
             try validate(self.minConfidence, name:"minConfidence", parent: name, max: 100)
             try validate(self.minConfidence, name:"minConfidence", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case humanLoopConfig = "HumanLoopConfig"
             case image = "Image"
             case minConfidence = "MinConfidence"
         }
@@ -888,21 +1236,26 @@ extension Rekognition {
 
     public struct DetectModerationLabelsResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HumanLoopActivationOutput", required: false, type: .structure), 
             AWSShapeMember(label: "ModerationLabels", required: false, type: .list), 
             AWSShapeMember(label: "ModerationModelVersion", required: false, type: .string)
         ]
 
+        /// Shows the results of the human in the loop evaluation.
+        public let humanLoopActivationOutput: HumanLoopActivationOutput?
         /// Array of detected Moderation labels and the time, in milliseconds from the start of the video, they were detected.
         public let moderationLabels: [ModerationLabel]?
         /// Version number of the moderation detection model that was used to detect unsafe content.
         public let moderationModelVersion: String?
 
-        public init(moderationLabels: [ModerationLabel]? = nil, moderationModelVersion: String? = nil) {
+        public init(humanLoopActivationOutput: HumanLoopActivationOutput? = nil, moderationLabels: [ModerationLabel]? = nil, moderationModelVersion: String? = nil) {
+            self.humanLoopActivationOutput = humanLoopActivationOutput
             self.moderationLabels = moderationLabels
             self.moderationModelVersion = moderationModelVersion
         }
 
         private enum CodingKeys: String, CodingKey {
+            case humanLoopActivationOutput = "HumanLoopActivationOutput"
             case moderationLabels = "ModerationLabels"
             case moderationModelVersion = "ModerationModelVersion"
         }
@@ -979,6 +1332,28 @@ extension Rekognition {
         case unknown = "UNKNOWN"
         case fear = "FEAR"
         public var description: String { return self.rawValue }
+    }
+
+    public struct EvaluationResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "F1Score", required: false, type: .float), 
+            AWSShapeMember(label: "Summary", required: false, type: .structure)
+        ]
+
+        /// The F1 score for the evaluation of all labels. The F1 score metric evaluates the overall precision and recall performance of the model as a single value. A higher value indicates better precision and recall performance. A lower score indicates that precision, recall, or both are performing poorly. 
+        public let f1Score: Float?
+        /// The S3 bucket that contains the training summary.
+        public let summary: Summary?
+
+        public init(f1Score: Float? = nil, summary: Summary? = nil) {
+            self.f1Score = f1Score
+            self.summary = summary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case f1Score = "F1Score"
+            case summary = "Summary"
+        }
     }
 
     public struct EyeOpen: AWSShape {
@@ -1101,7 +1476,7 @@ extension Rekognition {
         public let eyeglasses: Eyeglasses?
         /// Indicates whether or not the eyes on the face are open, and the confidence level in the determination.
         public let eyesOpen: EyeOpen?
-        /// Gender of the face and the confidence level in the determination.
+        /// The predicted gender of a detected face. 
         public let gender: Gender?
         /// Indicates the location of landmarks on the face. Default attribute.
         public let landmarks: [Landmark]?
@@ -1263,9 +1638,9 @@ extension Rekognition {
             AWSShapeMember(label: "Value", required: false, type: .enum)
         ]
 
-        /// Level of confidence in the determination.
+        /// Level of confidence in the prediction.
         public let confidence: Float?
-        /// Gender of the face.
+        /// The predicted gender of the face.
         public let value: GenderType?
 
         public init(confidence: Float? = nil, value: GenderType? = nil) {
@@ -1291,9 +1666,9 @@ extension Rekognition {
             AWSShapeMember(label: "Polygon", required: false, type: .list)
         ]
 
-        /// An axis-aligned coarse representation of the detected text's location on the image.
+        /// An axis-aligned coarse representation of the detected item's location on the image.
         public let boundingBox: BoundingBox?
-        /// Within the bounding box, a fine-grained polygon around the detected text.
+        /// Within the bounding box, a fine-grained polygon around the detected item.
         public let polygon: [Point]?
 
         public init(boundingBox: BoundingBox? = nil, polygon: [Point]? = nil) {
@@ -1817,6 +2192,109 @@ extension Rekognition {
         }
     }
 
+    public struct GroundTruthManifest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Object", required: false, type: .structure)
+        ]
+
+        public let s3Object: S3Object?
+
+        public init(s3Object: S3Object? = nil) {
+            self.s3Object = s3Object
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Object?.validate(name: "\(name).s3Object")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Object = "S3Object"
+        }
+    }
+
+    public struct HumanLoopActivationOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HumanLoopActivationConditionsEvaluationResults", required: false, type: .string), 
+            AWSShapeMember(label: "HumanLoopActivationReasons", required: false, type: .list), 
+            AWSShapeMember(label: "HumanLoopArn", required: false, type: .string)
+        ]
+
+        /// Shows the result of condition evaluations, including those conditions which activated a human review.
+        public let humanLoopActivationConditionsEvaluationResults: String?
+        /// Shows if and why human review was needed.
+        public let humanLoopActivationReasons: [String]?
+        /// The Amazon Resource Name (ARN) of the HumanLoop created.
+        public let humanLoopArn: String?
+
+        public init(humanLoopActivationConditionsEvaluationResults: String? = nil, humanLoopActivationReasons: [String]? = nil, humanLoopArn: String? = nil) {
+            self.humanLoopActivationConditionsEvaluationResults = humanLoopActivationConditionsEvaluationResults
+            self.humanLoopActivationReasons = humanLoopActivationReasons
+            self.humanLoopArn = humanLoopArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case humanLoopActivationConditionsEvaluationResults = "HumanLoopActivationConditionsEvaluationResults"
+            case humanLoopActivationReasons = "HumanLoopActivationReasons"
+            case humanLoopArn = "HumanLoopArn"
+        }
+    }
+
+    public struct HumanLoopConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "FlowDefinitionArn", required: true, type: .string), 
+            AWSShapeMember(label: "HumanLoopName", required: true, type: .string)
+        ]
+
+        /// Sets attributes of the input data.
+        public let dataAttributes: HumanLoopDataAttributes?
+        /// The Amazon Resource Name (ARN) of the flow definition.
+        public let flowDefinitionArn: String
+        /// The name of the human review used for this image. This should be kept unique within a region.
+        public let humanLoopName: String
+
+        public init(dataAttributes: HumanLoopDataAttributes? = nil, flowDefinitionArn: String, humanLoopName: String) {
+            self.dataAttributes = dataAttributes
+            self.flowDefinitionArn = flowDefinitionArn
+            self.humanLoopName = humanLoopName
+        }
+
+        public func validate(name: String) throws {
+            try self.dataAttributes?.validate(name: "\(name).dataAttributes")
+            try validate(self.flowDefinitionArn, name:"flowDefinitionArn", parent: name, max: 256)
+            try validate(self.humanLoopName, name:"humanLoopName", parent: name, max: 63)
+            try validate(self.humanLoopName, name:"humanLoopName", parent: name, min: 1)
+            try validate(self.humanLoopName, name:"humanLoopName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAttributes = "DataAttributes"
+            case flowDefinitionArn = "FlowDefinitionArn"
+            case humanLoopName = "HumanLoopName"
+        }
+    }
+
+    public struct HumanLoopDataAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentClassifiers", required: false, type: .list)
+        ]
+
+        /// Sets whether the input image is free of personally identifiable information.
+        public let contentClassifiers: [ContentClassifier]?
+
+        public init(contentClassifiers: [ContentClassifier]? = nil) {
+            self.contentClassifiers = contentClassifiers
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.contentClassifiers, name:"contentClassifiers", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentClassifiers = "ContentClassifiers"
+        }
+    }
+
     public struct Image: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Bytes", required: false, type: .blob), 
@@ -1887,7 +2365,7 @@ extension Rekognition {
         public let image: Image
         /// The maximum number of faces to index. The value of MaxFaces must be greater than or equal to 1. IndexFaces returns no more than 100 detected faces in an image, even if you specify a larger value for MaxFaces. If IndexFaces detects more faces than the value of MaxFaces, the faces with the lowest quality are filtered out first. If there are still more faces than the value of MaxFaces, the faces with the smallest bounding boxes are filtered out (up to the number that's needed to satisfy the value of MaxFaces). Information about the unindexed faces is available in the UnindexedFaces array.  The faces that are returned by IndexFaces are sorted by the largest face bounding box size to the smallest size, in descending order.  MaxFaces can be used with a collection associated with any version of the face model.
         public let maxFaces: Int?
-        /// A filter that specifies how much filtering is done to identify faces that are detected with low quality. Filtered faces aren't indexed. If you specify AUTO, filtering prioritizes the identification of faces that don’t meet the required quality bar chosen by Amazon Rekognition. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed. The default value is AUTO. To use quality filtering, the collection you are using must be associated with version 3 of the face model.
+        /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't indexed. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar. The default value is AUTO. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
         public let qualityFilter: QualityFilter?
 
         public init(collectionId: String, detectionAttributes: [Attribute]? = nil, externalImageId: String? = nil, image: Image, maxFaces: Int? = nil, qualityFilter: QualityFilter? = nil) {
@@ -2410,6 +2888,35 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
+    public struct OutputConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string)
+        ]
+
+        /// The S3 bucket where training output is placed.
+        public let s3Bucket: String?
+        /// The prefix applied to the training output files. 
+        public let s3KeyPrefix: String?
+
+        public init(s3Bucket: String? = nil, s3KeyPrefix: String? = nil) {
+            self.s3Bucket = s3Bucket
+            self.s3KeyPrefix = s3KeyPrefix
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, max: 255)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, min: 3)
+            try validate(self.s3Bucket, name:"s3Bucket", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
+            try validate(self.s3KeyPrefix, name:"s3KeyPrefix", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "S3Bucket"
+            case s3KeyPrefix = "S3KeyPrefix"
+        }
+    }
+
     public struct Parent: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: false, type: .string)
@@ -2558,9 +3065,126 @@ extension Rekognition {
         }
     }
 
+    public struct ProjectDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ProjectArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// The Unix timestamp for the date and time that the project was created.
+        public let creationTimestamp: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the project.
+        public let projectArn: String?
+        /// The current status of the project.
+        public let status: ProjectStatus?
+
+        public init(creationTimestamp: TimeStamp? = nil, projectArn: String? = nil, status: ProjectStatus? = nil) {
+            self.creationTimestamp = creationTimestamp
+            self.projectArn = projectArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimestamp = "CreationTimestamp"
+            case projectArn = "ProjectArn"
+            case status = "Status"
+        }
+    }
+
+    public enum ProjectStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case created = "CREATED"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ProjectVersionDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BillableTrainingTimeInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EvaluationResult", required: false, type: .structure), 
+            AWSShapeMember(label: "MinInferenceUnits", required: false, type: .integer), 
+            AWSShapeMember(label: "OutputConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ProjectVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "TestingDataResult", required: false, type: .structure), 
+            AWSShapeMember(label: "TrainingDataResult", required: false, type: .structure), 
+            AWSShapeMember(label: "TrainingEndTimestamp", required: false, type: .timestamp)
+        ]
+
+        /// The duration, in seconds, that the model version has been billed for training. This value is only returned if the model version has been successfully trained.
+        public let billableTrainingTimeInSeconds: Int64?
+        /// The Unix datetime for the date and time that training started.
+        public let creationTimestamp: TimeStamp?
+        /// The training results. EvaluationResult is only returned if training is successful.
+        public let evaluationResult: EvaluationResult?
+        /// The minimum number of inference units used by the model. For more information, see StartProjectVersion.
+        public let minInferenceUnits: Int?
+        /// The location where training results are saved.
+        public let outputConfig: OutputConfig?
+        /// The Amazon Resource Name (ARN) of the model version. 
+        public let projectVersionArn: String?
+        /// The current status of the model version.
+        public let status: ProjectVersionStatus?
+        /// A descriptive message for an error or warning that occurred.
+        public let statusMessage: String?
+        /// The manifest file that represents the testing results.
+        public let testingDataResult: TestingDataResult?
+        /// The manifest file that represents the training results.
+        public let trainingDataResult: TrainingDataResult?
+        /// The Unix date and time that training of the model ended.
+        public let trainingEndTimestamp: TimeStamp?
+
+        public init(billableTrainingTimeInSeconds: Int64? = nil, creationTimestamp: TimeStamp? = nil, evaluationResult: EvaluationResult? = nil, minInferenceUnits: Int? = nil, outputConfig: OutputConfig? = nil, projectVersionArn: String? = nil, status: ProjectVersionStatus? = nil, statusMessage: String? = nil, testingDataResult: TestingDataResult? = nil, trainingDataResult: TrainingDataResult? = nil, trainingEndTimestamp: TimeStamp? = nil) {
+            self.billableTrainingTimeInSeconds = billableTrainingTimeInSeconds
+            self.creationTimestamp = creationTimestamp
+            self.evaluationResult = evaluationResult
+            self.minInferenceUnits = minInferenceUnits
+            self.outputConfig = outputConfig
+            self.projectVersionArn = projectVersionArn
+            self.status = status
+            self.statusMessage = statusMessage
+            self.testingDataResult = testingDataResult
+            self.trainingDataResult = trainingDataResult
+            self.trainingEndTimestamp = trainingEndTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billableTrainingTimeInSeconds = "BillableTrainingTimeInSeconds"
+            case creationTimestamp = "CreationTimestamp"
+            case evaluationResult = "EvaluationResult"
+            case minInferenceUnits = "MinInferenceUnits"
+            case outputConfig = "OutputConfig"
+            case projectVersionArn = "ProjectVersionArn"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+            case testingDataResult = "TestingDataResult"
+            case trainingDataResult = "TrainingDataResult"
+            case trainingEndTimestamp = "TrainingEndTimestamp"
+        }
+    }
+
+    public enum ProjectVersionStatus: String, CustomStringConvertible, Codable {
+        case trainingInProgress = "TRAINING_IN_PROGRESS"
+        case trainingCompleted = "TRAINING_COMPLETED"
+        case trainingFailed = "TRAINING_FAILED"
+        case starting = "STARTING"
+        case running = "RUNNING"
+        case failed = "FAILED"
+        case stopping = "STOPPING"
+        case stopped = "STOPPED"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum QualityFilter: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case auto = "AUTO"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case high = "HIGH"
         public var description: String { return self.rawValue }
     }
 
@@ -2571,6 +3195,7 @@ extension Rekognition {
         case lowSharpness = "LOW_SHARPNESS"
         case lowConfidence = "LOW_CONFIDENCE"
         case smallBoundingBox = "SMALL_BOUNDING_BOX"
+        case lowFaceQuality = "LOW_FACE_QUALITY"
         public var description: String { return self.rawValue }
     }
 
@@ -2664,7 +3289,8 @@ extension Rekognition {
             AWSShapeMember(label: "CollectionId", required: true, type: .string), 
             AWSShapeMember(label: "FaceMatchThreshold", required: false, type: .float), 
             AWSShapeMember(label: "Image", required: true, type: .structure), 
-            AWSShapeMember(label: "MaxFaces", required: false, type: .integer)
+            AWSShapeMember(label: "MaxFaces", required: false, type: .integer), 
+            AWSShapeMember(label: "QualityFilter", required: false, type: .enum)
         ]
 
         /// ID of the collection to search.
@@ -2675,12 +3301,15 @@ extension Rekognition {
         public let image: Image
         /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
         public let maxFaces: Int?
+        /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't searched for in the collection. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed. The default value is NONE.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
+        public let qualityFilter: QualityFilter?
 
-        public init(collectionId: String, faceMatchThreshold: Float? = nil, image: Image, maxFaces: Int? = nil) {
+        public init(collectionId: String, faceMatchThreshold: Float? = nil, image: Image, maxFaces: Int? = nil, qualityFilter: QualityFilter? = nil) {
             self.collectionId = collectionId
             self.faceMatchThreshold = faceMatchThreshold
             self.image = image
             self.maxFaces = maxFaces
+            self.qualityFilter = qualityFilter
         }
 
         public func validate(name: String) throws {
@@ -2699,6 +3328,7 @@ extension Rekognition {
             case faceMatchThreshold = "FaceMatchThreshold"
             case image = "Image"
             case maxFaces = "MaxFaces"
+            case qualityFilter = "QualityFilter"
         }
     }
 
@@ -3220,6 +3850,52 @@ extension Rekognition {
         }
     }
 
+    public struct StartProjectVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MinInferenceUnits", required: true, type: .integer), 
+            AWSShapeMember(label: "ProjectVersionArn", required: true, type: .string)
+        ]
+
+        /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing and can support up to 5 Transaction Pers Second (TPS). Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use. 
+        public let minInferenceUnits: Int
+        /// The Amazon Resource Name(ARN) of the model version that you want to start.
+        public let projectVersionArn: String
+
+        public init(minInferenceUnits: Int, projectVersionArn: String) {
+            self.minInferenceUnits = minInferenceUnits
+            self.projectVersionArn = projectVersionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.minInferenceUnits, name:"minInferenceUnits", parent: name, min: 1)
+            try validate(self.projectVersionArn, name:"projectVersionArn", parent: name, max: 2048)
+            try validate(self.projectVersionArn, name:"projectVersionArn", parent: name, min: 20)
+            try validate(self.projectVersionArn, name:"projectVersionArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/version\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minInferenceUnits = "MinInferenceUnits"
+            case projectVersionArn = "ProjectVersionArn"
+        }
+    }
+
+    public struct StartProjectVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// The current running status of the model. 
+        public let status: ProjectVersionStatus?
+
+        public init(status: ProjectVersionStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct StartStreamProcessorRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
@@ -3249,6 +3925,46 @@ extension Rekognition {
         public init() {
         }
 
+    }
+
+    public struct StopProjectVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProjectVersionArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the model version that you want to delete. This operation requires permissions to perform the rekognition:StopProjectVersion action.
+        public let projectVersionArn: String
+
+        public init(projectVersionArn: String) {
+            self.projectVersionArn = projectVersionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.projectVersionArn, name:"projectVersionArn", parent: name, max: 2048)
+            try validate(self.projectVersionArn, name:"projectVersionArn", parent: name, min: 20)
+            try validate(self.projectVersionArn, name:"projectVersionArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/version\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectVersionArn = "ProjectVersionArn"
+        }
+    }
+
+    public struct StopProjectVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        /// The current status of the stop operation. 
+        public let status: ProjectVersionStatus?
+
+        public init(status: ProjectVersionStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
     }
 
     public struct StopStreamProcessorRequest: AWSShape {
@@ -3376,6 +4092,22 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
+    public struct Summary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Object", required: false, type: .structure)
+        ]
+
+        public let s3Object: S3Object?
+
+        public init(s3Object: S3Object? = nil) {
+            self.s3Object = s3Object
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Object = "S3Object"
+        }
+    }
+
     public struct Sunglasses: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Confidence", required: false, type: .float), 
@@ -3395,6 +4127,56 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case confidence = "Confidence"
             case value = "Value"
+        }
+    }
+
+    public struct TestingData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Assets", required: false, type: .list), 
+            AWSShapeMember(label: "AutoCreate", required: false, type: .boolean)
+        ]
+
+        /// The assets used for testing.
+        public let assets: [Asset]?
+        /// If specified, Amazon Rekognition Custom Labels creates a testing dataset with an 80/20 split of the training dataset.
+        public let autoCreate: Bool?
+
+        public init(assets: [Asset]? = nil, autoCreate: Bool? = nil) {
+            self.assets = assets
+            self.autoCreate = autoCreate
+        }
+
+        public func validate(name: String) throws {
+            try self.assets?.forEach {
+                try $0.validate(name: "\(name).assets[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assets = "Assets"
+            case autoCreate = "AutoCreate"
+        }
+    }
+
+    public struct TestingDataResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Input", required: false, type: .structure), 
+            AWSShapeMember(label: "Output", required: false, type: .structure)
+        ]
+
+        /// The testing dataset that was supplied for training.
+        public let input: TestingData?
+        /// The subset of the dataset that was actually tested. Some images (assets) might not be tested due to file formatting and other issues. 
+        public let output: TestingData?
+
+        public init(input: TestingData? = nil, output: TestingData? = nil) {
+            self.input = input
+            self.output = output
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "Input"
+            case output = "Output"
         }
     }
 
@@ -3444,6 +4226,51 @@ extension Rekognition {
         case line = "LINE"
         case word = "WORD"
         public var description: String { return self.rawValue }
+    }
+
+    public struct TrainingData: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Assets", required: false, type: .list)
+        ]
+
+        /// A Sagemaker GroundTruth manifest file that contains the training images (assets).
+        public let assets: [Asset]?
+
+        public init(assets: [Asset]? = nil) {
+            self.assets = assets
+        }
+
+        public func validate(name: String) throws {
+            try self.assets?.forEach {
+                try $0.validate(name: "\(name).assets[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assets = "Assets"
+        }
+    }
+
+    public struct TrainingDataResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Input", required: false, type: .structure), 
+            AWSShapeMember(label: "Output", required: false, type: .structure)
+        ]
+
+        /// The training assets that you supplied for training.
+        public let input: TrainingData?
+        /// The images (assets) that were actually trained by Amazon Rekognition Custom Labels. 
+        public let output: TrainingData?
+
+        public init(input: TrainingData? = nil, output: TrainingData? = nil) {
+            self.input = input
+            self.output = output
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "Input"
+            case output = "Output"
+        }
     }
 
     public struct UnindexedFace: AWSShape {

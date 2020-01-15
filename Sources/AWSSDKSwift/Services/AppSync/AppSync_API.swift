@@ -27,6 +27,11 @@ public struct AppSync {
         )
     }
 
+    ///  Creates a cache for the GraphQL API.
+    public func createApiCache(_ input: CreateApiCacheRequest) -> Future<CreateApiCacheResponse> {
+        return client.send(operation: "CreateApiCache", path: "/v1/apis/{apiId}/ApiCaches", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a unique key that you can distribute to clients who are executing your API.
     public func createApiKey(_ input: CreateApiKeyRequest) -> Future<CreateApiKeyResponse> {
         return client.send(operation: "CreateApiKey", path: "/v1/apis/{apiId}/apikeys", httpMethod: "POST", input: input)
@@ -57,6 +62,11 @@ public struct AppSync {
         return client.send(operation: "CreateType", path: "/v1/apis/{apiId}/types", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes an ApiCache object.
+    public func deleteApiCache(_ input: DeleteApiCacheRequest) -> Future<DeleteApiCacheResponse> {
+        return client.send(operation: "DeleteApiCache", path: "/v1/apis/{apiId}/ApiCaches", httpMethod: "DELETE", input: input)
+    }
+
     ///  Deletes an API key.
     public func deleteApiKey(_ input: DeleteApiKeyRequest) -> Future<DeleteApiKeyResponse> {
         return client.send(operation: "DeleteApiKey", path: "/v1/apis/{apiId}/apikeys/{id}", httpMethod: "DELETE", input: input)
@@ -85,6 +95,16 @@ public struct AppSync {
     ///  Deletes a Type object.
     public func deleteType(_ input: DeleteTypeRequest) -> Future<DeleteTypeResponse> {
         return client.send(operation: "DeleteType", path: "/v1/apis/{apiId}/types/{typeName}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Flushes an ApiCache object.
+    public func flushApiCache(_ input: FlushApiCacheRequest) -> Future<FlushApiCacheResponse> {
+        return client.send(operation: "FlushApiCache", path: "/v1/apis/{apiId}/FlushCache", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Retrieves an ApiCache object.
+    public func getApiCache(_ input: GetApiCacheRequest) -> Future<GetApiCacheResponse> {
+        return client.send(operation: "GetApiCache", path: "/v1/apis/{apiId}/ApiCaches", httpMethod: "GET", input: input)
     }
 
     ///  Retrieves a DataSource object.
@@ -175,6 +195,11 @@ public struct AppSync {
     ///  Untags a resource.
     public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/v1/tags/{resourceArn}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Updates the cache for the GraphQL API.
+    public func updateApiCache(_ input: UpdateApiCacheRequest) -> Future<UpdateApiCacheResponse> {
+        return client.send(operation: "UpdateApiCache", path: "/v1/apis/{apiId}/ApiCaches/update", httpMethod: "POST", input: input)
     }
 
     ///  Updates an API key.

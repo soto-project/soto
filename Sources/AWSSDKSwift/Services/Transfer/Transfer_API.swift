@@ -53,7 +53,7 @@ public struct Transfer {
         return client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the server that you specify by passing the ServerId parameter. The response contains a description of the server's properties.
+    ///  Describes the server that you specify by passing the ServerId parameter. The response contains a description of the server's properties. When you set EndpointType to VPC, the response will contain the EndpointDetails.
     public func describeServer(_ input: DescribeServerRequest) -> Future<DescribeServerResponse> {
         return client.send(operation: "DescribeServer", path: "/", httpMethod: "POST", input: input)
     }

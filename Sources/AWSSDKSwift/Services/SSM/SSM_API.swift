@@ -43,7 +43,7 @@ public struct SSM {
         return client.send(operation: "CancelMaintenanceWindowExecution", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Registers your on-premises server or virtual machine with Amazon EC2 so that you can manage these resources using Run Command. An on-premises server or virtual machine that has been registered with EC2 is called a managed instance. For more information about activations, see Setting Up AWS Systems Manager for Hybrid Environments.
+    ///  Generates an activation code and activation ID you can use to register your on-premises server or virtual machine (VM) with Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager capabilities. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about requirements for managing on-premises instances and VMs using Systems Manager, see Setting Up AWS Systems Manager for Hybrid Environments in the AWS Systems Manager User Guide.   On-premises servers or VMs that are registered with Systems Manager and Amazon EC2 instances that you manage with Systems Manager are all called managed instances. 
     public func createActivation(_ input: CreateActivationRequest) -> Future<CreateActivationResult> {
         return client.send(operation: "CreateActivation", path: "/", httpMethod: "POST", input: input)
     }
@@ -78,7 +78,7 @@ public struct SSM {
         return client.send(operation: "CreatePatchBaseline", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a resource data sync configuration to a single bucket in Amazon S3. This is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data to the Amazon S3 bucket. To check the status of the sync, use the ListResourceDataSync. By default, data is not encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy. For more information, see Configuring Resource Data Sync for Inventory in the AWS Systems Manager User Guide.
+    ///  A resource data sync helps you view data from multiple sources in a single location. Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource. You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple AWS Regions to a single Amazon S3 bucket. For more information, see Configuring Resource Data Sync for Inventory in the AWS Systems Manager User Guide. You can configure Systems Manager Explorer to use the SyncToDestination type to synchronize operational work items (OpsItems) and operational data (OpsData) from multiple AWS Regions to a single Amazon S3 bucket. You can also configure Explorer to use the SyncFromSource type. This type synchronizes OpsItems and OpsData from multiple AWS accounts and Regions by using AWS Organizations. For more information, see Setting Up Explorer to Display Data from Multiple Accounts and Regions in the AWS Systems Manager User Guide. A resource data sync is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data. To check the status of a sync, use the ListResourceDataSync.  By default, data is not encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy.  
     public func createResourceDataSync(_ input: CreateResourceDataSyncRequest) -> Future<CreateResourceDataSyncResult> {
         return client.send(operation: "CreateResourceDataSync", path: "/", httpMethod: "POST", input: input)
     }
@@ -123,7 +123,7 @@ public struct SSM {
         return client.send(operation: "DeletePatchBaseline", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a Resource Data Sync configuration. After the configuration is deleted, changes to inventory data on managed instances are no longer synced with the target Amazon S3 bucket. Deleting a sync configuration does not delete data in the target Amazon S3 bucket.
+    ///  Deletes a Resource Data Sync configuration. After the configuration is deleted, changes to data on managed instances are no longer synced to or from the target. Deleting a sync configuration does not delete data.
     public func deleteResourceDataSync(_ input: DeleteResourceDataSyncRequest) -> Future<DeleteResourceDataSyncResult> {
         return client.send(operation: "DeleteResourceDataSync", path: "/", httpMethod: "POST", input: input)
     }
@@ -278,7 +278,7 @@ public struct SSM {
         return client.send(operation: "DescribeOpsItems", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Get information about a parameter. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.
+    ///  Get information about a parameter.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. 
     public func describeParameters(_ input: DescribeParametersRequest) -> Future<DescribeParametersResult> {
         return client.send(operation: "DescribeParameters", path: "/", httpMethod: "POST", input: input)
     }
@@ -311,6 +311,11 @@ public struct SSM {
     ///  Get detailed information about a particular Automation execution.
     public func getAutomationExecution(_ input: GetAutomationExecutionRequest) -> Future<GetAutomationExecutionResult> {
         return client.send(operation: "GetAutomationExecution", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the state of the AWS Systems Manager Change Calendar at an optional, specified time. If you specify a time, GetCalendarState returns the state of the calendar at a specific time, and returns the next time that the Change Calendar state will transition. If you do not specify a time, GetCalendarState assumes the current time. Change Calendar entries have two possible states: OPEN or CLOSED. For more information about Systems Manager Change Calendar, see AWS Systems Manager Change Calendar in the AWS Systems Manager User Guide.
+    public func getCalendarState(_ input: GetCalendarStateRequest) -> Future<GetCalendarStateResponse> {
+        return client.send(operation: "GetCalendarState", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns detailed information about command execution for an invocation or plugin. 
@@ -398,7 +403,7 @@ public struct SSM {
         return client.send(operation: "GetParameters", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieve parameters in a specific hierarchy. For more information, see Working with Systems Manager Parameters in the AWS Systems Manager User Guide.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.  This API action doesn't support filtering by tags.  
+    ///  Retrieve information about one or more parameters in a specific hierarchy.   Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. 
     public func getParametersByPath(_ input: GetParametersByPathRequest) -> Future<GetParametersByPathResult> {
         return client.send(operation: "GetParametersByPath", path: "/", httpMethod: "POST", input: input)
     }
@@ -428,7 +433,7 @@ public struct SSM {
         return client.send(operation: "ListAssociationVersions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the associations for the specified Systems Manager document or instance.
+    ///  Returns all State Manager associations in the current AWS account and Region. You can limit the results to a specific State Manager association document or instance by specifying a filter.
     public func listAssociations(_ input: ListAssociationsRequest) -> Future<ListAssociationsResult> {
         return client.send(operation: "ListAssociations", path: "/", httpMethod: "POST", input: input)
     }
@@ -458,7 +463,7 @@ public struct SSM {
         return client.send(operation: "ListDocumentVersions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes one or more of your Systems Manager documents.
+    ///  Returns all Systems Manager (SSM) documents in the current AWS account and Region. You can limit the results of this request by using a filter.
     public func listDocuments(_ input: ListDocumentsRequest) -> Future<ListDocumentsResult> {
         return client.send(operation: "ListDocuments", path: "/", httpMethod: "POST", input: input)
     }
@@ -621,6 +626,11 @@ public struct SSM {
     ///  Modifies an existing patch baseline. Fields not specified in the request are left unchanged.  For information about valid key and value pairs in PatchFilters for each supported operating system type, see PatchFilter. 
     public func updatePatchBaseline(_ input: UpdatePatchBaselineRequest) -> Future<UpdatePatchBaselineResult> {
         return client.send(operation: "UpdatePatchBaseline", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Update a resource data sync. After you create a resource data sync for a Region, you can't change the account options for that sync. For example, if you create a sync in the us-east-2 (Ohio) Region and you choose the Include only the current account option, you can't edit that sync later and choose the Include all accounts from my AWS Organizations configuration option. Instead, you must delete the first resource data sync, and create a new one.
+    public func updateResourceDataSync(_ input: UpdateResourceDataSyncRequest) -> Future<UpdateResourceDataSyncResult> {
+        return client.send(operation: "UpdateResourceDataSync", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   ServiceSetting is an account-level setting for an AWS service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an AWS service charges money to the account based on feature or service usage, then the AWS service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. AWS services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the GetServiceSetting API action to view the current value. Or, use the ResetServiceSetting to change the value back to the original value defined by the AWS service team. Update the service setting for the account. 

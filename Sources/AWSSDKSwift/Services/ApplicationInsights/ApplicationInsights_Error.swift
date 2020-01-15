@@ -8,6 +8,8 @@ public enum ApplicationInsightsErrorType: AWSErrorType {
     case internalServerException(message: String?)
     case resourceInUseException(message: String?)
     case resourceNotFoundException(message: String?)
+    case tagsAlreadyExistException(message: String?)
+    case tooManyTagsException(message: String?)
     case validationException(message: String?)
 }
 
@@ -26,6 +28,10 @@ extension ApplicationInsightsErrorType {
             self = .resourceInUseException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
+        case "TagsAlreadyExistException":
+            self = .tagsAlreadyExistException(message: message)
+        case "TooManyTagsException":
+            self = .tooManyTagsException(message: message)
         case "ValidationException":
             self = .validationException(message: message)
         default:
@@ -45,6 +51,10 @@ extension ApplicationInsightsErrorType : CustomStringConvertible {
             return "ResourceInUseException: \(message ?? "")"
         case .resourceNotFoundException(let message):
             return "ResourceNotFoundException: \(message ?? "")"
+        case .tagsAlreadyExistException(let message):
+            return "TagsAlreadyExistException: \(message ?? "")"
+        case .tooManyTagsException(let message):
+            return "TooManyTagsException: \(message ?? "")"
         case .validationException(let message):
             return "ValidationException: \(message ?? "")"
         }

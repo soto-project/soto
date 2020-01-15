@@ -278,7 +278,7 @@ public struct AlexaForBusiness {
         return client.send(operation: "GetSkillGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the details of the schedules that a user configured.
+    ///  Lists the details of the schedules that a user configured. A download URL of the report associated with each schedule is returned every time this action is called. A new download URL is returned each time, and is valid for 24 hours.
     public func listBusinessReportSchedules(_ input: ListBusinessReportSchedulesRequest) -> Future<ListBusinessReportSchedulesResponse> {
         return client.send(operation: "ListBusinessReportSchedules", path: "/", httpMethod: "POST", input: input)
     }

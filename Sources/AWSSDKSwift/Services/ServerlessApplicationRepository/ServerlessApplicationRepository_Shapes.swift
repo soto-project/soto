@@ -194,11 +194,13 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "IsVerifiedAuthor", location: .body(locationName: "isVerifiedAuthor"), required: false, type: .boolean), 
             AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
             AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
+            AWSShapeMember(label: "VerifiedAuthorUrl", location: .body(locationName: "verifiedAuthorUrl"), required: false, type: .string), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure)
         ]
 
@@ -207,24 +209,28 @@ extension ServerlessApplicationRepository {
         public let creationTime: String?
         public let description: String?
         public let homePageUrl: String?
+        public let isVerifiedAuthor: Bool?
         public let labels: [String]?
         public let licenseUrl: String?
         public let name: String?
         public let readmeUrl: String?
         public let spdxLicenseId: String?
+        public let verifiedAuthorUrl: String?
         public let version: Version?
 
-        public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String? = nil, readmeUrl: String? = nil, spdxLicenseId: String? = nil, version: Version? = nil) {
+        public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, isVerifiedAuthor: Bool? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String? = nil, readmeUrl: String? = nil, spdxLicenseId: String? = nil, verifiedAuthorUrl: String? = nil, version: Version? = nil) {
             self.applicationId = applicationId
             self.author = author
             self.creationTime = creationTime
             self.description = description
             self.homePageUrl = homePageUrl
+            self.isVerifiedAuthor = isVerifiedAuthor
             self.labels = labels
             self.licenseUrl = licenseUrl
             self.name = name
             self.readmeUrl = readmeUrl
             self.spdxLicenseId = spdxLicenseId
+            self.verifiedAuthorUrl = verifiedAuthorUrl
             self.version = version
         }
 
@@ -234,11 +240,13 @@ extension ServerlessApplicationRepository {
             case creationTime = "creationTime"
             case description = "description"
             case homePageUrl = "homePageUrl"
+            case isVerifiedAuthor = "isVerifiedAuthor"
             case labels = "labels"
             case licenseUrl = "licenseUrl"
             case name = "name"
             case readmeUrl = "readmeUrl"
             case spdxLicenseId = "spdxLicenseId"
+            case verifiedAuthorUrl = "verifiedAuthorUrl"
             case version = "version"
         }
     }
@@ -554,11 +562,13 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "IsVerifiedAuthor", location: .body(locationName: "isVerifiedAuthor"), required: false, type: .boolean), 
             AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
             AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
+            AWSShapeMember(label: "VerifiedAuthorUrl", location: .body(locationName: "verifiedAuthorUrl"), required: false, type: .string), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure)
         ]
 
@@ -567,24 +577,28 @@ extension ServerlessApplicationRepository {
         public let creationTime: String?
         public let description: String?
         public let homePageUrl: String?
+        public let isVerifiedAuthor: Bool?
         public let labels: [String]?
         public let licenseUrl: String?
         public let name: String?
         public let readmeUrl: String?
         public let spdxLicenseId: String?
+        public let verifiedAuthorUrl: String?
         public let version: Version?
 
-        public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String? = nil, readmeUrl: String? = nil, spdxLicenseId: String? = nil, version: Version? = nil) {
+        public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, isVerifiedAuthor: Bool? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String? = nil, readmeUrl: String? = nil, spdxLicenseId: String? = nil, verifiedAuthorUrl: String? = nil, version: Version? = nil) {
             self.applicationId = applicationId
             self.author = author
             self.creationTime = creationTime
             self.description = description
             self.homePageUrl = homePageUrl
+            self.isVerifiedAuthor = isVerifiedAuthor
             self.labels = labels
             self.licenseUrl = licenseUrl
             self.name = name
             self.readmeUrl = readmeUrl
             self.spdxLicenseId = spdxLicenseId
+            self.verifiedAuthorUrl = verifiedAuthorUrl
             self.version = version
         }
 
@@ -594,11 +608,13 @@ extension ServerlessApplicationRepository {
             case creationTime = "creationTime"
             case description = "description"
             case homePageUrl = "homePageUrl"
+            case isVerifiedAuthor = "isVerifiedAuthor"
             case labels = "labels"
             case licenseUrl = "licenseUrl"
             case name = "name"
             case readmeUrl = "readmeUrl"
             case spdxLicenseId = "spdxLicenseId"
+            case verifiedAuthorUrl = "verifiedAuthorUrl"
             case version = "version"
         }
     }
@@ -1091,11 +1107,13 @@ extension ServerlessApplicationRepository {
             AWSShapeMember(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeMember(label: "HomePageUrl", location: .body(locationName: "homePageUrl"), required: false, type: .string), 
+            AWSShapeMember(label: "IsVerifiedAuthor", location: .body(locationName: "isVerifiedAuthor"), required: false, type: .boolean), 
             AWSShapeMember(label: "Labels", location: .body(locationName: "labels"), required: false, type: .list), 
             AWSShapeMember(label: "LicenseUrl", location: .body(locationName: "licenseUrl"), required: false, type: .string), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "ReadmeUrl", location: .body(locationName: "readmeUrl"), required: false, type: .string), 
             AWSShapeMember(label: "SpdxLicenseId", location: .body(locationName: "spdxLicenseId"), required: false, type: .string), 
+            AWSShapeMember(label: "VerifiedAuthorUrl", location: .body(locationName: "verifiedAuthorUrl"), required: false, type: .string), 
             AWSShapeMember(label: "Version", location: .body(locationName: "version"), required: false, type: .structure)
         ]
 
@@ -1104,24 +1122,28 @@ extension ServerlessApplicationRepository {
         public let creationTime: String?
         public let description: String?
         public let homePageUrl: String?
+        public let isVerifiedAuthor: Bool?
         public let labels: [String]?
         public let licenseUrl: String?
         public let name: String?
         public let readmeUrl: String?
         public let spdxLicenseId: String?
+        public let verifiedAuthorUrl: String?
         public let version: Version?
 
-        public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String? = nil, readmeUrl: String? = nil, spdxLicenseId: String? = nil, version: Version? = nil) {
+        public init(applicationId: String? = nil, author: String? = nil, creationTime: String? = nil, description: String? = nil, homePageUrl: String? = nil, isVerifiedAuthor: Bool? = nil, labels: [String]? = nil, licenseUrl: String? = nil, name: String? = nil, readmeUrl: String? = nil, spdxLicenseId: String? = nil, verifiedAuthorUrl: String? = nil, version: Version? = nil) {
             self.applicationId = applicationId
             self.author = author
             self.creationTime = creationTime
             self.description = description
             self.homePageUrl = homePageUrl
+            self.isVerifiedAuthor = isVerifiedAuthor
             self.labels = labels
             self.licenseUrl = licenseUrl
             self.name = name
             self.readmeUrl = readmeUrl
             self.spdxLicenseId = spdxLicenseId
+            self.verifiedAuthorUrl = verifiedAuthorUrl
             self.version = version
         }
 
@@ -1131,11 +1153,13 @@ extension ServerlessApplicationRepository {
             case creationTime = "creationTime"
             case description = "description"
             case homePageUrl = "homePageUrl"
+            case isVerifiedAuthor = "isVerifiedAuthor"
             case labels = "labels"
             case licenseUrl = "licenseUrl"
             case name = "name"
             case readmeUrl = "readmeUrl"
             case spdxLicenseId = "spdxLicenseId"
+            case verifiedAuthorUrl = "verifiedAuthorUrl"
             case version = "version"
         }
     }

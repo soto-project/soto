@@ -10,6 +10,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botName", required: false, type: .string), 
             AWSShapeMember(label: "botVersion", required: false, type: .string), 
             AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "conversationLogs", required: false, type: .structure), 
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
@@ -22,6 +23,8 @@ extension LexModelBuildingService {
         public let botVersion: String?
         /// Checksum of the bot alias.
         public let checksum: String?
+        /// Settings that determine how Amazon Lex uses conversation logs for the alias.
+        public let conversationLogs: ConversationLogsResponse?
         /// The date that the bot alias was created.
         public let createdDate: TimeStamp?
         /// A description of the bot alias.
@@ -31,10 +34,11 @@ extension LexModelBuildingService {
         /// The name of the bot alias.
         public let name: String?
 
-        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil) {
+        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil) {
             self.botName = botName
             self.botVersion = botVersion
             self.checksum = checksum
+            self.conversationLogs = conversationLogs
             self.createdDate = createdDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
@@ -45,6 +49,7 @@ extension LexModelBuildingService {
             case botName = "botName"
             case botVersion = "botVersion"
             case checksum = "checksum"
+            case conversationLogs = "conversationLogs"
             case createdDate = "createdDate"
             case description = "description"
             case lastUpdatedDate = "lastUpdatedDate"
@@ -264,6 +269,59 @@ extension LexModelBuildingService {
         public var description: String { return self.rawValue }
     }
 
+    public struct ConversationLogsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "iamRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "logSettings", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of an IAM role with permission to write to your CloudWatch Logs for text logs and your S3 bucket for audio logs. If audio encryption is enabled, this role also provides access permission for the AWS KMS key used for encrypting audio logs. For more information, see Creating an IAM Role and Policy for Conversation Logs.
+        public let iamRoleArn: String
+        /// The settings for your conversation logs. You can log the conversation text, conversation audio, or both.
+        public let logSettings: [LogSettingsRequest]
+
+        public init(iamRoleArn: String, logSettings: [LogSettingsRequest]) {
+            self.iamRoleArn = iamRoleArn
+            self.logSettings = logSettings
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.iamRoleArn, name:"iamRoleArn", parent: name, max: 2048)
+            try validate(self.iamRoleArn, name:"iamRoleArn", parent: name, min: 20)
+            try validate(self.iamRoleArn, name:"iamRoleArn", parent: name, pattern: "^arn:[\\w\\-]+:iam::[\\d]{12}:role\\/[\\w+=,\\.@\\-]{1,64}$")
+            try self.logSettings.forEach {
+                try $0.validate(name: "\(name).logSettings[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamRoleArn = "iamRoleArn"
+            case logSettings = "logSettings"
+        }
+    }
+
+    public struct ConversationLogsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "iamRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "logSettings", required: false, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the IAM role used to write your logs to CloudWatch Logs or an S3 bucket.
+        public let iamRoleArn: String?
+        /// The settings for your conversation logs. You can log text, audio, or both.
+        public let logSettings: [LogSettingsResponse]?
+
+        public init(iamRoleArn: String? = nil, logSettings: [LogSettingsResponse]? = nil) {
+            self.iamRoleArn = iamRoleArn
+            self.logSettings = logSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamRoleArn = "iamRoleArn"
+            case logSettings = "logSettings"
+        }
+    }
+
     public struct CreateBotVersionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "checksum", required: false, type: .string), 
@@ -300,6 +358,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "detectSentiment", required: false, type: .boolean), 
             AWSShapeMember(label: "failureReason", required: false, type: .string), 
             AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "intents", required: false, type: .list), 
@@ -323,6 +382,8 @@ extension LexModelBuildingService {
         public let createdDate: TimeStamp?
         /// A description of the bot.
         public let description: String?
+        /// Indicates whether utterances entered by the user should be sent to Amazon Comprehend for sentiment analysis.
+        public let detectSentiment: Bool?
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
@@ -342,13 +403,14 @@ extension LexModelBuildingService {
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interactions with the user.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, detectSentiment: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
             self.clarificationPrompt = clarificationPrompt
             self.createdDate = createdDate
             self.description = description
+            self.detectSentiment = detectSentiment
             self.failureReason = failureReason
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.intents = intents
@@ -367,6 +429,7 @@ extension LexModelBuildingService {
             case clarificationPrompt = "clarificationPrompt"
             case createdDate = "createdDate"
             case description = "description"
+            case detectSentiment = "detectSentiment"
             case failureReason = "failureReason"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case intents = "intents"
@@ -836,6 +899,12 @@ extension LexModelBuildingService {
         }
     }
 
+    public enum Destination: String, CustomStringConvertible, Codable {
+        case cloudwatchLogs = "CLOUDWATCH_LOGS"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
     public struct EnumerationValue: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "synonyms", required: false, type: .list), 
@@ -975,6 +1044,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botName", required: false, type: .string), 
             AWSShapeMember(label: "botVersion", required: false, type: .string), 
             AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "conversationLogs", required: false, type: .structure), 
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
@@ -987,6 +1057,8 @@ extension LexModelBuildingService {
         public let botVersion: String?
         /// Checksum of the bot alias.
         public let checksum: String?
+        /// The settings that determine how Amazon Lex uses conversation logs for the alias.
+        public let conversationLogs: ConversationLogsResponse?
         /// The date that the bot alias was created.
         public let createdDate: TimeStamp?
         /// A description of the bot alias.
@@ -996,10 +1068,11 @@ extension LexModelBuildingService {
         /// The name of the bot alias.
         public let name: String?
 
-        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil) {
+        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil) {
             self.botName = botName
             self.botVersion = botVersion
             self.checksum = checksum
+            self.conversationLogs = conversationLogs
             self.createdDate = createdDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
@@ -1010,6 +1083,7 @@ extension LexModelBuildingService {
             case botName = "botName"
             case botVersion = "botVersion"
             case checksum = "checksum"
+            case conversationLogs = "conversationLogs"
             case createdDate = "createdDate"
             case description = "description"
             case lastUpdatedDate = "lastUpdatedDate"
@@ -1287,6 +1361,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "detectSentiment", required: false, type: .boolean), 
             AWSShapeMember(label: "failureReason", required: false, type: .string), 
             AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "intents", required: false, type: .list), 
@@ -1310,6 +1385,8 @@ extension LexModelBuildingService {
         public let createdDate: TimeStamp?
         /// A description of the bot.
         public let description: String?
+        /// Indicates whether user utterances should be sent to Amazon Comprehend for sentiment analysis.
+        public let detectSentiment: Bool?
         /// If status is FAILED, Amazon Lex explains why it failed to build the bot.
         public let failureReason: String?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
@@ -1322,20 +1399,21 @@ extension LexModelBuildingService {
         public let locale: Locale?
         /// The name of the bot.
         public let name: String?
-        /// The status of the bot. If the bot is ready to run, the status is READY. If there was a problem with building the bot, the status is FAILED and the failureReason explains why the bot did not build. If the bot was saved but not built, the status is NOT BUILT.
+        /// The status of the bot.  When the status is BUILDING Amazon Lex is building the bot for testing and use. If the status of the bot is READY_BASIC_TESTING, you can test the bot using the exact utterances specified in the bot's intents. When the bot is ready for full testing or to run, the status is READY. If there was a problem with building the bot, the status is FAILED and the failureReason field explains why the bot did not build. If the bot was saved but not built, the status is NOT_BUILT.
         public let status: Status?
         /// The version of the bot. For a new bot, the version is always $LATEST.
         public let version: String?
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, description: String? = nil, detectSentiment: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
             self.clarificationPrompt = clarificationPrompt
             self.createdDate = createdDate
             self.description = description
+            self.detectSentiment = detectSentiment
             self.failureReason = failureReason
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.intents = intents
@@ -1354,6 +1432,7 @@ extension LexModelBuildingService {
             case clarificationPrompt = "clarificationPrompt"
             case createdDate = "createdDate"
             case description = "description"
+            case detectSentiment = "detectSentiment"
             case failureReason = "failureReason"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case intents = "intents"
@@ -2234,7 +2313,7 @@ extension LexModelBuildingService {
         public let botName: String
         /// An array of bot versions for which utterance information should be returned. The limit is 5 versions per request.
         public let botVersions: [String]
-        /// To return utterances that were recognized and handled, useDetected. To return utterances that were not recognized, use Missed.
+        /// To return utterances that were recognized and handled, use Detected. To return utterances that were not recognized, use Missed.
         public let statusType: StatusType
 
         public init(botName: String, botVersions: [String], statusType: StatusType) {
@@ -2271,7 +2350,7 @@ extension LexModelBuildingService {
 
         /// The name of the bot for which utterance information was returned.
         public let botName: String?
-        /// An array of UtteranceList objects, each containing a list of UtteranceData objects describing the utterances that were processed by your bot. The response contains a maximum of 100 UtteranceData objects for each version.
+        /// An array of UtteranceList objects, each containing a list of UtteranceData objects describing the utterances that were processed by your bot. The response contains a maximum of 100 UtteranceData objects for each version. Amazon Lex returns the most frequent utterances received by the bot in the last 15 days.
         public let utterances: [UtteranceList]?
 
         public init(botName: String? = nil, utterances: [UtteranceList]? = nil) {
@@ -2367,6 +2446,90 @@ extension LexModelBuildingService {
         public var description: String { return self.rawValue }
     }
 
+    public struct LogSettingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destination", required: true, type: .enum), 
+            AWSShapeMember(label: "kmsKeyArn", required: false, type: .string), 
+            AWSShapeMember(label: "logType", required: true, type: .enum), 
+            AWSShapeMember(label: "resourceArn", required: true, type: .string)
+        ]
+
+        /// Where the logs will be delivered. Text logs are delivered to a CloudWatch Logs log group. Audio logs are delivered to an S3 bucket.
+        public let destination: Destination
+        /// The Amazon Resource Name (ARN) of the AWS KMS customer managed key for encrypting audio logs delivered to an S3 bucket. The key does not apply to CloudWatch Logs and is optional for S3 buckets.
+        public let kmsKeyArn: String?
+        /// The type of logging to enable. Text logs are delivered to a CloudWatch Logs log group. Audio logs are delivered to an S3 bucket.
+        public let logType: LogType
+        /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group or S3 bucket where the logs should be delivered.
+        public let resourceArn: String
+
+        public init(destination: Destination, kmsKeyArn: String? = nil, logType: LogType, resourceArn: String) {
+            self.destination = destination
+            self.kmsKeyArn = kmsKeyArn
+            self.logType = logType
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.kmsKeyArn, name:"kmsKeyArn", parent: name, max: 2048)
+            try validate(self.kmsKeyArn, name:"kmsKeyArn", parent: name, min: 20)
+            try validate(self.kmsKeyArn, name:"kmsKeyArn", parent: name, pattern: "^arn:[\\w\\-]+:kms:[\\w\\-]+:[\\d]{12}:(?:key\\/[\\w\\-]+|alias\\/[a-zA-Z0-9:\\/_\\-]{1,256})$")
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:[\\w\\-]+:(?:logs:[\\w\\-]+:[\\d]{12}:log-group:[\\.\\-_/#A-Za-z0-9]{1,512}(?::\\*)?|s3:::[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9])$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case kmsKeyArn = "kmsKeyArn"
+            case logType = "logType"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct LogSettingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destination", required: false, type: .enum), 
+            AWSShapeMember(label: "kmsKeyArn", required: false, type: .string), 
+            AWSShapeMember(label: "logType", required: false, type: .enum), 
+            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "resourcePrefix", required: false, type: .string)
+        ]
+
+        /// The destination where logs are delivered.
+        public let destination: Destination?
+        /// The Amazon Resource Name (ARN) of the key used to encrypt audio logs in an S3 bucket.
+        public let kmsKeyArn: String?
+        /// The type of logging that is enabled.
+        public let logType: LogType?
+        /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group or S3 bucket where the logs are delivered.
+        public let resourceArn: String?
+        /// The resource prefix is the first part of the S3 object key within the S3 bucket that you specified to contain audio logs. For CloudWatch Logs it is the prefix of the log stream name within the log group that you specified. 
+        public let resourcePrefix: String?
+
+        public init(destination: Destination? = nil, kmsKeyArn: String? = nil, logType: LogType? = nil, resourceArn: String? = nil, resourcePrefix: String? = nil) {
+            self.destination = destination
+            self.kmsKeyArn = kmsKeyArn
+            self.logType = logType
+            self.resourceArn = resourceArn
+            self.resourcePrefix = resourcePrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+            case kmsKeyArn = "kmsKeyArn"
+            case logType = "logType"
+            case resourceArn = "resourceArn"
+            case resourcePrefix = "resourcePrefix"
+        }
+    }
+
+    public enum LogType: String, CustomStringConvertible, Codable {
+        case audio = "AUDIO"
+        case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MergeStrategy: String, CustomStringConvertible, Codable {
         case overwriteLatest = "OVERWRITE_LATEST"
         case failOnConflict = "FAIL_ON_CONFLICT"
@@ -2405,6 +2568,12 @@ extension LexModelBuildingService {
             case contentType = "contentType"
             case groupNumber = "groupNumber"
         }
+    }
+
+    public enum ObfuscationSetting: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case defaultObfuscation = "DEFAULT_OBFUSCATION"
+        public var description: String { return self.rawValue }
     }
 
     public enum ProcessBehavior: String, CustomStringConvertible, Codable {
@@ -2457,6 +2626,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string), 
             AWSShapeMember(label: "botVersion", required: true, type: .string), 
             AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "conversationLogs", required: false, type: .structure), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
@@ -2467,15 +2637,18 @@ extension LexModelBuildingService {
         public let botVersion: String
         /// Identifies a specific revision of the $LATEST version. When you create a new bot alias, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot alias, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
         public let checksum: String?
+        /// Settings for conversation logs for the alias.
+        public let conversationLogs: ConversationLogsRequest?
         /// A description of the alias.
         public let description: String?
         /// The name of the alias. The name is not case sensitive.
         public let name: String
 
-        public init(botName: String, botVersion: String, checksum: String? = nil, description: String? = nil, name: String) {
+        public init(botName: String, botVersion: String, checksum: String? = nil, conversationLogs: ConversationLogsRequest? = nil, description: String? = nil, name: String) {
             self.botName = botName
             self.botVersion = botVersion
             self.checksum = checksum
+            self.conversationLogs = conversationLogs
             self.description = description
             self.name = name
         }
@@ -2487,6 +2660,7 @@ extension LexModelBuildingService {
             try validate(self.botVersion, name:"botVersion", parent: name, max: 64)
             try validate(self.botVersion, name:"botVersion", parent: name, min: 1)
             try validate(self.botVersion, name:"botVersion", parent: name, pattern: "\\$LATEST|[0-9]+")
+            try self.conversationLogs?.validate(name: "\(name).conversationLogs")
             try validate(self.description, name:"description", parent: name, max: 200)
             try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.name, name:"name", parent: name, max: 100)
@@ -2498,6 +2672,7 @@ extension LexModelBuildingService {
             case botName = "botName"
             case botVersion = "botVersion"
             case checksum = "checksum"
+            case conversationLogs = "conversationLogs"
             case description = "description"
             case name = "name"
         }
@@ -2508,6 +2683,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "botName", required: false, type: .string), 
             AWSShapeMember(label: "botVersion", required: false, type: .string), 
             AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "conversationLogs", required: false, type: .structure), 
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
@@ -2520,6 +2696,8 @@ extension LexModelBuildingService {
         public let botVersion: String?
         /// The checksum for the current version of the alias.
         public let checksum: String?
+        /// The settings that determine how Amazon Lex uses conversation logs for the alias.
+        public let conversationLogs: ConversationLogsResponse?
         /// The date that the bot alias was created.
         public let createdDate: TimeStamp?
         /// A description of the alias.
@@ -2529,10 +2707,11 @@ extension LexModelBuildingService {
         /// The name of the alias.
         public let name: String?
 
-        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil) {
+        public init(botName: String? = nil, botVersion: String? = nil, checksum: String? = nil, conversationLogs: ConversationLogsResponse? = nil, createdDate: TimeStamp? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil, name: String? = nil) {
             self.botName = botName
             self.botVersion = botVersion
             self.checksum = checksum
+            self.conversationLogs = conversationLogs
             self.createdDate = createdDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
@@ -2543,6 +2722,7 @@ extension LexModelBuildingService {
             case botName = "botName"
             case botVersion = "botVersion"
             case checksum = "checksum"
+            case conversationLogs = "conversationLogs"
             case createdDate = "createdDate"
             case description = "description"
             case lastUpdatedDate = "lastUpdatedDate"
@@ -2558,6 +2738,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
             AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
             AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "detectSentiment", required: false, type: .boolean), 
             AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "intents", required: false, type: .list), 
             AWSShapeMember(label: "locale", required: true, type: .enum), 
@@ -2566,17 +2747,20 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "voiceId", required: false, type: .string)
         ]
 
-        /// When Amazon Lex can't understand the user's input in context, it tries to elicit the information a few times. After that, Amazon Lex sends the message defined in abortStatement to the user, and then aborts the conversation. To set the number of retries, use the valueElicitationPrompt field for the slot type.  For example, in a pizza ordering bot, Amazon Lex might ask a user "What type of crust would you like?" If the user's response is not one of the expected responses (for example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response a few more times.  For example, in a pizza ordering application, OrderPizza might be one of the intents. This intent might require the CrustType slot. You specify the valueElicitationPrompt field when you create the CrustType slot.
+        /// When Amazon Lex can't understand the user's input in context, it tries to elicit the information a few times. After that, Amazon Lex sends the message defined in abortStatement to the user, and then aborts the conversation. To set the number of retries, use the valueElicitationPrompt field for the slot type.  For example, in a pizza ordering bot, Amazon Lex might ask a user "What type of crust would you like?" If the user's response is not one of the expected responses (for example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response a few more times.  For example, in a pizza ordering application, OrderPizza might be one of the intents. This intent might require the CrustType slot. You specify the valueElicitationPrompt field when you create the CrustType slot. If you have defined a fallback intent the abort statement will not be sent to the user, the fallback intent is used instead. For more information, see  AMAZON.FallbackIntent.
         public let abortStatement: Statement?
         /// Identifies a specific revision of the $LATEST version. When you create a new bot, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
         public let checksum: String?
         /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ. 
         public let childDirected: Bool
-        /// When Amazon Lex doesn't understand the user's intent, it uses this message to get clarification. To specify how many times Amazon Lex should repeate the clarification prompt, use the maxAttempts field. If Amazon Lex still doesn't understand, it sends the message in the abortStatement field.  When you create a clarification prompt, make sure that it suggests the correct response from the user. for example, for a bot that orders pizza and drinks, you might create this clarification prompt: "What would you like to do? You can say 'Order a pizza' or 'Order a drink.'"
+        /// When Amazon Lex doesn't understand the user's intent, it uses this message to get clarification. To specify how many times Amazon Lex should repeat the clarification prompt, use the maxAttempts field. If Amazon Lex still doesn't understand, it sends the message in the abortStatement field.  When you create a clarification prompt, make sure that it suggests the correct response from the user. for example, for a bot that orders pizza and drinks, you might create this clarification prompt: "What would you like to do? You can say 'Order a pizza' or 'Order a drink.'" If you have defined a fallback intent, it will be invoked if the clarification prompt is repeated the number of times defined in the maxAttempts field. For more information, see  AMAZON.FallbackIntent. If you don't define a clarification prompt, at runtime Amazon Lex will return a 400 Bad Request exception in three cases:    Follow-up prompt - When the user responds to a follow-up prompt but does not provide an intent. For example, in response to a follow-up prompt that says "Would you like anything else today?" the user says "Yes." Amazon Lex will return a 400 Bad Request exception because it does not have a clarification prompt to send to the user to get an intent.   Lambda function - When using a Lambda function, you return an ElicitIntent dialog type. Since Amazon Lex does not have a clarification prompt to get an intent from the user, it returns a 400 Bad Request exception.   PutSession operation - When using the PutSession operation, you send an ElicitIntent dialog type. Since Amazon Lex does not have a clarification prompt to get an intent from the user, it returns a 400 Bad Request exception.  
         public let clarificationPrompt: Prompt?
+        /// When set to true a new numbered version of the bot is created. This is the same as calling the CreateBotVersion operation. If you don't specify createVersion, the default is false.
         public let createVersion: Bool?
         /// A description of the bot.
         public let description: String?
+        /// When set to true user utterances are sent to Amazon Comprehend for sentiment analysis. If you don't specify detectSentiment, the default is false.
+        public let detectSentiment: Bool?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation. A user interaction session remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. For example, suppose that a user chooses the OrderPizza intent, but gets sidetracked halfway through placing an order. If the user doesn't complete the order within the specified time, Amazon Lex discards the slot information that it gathered, and the user must start over. If you don't include the idleSessionTTLInSeconds element in a PutBot operation request, Amazon Lex uses the default value. This is also true if the request replaces an existing bot. The default is 300 seconds (5 minutes).
         public let idleSessionTTLInSeconds: Int?
         /// An array of Intent objects. Each intent represents a command that a user can express. For example, a pizza ordering bot might support an OrderPizza intent. For more information, see how-it-works.
@@ -2587,16 +2771,17 @@ extension LexModelBuildingService {
         public let name: String
         /// If you set the processBehavior element to BUILD, Amazon Lex builds the bot so that it can be run. If you set the element to SAVE Amazon Lex saves the bot, but doesn't build it.  If you don't specify this value, the default value is BUILD.
         public let processBehavior: ProcessBehavior?
-        /// The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Available Voices in the Amazon Polly Developer Guide.
+        /// The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Voices in Amazon Polly in the Amazon Polly Developer Guide.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool, clarificationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, locale: Locale, name: String, processBehavior: ProcessBehavior? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool, clarificationPrompt: Prompt? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, locale: Locale, name: String, processBehavior: ProcessBehavior? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
             self.clarificationPrompt = clarificationPrompt
             self.createVersion = createVersion
             self.description = description
+            self.detectSentiment = detectSentiment
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.intents = intents
             self.locale = locale
@@ -2627,6 +2812,7 @@ extension LexModelBuildingService {
             case clarificationPrompt = "clarificationPrompt"
             case createVersion = "createVersion"
             case description = "description"
+            case detectSentiment = "detectSentiment"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case intents = "intents"
             case locale = "locale"
@@ -2645,6 +2831,7 @@ extension LexModelBuildingService {
             AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "createVersion", required: false, type: .boolean), 
             AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "detectSentiment", required: false, type: .boolean), 
             AWSShapeMember(label: "failureReason", required: false, type: .string), 
             AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "intents", required: false, type: .list), 
@@ -2666,9 +2853,12 @@ extension LexModelBuildingService {
         public let clarificationPrompt: Prompt?
         /// The date that the bot was created.
         public let createdDate: TimeStamp?
+        ///  True if a new version of the bot was created. If the createVersion field was not specified in the request, the createVersion field is set to false in the response.
         public let createVersion: Bool?
         /// A description of the bot.
         public let description: String?
+        ///  true if the bot is configured to send user utterances to Amazon Comprehend for sentiment analysis. If the detectSentiment field was not specified in the request, the detectSentiment field is false in the response.
+        public let detectSentiment: Bool?
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
         /// The maximum length of time that Amazon Lex retains the data gathered in a conversation. For more information, see PutBot.
@@ -2681,14 +2871,14 @@ extension LexModelBuildingService {
         public let locale: Locale?
         /// The name of the bot.
         public let name: String?
-        ///  When you send a request to create a bot with processBehavior set to BUILD, Amazon Lex sets the status response element to BUILDING. After Amazon Lex builds the bot, it sets status to READY. If Amazon Lex can't build the bot, Amazon Lex sets status to FAILED. Amazon Lex returns the reason for the failure in the failureReason response element.  When you set processBehaviorto SAVE, Amazon Lex sets the status code to NOT BUILT.
+        ///  When you send a request to create a bot with processBehavior set to BUILD, Amazon Lex sets the status response element to BUILDING. In the READY_BASIC_TESTING state you can test the bot with user inputs that exactly match the utterances configured for the bot's intents and values in the slot types. If Amazon Lex can't build the bot, Amazon Lex sets status to FAILED. Amazon Lex returns the reason for the failure in the failureReason response element.  When you set processBehavior to SAVE, Amazon Lex sets the status code to NOT BUILT. When the bot is in the READY state you can test and publish the bot.
         public let status: Status?
         /// The version of the bot. For a new bot, the version is always $LATEST.
         public let version: String?
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user. For more information, see PutBot.
         public let voiceId: String?
 
-        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
+        public init(abortStatement: Statement? = nil, checksum: String? = nil, childDirected: Bool? = nil, clarificationPrompt: Prompt? = nil, createdDate: TimeStamp? = nil, createVersion: Bool? = nil, description: String? = nil, detectSentiment: Bool? = nil, failureReason: String? = nil, idleSessionTTLInSeconds: Int? = nil, intents: [Intent]? = nil, lastUpdatedDate: TimeStamp? = nil, locale: Locale? = nil, name: String? = nil, status: Status? = nil, version: String? = nil, voiceId: String? = nil) {
             self.abortStatement = abortStatement
             self.checksum = checksum
             self.childDirected = childDirected
@@ -2696,6 +2886,7 @@ extension LexModelBuildingService {
             self.createdDate = createdDate
             self.createVersion = createVersion
             self.description = description
+            self.detectSentiment = detectSentiment
             self.failureReason = failureReason
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.intents = intents
@@ -2715,6 +2906,7 @@ extension LexModelBuildingService {
             case createdDate = "createdDate"
             case createVersion = "createVersion"
             case description = "description"
+            case detectSentiment = "detectSentiment"
             case failureReason = "failureReason"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case intents = "intents"
@@ -2750,6 +2942,7 @@ extension LexModelBuildingService {
         public let conclusionStatement: Statement?
         /// Prompts the user to confirm the intent. This question should have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready for fulfillment. For example, with the OrderPizza intent, you might want to confirm that the order is correct before placing it. For other intents, such as intents that simply respond to user questions, you might not need to ask the user for confirmation before providing the information.   You you must provide both the rejectionStatement and the confirmationPrompt, or neither. 
         public let confirmationPrompt: Prompt?
+        /// When set to true a new numbered version of the intent is created. This is the same as calling the CreateIntentVersion operation. If you do not specify createVersion, the default is false.
         public let createVersion: Bool?
         /// A description of the intent.
         public let description: String?
@@ -2856,6 +3049,7 @@ extension LexModelBuildingService {
         public let confirmationPrompt: Prompt?
         /// The date that the intent was created.
         public let createdDate: TimeStamp?
+        ///  True if a new version of the intent was created. If the createVersion field was not specified in the request, the createVersion field is set to false in the response.
         public let createVersion: Bool?
         /// A description of the intent.
         public let description: String?
@@ -2931,6 +3125,7 @@ extension LexModelBuildingService {
 
         /// Identifies a specific revision of the $LATEST version. When you create a new slot type, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
         public let checksum: String?
+        /// When set to true a new numbered version of the slot type is created. This is the same as calling the CreateSlotTypeVersion operation. If you do not specify createVersion, the default is false.
         public let createVersion: Bool?
         /// A description of the slot type.
         public let description: String?
@@ -2990,6 +3185,7 @@ extension LexModelBuildingService {
         public let checksum: String?
         /// The date that the slot type was created.
         public let createdDate: TimeStamp?
+        ///  True if a new version of the slot type was created. If the createVersion field was not specified in the request, the createVersion field is set to false in the response.
         public let createVersion: Bool?
         /// A description of the slot type.
         public let description: String?
@@ -3040,6 +3236,7 @@ extension LexModelBuildingService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "obfuscationSetting", required: false, type: .enum), 
             AWSShapeMember(label: "priority", required: false, type: .integer), 
             AWSShapeMember(label: "responseCard", required: false, type: .string), 
             AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
@@ -3053,6 +3250,8 @@ extension LexModelBuildingService {
         public let description: String?
         /// The name of the slot.
         public let name: String
+        /// Determines whether a slot is obfuscated in conversation logs and stored utterances. When you obfuscate a slot, the value is replaced by the slot name in curly braces ({}). For example, if the slot name is "full_name", obfuscated values are replaced with "{full_name}". For more information, see  Slot Obfuscation . 
+        public let obfuscationSetting: ObfuscationSetting?
         ///  Directs Lex the order in which to elicit this slot value from the user. For example, if the intent has two slots with priorities 1 and 2, AWS Lex first elicits a value for the slot with priority 1. If multiple slots share the same priority, the order in which Lex elicits values is arbitrary.
         public let priority: Int?
         ///  A set of possible responses for the slot type used by text-based clients. A user chooses an option from the response card, instead of using text to reply. 
@@ -3068,9 +3267,10 @@ extension LexModelBuildingService {
         /// The prompt that Amazon Lex uses to elicit the slot value from the user.
         public let valueElicitationPrompt: Prompt?
 
-        public init(description: String? = nil, name: String, priority: Int? = nil, responseCard: String? = nil, sampleUtterances: [String]? = nil, slotConstraint: SlotConstraint, slotType: String? = nil, slotTypeVersion: String? = nil, valueElicitationPrompt: Prompt? = nil) {
+        public init(description: String? = nil, name: String, obfuscationSetting: ObfuscationSetting? = nil, priority: Int? = nil, responseCard: String? = nil, sampleUtterances: [String]? = nil, slotConstraint: SlotConstraint, slotType: String? = nil, slotTypeVersion: String? = nil, valueElicitationPrompt: Prompt? = nil) {
             self.description = description
             self.name = name
+            self.obfuscationSetting = obfuscationSetting
             self.priority = priority
             self.responseCard = responseCard
             self.sampleUtterances = sampleUtterances
@@ -3108,6 +3308,7 @@ extension LexModelBuildingService {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
+            case obfuscationSetting = "obfuscationSetting"
             case priority = "priority"
             case responseCard = "responseCard"
             case sampleUtterances = "sampleUtterances"

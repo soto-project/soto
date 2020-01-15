@@ -492,6 +492,7 @@ extension ACM {
         case pcaInvalidArn = "PCA_INVALID_ARN"
         case pcaInvalidState = "PCA_INVALID_STATE"
         case pcaRequestFailed = "PCA_REQUEST_FAILED"
+        case pcaNameConstraintsValidation = "PCA_NAME_CONSTRAINTS_VALIDATION"
         case pcaResourceNotFound = "PCA_RESOURCE_NOT_FOUND"
         case pcaInvalidArgs = "PCA_INVALID_ARGS"
         case pcaInvalidDuration = "PCA_INVALID_DURATION"
@@ -509,7 +510,7 @@ extension ACM {
 
         /// Specify one or more ExtendedKeyUsage extension values.
         public let extendedKeyUsage: [ExtendedKeyUsageName]?
-        /// Specify one or more algorithms that can be used to generate key pairs.
+        /// Specify one or more algorithms that can be used to generate key pairs. Default filtering returns only RSA_2048 certificates. To return other certificate types, provide the desired type signatures in a comma-separated list. For example, "keyTypes": ["RSA_2048,RSA_4096"] returns both RSA_2048 and RSA_4096 certificates.
         public let keyTypes: [KeyAlgorithm]?
         /// Specify one or more KeyUsage extension values.
         public let keyUsage: [KeyUsageName]?
@@ -577,7 +578,8 @@ extension ACM {
             AWSShapeMember(label: "Certificate", required: true, type: .blob), 
             AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "CertificateChain", required: false, type: .blob), 
-            AWSShapeMember(label: "PrivateKey", required: true, type: .blob)
+            AWSShapeMember(label: "PrivateKey", required: true, type: .blob), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// The certificate to import.
@@ -588,12 +590,15 @@ extension ACM {
         public let certificateChain: Data?
         /// The private key that matches the public key in the certificate.
         public let privateKey: Data
+        /// One or more resource tags to associate with the imported certificate.  Note: You cannot apply tags when reimporting a certificate.
+        public let tags: [Tag]?
 
-        public init(certificate: Data, certificateArn: String? = nil, certificateChain: Data? = nil, privateKey: Data) {
+        public init(certificate: Data, certificateArn: String? = nil, certificateChain: Data? = nil, privateKey: Data, tags: [Tag]? = nil) {
             self.certificate = certificate
             self.certificateArn = certificateArn
             self.certificateChain = certificateChain
             self.privateKey = privateKey
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -606,6 +611,11 @@ extension ACM {
             try validate(self.certificateChain, name:"certificateChain", parent: name, min: 1)
             try validate(self.privateKey, name:"privateKey", parent: name, max: 524288)
             try validate(self.privateKey, name:"privateKey", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -613,6 +623,7 @@ extension ACM {
             case certificateArn = "CertificateArn"
             case certificateChain = "CertificateChain"
             case privateKey = "PrivateKey"
+            case tags = "Tags"
         }
     }
 
@@ -892,12 +903,13 @@ extension ACM {
             AWSShapeMember(label: "IdempotencyToken", required: false, type: .string), 
             AWSShapeMember(label: "Options", required: false, type: .structure), 
             AWSShapeMember(label: "SubjectAlternativeNames", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "ValidationMethod", required: false, type: .enum)
         ]
 
         /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the AWS Certificate Manager Private Certificate Authority (PCA) user guide. The ARN must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 
         public let certificateAuthorityArn: String?
-        ///  Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, *.example.com protects www.example.com, site.example.com, and images.example.com.   The first domain name you enter cannot exceed 63 octets, including periods. Each subsequent Subject Alternative Name (SAN), however, can be up to 253 octets in length. 
+        ///  Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, *.example.com protects www.example.com, site.example.com, and images.example.com.   The first domain name you enter cannot exceed 64 octets, including periods. Each subsequent Subject Alternative Name (SAN), however, can be up to 253 octets in length. 
         public let domainName: String
         /// The domain name that you want ACM to use to send you emails so that you can validate domain ownership.
         public let domainValidationOptions: [DomainValidationOption]?
@@ -907,16 +919,19 @@ extension ACM {
         public let options: CertificateOptions?
         /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial limit is 10 domain names. If you need more than 10 names, you must request a limit increase. For more information, see Limits.  The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:     (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets.    (64 octets).(63 octets).(63 octets).(61 octets) is not legal because the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets.    (63 octets).(63 octets).(63 octets).(62 octets) is not legal because the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets.  
         public let subjectAlternativeNames: [String]?
+        /// One or more resource tags to associate with the certificate.
+        public let tags: [Tag]?
         /// The method you want to use if you are requesting a public certificate to validate that you own or control domain. You can validate with DNS or validate with email. We recommend that you use DNS validation. 
         public let validationMethod: ValidationMethod?
 
-        public init(certificateAuthorityArn: String? = nil, domainName: String, domainValidationOptions: [DomainValidationOption]? = nil, idempotencyToken: String? = nil, options: CertificateOptions? = nil, subjectAlternativeNames: [String]? = nil, validationMethod: ValidationMethod? = nil) {
+        public init(certificateAuthorityArn: String? = nil, domainName: String, domainValidationOptions: [DomainValidationOption]? = nil, idempotencyToken: String? = nil, options: CertificateOptions? = nil, subjectAlternativeNames: [String]? = nil, tags: [Tag]? = nil, validationMethod: ValidationMethod? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.domainName = domainName
             self.domainValidationOptions = domainValidationOptions
             self.idempotencyToken = idempotencyToken
             self.options = options
             self.subjectAlternativeNames = subjectAlternativeNames
+            self.tags = tags
             self.validationMethod = validationMethod
         }
 
@@ -942,6 +957,11 @@ extension ACM {
             }
             try validate(self.subjectAlternativeNames, name:"subjectAlternativeNames", parent: name, max: 100)
             try validate(self.subjectAlternativeNames, name:"subjectAlternativeNames", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -951,6 +971,7 @@ extension ACM {
             case idempotencyToken = "IdempotencyToken"
             case options = "Options"
             case subjectAlternativeNames = "SubjectAlternativeNames"
+            case tags = "Tags"
             case validationMethod = "ValidationMethod"
         }
     }

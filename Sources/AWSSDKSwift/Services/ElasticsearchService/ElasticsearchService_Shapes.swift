@@ -796,6 +796,8 @@ extension ElasticsearchService {
         case c54XlargeElasticsearch = "c5.4xlarge.elasticsearch"
         case c59XlargeElasticsearch = "c5.9xlarge.elasticsearch"
         case c518XlargeElasticsearch = "c5.18xlarge.elasticsearch"
+        case ultrawarm1MediumElasticsearch = "ultrawarm1.medium.elasticsearch"
+        case ultrawarm1LargeElasticsearch = "ultrawarm1.large.elasticsearch"
         case t2MicroElasticsearch = "t2.micro.elasticsearch"
         case t2SmallElasticsearch = "t2.small.elasticsearch"
         case t2MediumElasticsearch = "t2.medium.elasticsearch"
@@ -830,6 +832,12 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
+    public enum ESWarmPartitionInstanceType: String, CustomStringConvertible, Codable {
+        case ultrawarm1MediumElasticsearch = "ultrawarm1.medium.elasticsearch"
+        case ultrawarm1LargeElasticsearch = "ultrawarm1.large.elasticsearch"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ElasticsearchClusterConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DedicatedMasterCount", required: false, type: .integer), 
@@ -837,6 +845,9 @@ extension ElasticsearchService {
             AWSShapeMember(label: "DedicatedMasterType", required: false, type: .enum), 
             AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
             AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "WarmCount", required: false, type: .integer), 
+            AWSShapeMember(label: "WarmEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "WarmType", required: false, type: .enum), 
             AWSShapeMember(label: "ZoneAwarenessConfig", required: false, type: .structure), 
             AWSShapeMember(label: "ZoneAwarenessEnabled", required: false, type: .boolean)
         ]
@@ -849,19 +860,28 @@ extension ElasticsearchService {
         public let dedicatedMasterType: ESPartitionInstanceType?
         /// The number of instances in the specified domain cluster.
         public let instanceCount: Int?
-        /// The instance type for an Elasticsearch cluster.
+        /// The instance type for an Elasticsearch cluster. UltraWarm instance types are not supported for data instances.
         public let instanceType: ESPartitionInstanceType?
+        /// The number of warm nodes in the cluster.
+        public let warmCount: Int?
+        /// True to enable warm storage.
+        public let warmEnabled: Bool?
+        /// The instance type for the Elasticsearch cluster's warm nodes.
+        public let warmType: ESWarmPartitionInstanceType?
         /// Specifies the zone awareness configuration for a domain when zone awareness is enabled.
         public let zoneAwarenessConfig: ZoneAwarenessConfig?
         /// A boolean value to indicate whether zone awareness is enabled. See About Zone Awareness for more information.
         public let zoneAwarenessEnabled: Bool?
 
-        public init(dedicatedMasterCount: Int? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: ESPartitionInstanceType? = nil, instanceCount: Int? = nil, instanceType: ESPartitionInstanceType? = nil, zoneAwarenessConfig: ZoneAwarenessConfig? = nil, zoneAwarenessEnabled: Bool? = nil) {
+        public init(dedicatedMasterCount: Int? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: ESPartitionInstanceType? = nil, instanceCount: Int? = nil, instanceType: ESPartitionInstanceType? = nil, warmCount: Int? = nil, warmEnabled: Bool? = nil, warmType: ESWarmPartitionInstanceType? = nil, zoneAwarenessConfig: ZoneAwarenessConfig? = nil, zoneAwarenessEnabled: Bool? = nil) {
             self.dedicatedMasterCount = dedicatedMasterCount
             self.dedicatedMasterEnabled = dedicatedMasterEnabled
             self.dedicatedMasterType = dedicatedMasterType
             self.instanceCount = instanceCount
             self.instanceType = instanceType
+            self.warmCount = warmCount
+            self.warmEnabled = warmEnabled
+            self.warmType = warmType
             self.zoneAwarenessConfig = zoneAwarenessConfig
             self.zoneAwarenessEnabled = zoneAwarenessEnabled
         }
@@ -872,6 +892,9 @@ extension ElasticsearchService {
             case dedicatedMasterType = "DedicatedMasterType"
             case instanceCount = "InstanceCount"
             case instanceType = "InstanceType"
+            case warmCount = "WarmCount"
+            case warmEnabled = "WarmEnabled"
+            case warmType = "WarmType"
             case zoneAwarenessConfig = "ZoneAwarenessConfig"
             case zoneAwarenessEnabled = "ZoneAwarenessEnabled"
         }

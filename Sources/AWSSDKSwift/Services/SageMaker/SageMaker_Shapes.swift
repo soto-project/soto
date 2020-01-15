@@ -63,6 +63,7 @@ extension SageMaker {
     public struct AlgorithmSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmName", required: false, type: .string), 
+            AWSShapeMember(label: "EnableSageMakerMetricsTimeSeries", required: false, type: .boolean), 
             AWSShapeMember(label: "MetricDefinitions", required: false, type: .list), 
             AWSShapeMember(label: "TrainingImage", required: false, type: .string), 
             AWSShapeMember(label: "TrainingInputMode", required: true, type: .enum)
@@ -70,6 +71,8 @@ extension SageMaker {
 
         /// The name of the algorithm resource to use for the training job. This must be an algorithm resource that you created or subscribe to on AWS Marketplace. If you specify a value for this parameter, you can't specify a value for TrainingImage.
         public let algorithmName: String?
+        /// To generate and save time-series metrics during training, set to true. The default is false and time-series metrics aren't generated except in the following cases:   You use one of the Amazon SageMaker built-in algorithms   You use one of the following Prebuilt Amazon SageMaker Docker Images:   Tensorflow (version &gt;= 1.15)   MXNet (version &gt;= 1.6)   PyTorch (version &gt;= 1.3)     You specify at least one MetricDefinition   
+        public let enableSageMakerMetricsTimeSeries: Bool?
         /// A list of metric definition objects. Each object specifies the metric name and regular expressions used to parse algorithm logs. Amazon SageMaker publishes each metric to Amazon CloudWatch.
         public let metricDefinitions: [MetricDefinition]?
         /// The registry path of the Docker image that contains the training algorithm. For information about docker registry paths for built-in algorithms, see Algorithms Provided by Amazon SageMaker: Common Parameters. Amazon SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker.
@@ -77,8 +80,9 @@ extension SageMaker {
         /// The input mode that the algorithm supports. For the input modes that Amazon SageMaker algorithms support, see Algorithms. If an algorithm supports the File input mode, Amazon SageMaker downloads the training data from S3 to the provisioned ML storage Volume, and mounts the directory to docker volume for training container. If an algorithm supports the Pipe input mode, Amazon SageMaker streams data directly from S3 to the container.   In File mode, make sure you provision ML storage volume with sufficient capacity to accommodate the data download from S3. In addition to the training data, the ML storage volume also stores the output model. The algorithm container use ML storage volume to also store intermediate information, if any.   For distributed algorithms using File mode, training data is distributed uniformly, and your training duration is predictable if the input data objects size is approximately same. Amazon SageMaker does not split the files any further for model training. If the object sizes are skewed, training won't be optimal as the data distribution is also skewed where one host in a training cluster is overloaded, thus becoming bottleneck in training. 
         public let trainingInputMode: TrainingInputMode
 
-        public init(algorithmName: String? = nil, metricDefinitions: [MetricDefinition]? = nil, trainingImage: String? = nil, trainingInputMode: TrainingInputMode) {
+        public init(algorithmName: String? = nil, enableSageMakerMetricsTimeSeries: Bool? = nil, metricDefinitions: [MetricDefinition]? = nil, trainingImage: String? = nil, trainingInputMode: TrainingInputMode) {
             self.algorithmName = algorithmName
+            self.enableSageMakerMetricsTimeSeries = enableSageMakerMetricsTimeSeries
             self.metricDefinitions = metricDefinitions
             self.trainingImage = trainingImage
             self.trainingInputMode = trainingInputMode
@@ -99,6 +103,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case algorithmName = "AlgorithmName"
+            case enableSageMakerMetricsTimeSeries = "EnableSageMakerMetricsTimeSeries"
             case metricDefinitions = "MetricDefinitions"
             case trainingImage = "TrainingImage"
             case trainingInputMode = "TrainingInputMode"
@@ -273,7 +278,7 @@ extension SageMaker {
             AWSShapeMember(label: "AnnotationConsolidationLambdaArn", required: true, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation. For the built-in bounding box, image classification, semantic segmentation, and text classification task types, Amazon SageMaker Ground Truth provides the following Lambda functions:    Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.  arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox   arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox   arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox   arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox   arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox   arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox   arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox   arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass   arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass   arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass   arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass   arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation   arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation   arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation   arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass   arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass   arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass   arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass   arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Named entity eecognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition   arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition   arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition   arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition    For more information, see Annotation Consolidation.
+        /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation. For the built-in bounding box, image classification, semantic segmentation, and text classification task types, Amazon SageMaker Ground Truth provides the following Lambda functions:    Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.  arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox   arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox   arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox   arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox   arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox   arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox   arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox   arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass   arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass   arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass   arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass   arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation   arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation   arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation   arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation   arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass   arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass   arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass   arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass   arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass   arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass   arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass   arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition   arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition   arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition   arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition   arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition     Bounding box verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationBoundingBox   arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationBoundingBox   arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationBoundingBox   arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationBoundingBox   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationBoundingBox   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationBoundingBox   arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationBoundingBox   arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationBoundingBox   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationBoundingBox   arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationBoundingBox   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationBoundingBox   arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationBoundingBox     Semantic segmentation verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for semantic segmentation labels based on annotations from individual workers.  arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationSemanticSegmentation   arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationSemanticSegmentation     Bounding box adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.  arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentBoundingBox   arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentBoundingBox     Semantic segmentation adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.  arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentSemanticSegmentation   arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentSemanticSegmentation    For more information, see Annotation Consolidation.
         public let annotationConsolidationLambdaArn: String
 
         public init(annotationConsolidationLambdaArn: String) {
@@ -290,9 +295,681 @@ extension SageMaker {
         }
     }
 
+    public struct AppDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppName", required: false, type: .string), 
+            AWSShapeMember(label: "AppType", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DomainId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "UserProfileName", required: false, type: .string)
+        ]
+
+        /// The name of the app.
+        public let appName: String?
+        /// The type of app.
+        public let appType: AppType?
+        /// The creation time.
+        public let creationTime: TimeStamp?
+        /// The domain ID.
+        public let domainId: String?
+        /// The status.
+        public let status: AppStatus?
+        /// The user profile name.
+        public let userProfileName: String?
+
+        public init(appName: String? = nil, appType: AppType? = nil, creationTime: TimeStamp? = nil, domainId: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
+            self.appName = appName
+            self.appType = appType
+            self.creationTime = creationTime
+            self.domainId = domainId
+            self.status = status
+            self.userProfileName = userProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appName = "AppName"
+            case appType = "AppType"
+            case creationTime = "CreationTime"
+            case domainId = "DomainId"
+            case status = "Status"
+            case userProfileName = "UserProfileName"
+        }
+    }
+
+    public enum AppInstanceType: String, CustomStringConvertible, Codable {
+        case system = "system"
+        case mlT3Micro = "ml.t3.micro"
+        case mlT3Small = "ml.t3.small"
+        case mlT3Medium = "ml.t3.medium"
+        case mlT3Large = "ml.t3.large"
+        case mlT3Xlarge = "ml.t3.xlarge"
+        case mlT32Xlarge = "ml.t3.2xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM58Xlarge = "ml.m5.8xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM516Xlarge = "ml.m5.16xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlC5Large = "ml.c5.large"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC512Xlarge = "ml.c5.12xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlC524Xlarge = "ml.c5.24xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
+        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
+        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppSortKey: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AppSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainerArguments", required: false, type: .list), 
+            AWSShapeMember(label: "ContainerEntrypoint", required: false, type: .list), 
+            AWSShapeMember(label: "ImageUri", required: true, type: .string)
+        ]
+
+        /// The arguments for a container used to run a processing job.
+        public let containerArguments: [String]?
+        /// The entrypoint for a container used to run a processing job.
+        public let containerEntrypoint: [String]?
+        /// The container image to be run by the processing job.
+        public let imageUri: String
+
+        public init(containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, imageUri: String) {
+            self.containerArguments = containerArguments
+            self.containerEntrypoint = containerEntrypoint
+            self.imageUri = imageUri
+        }
+
+        public func validate(name: String) throws {
+            try self.containerArguments?.forEach {
+                try validate($0, name: "containerArguments[]", parent: name, max: 256)
+                try validate($0, name: "containerArguments[]", parent: name, pattern: ".*")
+            }
+            try validate(self.containerArguments, name:"containerArguments", parent: name, max: 100)
+            try validate(self.containerArguments, name:"containerArguments", parent: name, min: 1)
+            try self.containerEntrypoint?.forEach {
+                try validate($0, name: "containerEntrypoint[]", parent: name, max: 256)
+                try validate($0, name: "containerEntrypoint[]", parent: name, pattern: ".*")
+            }
+            try validate(self.containerEntrypoint, name:"containerEntrypoint", parent: name, max: 100)
+            try validate(self.containerEntrypoint, name:"containerEntrypoint", parent: name, min: 1)
+            try validate(self.imageUri, name:"imageUri", parent: name, max: 255)
+            try validate(self.imageUri, name:"imageUri", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerArguments = "ContainerArguments"
+            case containerEntrypoint = "ContainerEntrypoint"
+            case imageUri = "ImageUri"
+        }
+    }
+
+    public enum AppStatus: String, CustomStringConvertible, Codable {
+        case deleted = "Deleted"
+        case deleting = "Deleting"
+        case failed = "Failed"
+        case inservice = "InService"
+        case pending = "Pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppType: String, CustomStringConvertible, Codable {
+        case jupyterserver = "JupyterServer"
+        case kernelgateway = "KernelGateway"
+        case tensorboard = "TensorBoard"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssemblyType: String, CustomStringConvertible, Codable {
         case none = "None"
         case line = "Line"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AssociateTrialComponentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialComponentName", required: true, type: .string), 
+            AWSShapeMember(label: "TrialName", required: true, type: .string)
+        ]
+
+        /// The name of the component to associated with the trial.
+        public let trialComponentName: String
+        /// The name of the trial to associate with.
+        public let trialName: String
+
+        public init(trialComponentName: String, trialName: String) {
+            self.trialComponentName = trialComponentName
+            self.trialName = trialName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, min: 1)
+            try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialComponentName = "TrialComponentName"
+            case trialName = "TrialName"
+        }
+    }
+
+    public struct AssociateTrialComponentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the trial.
+        public let trialArn: String?
+        /// The ARN of the trial component.
+        public let trialComponentArn: String?
+
+        public init(trialArn: String? = nil, trialComponentArn: String? = nil) {
+            self.trialArn = trialArn
+            self.trialComponentArn = trialComponentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialArn = "TrialArn"
+            case trialComponentArn = "TrialComponentArn"
+        }
+    }
+
+    public enum AuthMode: String, CustomStringConvertible, Codable {
+        case sso = "SSO"
+        case iam = "IAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AutoMLCandidate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CandidateName", required: true, type: .string), 
+            AWSShapeMember(label: "CandidateStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "CandidateSteps", required: true, type: .list), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "FinalAutoMLJobObjectiveMetric", required: false, type: .structure), 
+            AWSShapeMember(label: "InferenceContainers", required: false, type: .list), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ObjectiveStatus", required: true, type: .enum)
+        ]
+
+        /// The candidate name.
+        public let candidateName: String
+        /// The candidate's status.
+        public let candidateStatus: CandidateStatus
+        /// The candidate's steps.
+        public let candidateSteps: [AutoMLCandidateStep]
+        /// The creation time.
+        public let creationTime: TimeStamp
+        /// The end time.
+        public let endTime: TimeStamp?
+        /// The failure reason.
+        public let failureReason: String?
+        public let finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric?
+        /// The inference containers.
+        public let inferenceContainers: [AutoMLContainerDefinition]?
+        /// The last modified time.
+        public let lastModifiedTime: TimeStamp
+        /// The objective status.
+        public let objectiveStatus: ObjectiveStatus
+
+        public init(candidateName: String, candidateStatus: CandidateStatus, candidateSteps: [AutoMLCandidateStep], creationTime: TimeStamp, endTime: TimeStamp? = nil, failureReason: String? = nil, finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric? = nil, inferenceContainers: [AutoMLContainerDefinition]? = nil, lastModifiedTime: TimeStamp, objectiveStatus: ObjectiveStatus) {
+            self.candidateName = candidateName
+            self.candidateStatus = candidateStatus
+            self.candidateSteps = candidateSteps
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.failureReason = failureReason
+            self.finalAutoMLJobObjectiveMetric = finalAutoMLJobObjectiveMetric
+            self.inferenceContainers = inferenceContainers
+            self.lastModifiedTime = lastModifiedTime
+            self.objectiveStatus = objectiveStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case candidateName = "CandidateName"
+            case candidateStatus = "CandidateStatus"
+            case candidateSteps = "CandidateSteps"
+            case creationTime = "CreationTime"
+            case endTime = "EndTime"
+            case failureReason = "FailureReason"
+            case finalAutoMLJobObjectiveMetric = "FinalAutoMLJobObjectiveMetric"
+            case inferenceContainers = "InferenceContainers"
+            case lastModifiedTime = "LastModifiedTime"
+            case objectiveStatus = "ObjectiveStatus"
+        }
+    }
+
+    public struct AutoMLCandidateStep: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CandidateStepArn", required: true, type: .string), 
+            AWSShapeMember(label: "CandidateStepName", required: true, type: .string), 
+            AWSShapeMember(label: "CandidateStepType", required: true, type: .enum)
+        ]
+
+        /// The ARN for the Candidate's step.
+        public let candidateStepArn: String
+        /// The name for the Candidate's step.
+        public let candidateStepName: String
+        /// Whether the Candidate is at the transform, training, or processing step.
+        public let candidateStepType: CandidateStepType
+
+        public init(candidateStepArn: String, candidateStepName: String, candidateStepType: CandidateStepType) {
+            self.candidateStepArn = candidateStepArn
+            self.candidateStepName = candidateStepName
+            self.candidateStepType = candidateStepType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case candidateStepArn = "CandidateStepArn"
+            case candidateStepName = "CandidateStepName"
+            case candidateStepType = "CandidateStepType"
+        }
+    }
+
+    public struct AutoMLChannel: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
+            AWSShapeMember(label: "DataSource", required: true, type: .structure), 
+            AWSShapeMember(label: "TargetAttributeName", required: true, type: .string)
+        ]
+
+        /// You can use Gzip or None. The default value is None.
+        public let compressionType: CompressionType?
+        /// The data source.
+        public let dataSource: AutoMLDataSource
+        /// The name of the target variable in supervised learning, a.k.a. ‘y’.
+        public let targetAttributeName: String
+
+        public init(compressionType: CompressionType? = nil, dataSource: AutoMLDataSource, targetAttributeName: String) {
+            self.compressionType = compressionType
+            self.dataSource = dataSource
+            self.targetAttributeName = targetAttributeName
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSource.validate(name: "\(name).dataSource")
+            try validate(self.targetAttributeName, name:"targetAttributeName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compressionType = "CompressionType"
+            case dataSource = "DataSource"
+            case targetAttributeName = "TargetAttributeName"
+        }
+    }
+
+    public struct AutoMLContainerDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Environment", required: false, type: .map), 
+            AWSShapeMember(label: "Image", required: true, type: .string), 
+            AWSShapeMember(label: "ModelDataUrl", required: true, type: .string)
+        ]
+
+        /// Environment variables to set in the container. Refer to ContainerDefinition for more details.
+        public let environment: [String: String]?
+        /// The ECR path of the container. Refer to ContainerDefinition for more details.
+        public let image: String
+        /// The location of the model artifacts. Refer to ContainerDefinition for more details.
+        public let modelDataUrl: String
+
+        public init(environment: [String: String]? = nil, image: String, modelDataUrl: String) {
+            self.environment = environment
+            self.image = image
+            self.modelDataUrl = modelDataUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environment = "Environment"
+            case image = "Image"
+            case modelDataUrl = "ModelDataUrl"
+        }
+    }
+
+    public struct AutoMLDataSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3DataSource", required: true, type: .structure)
+        ]
+
+        /// The Amazon S3 location of the data.
+        public let s3DataSource: AutoMLS3DataSource
+
+        public init(s3DataSource: AutoMLS3DataSource) {
+            self.s3DataSource = s3DataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.s3DataSource.validate(name: "\(name).s3DataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3DataSource = "S3DataSource"
+        }
+    }
+
+    public struct AutoMLJobArtifacts: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CandidateDefinitionNotebookLocation", required: false, type: .string), 
+            AWSShapeMember(label: "DataExplorationNotebookLocation", required: false, type: .string)
+        ]
+
+        /// The URL to the notebook location.
+        public let candidateDefinitionNotebookLocation: String?
+        /// The URL to the notebook location.
+        public let dataExplorationNotebookLocation: String?
+
+        public init(candidateDefinitionNotebookLocation: String? = nil, dataExplorationNotebookLocation: String? = nil) {
+            self.candidateDefinitionNotebookLocation = candidateDefinitionNotebookLocation
+            self.dataExplorationNotebookLocation = dataExplorationNotebookLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case candidateDefinitionNotebookLocation = "CandidateDefinitionNotebookLocation"
+            case dataExplorationNotebookLocation = "DataExplorationNotebookLocation"
+        }
+    }
+
+    public struct AutoMLJobCompletionCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxAutoMLJobRuntimeInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxCandidates", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxRuntimePerTrainingJobInSeconds", required: false, type: .integer)
+        ]
+
+        /// The maximum time, in seconds, an AutoML job is allowed to wait for a trial to complete. It must be equal to or greater than MaxRuntimePerTrainingJobInSeconds.
+        public let maxAutoMLJobRuntimeInSeconds: Int?
+        /// The maximum number of times a training job is allowed to run.
+        public let maxCandidates: Int?
+        /// The maximum time, in seconds, a job is allowed to run.
+        public let maxRuntimePerTrainingJobInSeconds: Int?
+
+        public init(maxAutoMLJobRuntimeInSeconds: Int? = nil, maxCandidates: Int? = nil, maxRuntimePerTrainingJobInSeconds: Int? = nil) {
+            self.maxAutoMLJobRuntimeInSeconds = maxAutoMLJobRuntimeInSeconds
+            self.maxCandidates = maxCandidates
+            self.maxRuntimePerTrainingJobInSeconds = maxRuntimePerTrainingJobInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxAutoMLJobRuntimeInSeconds, name:"maxAutoMLJobRuntimeInSeconds", parent: name, min: 1)
+            try validate(self.maxCandidates, name:"maxCandidates", parent: name, min: 1)
+            try validate(self.maxRuntimePerTrainingJobInSeconds, name:"maxRuntimePerTrainingJobInSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxAutoMLJobRuntimeInSeconds = "MaxAutoMLJobRuntimeInSeconds"
+            case maxCandidates = "MaxCandidates"
+            case maxRuntimePerTrainingJobInSeconds = "MaxRuntimePerTrainingJobInSeconds"
+        }
+    }
+
+    public struct AutoMLJobConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompletionCriteria", required: false, type: .structure), 
+            AWSShapeMember(label: "SecurityConfig", required: false, type: .structure)
+        ]
+
+        /// How long a job is allowed to run, or how many candidates a job is allowed to generate.
+        public let completionCriteria: AutoMLJobCompletionCriteria?
+        /// Security configuration for traffic encryption or Amazon VPC settings.
+        public let securityConfig: AutoMLSecurityConfig?
+
+        public init(completionCriteria: AutoMLJobCompletionCriteria? = nil, securityConfig: AutoMLSecurityConfig? = nil) {
+            self.completionCriteria = completionCriteria
+            self.securityConfig = securityConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.completionCriteria?.validate(name: "\(name).completionCriteria")
+            try self.securityConfig?.validate(name: "\(name).securityConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionCriteria = "CompletionCriteria"
+            case securityConfig = "SecurityConfig"
+        }
+    }
+
+    public struct AutoMLJobObjective: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricName", required: true, type: .enum)
+        ]
+
+        /// The name of the metric.
+        public let metricName: AutoMLMetricEnum
+
+        public init(metricName: AutoMLMetricEnum) {
+            self.metricName = metricName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+        }
+    }
+
+    public enum AutoMLJobObjectiveType: String, CustomStringConvertible, Codable {
+        case maximize = "Maximize"
+        case minimize = "Minimize"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoMLJobSecondaryStatus: String, CustomStringConvertible, Codable {
+        case starting = "Starting"
+        case analyzingdata = "AnalyzingData"
+        case featureengineering = "FeatureEngineering"
+        case modeltuning = "ModelTuning"
+        case maxcandidatesreached = "MaxCandidatesReached"
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case maxautomljobruntimereached = "MaxAutoMLJobRuntimeReached"
+        case stopping = "Stopping"
+        case candidatedefinitionsgenerated = "CandidateDefinitionsGenerated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoMLJobStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AutoMLJobSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMLJobArn", required: true, type: .string), 
+            AWSShapeMember(label: "AutoMLJobName", required: true, type: .string), 
+            AWSShapeMember(label: "AutoMLJobSecondaryStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "AutoMLJobStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
+        ]
+
+        /// The ARN of the job.
+        public let autoMLJobArn: String
+        /// The name of the object you are requesting.
+        public let autoMLJobName: String
+        /// The job's secondary status.
+        public let autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus
+        /// The job's status.
+        public let autoMLJobStatus: AutoMLJobStatus
+        /// When the job was created.
+        public let creationTime: TimeStamp
+        /// The end time.
+        public let endTime: TimeStamp?
+        /// The failure reason.
+        public let failureReason: String?
+        /// When the job was last modified.
+        public let lastModifiedTime: TimeStamp
+
+        public init(autoMLJobArn: String, autoMLJobName: String, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, creationTime: TimeStamp, endTime: TimeStamp? = nil, failureReason: String? = nil, lastModifiedTime: TimeStamp) {
+            self.autoMLJobArn = autoMLJobArn
+            self.autoMLJobName = autoMLJobName
+            self.autoMLJobSecondaryStatus = autoMLJobSecondaryStatus
+            self.autoMLJobStatus = autoMLJobStatus
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.failureReason = failureReason
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobArn = "AutoMLJobArn"
+            case autoMLJobName = "AutoMLJobName"
+            case autoMLJobSecondaryStatus = "AutoMLJobSecondaryStatus"
+            case autoMLJobStatus = "AutoMLJobStatus"
+            case creationTime = "CreationTime"
+            case endTime = "EndTime"
+            case failureReason = "FailureReason"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public enum AutoMLMetricEnum: String, CustomStringConvertible, Codable {
+        case accuracy = "Accuracy"
+        case mse = "MSE"
+        case f1 = "F1"
+        case f1macro = "F1macro"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AutoMLOutputDataConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
+        ]
+
+        /// The AWS KMS encryption key ID.
+        public let kmsKeyId: String?
+        /// The Amazon S3 output path. Must be 128 characters or less.
+        public let s3OutputPath: String
+
+        public init(kmsKeyId: String? = nil, s3OutputPath: String) {
+            self.kmsKeyId = kmsKeyId
+            self.s3OutputPath = s3OutputPath
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, pattern: ".*")
+            try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, max: 1024)
+            try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case s3OutputPath = "S3OutputPath"
+        }
+    }
+
+    public struct AutoMLS3DataSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3DataType", required: true, type: .enum), 
+            AWSShapeMember(label: "S3Uri", required: true, type: .string)
+        ]
+
+        /// The data type.
+        public let s3DataType: AutoMLS3DataType
+        /// The URL to the Amazon S3 data source.
+        public let s3Uri: String
+
+        public init(s3DataType: AutoMLS3DataType, s3Uri: String) {
+            self.s3DataType = s3DataType
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(self.s3Uri, name:"s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3DataType = "S3DataType"
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public enum AutoMLS3DataType: String, CustomStringConvertible, Codable {
+        case manifestfile = "ManifestFile"
+        case s3prefix = "S3Prefix"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AutoMLSecurityConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
+        ]
+
+        /// Whether to use traffic encryption between the container layers.
+        public let enableInterContainerTrafficEncryption: Bool?
+        /// The key used to encrypt stored data.
+        public let volumeKmsKeyId: String?
+        /// VPC configuration.
+        public let vpcConfig: VpcConfig?
+
+        public init(enableInterContainerTrafficEncryption: Bool? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+            self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, max: 2048)
+            try validate(self.volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, pattern: ".*")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public enum AutoMLSortBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoMLSortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AwsManagedHumanLoopRequestSource: String, CustomStringConvertible, Codable {
+        case awsRekognitionDetectmoderationlabelsImageV3 = "AWS/Rekognition/DetectModerationLabels/Image/V3"
+        case awsTextractAnalyzedocumentFormsV1 = "AWS/Textract/AnalyzeDocument/Forms/V1"
         public var description: String { return self.rawValue }
     }
 
@@ -305,6 +982,92 @@ extension SageMaker {
     public enum BooleanOperator: String, CustomStringConvertible, Codable {
         case and = "And"
         case or = "Or"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CandidateSortBy: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case status = "Status"
+        case finalobjectivemetricvalue = "FinalObjectiveMetricValue"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CandidateStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CandidateStepType: String, CustomStringConvertible, Codable {
+        case awsSagemakerTrainingjob = "AWS::SageMaker::TrainingJob"
+        case awsSagemakerTransformjob = "AWS::SageMaker::TransformJob"
+        case awsSagemakerProcessingjob = "AWS::SageMaker::ProcessingJob"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CaptureContentTypeHeader: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CsvContentTypes", required: false, type: .list), 
+            AWSShapeMember(label: "JsonContentTypes", required: false, type: .list)
+        ]
+
+        public let csvContentTypes: [String]?
+        public let jsonContentTypes: [String]?
+
+        public init(csvContentTypes: [String]? = nil, jsonContentTypes: [String]? = nil) {
+            self.csvContentTypes = csvContentTypes
+            self.jsonContentTypes = jsonContentTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.csvContentTypes?.forEach {
+                try validate($0, name: "csvContentTypes[]", parent: name, min: 1)
+                try validate($0, name: "csvContentTypes[]", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*\\/[a-zA-Z0-9](-*[a-zA-Z0-9.])*")
+            }
+            try validate(self.csvContentTypes, name:"csvContentTypes", parent: name, max: 10)
+            try validate(self.csvContentTypes, name:"csvContentTypes", parent: name, min: 1)
+            try self.jsonContentTypes?.forEach {
+                try validate($0, name: "jsonContentTypes[]", parent: name, min: 1)
+                try validate($0, name: "jsonContentTypes[]", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*\\/[a-zA-Z0-9](-*[a-zA-Z0-9.])*")
+            }
+            try validate(self.jsonContentTypes, name:"jsonContentTypes", parent: name, max: 10)
+            try validate(self.jsonContentTypes, name:"jsonContentTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csvContentTypes = "CsvContentTypes"
+            case jsonContentTypes = "JsonContentTypes"
+        }
+    }
+
+    public enum CaptureMode: String, CustomStringConvertible, Codable {
+        case input = "Input"
+        case output = "Output"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CaptureOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CaptureMode", required: true, type: .enum)
+        ]
+
+        public let captureMode: CaptureMode
+
+        public init(captureMode: CaptureMode) {
+            self.captureMode = captureMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case captureMode = "CaptureMode"
+        }
+    }
+
+    public enum CaptureStatus: String, CustomStringConvertible, Codable {
+        case started = "Started"
+        case stopped = "Stopped"
         public var description: String { return self.rawValue }
     }
 
@@ -596,6 +1359,41 @@ extension SageMaker {
         }
     }
 
+    public struct CollectionConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CollectionName", required: false, type: .string), 
+            AWSShapeMember(label: "CollectionParameters", required: false, type: .map)
+        ]
+
+        /// The name of the tensor collection. The name must be unique relative to other rule configuration names.
+        public let collectionName: String?
+        /// Parameter values for the tensor collection. The allowed parameters are "name", "include_regex", "reduction_config", "save_config", "tensor_names", and "save_histogram".
+        public let collectionParameters: [String: String]?
+
+        public init(collectionName: String? = nil, collectionParameters: [String: String]? = nil) {
+            self.collectionName = collectionName
+            self.collectionParameters = collectionParameters
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.collectionName, name:"collectionName", parent: name, max: 256)
+            try validate(self.collectionName, name:"collectionName", parent: name, min: 1)
+            try validate(self.collectionName, name:"collectionName", parent: name, pattern: ".*")
+            try self.collectionParameters?.forEach {
+                try validate($0.key, name:"collectionParameters.key", parent: name, max: 256)
+                try validate($0.key, name:"collectionParameters.key", parent: name, min: 1)
+                try validate($0.key, name:"collectionParameters.key", parent: name, pattern: ".*")
+                try validate($0.value, name:"collectionParameters[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"collectionParameters[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionName = "CollectionName"
+            case collectionParameters = "CollectionParameters"
+        }
+    }
+
     public enum CompilationJobStatus: String, CustomStringConvertible, Codable {
         case inprogress = "INPROGRESS"
         case completed = "COMPLETED"
@@ -669,25 +1467,29 @@ extension SageMaker {
             AWSShapeMember(label: "ContainerHostname", required: false, type: .string), 
             AWSShapeMember(label: "Environment", required: false, type: .map), 
             AWSShapeMember(label: "Image", required: false, type: .string), 
+            AWSShapeMember(label: "Mode", required: false, type: .enum), 
             AWSShapeMember(label: "ModelDataUrl", required: false, type: .string), 
             AWSShapeMember(label: "ModelPackageName", required: false, type: .string)
         ]
 
-        /// This parameter is ignored for models that contain only a PrimaryContainer. When a ContainerDefinition is part of an inference pipeline, the value of ths parameter uniquely identifies the container for the purposes of logging and metrics. For information, see Use Logs and Metrics to Monitor an Inference Pipeline. If you don't specify a value for this parameter for a ContainerDefinition that is part of an inference pipeline, a unique name is automatically assigned based on the position of the ContainerDefinition in the pipeline. If you specify a value for the ContainerHostName for any ContainerDefinition that is part of an inference pipeline, you must specify a value for the ContainerHostName parameter of every ContainerDefinition in that pipeline.
+        /// This parameter is ignored for models that contain only a PrimaryContainer. When a ContainerDefinition is part of an inference pipeline, the value of the parameter uniquely identifies the container for the purposes of logging and metrics. For information, see Use Logs and Metrics to Monitor an Inference Pipeline. If you don't specify a value for this parameter for a ContainerDefinition that is part of an inference pipeline, a unique name is automatically assigned based on the position of the ContainerDefinition in the pipeline. If you specify a value for the ContainerHostName for any ContainerDefinition that is part of an inference pipeline, you must specify a value for the ContainerHostName parameter of every ContainerDefinition in that pipeline.
         public let containerHostname: String?
         /// The environment variables to set in the Docker container. Each key and value in the Environment string to string map can have length of up to 1024. We support up to 16 entries in the map. 
         public let environment: [String: String]?
         /// The Amazon EC2 Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by Amazon SageMaker, the inference code must meet Amazon SageMaker requirements. Amazon SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker 
         public let image: String?
+        /// Whether the container hosts a single model or multiple models.
+        public let mode: ContainerMode?
         /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The S3 path is required for Amazon SageMaker built-in algorithms, but not if you use your own algorithms. For more information on built-in algorithms, see Common Parameters.  If you provide a value for this parameter, Amazon SageMaker uses AWS Security Token Service to download model artifacts from the S3 path you provide. AWS STS is activated in your IAM user account by default. If you previously deactivated AWS STS for a region, you need to reactivate AWS STS for that region. For more information, see Activating and Deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.  If you use a built-in algorithm to create a model, Amazon SageMaker requires that you provide a S3 path to the model artifacts in ModelDataUrl. 
         public let modelDataUrl: String?
         /// The name or Amazon Resource Name (ARN) of the model package to use to create the model.
         public let modelPackageName: String?
 
-        public init(containerHostname: String? = nil, environment: [String: String]? = nil, image: String? = nil, modelDataUrl: String? = nil, modelPackageName: String? = nil) {
+        public init(containerHostname: String? = nil, environment: [String: String]? = nil, image: String? = nil, mode: ContainerMode? = nil, modelDataUrl: String? = nil, modelPackageName: String? = nil) {
             self.containerHostname = containerHostname
             self.environment = environment
             self.image = image
+            self.mode = mode
             self.modelDataUrl = modelDataUrl
             self.modelPackageName = modelPackageName
         }
@@ -714,9 +1516,16 @@ extension SageMaker {
             case containerHostname = "ContainerHostname"
             case environment = "Environment"
             case image = "Image"
+            case mode = "Mode"
             case modelDataUrl = "ModelDataUrl"
             case modelPackageName = "ModelPackageName"
         }
+    }
+
+    public enum ContainerMode: String, CustomStringConvertible, Codable {
+        case singlemodel = "SingleModel"
+        case multimodel = "MultiModel"
+        public var description: String { return self.rawValue }
     }
 
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
@@ -739,7 +1548,7 @@ extension SageMaker {
         public let minValue: String
         /// The name of the continuous hyperparameter to tune.
         public let name: String
-        /// The scale that hyperparameter tuning uses to search the hyperparameter range. For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:  Auto  Amazon SageMaker hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have only values greater than 0.  ReverseLogarithmic  Hyperparemeter tuning searches the values in the hyperparameter range by using a reverse logarithmic scale. Reverse logarithmic scaling works only for ranges that are entirely within the range 0&lt;=x&lt;1.0.  
+        /// The scale that hyperparameter tuning uses to search the hyperparameter range. For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:  Auto  Amazon SageMaker hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have only values greater than 0.  ReverseLogarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a reverse logarithmic scale. Reverse logarithmic scaling works only for ranges that are entirely within the range 0&lt;=x&lt;1.0.  
         public let scalingType: HyperParameterScalingType?
 
         public init(maxValue: String, minValue: String, name: String, scalingType: HyperParameterScalingType? = nil) {
@@ -865,6 +1674,174 @@ extension SageMaker {
         }
     }
 
+    public struct CreateAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppName", required: true, type: .string), 
+            AWSShapeMember(label: "AppType", required: true, type: .enum), 
+            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceSpec", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "UserProfileName", required: true, type: .string)
+        ]
+
+        /// The name of the app.
+        public let appName: String
+        /// The type of app.
+        public let appType: AppType
+        /// The domain ID.
+        public let domainId: String
+        /// The instance type and quantity.
+        public let resourceSpec: ResourceSpec?
+        /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
+        public let tags: [Tag]?
+        /// The user profile name.
+        public let userProfileName: String
+
+        public init(appName: String, appType: AppType, domainId: String, resourceSpec: ResourceSpec? = nil, tags: [Tag]? = nil, userProfileName: String) {
+            self.appName = appName
+            self.appType = appType
+            self.domainId = domainId
+            self.resourceSpec = resourceSpec
+            self.tags = tags
+            self.userProfileName = userProfileName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appName, name:"appName", parent: name, max: 63)
+            try validate(self.appName, name:"appName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.domainId, name:"domainId", parent: name, max: 63)
+            try self.resourceSpec?.validate(name: "\(name).resourceSpec")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appName = "AppName"
+            case appType = "AppType"
+            case domainId = "DomainId"
+            case resourceSpec = "ResourceSpec"
+            case tags = "Tags"
+            case userProfileName = "UserProfileName"
+        }
+    }
+
+    public struct CreateAppResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppArn", required: false, type: .string)
+        ]
+
+        /// The app's Amazon Resource Name (ARN).
+        public let appArn: String?
+
+        public init(appArn: String? = nil) {
+            self.appArn = appArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appArn = "AppArn"
+        }
+    }
+
+    public struct CreateAutoMLJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMLJobConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoMLJobName", required: true, type: .string), 
+            AWSShapeMember(label: "AutoMLJobObjective", required: false, type: .structure), 
+            AWSShapeMember(label: "GenerateCandidateDefinitionsOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .list), 
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "ProblemType", required: false, type: .enum), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// Contains CompletionCriteria and SecurityConfig.
+        public let autoMLJobConfig: AutoMLJobConfig?
+        /// Identifies an AutoPilot job. Must be unique to your account and is case-insensitive.
+        public let autoMLJobName: String
+        /// Defines the job's objective. You provide a MetricName and AutoML will infer minimize or maximize. If this is not provided, the most commonly used ObjectiveMetric for problem type will be selected.
+        public let autoMLJobObjective: AutoMLJobObjective?
+        /// This will generate possible candidates without training a model. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
+        public let generateCandidateDefinitionsOnly: Bool?
+        /// Similar to InputDataConfig supported by Tuning. Format(s) supported: CSV.
+        public let inputDataConfig: [AutoMLChannel]
+        /// Similar to OutputDataConfig supported by Tuning. Format(s) supported: CSV.
+        public let outputDataConfig: AutoMLOutputDataConfig
+        /// Defines the kind of preprocessing and algorithms intended for the candidates. Options include: BinaryClassification, MulticlassClassification, and Regression.
+        public let problemType: ProblemType?
+        /// The ARN of the role that will be used to access the data.
+        public let roleArn: String
+        /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
+        public let tags: [Tag]?
+
+        public init(autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], outputDataConfig: AutoMLOutputDataConfig, problemType: ProblemType? = nil, roleArn: String, tags: [Tag]? = nil) {
+            self.autoMLJobConfig = autoMLJobConfig
+            self.autoMLJobName = autoMLJobName
+            self.autoMLJobObjective = autoMLJobObjective
+            self.generateCandidateDefinitionsOnly = generateCandidateDefinitionsOnly
+            self.inputDataConfig = inputDataConfig
+            self.outputDataConfig = outputDataConfig
+            self.problemType = problemType
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.autoMLJobConfig?.validate(name: "\(name).autoMLJobConfig")
+            try validate(self.autoMLJobName, name:"autoMLJobName", parent: name, max: 32)
+            try validate(self.autoMLJobName, name:"autoMLJobName", parent: name, min: 1)
+            try validate(self.autoMLJobName, name:"autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.inputDataConfig.forEach {
+                try $0.validate(name: "\(name).inputDataConfig[]")
+            }
+            try validate(self.inputDataConfig, name:"inputDataConfig", parent: name, max: 20)
+            try validate(self.inputDataConfig, name:"inputDataConfig", parent: name, min: 1)
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.roleArn, name:"roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobConfig = "AutoMLJobConfig"
+            case autoMLJobName = "AutoMLJobName"
+            case autoMLJobObjective = "AutoMLJobObjective"
+            case generateCandidateDefinitionsOnly = "GenerateCandidateDefinitionsOnly"
+            case inputDataConfig = "InputDataConfig"
+            case outputDataConfig = "OutputDataConfig"
+            case problemType = "ProblemType"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAutoMLJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMLJobArn", required: true, type: .string)
+        ]
+
+        /// When a job is created, it is assigned a unique ARN.
+        public let autoMLJobArn: String
+
+        public init(autoMLJobArn: String) {
+            self.autoMLJobArn = autoMLJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobArn = "AutoMLJobArn"
+        }
+    }
+
     public struct CreateCodeRepositoryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string), 
@@ -977,24 +1954,117 @@ extension SageMaker {
         }
     }
 
+    public struct CreateDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthMode", required: true, type: .enum), 
+            AWSShapeMember(label: "DefaultUserSettings", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "HomeEfsFileSystemKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "VpcId", required: true, type: .string)
+        ]
+
+        /// The mode of authentication that member use to access the domain.
+        public let authMode: AuthMode
+        /// The default user settings.
+        public let defaultUserSettings: UserSettings
+        /// A name for the domain.
+        public let domainName: String
+        /// The AWS Key Management Service encryption key ID.
+        public let homeEfsFileSystemKmsKeyId: String?
+        /// Security setting to limit to a set of subnets.
+        public let subnetIds: [String]
+        /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
+        public let tags: [Tag]?
+        /// Security setting to limit the domain's communication to a Amazon Virtual Private Cloud.
+        public let vpcId: String
+
+        public init(authMode: AuthMode, defaultUserSettings: UserSettings, domainName: String, homeEfsFileSystemKmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
+            self.authMode = authMode
+            self.defaultUserSettings = defaultUserSettings
+            self.domainName = domainName
+            self.homeEfsFileSystemKmsKeyId = homeEfsFileSystemKmsKeyId
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultUserSettings.validate(name: "\(name).defaultUserSettings")
+            try validate(self.domainName, name:"domainName", parent: name, max: 63)
+            try validate(self.domainName, name:"domainName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.homeEfsFileSystemKmsKeyId, name:"homeEfsFileSystemKmsKeyId", parent: name, max: 2048)
+            try validate(self.homeEfsFileSystemKmsKeyId, name:"homeEfsFileSystemKmsKeyId", parent: name, pattern: ".*")
+            try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 32)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "[-0-9a-zA-Z]+")
+            }
+            try validate(self.subnetIds, name:"subnetIds", parent: name, max: 16)
+            try validate(self.subnetIds, name:"subnetIds", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+            try validate(self.vpcId, name:"vpcId", parent: name, max: 32)
+            try validate(self.vpcId, name:"vpcId", parent: name, pattern: "[-0-9a-zA-Z]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authMode = "AuthMode"
+            case defaultUserSettings = "DefaultUserSettings"
+            case domainName = "DomainName"
+            case homeEfsFileSystemKmsKeyId = "HomeEfsFileSystemKmsKeyId"
+            case subnetIds = "SubnetIds"
+            case tags = "Tags"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct CreateDomainResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainArn", required: false, type: .string), 
+            AWSShapeMember(label: "Url", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the created domain.
+        public let domainArn: String?
+        /// The URL to the created domain.
+        public let url: String?
+
+        public init(domainArn: String? = nil, url: String? = nil) {
+            self.domainArn = domainArn
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "DomainArn"
+            case url = "Url"
+        }
+    }
+
     public struct CreateEndpointConfigInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataCaptureConfig", required: false, type: .structure), 
             AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "ProductionVariants", required: true, type: .list), 
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
+        public let dataCaptureConfig: DataCaptureConfig?
         /// The name of the endpoint configuration. You specify this name in a CreateEndpoint request. 
         public let endpointConfigName: String
-        /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint.  Nitro-based instances do not support encryption with AWS KMS. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances, the call to CreateEndpointConfig fails. For a list of nitro-based instances, see Nitro-based Instances in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For more information about storage volumes on nitro-based instances, see Amazon EBS and NVMe on Linux Instances. 
+        /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    // KMS Key ID   "1234abcd-12ab-34cd-56ef-1234567890ab"     // Amazon Resource Name (ARN) (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   // KMS Key Alias "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias   "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"     The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the AWS Key Management Service section Using Key Policies in AWS KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes. 
         public let kmsKeyId: String?
         /// An list of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]
         /// A list of key-value pairs. For more information, see Using Cost Allocation Tags in the  AWS Billing and Cost Management User Guide. 
         public let tags: [Tag]?
 
-        public init(endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant], tags: [Tag]? = nil) {
+        public init(dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant], tags: [Tag]? = nil) {
+            self.dataCaptureConfig = dataCaptureConfig
             self.endpointConfigName = endpointConfigName
             self.kmsKeyId = kmsKeyId
             self.productionVariants = productionVariants
@@ -1002,6 +2072,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.dataCaptureConfig?.validate(name: "\(name).dataCaptureConfig")
             try validate(self.endpointConfigName, name:"endpointConfigName", parent: name, max: 63)
             try validate(self.endpointConfigName, name:"endpointConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
@@ -1019,6 +2090,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataCaptureConfig = "DataCaptureConfig"
             case endpointConfigName = "EndpointConfigName"
             case kmsKeyId = "KmsKeyId"
             case productionVariants = "ProductionVariants"
@@ -1099,12 +2171,209 @@ extension SageMaker {
         }
     }
 
+    public struct CreateExperimentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// The description of the experiment.
+        public let description: String?
+        /// The name of the experiment as displayed. The name doesn't need to be unique. If you don't specify DisplayName, the value in ExperimentName is displayed.
+        public let displayName: String?
+        /// The name of the experiment. The name must be unique in your AWS account and is not case-sensitive.
+        public let experimentName: String
+        /// A list of tags to associate with the experiment. You can use Search API to search on the tags.
+        public let tags: [Tag]?
+
+        public init(description: String? = nil, displayName: String? = nil, experimentName: String, tags: [Tag]? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.experimentName = experimentName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name:"description", parent: name, max: 3072)
+            try validate(self.description, name:"description", parent: name, pattern: ".*")
+            try validate(self.displayName, name:"displayName", parent: name, max: 82)
+            try validate(self.displayName, name:"displayName", parent: name, min: 1)
+            try validate(self.displayName, name:"displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
+            try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case displayName = "DisplayName"
+            case experimentName = "ExperimentName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateExperimentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExperimentArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the experiment.
+        public let experimentArn: String?
+
+        public init(experimentArn: String? = nil) {
+            self.experimentArn = experimentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case experimentArn = "ExperimentArn"
+        }
+    }
+
+    public struct CreateFlowDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowDefinitionName", required: true, type: .string), 
+            AWSShapeMember(label: "HumanLoopActivationConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "HumanLoopConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "OutputConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// The name of your flow definition.
+        public let flowDefinitionName: String
+        /// An object containing information about the events that trigger a human workflow.
+        public let humanLoopActivationConfig: HumanLoopActivationConfig?
+        /// An object containing information about the tasks the human reviewers will perform.
+        public let humanLoopConfig: HumanLoopConfig
+        /// An object containing information about where the human review results will be uploaded.
+        public let outputConfig: FlowDefinitionOutputConfig
+        /// The Amazon Resource Name (ARN) of the role needed to call other services on your behalf. For example, arn:aws:iam::1234567890:role/service-role/AmazonSageMaker-ExecutionRole-20180111T151298.
+        public let roleArn: String
+        /// An array of key-value pairs that contain metadata to help you categorize and organize a flow definition. Each tag consists of a key and a value, both of which you define.
+        public let tags: [Tag]?
+
+        public init(flowDefinitionName: String, humanLoopActivationConfig: HumanLoopActivationConfig? = nil, humanLoopConfig: HumanLoopConfig, outputConfig: FlowDefinitionOutputConfig, roleArn: String, tags: [Tag]? = nil) {
+            self.flowDefinitionName = flowDefinitionName
+            self.humanLoopActivationConfig = humanLoopActivationConfig
+            self.humanLoopConfig = humanLoopConfig
+            self.outputConfig = outputConfig
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.flowDefinitionName, name:"flowDefinitionName", parent: name, max: 63)
+            try validate(self.flowDefinitionName, name:"flowDefinitionName", parent: name, min: 1)
+            try validate(self.flowDefinitionName, name:"flowDefinitionName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*")
+            try self.humanLoopActivationConfig?.validate(name: "\(name).humanLoopActivationConfig")
+            try self.humanLoopConfig.validate(name: "\(name).humanLoopConfig")
+            try self.outputConfig.validate(name: "\(name).outputConfig")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.roleArn, name:"roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowDefinitionName = "FlowDefinitionName"
+            case humanLoopActivationConfig = "HumanLoopActivationConfig"
+            case humanLoopConfig = "HumanLoopConfig"
+            case outputConfig = "OutputConfig"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateFlowDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowDefinitionArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the flow definition you create.
+        public let flowDefinitionArn: String
+
+        public init(flowDefinitionArn: String) {
+            self.flowDefinitionArn = flowDefinitionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowDefinitionArn = "FlowDefinitionArn"
+        }
+    }
+
+    public struct CreateHumanTaskUiRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HumanTaskUiName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "UiTemplate", required: true, type: .structure)
+        ]
+
+        /// The name of the user interface you are creating.
+        public let humanTaskUiName: String
+        /// An array of key-value pairs that contain metadata to help you categorize and organize a human review workflow user interface. Each tag consists of a key and a value, both of which you define.
+        public let tags: [Tag]?
+        public let uiTemplate: UiTemplate
+
+        public init(humanTaskUiName: String, tags: [Tag]? = nil, uiTemplate: UiTemplate) {
+            self.humanTaskUiName = humanTaskUiName
+            self.tags = tags
+            self.uiTemplate = uiTemplate
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.humanTaskUiName, name:"humanTaskUiName", parent: name, max: 63)
+            try validate(self.humanTaskUiName, name:"humanTaskUiName", parent: name, min: 1)
+            try validate(self.humanTaskUiName, name:"humanTaskUiName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+            try self.uiTemplate.validate(name: "\(name).uiTemplate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case humanTaskUiName = "HumanTaskUiName"
+            case tags = "Tags"
+            case uiTemplate = "UiTemplate"
+        }
+    }
+
+    public struct CreateHumanTaskUiResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HumanTaskUiArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the human review workflow user interface you create.
+        public let humanTaskUiArn: String
+
+        public init(humanTaskUiArn: String) {
+            self.humanTaskUiArn = humanTaskUiArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case humanTaskUiArn = "HumanTaskUiArn"
+        }
+    }
+
     public struct CreateHyperParameterTuningJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HyperParameterTuningJobConfig", required: true, type: .structure), 
             AWSShapeMember(label: "HyperParameterTuningJobName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "TrainingJobDefinition", required: false, type: .structure), 
+            AWSShapeMember(label: "TrainingJobDefinitions", required: false, type: .list), 
             AWSShapeMember(label: "WarmStartConfig", required: false, type: .structure)
         ]
 
@@ -1116,14 +2385,16 @@ extension SageMaker {
         public let tags: [Tag]?
         /// The HyperParameterTrainingJobDefinition object that describes the training jobs that this tuning job launches, including static hyperparameters, input data configuration, output data configuration, resource configuration, and stopping condition.
         public let trainingJobDefinition: HyperParameterTrainingJobDefinition?
+        public let trainingJobDefinitions: [HyperParameterTrainingJobDefinition]?
         /// Specifies the configuration for starting the hyperparameter tuning job using one or more previous tuning jobs as a starting point. The results of previous tuning jobs are used to inform which combinations of hyperparameters to search over in the new tuning job. All training jobs launched by the new hyperparameter tuning job are evaluated by using the objective metric. If you specify IDENTICAL_DATA_AND_ALGORITHM as the WarmStartType value for the warm start configuration, the training job that performs the best in the new tuning job is compared to the best training jobs from the parent tuning jobs. From these, the training job that performs the best as measured by the objective metric is returned as the overall best training job.  All training jobs launched by parent hyperparameter tuning jobs and the new hyperparameter tuning jobs count against the limit of training jobs for the tuning job. 
         public let warmStartConfig: HyperParameterTuningJobWarmStartConfig?
 
-        public init(hyperParameterTuningJobConfig: HyperParameterTuningJobConfig, hyperParameterTuningJobName: String, tags: [Tag]? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
+        public init(hyperParameterTuningJobConfig: HyperParameterTuningJobConfig, hyperParameterTuningJobName: String, tags: [Tag]? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobDefinitions: [HyperParameterTrainingJobDefinition]? = nil, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
             self.hyperParameterTuningJobConfig = hyperParameterTuningJobConfig
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
             self.tags = tags
             self.trainingJobDefinition = trainingJobDefinition
+            self.trainingJobDefinitions = trainingJobDefinitions
             self.warmStartConfig = warmStartConfig
         }
 
@@ -1138,6 +2409,11 @@ extension SageMaker {
             try validate(self.tags, name:"tags", parent: name, max: 50)
             try validate(self.tags, name:"tags", parent: name, min: 0)
             try self.trainingJobDefinition?.validate(name: "\(name).trainingJobDefinition")
+            try self.trainingJobDefinitions?.forEach {
+                try $0.validate(name: "\(name).trainingJobDefinitions[]")
+            }
+            try validate(self.trainingJobDefinitions, name:"trainingJobDefinitions", parent: name, max: 10)
+            try validate(self.trainingJobDefinitions, name:"trainingJobDefinitions", parent: name, min: 1)
             try self.warmStartConfig?.validate(name: "\(name).warmStartConfig")
         }
 
@@ -1146,6 +2422,7 @@ extension SageMaker {
             case hyperParameterTuningJobName = "HyperParameterTuningJobName"
             case tags = "Tags"
             case trainingJobDefinition = "TrainingJobDefinition"
+            case trainingJobDefinitions = "TrainingJobDefinitions"
             case warmStartConfig = "WarmStartConfig"
         }
     }
@@ -1181,7 +2458,7 @@ extension SageMaker {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// Configures the information required for human workers to complete a labeling task.
+        /// Configures the labeling task and how it is presented to workers; including, but not limited to price, keywords, and batch size (task count).
         public let humanTaskConfig: HumanTaskConfig
         /// Input data for the labeling job, such as the Amazon S3 location of the data objects and the location of the manifest file that describes the data objects.
         public let inputConfig: LabelingJobInputConfig
@@ -1283,7 +2560,7 @@ extension SageMaker {
 
         /// Specifies the containers in the inference pipeline.
         public let containers: [ContainerDefinition]?
-        /// Isolates the model container. No inbound or outbound network calls can be made to or from the model container.  The Semantic Segmentation built-in algorithm does not support network isolation. 
+        /// Isolates the model container. No inbound or outbound network calls can be made to or from the model container.
         public let enableNetworkIsolation: Bool?
         /// The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker can assume to access model artifacts and docker image for deployment on ML compute instances or for batch transform jobs. Deploying on ML compute instances is part of model hosting. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. 
         public let executionRoleArn: String
@@ -1423,6 +2700,62 @@ extension SageMaker {
         }
     }
 
+    public struct CreateMonitoringScheduleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringScheduleConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// The configuration object that specifies the monitoring schedule and defines the monitoring job.
+        public let monitoringScheduleConfig: MonitoringScheduleConfig
+        /// The name of the monitoring schedule. The name must be unique within an AWS Region within an AWS account.
+        public let monitoringScheduleName: String
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        public let tags: [Tag]?
+
+        public init(monitoringScheduleConfig: MonitoringScheduleConfig, monitoringScheduleName: String, tags: [Tag]? = nil) {
+            self.monitoringScheduleConfig = monitoringScheduleConfig
+            self.monitoringScheduleName = monitoringScheduleName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.monitoringScheduleConfig.validate(name: "\(name).monitoringScheduleConfig")
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, max: 63)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, min: 1)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringScheduleConfig = "MonitoringScheduleConfig"
+            case monitoringScheduleName = "MonitoringScheduleName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateMonitoringScheduleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringScheduleArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the monitoring schedule.
+        public let monitoringScheduleArn: String
+
+        public init(monitoringScheduleArn: String) {
+            self.monitoringScheduleArn = monitoringScheduleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringScheduleArn = "MonitoringScheduleArn"
+        }
+    }
+
     public struct CreateNotebookInstanceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceleratorTypes", required: false, type: .list), 
@@ -1457,7 +2790,7 @@ extension SageMaker {
         public let lifecycleConfigName: String?
         /// The name of the new notebook instance.
         public let notebookInstanceName: String
-        ///  When you send any requests to AWS resources from the notebook instance, Amazon SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so Amazon SageMaker can perform these tasks. The policy must allow the Amazon SageMaker service principal (sagemaker.amazonaws.com) permissionsto to assume this role. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. 
+        ///  When you send any requests to AWS resources from the notebook instance, Amazon SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so Amazon SageMaker can perform these tasks. The policy must allow the Amazon SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. 
         public let roleArn: String
         /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  Lifecycle configurations need root access to be able to set up a notebook instance. Because of this, lifecycle configurations associated with a notebook instance always run with root access even if you disable root access for users. 
         public let rootAccess: RootAccess?
@@ -1614,6 +2947,58 @@ extension SageMaker {
         }
     }
 
+    public struct CreatePresignedDomainUrlRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "SessionExpirationDurationInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "UserProfileName", required: true, type: .string)
+        ]
+
+        /// The domain ID.
+        public let domainId: String
+        /// The session expiration duration in seconds.
+        public let sessionExpirationDurationInSeconds: Int?
+        /// The name of the UserProfile to sign-in as.
+        public let userProfileName: String
+
+        public init(domainId: String, sessionExpirationDurationInSeconds: Int? = nil, userProfileName: String) {
+            self.domainId = domainId
+            self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
+            self.userProfileName = userProfileName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainId, name:"domainId", parent: name, max: 63)
+            try validate(self.sessionExpirationDurationInSeconds, name:"sessionExpirationDurationInSeconds", parent: name, max: 43200)
+            try validate(self.sessionExpirationDurationInSeconds, name:"sessionExpirationDurationInSeconds", parent: name, min: 1800)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case sessionExpirationDurationInSeconds = "SessionExpirationDurationInSeconds"
+            case userProfileName = "UserProfileName"
+        }
+    }
+
+    public struct CreatePresignedDomainUrlResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthorizedUrl", required: false, type: .string)
+        ]
+
+        /// The presigned URL.
+        public let authorizedUrl: String?
+
+        public init(authorizedUrl: String? = nil) {
+            self.authorizedUrl = authorizedUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedUrl = "AuthorizedUrl"
+        }
+    }
+
     public struct CreatePresignedNotebookInstanceUrlInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string), 
@@ -1660,13 +3045,130 @@ extension SageMaker {
         }
     }
 
+    public struct CreateProcessingJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppSpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "Environment", required: false, type: .map), 
+            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "NetworkConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ProcessingInputs", required: false, type: .list), 
+            AWSShapeMember(label: "ProcessingJobName", required: true, type: .string), 
+            AWSShapeMember(label: "ProcessingOutputConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ProcessingResources", required: true, type: .structure), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "StoppingCondition", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// Configures the processing job to run a specified Docker container image.
+        public let appSpecification: AppSpecification
+        /// Sets the environment variables in the Docker container.
+        public let environment: [String: String]?
+        public let experimentConfig: ExperimentConfig?
+        /// Networking options for a processing job.
+        public let networkConfig: NetworkConfig?
+        /// For each input, data is downloaded from S3 into the processing container before the processing job begins running if "S3InputMode" is set to File.
+        public let processingInputs: [ProcessingInput]?
+        ///  The name of the processing job. The name must be unique within an AWS Region in the AWS account.
+        public let processingJobName: String
+        /// Output configuration for the processing job.
+        public let processingOutputConfig: ProcessingOutputConfig?
+        /// Identifies the resources, ML compute instances, and ML storage volumes to deploy for a processing job. In distributed training, you specify more than one instance.
+        public let processingResources: ProcessingResources
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+        public let roleArn: String
+        /// The time limit for how long the processing job is allowed to run.
+        public let stoppingCondition: ProcessingStoppingCondition?
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        public let tags: [Tag]?
+
+        public init(appSpecification: AppSpecification, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, networkConfig: NetworkConfig? = nil, processingInputs: [ProcessingInput]? = nil, processingJobName: String, processingOutputConfig: ProcessingOutputConfig? = nil, processingResources: ProcessingResources, roleArn: String, stoppingCondition: ProcessingStoppingCondition? = nil, tags: [Tag]? = nil) {
+            self.appSpecification = appSpecification
+            self.environment = environment
+            self.experimentConfig = experimentConfig
+            self.networkConfig = networkConfig
+            self.processingInputs = processingInputs
+            self.processingJobName = processingJobName
+            self.processingOutputConfig = processingOutputConfig
+            self.processingResources = processingResources
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.appSpecification.validate(name: "\(name).appSpecification")
+            try self.environment?.forEach {
+                try validate($0.key, name:"environment.key", parent: name, max: 256)
+                try validate($0.key, name:"environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.value, name:"environment[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"environment[\"\($0.key)\"]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try self.experimentConfig?.validate(name: "\(name).experimentConfig")
+            try self.networkConfig?.validate(name: "\(name).networkConfig")
+            try self.processingInputs?.forEach {
+                try $0.validate(name: "\(name).processingInputs[]")
+            }
+            try validate(self.processingInputs, name:"processingInputs", parent: name, max: 10)
+            try validate(self.processingInputs, name:"processingInputs", parent: name, min: 0)
+            try validate(self.processingJobName, name:"processingJobName", parent: name, max: 63)
+            try validate(self.processingJobName, name:"processingJobName", parent: name, min: 1)
+            try validate(self.processingJobName, name:"processingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.processingOutputConfig?.validate(name: "\(name).processingOutputConfig")
+            try self.processingResources.validate(name: "\(name).processingResources")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.roleArn, name:"roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.stoppingCondition?.validate(name: "\(name).stoppingCondition")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appSpecification = "AppSpecification"
+            case environment = "Environment"
+            case experimentConfig = "ExperimentConfig"
+            case networkConfig = "NetworkConfig"
+            case processingInputs = "ProcessingInputs"
+            case processingJobName = "ProcessingJobName"
+            case processingOutputConfig = "ProcessingOutputConfig"
+            case processingResources = "ProcessingResources"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateProcessingJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProcessingJobArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the processing job.
+        public let processingJobArn: String
+
+        public init(processingJobArn: String) {
+            self.processingJobArn = processingJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processingJobArn = "ProcessingJobArn"
+        }
+    }
+
     public struct CreateTrainingJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
             AWSShapeMember(label: "CheckpointConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "DebugHookConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "DebugRuleConfigurations", required: false, type: .list), 
             AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableManagedSpotTraining", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
             AWSShapeMember(label: "HyperParameters", required: false, type: .map), 
             AWSShapeMember(label: "InputDataConfig", required: false, type: .list), 
             AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
@@ -1674,6 +3176,7 @@ extension SageMaker {
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "StoppingCondition", required: true, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TensorBoardOutputConfig", required: false, type: .structure), 
             AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
@@ -1682,12 +3185,16 @@ extension SageMaker {
         public let algorithmSpecification: AlgorithmSpecification
         /// Contains information about the output location for managed spot training checkpoint data.
         public let checkpointConfig: CheckpointConfig?
+        public let debugHookConfig: DebugHookConfig?
+        /// Configuration information for debugging rules.
+        public let debugRuleConfigurations: [DebugRuleConfiguration]?
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithm in distributed training. For more information, see Protect Communications Between ML Compute Instances in a Distributed Training Job.
         public let enableInterContainerTrafficEncryption: Bool?
         /// To train models using managed spot training, choose True. Managed spot training provides a fully managed and scalable infrastructure for training machine learning models. this option is useful when training jobs can be interrupted and when there is flexibility when the training job is run.  The complete and intermediate results of jobs are stored in an Amazon S3 bucket, and can be used as a starting point to train models incrementally. Amazon SageMaker provides metrics and logs in CloudWatch. They can be used to see when managed spot training jobs are running, interrupted, resumed, or completed. 
         public let enableManagedSpotTraining: Bool?
-        /// Isolates the training container. No inbound or outbound network calls can be made, except for calls between peers within a training cluster for distributed training. If you enable network isolation for training jobs that are configured to use a VPC, Amazon SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.  The Semantic Segmentation built-in algorithm does not support network isolation. 
+        /// Isolates the training container. No inbound or outbound network calls can be made, except for calls between peers within a training cluster for distributed training. If you enable network isolation for training jobs that are configured to use a VPC, Amazon SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.
         public let enableNetworkIsolation: Bool?
+        public let experimentConfig: ExperimentConfig?
         /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. For a list of hyperparameters for each training algorithm provided by Amazon SageMaker, see Algorithms.  You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair. Each key and value is limited to 256 characters, as specified by the Length Constraint. 
         public let hyperParameters: [String: String]?
         /// An array of Channel objects. Each channel is a named input source. InputDataConfig describes the input data and its location.  Algorithms can accept input data from one or more channels. For example, an algorithm might have two channels of input data, training_data and validation_data. The configuration for each channel provides the S3, EFS, or FSx location where the input data is stored. It also provides information about the stored data: the MIME type, compression method, and whether the data is wrapped in RecordIO format.  Depending on the input mode that the algorithm supports, Amazon SageMaker either copies input data files from an S3 bucket to a local directory in the Docker container, or makes it available as input streams. For example, if you specify an EFS location, input data files will be made available as input streams. They do not need to be downloaded.
@@ -1702,17 +3209,21 @@ extension SageMaker {
         public let stoppingCondition: StoppingCondition
         /// An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide. 
         public let tags: [Tag]?
+        public let tensorBoardOutputConfig: TensorBoardOutputConfig?
         /// The name of the training job. The name must be unique within an AWS Region in an AWS account. 
         public let trainingJobName: String
         /// A VpcConfig object that specifies the VPC that you want your training job to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
+            self.debugHookConfig = debugHookConfig
+            self.debugRuleConfigurations = debugRuleConfigurations
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableManagedSpotTraining = enableManagedSpotTraining
             self.enableNetworkIsolation = enableNetworkIsolation
+            self.experimentConfig = experimentConfig
             self.hyperParameters = hyperParameters
             self.inputDataConfig = inputDataConfig
             self.outputDataConfig = outputDataConfig
@@ -1720,6 +3231,7 @@ extension SageMaker {
             self.roleArn = roleArn
             self.stoppingCondition = stoppingCondition
             self.tags = tags
+            self.tensorBoardOutputConfig = tensorBoardOutputConfig
             self.trainingJobName = trainingJobName
             self.vpcConfig = vpcConfig
         }
@@ -1727,6 +3239,13 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.algorithmSpecification.validate(name: "\(name).algorithmSpecification")
             try self.checkpointConfig?.validate(name: "\(name).checkpointConfig")
+            try self.debugHookConfig?.validate(name: "\(name).debugHookConfig")
+            try self.debugRuleConfigurations?.forEach {
+                try $0.validate(name: "\(name).debugRuleConfigurations[]")
+            }
+            try validate(self.debugRuleConfigurations, name:"debugRuleConfigurations", parent: name, max: 20)
+            try validate(self.debugRuleConfigurations, name:"debugRuleConfigurations", parent: name, min: 0)
+            try self.experimentConfig?.validate(name: "\(name).experimentConfig")
             try self.hyperParameters?.forEach {
                 try validate($0.key, name:"hyperParameters.key", parent: name, max: 256)
                 try validate($0.key, name:"hyperParameters.key", parent: name, pattern: ".*")
@@ -1749,6 +3268,7 @@ extension SageMaker {
             }
             try validate(self.tags, name:"tags", parent: name, max: 50)
             try validate(self.tags, name:"tags", parent: name, min: 0)
+            try self.tensorBoardOutputConfig?.validate(name: "\(name).tensorBoardOutputConfig")
             try validate(self.trainingJobName, name:"trainingJobName", parent: name, max: 63)
             try validate(self.trainingJobName, name:"trainingJobName", parent: name, min: 1)
             try validate(self.trainingJobName, name:"trainingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
@@ -1758,9 +3278,12 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case algorithmSpecification = "AlgorithmSpecification"
             case checkpointConfig = "CheckpointConfig"
+            case debugHookConfig = "DebugHookConfig"
+            case debugRuleConfigurations = "DebugRuleConfigurations"
             case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
             case enableManagedSpotTraining = "EnableManagedSpotTraining"
             case enableNetworkIsolation = "EnableNetworkIsolation"
+            case experimentConfig = "ExperimentConfig"
             case hyperParameters = "HyperParameters"
             case inputDataConfig = "InputDataConfig"
             case outputDataConfig = "OutputDataConfig"
@@ -1768,6 +3291,7 @@ extension SageMaker {
             case roleArn = "RoleArn"
             case stoppingCondition = "StoppingCondition"
             case tags = "Tags"
+            case tensorBoardOutputConfig = "TensorBoardOutputConfig"
             case trainingJobName = "TrainingJobName"
             case vpcConfig = "VpcConfig"
         }
@@ -1795,6 +3319,7 @@ extension SageMaker {
             AWSShapeMember(label: "BatchStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "DataProcessing", required: false, type: .structure), 
             AWSShapeMember(label: "Environment", required: false, type: .map), 
+            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
             AWSShapeMember(label: "MaxConcurrentTransforms", required: false, type: .integer), 
             AWSShapeMember(label: "MaxPayloadInMB", required: false, type: .integer), 
             AWSShapeMember(label: "ModelName", required: true, type: .string), 
@@ -1805,13 +3330,14 @@ extension SageMaker {
             AWSShapeMember(label: "TransformResources", required: true, type: .structure)
         ]
 
-        /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record  is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.  To enable the batch strategy, you must set SplitType to Line, RecordIO, or TFRecord. To use only one record when making an HTTP invocation request to a container, set BatchStrategy to SingleRecord and SplitType to Line. To fit as many records in a mini-batch as can fit within the MaxPayloadInMB limit, set BatchStrategy to MultiRecord and SplitType to Line.
+        /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record  is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.  To enable the batch strategy, you must set the SplitType property of the DataProcessing object to Line, RecordIO, or TFRecord. To use only one record when making an HTTP invocation request to a container, set BatchStrategy to SingleRecord and SplitType to Line. To fit as many records in a mini-batch as can fit within the MaxPayloadInMB limit, set BatchStrategy to MultiRecord and SplitType to Line.
         public let batchStrategy: BatchStrategy?
         /// The data structure used to specify the data to be used for inference in a batch transform job and to associate the data that is relevant to the prediction results in the output. The input filter provided allows you to exclude input data that is not needed for inference in a batch transform job. The output filter provided allows you to include input data relevant to interpreting the predictions in the output from the job. For more information, see Associate Prediction Results with their Corresponding Input Records.
         public let dataProcessing: DataProcessing?
         /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
         public let environment: [String: String]?
-        /// The maximum number of parallel requests that can be sent to each instance in a transform job. If MaxConcurrentTransforms is set to 0 or left unset, Amazon SageMaker checks the optional execution-parameters to determine the optimal settings for your chosen algorithm. If the execution-parameters endpoint is not enabled, the default value is 1. For more information on execution-parameters, see How Containers Serve Requests. For built-in algorithms, you don't need to set a value for MaxConcurrentTransforms.
+        public let experimentConfig: ExperimentConfig?
+        /// The maximum number of parallel requests that can be sent to each instance in a transform job. If MaxConcurrentTransforms is set to 0 or left unset, Amazon SageMaker checks the optional execution-parameters to determine the settings for your chosen algorithm. If the execution-parameters endpoint is not enabled, the default value is 1. For more information on execution-parameters, see How Containers Serve Requests. For built-in algorithms, you don't need to set a value for MaxConcurrentTransforms.
         public let maxConcurrentTransforms: Int?
         /// The maximum allowed size of the payload, in MB. A payload is the data portion of a record (without metadata). The value in MaxPayloadInMB must be greater than, or equal to, the size of a single record. To estimate the size of a record in MB, divide the size of your dataset by the number of records. To ensure that the records fit within the maximum payload size, we recommend using a slightly larger value. The default value is 6 MB.  For cases where the payload might be arbitrarily large and is transmitted using HTTP chunked encoding, set the value to 0. This feature works only in supported algorithms. Currently, Amazon SageMaker built-in algorithms do not support HTTP chunked encoding.
         public let maxPayloadInMB: Int?
@@ -1828,10 +3354,11 @@ extension SageMaker {
         /// Describes the resources, including ML instance types and ML instance count, to use for the transform job.
         public let transformResources: TransformResources
 
-        public init(batchStrategy: BatchStrategy? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelName: String, tags: [Tag]? = nil, transformInput: TransformInput, transformJobName: String, transformOutput: TransformOutput, transformResources: TransformResources) {
+        public init(batchStrategy: BatchStrategy? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelName: String, tags: [Tag]? = nil, transformInput: TransformInput, transformJobName: String, transformOutput: TransformOutput, transformResources: TransformResources) {
             self.batchStrategy = batchStrategy
             self.dataProcessing = dataProcessing
             self.environment = environment
+            self.experimentConfig = experimentConfig
             self.maxConcurrentTransforms = maxConcurrentTransforms
             self.maxPayloadInMB = maxPayloadInMB
             self.modelName = modelName
@@ -1850,6 +3377,7 @@ extension SageMaker {
                 try validate($0.value, name:"environment[\"\($0.key)\"]", parent: name, max: 10240)
                 try validate($0.value, name:"environment[\"\($0.key)\"]", parent: name, pattern: "[\\S\\s]*")
             }
+            try self.experimentConfig?.validate(name: "\(name).experimentConfig")
             try validate(self.maxConcurrentTransforms, name:"maxConcurrentTransforms", parent: name, min: 0)
             try validate(self.maxPayloadInMB, name:"maxPayloadInMB", parent: name, min: 0)
             try validate(self.modelName, name:"modelName", parent: name, max: 63)
@@ -1871,6 +3399,7 @@ extension SageMaker {
             case batchStrategy = "BatchStrategy"
             case dataProcessing = "DataProcessing"
             case environment = "Environment"
+            case experimentConfig = "ExperimentConfig"
             case maxConcurrentTransforms = "MaxConcurrentTransforms"
             case maxPayloadInMB = "MaxPayloadInMB"
             case modelName = "ModelName"
@@ -1896,6 +3425,249 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case transformJobArn = "TransformJobArn"
+        }
+    }
+
+    public struct CreateTrialComponentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputArtifacts", required: false, type: .map), 
+            AWSShapeMember(label: "OutputArtifacts", required: false, type: .map), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TrialComponentName", required: true, type: .string)
+        ]
+
+        /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is displayed.
+        public let displayName: String?
+        /// When the component ended.
+        public let endTime: TimeStamp?
+        /// The input artifacts for the component. Examples of input artifacts are datasets, algorithms, hyperparameters, source code, and instance types.
+        public let inputArtifacts: [String: TrialComponentArtifact]?
+        /// The output artifacts for the component. Examples of output artifacts are metrics, snapshots, logs, and images.
+        public let outputArtifacts: [String: TrialComponentArtifact]?
+        /// The hyperparameters for the component.
+        public let parameters: [String: TrialComponentParameterValue]?
+        /// When the component started.
+        public let startTime: TimeStamp?
+        /// The status of the component. States include:   InProgress   Completed   Failed  
+        public let status: TrialComponentStatus?
+        /// A list of tags to associate with the component. You can use Search API to search on the tags.
+        public let tags: [Tag]?
+        /// The name of the component. The name must be unique in your AWS account and is not case-sensitive.
+        public let trialComponentName: String
+
+        public init(displayName: String? = nil, endTime: TimeStamp? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, startTime: TimeStamp? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentName: String) {
+            self.displayName = displayName
+            self.endTime = endTime
+            self.inputArtifacts = inputArtifacts
+            self.outputArtifacts = outputArtifacts
+            self.parameters = parameters
+            self.startTime = startTime
+            self.status = status
+            self.tags = tags
+            self.trialComponentName = trialComponentName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.displayName, name:"displayName", parent: name, max: 82)
+            try validate(self.displayName, name:"displayName", parent: name, min: 1)
+            try validate(self.displayName, name:"displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.inputArtifacts?.forEach {
+                try validate($0.key, name:"inputArtifacts.key", parent: name, max: 64)
+                try validate($0.key, name:"inputArtifacts.key", parent: name, pattern: ".*")
+                try $0.value.validate(name: "\(name).inputArtifacts[\"\($0.key)\"]")
+            }
+            try self.outputArtifacts?.forEach {
+                try validate($0.key, name:"outputArtifacts.key", parent: name, max: 64)
+                try validate($0.key, name:"outputArtifacts.key", parent: name, pattern: ".*")
+                try $0.value.validate(name: "\(name).outputArtifacts[\"\($0.key)\"]")
+            }
+            try self.parameters?.forEach {
+                try validate($0.key, name:"parameters.key", parent: name, max: 256)
+                try validate($0.key, name:"parameters.key", parent: name, pattern: ".*")
+                try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
+            }
+            try self.status?.validate(name: "\(name).status")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case endTime = "EndTime"
+            case inputArtifacts = "InputArtifacts"
+            case outputArtifacts = "OutputArtifacts"
+            case parameters = "Parameters"
+            case startTime = "StartTime"
+            case status = "Status"
+            case tags = "Tags"
+            case trialComponentName = "TrialComponentName"
+        }
+    }
+
+    public struct CreateTrialComponentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the trial component.
+        public let trialComponentArn: String?
+
+        public init(trialComponentArn: String? = nil) {
+            self.trialComponentArn = trialComponentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialComponentArn = "TrialComponentArn"
+        }
+    }
+
+    public struct CreateTrialRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TrialName", required: true, type: .string)
+        ]
+
+        /// The name of the trial as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialName is displayed.
+        public let displayName: String?
+        /// The name of the experiment to associate the trial with.
+        public let experimentName: String
+        /// A list of tags to associate with the trial. You can use Search API to search on the tags.
+        public let tags: [Tag]?
+        /// The name of the trial. The name must be unique in your AWS account and is not case-sensitive.
+        public let trialName: String
+
+        public init(displayName: String? = nil, experimentName: String, tags: [Tag]? = nil, trialName: String) {
+            self.displayName = displayName
+            self.experimentName = experimentName
+            self.tags = tags
+            self.trialName = trialName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.displayName, name:"displayName", parent: name, max: 82)
+            try validate(self.displayName, name:"displayName", parent: name, min: 1)
+            try validate(self.displayName, name:"displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
+            try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, min: 1)
+            try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case experimentName = "ExperimentName"
+            case tags = "Tags"
+            case trialName = "TrialName"
+        }
+    }
+
+    public struct CreateTrialResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the trial.
+        public let trialArn: String?
+
+        public init(trialArn: String? = nil) {
+            self.trialArn = trialArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialArn = "TrialArn"
+        }
+    }
+
+    public struct CreateUserProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "SingleSignOnUserIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SingleSignOnUserValue", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "UserProfileName", required: true, type: .string), 
+            AWSShapeMember(label: "UserSettings", required: false, type: .structure)
+        ]
+
+        /// The ID of the associated Domain.
+        public let domainId: String
+        /// A specifier for the type of value specified in SingleSignOnUserValue. Currently, the only supported value is "UserName". If the Domain's AuthMode is SSO, this field is required. If the Domain's AuthMode is not SSO, this field cannot be specified. 
+        public let singleSignOnUserIdentifier: String?
+        /// The username of the associated AWS Single Sign-On User for this UserProfile. If the Domain's AuthMode is SSO, this field is required, and must match a valid username of a user in your directory. If the Domain's AuthMode is not SSO, this field cannot be specified. 
+        public let singleSignOnUserValue: String?
+        /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
+        public let tags: [Tag]?
+        /// A name for the UserProfile.
+        public let userProfileName: String
+        /// A collection of settings.
+        public let userSettings: UserSettings?
+
+        public init(domainId: String, singleSignOnUserIdentifier: String? = nil, singleSignOnUserValue: String? = nil, tags: [Tag]? = nil, userProfileName: String, userSettings: UserSettings? = nil) {
+            self.domainId = domainId
+            self.singleSignOnUserIdentifier = singleSignOnUserIdentifier
+            self.singleSignOnUserValue = singleSignOnUserValue
+            self.tags = tags
+            self.userProfileName = userProfileName
+            self.userSettings = userSettings
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainId, name:"domainId", parent: name, max: 63)
+            try validate(self.singleSignOnUserIdentifier, name:"singleSignOnUserIdentifier", parent: name, pattern: "UserName")
+            try validate(self.singleSignOnUserValue, name:"singleSignOnUserValue", parent: name, max: 256)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.userSettings?.validate(name: "\(name).userSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case singleSignOnUserIdentifier = "SingleSignOnUserIdentifier"
+            case singleSignOnUserValue = "SingleSignOnUserValue"
+            case tags = "Tags"
+            case userProfileName = "UserProfileName"
+            case userSettings = "UserSettings"
+        }
+    }
+
+    public struct CreateUserProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserProfileArn", required: false, type: .string)
+        ]
+
+        /// The user profile Amazon Resource Name (ARN).
+        public let userProfileArn: String?
+
+        public init(userProfileArn: String? = nil) {
+            self.userProfileArn = userProfileArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userProfileArn = "UserProfileArn"
         }
     }
 
@@ -1973,6 +3745,86 @@ extension SageMaker {
         }
     }
 
+    public struct DataCaptureConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CaptureContentTypeHeader", required: false, type: .structure), 
+            AWSShapeMember(label: "CaptureOptions", required: true, type: .list), 
+            AWSShapeMember(label: "DestinationS3Uri", required: true, type: .string), 
+            AWSShapeMember(label: "EnableCapture", required: false, type: .boolean), 
+            AWSShapeMember(label: "InitialSamplingPercentage", required: true, type: .integer), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
+        ]
+
+        public let captureContentTypeHeader: CaptureContentTypeHeader?
+        public let captureOptions: [CaptureOption]
+        public let destinationS3Uri: String
+        public let enableCapture: Bool?
+        public let initialSamplingPercentage: Int
+        public let kmsKeyId: String?
+
+        public init(captureContentTypeHeader: CaptureContentTypeHeader? = nil, captureOptions: [CaptureOption], destinationS3Uri: String, enableCapture: Bool? = nil, initialSamplingPercentage: Int, kmsKeyId: String? = nil) {
+            self.captureContentTypeHeader = captureContentTypeHeader
+            self.captureOptions = captureOptions
+            self.destinationS3Uri = destinationS3Uri
+            self.enableCapture = enableCapture
+            self.initialSamplingPercentage = initialSamplingPercentage
+            self.kmsKeyId = kmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.captureContentTypeHeader?.validate(name: "\(name).captureContentTypeHeader")
+            try validate(self.captureOptions, name:"captureOptions", parent: name, max: 2)
+            try validate(self.captureOptions, name:"captureOptions", parent: name, min: 1)
+            try validate(self.destinationS3Uri, name:"destinationS3Uri", parent: name, max: 512)
+            try validate(self.destinationS3Uri, name:"destinationS3Uri", parent: name, pattern: "^(https|s3)://([^/])/?(.*)$")
+            try validate(self.initialSamplingPercentage, name:"initialSamplingPercentage", parent: name, max: 100)
+            try validate(self.initialSamplingPercentage, name:"initialSamplingPercentage", parent: name, min: 0)
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case captureContentTypeHeader = "CaptureContentTypeHeader"
+            case captureOptions = "CaptureOptions"
+            case destinationS3Uri = "DestinationS3Uri"
+            case enableCapture = "EnableCapture"
+            case initialSamplingPercentage = "InitialSamplingPercentage"
+            case kmsKeyId = "KmsKeyId"
+        }
+    }
+
+    public struct DataCaptureConfigSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CaptureStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "CurrentSamplingPercentage", required: true, type: .integer), 
+            AWSShapeMember(label: "DestinationS3Uri", required: true, type: .string), 
+            AWSShapeMember(label: "EnableCapture", required: true, type: .boolean), 
+            AWSShapeMember(label: "KmsKeyId", required: true, type: .string)
+        ]
+
+        public let captureStatus: CaptureStatus
+        public let currentSamplingPercentage: Int
+        public let destinationS3Uri: String
+        public let enableCapture: Bool
+        public let kmsKeyId: String
+
+        public init(captureStatus: CaptureStatus, currentSamplingPercentage: Int, destinationS3Uri: String, enableCapture: Bool, kmsKeyId: String) {
+            self.captureStatus = captureStatus
+            self.currentSamplingPercentage = currentSamplingPercentage
+            self.destinationS3Uri = destinationS3Uri
+            self.enableCapture = enableCapture
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case captureStatus = "CaptureStatus"
+            case currentSamplingPercentage = "CurrentSamplingPercentage"
+            case destinationS3Uri = "DestinationS3Uri"
+            case enableCapture = "EnableCapture"
+            case kmsKeyId = "KmsKeyId"
+        }
+    }
+
     public struct DataProcessing: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InputFilter", required: false, type: .string), 
@@ -1982,7 +3834,7 @@ extension SageMaker {
 
         /// A JSONPath expression used to select a portion of the input data to pass to the algorithm. Use the InputFilter parameter to exclude fields, such as an ID column, from the input. If you want Amazon SageMaker to pass the entire input dataset to the algorithm, accept the default value $. Examples: "$", "$[1:]", "$.features" 
         public let inputFilter: String?
-        /// Specifies the source of the data to join with the transformed data. The valid values are None and Input The default value is None which specifies not to join the input with the transformed data. If you want the batch transform job to join the original input data with the transformed data, set JoinSource to Input.  For JSON or JSONLines objects, such as a JSON array, Amazon SageMaker adds the transformed data to the input JSON object in an attribute called SageMakerOutput. The joined result for JSON must be a key-value pair object. If the input is not a key-value pair object, Amazon SageMaker creates a new JSON file. In the new JSON file, and the input data is stored under the SageMakerInput key and the results are stored in SageMakerOutput. For CSV files, Amazon SageMaker combines the transformed data with the input data at the end of the input data and stores it in the output file. The joined data has the joined input data followed by the transformed data and the output is a CSV file. 
+        /// Specifies the source of the data to join with the transformed data. The valid values are None and Input. The default value is None, which specifies not to join the input with the transformed data. If you want the batch transform job to join the original input data with the transformed data, set JoinSource to Input.  For JSON or JSONLines objects, such as a JSON array, Amazon SageMaker adds the transformed data to the input JSON object in an attribute called SageMakerOutput. The joined result for JSON must be a key-value pair object. If the input is not a key-value pair object, Amazon SageMaker creates a new JSON file. In the new JSON file, and the input data is stored under the SageMakerInput key and the results are stored in SageMakerOutput. For CSV files, Amazon SageMaker combines the transformed data with the input data at the end of the input data and stores it in the output file. The joined data has the joined input data followed by the transformed data and the output is a CSV file. 
         public let joinSource: JoinSource?
         /// A JSONPath expression used to select a portion of the joined dataset to save in the output file for a batch transform job. If you want Amazon SageMaker to store the entire input dataset in the output file, leave the default value, $. If you specify indexes that aren't within the dimension size of the joined dataset, you get an error. Examples: "$", "$[0,5:]", "$['id','SageMakerOutput']" 
         public let outputFilter: String?
@@ -2034,6 +3886,161 @@ extension SageMaker {
         }
     }
 
+    public struct DebugHookConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CollectionConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "HookParameters", required: false, type: .map), 
+            AWSShapeMember(label: "LocalPath", required: false, type: .string), 
+            AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
+        ]
+
+        /// Configuration information for tensor collections.
+        public let collectionConfigurations: [CollectionConfiguration]?
+        /// Configuration information for the debug hook parameters.
+        public let hookParameters: [String: String]?
+        /// Path to local storage location for tensors. Defaults to /opt/ml/output/tensors/.
+        public let localPath: String?
+        /// Path to Amazon S3 storage location for tensors.
+        public let s3OutputPath: String
+
+        public init(collectionConfigurations: [CollectionConfiguration]? = nil, hookParameters: [String: String]? = nil, localPath: String? = nil, s3OutputPath: String) {
+            self.collectionConfigurations = collectionConfigurations
+            self.hookParameters = hookParameters
+            self.localPath = localPath
+            self.s3OutputPath = s3OutputPath
+        }
+
+        public func validate(name: String) throws {
+            try self.collectionConfigurations?.forEach {
+                try $0.validate(name: "\(name).collectionConfigurations[]")
+            }
+            try validate(self.collectionConfigurations, name:"collectionConfigurations", parent: name, max: 20)
+            try validate(self.collectionConfigurations, name:"collectionConfigurations", parent: name, min: 0)
+            try self.hookParameters?.forEach {
+                try validate($0.key, name:"hookParameters.key", parent: name, max: 256)
+                try validate($0.key, name:"hookParameters.key", parent: name, min: 1)
+                try validate($0.key, name:"hookParameters.key", parent: name, pattern: ".*")
+                try validate($0.value, name:"hookParameters[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"hookParameters[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try validate(self.localPath, name:"localPath", parent: name, max: 4096)
+            try validate(self.localPath, name:"localPath", parent: name, pattern: ".*")
+            try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, max: 1024)
+            try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionConfigurations = "CollectionConfigurations"
+            case hookParameters = "HookParameters"
+            case localPath = "LocalPath"
+            case s3OutputPath = "S3OutputPath"
+        }
+    }
+
+    public struct DebugRuleConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "LocalPath", required: false, type: .string), 
+            AWSShapeMember(label: "RuleConfigurationName", required: true, type: .string), 
+            AWSShapeMember(label: "RuleEvaluatorImage", required: true, type: .string), 
+            AWSShapeMember(label: "RuleParameters", required: false, type: .map), 
+            AWSShapeMember(label: "S3OutputPath", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSizeInGB", required: false, type: .integer)
+        ]
+
+        /// The instance type to deploy for a training job.
+        public let instanceType: ProcessingInstanceType?
+        /// Path to local storage location for output of rules. Defaults to /opt/ml/processing/output/rule/.
+        public let localPath: String?
+        /// The name of the rule configuration. It must be unique relative to other rule configuration names.
+        public let ruleConfigurationName: String
+        /// The Amazon Elastic Container (ECR) Image for the managed rule evaluation.
+        public let ruleEvaluatorImage: String
+        ///  Runtime configuration for rule container.
+        public let ruleParameters: [String: String]?
+        /// Path to Amazon S3 storage location for rules.
+        public let s3OutputPath: String?
+        /// The size, in GB, of the ML storage volume attached to the processing instance.
+        public let volumeSizeInGB: Int?
+
+        public init(instanceType: ProcessingInstanceType? = nil, localPath: String? = nil, ruleConfigurationName: String, ruleEvaluatorImage: String, ruleParameters: [String: String]? = nil, s3OutputPath: String? = nil, volumeSizeInGB: Int? = nil) {
+            self.instanceType = instanceType
+            self.localPath = localPath
+            self.ruleConfigurationName = ruleConfigurationName
+            self.ruleEvaluatorImage = ruleEvaluatorImage
+            self.ruleParameters = ruleParameters
+            self.s3OutputPath = s3OutputPath
+            self.volumeSizeInGB = volumeSizeInGB
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.localPath, name:"localPath", parent: name, max: 4096)
+            try validate(self.localPath, name:"localPath", parent: name, pattern: ".*")
+            try validate(self.ruleConfigurationName, name:"ruleConfigurationName", parent: name, max: 256)
+            try validate(self.ruleConfigurationName, name:"ruleConfigurationName", parent: name, min: 1)
+            try validate(self.ruleConfigurationName, name:"ruleConfigurationName", parent: name, pattern: ".*")
+            try validate(self.ruleEvaluatorImage, name:"ruleEvaluatorImage", parent: name, max: 255)
+            try validate(self.ruleEvaluatorImage, name:"ruleEvaluatorImage", parent: name, pattern: ".*")
+            try self.ruleParameters?.forEach {
+                try validate($0.key, name:"ruleParameters.key", parent: name, max: 256)
+                try validate($0.key, name:"ruleParameters.key", parent: name, min: 1)
+                try validate($0.key, name:"ruleParameters.key", parent: name, pattern: ".*")
+                try validate($0.value, name:"ruleParameters[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"ruleParameters[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, max: 1024)
+            try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try validate(self.volumeSizeInGB, name:"volumeSizeInGB", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceType = "InstanceType"
+            case localPath = "LocalPath"
+            case ruleConfigurationName = "RuleConfigurationName"
+            case ruleEvaluatorImage = "RuleEvaluatorImage"
+            case ruleParameters = "RuleParameters"
+            case s3OutputPath = "S3OutputPath"
+            case volumeSizeInGB = "VolumeSizeInGB"
+        }
+    }
+
+    public struct DebugRuleEvaluationStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RuleConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "RuleEvaluationJobArn", required: false, type: .string), 
+            AWSShapeMember(label: "RuleEvaluationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusDetails", required: false, type: .string)
+        ]
+
+        /// Timestamp when the rule evaluation status was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The name of the rule configuration
+        public let ruleConfigurationName: String?
+        /// The Amazon Resource Name (ARN) of the rule evaluation job.
+        public let ruleEvaluationJobArn: String?
+        /// Status of the rule evaluation.
+        public let ruleEvaluationStatus: RuleEvaluationStatus?
+        /// Details from the rule evaluation.
+        public let statusDetails: String?
+
+        public init(lastModifiedTime: TimeStamp? = nil, ruleConfigurationName: String? = nil, ruleEvaluationJobArn: String? = nil, ruleEvaluationStatus: RuleEvaluationStatus? = nil, statusDetails: String? = nil) {
+            self.lastModifiedTime = lastModifiedTime
+            self.ruleConfigurationName = ruleConfigurationName
+            self.ruleEvaluationJobArn = ruleEvaluationJobArn
+            self.ruleEvaluationStatus = ruleEvaluationStatus
+            self.statusDetails = statusDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case ruleConfigurationName = "RuleConfigurationName"
+            case ruleEvaluationJobArn = "RuleEvaluationJobArn"
+            case ruleEvaluationStatus = "RuleEvaluationStatus"
+            case statusDetails = "StatusDetails"
+        }
+    }
+
     public struct DeleteAlgorithmInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmName", required: true, type: .string)
@@ -2057,6 +4064,46 @@ extension SageMaker {
         }
     }
 
+    public struct DeleteAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppName", required: true, type: .string), 
+            AWSShapeMember(label: "AppType", required: true, type: .enum), 
+            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "UserProfileName", required: true, type: .string)
+        ]
+
+        /// The name of the app.
+        public let appName: String
+        /// The type of app.
+        public let appType: AppType
+        /// The domain ID.
+        public let domainId: String
+        /// The user profile name.
+        public let userProfileName: String
+
+        public init(appName: String, appType: AppType, domainId: String, userProfileName: String) {
+            self.appName = appName
+            self.appType = appType
+            self.domainId = domainId
+            self.userProfileName = userProfileName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appName, name:"appName", parent: name, max: 63)
+            try validate(self.appName, name:"appName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.domainId, name:"domainId", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appName = "AppName"
+            case appType = "AppType"
+            case domainId = "DomainId"
+            case userProfileName = "UserProfileName"
+        }
+    }
+
     public struct DeleteCodeRepositoryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string)
@@ -2077,6 +4124,32 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case codeRepositoryName = "CodeRepositoryName"
+        }
+    }
+
+    public struct DeleteDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "RetentionPolicy", required: false, type: .structure)
+        ]
+
+        /// The domain ID.
+        public let domainId: String
+        /// The retention policy for this domain, which specifies which resources will be retained after the Domain is deleted. By default, all resources are retained (not automatically deleted). 
+        public let retentionPolicy: RetentionPolicy?
+
+        public init(domainId: String, retentionPolicy: RetentionPolicy? = nil) {
+            self.domainId = domainId
+            self.retentionPolicy = retentionPolicy
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainId, name:"domainId", parent: name, max: 63)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case retentionPolicy = "RetentionPolicy"
         }
     }
 
@@ -2124,6 +4197,77 @@ extension SageMaker {
         }
     }
 
+    public struct DeleteExperimentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExperimentName", required: true, type: .string)
+        ]
+
+        /// The name of the experiment to delete.
+        public let experimentName: String
+
+        public init(experimentName: String) {
+            self.experimentName = experimentName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
+            try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case experimentName = "ExperimentName"
+        }
+    }
+
+    public struct DeleteExperimentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExperimentArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the experiment that is being deleted.
+        public let experimentArn: String?
+
+        public init(experimentArn: String? = nil) {
+            self.experimentArn = experimentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case experimentArn = "ExperimentArn"
+        }
+    }
+
+    public struct DeleteFlowDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowDefinitionName", required: true, type: .string)
+        ]
+
+        /// The name of the flow definition you are deleting.
+        public let flowDefinitionName: String
+
+        public init(flowDefinitionName: String) {
+            self.flowDefinitionName = flowDefinitionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.flowDefinitionName, name:"flowDefinitionName", parent: name, max: 63)
+            try validate(self.flowDefinitionName, name:"flowDefinitionName", parent: name, min: 1)
+            try validate(self.flowDefinitionName, name:"flowDefinitionName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowDefinitionName = "FlowDefinitionName"
+        }
+    }
+
+    public struct DeleteFlowDefinitionResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteModelInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ModelName", required: true, type: .string)
@@ -2166,6 +4310,29 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case modelPackageName = "ModelPackageName"
+        }
+    }
+
+    public struct DeleteMonitoringScheduleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string)
+        ]
+
+        /// The name of the monitoring schedule to delete.
+        public let monitoringScheduleName: String
+
+        public init(monitoringScheduleName: String) {
+            self.monitoringScheduleName = monitoringScheduleName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, max: 63)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, min: 1)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringScheduleName = "MonitoringScheduleName"
         }
     }
 
@@ -2253,6 +4420,114 @@ extension SageMaker {
         public init() {
         }
 
+    }
+
+    public struct DeleteTrialComponentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialComponentName", required: true, type: .string)
+        ]
+
+        /// The name of the component to delete.
+        public let trialComponentName: String
+
+        public init(trialComponentName: String) {
+            self.trialComponentName = trialComponentName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialComponentName = "TrialComponentName"
+        }
+    }
+
+    public struct DeleteTrialComponentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the component is being deleted.
+        public let trialComponentArn: String?
+
+        public init(trialComponentArn: String? = nil) {
+            self.trialComponentArn = trialComponentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialComponentArn = "TrialComponentArn"
+        }
+    }
+
+    public struct DeleteTrialRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialName", required: true, type: .string)
+        ]
+
+        /// The name of the trial to delete.
+        public let trialName: String
+
+        public init(trialName: String) {
+            self.trialName = trialName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, min: 1)
+            try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialName = "TrialName"
+        }
+    }
+
+    public struct DeleteTrialResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the trial that is being deleted.
+        public let trialArn: String?
+
+        public init(trialArn: String? = nil) {
+            self.trialArn = trialArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialArn = "TrialArn"
+        }
+    }
+
+    public struct DeleteUserProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "UserProfileName", required: true, type: .string)
+        ]
+
+        /// The domain ID.
+        public let domainId: String
+        /// The user profile name.
+        public let userProfileName: String
+
+        public init(domainId: String, userProfileName: String) {
+            self.domainId = domainId
+            self.userProfileName = userProfileName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainId, name:"domainId", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case userProfileName = "UserProfileName"
+        }
     }
 
     public struct DeleteWorkteamRequest: AWSShape {
@@ -2409,6 +4684,238 @@ extension SageMaker {
             case productId = "ProductId"
             case trainingSpecification = "TrainingSpecification"
             case validationSpecification = "ValidationSpecification"
+        }
+    }
+
+    public struct DescribeAppRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppName", required: true, type: .string), 
+            AWSShapeMember(label: "AppType", required: true, type: .enum), 
+            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "UserProfileName", required: true, type: .string)
+        ]
+
+        /// The name of the app.
+        public let appName: String
+        /// The type of app.
+        public let appType: AppType
+        /// The domain ID.
+        public let domainId: String
+        /// The user profile name.
+        public let userProfileName: String
+
+        public init(appName: String, appType: AppType, domainId: String, userProfileName: String) {
+            self.appName = appName
+            self.appType = appType
+            self.domainId = domainId
+            self.userProfileName = userProfileName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appName, name:"appName", parent: name, max: 63)
+            try validate(self.appName, name:"appName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.domainId, name:"domainId", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appName = "AppName"
+            case appType = "AppType"
+            case domainId = "DomainId"
+            case userProfileName = "UserProfileName"
+        }
+    }
+
+    public struct DescribeAppResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppArn", required: false, type: .string), 
+            AWSShapeMember(label: "AppName", required: false, type: .string), 
+            AWSShapeMember(label: "AppType", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DomainId", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "LastHealthCheckTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUserActivityTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ResourceSpec", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "UserProfileName", required: false, type: .string)
+        ]
+
+        /// The app's Amazon Resource Name (ARN).
+        public let appArn: String?
+        /// The name of the app.
+        public let appName: String?
+        /// The type of app.
+        public let appType: AppType?
+        /// The creation time.
+        public let creationTime: TimeStamp?
+        /// The domain ID.
+        public let domainId: String?
+        /// The failure reason.
+        public let failureReason: String?
+        /// The timestamp of the last health check.
+        public let lastHealthCheckTimestamp: TimeStamp?
+        /// The timestamp of the last user's activity.
+        public let lastUserActivityTimestamp: TimeStamp?
+        /// The instance type and quantity.
+        public let resourceSpec: ResourceSpec?
+        /// The status.
+        public let status: AppStatus?
+        /// The user profile name.
+        public let userProfileName: String?
+
+        public init(appArn: String? = nil, appName: String? = nil, appType: AppType? = nil, creationTime: TimeStamp? = nil, domainId: String? = nil, failureReason: String? = nil, lastHealthCheckTimestamp: TimeStamp? = nil, lastUserActivityTimestamp: TimeStamp? = nil, resourceSpec: ResourceSpec? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
+            self.appArn = appArn
+            self.appName = appName
+            self.appType = appType
+            self.creationTime = creationTime
+            self.domainId = domainId
+            self.failureReason = failureReason
+            self.lastHealthCheckTimestamp = lastHealthCheckTimestamp
+            self.lastUserActivityTimestamp = lastUserActivityTimestamp
+            self.resourceSpec = resourceSpec
+            self.status = status
+            self.userProfileName = userProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appArn = "AppArn"
+            case appName = "AppName"
+            case appType = "AppType"
+            case creationTime = "CreationTime"
+            case domainId = "DomainId"
+            case failureReason = "FailureReason"
+            case lastHealthCheckTimestamp = "LastHealthCheckTimestamp"
+            case lastUserActivityTimestamp = "LastUserActivityTimestamp"
+            case resourceSpec = "ResourceSpec"
+            case status = "Status"
+            case userProfileName = "UserProfileName"
+        }
+    }
+
+    public struct DescribeAutoMLJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMLJobName", required: true, type: .string)
+        ]
+
+        /// Request information about a job using that job's unique name.
+        public let autoMLJobName: String
+
+        public init(autoMLJobName: String) {
+            self.autoMLJobName = autoMLJobName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.autoMLJobName, name:"autoMLJobName", parent: name, max: 32)
+            try validate(self.autoMLJobName, name:"autoMLJobName", parent: name, min: 1)
+            try validate(self.autoMLJobName, name:"autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobName = "AutoMLJobName"
+        }
+    }
+
+    public struct DescribeAutoMLJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMLJobArn", required: true, type: .string), 
+            AWSShapeMember(label: "AutoMLJobArtifacts", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoMLJobConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoMLJobName", required: true, type: .string), 
+            AWSShapeMember(label: "AutoMLJobObjective", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoMLJobSecondaryStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "AutoMLJobStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "BestCandidate", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "GenerateCandidateDefinitionsOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .list), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "ProblemType", required: false, type: .enum), 
+            AWSShapeMember(label: "ResolvedAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string)
+        ]
+
+        /// Returns the job's ARN.
+        public let autoMLJobArn: String
+        /// Returns information on the job's artifacts found in AutoMLJobArtifacts.
+        public let autoMLJobArtifacts: AutoMLJobArtifacts?
+        /// Returns the job's config.
+        public let autoMLJobConfig: AutoMLJobConfig?
+        /// Returns the name of a job.
+        public let autoMLJobName: String
+        /// Returns the job's objective.
+        public let autoMLJobObjective: AutoMLJobObjective?
+        /// Returns the job's AutoMLJobSecondaryStatus.
+        public let autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus
+        /// Returns the job's AutoMLJobStatus.
+        public let autoMLJobStatus: AutoMLJobStatus
+        /// Returns the job's BestCandidate.
+        public let bestCandidate: AutoMLCandidate?
+        /// Returns the job's creation time.
+        public let creationTime: TimeStamp
+        /// Returns the job's end time.
+        public let endTime: TimeStamp?
+        /// Returns the job's FailureReason.
+        public let failureReason: String?
+        /// Returns the job's output from GenerateCandidateDefinitionsOnly.
+        public let generateCandidateDefinitionsOnly: Bool?
+        /// Returns the job's input data config.
+        public let inputDataConfig: [AutoMLChannel]
+        /// Returns the job's last modified time.
+        public let lastModifiedTime: TimeStamp
+        /// Returns the job's output data config.
+        public let outputDataConfig: AutoMLOutputDataConfig
+        /// Returns the job's problem type.
+        public let problemType: ProblemType?
+        /// This contains ProblemType, AutoMLJobObjective and CompletionCriteria. They’re auto-inferred values, if not provided by you. If you do provide them, then they’ll be the same as provided.
+        public let resolvedAttributes: ResolvedAttributes?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
+        public let roleArn: String
+
+        public init(autoMLJobArn: String, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, bestCandidate: AutoMLCandidate? = nil, creationTime: TimeStamp, endTime: TimeStamp? = nil, failureReason: String? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], lastModifiedTime: TimeStamp, outputDataConfig: AutoMLOutputDataConfig, problemType: ProblemType? = nil, resolvedAttributes: ResolvedAttributes? = nil, roleArn: String) {
+            self.autoMLJobArn = autoMLJobArn
+            self.autoMLJobArtifacts = autoMLJobArtifacts
+            self.autoMLJobConfig = autoMLJobConfig
+            self.autoMLJobName = autoMLJobName
+            self.autoMLJobObjective = autoMLJobObjective
+            self.autoMLJobSecondaryStatus = autoMLJobSecondaryStatus
+            self.autoMLJobStatus = autoMLJobStatus
+            self.bestCandidate = bestCandidate
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.failureReason = failureReason
+            self.generateCandidateDefinitionsOnly = generateCandidateDefinitionsOnly
+            self.inputDataConfig = inputDataConfig
+            self.lastModifiedTime = lastModifiedTime
+            self.outputDataConfig = outputDataConfig
+            self.problemType = problemType
+            self.resolvedAttributes = resolvedAttributes
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobArn = "AutoMLJobArn"
+            case autoMLJobArtifacts = "AutoMLJobArtifacts"
+            case autoMLJobConfig = "AutoMLJobConfig"
+            case autoMLJobName = "AutoMLJobName"
+            case autoMLJobObjective = "AutoMLJobObjective"
+            case autoMLJobSecondaryStatus = "AutoMLJobSecondaryStatus"
+            case autoMLJobStatus = "AutoMLJobStatus"
+            case bestCandidate = "BestCandidate"
+            case creationTime = "CreationTime"
+            case endTime = "EndTime"
+            case failureReason = "FailureReason"
+            case generateCandidateDefinitionsOnly = "GenerateCandidateDefinitionsOnly"
+            case inputDataConfig = "InputDataConfig"
+            case lastModifiedTime = "LastModifiedTime"
+            case outputDataConfig = "OutputDataConfig"
+            case problemType = "ProblemType"
+            case resolvedAttributes = "ResolvedAttributes"
+            case roleArn = "RoleArn"
         }
     }
 
@@ -2572,6 +5079,114 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainId", required: true, type: .string)
+        ]
+
+        /// The domain ID.
+        public let domainId: String
+
+        public init(domainId: String) {
+            self.domainId = domainId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainId, name:"domainId", parent: name, max: 63)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+        }
+    }
+
+    public struct DescribeDomainResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DefaultUserSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainArn", required: false, type: .string), 
+            AWSShapeMember(label: "DomainId", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "HomeEfsFileSystemId", required: false, type: .string), 
+            AWSShapeMember(label: "HomeEfsFileSystemKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SingleSignOnManagedApplicationInstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "Url", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+
+        /// The domain's authentication mode.
+        public let authMode: AuthMode?
+        /// The creation time.
+        public let creationTime: TimeStamp?
+        /// Settings which are applied to all UserProfile in this domain, if settings are not explicitly specified in a given UserProfile. 
+        public let defaultUserSettings: UserSettings?
+        /// The domain's Amazon Resource Name (ARN).
+        public let domainArn: String?
+        /// The domain ID.
+        public let domainId: String?
+        /// The domain name.
+        public let domainName: String?
+        /// The failure reason.
+        public let failureReason: String?
+        /// The ID of the Amazon Elastic File System (EFS) managed by this Domain.
+        public let homeEfsFileSystemId: String?
+        /// The AWS Key Management Service encryption key ID.
+        public let homeEfsFileSystemKmsKeyId: String?
+        /// The last modified time.
+        public let lastModifiedTime: TimeStamp?
+        /// The SSO managed application instance ID.
+        public let singleSignOnManagedApplicationInstanceId: String?
+        /// The status.
+        public let status: DomainStatus?
+        /// Security setting to limit to a set of subnets.
+        public let subnetIds: [String]?
+        /// The domain's URL.
+        public let url: String?
+        /// The ID of the Amazon Virtual Private Cloud.
+        public let vpcId: String?
+
+        public init(authMode: AuthMode? = nil, creationTime: TimeStamp? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, lastModifiedTime: TimeStamp? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
+            self.authMode = authMode
+            self.creationTime = creationTime
+            self.defaultUserSettings = defaultUserSettings
+            self.domainArn = domainArn
+            self.domainId = domainId
+            self.domainName = domainName
+            self.failureReason = failureReason
+            self.homeEfsFileSystemId = homeEfsFileSystemId
+            self.homeEfsFileSystemKmsKeyId = homeEfsFileSystemKmsKeyId
+            self.lastModifiedTime = lastModifiedTime
+            self.singleSignOnManagedApplicationInstanceId = singleSignOnManagedApplicationInstanceId
+            self.status = status
+            self.subnetIds = subnetIds
+            self.url = url
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authMode = "AuthMode"
+            case creationTime = "CreationTime"
+            case defaultUserSettings = "DefaultUserSettings"
+            case domainArn = "DomainArn"
+            case domainId = "DomainId"
+            case domainName = "DomainName"
+            case failureReason = "FailureReason"
+            case homeEfsFileSystemId = "HomeEfsFileSystemId"
+            case homeEfsFileSystemKmsKeyId = "HomeEfsFileSystemKmsKeyId"
+            case lastModifiedTime = "LastModifiedTime"
+            case singleSignOnManagedApplicationInstanceId = "SingleSignOnManagedApplicationInstanceId"
+            case status = "Status"
+            case subnetIds = "SubnetIds"
+            case url = "Url"
+            case vpcId = "VpcId"
+        }
+    }
+
     public struct DescribeEndpointConfigInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EndpointConfigName", required: true, type: .string)
@@ -2597,6 +5212,7 @@ extension SageMaker {
     public struct DescribeEndpointConfigOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "DataCaptureConfig", required: false, type: .structure), 
             AWSShapeMember(label: "EndpointConfigArn", required: true, type: .string), 
             AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
@@ -2605,6 +5221,7 @@ extension SageMaker {
 
         /// A timestamp that shows when the endpoint configuration was created.
         public let creationTime: TimeStamp
+        public let dataCaptureConfig: DataCaptureConfig?
         /// The Amazon Resource Name (ARN) of the endpoint configuration.
         public let endpointConfigArn: String
         /// Name of the Amazon SageMaker endpoint configuration.
@@ -2614,8 +5231,9 @@ extension SageMaker {
         /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]
 
-        public init(creationTime: TimeStamp, endpointConfigArn: String, endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant]) {
+        public init(creationTime: TimeStamp, dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigArn: String, endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant]) {
             self.creationTime = creationTime
+            self.dataCaptureConfig = dataCaptureConfig
             self.endpointConfigArn = endpointConfigArn
             self.endpointConfigName = endpointConfigName
             self.kmsKeyId = kmsKeyId
@@ -2624,6 +5242,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
+            case dataCaptureConfig = "DataCaptureConfig"
             case endpointConfigArn = "EndpointConfigArn"
             case endpointConfigName = "EndpointConfigName"
             case kmsKeyId = "KmsKeyId"
@@ -2656,6 +5275,7 @@ extension SageMaker {
     public struct DescribeEndpointOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "DataCaptureConfig", required: false, type: .structure), 
             AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
             AWSShapeMember(label: "EndpointConfigName", required: true, type: .string), 
             AWSShapeMember(label: "EndpointName", required: true, type: .string), 
@@ -2667,6 +5287,7 @@ extension SageMaker {
 
         /// A timestamp that shows when the endpoint was created.
         public let creationTime: TimeStamp
+        public let dataCaptureConfig: DataCaptureConfigSummary?
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String
         /// The name of the endpoint configuration associated with this endpoint.
@@ -2682,8 +5303,9 @@ extension SageMaker {
         ///  An array of ProductionVariantSummary objects, one for each model hosted behind this endpoint. 
         public let productionVariants: [ProductionVariantSummary]?
 
-        public init(creationTime: TimeStamp, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastModifiedTime: TimeStamp, productionVariants: [ProductionVariantSummary]? = nil) {
+        public init(creationTime: TimeStamp, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastModifiedTime: TimeStamp, productionVariants: [ProductionVariantSummary]? = nil) {
             self.creationTime = creationTime
+            self.dataCaptureConfig = dataCaptureConfig
             self.endpointArn = endpointArn
             self.endpointConfigName = endpointConfigName
             self.endpointName = endpointName
@@ -2695,6 +5317,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
+            case dataCaptureConfig = "DataCaptureConfig"
             case endpointArn = "EndpointArn"
             case endpointConfigName = "EndpointConfigName"
             case endpointName = "EndpointName"
@@ -2702,6 +5325,219 @@ extension SageMaker {
             case failureReason = "FailureReason"
             case lastModifiedTime = "LastModifiedTime"
             case productionVariants = "ProductionVariants"
+        }
+    }
+
+    public struct DescribeExperimentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExperimentName", required: true, type: .string)
+        ]
+
+        /// The name of the experiment to describe.
+        public let experimentName: String
+
+        public init(experimentName: String) {
+            self.experimentName = experimentName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
+            try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case experimentName = "ExperimentName"
+        }
+    }
+
+    public struct DescribeExperimentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentArn", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Source", required: false, type: .structure)
+        ]
+
+        /// Who created the experiment.
+        public let createdBy: UserContext?
+        /// When the experiment was created.
+        public let creationTime: TimeStamp?
+        /// The description of the experiment.
+        public let description: String?
+        /// The name of the experiment as displayed. If DisplayName isn't specified, ExperimentName is displayed.
+        public let displayName: String?
+        /// The Amazon Resource Name (ARN) of the experiment.
+        public let experimentArn: String?
+        /// The name of the experiment.
+        public let experimentName: String?
+        /// Who last modified the experiment.
+        public let lastModifiedBy: UserContext?
+        /// When the experiment was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The ARN of the source and, optionally, the type.
+        public let source: ExperimentSource?
+
+        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, source: ExperimentSource? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.description = description
+            self.displayName = displayName
+            self.experimentArn = experimentArn
+            self.experimentName = experimentName
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case experimentArn = "ExperimentArn"
+            case experimentName = "ExperimentName"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case source = "Source"
+        }
+    }
+
+    public struct DescribeFlowDefinitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowDefinitionName", required: true, type: .string)
+        ]
+
+        /// The name of the flow definition.
+        public let flowDefinitionName: String
+
+        public init(flowDefinitionName: String) {
+            self.flowDefinitionName = flowDefinitionName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.flowDefinitionName, name:"flowDefinitionName", parent: name, max: 63)
+            try validate(self.flowDefinitionName, name:"flowDefinitionName", parent: name, min: 1)
+            try validate(self.flowDefinitionName, name:"flowDefinitionName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowDefinitionName = "FlowDefinitionName"
+        }
+    }
+
+    public struct DescribeFlowDefinitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "FlowDefinitionArn", required: true, type: .string), 
+            AWSShapeMember(label: "FlowDefinitionName", required: true, type: .string), 
+            AWSShapeMember(label: "FlowDefinitionStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "HumanLoopActivationConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "HumanLoopConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "OutputConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string)
+        ]
+
+        /// The timestamp when the flow definition was created.
+        public let creationTime: TimeStamp
+        public let failureReason: String?
+        /// The Amazon Resource Name (ARN) of the flow defintion.
+        public let flowDefinitionArn: String
+        /// The Amazon Resource Name (ARN) of the flow definition.
+        public let flowDefinitionName: String
+        /// The status of the flow definition. Valid values are listed below.
+        public let flowDefinitionStatus: FlowDefinitionStatus
+        /// An object containing information about what triggers a human review workflow.
+        public let humanLoopActivationConfig: HumanLoopActivationConfig?
+        /// An object containing information about who works on the task, the workforce task price, and other task details.
+        public let humanLoopConfig: HumanLoopConfig
+        /// An object containing information about the output file.
+        public let outputConfig: FlowDefinitionOutputConfig
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) execution role for the flow definition.
+        public let roleArn: String
+
+        public init(creationTime: TimeStamp, failureReason: String? = nil, flowDefinitionArn: String, flowDefinitionName: String, flowDefinitionStatus: FlowDefinitionStatus, humanLoopActivationConfig: HumanLoopActivationConfig? = nil, humanLoopConfig: HumanLoopConfig, outputConfig: FlowDefinitionOutputConfig, roleArn: String) {
+            self.creationTime = creationTime
+            self.failureReason = failureReason
+            self.flowDefinitionArn = flowDefinitionArn
+            self.flowDefinitionName = flowDefinitionName
+            self.flowDefinitionStatus = flowDefinitionStatus
+            self.humanLoopActivationConfig = humanLoopActivationConfig
+            self.humanLoopConfig = humanLoopConfig
+            self.outputConfig = outputConfig
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case failureReason = "FailureReason"
+            case flowDefinitionArn = "FlowDefinitionArn"
+            case flowDefinitionName = "FlowDefinitionName"
+            case flowDefinitionStatus = "FlowDefinitionStatus"
+            case humanLoopActivationConfig = "HumanLoopActivationConfig"
+            case humanLoopConfig = "HumanLoopConfig"
+            case outputConfig = "OutputConfig"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct DescribeHumanTaskUiRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HumanTaskUiName", required: true, type: .string)
+        ]
+
+        /// The name of the human task user interface you want information about.
+        public let humanTaskUiName: String
+
+        public init(humanTaskUiName: String) {
+            self.humanTaskUiName = humanTaskUiName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.humanTaskUiName, name:"humanTaskUiName", parent: name, max: 63)
+            try validate(self.humanTaskUiName, name:"humanTaskUiName", parent: name, min: 1)
+            try validate(self.humanTaskUiName, name:"humanTaskUiName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case humanTaskUiName = "HumanTaskUiName"
+        }
+    }
+
+    public struct DescribeHumanTaskUiResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "HumanTaskUiArn", required: true, type: .string), 
+            AWSShapeMember(label: "HumanTaskUiName", required: true, type: .string), 
+            AWSShapeMember(label: "UiTemplate", required: true, type: .structure)
+        ]
+
+        /// The timestamp when the human task user interface was created.
+        public let creationTime: TimeStamp
+        /// The Amazon Resource Name (ARN) of the human task user interface.
+        public let humanTaskUiArn: String
+        /// The name of the human task user interface.
+        public let humanTaskUiName: String
+        public let uiTemplate: UiTemplateInfo
+
+        public init(creationTime: TimeStamp, humanTaskUiArn: String, humanTaskUiName: String, uiTemplate: UiTemplateInfo) {
+            self.creationTime = creationTime
+            self.humanTaskUiArn = humanTaskUiArn
+            self.humanTaskUiName = humanTaskUiName
+            self.uiTemplate = uiTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case humanTaskUiArn = "HumanTaskUiArn"
+            case humanTaskUiName = "HumanTaskUiName"
+            case uiTemplate = "UiTemplate"
         }
     }
 
@@ -2742,6 +5578,7 @@ extension SageMaker {
             AWSShapeMember(label: "ObjectiveStatusCounters", required: true, type: .structure), 
             AWSShapeMember(label: "OverallBestTrainingJob", required: false, type: .structure), 
             AWSShapeMember(label: "TrainingJobDefinition", required: false, type: .structure), 
+            AWSShapeMember(label: "TrainingJobDefinitions", required: false, type: .list), 
             AWSShapeMember(label: "TrainingJobStatusCounters", required: true, type: .structure), 
             AWSShapeMember(label: "WarmStartConfig", required: false, type: .structure)
         ]
@@ -2770,12 +5607,13 @@ extension SageMaker {
         public let overallBestTrainingJob: HyperParameterTrainingJobSummary?
         /// The HyperParameterTrainingJobDefinition object that specifies the definition of the training jobs that this tuning job launches.
         public let trainingJobDefinition: HyperParameterTrainingJobDefinition?
+        public let trainingJobDefinitions: [HyperParameterTrainingJobDefinition]?
         /// The TrainingJobStatusCounters object that specifies the number of training jobs, categorized by status, that this tuning job launched.
         public let trainingJobStatusCounters: TrainingJobStatusCounters
         /// The configuration for starting the hyperparameter parameter tuning job using one or more previous tuning jobs as a starting point. The results of previous tuning jobs are used to inform which combinations of hyperparameters to search over in the new tuning job.
         public let warmStartConfig: HyperParameterTuningJobWarmStartConfig?
 
-        public init(bestTrainingJob: HyperParameterTrainingJobSummary? = nil, creationTime: TimeStamp, failureReason: String? = nil, hyperParameterTuningEndTime: TimeStamp? = nil, hyperParameterTuningJobArn: String, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig, hyperParameterTuningJobName: String, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus, lastModifiedTime: TimeStamp? = nil, objectiveStatusCounters: ObjectiveStatusCounters, overallBestTrainingJob: HyperParameterTrainingJobSummary? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobStatusCounters: TrainingJobStatusCounters, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
+        public init(bestTrainingJob: HyperParameterTrainingJobSummary? = nil, creationTime: TimeStamp, failureReason: String? = nil, hyperParameterTuningEndTime: TimeStamp? = nil, hyperParameterTuningJobArn: String, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig, hyperParameterTuningJobName: String, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus, lastModifiedTime: TimeStamp? = nil, objectiveStatusCounters: ObjectiveStatusCounters, overallBestTrainingJob: HyperParameterTrainingJobSummary? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobDefinitions: [HyperParameterTrainingJobDefinition]? = nil, trainingJobStatusCounters: TrainingJobStatusCounters, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
             self.bestTrainingJob = bestTrainingJob
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -2788,6 +5626,7 @@ extension SageMaker {
             self.objectiveStatusCounters = objectiveStatusCounters
             self.overallBestTrainingJob = overallBestTrainingJob
             self.trainingJobDefinition = trainingJobDefinition
+            self.trainingJobDefinitions = trainingJobDefinitions
             self.trainingJobStatusCounters = trainingJobStatusCounters
             self.warmStartConfig = warmStartConfig
         }
@@ -2805,6 +5644,7 @@ extension SageMaker {
             case objectiveStatusCounters = "ObjectiveStatusCounters"
             case overallBestTrainingJob = "OverallBestTrainingJob"
             case trainingJobDefinition = "TrainingJobDefinition"
+            case trainingJobDefinitions = "TrainingJobDefinitions"
             case trainingJobStatusCounters = "TrainingJobStatusCounters"
             case warmStartConfig = "WarmStartConfig"
         }
@@ -2867,7 +5707,7 @@ extension SageMaker {
         public let jobReferenceCode: String
         /// The attribute used as the label in the output manifest file.
         public let labelAttributeName: String?
-        /// The S3 location of the JSON file that defines the categories used to label data objects. The file is a JSON structure in the following format:  {    "document-version": "2018-11-28"    "labels": [    {    "label": "label 1"    },    {    "label": "label 2"    },    ...    {    "label": "label n"    }    ]   } 
+        /// The S3 location of the JSON file that defines the categories used to label data objects. Please note the following label-category limits:   Semantic segmentation labeling jobs using automated labeling: 20 labels   Box bounding labeling jobs (all): 10 lables   The file is a JSON structure in the following format:  {    "document-version": "2018-11-28"    "labels": [    {    "label": "label 1"    },    {    "label": "label 2"    },    ...    {    "label": "label n"    }    ]   } 
         public let labelCategoryConfigS3Uri: String?
         /// Provides a breakdown of the number of data objects labeled by humans, the number of objects labeled by machine, the number of objects than couldn't be labeled, and the total number of objects labeled. 
         public let labelCounters: LabelCounters
@@ -2973,7 +5813,7 @@ extension SageMaker {
         public let containers: [ContainerDefinition]?
         /// A timestamp that shows when the model was created.
         public let creationTime: TimeStamp
-        /// If True, no inbound or outbound network calls can be made to or from the model container.  The Semantic Segmentation built-in algorithm does not support network isolation. 
+        /// If True, no inbound or outbound network calls can be made to or from the model container.
         public let enableNetworkIsolation: Bool?
         /// The Amazon Resource Name (ARN) of the IAM role that you specified for the model.
         public let executionRoleArn: String
@@ -3091,6 +5931,86 @@ extension SageMaker {
             case modelPackageStatusDetails = "ModelPackageStatusDetails"
             case sourceAlgorithmSpecification = "SourceAlgorithmSpecification"
             case validationSpecification = "ValidationSpecification"
+        }
+    }
+
+    public struct DescribeMonitoringScheduleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string)
+        ]
+
+        /// Name of a previously created monitoring schedule.
+        public let monitoringScheduleName: String
+
+        public init(monitoringScheduleName: String) {
+            self.monitoringScheduleName = monitoringScheduleName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, max: 63)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, min: 1)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringScheduleName = "MonitoringScheduleName"
+        }
+    }
+
+    public struct DescribeMonitoringScheduleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "LastMonitoringExecutionSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "MonitoringScheduleArn", required: true, type: .string), 
+            AWSShapeMember(label: "MonitoringScheduleConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string), 
+            AWSShapeMember(label: "MonitoringScheduleStatus", required: true, type: .enum)
+        ]
+
+        /// The time at which the monitoring job was created.
+        public let creationTime: TimeStamp
+        ///  The name of the endpoint for the monitoring job.
+        public let endpointName: String?
+        /// A string, up to one KB in size, that contains the reason a monitoring job failed, if it failed.
+        public let failureReason: String?
+        /// The time at which the monitoring job was last modified.
+        public let lastModifiedTime: TimeStamp
+        /// Describes metadata on the last execution to run, if there was one.
+        public let lastMonitoringExecutionSummary: MonitoringExecutionSummary?
+        /// The Amazon Resource Name (ARN) of the monitoring schedule.
+        public let monitoringScheduleArn: String
+        /// The configuration object that specifies the monitoring schedule and defines the monitoring job.
+        public let monitoringScheduleConfig: MonitoringScheduleConfig
+        /// Name of the monitoring schedule.
+        public let monitoringScheduleName: String
+        /// The status of an monitoring job.
+        public let monitoringScheduleStatus: ScheduleStatus
+
+        public init(creationTime: TimeStamp, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: TimeStamp, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringScheduleArn: String, monitoringScheduleConfig: MonitoringScheduleConfig, monitoringScheduleName: String, monitoringScheduleStatus: ScheduleStatus) {
+            self.creationTime = creationTime
+            self.endpointName = endpointName
+            self.failureReason = failureReason
+            self.lastModifiedTime = lastModifiedTime
+            self.lastMonitoringExecutionSummary = lastMonitoringExecutionSummary
+            self.monitoringScheduleArn = monitoringScheduleArn
+            self.monitoringScheduleConfig = monitoringScheduleConfig
+            self.monitoringScheduleName = monitoringScheduleName
+            self.monitoringScheduleStatus = monitoringScheduleStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case endpointName = "EndpointName"
+            case failureReason = "FailureReason"
+            case lastModifiedTime = "LastModifiedTime"
+            case lastMonitoringExecutionSummary = "LastMonitoringExecutionSummary"
+            case monitoringScheduleArn = "MonitoringScheduleArn"
+            case monitoringScheduleConfig = "MonitoringScheduleConfig"
+            case monitoringScheduleName = "MonitoringScheduleName"
+            case monitoringScheduleStatus = "MonitoringScheduleStatus"
         }
     }
 
@@ -3292,6 +6212,146 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeProcessingJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProcessingJobName", required: true, type: .string)
+        ]
+
+        /// The name of the processing job. The name must be unique within an AWS Region in the AWS account.
+        public let processingJobName: String
+
+        public init(processingJobName: String) {
+            self.processingJobName = processingJobName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.processingJobName, name:"processingJobName", parent: name, max: 63)
+            try validate(self.processingJobName, name:"processingJobName", parent: name, min: 1)
+            try validate(self.processingJobName, name:"processingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processingJobName = "ProcessingJobName"
+        }
+    }
+
+    public struct DescribeProcessingJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppSpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "AutoMLJobArn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Environment", required: false, type: .map), 
+            AWSShapeMember(label: "ExitMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MonitoringScheduleArn", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ProcessingEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ProcessingInputs", required: false, type: .list), 
+            AWSShapeMember(label: "ProcessingJobArn", required: true, type: .string), 
+            AWSShapeMember(label: "ProcessingJobName", required: true, type: .string), 
+            AWSShapeMember(label: "ProcessingJobStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "ProcessingOutputConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "ProcessingResources", required: true, type: .structure), 
+            AWSShapeMember(label: "ProcessingStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "StoppingCondition", required: false, type: .structure), 
+            AWSShapeMember(label: "TrainingJobArn", required: false, type: .string)
+        ]
+
+        /// Configures the processing job to run a specified container image.
+        public let appSpecification: AppSpecification
+        /// The ARN of an AutoML job associated with this processing job.
+        public let autoMLJobArn: String?
+        /// The time at which the processing job was created.
+        public let creationTime: TimeStamp
+        /// The environment variables set in the Docker container.
+        public let environment: [String: String]?
+        /// An optional string, up to one KB in size, that contains metadata from the processing container when the processing job exits.
+        public let exitMessage: String?
+        /// The configuration information used to create an experiment.
+        public let experimentConfig: ExperimentConfig?
+        /// A string, up to one KB in size, that contains the reason a processing job failed, if it failed.
+        public let failureReason: String?
+        /// The time at which the processing job was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The ARN of a monitoring schedule for an endpoint associated with this processing job.
+        public let monitoringScheduleArn: String?
+        /// Networking options for a processing job.
+        public let networkConfig: NetworkConfig?
+        /// The time at which the processing job completed.
+        public let processingEndTime: TimeStamp?
+        /// The inputs for a processing job.
+        public let processingInputs: [ProcessingInput]?
+        /// The Amazon Resource Name (ARN) of the processing job.
+        public let processingJobArn: String
+        /// The name of the processing job. The name must be unique within an AWS Region in the AWS account.
+        public let processingJobName: String
+        /// Provides the status of a processing job.
+        public let processingJobStatus: ProcessingJobStatus
+        /// Output configuration for the processing job.
+        public let processingOutputConfig: ProcessingOutputConfig?
+        /// Identifies the resources, ML compute instances, and ML storage volumes to deploy for a processing job. In distributed training, you specify more than one instance.
+        public let processingResources: ProcessingResources
+        /// The time at which the processing job started.
+        public let processingStartTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+        public let roleArn: String?
+        /// The time limit for how long the processing job is allowed to run.
+        public let stoppingCondition: ProcessingStoppingCondition?
+        /// The ARN of a training job associated with this processing job.
+        public let trainingJobArn: String?
+
+        public init(appSpecification: AppSpecification, autoMLJobArn: String? = nil, creationTime: TimeStamp, environment: [String: String]? = nil, exitMessage: String? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, lastModifiedTime: TimeStamp? = nil, monitoringScheduleArn: String? = nil, networkConfig: NetworkConfig? = nil, processingEndTime: TimeStamp? = nil, processingInputs: [ProcessingInput]? = nil, processingJobArn: String, processingJobName: String, processingJobStatus: ProcessingJobStatus, processingOutputConfig: ProcessingOutputConfig? = nil, processingResources: ProcessingResources, processingStartTime: TimeStamp? = nil, roleArn: String? = nil, stoppingCondition: ProcessingStoppingCondition? = nil, trainingJobArn: String? = nil) {
+            self.appSpecification = appSpecification
+            self.autoMLJobArn = autoMLJobArn
+            self.creationTime = creationTime
+            self.environment = environment
+            self.exitMessage = exitMessage
+            self.experimentConfig = experimentConfig
+            self.failureReason = failureReason
+            self.lastModifiedTime = lastModifiedTime
+            self.monitoringScheduleArn = monitoringScheduleArn
+            self.networkConfig = networkConfig
+            self.processingEndTime = processingEndTime
+            self.processingInputs = processingInputs
+            self.processingJobArn = processingJobArn
+            self.processingJobName = processingJobName
+            self.processingJobStatus = processingJobStatus
+            self.processingOutputConfig = processingOutputConfig
+            self.processingResources = processingResources
+            self.processingStartTime = processingStartTime
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+            self.trainingJobArn = trainingJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appSpecification = "AppSpecification"
+            case autoMLJobArn = "AutoMLJobArn"
+            case creationTime = "CreationTime"
+            case environment = "Environment"
+            case exitMessage = "ExitMessage"
+            case experimentConfig = "ExperimentConfig"
+            case failureReason = "FailureReason"
+            case lastModifiedTime = "LastModifiedTime"
+            case monitoringScheduleArn = "MonitoringScheduleArn"
+            case networkConfig = "NetworkConfig"
+            case processingEndTime = "ProcessingEndTime"
+            case processingInputs = "ProcessingInputs"
+            case processingJobArn = "ProcessingJobArn"
+            case processingJobName = "ProcessingJobName"
+            case processingJobStatus = "ProcessingJobStatus"
+            case processingOutputConfig = "ProcessingOutputConfig"
+            case processingResources = "ProcessingResources"
+            case processingStartTime = "ProcessingStartTime"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+            case trainingJobArn = "TrainingJobArn"
+        }
+    }
+
     public struct DescribeSubscribedWorkteamRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
@@ -3357,12 +6417,17 @@ extension SageMaker {
     public struct DescribeTrainingJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "AutoMLJobArn", required: false, type: .string), 
             AWSShapeMember(label: "BillableTimeInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "CheckpointConfig", required: false, type: .structure), 
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "DebugHookConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "DebugRuleConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "DebugRuleEvaluationStatuses", required: false, type: .list), 
             AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableManagedSpotTraining", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
             AWSShapeMember(label: "FinalMetricDataList", required: false, type: .list), 
             AWSShapeMember(label: "HyperParameters", required: false, type: .map), 
@@ -3376,6 +6441,7 @@ extension SageMaker {
             AWSShapeMember(label: "SecondaryStatus", required: true, type: .enum), 
             AWSShapeMember(label: "SecondaryStatusTransitions", required: false, type: .list), 
             AWSShapeMember(label: "StoppingCondition", required: true, type: .structure), 
+            AWSShapeMember(label: "TensorBoardOutputConfig", required: false, type: .structure), 
             AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "TrainingJobArn", required: true, type: .string), 
             AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
@@ -3388,17 +6454,24 @@ extension SageMaker {
 
         /// Information about the algorithm used for training, and algorithm metadata. 
         public let algorithmSpecification: AlgorithmSpecification
+        public let autoMLJobArn: String?
         /// The billable time in seconds. You can calculate the savings from using managed spot training using the formula (1 - BillableTimeInSeconds / TrainingTimeInSeconds) * 100. For example, if BillableTimeInSeconds is 100 and TrainingTimeInSeconds is 500, the savings is 80%.
         public let billableTimeInSeconds: Int?
         public let checkpointConfig: CheckpointConfig?
         /// A timestamp that indicates when the training job was created.
         public let creationTime: TimeStamp
+        public let debugHookConfig: DebugHookConfig?
+        /// Configuration information for debugging rules.
+        public let debugRuleConfigurations: [DebugRuleConfiguration]?
+        /// Status about the debug rule evaluation.
+        public let debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]?
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithms in distributed training.
         public let enableInterContainerTrafficEncryption: Bool?
         /// A Boolean indicating whether managed spot training is enabled (True) or not (False).
         public let enableManagedSpotTraining: Bool?
-        /// If you want to allow inbound or outbound network calls, except for calls between peers within a training cluster for distributed training, choose True. If you enable network isolation for training jobs that are configured to use a VPC, Amazon SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.  The Semantic Segmentation built-in algorithm does not support network isolation. 
+        /// If you want to allow inbound or outbound network calls, except for calls between peers within a training cluster for distributed training, choose True. If you enable network isolation for training jobs that are configured to use a VPC, Amazon SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.
         public let enableNetworkIsolation: Bool?
+        public let experimentConfig: ExperimentConfig?
         /// If the training job failed, the reason it failed. 
         public let failureReason: String?
         /// A collection of MetricData objects that specify the names, values, and dates and times that the training algorithm emitted to Amazon CloudWatch.
@@ -3425,6 +6498,7 @@ extension SageMaker {
         public let secondaryStatusTransitions: [SecondaryStatusTransition]?
         /// Specifies a limit to how long a model training job can run. It also specifies the maximum time to wait for a spot instance. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost. 
         public let stoppingCondition: StoppingCondition
+        public let tensorBoardOutputConfig: TensorBoardOutputConfig?
         /// Indicates the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when Amazon SageMaker detects a job failure.
         public let trainingEndTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the training job.
@@ -3442,14 +6516,19 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: TimeStamp, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: TimeStamp? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, trainingEndTime: TimeStamp? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: TimeStamp? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: TimeStamp, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: TimeStamp? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: TimeStamp? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: TimeStamp? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
+            self.autoMLJobArn = autoMLJobArn
             self.billableTimeInSeconds = billableTimeInSeconds
             self.checkpointConfig = checkpointConfig
             self.creationTime = creationTime
+            self.debugHookConfig = debugHookConfig
+            self.debugRuleConfigurations = debugRuleConfigurations
+            self.debugRuleEvaluationStatuses = debugRuleEvaluationStatuses
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableManagedSpotTraining = enableManagedSpotTraining
             self.enableNetworkIsolation = enableNetworkIsolation
+            self.experimentConfig = experimentConfig
             self.failureReason = failureReason
             self.finalMetricDataList = finalMetricDataList
             self.hyperParameters = hyperParameters
@@ -3463,6 +6542,7 @@ extension SageMaker {
             self.secondaryStatus = secondaryStatus
             self.secondaryStatusTransitions = secondaryStatusTransitions
             self.stoppingCondition = stoppingCondition
+            self.tensorBoardOutputConfig = tensorBoardOutputConfig
             self.trainingEndTime = trainingEndTime
             self.trainingJobArn = trainingJobArn
             self.trainingJobName = trainingJobName
@@ -3475,12 +6555,17 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case algorithmSpecification = "AlgorithmSpecification"
+            case autoMLJobArn = "AutoMLJobArn"
             case billableTimeInSeconds = "BillableTimeInSeconds"
             case checkpointConfig = "CheckpointConfig"
             case creationTime = "CreationTime"
+            case debugHookConfig = "DebugHookConfig"
+            case debugRuleConfigurations = "DebugRuleConfigurations"
+            case debugRuleEvaluationStatuses = "DebugRuleEvaluationStatuses"
             case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
             case enableManagedSpotTraining = "EnableManagedSpotTraining"
             case enableNetworkIsolation = "EnableNetworkIsolation"
+            case experimentConfig = "ExperimentConfig"
             case failureReason = "FailureReason"
             case finalMetricDataList = "FinalMetricDataList"
             case hyperParameters = "HyperParameters"
@@ -3494,6 +6579,7 @@ extension SageMaker {
             case secondaryStatus = "SecondaryStatus"
             case secondaryStatusTransitions = "SecondaryStatusTransitions"
             case stoppingCondition = "StoppingCondition"
+            case tensorBoardOutputConfig = "TensorBoardOutputConfig"
             case trainingEndTime = "TrainingEndTime"
             case trainingJobArn = "TrainingJobArn"
             case trainingJobName = "TrainingJobName"
@@ -3530,10 +6616,12 @@ extension SageMaker {
 
     public struct DescribeTransformJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMLJobArn", required: false, type: .string), 
             AWSShapeMember(label: "BatchStrategy", required: false, type: .enum), 
             AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "DataProcessing", required: false, type: .structure), 
             AWSShapeMember(label: "Environment", required: false, type: .map), 
+            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
             AWSShapeMember(label: "LabelingJobArn", required: false, type: .string), 
             AWSShapeMember(label: "MaxConcurrentTransforms", required: false, type: .integer), 
@@ -3549,6 +6637,7 @@ extension SageMaker {
             AWSShapeMember(label: "TransformStartTime", required: false, type: .timestamp)
         ]
 
+        public let autoMLJobArn: String?
         /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record  is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.  To enable the batch strategy, you must set SplitType to Line, RecordIO, or TFRecord.
         public let batchStrategy: BatchStrategy?
         /// A timestamp that shows when the transform Job was created.
@@ -3556,6 +6645,7 @@ extension SageMaker {
         public let dataProcessing: DataProcessing?
         /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
         public let environment: [String: String]?
+        public let experimentConfig: ExperimentConfig?
         /// If the transform job failed, FailureReason describes why it failed. A transform job creates a log file, which includes error messages, and stores it as an Amazon S3 object. For more information, see Log Amazon SageMaker Events with Amazon CloudWatch.
         public let failureReason: String?
         /// The Amazon Resource Name (ARN) of the Amazon SageMaker Ground Truth labeling job that created the transform or training job.
@@ -3583,11 +6673,13 @@ extension SageMaker {
         /// Indicates when the transform job starts on ML instances. You are billed for the time interval between this time and the value of TransformEndTime.
         public let transformStartTime: TimeStamp?
 
-        public init(batchStrategy: BatchStrategy? = nil, creationTime: TimeStamp, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelName: String, transformEndTime: TimeStamp? = nil, transformInput: TransformInput, transformJobArn: String, transformJobName: String, transformJobStatus: TransformJobStatus, transformOutput: TransformOutput? = nil, transformResources: TransformResources, transformStartTime: TimeStamp? = nil) {
+        public init(autoMLJobArn: String? = nil, batchStrategy: BatchStrategy? = nil, creationTime: TimeStamp, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelName: String, transformEndTime: TimeStamp? = nil, transformInput: TransformInput, transformJobArn: String, transformJobName: String, transformJobStatus: TransformJobStatus, transformOutput: TransformOutput? = nil, transformResources: TransformResources, transformStartTime: TimeStamp? = nil) {
+            self.autoMLJobArn = autoMLJobArn
             self.batchStrategy = batchStrategy
             self.creationTime = creationTime
             self.dataProcessing = dataProcessing
             self.environment = environment
+            self.experimentConfig = experimentConfig
             self.failureReason = failureReason
             self.labelingJobArn = labelingJobArn
             self.maxConcurrentTransforms = maxConcurrentTransforms
@@ -3604,10 +6696,12 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoMLJobArn = "AutoMLJobArn"
             case batchStrategy = "BatchStrategy"
             case creationTime = "CreationTime"
             case dataProcessing = "DataProcessing"
             case environment = "Environment"
+            case experimentConfig = "ExperimentConfig"
             case failureReason = "FailureReason"
             case labelingJobArn = "LabelingJobArn"
             case maxConcurrentTransforms = "MaxConcurrentTransforms"
@@ -3621,6 +6715,291 @@ extension SageMaker {
             case transformOutput = "TransformOutput"
             case transformResources = "TransformResources"
             case transformStartTime = "TransformStartTime"
+        }
+    }
+
+    public struct DescribeTrialComponentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialComponentName", required: true, type: .string)
+        ]
+
+        /// The name of the trial component to describe.
+        public let trialComponentName: String
+
+        public init(trialComponentName: String) {
+            self.trialComponentName = trialComponentName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialComponentName = "TrialComponentName"
+        }
+    }
+
+    public struct DescribeTrialComponentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputArtifacts", required: false, type: .map), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list), 
+            AWSShapeMember(label: "OutputArtifacts", required: false, type: .map), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "Source", required: false, type: .structure), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrialComponentName", required: false, type: .string)
+        ]
+
+        /// Who created the component.
+        public let createdBy: UserContext?
+        /// When the component was created.
+        public let creationTime: TimeStamp?
+        /// The name of the component as displayed. If DisplayName isn't specified, TrialComponentName is displayed.
+        public let displayName: String?
+        /// When the component ended.
+        public let endTime: TimeStamp?
+        /// The input artifacts of the component.
+        public let inputArtifacts: [String: TrialComponentArtifact]?
+        /// Who last modified the component.
+        public let lastModifiedBy: UserContext?
+        /// When the component was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The metrics for the component.
+        public let metrics: [TrialComponentMetricSummary]?
+        /// The output artifacts of the component.
+        public let outputArtifacts: [String: TrialComponentArtifact]?
+        /// The hyperparameters of the component.
+        public let parameters: [String: TrialComponentParameterValue]?
+        /// The Amazon Resource Name (ARN) of the source and, optionally, the job type.
+        public let source: TrialComponentSource?
+        /// When the component started.
+        public let startTime: TimeStamp?
+        /// The status of the component. States include:   InProgress   Completed   Failed  
+        public let status: TrialComponentStatus?
+        /// The Amazon Resource Name (ARN) of the trial component.
+        public let trialComponentArn: String?
+        /// The name of the trial component.
+        public let trialComponentName: String?
+
+        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, displayName: String? = nil, endTime: TimeStamp? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, source: TrialComponentSource? = nil, startTime: TimeStamp? = nil, status: TrialComponentStatus? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.displayName = displayName
+            self.endTime = endTime
+            self.inputArtifacts = inputArtifacts
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.metrics = metrics
+            self.outputArtifacts = outputArtifacts
+            self.parameters = parameters
+            self.source = source
+            self.startTime = startTime
+            self.status = status
+            self.trialComponentArn = trialComponentArn
+            self.trialComponentName = trialComponentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case displayName = "DisplayName"
+            case endTime = "EndTime"
+            case inputArtifacts = "InputArtifacts"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case metrics = "Metrics"
+            case outputArtifacts = "OutputArtifacts"
+            case parameters = "Parameters"
+            case source = "Source"
+            case startTime = "StartTime"
+            case status = "Status"
+            case trialComponentArn = "TrialComponentArn"
+            case trialComponentName = "TrialComponentName"
+        }
+    }
+
+    public struct DescribeTrialRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialName", required: true, type: .string)
+        ]
+
+        /// The name of the trial to describe.
+        public let trialName: String
+
+        public init(trialName: String) {
+            self.trialName = trialName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, min: 1)
+            try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialName = "TrialName"
+        }
+    }
+
+    public struct DescribeTrialResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Source", required: false, type: .structure), 
+            AWSShapeMember(label: "TrialArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrialName", required: false, type: .string)
+        ]
+
+        /// Who created the trial.
+        public let createdBy: UserContext?
+        /// When the trial was created.
+        public let creationTime: TimeStamp?
+        /// The name of the trial as displayed. If DisplayName isn't specified, TrialName is displayed.
+        public let displayName: String?
+        /// The name of the experiment the trial is part of.
+        public let experimentName: String?
+        /// Who last modified the trial.
+        public let lastModifiedBy: UserContext?
+        /// When the trial was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the source and, optionally, the job type.
+        public let source: TrialSource?
+        /// The Amazon Resource Name (ARN) of the trial.
+        public let trialArn: String?
+        /// The name of the trial.
+        public let trialName: String?
+
+        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, displayName: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, source: TrialSource? = nil, trialArn: String? = nil, trialName: String? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.displayName = displayName
+            self.experimentName = experimentName
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.source = source
+            self.trialArn = trialArn
+            self.trialName = trialName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case displayName = "DisplayName"
+            case experimentName = "ExperimentName"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case source = "Source"
+            case trialArn = "TrialArn"
+            case trialName = "TrialName"
+        }
+    }
+
+    public struct DescribeUserProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "UserProfileName", required: true, type: .string)
+        ]
+
+        /// The domain ID.
+        public let domainId: String
+        /// The user profile name.
+        public let userProfileName: String
+
+        public init(domainId: String, userProfileName: String) {
+            self.domainId = domainId
+            self.userProfileName = userProfileName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainId, name:"domainId", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case userProfileName = "UserProfileName"
+        }
+    }
+
+    public struct DescribeUserProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DomainId", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "HomeEfsFileSystemUid", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SingleSignOnUserIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SingleSignOnUserValue", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "UserProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "UserProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "UserSettings", required: false, type: .structure)
+        ]
+
+        /// The creation time.
+        public let creationTime: TimeStamp?
+        /// The domain ID.
+        public let domainId: String?
+        /// The failure reason.
+        public let failureReason: String?
+        /// The homa Amazon Elastic File System (EFS) Uid.
+        public let homeEfsFileSystemUid: String?
+        /// The last modified time.
+        public let lastModifiedTime: TimeStamp?
+        /// The SSO user identifier.
+        public let singleSignOnUserIdentifier: String?
+        /// The SSO user value.
+        public let singleSignOnUserValue: String?
+        /// The status.
+        public let status: UserProfileStatus?
+        /// The user profile Amazon Resource Name (ARN).
+        public let userProfileArn: String?
+        /// The user profile name.
+        public let userProfileName: String?
+        /// A collection of settings.
+        public let userSettings: UserSettings?
+
+        public init(creationTime: TimeStamp? = nil, domainId: String? = nil, failureReason: String? = nil, homeEfsFileSystemUid: String? = nil, lastModifiedTime: TimeStamp? = nil, singleSignOnUserIdentifier: String? = nil, singleSignOnUserValue: String? = nil, status: UserProfileStatus? = nil, userProfileArn: String? = nil, userProfileName: String? = nil, userSettings: UserSettings? = nil) {
+            self.creationTime = creationTime
+            self.domainId = domainId
+            self.failureReason = failureReason
+            self.homeEfsFileSystemUid = homeEfsFileSystemUid
+            self.lastModifiedTime = lastModifiedTime
+            self.singleSignOnUserIdentifier = singleSignOnUserIdentifier
+            self.singleSignOnUserValue = singleSignOnUserValue
+            self.status = status
+            self.userProfileArn = userProfileArn
+            self.userProfileName = userProfileName
+            self.userSettings = userSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case domainId = "DomainId"
+            case failureReason = "FailureReason"
+            case homeEfsFileSystemUid = "HomeEfsFileSystemUid"
+            case lastModifiedTime = "LastModifiedTime"
+            case singleSignOnUserIdentifier = "SingleSignOnUserIdentifier"
+            case singleSignOnUserValue = "SingleSignOnUserValue"
+            case status = "Status"
+            case userProfileArn = "UserProfileArn"
+            case userProfileName = "UserProfileName"
+            case userSettings = "UserSettings"
         }
     }
 
@@ -3720,6 +7099,114 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public struct DisassociateTrialComponentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialComponentName", required: true, type: .string), 
+            AWSShapeMember(label: "TrialName", required: true, type: .string)
+        ]
+
+        /// The name of the component to disassociate from the trial.
+        public let trialComponentName: String
+        /// The name of the trial to disassociate from.
+        public let trialName: String
+
+        public init(trialComponentName: String, trialName: String) {
+            self.trialComponentName = trialComponentName
+            self.trialName = trialName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, min: 1)
+            try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialComponentName = "TrialComponentName"
+            case trialName = "TrialName"
+        }
+    }
+
+    public struct DisassociateTrialComponentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the trial.
+        public let trialArn: String?
+        /// The ARN of the trial component.
+        public let trialComponentArn: String?
+
+        public init(trialArn: String? = nil, trialComponentArn: String? = nil) {
+            self.trialArn = trialArn
+            self.trialComponentArn = trialComponentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialArn = "TrialArn"
+            case trialComponentArn = "TrialComponentArn"
+        }
+    }
+
+    public struct DomainDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DomainArn", required: false, type: .string), 
+            AWSShapeMember(label: "DomainId", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Url", required: false, type: .string)
+        ]
+
+        /// The creation time.
+        public let creationTime: TimeStamp?
+        /// The domain's Amazon Resource Name (ARN).
+        public let domainArn: String?
+        /// The domain ID.
+        public let domainId: String?
+        /// The domain name.
+        public let domainName: String?
+        /// The last modified time.
+        public let lastModifiedTime: TimeStamp?
+        /// The status.
+        public let status: DomainStatus?
+        /// The domain's URL.
+        public let url: String?
+
+        public init(creationTime: TimeStamp? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, lastModifiedTime: TimeStamp? = nil, status: DomainStatus? = nil, url: String? = nil) {
+            self.creationTime = creationTime
+            self.domainArn = domainArn
+            self.domainId = domainId
+            self.domainName = domainName
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case domainArn = "DomainArn"
+            case domainId = "DomainId"
+            case domainName = "DomainName"
+            case lastModifiedTime = "LastModifiedTime"
+            case status = "Status"
+            case url = "Url"
+        }
+    }
+
+    public enum DomainStatus: String, CustomStringConvertible, Codable {
+        case deleting = "Deleting"
+        case failed = "Failed"
+        case inservice = "InService"
+        case pending = "Pending"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EndpointConfigSortKey: String, CustomStringConvertible, Codable {
         case name = "Name"
         case creationtime = "CreationTime"
@@ -3750,6 +7237,45 @@ extension SageMaker {
             case creationTime = "CreationTime"
             case endpointConfigArn = "EndpointConfigArn"
             case endpointConfigName = "EndpointConfigName"
+        }
+    }
+
+    public struct EndpointInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointName", required: true, type: .string), 
+            AWSShapeMember(label: "LocalPath", required: true, type: .string), 
+            AWSShapeMember(label: "S3DataDistributionType", required: false, type: .enum), 
+            AWSShapeMember(label: "S3InputMode", required: false, type: .enum)
+        ]
+
+        /// An endpoint in customer's account which has enabled DataCaptureConfig enabled.
+        public let endpointName: String
+        /// Path to the filesystem where the endpoint data is available to the container.
+        public let localPath: String
+        /// Whether input data distributed in Amazon S3 is fully replicated or sharded by an S3 key. Defauts to FullyReplicated 
+        public let s3DataDistributionType: ProcessingS3DataDistributionType?
+        /// Whether the Pipe or File is used as the input mode for transfering data for the monitoring job. Pipe mode is recommended for large datasets. File mode is useful for small files that fit in memory. Defaults to File.
+        public let s3InputMode: ProcessingS3InputMode?
+
+        public init(endpointName: String, localPath: String, s3DataDistributionType: ProcessingS3DataDistributionType? = nil, s3InputMode: ProcessingS3InputMode? = nil) {
+            self.endpointName = endpointName
+            self.localPath = localPath
+            self.s3DataDistributionType = s3DataDistributionType
+            self.s3InputMode = s3InputMode
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.endpointName, name:"endpointName", parent: name, max: 63)
+            try validate(self.endpointName, name:"endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.localPath, name:"localPath", parent: name, max: 256)
+            try validate(self.localPath, name:"localPath", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointName = "EndpointName"
+            case localPath = "LocalPath"
+            case s3DataDistributionType = "S3DataDistributionType"
+            case s3InputMode = "S3InputMode"
         }
     }
 
@@ -3805,6 +7331,178 @@ extension SageMaker {
             case endpointArn = "EndpointArn"
             case endpointName = "EndpointName"
             case endpointStatus = "EndpointStatus"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case completed = "Completed"
+        case completedwithviolations = "CompletedWithViolations"
+        case inprogress = "InProgress"
+        case failed = "Failed"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct Experiment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentArn", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Source", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        public let createdBy: UserContext?
+        /// When the experiment was created.
+        public let creationTime: TimeStamp?
+        /// The description of the experiment.
+        public let description: String?
+        /// The name of the experiment as displayed. If DisplayName isn't specified, ExperimentName is displayed.
+        public let displayName: String?
+        /// The Amazon Resource Name (ARN) of the experiment.
+        public let experimentArn: String?
+        /// The name of the experiment.
+        public let experimentName: String?
+        public let lastModifiedBy: UserContext?
+        /// When the experiment was last modified.
+        public let lastModifiedTime: TimeStamp?
+        public let source: ExperimentSource?
+        /// The list of tags that are associated with the experiment. You can use Search API to search on the tags.
+        public let tags: [Tag]?
+
+        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, source: ExperimentSource? = nil, tags: [Tag]? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.description = description
+            self.displayName = displayName
+            self.experimentArn = experimentArn
+            self.experimentName = experimentName
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.source = source
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case experimentArn = "ExperimentArn"
+            case experimentName = "ExperimentName"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case source = "Source"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ExperimentConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
+            AWSShapeMember(label: "TrialComponentDisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "TrialName", required: false, type: .string)
+        ]
+
+        /// The name of the experiment.
+        public let experimentName: String?
+        /// Display name for the trial component.
+        public let trialComponentDisplayName: String?
+        /// The name of the trial.
+        public let trialName: String?
+
+        public init(experimentName: String? = nil, trialComponentDisplayName: String? = nil, trialName: String? = nil) {
+            self.experimentName = experimentName
+            self.trialComponentDisplayName = trialComponentDisplayName
+            self.trialName = trialName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 64)
+            try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
+            try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.trialComponentDisplayName, name:"trialComponentDisplayName", parent: name, max: 64)
+            try validate(self.trialComponentDisplayName, name:"trialComponentDisplayName", parent: name, min: 1)
+            try validate(self.trialComponentDisplayName, name:"trialComponentDisplayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.trialName, name:"trialName", parent: name, max: 64)
+            try validate(self.trialName, name:"trialName", parent: name, min: 1)
+            try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case experimentName = "ExperimentName"
+            case trialComponentDisplayName = "TrialComponentDisplayName"
+            case trialName = "TrialName"
+        }
+    }
+
+    public struct ExperimentSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the source.
+        public let sourceArn: String
+        /// The source type.
+        public let sourceType: String?
+
+        public init(sourceArn: String, sourceType: String? = nil) {
+            self.sourceArn = sourceArn
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceArn = "SourceArn"
+            case sourceType = "SourceType"
+        }
+    }
+
+    public struct ExperimentSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentArn", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentSource", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp)
+        ]
+
+        /// When the experiment was created.
+        public let creationTime: TimeStamp?
+        /// The name of the experiment as displayed. If DisplayName isn't specified, ExperimentName is displayed.
+        public let displayName: String?
+        /// The Amazon Resource Name (ARN) of the experiment.
+        public let experimentArn: String?
+        /// The name of the experiment.
+        public let experimentName: String?
+        public let experimentSource: ExperimentSource?
+        /// When the experiment was last modified.
+        public let lastModifiedTime: TimeStamp?
+
+        public init(creationTime: TimeStamp? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, experimentSource: ExperimentSource? = nil, lastModifiedTime: TimeStamp? = nil) {
+            self.creationTime = creationTime
+            self.displayName = displayName
+            self.experimentArn = experimentArn
+            self.experimentName = experimentName
+            self.experimentSource = experimentSource
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case displayName = "DisplayName"
+            case experimentArn = "ExperimentArn"
+            case experimentName = "ExperimentName"
+            case experimentSource = "ExperimentSource"
             case lastModifiedTime = "LastModifiedTime"
         }
     }
@@ -3869,7 +7567,7 @@ extension SageMaker {
 
         /// A property name. For example, TrainingJobName. For the list of valid property names returned in a search result for each supported resource, see TrainingJob properties. You must specify a valid property name for the resource.
         public let name: String
-        /// A Boolean binary operator that is used to evaluate the filter. The operator field contains one of the following values:  Equals  The specified resource in Name equals the specified Value.  NotEquals  The specified resource in Name does not equal the specified Value.  GreaterThan  The specified resource in Name is greater than the specified Value. Not supported for text-based properties.  GreaterThanOrEqualTo  The specified resource in Name is greater than or equal to the specified Value. Not supported for text-based properties.  LessThan  The specified resource in Name is less than the specified Value. Not supported for text-based properties.  LessThanOrEqualTo  The specified resource in Name is less than or equal to the specified Value. Not supported for text-based properties.  Contains  Only supported for text-based properties. The word-list of the property contains the specified Value.   If you have specified a filter Value, the default is Equals.
+        /// A Boolean binary operator that is used to evaluate the filter. The operator field contains one of the following values:  Equals  The specified resource in Name equals the specified Value.  NotEquals  The specified resource in Name does not equal the specified Value.  GreaterThan  The specified resource in Name is greater than the specified Value. Not supported for text-based properties.  GreaterThanOrEqualTo  The specified resource in Name is greater than or equal to the specified Value. Not supported for text-based properties.  LessThan  The specified resource in Name is less than the specified Value. Not supported for text-based properties.  LessThanOrEqualTo  The specified resource in Name is less than or equal to the specified Value. Not supported for text-based properties.  Contains  Only supported for text-based properties. The word-list of the property contains the specified Value. A SearchExpression can include only one Contains operator.   If you have specified a filter Value, the default is Equals.
         public let `operator`: Operator?
         /// A value used with Resource and Operator to determine if objects satisfy the filter's condition. For numerical properties, Value must be an integer or floating-point decimal. For timestamp properties, Value must be an ISO 8601 date-time string of the following format: YYYY-mm-dd'T'HH:MM:SS.
         public let value: String?
@@ -3892,6 +7590,33 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case `operator` = "Operator"
+            case value = "Value"
+        }
+    }
+
+    public struct FinalAutoMLJobObjectiveMetric: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MetricName", required: true, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: true, type: .float)
+        ]
+
+        /// The name of the metric.
+        public let metricName: AutoMLMetricEnum
+        /// The metric type used.
+        public let `type`: AutoMLJobObjectiveType?
+        /// The value of the metric.
+        public let value: Float
+
+        public init(metricName: AutoMLMetricEnum, type: AutoMLJobObjectiveType? = nil, value: Float) {
+            self.metricName = metricName
+            self.`type` = `type`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case `type` = "Type"
             case value = "Value"
         }
     }
@@ -3923,8 +7648,84 @@ extension SageMaker {
         }
     }
 
+    public struct FlowDefinitionOutputConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
+        ]
+
+        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        public let kmsKeyId: String?
+        /// The Amazon S3 path where the object containing human output will be made available.
+        public let s3OutputPath: String
+
+        public init(kmsKeyId: String? = nil, s3OutputPath: String) {
+            self.kmsKeyId = kmsKeyId
+            self.s3OutputPath = s3OutputPath
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, pattern: ".*")
+            try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, max: 1024)
+            try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case s3OutputPath = "S3OutputPath"
+        }
+    }
+
+    public enum FlowDefinitionStatus: String, CustomStringConvertible, Codable {
+        case initializing = "Initializing"
+        case active = "Active"
+        case failed = "Failed"
+        case deleting = "Deleting"
+        case deleted = "Deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct FlowDefinitionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "FlowDefinitionArn", required: true, type: .string), 
+            AWSShapeMember(label: "FlowDefinitionName", required: true, type: .string), 
+            AWSShapeMember(label: "FlowDefinitionStatus", required: true, type: .enum)
+        ]
+
+        /// The timestamp when SageMaker created the flow definition.
+        public let creationTime: TimeStamp
+        /// The reason why the flow definition creation failed. A failure reason is returned only when the flow definition status is Failed.
+        public let failureReason: String?
+        /// The Amazon Resource Name (ARN) of the flow definition.
+        public let flowDefinitionArn: String
+        /// The name of the flow definition.
+        public let flowDefinitionName: String
+        /// The status of the flow definition. Valid values:
+        public let flowDefinitionStatus: FlowDefinitionStatus
+
+        public init(creationTime: TimeStamp, failureReason: String? = nil, flowDefinitionArn: String, flowDefinitionName: String, flowDefinitionStatus: FlowDefinitionStatus) {
+            self.creationTime = creationTime
+            self.failureReason = failureReason
+            self.flowDefinitionArn = flowDefinitionArn
+            self.flowDefinitionName = flowDefinitionName
+            self.flowDefinitionStatus = flowDefinitionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case failureReason = "FailureReason"
+            case flowDefinitionArn = "FlowDefinitionArn"
+            case flowDefinitionName = "FlowDefinitionName"
+            case flowDefinitionStatus = "FlowDefinitionStatus"
+        }
+    }
+
     public enum Framework: String, CustomStringConvertible, Codable {
         case tensorflow = "TENSORFLOW"
+        case keras = "KERAS"
         case mxnet = "MXNET"
         case onnx = "ONNX"
         case pytorch = "PYTORCH"
@@ -3938,7 +7739,7 @@ extension SageMaker {
             AWSShapeMember(label: "SuggestionQuery", required: false, type: .structure)
         ]
 
-        /// The name of the Amazon SageMaker resource to Search for. The only valid Resource value is TrainingJob.
+        /// The name of the Amazon SageMaker resource to Search for.
         public let resource: ResourceType
         /// Limits the property names that are included in the response.
         public let suggestionQuery: SuggestionQuery?
@@ -4035,6 +7836,153 @@ extension SageMaker {
         }
     }
 
+    public struct HumanLoopActivationConditionsConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HumanLoopActivationConditions", required: true, type: .string)
+        ]
+
+        /// JSON expressing use-case specific conditions declaratively. If any condition is matched, atomic tasks are created against the configured work team. The set of conditions is different for Rekognition and Textract.
+        public let humanLoopActivationConditions: String
+
+        public init(humanLoopActivationConditions: String) {
+            self.humanLoopActivationConditions = humanLoopActivationConditions
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.humanLoopActivationConditions, name:"humanLoopActivationConditions", parent: name, max: 10240)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case humanLoopActivationConditions = "HumanLoopActivationConditions"
+        }
+    }
+
+    public struct HumanLoopActivationConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HumanLoopActivationConditionsConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "HumanLoopRequestSource", required: true, type: .structure)
+        ]
+
+        /// Container structure for defining under what conditions SageMaker creates a human loop.
+        public let humanLoopActivationConditionsConfig: HumanLoopActivationConditionsConfig
+        /// Container for configuring the source of human task requests.
+        public let humanLoopRequestSource: HumanLoopRequestSource
+
+        public init(humanLoopActivationConditionsConfig: HumanLoopActivationConditionsConfig, humanLoopRequestSource: HumanLoopRequestSource) {
+            self.humanLoopActivationConditionsConfig = humanLoopActivationConditionsConfig
+            self.humanLoopRequestSource = humanLoopRequestSource
+        }
+
+        public func validate(name: String) throws {
+            try self.humanLoopActivationConditionsConfig.validate(name: "\(name).humanLoopActivationConditionsConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case humanLoopActivationConditionsConfig = "HumanLoopActivationConditionsConfig"
+            case humanLoopRequestSource = "HumanLoopRequestSource"
+        }
+    }
+
+    public struct HumanLoopConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HumanTaskUiArn", required: true, type: .string), 
+            AWSShapeMember(label: "PublicWorkforceTaskPrice", required: false, type: .structure), 
+            AWSShapeMember(label: "TaskAvailabilityLifetimeInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "TaskCount", required: true, type: .integer), 
+            AWSShapeMember(label: "TaskDescription", required: true, type: .string), 
+            AWSShapeMember(label: "TaskKeywords", required: false, type: .list), 
+            AWSShapeMember(label: "TaskTimeLimitInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "TaskTitle", required: true, type: .string), 
+            AWSShapeMember(label: "WorkteamArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the human task user interface.
+        public let humanTaskUiArn: String
+        public let publicWorkforceTaskPrice: PublicWorkforceTaskPrice?
+        /// The length of time that a task remains available for labeling by human workers.
+        public let taskAvailabilityLifetimeInSeconds: Int?
+        /// The number of human tasks.
+        public let taskCount: Int
+        /// A description for the human worker task.
+        public let taskDescription: String
+        /// Keywords used to describe the task so that workers can discover the task.
+        public let taskKeywords: [String]?
+        /// The amount of time that a worker has to complete a task.
+        public let taskTimeLimitInSeconds: Int?
+        /// A title for the human worker task.
+        public let taskTitle: String
+        /// Amazon Resource Name (ARN) of a team of workers.
+        public let workteamArn: String
+
+        public init(humanTaskUiArn: String, publicWorkforceTaskPrice: PublicWorkforceTaskPrice? = nil, taskAvailabilityLifetimeInSeconds: Int? = nil, taskCount: Int, taskDescription: String, taskKeywords: [String]? = nil, taskTimeLimitInSeconds: Int? = nil, taskTitle: String, workteamArn: String) {
+            self.humanTaskUiArn = humanTaskUiArn
+            self.publicWorkforceTaskPrice = publicWorkforceTaskPrice
+            self.taskAvailabilityLifetimeInSeconds = taskAvailabilityLifetimeInSeconds
+            self.taskCount = taskCount
+            self.taskDescription = taskDescription
+            self.taskKeywords = taskKeywords
+            self.taskTimeLimitInSeconds = taskTimeLimitInSeconds
+            self.taskTitle = taskTitle
+            self.workteamArn = workteamArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.humanTaskUiArn, name:"humanTaskUiArn", parent: name, max: 1024)
+            try validate(self.humanTaskUiArn, name:"humanTaskUiArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:human-task-ui/.*")
+            try self.publicWorkforceTaskPrice?.validate(name: "\(name).publicWorkforceTaskPrice")
+            try validate(self.taskAvailabilityLifetimeInSeconds, name:"taskAvailabilityLifetimeInSeconds", parent: name, max: 864000)
+            try validate(self.taskAvailabilityLifetimeInSeconds, name:"taskAvailabilityLifetimeInSeconds", parent: name, min: 1)
+            try validate(self.taskCount, name:"taskCount", parent: name, max: 3)
+            try validate(self.taskCount, name:"taskCount", parent: name, min: 1)
+            try validate(self.taskDescription, name:"taskDescription", parent: name, max: 255)
+            try validate(self.taskDescription, name:"taskDescription", parent: name, min: 1)
+            try validate(self.taskDescription, name:"taskDescription", parent: name, pattern: ".+")
+            try self.taskKeywords?.forEach {
+                try validate($0, name: "taskKeywords[]", parent: name, max: 30)
+                try validate($0, name: "taskKeywords[]", parent: name, min: 1)
+                try validate($0, name: "taskKeywords[]", parent: name, pattern: "^[A-Za-z0-9]+( [A-Za-z0-9]+)*$")
+            }
+            try validate(self.taskKeywords, name:"taskKeywords", parent: name, max: 5)
+            try validate(self.taskKeywords, name:"taskKeywords", parent: name, min: 1)
+            try validate(self.taskTimeLimitInSeconds, name:"taskTimeLimitInSeconds", parent: name, max: 28800)
+            try validate(self.taskTimeLimitInSeconds, name:"taskTimeLimitInSeconds", parent: name, min: 30)
+            try validate(self.taskTitle, name:"taskTitle", parent: name, max: 128)
+            try validate(self.taskTitle, name:"taskTitle", parent: name, min: 1)
+            try validate(self.taskTitle, name:"taskTitle", parent: name, pattern: "^[\\t\\n\\r -\\uD7FF\\uE000-\\uFFFD]*$")
+            try validate(self.workteamArn, name:"workteamArn", parent: name, max: 256)
+            try validate(self.workteamArn, name:"workteamArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:workteam/.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case humanTaskUiArn = "HumanTaskUiArn"
+            case publicWorkforceTaskPrice = "PublicWorkforceTaskPrice"
+            case taskAvailabilityLifetimeInSeconds = "TaskAvailabilityLifetimeInSeconds"
+            case taskCount = "TaskCount"
+            case taskDescription = "TaskDescription"
+            case taskKeywords = "TaskKeywords"
+            case taskTimeLimitInSeconds = "TaskTimeLimitInSeconds"
+            case taskTitle = "TaskTitle"
+            case workteamArn = "WorkteamArn"
+        }
+    }
+
+    public struct HumanLoopRequestSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsManagedHumanLoopRequestSource", required: true, type: .enum)
+        ]
+
+        /// Specifies whether Amazon Rekognition or Amazon Textract are used as the integration source. The default field settings and JSON parsing rules are different based on the integration source. Valid values:
+        public let awsManagedHumanLoopRequestSource: AwsManagedHumanLoopRequestSource
+
+        public init(awsManagedHumanLoopRequestSource: AwsManagedHumanLoopRequestSource) {
+            self.awsManagedHumanLoopRequestSource = awsManagedHumanLoopRequestSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsManagedHumanLoopRequestSource = "AwsManagedHumanLoopRequestSource"
+        }
+    }
+
     public struct HumanTaskConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnnotationConsolidationConfig", required: true, type: .structure), 
@@ -4053,15 +8001,15 @@ extension SageMaker {
 
         /// Configures how labels are consolidated across human workers.
         public let annotationConsolidationConfig: AnnotationConsolidationConfig
-        /// Defines the maximum number of data objects that can be labeled by human workers at the same time. Each object may have more than one worker at one time.
+        /// Defines the maximum number of data objects that can be labeled by human workers at the same time. Also referred to as batch size. Each object may have more than one worker at one time. The default value is 1000 objects.
         public let maxConcurrentTaskCount: Int?
         /// The number of human workers that will label an object. 
         public let numberOfHumanWorkersPerDataObject: Int
-        /// The Amazon Resource Name (ARN) of a Lambda function that is run before a data object is sent to a human worker. Use this function to provide input to a custom labeling job. For the built-in bounding box, image classification, semantic segmentation, and text classification task types, Amazon SageMaker Ground Truth provides the following Lambda functions:  US East (Northern Virginia) (us-east-1):     arn:aws:lambda:us-east-1:432418664414:function:PRE-BoundingBox     arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-1:432418664414:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClass     arn:aws:lambda:us-east-1:432418664414:function:PRE-NamedEntityRecognition     US East (Ohio) (us-east-2):     arn:aws:lambda:us-east-2:266458841044:function:PRE-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-NamedEntityRecognition     US West (Oregon) (us-west-2):     arn:aws:lambda:us-west-2:081040173940:function:PRE-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-NamedEntityRecognition     Canada (Central) (ca-central-1):     arn:awslambda:ca-central-1:918755190332:function:PRE-BoundingBox     arn:awslambda:ca-central-1:918755190332:function:PRE-ImageMultiClass     arn:awslambda:ca-central-1:918755190332:function:PRE-SemanticSegmentation     arn:awslambda:ca-central-1:918755190332:function:PRE-TextMultiClass     arn:awslambda:ca-central-1:918755190332:function:PRE-NamedEntityRecognition     EU (Ireland) (eu-west-1):     arn:aws:lambda:eu-west-1:568282634449:function:PRE-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-NamedEntityRecognition     EU (London) (eu-west-2):     arn:awslambda:eu-west-2:487402164563:function:PRE-BoundingBox     arn:awslambda:eu-west-2:487402164563:function:PRE-ImageMultiClass     arn:awslambda:eu-west-2:487402164563:function:PRE-SemanticSegmentation     arn:awslambda:eu-west-2:487402164563:function:PRE-TextMultiClass     arn:awslambda:eu-west-2:487402164563:function:PRE-NamedEntityRecognition     EU Frankfurt (eu-central-1):     arn:awslambda:eu-central-1:203001061592:function:PRE-BoundingBox     arn:awslambda:eu-central-1:203001061592:function:PRE-ImageMultiClass     arn:awslambda:eu-central-1:203001061592:function:PRE-SemanticSegmentation     arn:awslambda:eu-central-1:203001061592:function:PRE-TextMultiClass     arn:awslambda:eu-central-1:203001061592:function:PRE-NamedEntityRecognition     Asia Pacific (Tokyo) (ap-northeast-1):     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-NamedEntityRecognition     Asia Pacific (Seoul) (ap-northeast-2):     arn:awslambda:ap-northeast-2:845288260483:function:PRE-BoundingBox     arn:awslambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClass     arn:awslambda:ap-northeast-2:845288260483:function:PRE-SemanticSegmentation     arn:awslambda:ap-northeast-2:845288260483:function:PRE-TextMultiClass     arn:awslambda:ap-northeast-2:845288260483:function:PRE-NamedEntityRecognition     Asia Pacific (Mumbai) (ap-south-1):     arn:awslambda:ap-south-1:565803892007:function:PRE-BoundingBox     arn:awslambda:ap-south-1:565803892007:function:PRE-ImageMultiClass     arn:awslambda:ap-south-1:565803892007:function:PRE-SemanticSegmentation     arn:awslambda:ap-south-1:565803892007:function:PRE-TextMultiClass     arn:awslambda:ap-south-1:565803892007:function:PRE-NamedEntityRecognition     Asia Pacific (Singapore) (ap-southeast-1):     arn:awslambda:ap-southeast-1:377565633583:function:PRE-BoundingBox     arn:awslambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClass     arn:awslambda:ap-southeast-1:377565633583:function:PRE-SemanticSegmentation     arn:awslambda:ap-southeast-1:377565633583:function:PRE-TextMultiClass     arn:awslambda:ap-southeast-1:377565633583:function:PRE-NamedEntityRecognition     Asia Pacific (Sydney) (ap-southeast-2):     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-NamedEntityRecognition   
+        /// The Amazon Resource Name (ARN) of a Lambda function that is run before a data object is sent to a human worker. Use this function to provide input to a custom labeling job. For the built-in bounding box, image classification, semantic segmentation, and text classification task types, Amazon SageMaker Ground Truth provides the following Lambda functions:  US East (Northern Virginia) (us-east-1):     arn:aws:lambda:us-east-1:432418664414:function:PRE-BoundingBox     arn:aws:lambda:us-east-1:432418664414:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-1:432418664414:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:PRE-TextMultiClass     arn:aws:lambda:us-east-1:432418664414:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-east-1:432418664414:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-east-1:432418664414:function:PRE-AdjustmentSemanticSegmentation     US East (Ohio) (us-east-2):     arn:aws:lambda:us-east-2:266458841044:function:PRE-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:PRE-AdjustmentSemanticSegmentation     US West (Oregon) (us-west-2):     arn:aws:lambda:us-west-2:081040173940:function:PRE-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:PRE-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:PRE-AdjustmentSemanticSegmentation     Canada (Central) (ca-central-1):     arn:aws:lambda:ca-central-1:918755190332:function:PRE-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:PRE-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:PRE-AdjustmentSemanticSegmentation     EU (Ireland) (eu-west-1):     arn:aws:lambda:eu-west-1:568282634449:function:PRE-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:PRE-AdjustmentSemanticSegmentation     EU (London) (eu-west-2):     arn:aws:lambda:eu-west-2:487402164563:function:PRE-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:PRE-AdjustmentSemanticSegmentation     EU Frankfurt (eu-central-1):     arn:aws:lambda:eu-central-1:203001061592:function:PRE-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:PRE-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:PRE-AdjustmentSemanticSegmentation     Asia Pacific (Tokyo) (ap-northeast-1):     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-AdjustmentSemanticSegmentation     Asia Pacific (Seoul) (ap-northeast-2):     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-AdjustmentSemanticSegmentation     Asia Pacific (Mumbai) (ap-south-1):     arn:aws:lambda:ap-south-1:565803892007:function:PRE-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:PRE-AdjustmentSemanticSegmentation     Asia Pacific (Singapore) (ap-southeast-1):     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-AdjustmentSemanticSegmentation     Asia Pacific (Sydney) (ap-southeast-2):     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-AdjustmentSemanticSegmentation   
         public let preHumanTaskLambdaArn: String
         /// The price that you pay for each task performed by an Amazon Mechanical Turk worker.
         public let publicWorkforceTaskPrice: PublicWorkforceTaskPrice?
-        /// The length of time that a task remains available for labeling by human workers. If you choose the Amazon Mechanical Turk workforce, the maximum is 12 hours (43200). For private and vendor workforces, the maximum is as listed.
+        /// The length of time that a task remains available for labeling by human workers. If you choose the Amazon Mechanical Turk workforce, the maximum is 12 hours (43200). The default value is 864000 seconds (1 day). For private and vendor workforces, the maximum is as listed.
         public let taskAvailabilityLifetimeInSeconds: Int?
         /// A description of the task for your human workers.
         public let taskDescription: String
@@ -4101,7 +8049,7 @@ extension SageMaker {
             try validate(self.preHumanTaskLambdaArn, name:"preHumanTaskLambdaArn", parent: name, pattern: "arn:aws[a-z\\-]*:lambda:[a-z]{2}-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
             try self.publicWorkforceTaskPrice?.validate(name: "\(name).publicWorkforceTaskPrice")
             try validate(self.taskAvailabilityLifetimeInSeconds, name:"taskAvailabilityLifetimeInSeconds", parent: name, max: 864000)
-            try validate(self.taskAvailabilityLifetimeInSeconds, name:"taskAvailabilityLifetimeInSeconds", parent: name, min: 1)
+            try validate(self.taskAvailabilityLifetimeInSeconds, name:"taskAvailabilityLifetimeInSeconds", parent: name, min: 60)
             try validate(self.taskDescription, name:"taskDescription", parent: name, max: 255)
             try validate(self.taskDescription, name:"taskDescription", parent: name, min: 1)
             try validate(self.taskDescription, name:"taskDescription", parent: name, pattern: ".+")
@@ -4135,6 +8083,33 @@ extension SageMaker {
             case taskTitle = "TaskTitle"
             case uiConfig = "UiConfig"
             case workteamArn = "WorkteamArn"
+        }
+    }
+
+    public struct HumanTaskUiSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "HumanTaskUiArn", required: true, type: .string), 
+            AWSShapeMember(label: "HumanTaskUiName", required: true, type: .string)
+        ]
+
+        /// A timestamp when SageMaker created the human task user interface.
+        public let creationTime: TimeStamp
+        /// The Amazon Resource Name (ARN) of the human task user interface.
+        public let humanTaskUiArn: String
+        /// The name of the human task user interface.
+        public let humanTaskUiName: String
+
+        public init(creationTime: TimeStamp, humanTaskUiArn: String, humanTaskUiName: String) {
+            self.creationTime = creationTime
+            self.humanTaskUiArn = humanTaskUiArn
+            self.humanTaskUiName = humanTaskUiName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case humanTaskUiArn = "HumanTaskUiArn"
+            case humanTaskUiName = "HumanTaskUiName"
         }
     }
 
@@ -4252,27 +8227,33 @@ extension SageMaker {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmSpecification", required: true, type: .structure), 
             AWSShapeMember(label: "CheckpointConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "DefinitionName", required: false, type: .string), 
             AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableManagedSpotTraining", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
+            AWSShapeMember(label: "HyperParameterRanges", required: false, type: .structure), 
             AWSShapeMember(label: "InputDataConfig", required: false, type: .list), 
             AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
             AWSShapeMember(label: "ResourceConfig", required: true, type: .structure), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
             AWSShapeMember(label: "StaticHyperParameters", required: false, type: .map), 
             AWSShapeMember(label: "StoppingCondition", required: true, type: .structure), 
+            AWSShapeMember(label: "TuningObjective", required: false, type: .structure), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
 
         /// The HyperParameterAlgorithmSpecification object that specifies the resource algorithm to use for the training jobs that the tuning job launches.
         public let algorithmSpecification: HyperParameterAlgorithmSpecification
         public let checkpointConfig: CheckpointConfig?
+        /// The job definition name.
+        public let definitionName: String?
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithm in distributed training.
         public let enableInterContainerTrafficEncryption: Bool?
         /// A Boolean indicating whether managed spot training is enabled (True) or not (False).
         public let enableManagedSpotTraining: Bool?
-        /// Isolates the training container. No inbound or outbound network calls can be made, except for calls between peers within a training cluster for distributed training. If network isolation is used for training jobs that are configured to use a VPC, Amazon SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.  The Semantic Segmentation built-in algorithm does not support network isolation. 
+        /// Isolates the training container. No inbound or outbound network calls can be made, except for calls between peers within a training cluster for distributed training. If network isolation is used for training jobs that are configured to use a VPC, Amazon SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.
         public let enableNetworkIsolation: Bool?
+        public let hyperParameterRanges: ParameterRanges?
         /// An array of Channel objects that specify the input for the training jobs that the tuning job launches.
         public let inputDataConfig: [Channel]?
         /// Specifies the path to the Amazon S3 bucket where you store model artifacts from the training jobs that the tuning job launches.
@@ -4285,27 +8266,35 @@ extension SageMaker {
         public let staticHyperParameters: [String: String]?
         /// Specifies a limit to how long a model hyperparameter training job can run. It also specifies how long you are willing to wait for a managed spot training job to complete. When the job reaches the a limit, Amazon SageMaker ends the training job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition
+        public let tuningObjective: HyperParameterTuningJobObjective?
         /// The VpcConfig object that specifies the VPC that you want the training jobs that this hyperparameter tuning job launches to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: HyperParameterAlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, roleArn: String, staticHyperParameters: [String: String]? = nil, stoppingCondition: StoppingCondition, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: HyperParameterAlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, definitionName: String? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, hyperParameterRanges: ParameterRanges? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, roleArn: String, staticHyperParameters: [String: String]? = nil, stoppingCondition: StoppingCondition, tuningObjective: HyperParameterTuningJobObjective? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
+            self.definitionName = definitionName
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableManagedSpotTraining = enableManagedSpotTraining
             self.enableNetworkIsolation = enableNetworkIsolation
+            self.hyperParameterRanges = hyperParameterRanges
             self.inputDataConfig = inputDataConfig
             self.outputDataConfig = outputDataConfig
             self.resourceConfig = resourceConfig
             self.roleArn = roleArn
             self.staticHyperParameters = staticHyperParameters
             self.stoppingCondition = stoppingCondition
+            self.tuningObjective = tuningObjective
             self.vpcConfig = vpcConfig
         }
 
         public func validate(name: String) throws {
             try self.algorithmSpecification.validate(name: "\(name).algorithmSpecification")
             try self.checkpointConfig?.validate(name: "\(name).checkpointConfig")
+            try validate(self.definitionName, name:"definitionName", parent: name, max: 64)
+            try validate(self.definitionName, name:"definitionName", parent: name, min: 1)
+            try validate(self.definitionName, name:"definitionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.hyperParameterRanges?.validate(name: "\(name).hyperParameterRanges")
             try self.inputDataConfig?.forEach {
                 try $0.validate(name: "\(name).inputDataConfig[]")
             }
@@ -4323,21 +8312,25 @@ extension SageMaker {
                 try validate($0.value, name:"staticHyperParameters[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
             try self.stoppingCondition.validate(name: "\(name).stoppingCondition")
+            try self.tuningObjective?.validate(name: "\(name).tuningObjective")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case algorithmSpecification = "AlgorithmSpecification"
             case checkpointConfig = "CheckpointConfig"
+            case definitionName = "DefinitionName"
             case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
             case enableManagedSpotTraining = "EnableManagedSpotTraining"
             case enableNetworkIsolation = "EnableNetworkIsolation"
+            case hyperParameterRanges = "HyperParameterRanges"
             case inputDataConfig = "InputDataConfig"
             case outputDataConfig = "OutputDataConfig"
             case resourceConfig = "ResourceConfig"
             case roleArn = "RoleArn"
             case staticHyperParameters = "StaticHyperParameters"
             case stoppingCondition = "StoppingCondition"
+            case tuningObjective = "TuningObjective"
             case vpcConfig = "VpcConfig"
         }
     }
@@ -4350,6 +8343,7 @@ extension SageMaker {
             AWSShapeMember(label: "ObjectiveStatus", required: false, type: .enum), 
             AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "TrainingJobArn", required: true, type: .string), 
+            AWSShapeMember(label: "TrainingJobDefinitionName", required: false, type: .string), 
             AWSShapeMember(label: "TrainingJobName", required: true, type: .string), 
             AWSShapeMember(label: "TrainingJobStatus", required: true, type: .enum), 
             AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
@@ -4369,6 +8363,8 @@ extension SageMaker {
         public let trainingEndTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the training job.
         public let trainingJobArn: String
+        /// The training job definition name.
+        public let trainingJobDefinitionName: String?
         /// The name of the training job.
         public let trainingJobName: String
         /// The status of the training job.
@@ -4380,13 +8376,14 @@ extension SageMaker {
         /// The HyperParameter tuning job that launched the training job.
         public let tuningJobName: String?
 
-        public init(creationTime: TimeStamp, failureReason: String? = nil, finalHyperParameterTuningJobObjectiveMetric: FinalHyperParameterTuningJobObjectiveMetric? = nil, objectiveStatus: ObjectiveStatus? = nil, trainingEndTime: TimeStamp? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: TimeStamp? = nil, tunedHyperParameters: [String: String], tuningJobName: String? = nil) {
+        public init(creationTime: TimeStamp, failureReason: String? = nil, finalHyperParameterTuningJobObjectiveMetric: FinalHyperParameterTuningJobObjectiveMetric? = nil, objectiveStatus: ObjectiveStatus? = nil, trainingEndTime: TimeStamp? = nil, trainingJobArn: String, trainingJobDefinitionName: String? = nil, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: TimeStamp? = nil, tunedHyperParameters: [String: String], tuningJobName: String? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.finalHyperParameterTuningJobObjectiveMetric = finalHyperParameterTuningJobObjectiveMetric
             self.objectiveStatus = objectiveStatus
             self.trainingEndTime = trainingEndTime
             self.trainingJobArn = trainingJobArn
+            self.trainingJobDefinitionName = trainingJobDefinitionName
             self.trainingJobName = trainingJobName
             self.trainingJobStatus = trainingJobStatus
             self.trainingStartTime = trainingStartTime
@@ -4401,6 +8398,7 @@ extension SageMaker {
             case objectiveStatus = "ObjectiveStatus"
             case trainingEndTime = "TrainingEndTime"
             case trainingJobArn = "TrainingJobArn"
+            case trainingJobDefinitionName = "TrainingJobDefinitionName"
             case trainingJobName = "TrainingJobName"
             case trainingJobStatus = "TrainingJobStatus"
             case trainingStartTime = "TrainingStartTime"
@@ -4415,7 +8413,8 @@ extension SageMaker {
             AWSShapeMember(label: "ParameterRanges", required: false, type: .structure), 
             AWSShapeMember(label: "ResourceLimits", required: true, type: .structure), 
             AWSShapeMember(label: "Strategy", required: true, type: .enum), 
-            AWSShapeMember(label: "TrainingJobEarlyStoppingType", required: false, type: .enum)
+            AWSShapeMember(label: "TrainingJobEarlyStoppingType", required: false, type: .enum), 
+            AWSShapeMember(label: "TuningJobCompletionCriteria", required: false, type: .structure)
         ]
 
         /// The HyperParameterTuningJobObjective object that specifies the objective metric for this tuning job.
@@ -4424,17 +8423,20 @@ extension SageMaker {
         public let parameterRanges: ParameterRanges?
         /// The ResourceLimits object that specifies the maximum number of training jobs and parallel training jobs for this tuning job.
         public let resourceLimits: ResourceLimits
-        /// Specifies how hyperparameter tuning chooses the combinations of hyperparameter values to use for the training job it launches. To use the Bayesian search stategy, set this to Bayesian. To randomly search, set it to Random. For information about search strategies, see How Hyperparameter Tuning Works.
+        /// Specifies how hyperparameter tuning chooses the combinations of hyperparameter values to use for the training job it launches. To use the Bayesian search strategy, set this to Bayesian. To randomly search, set it to Random. For information about search strategies, see How Hyperparameter Tuning Works.
         public let strategy: HyperParameterTuningJobStrategyType
         /// Specifies whether to use early stopping for training jobs launched by the hyperparameter tuning job. This can be one of the following values (the default value is OFF):  OFF  Training jobs launched by the hyperparameter tuning job do not use early stopping.  AUTO  Amazon SageMaker stops training jobs launched by the hyperparameter tuning job when they are unlikely to perform better than previously completed training jobs. For more information, see Stop Training Jobs Early.  
         public let trainingJobEarlyStoppingType: TrainingJobEarlyStoppingType?
+        /// The tuning job's completion criteria.
+        public let tuningJobCompletionCriteria: TuningJobCompletionCriteria?
 
-        public init(hyperParameterTuningJobObjective: HyperParameterTuningJobObjective? = nil, parameterRanges: ParameterRanges? = nil, resourceLimits: ResourceLimits, strategy: HyperParameterTuningJobStrategyType, trainingJobEarlyStoppingType: TrainingJobEarlyStoppingType? = nil) {
+        public init(hyperParameterTuningJobObjective: HyperParameterTuningJobObjective? = nil, parameterRanges: ParameterRanges? = nil, resourceLimits: ResourceLimits, strategy: HyperParameterTuningJobStrategyType, trainingJobEarlyStoppingType: TrainingJobEarlyStoppingType? = nil, tuningJobCompletionCriteria: TuningJobCompletionCriteria? = nil) {
             self.hyperParameterTuningJobObjective = hyperParameterTuningJobObjective
             self.parameterRanges = parameterRanges
             self.resourceLimits = resourceLimits
             self.strategy = strategy
             self.trainingJobEarlyStoppingType = trainingJobEarlyStoppingType
+            self.tuningJobCompletionCriteria = tuningJobCompletionCriteria
         }
 
         public func validate(name: String) throws {
@@ -4449,6 +8451,7 @@ extension SageMaker {
             case resourceLimits = "ResourceLimits"
             case strategy = "Strategy"
             case trainingJobEarlyStoppingType = "TrainingJobEarlyStoppingType"
+            case tuningJobCompletionCriteria = "TuningJobCompletionCriteria"
         }
     }
 
@@ -4751,7 +8754,7 @@ extension SageMaker {
         public let minValue: String
         /// The name of the hyperparameter to search.
         public let name: String
-        /// The scale that hyperparameter tuning uses to search the hyperparameter range. For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:  Auto  Amazon SageMaker hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparemeter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have only values greater than 0.  
+        /// The scale that hyperparameter tuning uses to search the hyperparameter range. For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:  Auto  Amazon SageMaker hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have only values greater than 0.  
         public let scalingType: HyperParameterScalingType?
 
         public init(maxValue: String, minValue: String, name: String, scalingType: HyperParameterScalingType? = nil) {
@@ -4811,6 +8814,48 @@ extension SageMaker {
         case input = "Input"
         case none = "None"
         public var description: String { return self.rawValue }
+    }
+
+    public struct JupyterServerAppSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultResourceSpec", required: false, type: .structure)
+        ]
+
+        /// The instance type and quantity.
+        public let defaultResourceSpec: ResourceSpec?
+
+        public init(defaultResourceSpec: ResourceSpec? = nil) {
+            self.defaultResourceSpec = defaultResourceSpec
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultResourceSpec = "DefaultResourceSpec"
+        }
+    }
+
+    public struct KernelGatewayAppSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultResourceSpec", required: false, type: .structure)
+        ]
+
+        /// The instance type and quantity.
+        public let defaultResourceSpec: ResourceSpec?
+
+        public init(defaultResourceSpec: ResourceSpec? = nil) {
+            self.defaultResourceSpec = defaultResourceSpec
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultResourceSpec = "DefaultResourceSpec"
+        }
     }
 
     public struct LabelCounters: AWSShape {
@@ -5305,6 +9350,254 @@ extension SageMaker {
         }
     }
 
+    public struct ListAppsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainIdEquals", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "UserProfileNameEquals", required: false, type: .string)
+        ]
+
+        /// A parameter to search for the domain ID.
+        public let domainIdEquals: String?
+        /// Returns a list up to a specified limit.
+        public let maxResults: Int?
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+        /// The parameter by which to sort the results. The default is CreationTime.
+        public let sortBy: AppSortKey?
+        /// The sort order for the results. The default is Ascending.
+        public let sortOrder: SortOrder?
+        /// A parameter to search by user profile name.
+        public let userProfileNameEquals: String?
+
+        public init(domainIdEquals: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: AppSortKey? = nil, sortOrder: SortOrder? = nil, userProfileNameEquals: String? = nil) {
+            self.domainIdEquals = domainIdEquals
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.userProfileNameEquals = userProfileNameEquals
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainIdEquals, name:"domainIdEquals", parent: name, max: 63)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+            try validate(self.userProfileNameEquals, name:"userProfileNameEquals", parent: name, max: 63)
+            try validate(self.userProfileNameEquals, name:"userProfileNameEquals", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainIdEquals = "DomainIdEquals"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case userProfileNameEquals = "UserProfileNameEquals"
+        }
+    }
+
+    public struct ListAppsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Apps", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The list of apps.
+        public let apps: [AppDetails]?
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+
+        public init(apps: [AppDetails]? = nil, nextToken: String? = nil) {
+            self.apps = apps
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apps = "Apps"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAutoMLJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NameContains", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
+        ]
+
+        /// Request a list of jobs, using a filter for time.
+        public let creationTimeAfter: TimeStamp?
+        /// Request a list of jobs, using a filter for time.
+        public let creationTimeBefore: TimeStamp?
+        /// Request a list of jobs, using a filter for time.
+        public let lastModifiedTimeAfter: TimeStamp?
+        /// Request a list of jobs, using a filter for time.
+        public let lastModifiedTimeBefore: TimeStamp?
+        /// Request a list of jobs up to a specified limit.
+        public let maxResults: Int?
+        /// Request a list of jobs, using a search filter for name.
+        public let nameContains: String?
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+        /// The parameter by which to sort the results. The default is AutoMLJobName.
+        public let sortBy: AutoMLSortBy?
+        /// The sort order for the results. The default is Descending.
+        public let sortOrder: AutoMLSortOrder?
+        /// Request a list of jobs, using a filter for status.
+        public let statusEquals: AutoMLJobStatus?
+
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: AutoMLSortBy? = nil, sortOrder: AutoMLSortOrder? = nil, statusEquals: AutoMLJobStatus? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nameContains, name:"nameContains", parent: name, max: 63)
+            try validate(self.nameContains, name:"nameContains", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case statusEquals = "StatusEquals"
+        }
+    }
+
+    public struct ListAutoMLJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMLJobSummaries", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Returns a summary list of jobs.
+        public let autoMLJobSummaries: [AutoMLJobSummary]
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+
+        public init(autoMLJobSummaries: [AutoMLJobSummary], nextToken: String? = nil) {
+            self.autoMLJobSummaries = autoMLJobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobSummaries = "AutoMLJobSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCandidatesForAutoMLJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMLJobName", required: true, type: .string), 
+            AWSShapeMember(label: "CandidateNameEquals", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
+        ]
+
+        /// List the Candidates created for the job by providing the job's name.
+        public let autoMLJobName: String
+        /// List the Candidates for the job and filter by candidate name.
+        public let candidateNameEquals: String?
+        /// List the job's Candidates up to a specified limit.
+        public let maxResults: Int?
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+        /// The parameter by which to sort the results. The default is Descending.
+        public let sortBy: CandidateSortBy?
+        /// The sort order for the results. The default is Ascending.
+        public let sortOrder: AutoMLSortOrder?
+        /// List the Candidates for the job and filter by status.
+        public let statusEquals: CandidateStatus?
+
+        public init(autoMLJobName: String, candidateNameEquals: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: CandidateSortBy? = nil, sortOrder: AutoMLSortOrder? = nil, statusEquals: CandidateStatus? = nil) {
+            self.autoMLJobName = autoMLJobName
+            self.candidateNameEquals = candidateNameEquals
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.autoMLJobName, name:"autoMLJobName", parent: name, max: 32)
+            try validate(self.autoMLJobName, name:"autoMLJobName", parent: name, min: 1)
+            try validate(self.autoMLJobName, name:"autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.candidateNameEquals, name:"candidateNameEquals", parent: name, max: 64)
+            try validate(self.candidateNameEquals, name:"candidateNameEquals", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobName = "AutoMLJobName"
+            case candidateNameEquals = "CandidateNameEquals"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case statusEquals = "StatusEquals"
+        }
+    }
+
+    public struct ListCandidatesForAutoMLJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Candidates", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Summaries about the Candidates.
+        public let candidates: [AutoMLCandidate]
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+
+        public init(candidates: [AutoMLCandidate], nextToken: String? = nil) {
+            self.candidates = candidates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case candidates = "Candidates"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListCodeRepositoriesInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
@@ -5493,6 +9786,57 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public struct ListDomainsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Returns a list up to a specified limit.
+        public let maxResults: Int?
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDomainsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domains", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The list of domains.
+        public let domains: [DomainDetails]?
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+
+        public init(domains: [DomainDetails]? = nil, nextToken: String? = nil) {
+            self.domains = domains
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domains = "Domains"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListEndpointConfigsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
@@ -5660,6 +10004,209 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case endpoints = "Endpoints"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListExperimentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+
+        /// A filter that returns only experiments created after the specified time.
+        public let createdAfter: TimeStamp?
+        /// A filter that returns only experiments created before the specified time.
+        public let createdBefore: TimeStamp?
+        /// The maximum number of experiments to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// If the previous call to ListExperiments didn't return the full set of experiments, the call returns a token for getting the next set of experiments.
+        public let nextToken: String?
+        /// The property used to sort results. The default value is CreationTime.
+        public let sortBy: SortExperimentsBy?
+        /// The sort order. The default value is Descending.
+        public let sortOrder: SortOrder?
+
+        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortExperimentsBy? = nil, sortOrder: SortOrder? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListExperimentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExperimentSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list of the summaries of your experiments.
+        public let experimentSummaries: [ExperimentSummary]?
+        /// A token for getting the next set of experiments, if there are any.
+        public let nextToken: String?
+
+        public init(experimentSummaries: [ExperimentSummary]? = nil, nextToken: String? = nil) {
+            self.experimentSummaries = experimentSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case experimentSummaries = "ExperimentSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFlowDefinitionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+
+        /// A filter that returns only flow definitions with a creation time greater than or equal to the specified timestamp.
+        public let creationTimeAfter: TimeStamp?
+        /// A filter that returns only flow definitions that were created before the specified timestamp.
+        public let creationTimeBefore: TimeStamp?
+        /// The total number of items to return. If the total number of available items is more than the value specified in MaxResults, then a NextToken will be provided in the output that you can use to resume pagination.
+        public let maxResults: Int?
+        /// A token to resume pagination.
+        public let nextToken: String?
+        /// An optional value that specifies whether you want the results sorted in Ascending or Descending order.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListFlowDefinitionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FlowDefinitionSummaries", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// An array of objects describing the flow definitions.
+        public let flowDefinitionSummaries: [FlowDefinitionSummary]
+        /// A token to resume pagination.
+        public let nextToken: String?
+
+        public init(flowDefinitionSummaries: [FlowDefinitionSummary], nextToken: String? = nil) {
+            self.flowDefinitionSummaries = flowDefinitionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowDefinitionSummaries = "FlowDefinitionSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListHumanTaskUisRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+
+        /// A filter that returns only human task user interfaces with a creation time greater than or equal to the specified timestamp.
+        public let creationTimeAfter: TimeStamp?
+        /// A filter that returns only human task user interfaces that were created before the specified timestamp.
+        public let creationTimeBefore: TimeStamp?
+        /// The total number of items to return. If the total number of available items is more than the value specified in MaxResults, then a NextToken will be provided in the output that you can use to resume pagination.
+        public let maxResults: Int?
+        /// A token to resume pagination.
+        public let nextToken: String?
+        /// An optional value that specifies whether you want the results sorted in Ascending or Descending order.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListHumanTaskUisResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HumanTaskUiSummaries", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// An array of objects describing the human task user interfaces.
+        public let humanTaskUiSummaries: [HumanTaskUiSummary]
+        /// A token to resume pagination.
+        public let nextToken: String?
+
+        public init(humanTaskUiSummaries: [HumanTaskUiSummary], nextToken: String? = nil) {
+            self.humanTaskUiSummaries = humanTaskUiSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case humanTaskUiSummaries = "HumanTaskUiSummaries"
             case nextToken = "NextToken"
         }
     }
@@ -6097,6 +10644,217 @@ extension SageMaker {
         }
     }
 
+    public struct ListMonitoringExecutionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "MonitoringScheduleName", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ScheduledTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
+        ]
+
+        /// A filter that returns only jobs created after a specified time.
+        public let creationTimeAfter: TimeStamp?
+        /// A filter that returns only jobs created before a specified time.
+        public let creationTimeBefore: TimeStamp?
+        /// Name of a specific endpoint to fetch jobs for.
+        public let endpointName: String?
+        /// A filter that returns only jobs modified before a specified time.
+        public let lastModifiedTimeAfter: TimeStamp?
+        /// A filter that returns only jobs modified after a specified time.
+        public let lastModifiedTimeBefore: TimeStamp?
+        /// The maximum number of jobs to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// Name of a specific schedule to fetch jobs for.
+        public let monitoringScheduleName: String?
+        /// The token returned if the response is truncated. To retrieve the next set of job executions, use it in the next request.
+        public let nextToken: String?
+        /// Filter for jobs scheduled after a specified time.
+        public let scheduledTimeAfter: TimeStamp?
+        /// Filter for jobs scheduled before a specified time.
+        public let scheduledTimeBefore: TimeStamp?
+        /// Whether to sort results by Status, CreationTime, ScheduledTime field. The default is CreationTime.
+        public let sortBy: MonitoringExecutionSortKey?
+        /// Whether to sort the results in Ascending or Descending order. The default is Descending.
+        public let sortOrder: SortOrder?
+        /// A filter that retrieves only jobs with a specific status.
+        public let statusEquals: ExecutionStatus?
+
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, endpointName: String? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, monitoringScheduleName: String? = nil, nextToken: String? = nil, scheduledTimeAfter: TimeStamp? = nil, scheduledTimeBefore: TimeStamp? = nil, sortBy: MonitoringExecutionSortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: ExecutionStatus? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.endpointName = endpointName
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.maxResults = maxResults
+            self.monitoringScheduleName = monitoringScheduleName
+            self.nextToken = nextToken
+            self.scheduledTimeAfter = scheduledTimeAfter
+            self.scheduledTimeBefore = scheduledTimeBefore
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.endpointName, name:"endpointName", parent: name, max: 63)
+            try validate(self.endpointName, name:"endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, max: 63)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, min: 1)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case endpointName = "EndpointName"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case maxResults = "MaxResults"
+            case monitoringScheduleName = "MonitoringScheduleName"
+            case nextToken = "NextToken"
+            case scheduledTimeAfter = "ScheduledTimeAfter"
+            case scheduledTimeBefore = "ScheduledTimeBefore"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case statusEquals = "StatusEquals"
+        }
+    }
+
+    public struct ListMonitoringExecutionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringExecutionSummaries", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A JSON array in which each element is a summary for a monitoring execution.
+        public let monitoringExecutionSummaries: [MonitoringExecutionSummary]
+        /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of jobs, use it in the subsequent reques
+        public let nextToken: String?
+
+        public init(monitoringExecutionSummaries: [MonitoringExecutionSummary], nextToken: String? = nil) {
+            self.monitoringExecutionSummaries = monitoringExecutionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringExecutionSummaries = "MonitoringExecutionSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMonitoringSchedulesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NameContains", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
+        ]
+
+        /// A filter that returns only monitoring schedules created after a specified time.
+        public let creationTimeAfter: TimeStamp?
+        /// A filter that returns only monitoring schedules created before a specified time.
+        public let creationTimeBefore: TimeStamp?
+        /// Name of a specific endpoint to fetch schedules for.
+        public let endpointName: String?
+        /// A filter that returns only monitoring schedules modified after a specified time.
+        public let lastModifiedTimeAfter: TimeStamp?
+        /// A filter that returns only monitoring schedules modified before a specified time.
+        public let lastModifiedTimeBefore: TimeStamp?
+        /// The maximum number of jobs to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// Filter for monitoring schedules whose name contains a specified string.
+        public let nameContains: String?
+        /// The token returned if the response is truncated. To retrieve the next set of job executions, use it in the next request.
+        public let nextToken: String?
+        /// Whether to sort results by Status, CreationTime, ScheduledTime field. The default is CreationTime.
+        public let sortBy: MonitoringScheduleSortKey?
+        /// Whether to sort the results in Ascending or Descending order. The default is Descending.
+        public let sortOrder: SortOrder?
+        /// A filter that returns only monitoring schedules modified before a specified time.
+        public let statusEquals: ScheduleStatus?
+
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, endpointName: String? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringScheduleSortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: ScheduleStatus? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.endpointName = endpointName
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.endpointName, name:"endpointName", parent: name, max: 63)
+            try validate(self.endpointName, name:"endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nameContains, name:"nameContains", parent: name, max: 63)
+            try validate(self.nameContains, name:"nameContains", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case endpointName = "EndpointName"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case statusEquals = "StatusEquals"
+        }
+    }
+
+    public struct ListMonitoringSchedulesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringScheduleSummaries", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A JSON array in which each element is a summary for a monitoring schedule.
+        public let monitoringScheduleSummaries: [MonitoringScheduleSummary]
+        /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of jobs, use it in the subsequent reques
+        public let nextToken: String?
+
+        public init(monitoringScheduleSummaries: [MonitoringScheduleSummary], nextToken: String? = nil) {
+            self.monitoringScheduleSummaries = monitoringScheduleSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringScheduleSummaries = "MonitoringScheduleSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListNotebookInstanceLifecycleConfigsInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
@@ -6297,6 +11055,97 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case notebookInstances = "NotebookInstances"
+        }
+    }
+
+    public struct ListProcessingJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NameContains", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusEquals", required: false, type: .enum)
+        ]
+
+        /// A filter that returns only processing jobs created after the specified time.
+        public let creationTimeAfter: TimeStamp?
+        /// A filter that returns only processing jobs created after the specified time.
+        public let creationTimeBefore: TimeStamp?
+        /// A filter that returns only processing jobs modified after the specified time.
+        public let lastModifiedTimeAfter: TimeStamp?
+        /// A filter that returns only processing jobs modified before the specified time.
+        public let lastModifiedTimeBefore: TimeStamp?
+        /// The maximum number of processing jobs to return in the response.
+        public let maxResults: Int?
+        /// A string in the processing job name. This filter returns only processing jobs whose name contains the specified string.
+        public let nameContains: String?
+        /// If the result of the previous ListProcessingJobs request was truncated, the response includes a NextToken. To retrieve the next set of processing jobs, use the token in the next request.
+        public let nextToken: String?
+        /// The field to sort results by. The default is CreationTime.
+        public let sortBy: SortBy?
+        /// The sort order for results. The default is Ascending.
+        public let sortOrder: SortOrder?
+        /// A filter that retrieves only processing jobs with a specific status.
+        public let statusEquals: ProcessingJobStatus?
+
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: ProcessingJobStatus? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case statusEquals = "StatusEquals"
+        }
+    }
+
+    public struct ListProcessingJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ProcessingJobSummaries", required: true, type: .list)
+        ]
+
+        /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of processing jobs, use it in the subsequent request.
+        public let nextToken: String?
+        /// An array of ProcessingJobSummary objects, each listing a processing job.
+        public let processingJobSummaries: [ProcessingJobSummary]
+
+        public init(nextToken: String? = nil, processingJobSummaries: [ProcessingJobSummary]) {
+            self.nextToken = nextToken
+            self.processingJobSummaries = processingJobSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case processingJobSummaries = "ProcessingJobSummaries"
         }
     }
 
@@ -6673,6 +11522,252 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case transformJobSummaries = "TransformJobSummaries"
+        }
+    }
+
+    public struct ListTrialComponentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrialName", required: false, type: .string)
+        ]
+
+        /// A filter that returns only components created after the specified time.
+        public let createdAfter: TimeStamp?
+        /// A filter that returns only components created before the specified time.
+        public let createdBefore: TimeStamp?
+        /// A filter that returns only components that are part of the specified experiment. If you specify ExperimentName, you can't specify TrialName.
+        public let experimentName: String?
+        /// The maximum number of components to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// If the previous call to ListTrialComponents didn't return the full set of components, the call returns a token for getting the next set of components.
+        public let nextToken: String?
+        /// The property used to sort results. The default value is CreationTime.
+        public let sortBy: SortTrialComponentsBy?
+        /// The sort order. The default value is Descending.
+        public let sortOrder: SortOrder?
+        /// A filter that returns only components that have the specified source Amazon Resource Name (ARN).
+        public let sourceArn: String?
+        /// A filter that returns only components that are part of the specified trial. If you specify TrialName, you can't specify ExperimentName.
+        public let trialName: String?
+
+        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, experimentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortTrialComponentsBy? = nil, sortOrder: SortOrder? = nil, sourceArn: String? = nil, trialName: String? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.experimentName = experimentName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.sourceArn = sourceArn
+            self.trialName = trialName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
+            try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+            try validate(self.sourceArn, name:"sourceArn", parent: name, max: 256)
+            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, min: 1)
+            try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case experimentName = "ExperimentName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case sourceArn = "SourceArn"
+            case trialName = "TrialName"
+        }
+    }
+
+    public struct ListTrialComponentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TrialComponentSummaries", required: false, type: .list)
+        ]
+
+        /// A token for getting the next set of components, if there are any.
+        public let nextToken: String?
+        /// A list of the summaries of your trial components.
+        public let trialComponentSummaries: [TrialComponentSummary]?
+
+        public init(nextToken: String? = nil, trialComponentSummaries: [TrialComponentSummary]? = nil) {
+            self.nextToken = nextToken
+            self.trialComponentSummaries = trialComponentSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case trialComponentSummaries = "TrialComponentSummaries"
+        }
+    }
+
+    public struct ListTrialsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+
+        /// A filter that returns only trials created after the specified time.
+        public let createdAfter: TimeStamp?
+        /// A filter that returns only trials created before the specified time.
+        public let createdBefore: TimeStamp?
+        /// A filter that returns only trials that are part of the specified experiment.
+        public let experimentName: String?
+        /// The maximum number of trials to return in the response. The default value is 10.
+        public let maxResults: Int?
+        /// If the previous call to ListTrials didn't return the full set of trials, the call returns a token for getting the next set of trials.
+        public let nextToken: String?
+        /// The property used to sort results. The default value is CreationTime.
+        public let sortBy: SortTrialsBy?
+        /// The sort order. The default value is Descending.
+        public let sortOrder: SortOrder?
+
+        public init(createdAfter: TimeStamp? = nil, createdBefore: TimeStamp? = nil, experimentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortTrialsBy? = nil, sortOrder: SortOrder? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.experimentName = experimentName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
+            try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case experimentName = "ExperimentName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListTrialsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TrialSummaries", required: false, type: .list)
+        ]
+
+        /// A token for getting the next set of trials, if there are any.
+        public let nextToken: String?
+        /// A list of the summaries of your trials.
+        public let trialSummaries: [TrialSummary]?
+
+        public init(nextToken: String? = nil, trialSummaries: [TrialSummary]? = nil) {
+            self.nextToken = nextToken
+            self.trialSummaries = trialSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case trialSummaries = "TrialSummaries"
+        }
+    }
+
+    public struct ListUserProfilesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainIdEquals", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "UserProfileNameContains", required: false, type: .string)
+        ]
+
+        /// A parameter by which to filter the results.
+        public let domainIdEquals: String?
+        /// Returns a list up to a specified limit.
+        public let maxResults: Int?
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+        /// The parameter by which to sort the results. The default is CreationTime.
+        public let sortBy: UserProfileSortKey?
+        /// The sort order for the results. The default is Ascending.
+        public let sortOrder: SortOrder?
+        /// A parameter by which to filter the results.
+        public let userProfileNameContains: String?
+
+        public init(domainIdEquals: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: UserProfileSortKey? = nil, sortOrder: SortOrder? = nil, userProfileNameContains: String? = nil) {
+            self.domainIdEquals = domainIdEquals
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.userProfileNameContains = userProfileNameContains
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainIdEquals, name:"domainIdEquals", parent: name, max: 63)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+            try validate(self.userProfileNameContains, name:"userProfileNameContains", parent: name, max: 63)
+            try validate(self.userProfileNameContains, name:"userProfileNameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainIdEquals = "DomainIdEquals"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case userProfileNameContains = "UserProfileNameContains"
+        }
+    }
+
+    public struct ListUserProfilesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "UserProfiles", required: false, type: .list)
+        ]
+
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+        /// The list of user profiles.
+        public let userProfiles: [UserProfileDetails]?
+
+        public init(nextToken: String? = nil, userProfiles: [UserProfileDetails]? = nil) {
+            self.nextToken = nextToken
+            self.userProfiles = userProfiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case userProfiles = "UserProfiles"
         }
     }
 
@@ -7093,6 +12188,542 @@ extension SageMaker {
         }
     }
 
+    public struct MonitoringAppSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainerArguments", required: false, type: .list), 
+            AWSShapeMember(label: "ContainerEntrypoint", required: false, type: .list), 
+            AWSShapeMember(label: "ImageUri", required: true, type: .string), 
+            AWSShapeMember(label: "PostAnalyticsProcessorSourceUri", required: false, type: .string), 
+            AWSShapeMember(label: "RecordPreprocessorSourceUri", required: false, type: .string)
+        ]
+
+        /// An array of arguments for the container used to run the monitoring job.
+        public let containerArguments: [String]?
+        /// Specifies the entrypoint for a container used to run the monitoring job.
+        public let containerEntrypoint: [String]?
+        /// The container image to be run by the monitoring job.
+        public let imageUri: String
+        /// An Amazon S3 URI to a script that is called after analysis has been performed. Applicable only for the built-in (first party) containers.
+        public let postAnalyticsProcessorSourceUri: String?
+        /// An Amazon S3 URI to a script that is called per row prior to running analysis. It can base64 decode the payload and convert it into a flatted json so that the built-in container can use the converted data. Applicable only for the built-in (first party) containers.
+        public let recordPreprocessorSourceUri: String?
+
+        public init(containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, imageUri: String, postAnalyticsProcessorSourceUri: String? = nil, recordPreprocessorSourceUri: String? = nil) {
+            self.containerArguments = containerArguments
+            self.containerEntrypoint = containerEntrypoint
+            self.imageUri = imageUri
+            self.postAnalyticsProcessorSourceUri = postAnalyticsProcessorSourceUri
+            self.recordPreprocessorSourceUri = recordPreprocessorSourceUri
+        }
+
+        public func validate(name: String) throws {
+            try self.containerArguments?.forEach {
+                try validate($0, name: "containerArguments[]", parent: name, max: 256)
+                try validate($0, name: "containerArguments[]", parent: name, pattern: ".*")
+            }
+            try validate(self.containerArguments, name:"containerArguments", parent: name, max: 50)
+            try validate(self.containerArguments, name:"containerArguments", parent: name, min: 1)
+            try self.containerEntrypoint?.forEach {
+                try validate($0, name: "containerEntrypoint[]", parent: name, max: 256)
+                try validate($0, name: "containerEntrypoint[]", parent: name, pattern: ".*")
+            }
+            try validate(self.containerEntrypoint, name:"containerEntrypoint", parent: name, max: 100)
+            try validate(self.containerEntrypoint, name:"containerEntrypoint", parent: name, min: 1)
+            try validate(self.imageUri, name:"imageUri", parent: name, max: 255)
+            try validate(self.imageUri, name:"imageUri", parent: name, pattern: ".*")
+            try validate(self.postAnalyticsProcessorSourceUri, name:"postAnalyticsProcessorSourceUri", parent: name, max: 1024)
+            try validate(self.postAnalyticsProcessorSourceUri, name:"postAnalyticsProcessorSourceUri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try validate(self.recordPreprocessorSourceUri, name:"recordPreprocessorSourceUri", parent: name, max: 1024)
+            try validate(self.recordPreprocessorSourceUri, name:"recordPreprocessorSourceUri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerArguments = "ContainerArguments"
+            case containerEntrypoint = "ContainerEntrypoint"
+            case imageUri = "ImageUri"
+            case postAnalyticsProcessorSourceUri = "PostAnalyticsProcessorSourceUri"
+            case recordPreprocessorSourceUri = "RecordPreprocessorSourceUri"
+        }
+    }
+
+    public struct MonitoringBaselineConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConstraintsResource", required: false, type: .structure), 
+            AWSShapeMember(label: "StatisticsResource", required: false, type: .structure)
+        ]
+
+        /// The baseline constraint file in Amazon S3 that the current monitoring job should validated against.
+        public let constraintsResource: MonitoringConstraintsResource?
+        /// The baseline statistics file in Amazon S3 that the current monitoring job should be validated against.
+        public let statisticsResource: MonitoringStatisticsResource?
+
+        public init(constraintsResource: MonitoringConstraintsResource? = nil, statisticsResource: MonitoringStatisticsResource? = nil) {
+            self.constraintsResource = constraintsResource
+            self.statisticsResource = statisticsResource
+        }
+
+        public func validate(name: String) throws {
+            try self.constraintsResource?.validate(name: "\(name).constraintsResource")
+            try self.statisticsResource?.validate(name: "\(name).statisticsResource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraintsResource = "ConstraintsResource"
+            case statisticsResource = "StatisticsResource"
+        }
+    }
+
+    public struct MonitoringClusterConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSizeInGB", required: true, type: .integer)
+        ]
+
+        /// The number of ML compute instances to use in the model monitoring job. For distributed processing jobs, specify a value greater than 1. The default value is 1.
+        public let instanceCount: Int
+        /// The ML compute instance type for the processing job.
+        public let instanceType: ProcessingInstanceType
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the model monitoring job.
+        public let volumeKmsKeyId: String?
+        /// The size of the ML storage volume, in gigabytes, that you want to provision. You must specify sufficient ML storage for your scenario.
+        public let volumeSizeInGB: Int
+
+        public init(instanceCount: Int, instanceType: ProcessingInstanceType, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int) {
+            self.instanceCount = instanceCount
+            self.instanceType = instanceType
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.volumeSizeInGB = volumeSizeInGB
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.instanceCount, name:"instanceCount", parent: name, max: 100)
+            try validate(self.instanceCount, name:"instanceCount", parent: name, min: 1)
+            try validate(self.volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, max: 2048)
+            try validate(self.volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, pattern: ".*")
+            try validate(self.volumeSizeInGB, name:"volumeSizeInGB", parent: name, max: 16384)
+            try validate(self.volumeSizeInGB, name:"volumeSizeInGB", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceCount = "InstanceCount"
+            case instanceType = "InstanceType"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case volumeSizeInGB = "VolumeSizeInGB"
+        }
+    }
+
+    public struct MonitoringConstraintsResource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Uri", required: false, type: .string)
+        ]
+
+        /// The Amazon S3 URI for the constraints resource.
+        public let s3Uri: String?
+
+        public init(s3Uri: String? = nil) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(self.s3Uri, name:"s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public enum MonitoringExecutionSortKey: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case scheduledtime = "ScheduledTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MonitoringExecutionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "MonitoringExecutionStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string), 
+            AWSShapeMember(label: "ProcessingJobArn", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledTime", required: true, type: .timestamp)
+        ]
+
+        /// The time at which the monitoring job was created.
+        public let creationTime: TimeStamp
+        /// The name of teh endpoint used to run the monitoring job.
+        public let endpointName: String?
+        /// Contains the reason a monitoring job failed, if it failed.
+        public let failureReason: String?
+        /// A timestamp that indicates the last time the monitoring job was modified.
+        public let lastModifiedTime: TimeStamp
+        /// The status of the monitoring job.
+        public let monitoringExecutionStatus: ExecutionStatus
+        /// The name of the monitoring schedule.
+        public let monitoringScheduleName: String
+        /// The Amazon Resource Name (ARN) of the monitoring job.
+        public let processingJobArn: String?
+        /// The time the monitoring job was scheduled.
+        public let scheduledTime: TimeStamp
+
+        public init(creationTime: TimeStamp, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: TimeStamp, monitoringExecutionStatus: ExecutionStatus, monitoringScheduleName: String, processingJobArn: String? = nil, scheduledTime: TimeStamp) {
+            self.creationTime = creationTime
+            self.endpointName = endpointName
+            self.failureReason = failureReason
+            self.lastModifiedTime = lastModifiedTime
+            self.monitoringExecutionStatus = monitoringExecutionStatus
+            self.monitoringScheduleName = monitoringScheduleName
+            self.processingJobArn = processingJobArn
+            self.scheduledTime = scheduledTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case endpointName = "EndpointName"
+            case failureReason = "FailureReason"
+            case lastModifiedTime = "LastModifiedTime"
+            case monitoringExecutionStatus = "MonitoringExecutionStatus"
+            case monitoringScheduleName = "MonitoringScheduleName"
+            case processingJobArn = "ProcessingJobArn"
+            case scheduledTime = "ScheduledTime"
+        }
+    }
+
+    public struct MonitoringInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointInput", required: true, type: .structure)
+        ]
+
+        /// The endpoint for a monitoring job.
+        public let endpointInput: EndpointInput
+
+        public init(endpointInput: EndpointInput) {
+            self.endpointInput = endpointInput
+        }
+
+        public func validate(name: String) throws {
+            try self.endpointInput.validate(name: "\(name).endpointInput")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointInput = "EndpointInput"
+        }
+    }
+
+    public struct MonitoringJobDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Environment", required: false, type: .map), 
+            AWSShapeMember(label: "MonitoringAppSpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "MonitoringInputs", required: true, type: .list), 
+            AWSShapeMember(label: "MonitoringOutputConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "MonitoringResources", required: true, type: .structure), 
+            AWSShapeMember(label: "NetworkConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "StoppingCondition", required: false, type: .structure)
+        ]
+
+        /// Baseline configuration used to validate that the data conforms to the specified constraints and statistics
+        public let baselineConfig: MonitoringBaselineConfig?
+        /// Sets the environment variables in the Docker container.
+        public let environment: [String: String]?
+        /// Configures the monitoring job to run a specified Docker container image.
+        public let monitoringAppSpecification: MonitoringAppSpecification
+        /// The array of inputs for the monitoring job. Currently we support monitoring an Amazon SageMaker Endpoint.
+        public let monitoringInputs: [MonitoringInput]
+        /// The array of outputs from the monitoring job to be uploaded to Amazon Simple Storage Service (Amazon S3).
+        public let monitoringOutputConfig: MonitoringOutputConfig
+        /// Identifies the resources, ML compute instances, and ML storage volumes to deploy for a monitoring job. In distributed processing, you specify more than one instance.
+        public let monitoringResources: MonitoringResources
+        /// Specifies networking options for an monitoring job.
+        public let networkConfig: NetworkConfig?
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+        public let roleArn: String
+        /// Specifies a time limit for how long the monitoring job is allowed to run.
+        public let stoppingCondition: MonitoringStoppingCondition?
+
+        public init(baselineConfig: MonitoringBaselineConfig? = nil, environment: [String: String]? = nil, monitoringAppSpecification: MonitoringAppSpecification, monitoringInputs: [MonitoringInput], monitoringOutputConfig: MonitoringOutputConfig, monitoringResources: MonitoringResources, networkConfig: NetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil) {
+            self.baselineConfig = baselineConfig
+            self.environment = environment
+            self.monitoringAppSpecification = monitoringAppSpecification
+            self.monitoringInputs = monitoringInputs
+            self.monitoringOutputConfig = monitoringOutputConfig
+            self.monitoringResources = monitoringResources
+            self.networkConfig = networkConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+        }
+
+        public func validate(name: String) throws {
+            try self.baselineConfig?.validate(name: "\(name).baselineConfig")
+            try self.environment?.forEach {
+                try validate($0.key, name:"environment.key", parent: name, max: 256)
+                try validate($0.key, name:"environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.value, name:"environment[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"environment[\"\($0.key)\"]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try self.monitoringAppSpecification.validate(name: "\(name).monitoringAppSpecification")
+            try self.monitoringInputs.forEach {
+                try $0.validate(name: "\(name).monitoringInputs[]")
+            }
+            try validate(self.monitoringInputs, name:"monitoringInputs", parent: name, max: 1)
+            try validate(self.monitoringInputs, name:"monitoringInputs", parent: name, min: 1)
+            try self.monitoringOutputConfig.validate(name: "\(name).monitoringOutputConfig")
+            try self.monitoringResources.validate(name: "\(name).monitoringResources")
+            try self.networkConfig?.validate(name: "\(name).networkConfig")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.roleArn, name:"roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.stoppingCondition?.validate(name: "\(name).stoppingCondition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baselineConfig = "BaselineConfig"
+            case environment = "Environment"
+            case monitoringAppSpecification = "MonitoringAppSpecification"
+            case monitoringInputs = "MonitoringInputs"
+            case monitoringOutputConfig = "MonitoringOutputConfig"
+            case monitoringResources = "MonitoringResources"
+            case networkConfig = "NetworkConfig"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+        }
+    }
+
+    public struct MonitoringOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Output", required: true, type: .structure)
+        ]
+
+        /// The Amazon S3 storage location where the results of a monitoring job are saved.
+        public let s3Output: MonitoringS3Output
+
+        public init(s3Output: MonitoringS3Output) {
+            self.s3Output = s3Output
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Output.validate(name: "\(name).s3Output")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Output = "S3Output"
+        }
+    }
+
+    public struct MonitoringOutputConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "MonitoringOutputs", required: true, type: .list)
+        ]
+
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption.
+        public let kmsKeyId: String?
+        /// Monitoring outputs for monitoring jobs. This is where the output of the periodic monitoring jobs is uploaded.
+        public let monitoringOutputs: [MonitoringOutput]
+
+        public init(kmsKeyId: String? = nil, monitoringOutputs: [MonitoringOutput]) {
+            self.kmsKeyId = kmsKeyId
+            self.monitoringOutputs = monitoringOutputs
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, pattern: ".*")
+            try self.monitoringOutputs.forEach {
+                try $0.validate(name: "\(name).monitoringOutputs[]")
+            }
+            try validate(self.monitoringOutputs, name:"monitoringOutputs", parent: name, max: 1)
+            try validate(self.monitoringOutputs, name:"monitoringOutputs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case monitoringOutputs = "MonitoringOutputs"
+        }
+    }
+
+    public struct MonitoringResources: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterConfig", required: true, type: .structure)
+        ]
+
+        /// The configuration for the cluster resources used to run the processing job.
+        public let clusterConfig: MonitoringClusterConfig
+
+        public init(clusterConfig: MonitoringClusterConfig) {
+            self.clusterConfig = clusterConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.clusterConfig.validate(name: "\(name).clusterConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterConfig = "ClusterConfig"
+        }
+    }
+
+    public struct MonitoringS3Output: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocalPath", required: true, type: .string), 
+            AWSShapeMember(label: "S3UploadMode", required: false, type: .enum), 
+            AWSShapeMember(label: "S3Uri", required: true, type: .string)
+        ]
+
+        /// The local path to the Amazon S3 storage location where Amazon SageMaker saves the results of a monitoring job. LocalPath is an absolute path for the output data.
+        public let localPath: String
+        /// Whether to upload the results of the monitoring job continuously or after the job completes.
+        public let s3UploadMode: ProcessingS3UploadMode?
+        /// A URI that identifies the Amazon S3 storage location where Amazon SageMaker saves the results of a monitoring job.
+        public let s3Uri: String
+
+        public init(localPath: String, s3UploadMode: ProcessingS3UploadMode? = nil, s3Uri: String) {
+            self.localPath = localPath
+            self.s3UploadMode = s3UploadMode
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.localPath, name:"localPath", parent: name, max: 256)
+            try validate(self.localPath, name:"localPath", parent: name, pattern: ".*")
+            try validate(self.s3Uri, name:"s3Uri", parent: name, max: 512)
+            try validate(self.s3Uri, name:"s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localPath = "LocalPath"
+            case s3UploadMode = "S3UploadMode"
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct MonitoringScheduleConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringJobDefinition", required: true, type: .structure), 
+            AWSShapeMember(label: "ScheduleConfig", required: false, type: .structure)
+        ]
+
+        /// Defines the monitoring job.
+        public let monitoringJobDefinition: MonitoringJobDefinition
+        /// Configures the monitoring schedule.
+        public let scheduleConfig: ScheduleConfig?
+
+        public init(monitoringJobDefinition: MonitoringJobDefinition, scheduleConfig: ScheduleConfig? = nil) {
+            self.monitoringJobDefinition = monitoringJobDefinition
+            self.scheduleConfig = scheduleConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.monitoringJobDefinition.validate(name: "\(name).monitoringJobDefinition")
+            try self.scheduleConfig?.validate(name: "\(name).scheduleConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringJobDefinition = "MonitoringJobDefinition"
+            case scheduleConfig = "ScheduleConfig"
+        }
+    }
+
+    public enum MonitoringScheduleSortKey: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MonitoringScheduleSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndpointName", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "MonitoringScheduleArn", required: true, type: .string), 
+            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string), 
+            AWSShapeMember(label: "MonitoringScheduleStatus", required: true, type: .enum)
+        ]
+
+        /// The creation time of the monitoring schedule.
+        public let creationTime: TimeStamp
+        /// The name of the endpoint using the monitoring schedule.
+        public let endpointName: String?
+        /// The last time the monitoring schedule was modified.
+        public let lastModifiedTime: TimeStamp
+        /// The Amazon Resource Name (ARN) of the monitoring schedule.
+        public let monitoringScheduleArn: String
+        /// The name of the monitoring schedule.
+        public let monitoringScheduleName: String
+        /// The status of the monitoring schedule.
+        public let monitoringScheduleStatus: ScheduleStatus
+
+        public init(creationTime: TimeStamp, endpointName: String? = nil, lastModifiedTime: TimeStamp, monitoringScheduleArn: String, monitoringScheduleName: String, monitoringScheduleStatus: ScheduleStatus) {
+            self.creationTime = creationTime
+            self.endpointName = endpointName
+            self.lastModifiedTime = lastModifiedTime
+            self.monitoringScheduleArn = monitoringScheduleArn
+            self.monitoringScheduleName = monitoringScheduleName
+            self.monitoringScheduleStatus = monitoringScheduleStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case endpointName = "EndpointName"
+            case lastModifiedTime = "LastModifiedTime"
+            case monitoringScheduleArn = "MonitoringScheduleArn"
+            case monitoringScheduleName = "MonitoringScheduleName"
+            case monitoringScheduleStatus = "MonitoringScheduleStatus"
+        }
+    }
+
+    public struct MonitoringStatisticsResource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Uri", required: false, type: .string)
+        ]
+
+        /// The Amazon S3 URI for the statistics resource.
+        public let s3Uri: String?
+
+        public init(s3Uri: String? = nil) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(self.s3Uri, name:"s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct MonitoringStoppingCondition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRuntimeInSeconds", required: true, type: .integer)
+        ]
+
+        /// The maximum runtime allowed in seconds.
+        public let maxRuntimeInSeconds: Int
+
+        public init(maxRuntimeInSeconds: Int) {
+            self.maxRuntimeInSeconds = maxRuntimeInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxRuntimeInSeconds, name:"maxRuntimeInSeconds", parent: name, max: 86400)
+            try validate(self.maxRuntimeInSeconds, name:"maxRuntimeInSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRuntimeInSeconds = "MaxRuntimeInSeconds"
+        }
+    }
+
     public struct NestedFilters: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filters", required: true, type: .list), 
@@ -7101,7 +12732,7 @@ extension SageMaker {
 
         /// A list of filters. Each filter acts on a property. Filters must contain at least one Filters value. For example, a NestedFilters call might include a filter on the PropertyName parameter of the InputDataConfig property: InputDataConfig.DataSource.S3DataSource.S3Uri.
         public let filters: [Filter]
-        /// The name of the property to use in the nested filters. The value must match a listed property name, such as InputDataConfig .
+        /// The name of the property to use in the nested filters. The value must match a listed property name, such as InputDataConfig.
         public let nestedPropertyName: String
 
         public init(filters: [Filter], nestedPropertyName: String) {
@@ -7123,6 +12754,31 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
             case nestedPropertyName = "NestedPropertyName"
+        }
+    }
+
+    public struct NetworkConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
+        ]
+
+        /// Whether to allow inbound and outbound network calls to and from the containers used for the processing job.
+        public let enableNetworkIsolation: Bool?
+        public let vpcConfig: VpcConfig?
+
+        public init(enableNetworkIsolation: Bool? = nil, vpcConfig: VpcConfig? = nil) {
+            self.enableNetworkIsolation = enableNetworkIsolation
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableNetworkIsolation = "EnableNetworkIsolation"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -7290,6 +12946,12 @@ extension SageMaker {
         }
     }
 
+    public enum NotebookOutputOption: String, CustomStringConvertible, Codable {
+        case allowed = "Allowed"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
     public struct NotificationConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string)
@@ -7353,6 +13015,8 @@ extension SageMaker {
         case lessthan = "LessThan"
         case lessthanorequalto = "LessThanOrEqualTo"
         case contains = "Contains"
+        case exists = "Exists"
+        case notexists = "NotExists"
         public var description: String { return self.rawValue }
     }
 
@@ -7504,6 +13168,28 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public struct Parent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
+            AWSShapeMember(label: "TrialName", required: false, type: .string)
+        ]
+
+        /// The name of the experiment.
+        public let experimentName: String?
+        /// The name of the trial.
+        public let trialName: String?
+
+        public init(experimentName: String? = nil, trialName: String? = nil) {
+            self.experimentName = experimentName
+            self.trialName = trialName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case experimentName = "ExperimentName"
+            case trialName = "TrialName"
+        }
+    }
+
     public struct ParentHyperParameterTuningJob: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HyperParameterTuningJobName", required: false, type: .string)
@@ -7524,6 +13210,397 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case hyperParameterTuningJobName = "HyperParameterTuningJobName"
+        }
+    }
+
+    public enum ProblemType: String, CustomStringConvertible, Codable {
+        case binaryclassification = "BinaryClassification"
+        case multiclassclassification = "MulticlassClassification"
+        case regression = "Regression"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ProcessingClusterConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .enum), 
+            AWSShapeMember(label: "VolumeKmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSizeInGB", required: true, type: .integer)
+        ]
+
+        /// The number of ML compute instances to use in the processing job. For distributed processing jobs, specify a value greater than 1. The default value is 1.
+        public let instanceCount: Int
+        /// The ML compute instance type for the processing job.
+        public let instanceType: ProcessingInstanceType
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the processing job. 
+        public let volumeKmsKeyId: String?
+        /// The size of the ML storage volume in gigabytes that you want to provision. You must specify sufficient ML storage for your scenario.
+        public let volumeSizeInGB: Int
+
+        public init(instanceCount: Int, instanceType: ProcessingInstanceType, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int) {
+            self.instanceCount = instanceCount
+            self.instanceType = instanceType
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.volumeSizeInGB = volumeSizeInGB
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.instanceCount, name:"instanceCount", parent: name, max: 100)
+            try validate(self.instanceCount, name:"instanceCount", parent: name, min: 1)
+            try validate(self.volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, max: 2048)
+            try validate(self.volumeKmsKeyId, name:"volumeKmsKeyId", parent: name, pattern: ".*")
+            try validate(self.volumeSizeInGB, name:"volumeSizeInGB", parent: name, max: 16384)
+            try validate(self.volumeSizeInGB, name:"volumeSizeInGB", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceCount = "InstanceCount"
+            case instanceType = "InstanceType"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case volumeSizeInGB = "VolumeSizeInGB"
+        }
+    }
+
+    public struct ProcessingInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputName", required: true, type: .string), 
+            AWSShapeMember(label: "S3Input", required: true, type: .structure)
+        ]
+
+        /// The name of the inputs for the processing job.
+        public let inputName: String
+        /// The S3 inputs for the processing job. 
+        public let s3Input: ProcessingS3Input
+
+        public init(inputName: String, s3Input: ProcessingS3Input) {
+            self.inputName = inputName
+            self.s3Input = s3Input
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Input.validate(name: "\(name).s3Input")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputName = "InputName"
+            case s3Input = "S3Input"
+        }
+    }
+
+    public enum ProcessingInstanceType: String, CustomStringConvertible, Codable {
+        case mlT3Medium = "ml.t3.medium"
+        case mlT3Large = "ml.t3.large"
+        case mlT3Xlarge = "ml.t3.xlarge"
+        case mlT32Xlarge = "ml.t3.2xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC42Xlarge = "ml.c4.2xlarge"
+        case mlC44Xlarge = "ml.c4.4xlarge"
+        case mlC48Xlarge = "ml.c4.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlR5Large = "ml.r5.large"
+        case mlR5Xlarge = "ml.r5.xlarge"
+        case mlR52Xlarge = "ml.r5.2xlarge"
+        case mlR54Xlarge = "ml.r5.4xlarge"
+        case mlR58Xlarge = "ml.r5.8xlarge"
+        case mlR512Xlarge = "ml.r5.12xlarge"
+        case mlR516Xlarge = "ml.r5.16xlarge"
+        case mlR524Xlarge = "ml.r5.24xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessingJobStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ProcessingJobSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ExitMessage", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ProcessingEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ProcessingJobArn", required: true, type: .string), 
+            AWSShapeMember(label: "ProcessingJobName", required: true, type: .string), 
+            AWSShapeMember(label: "ProcessingJobStatus", required: true, type: .enum)
+        ]
+
+        /// The time at which the processing job was created.
+        public let creationTime: TimeStamp
+        /// An optional string, up to one KB in size, that contains metadata from the processing container when the processing job exits.
+        public let exitMessage: String?
+        /// A string, up to one KB in size, that contains the reason a processing job failed, if it failed.
+        public let failureReason: String?
+        /// A timestamp that indicates the last time the processing job was modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The time at which the processing job completed.
+        public let processingEndTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the processing job..
+        public let processingJobArn: String
+        /// The name of the processing job.
+        public let processingJobName: String
+        /// The status of the processing job.
+        public let processingJobStatus: ProcessingJobStatus
+
+        public init(creationTime: TimeStamp, exitMessage: String? = nil, failureReason: String? = nil, lastModifiedTime: TimeStamp? = nil, processingEndTime: TimeStamp? = nil, processingJobArn: String, processingJobName: String, processingJobStatus: ProcessingJobStatus) {
+            self.creationTime = creationTime
+            self.exitMessage = exitMessage
+            self.failureReason = failureReason
+            self.lastModifiedTime = lastModifiedTime
+            self.processingEndTime = processingEndTime
+            self.processingJobArn = processingJobArn
+            self.processingJobName = processingJobName
+            self.processingJobStatus = processingJobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case exitMessage = "ExitMessage"
+            case failureReason = "FailureReason"
+            case lastModifiedTime = "LastModifiedTime"
+            case processingEndTime = "ProcessingEndTime"
+            case processingJobArn = "ProcessingJobArn"
+            case processingJobName = "ProcessingJobName"
+            case processingJobStatus = "ProcessingJobStatus"
+        }
+    }
+
+    public struct ProcessingOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputName", required: true, type: .string), 
+            AWSShapeMember(label: "S3Output", required: true, type: .structure)
+        ]
+
+        /// The name for the processing job output.
+        public let outputName: String
+        /// Configuration for processing job outputs in Amazon S3.
+        public let s3Output: ProcessingS3Output
+
+        public init(outputName: String, s3Output: ProcessingS3Output) {
+            self.outputName = outputName
+            self.s3Output = s3Output
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Output.validate(name: "\(name).s3Output")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputName = "OutputName"
+            case s3Output = "S3Output"
+        }
+    }
+
+    public struct ProcessingOutputConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "Outputs", required: true, type: .list)
+        ]
+
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the processing job output. KmsKeyId can be an ID of a KMS key, ARN of a KMS key, alias of a KMS key, or alias of a KMS key. The KmsKeyId is applied to all outputs.
+        public let kmsKeyId: String?
+        /// Output configuration information for a processing job.
+        public let outputs: [ProcessingOutput]
+
+        public init(kmsKeyId: String? = nil, outputs: [ProcessingOutput]) {
+            self.kmsKeyId = kmsKeyId
+            self.outputs = outputs
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, pattern: ".*")
+            try self.outputs.forEach {
+                try $0.validate(name: "\(name).outputs[]")
+            }
+            try validate(self.outputs, name:"outputs", parent: name, max: 10)
+            try validate(self.outputs, name:"outputs", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case outputs = "Outputs"
+        }
+    }
+
+    public struct ProcessingResources: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterConfig", required: true, type: .structure)
+        ]
+
+        /// The configuration for the resources in a cluster used to run the processing job.
+        public let clusterConfig: ProcessingClusterConfig
+
+        public init(clusterConfig: ProcessingClusterConfig) {
+            self.clusterConfig = clusterConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.clusterConfig.validate(name: "\(name).clusterConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterConfig = "ClusterConfig"
+        }
+    }
+
+    public enum ProcessingS3CompressionType: String, CustomStringConvertible, Codable {
+        case none = "None"
+        case gzip = "Gzip"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessingS3DataDistributionType: String, CustomStringConvertible, Codable {
+        case fullyreplicated = "FullyReplicated"
+        case shardedbys3key = "ShardedByS3Key"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessingS3DataType: String, CustomStringConvertible, Codable {
+        case manifestfile = "ManifestFile"
+        case s3prefix = "S3Prefix"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ProcessingS3Input: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocalPath", required: true, type: .string), 
+            AWSShapeMember(label: "S3CompressionType", required: false, type: .enum), 
+            AWSShapeMember(label: "S3DataDistributionType", required: false, type: .enum), 
+            AWSShapeMember(label: "S3DataType", required: true, type: .enum), 
+            AWSShapeMember(label: "S3InputMode", required: true, type: .enum), 
+            AWSShapeMember(label: "S3Uri", required: true, type: .string)
+        ]
+
+        /// The local path to the Amazon S3 bucket where you want Amazon SageMaker to download the inputs to run a processing job. LocalPath is an absolute path to the input data.
+        public let localPath: String
+        /// Whether to use Gzip compresion for Amazon S3 storage.
+        public let s3CompressionType: ProcessingS3CompressionType?
+        /// Whether the data stored in Amazon S3 is FullyReplicated or ShardedByS3Key.
+        public let s3DataDistributionType: ProcessingS3DataDistributionType?
+        /// Whether you use an S3Prefix or a ManifestFile for the data type. If you choose S3Prefix, S3Uri identifies a key name prefix. Amazon SageMaker uses all objects with the specified key name prefix for the processing job. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for the processing job.
+        public let s3DataType: ProcessingS3DataType
+        /// Wether to use File or Pipe input mode. In File mode, Amazon SageMaker copies the data from the input source onto the local Amazon Elastic Block Store (Amazon EBS) volumes before starting your training algorithm. This is the most commonly used input mode. In Pipe mode, Amazon SageMaker streams input data from the source directly to your algorithm without using the EBS volume.
+        public let s3InputMode: ProcessingS3InputMode
+        /// The URI for the Amazon S3 storage where you want Amazon SageMaker to download the artifacts needed to run a processing job.
+        public let s3Uri: String
+
+        public init(localPath: String, s3CompressionType: ProcessingS3CompressionType? = nil, s3DataDistributionType: ProcessingS3DataDistributionType? = nil, s3DataType: ProcessingS3DataType, s3InputMode: ProcessingS3InputMode, s3Uri: String) {
+            self.localPath = localPath
+            self.s3CompressionType = s3CompressionType
+            self.s3DataDistributionType = s3DataDistributionType
+            self.s3DataType = s3DataType
+            self.s3InputMode = s3InputMode
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.localPath, name:"localPath", parent: name, max: 256)
+            try validate(self.localPath, name:"localPath", parent: name, pattern: ".*")
+            try validate(self.s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(self.s3Uri, name:"s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localPath = "LocalPath"
+            case s3CompressionType = "S3CompressionType"
+            case s3DataDistributionType = "S3DataDistributionType"
+            case s3DataType = "S3DataType"
+            case s3InputMode = "S3InputMode"
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public enum ProcessingS3InputMode: String, CustomStringConvertible, Codable {
+        case pipe = "Pipe"
+        case file = "File"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ProcessingS3Output: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocalPath", required: true, type: .string), 
+            AWSShapeMember(label: "S3UploadMode", required: true, type: .enum), 
+            AWSShapeMember(label: "S3Uri", required: true, type: .string)
+        ]
+
+        /// The local path to the Amazon S3 bucket where you want Amazon SageMaker to save the results of an processing job. LocalPath is an absolute path to the input data.
+        public let localPath: String
+        /// Whether to upload the results of the processing job continuously or after the job completes.
+        public let s3UploadMode: ProcessingS3UploadMode
+        /// A URI that identifies the Amazon S3 bucket where you want Amazon SageMaker to save the results of a processing job.
+        public let s3Uri: String
+
+        public init(localPath: String, s3UploadMode: ProcessingS3UploadMode, s3Uri: String) {
+            self.localPath = localPath
+            self.s3UploadMode = s3UploadMode
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.localPath, name:"localPath", parent: name, max: 256)
+            try validate(self.localPath, name:"localPath", parent: name, pattern: ".*")
+            try validate(self.s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(self.s3Uri, name:"s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localPath = "LocalPath"
+            case s3UploadMode = "S3UploadMode"
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public enum ProcessingS3UploadMode: String, CustomStringConvertible, Codable {
+        case continuous = "Continuous"
+        case endofjob = "EndOfJob"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ProcessingStoppingCondition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRuntimeInSeconds", required: true, type: .integer)
+        ]
+
+        /// Specifies the maximum runtime in seconds.
+        public let maxRuntimeInSeconds: Int
+
+        public init(maxRuntimeInSeconds: Int) {
+            self.maxRuntimeInSeconds = maxRuntimeInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxRuntimeInSeconds, name:"maxRuntimeInSeconds", parent: name, max: 604800)
+            try validate(self.maxRuntimeInSeconds, name:"maxRuntimeInSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRuntimeInSeconds = "MaxRuntimeInSeconds"
         }
     }
 
@@ -7651,6 +13728,10 @@ extension SageMaker {
         case mlR5D4Xlarge = "ml.r5d.4xlarge"
         case mlR5D12Xlarge = "ml.r5d.12xlarge"
         case mlR5D24Xlarge = "ml.r5d.24xlarge"
+        case mlInf1Xlarge = "ml.inf1.xlarge"
+        case mlInf12Xlarge = "ml.inf1.2xlarge"
+        case mlInf16Xlarge = "ml.inf1.6xlarge"
+        case mlInf124Xlarge = "ml.inf1.24xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -7701,7 +13782,7 @@ extension SageMaker {
             AWSShapeMember(label: "PropertyNameHint", required: true, type: .string)
         ]
 
-        /// Text that is part of a property's name. The property names of hyperparameter, metric, and tag key names that begin with the specified text in the PropertyNameHint.
+        /// Text that begins a property's name.
         public let propertyNameHint: String
 
         public init(propertyNameHint: String) {
@@ -7865,6 +13946,31 @@ extension SageMaker {
         }
     }
 
+    public struct ResolvedAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMLJobObjective", required: false, type: .structure), 
+            AWSShapeMember(label: "CompletionCriteria", required: false, type: .structure), 
+            AWSShapeMember(label: "ProblemType", required: false, type: .enum)
+        ]
+
+        public let autoMLJobObjective: AutoMLJobObjective?
+        public let completionCriteria: AutoMLJobCompletionCriteria?
+        /// The problem type.
+        public let problemType: ProblemType?
+
+        public init(autoMLJobObjective: AutoMLJobObjective? = nil, completionCriteria: AutoMLJobCompletionCriteria? = nil, problemType: ProblemType? = nil) {
+            self.autoMLJobObjective = autoMLJobObjective
+            self.completionCriteria = completionCriteria
+            self.problemType = problemType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobObjective = "AutoMLJobObjective"
+            case completionCriteria = "CompletionCriteria"
+            case problemType = "ProblemType"
+        }
+    }
+
     public struct ResourceConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
@@ -7877,9 +13983,9 @@ extension SageMaker {
         public let instanceCount: Int
         /// The ML compute instance type. 
         public let instanceType: TrainingInstanceType
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job. The VolumeKmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        /// The AWS KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job.  Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.  The VolumeKmsKeyId can be in any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        /// The size of the ML storage volume that you want to provision.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose File as the TrainingInputMode in the algorithm specification.  You must specify sufficient ML storage for your scenario.    Amazon SageMaker supports only the General Purpose SSD (gp2) ML storage volume type.  
+        /// The size of the ML storage volume that you want to provision.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose File as the TrainingInputMode in the algorithm specification.  You must specify sufficient ML storage for your scenario.    Amazon SageMaker supports only the General Purpose SSD (gp2) ML storage volume type.    Certain Nitro-based instances include local storage with a fixed total size, dependent on the instance type. When using these instances for training, Amazon SageMaker mounts the local instance storage instead of Amazon EBS gp2 storage. You can't request a VolumeSizeInGB greater than the total size of the local instance storage. For a list of instance types that support local instance storage, including the total size per instance type, see Instance Store Volumes. 
         public let volumeSizeInGB: Int
 
         public init(instanceCount: Int, instanceType: TrainingInstanceType, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int) {
@@ -7931,14 +14037,77 @@ extension SageMaker {
         }
     }
 
+    public struct ResourceSpec: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnvironmentArn", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .enum)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the environment.
+        public let environmentArn: String?
+        /// The instance type.
+        public let instanceType: AppInstanceType?
+
+        public init(environmentArn: String? = nil, instanceType: AppInstanceType? = nil) {
+            self.environmentArn = environmentArn
+            self.instanceType = instanceType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.environmentArn, name:"environmentArn", parent: name, max: 256)
+            try validate(self.environmentArn, name:"environmentArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:environment/[a-z0-9](-*[a-z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentArn = "EnvironmentArn"
+            case instanceType = "InstanceType"
+        }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case trainingjob = "TrainingJob"
+        case experiment = "Experiment"
+        case experimenttrial = "ExperimentTrial"
+        case experimenttrialcomponent = "ExperimentTrialComponent"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RetentionPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HomeEfsFileSystem", required: false, type: .enum)
+        ]
+
+        /// The home Amazon Elastic File System (EFS).
+        public let homeEfsFileSystem: RetentionType?
+
+        public init(homeEfsFileSystem: RetentionType? = nil) {
+            self.homeEfsFileSystem = homeEfsFileSystem
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case homeEfsFileSystem = "HomeEfsFileSystem"
+        }
+    }
+
+    public enum RetentionType: String, CustomStringConvertible, Codable {
+        case retain = "Retain"
+        case delete = "Delete"
         public var description: String { return self.rawValue }
     }
 
     public enum RootAccess: String, CustomStringConvertible, Codable {
         case enabled = "Enabled"
         case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleEvaluationStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case noissuesfound = "NoIssuesFound"
+        case issuesfound = "IssuesFound"
+        case error = "Error"
+        case stopping = "Stopping"
+        case stopped = "Stopped"
         public var description: String { return self.rawValue }
     }
 
@@ -7962,7 +14131,7 @@ extension SageMaker {
         public let s3DataDistributionType: S3DataDistribution?
         /// If you choose S3Prefix, S3Uri identifies a key name prefix. Amazon SageMaker uses all objects that match the specified key name prefix for model training.  If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for model training.  If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile can only be used if the Channel's input mode is Pipe.
         public let s3DataType: S3DataType
-        /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:     A key name prefix might look like this: s3://bucketname/exampleprefix.     A manifest might look like this: s3://bucketname/example.manifest   The manifest is an S3 object which is a JSON file with the following format:   [    {"prefix": "s3://customer_bucket/some/prefix/"},    "relative/path/to/custdata-1",    "relative/path/custdata-2",    ...    ]   The preceding JSON matches the following s3Uris:   s3://customer_bucket/some/prefix/relative/path/to/custdata-1   s3://customer_bucket/some/prefix/relative/path/custdata-2   ...  The complete set of s3uris in this manifest is the input data for the channel for this datasource. The object that each s3uris points to must be readable by the IAM role that Amazon SageMaker uses to perform tasks on your behalf.   
+        /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:     A key name prefix might look like this: s3://bucketname/exampleprefix.     A manifest might look like this: s3://bucketname/example.manifest   The manifest is an S3 object which is a JSON file with the following format:   The preceding JSON matches the following s3Uris:   [ {"prefix": "s3://customer_bucket/some/prefix/"},   "relative/path/to/custdata-1",   "relative/path/custdata-2",   ...   "relative/path/custdata-N"   ]   The preceding JSON matches the following s3Uris:   s3://customer_bucket/some/prefix/relative/path/to/custdata-1   s3://customer_bucket/some/prefix/relative/path/custdata-2   ...   s3://customer_bucket/some/prefix/relative/path/custdata-N  The complete set of s3uris in this manifest is the input data for the channel for this datasource. The object that each s3uris points to must be readable by the IAM role that Amazon SageMaker uses to perform tasks on your behalf.   
         public let s3Uri: String
 
         public init(attributeNames: [String]? = nil, s3DataDistributionType: S3DataDistribution? = nil, s3DataType: S3DataType, s3Uri: String) {
@@ -7995,6 +14164,36 @@ extension SageMaker {
         case manifestfile = "ManifestFile"
         case s3prefix = "S3Prefix"
         case augmentedmanifestfile = "AugmentedManifestFile"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ScheduleConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScheduleExpression", required: true, type: .string)
+        ]
+
+        /// A cron expression that describes details about the monitoring schedule. Currently the only supported cron expressions are:   If you want to set the job to start every hour, please use the following:  Hourly: cron(0 * ? * * *)    If you want to start the job daily:  cron(0 [00-23] ? * * *)    For example, the following are valid cron expressions:   Daily at noon UTC: cron(0 12 ? * * *)    Daily at midnight UTC: cron(0 0 ? * * *)    To support running every 6, 12 hours, the following are also supported:  cron(0 [00-23]/[01-24] ? * * *)  For example, the following are valid cron expressions:   Every 12 hours, starting at 5pm UTC: cron(0 17/12 ? * * *)    Every two hours starting at midnight: cron(0 0/2 ? * * *)       Even though the cron expression is set to start at 5PM UTC, note that there could be a delay of 0-20 minutes from the actual requested time to run the execution.    We recommend that if you would like a daily schedule, you do not provide this parameter. Amazon SageMaker will pick a time for running every day.   
+        public let scheduleExpression: String
+
+        public init(scheduleExpression: String) {
+            self.scheduleExpression = scheduleExpression
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
+            try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduleExpression = "ScheduleExpression"
+        }
+    }
+
+    public enum ScheduleStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case failed = "Failed"
+        case scheduled = "Scheduled"
+        case stopped = "Stopped"
         public var description: String { return self.rawValue }
     }
 
@@ -8050,18 +14249,33 @@ extension SageMaker {
 
     public struct SearchRecord: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "TrainingJob", required: false, type: .structure)
+            AWSShapeMember(label: "Experiment", required: false, type: .structure), 
+            AWSShapeMember(label: "TrainingJob", required: false, type: .structure), 
+            AWSShapeMember(label: "Trial", required: false, type: .structure), 
+            AWSShapeMember(label: "TrialComponent", required: false, type: .structure)
         ]
 
+        /// A summary of the properties of an experiment.
+        public let experiment: Experiment?
         /// A TrainingJob object that is returned as part of a Search request.
         public let trainingJob: TrainingJob?
+        /// A summary of the properties of a trial.
+        public let trial: Trial?
+        /// A summary of the properties of a trial component.
+        public let trialComponent: TrialComponent?
 
-        public init(trainingJob: TrainingJob? = nil) {
+        public init(experiment: Experiment? = nil, trainingJob: TrainingJob? = nil, trial: Trial? = nil, trialComponent: TrialComponent? = nil) {
+            self.experiment = experiment
             self.trainingJob = trainingJob
+            self.trial = trial
+            self.trialComponent = trialComponent
         }
 
         private enum CodingKeys: String, CodingKey {
+            case experiment = "Experiment"
             case trainingJob = "TrainingJob"
+            case trial = "Trial"
+            case trialComponent = "TrialComponent"
         }
     }
 
@@ -8079,7 +14293,7 @@ extension SageMaker {
         public let maxResults: Int?
         /// If more than MaxResults resource objects match the specified SearchExpression, the SearchResponse includes a NextToken. The NextToken can be passed to the next SearchRequest to continue retrieving results for the specified SearchExpression and Sort parameters.
         public let nextToken: String?
-        /// The name of the Amazon SageMaker resource to search for. Currently, the only valid Resource value is TrainingJob.
+        /// The name of the Amazon SageMaker resource to search for.
         public let resource: ResourceType
         /// A Boolean conditional statement. Resource objects must satisfy this condition to be included in search results. You must provide at least one subexpression, filter, or nested filter. The maximum number of recursive SubExpressions, NestedFilters, and Filters that can be included in a SearchExpression object is 50.
         public let searchExpression: SearchExpression?
@@ -8196,6 +14410,40 @@ extension SageMaker {
         }
     }
 
+    public struct SharingSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotebookOutputOption", required: false, type: .enum), 
+            AWSShapeMember(label: "S3KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "S3OutputPath", required: false, type: .string)
+        ]
+
+        /// The notebook output option.
+        public let notebookOutputOption: NotebookOutputOption?
+        /// The AWS Key Management Service encryption key ID.
+        public let s3KmsKeyId: String?
+        /// The Amazon S3 output path.
+        public let s3OutputPath: String?
+
+        public init(notebookOutputOption: NotebookOutputOption? = nil, s3KmsKeyId: String? = nil, s3OutputPath: String? = nil) {
+            self.notebookOutputOption = notebookOutputOption
+            self.s3KmsKeyId = s3KmsKeyId
+            self.s3OutputPath = s3OutputPath
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3KmsKeyId, name:"s3KmsKeyId", parent: name, max: 2048)
+            try validate(self.s3KmsKeyId, name:"s3KmsKeyId", parent: name, pattern: ".*")
+            try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, max: 1024)
+            try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notebookOutputOption = "NotebookOutputOption"
+            case s3KmsKeyId = "S3KmsKeyId"
+            case s3OutputPath = "S3OutputPath"
+        }
+    }
+
     public struct ShuffleConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Seed", required: true, type: .long)
@@ -8220,9 +14468,27 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum SortExperimentsBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortOrder: String, CustomStringConvertible, Codable {
         case ascending = "Ascending"
         case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortTrialComponentsBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortTrialsBy: String, CustomStringConvertible, Codable {
+        case name = "Name"
+        case creationtime = "CreationTime"
         public var description: String { return self.rawValue }
     }
 
@@ -8289,6 +14555,29 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public struct StartMonitoringScheduleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string)
+        ]
+
+        /// The name of the schedule to start.
+        public let monitoringScheduleName: String
+
+        public init(monitoringScheduleName: String) {
+            self.monitoringScheduleName = monitoringScheduleName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, max: 63)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, min: 1)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringScheduleName = "MonitoringScheduleName"
+        }
+    }
+
     public struct StartNotebookInstanceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
@@ -8308,6 +14597,29 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case notebookInstanceName = "NotebookInstanceName"
+        }
+    }
+
+    public struct StopAutoMLJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoMLJobName", required: true, type: .string)
+        ]
+
+        /// The name of the object you are requesting.
+        public let autoMLJobName: String
+
+        public init(autoMLJobName: String) {
+            self.autoMLJobName = autoMLJobName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.autoMLJobName, name:"autoMLJobName", parent: name, max: 32)
+            try validate(self.autoMLJobName, name:"autoMLJobName", parent: name, min: 1)
+            try validate(self.autoMLJobName, name:"autoMLJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMLJobName = "AutoMLJobName"
         }
     }
 
@@ -8380,6 +14692,29 @@ extension SageMaker {
         }
     }
 
+    public struct StopMonitoringScheduleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string)
+        ]
+
+        /// The name of the schedule to stop.
+        public let monitoringScheduleName: String
+
+        public init(monitoringScheduleName: String) {
+            self.monitoringScheduleName = monitoringScheduleName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, max: 63)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, min: 1)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringScheduleName = "MonitoringScheduleName"
+        }
+    }
+
     public struct StopNotebookInstanceInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "NotebookInstanceName", required: true, type: .string)
@@ -8399,6 +14734,29 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case notebookInstanceName = "NotebookInstanceName"
+        }
+    }
+
+    public struct StopProcessingJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProcessingJobName", required: true, type: .string)
+        ]
+
+        /// The name of the processing job to stop.
+        public let processingJobName: String
+
+        public init(processingJobName: String) {
+            self.processingJobName = processingJobName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.processingJobName, name:"processingJobName", parent: name, max: 63)
+            try validate(self.processingJobName, name:"processingJobName", parent: name, min: 1)
+            try validate(self.processingJobName, name:"processingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processingJobName = "ProcessingJobName"
         }
     }
 
@@ -8516,7 +14874,7 @@ extension SageMaker {
             AWSShapeMember(label: "PropertyNameQuery", required: false, type: .structure)
         ]
 
-        /// A type of SuggestionQuery. Defines a property name hint. Only property names that match the specified hint are included in the response.
+        /// Defines a property name hint. Only property names that begin with the specified hint are included in the response.
         public let propertyNameQuery: PropertyNameQuery?
 
         public init(propertyNameQuery: PropertyNameQuery? = nil) {
@@ -8571,6 +14929,7 @@ extension SageMaker {
         case mlC5 = "ml_c5"
         case mlP2 = "ml_p2"
         case mlP3 = "ml_p3"
+        case mlInf1 = "ml_inf1"
         case jetsonTx1 = "jetson_tx1"
         case jetsonTx2 = "jetson_tx2"
         case jetsonNano = "jetson_nano"
@@ -8583,6 +14942,56 @@ extension SageMaker {
         case qcs605 = "qcs605"
         case qcs603 = "qcs603"
         public var description: String { return self.rawValue }
+    }
+
+    public struct TensorBoardAppSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultResourceSpec", required: false, type: .structure)
+        ]
+
+        /// The instance type and quantity.
+        public let defaultResourceSpec: ResourceSpec?
+
+        public init(defaultResourceSpec: ResourceSpec? = nil) {
+            self.defaultResourceSpec = defaultResourceSpec
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultResourceSpec = "DefaultResourceSpec"
+        }
+    }
+
+    public struct TensorBoardOutputConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocalPath", required: false, type: .string), 
+            AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
+        ]
+
+        /// Path to local storage location for tensorBoard output. Defaults to /opt/ml/output/tensorboard.
+        public let localPath: String?
+        /// Path to Amazon S3 storage location for TensorBoard output.
+        public let s3OutputPath: String
+
+        public init(localPath: String? = nil, s3OutputPath: String) {
+            self.localPath = localPath
+            self.s3OutputPath = s3OutputPath
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.localPath, name:"localPath", parent: name, max: 4096)
+            try validate(self.localPath, name:"localPath", parent: name, pattern: ".*")
+            try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, max: 1024)
+            try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localPath = "LocalPath"
+            case s3OutputPath = "S3OutputPath"
+        }
     }
 
     public enum TrainingInputMode: String, CustomStringConvertible, Codable {
@@ -8625,9 +15034,17 @@ extension SageMaker {
     public struct TrainingJob: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AlgorithmSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoMLJobArn", required: false, type: .string), 
+            AWSShapeMember(label: "BillableTimeInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "CheckpointConfig", required: false, type: .structure), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DebugHookConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "DebugRuleConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "DebugRuleEvaluationStatuses", required: false, type: .list), 
             AWSShapeMember(label: "EnableInterContainerTrafficEncryption", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnableManagedSpotTraining", required: false, type: .boolean), 
             AWSShapeMember(label: "EnableNetworkIsolation", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExperimentConfig", required: false, type: .structure), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
             AWSShapeMember(label: "FinalMetricDataList", required: false, type: .list), 
             AWSShapeMember(label: "HyperParameters", required: false, type: .map), 
@@ -8642,23 +15059,38 @@ extension SageMaker {
             AWSShapeMember(label: "SecondaryStatusTransitions", required: false, type: .list), 
             AWSShapeMember(label: "StoppingCondition", required: false, type: .structure), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TensorBoardOutputConfig", required: false, type: .structure), 
             AWSShapeMember(label: "TrainingEndTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "TrainingJobArn", required: false, type: .string), 
             AWSShapeMember(label: "TrainingJobName", required: false, type: .string), 
             AWSShapeMember(label: "TrainingJobStatus", required: false, type: .enum), 
             AWSShapeMember(label: "TrainingStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrainingTimeInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "TuningJobArn", required: false, type: .string), 
             AWSShapeMember(label: "VpcConfig", required: false, type: .structure)
         ]
 
         /// Information about the algorithm used for training, and algorithm metadata.
         public let algorithmSpecification: AlgorithmSpecification?
+        /// The Amazon Resource Name (ARN) of the job.
+        public let autoMLJobArn: String?
+        /// The billable time in seconds.
+        public let billableTimeInSeconds: Int?
+        public let checkpointConfig: CheckpointConfig?
         /// A timestamp that indicates when the training job was created.
         public let creationTime: TimeStamp?
+        public let debugHookConfig: DebugHookConfig?
+        /// Information about the debug rule configuration.
+        public let debugRuleConfigurations: [DebugRuleConfiguration]?
+        /// Information about the evaluation status of the rules for the training job.
+        public let debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]?
         /// To encrypt all communications between ML compute instances in distributed training, choose True. Encryption provides greater security for distributed training, but training might take longer. How long it takes depends on the amount of communication between compute instances, especially if you use a deep learning algorithm in distributed training.
         public let enableInterContainerTrafficEncryption: Bool?
+        /// When true, enables managed spot training using Amazon EC2 Spot instances to run training jobs instead of on-demand instances. For more information, see model-managed-spot-training.
+        public let enableManagedSpotTraining: Bool?
         /// If the TrainingJob was created with network isolation, the value is set to true. If network isolation is enabled, nodes can't communicate beyond the VPC they run in.
         public let enableNetworkIsolation: Bool?
+        public let experimentConfig: ExperimentConfig?
         /// If the training job failed, the reason it failed.
         public let failureReason: String?
         /// A list of final metric values that are set when the training job completes. Used only if the training job was configured to use metrics.
@@ -8687,6 +15119,7 @@ extension SageMaker {
         public let stoppingCondition: StoppingCondition?
         /// An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
         public let tags: [Tag]?
+        public let tensorBoardOutputConfig: TensorBoardOutputConfig?
         /// Indicates the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when Amazon SageMaker detects a job failure.
         public let trainingEndTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the training job.
@@ -8697,16 +15130,26 @@ extension SageMaker {
         public let trainingJobStatus: TrainingJobStatus?
         /// Indicates the time when the training job starts on training instances. You are billed for the time interval between this time and the value of TrainingEndTime. The start time in CloudWatch Logs might be later than this time. The difference is due to the time it takes to download the training data and to the size of the training container.
         public let trainingStartTime: TimeStamp?
+        /// The training time in seconds.
+        public let trainingTimeInSeconds: Int?
         /// The Amazon Resource Name (ARN) of the associated hyperparameter tuning job if the training job was launched by a hyperparameter tuning job.
         public let tuningJobArn: String?
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification? = nil, creationTime: TimeStamp? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableNetworkIsolation: Bool? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: TimeStamp? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, trainingEndTime: TimeStamp? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: TimeStamp? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: TimeStamp? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: TimeStamp? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: TimeStamp? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: TimeStamp? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
+            self.autoMLJobArn = autoMLJobArn
+            self.billableTimeInSeconds = billableTimeInSeconds
+            self.checkpointConfig = checkpointConfig
             self.creationTime = creationTime
+            self.debugHookConfig = debugHookConfig
+            self.debugRuleConfigurations = debugRuleConfigurations
+            self.debugRuleEvaluationStatuses = debugRuleEvaluationStatuses
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
+            self.enableManagedSpotTraining = enableManagedSpotTraining
             self.enableNetworkIsolation = enableNetworkIsolation
+            self.experimentConfig = experimentConfig
             self.failureReason = failureReason
             self.finalMetricDataList = finalMetricDataList
             self.hyperParameters = hyperParameters
@@ -8721,20 +15164,30 @@ extension SageMaker {
             self.secondaryStatusTransitions = secondaryStatusTransitions
             self.stoppingCondition = stoppingCondition
             self.tags = tags
+            self.tensorBoardOutputConfig = tensorBoardOutputConfig
             self.trainingEndTime = trainingEndTime
             self.trainingJobArn = trainingJobArn
             self.trainingJobName = trainingJobName
             self.trainingJobStatus = trainingJobStatus
             self.trainingStartTime = trainingStartTime
+            self.trainingTimeInSeconds = trainingTimeInSeconds
             self.tuningJobArn = tuningJobArn
             self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case algorithmSpecification = "AlgorithmSpecification"
+            case autoMLJobArn = "AutoMLJobArn"
+            case billableTimeInSeconds = "BillableTimeInSeconds"
+            case checkpointConfig = "CheckpointConfig"
             case creationTime = "CreationTime"
+            case debugHookConfig = "DebugHookConfig"
+            case debugRuleConfigurations = "DebugRuleConfigurations"
+            case debugRuleEvaluationStatuses = "DebugRuleEvaluationStatuses"
             case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
+            case enableManagedSpotTraining = "EnableManagedSpotTraining"
             case enableNetworkIsolation = "EnableNetworkIsolation"
+            case experimentConfig = "ExperimentConfig"
             case failureReason = "FailureReason"
             case finalMetricDataList = "FinalMetricDataList"
             case hyperParameters = "HyperParameters"
@@ -8749,11 +15202,13 @@ extension SageMaker {
             case secondaryStatusTransitions = "SecondaryStatusTransitions"
             case stoppingCondition = "StoppingCondition"
             case tags = "Tags"
+            case tensorBoardOutputConfig = "TensorBoardOutputConfig"
             case trainingEndTime = "TrainingEndTime"
             case trainingJobArn = "TrainingJobArn"
             case trainingJobName = "TrainingJobName"
             case trainingJobStatus = "TrainingJobStatus"
             case trainingStartTime = "TrainingStartTime"
+            case trainingTimeInSeconds = "TrainingTimeInSeconds"
             case tuningJobArn = "TuningJobArn"
             case vpcConfig = "VpcConfig"
         }
@@ -8940,7 +15395,7 @@ extension SageMaker {
         public let supportedTrainingInstanceTypes: [TrainingInstanceType]
         /// A list of the metrics that the algorithm emits that can be used as the objective metric in a hyperparameter tuning job.
         public let supportedTuningJobObjectiveMetrics: [HyperParameterTuningJobObjective]?
-        /// Indicates whether the algorithm supports distributed training. If set to false, buyers can’t request more than one instance during training.
+        /// Indicates whether the algorithm supports distributed training. If set to false, buyers can't request more than one instance during training.
         public let supportsDistributedTraining: Bool?
         /// A list of ChannelSpecification objects, which specify the input sources to be used by the algorithm.
         public let trainingChannels: [ChannelSpecification]
@@ -9032,7 +15487,7 @@ extension SageMaker {
         public let contentType: String?
         /// Describes the location of the channel data, which is, the S3 location of the input data that the model can consume.
         public let dataSource: TransformDataSource
-        /// The method to use to split the transform job's data files into smaller batches. Splitting is necessary when the total size of each object is too large to fit in a single request. You can also use data splitting to improve performance by processing multiple concurrent mini-batches. The default value for SplitType is None, which indicates that input data files are not split, and request payloads contain the entire contents of an input object. Set the value of this parameter to Line to split records on a newline character boundary. SplitType also supports a number of record-oriented binary data formats. When splitting is enabled, the size of a mini-batch depends on the values of the BatchStrategy and MaxPayloadInMB parameters. When the value of BatchStrategy is MultiRecord, Amazon SageMaker sends the maximum number of records in each request, up to the MaxPayloadInMB limit. If the value of BatchStrategy is SingleRecord, Amazon SageMaker sends individual records in each request.  Some data formats represent a record as a binary payload wrapped with extra padding bytes. When splitting is applied to a binary data format, padding is removed if the value of BatchStrategy is set to SingleRecord. Padding is not removed if the value of BatchStrategy is set to MultiRecord. For more information about the RecordIO, see Data Format in the MXNet documentation. For more information about the TFRecord, see Consuming TFRecord data in the TensorFlow documentation. 
+        /// The method to use to split the transform job's data files into smaller batches. Splitting is necessary when the total size of each object is too large to fit in a single request. You can also use data splitting to improve performance by processing multiple concurrent mini-batches. The default value for SplitType is None, which indicates that input data files are not split, and request payloads contain the entire contents of an input object. Set the value of this parameter to Line to split records on a newline character boundary. SplitType also supports a number of record-oriented binary data formats. When splitting is enabled, the size of a mini-batch depends on the values of the BatchStrategy and MaxPayloadInMB parameters. When the value of BatchStrategy is MultiRecord, Amazon SageMaker sends the maximum number of records in each request, up to the MaxPayloadInMB limit. If the value of BatchStrategy is SingleRecord, Amazon SageMaker sends individual records in each request.  Some data formats represent a record as a binary payload wrapped with extra padding bytes. When splitting is applied to a binary data format, padding is removed if the value of BatchStrategy is set to SingleRecord. Padding is not removed if the value of BatchStrategy is set to MultiRecord. For more information about RecordIO, see Create a Dataset Using RecordIO in the MXNet documentation. For more information about TFRecord, see Consuming TFRecord data in the TensorFlow documentation. 
         public let splitType: SplitType?
 
         public init(compressionType: CompressionType? = nil, contentType: String? = nil, dataSource: TransformDataSource, splitType: SplitType? = nil) {
@@ -9215,7 +15670,7 @@ extension SageMaker {
         public let accept: String?
         /// Defines how to assemble the results of the transform job as a single S3 object. Choose a format that is most convenient to you. To concatenate the results in binary format, specify None. To add a newline character at the end of every transformed record, specify Line.
         public let assembleWith: AssemblyType?
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateTramsformJob request. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateModel request. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The Amazon S3 path where you want Amazon SageMaker to store the results of the transform job. For example, s3://bucket-name/key-name-prefix. For every S3 object used as input for the transform job, batch transform stores the transformed data with an .out suffix in a corresponding subfolder in the location in the output prefix. For example, for the input data stored at s3://bucket-name/input-name-prefix/dataset01/data.csv, batch transform stores the transformed data at s3://bucket-name/output-name-prefix/input-name-prefix/data.csv.out. Batch transform doesn't upload partially processed objects. For an input S3 object that contains multiple records, it creates an .out file only if the transform job succeeds on the entire file. When the input contains multiple S3 objects, the batch transform job processes the listed S3 objects and uploads only the output for successfully processed objects. If any object fails in the transform job batch transform marks the job as failed to prompt investigation.
         public let s3OutputPath: String
@@ -9255,7 +15710,7 @@ extension SageMaker {
         public let instanceCount: Int
         /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.large instance types.
         public let instanceType: TransformInstanceType
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the batch transform job. The VolumeKmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt model data on the storage volume attached to the ML compute instance(s) that run the batch transform job. The VolumeKmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"     // KMS Key Alias    "alias/ExampleAlias"     // Amazon Resource Name (ARN) (ARN) of a KMS Key Alias   "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"   
         public let volumeKmsKeyId: String?
 
         public init(instanceCount: Int, instanceType: TransformInstanceType, volumeKmsKeyId: String? = nil) {
@@ -9285,7 +15740,7 @@ extension SageMaker {
 
         /// If you choose S3Prefix, S3Uri identifies a key name prefix. Amazon SageMaker uses all objects with the specified key name prefix for batch transform.  If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for batch transform.  The following values are compatible: ManifestFile, S3Prefix  The following value is not compatible: AugmentedManifestFile 
         public let s3DataType: S3DataType
-        /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:    A key name prefix might look like this: s3://bucketname/exampleprefix.     A manifest might look like this: s3://bucketname/example.manifest   The manifest is an S3 object which is a JSON file with the following format:   [    {"prefix": "s3://customer_bucket/some/prefix/"},    "relative/path/to/custdata-1",    "relative/path/custdata-2",    ...    ]   The preceding JSON matches the following S3Uris:   s3://customer_bucket/some/prefix/relative/path/to/custdata-1   s3://customer_bucket/some/prefix/relative/path/custdata-1   ...   The complete set of S3Uris in this manifest constitutes the input data for the channel for this datasource. The object that each S3Uris points to must be readable by the IAM role that Amazon SageMaker uses to perform tasks on your behalf.  
+        /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:    A key name prefix might look like this: s3://bucketname/exampleprefix.     A manifest might look like this: s3://bucketname/example.manifest   The manifest is an S3 object which is a JSON file with the following format:   [ {"prefix": "s3://customer_bucket/some/prefix/"},   "relative/path/to/custdata-1",   "relative/path/custdata-2",   ...   "relative/path/custdata-N"   ]   The preceding JSON matches the following s3Uris:   s3://customer_bucket/some/prefix/relative/path/to/custdata-1   s3://customer_bucket/some/prefix/relative/path/custdata-2   ...   s3://customer_bucket/some/prefix/relative/path/custdata-N   The complete set of S3Uris in this manifest constitutes the input data for the channel for this datasource. The object that each S3Uris points to must be readable by the IAM role that Amazon SageMaker uses to perform tasks on your behalf.  
         public let s3Uri: String
 
         public init(s3DataType: S3DataType, s3Uri: String) {
@@ -9301,6 +15756,539 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case s3DataType = "S3DataType"
             case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct Trial: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentName", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Source", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TrialArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrialComponentSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "TrialName", required: false, type: .string)
+        ]
+
+        public let createdBy: UserContext?
+        /// When the trial was created.
+        public let creationTime: TimeStamp?
+        /// The name of the trial as displayed. If DisplayName isn't specified, TrialName is displayed.
+        public let displayName: String?
+        /// The name of the experiment the trial is part of.
+        public let experimentName: String?
+        public let lastModifiedBy: UserContext?
+        /// Who last modified the trial.
+        public let lastModifiedTime: TimeStamp?
+        public let source: TrialSource?
+        /// The list of tags that are associated with the trial. You can use Search API to search on the tags.
+        public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of the trial.
+        public let trialArn: String?
+        /// A list of the components associated with the trial. For each component, a summary of the component's properties is included.
+        public let trialComponentSummaries: [TrialComponentSimpleSummary]?
+        /// The name of the trial.
+        public let trialName: String?
+
+        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, displayName: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, source: TrialSource? = nil, tags: [Tag]? = nil, trialArn: String? = nil, trialComponentSummaries: [TrialComponentSimpleSummary]? = nil, trialName: String? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.displayName = displayName
+            self.experimentName = experimentName
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.source = source
+            self.tags = tags
+            self.trialArn = trialArn
+            self.trialComponentSummaries = trialComponentSummaries
+            self.trialName = trialName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case displayName = "DisplayName"
+            case experimentName = "ExperimentName"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case source = "Source"
+            case tags = "Tags"
+            case trialArn = "TrialArn"
+            case trialComponentSummaries = "TrialComponentSummaries"
+            case trialName = "TrialName"
+        }
+    }
+
+    public struct TrialComponent: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputArtifacts", required: false, type: .map), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list), 
+            AWSShapeMember(label: "OutputArtifacts", required: false, type: .map), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "Parents", required: false, type: .list), 
+            AWSShapeMember(label: "Source", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrialComponentName", required: false, type: .string)
+        ]
+
+        public let createdBy: UserContext?
+        /// When the component was created.
+        public let creationTime: TimeStamp?
+        /// The name of the component as displayed. If DisplayName isn't specified, TrialComponentName is displayed.
+        public let displayName: String?
+        /// When the component ended.
+        public let endTime: TimeStamp?
+        /// The input artifacts of the component.
+        public let inputArtifacts: [String: TrialComponentArtifact]?
+        public let lastModifiedBy: UserContext?
+        /// When the component was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The metrics for the component.
+        public let metrics: [TrialComponentMetricSummary]?
+        /// The output artifacts of the component.
+        public let outputArtifacts: [String: TrialComponentArtifact]?
+        /// The hyperparameters of the component.
+        public let parameters: [String: TrialComponentParameterValue]?
+        /// An array of the parents of the component. A parent is a trial the component is associated with and the experiment the trial is part of. A component might not have any parents.
+        public let parents: [Parent]?
+        public let source: TrialComponentSource?
+        /// The source of the trial component.&gt;
+        public let sourceDetail: TrialComponentSourceDetail?
+        /// When the component started.
+        public let startTime: TimeStamp?
+        public let status: TrialComponentStatus?
+        /// The list of tags that are associated with the component. You can use Search API to search on the tags.
+        public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of the trial component.
+        public let trialComponentArn: String?
+        /// The name of the trial component.
+        public let trialComponentName: String?
+
+        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, displayName: String? = nil, endTime: TimeStamp? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, parents: [Parent]? = nil, source: TrialComponentSource? = nil, sourceDetail: TrialComponentSourceDetail? = nil, startTime: TimeStamp? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.displayName = displayName
+            self.endTime = endTime
+            self.inputArtifacts = inputArtifacts
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.metrics = metrics
+            self.outputArtifacts = outputArtifacts
+            self.parameters = parameters
+            self.parents = parents
+            self.source = source
+            self.sourceDetail = sourceDetail
+            self.startTime = startTime
+            self.status = status
+            self.tags = tags
+            self.trialComponentArn = trialComponentArn
+            self.trialComponentName = trialComponentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case displayName = "DisplayName"
+            case endTime = "EndTime"
+            case inputArtifacts = "InputArtifacts"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case metrics = "Metrics"
+            case outputArtifacts = "OutputArtifacts"
+            case parameters = "Parameters"
+            case parents = "Parents"
+            case source = "Source"
+            case sourceDetail = "SourceDetail"
+            case startTime = "StartTime"
+            case status = "Status"
+            case tags = "Tags"
+            case trialComponentArn = "TrialComponentArn"
+            case trialComponentName = "TrialComponentName"
+        }
+    }
+
+    public struct TrialComponentArtifact: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MediaType", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+
+        /// The media type of the artifact, which indicates the type of data in the artifact file. The media type consists of a type and a subtype concatenated with a slash (/) character, for example, text/csv, image/jpeg, and s3/uri. The type specifies the category of the media. The subtype specifies the kind of data.
+        public let mediaType: String?
+        /// The location of the artifact.
+        public let value: String
+
+        public init(mediaType: String? = nil, value: String) {
+            self.mediaType = mediaType
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.mediaType, name:"mediaType", parent: name, max: 64)
+            try validate(self.mediaType, name:"mediaType", parent: name, pattern: "^[\\w]+\\/[\\w+]+$")
+            try validate(self.value, name:"value", parent: name, max: 2048)
+            try validate(self.value, name:"value", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaType = "MediaType"
+            case value = "Value"
+        }
+    }
+
+    public struct TrialComponentMetricSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Avg", required: false, type: .double), 
+            AWSShapeMember(label: "Count", required: false, type: .integer), 
+            AWSShapeMember(label: "Last", required: false, type: .double), 
+            AWSShapeMember(label: "Max", required: false, type: .double), 
+            AWSShapeMember(label: "MetricName", required: false, type: .string), 
+            AWSShapeMember(label: "Min", required: false, type: .double), 
+            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "StdDev", required: false, type: .double), 
+            AWSShapeMember(label: "TimeStamp", required: false, type: .timestamp)
+        ]
+
+        /// The average value of the metric.
+        public let avg: Double?
+        /// The number of samples used to generate the metric.
+        public let count: Int?
+        /// The most recent value of the metric.
+        public let last: Double?
+        /// The maximum value of the metric.
+        public let max: Double?
+        /// The name of the metric.
+        public let metricName: String?
+        /// The minimum value of the metric.
+        public let min: Double?
+        /// The Amazon Resource Name (ARN) of the source.
+        public let sourceArn: String?
+        /// The standard deviation of the metric.
+        public let stdDev: Double?
+        /// When the metric was last updated.
+        public let timeStamp: TimeStamp?
+
+        public init(avg: Double? = nil, count: Int? = nil, last: Double? = nil, max: Double? = nil, metricName: String? = nil, min: Double? = nil, sourceArn: String? = nil, stdDev: Double? = nil, timeStamp: TimeStamp? = nil) {
+            self.avg = avg
+            self.count = count
+            self.last = last
+            self.max = max
+            self.metricName = metricName
+            self.min = min
+            self.sourceArn = sourceArn
+            self.stdDev = stdDev
+            self.timeStamp = timeStamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case avg = "Avg"
+            case count = "Count"
+            case last = "Last"
+            case max = "Max"
+            case metricName = "MetricName"
+            case min = "Min"
+            case sourceArn = "SourceArn"
+            case stdDev = "StdDev"
+            case timeStamp = "TimeStamp"
+        }
+    }
+
+    public struct TrialComponentParameterValue: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumberValue", required: false, type: .double), 
+            AWSShapeMember(label: "StringValue", required: false, type: .string)
+        ]
+
+        /// The numeric value of a numeric hyperparameter. If you specify a value for this parameter, you can't specify the StringValue parameter.
+        public let numberValue: Double?
+        /// The string value of a categorical hyperparameter. If you specify a value for this parameter, you can't specify the NumberValue parameter.
+        public let stringValue: String?
+
+        public init(numberValue: Double? = nil, stringValue: String? = nil) {
+            self.numberValue = numberValue
+            self.stringValue = stringValue
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.stringValue, name:"stringValue", parent: name, max: 256)
+            try validate(self.stringValue, name:"stringValue", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberValue = "NumberValue"
+            case stringValue = "StringValue"
+        }
+    }
+
+    public enum TrialComponentPrimaryStatus: String, CustomStringConvertible, Codable {
+        case inprogress = "InProgress"
+        case completed = "Completed"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TrialComponentSimpleSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrialComponentName", required: false, type: .string), 
+            AWSShapeMember(label: "TrialComponentSource", required: false, type: .structure)
+        ]
+
+        public let createdBy: UserContext?
+        /// When the component was created.
+        public let creationTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the trial component.
+        public let trialComponentArn: String?
+        /// The name of the trial component.
+        public let trialComponentName: String?
+        public let trialComponentSource: TrialComponentSource?
+
+        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil, trialComponentSource: TrialComponentSource? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.trialComponentArn = trialComponentArn
+            self.trialComponentName = trialComponentName
+            self.trialComponentSource = trialComponentSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case trialComponentArn = "TrialComponentArn"
+            case trialComponentName = "TrialComponentName"
+            case trialComponentSource = "TrialComponentSource"
+        }
+    }
+
+    public struct TrialComponentSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the source.
+        public let sourceArn: String
+        /// The source job type.
+        public let sourceType: String?
+
+        public init(sourceArn: String, sourceType: String? = nil) {
+            self.sourceArn = sourceArn
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceArn = "SourceArn"
+            case sourceType = "SourceType"
+        }
+    }
+
+    public struct TrialComponentSourceDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrainingJob", required: false, type: .structure)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the source.
+        public let sourceArn: String?
+        public let trainingJob: TrainingJob?
+
+        public init(sourceArn: String? = nil, trainingJob: TrainingJob? = nil) {
+            self.sourceArn = sourceArn
+            self.trainingJob = trainingJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceArn = "SourceArn"
+            case trainingJob = "TrainingJob"
+        }
+    }
+
+    public struct TrialComponentStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "PrimaryStatus", required: false, type: .enum)
+        ]
+
+        /// If the component failed, a message describing why.
+        public let message: String?
+        /// The status of the trial component.
+        public let primaryStatus: TrialComponentPrimaryStatus?
+
+        public init(message: String? = nil, primaryStatus: TrialComponentPrimaryStatus? = nil) {
+            self.message = message
+            self.primaryStatus = primaryStatus
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.message, name:"message", parent: name, max: 1024)
+            try validate(self.message, name:"message", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case primaryStatus = "PrimaryStatus"
+        }
+    }
+
+    public struct TrialComponentSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedBy", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrialComponentName", required: false, type: .string), 
+            AWSShapeMember(label: "TrialComponentSource", required: false, type: .structure)
+        ]
+
+        /// Who created the component.
+        public let createdBy: UserContext?
+        /// When the component was created.
+        public let creationTime: TimeStamp?
+        /// The name of the component as displayed. If DisplayName isn't specified, TrialComponentName is displayed.
+        public let displayName: String?
+        /// When the component ended.
+        public let endTime: TimeStamp?
+        /// Who last modified the component.
+        public let lastModifiedBy: UserContext?
+        /// When the component was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// When the component started.
+        public let startTime: TimeStamp?
+        /// The status of the component. States include:   InProgress   Completed   Failed  
+        public let status: TrialComponentStatus?
+        /// The ARN of the trial component.
+        public let trialComponentArn: String?
+        /// The name of the trial component.
+        public let trialComponentName: String?
+        public let trialComponentSource: TrialComponentSource?
+
+        public init(createdBy: UserContext? = nil, creationTime: TimeStamp? = nil, displayName: String? = nil, endTime: TimeStamp? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: TimeStamp? = nil, startTime: TimeStamp? = nil, status: TrialComponentStatus? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil, trialComponentSource: TrialComponentSource? = nil) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.displayName = displayName
+            self.endTime = endTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.startTime = startTime
+            self.status = status
+            self.trialComponentArn = trialComponentArn
+            self.trialComponentName = trialComponentName
+            self.trialComponentSource = trialComponentSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case displayName = "DisplayName"
+            case endTime = "EndTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case startTime = "StartTime"
+            case status = "Status"
+            case trialComponentArn = "TrialComponentArn"
+            case trialComponentName = "TrialComponentName"
+            case trialComponentSource = "TrialComponentSource"
+        }
+    }
+
+    public struct TrialSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the source.
+        public let sourceArn: String
+        /// The source job type.
+        public let sourceType: String?
+
+        public init(sourceArn: String, sourceType: String? = nil) {
+            self.sourceArn = sourceArn
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceArn = "SourceArn"
+            case sourceType = "SourceType"
+        }
+    }
+
+    public struct TrialSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrialArn", required: false, type: .string), 
+            AWSShapeMember(label: "TrialName", required: false, type: .string), 
+            AWSShapeMember(label: "TrialSource", required: false, type: .structure)
+        ]
+
+        /// When the trial was created.
+        public let creationTime: TimeStamp?
+        /// The name of the trial as displayed. If DisplayName isn't specified, TrialName is displayed.
+        public let displayName: String?
+        /// When the trial was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the trial.
+        public let trialArn: String?
+        /// The name of the trial.
+        public let trialName: String?
+        public let trialSource: TrialSource?
+
+        public init(creationTime: TimeStamp? = nil, displayName: String? = nil, lastModifiedTime: TimeStamp? = nil, trialArn: String? = nil, trialName: String? = nil, trialSource: TrialSource? = nil) {
+            self.creationTime = creationTime
+            self.displayName = displayName
+            self.lastModifiedTime = lastModifiedTime
+            self.trialArn = trialArn
+            self.trialName = trialName
+            self.trialSource = trialSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case displayName = "DisplayName"
+            case lastModifiedTime = "LastModifiedTime"
+            case trialArn = "TrialArn"
+            case trialName = "TrialName"
+            case trialSource = "TrialSource"
+        }
+    }
+
+    public struct TuningJobCompletionCriteria: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetObjectiveMetricValue", required: true, type: .float)
+        ]
+
+        /// The objective metric's value.
+        public let targetObjectiveMetricValue: Float
+
+        public init(targetObjectiveMetricValue: Float) {
+            self.targetObjectiveMetricValue = targetObjectiveMetricValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetObjectiveMetricValue = "TargetObjectiveMetricValue"
         }
     }
 
@@ -9327,7 +16315,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try validate(self.cents, name:"cents", parent: name, max: 99)
             try validate(self.cents, name:"cents", parent: name, min: 0)
-            try validate(self.dollars, name:"dollars", parent: name, max: 1)
+            try validate(self.dollars, name:"dollars", parent: name, max: 2)
             try validate(self.dollars, name:"dollars", parent: name, min: 0)
             try validate(self.tenthFractionsOfACent, name:"tenthFractionsOfACent", parent: name, max: 9)
             try validate(self.tenthFractionsOfACent, name:"tenthFractionsOfACent", parent: name, min: 0)
@@ -9385,6 +16373,28 @@ extension SageMaker {
         }
     }
 
+    public struct UiTemplateInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentSha256", required: false, type: .string), 
+            AWSShapeMember(label: "Url", required: false, type: .string)
+        ]
+
+        /// The SHA 256 hash that you used to create the request signature.
+        public let contentSha256: String?
+        /// The URL for the user interface template.
+        public let url: String?
+
+        public init(contentSha256: String? = nil, url: String? = nil) {
+            self.contentSha256 = contentSha256
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentSha256 = "ContentSha256"
+            case url = "Url"
+        }
+    }
+
     public struct UpdateCodeRepositoryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string), 
@@ -9428,6 +16438,50 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case codeRepositoryArn = "CodeRepositoryArn"
+        }
+    }
+
+    public struct UpdateDomainRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultUserSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainId", required: true, type: .string)
+        ]
+
+        /// A collection of settings.
+        public let defaultUserSettings: UserSettings?
+        /// The domain ID.
+        public let domainId: String
+
+        public init(defaultUserSettings: UserSettings? = nil, domainId: String) {
+            self.defaultUserSettings = defaultUserSettings
+            self.domainId = domainId
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultUserSettings?.validate(name: "\(name).defaultUserSettings")
+            try validate(self.domainId, name:"domainId", parent: name, max: 63)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultUserSettings = "DefaultUserSettings"
+            case domainId = "DomainId"
+        }
+    }
+
+    public struct UpdateDomainResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainArn", required: false, type: .string)
+        ]
+
+        /// The domain Amazon Resource Name (ARN).
+        public let domainArn: String?
+
+        public init(domainArn: String? = nil) {
+            self.domainArn = domainArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "DomainArn"
         }
     }
 
@@ -9522,6 +16576,107 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case endpointArn = "EndpointArn"
+        }
+    }
+
+    public struct UpdateExperimentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ExperimentName", required: true, type: .string)
+        ]
+
+        /// The description of the experiment.
+        public let description: String?
+        /// The name of the experiment as displayed. The name doesn't need to be unique. If DisplayName isn't specified, ExperimentName is displayed.
+        public let displayName: String?
+        /// The name of the experiment to update.
+        public let experimentName: String
+
+        public init(description: String? = nil, displayName: String? = nil, experimentName: String) {
+            self.description = description
+            self.displayName = displayName
+            self.experimentName = experimentName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name:"description", parent: name, max: 3072)
+            try validate(self.description, name:"description", parent: name, pattern: ".*")
+            try validate(self.displayName, name:"displayName", parent: name, max: 82)
+            try validate(self.displayName, name:"displayName", parent: name, min: 1)
+            try validate(self.displayName, name:"displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
+            try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case displayName = "DisplayName"
+            case experimentName = "ExperimentName"
+        }
+    }
+
+    public struct UpdateExperimentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExperimentArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the experiment.
+        public let experimentArn: String?
+
+        public init(experimentArn: String? = nil) {
+            self.experimentArn = experimentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case experimentArn = "ExperimentArn"
+        }
+    }
+
+    public struct UpdateMonitoringScheduleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringScheduleConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "MonitoringScheduleName", required: true, type: .string)
+        ]
+
+        /// The configuration object that specifies the monitoring schedule and defines the monitoring job.
+        public let monitoringScheduleConfig: MonitoringScheduleConfig
+        /// The name of the monitoring schedule. The name must be unique within an AWS Region within an AWS account.
+        public let monitoringScheduleName: String
+
+        public init(monitoringScheduleConfig: MonitoringScheduleConfig, monitoringScheduleName: String) {
+            self.monitoringScheduleConfig = monitoringScheduleConfig
+            self.monitoringScheduleName = monitoringScheduleName
+        }
+
+        public func validate(name: String) throws {
+            try self.monitoringScheduleConfig.validate(name: "\(name).monitoringScheduleConfig")
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, max: 63)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, min: 1)
+            try validate(self.monitoringScheduleName, name:"monitoringScheduleName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringScheduleConfig = "MonitoringScheduleConfig"
+            case monitoringScheduleName = "MonitoringScheduleName"
+        }
+    }
+
+    public struct UpdateMonitoringScheduleResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitoringScheduleArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the monitoring schedule.
+        public let monitoringScheduleArn: String
+
+        public init(monitoringScheduleArn: String) {
+            self.monitoringScheduleArn = monitoringScheduleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitoringScheduleArn = "MonitoringScheduleArn"
         }
     }
 
@@ -9679,6 +16834,226 @@ extension SageMaker {
 
     }
 
+    public struct UpdateTrialComponentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputArtifacts", required: false, type: .map), 
+            AWSShapeMember(label: "InputArtifactsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "OutputArtifacts", required: false, type: .map), 
+            AWSShapeMember(label: "OutputArtifactsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "ParametersToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "TrialComponentName", required: true, type: .string)
+        ]
+
+        /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is displayed.
+        public let displayName: String?
+        /// When the component ended.
+        public let endTime: TimeStamp?
+        /// Replaces all of the component's input artifacts with the specified artifacts.
+        public let inputArtifacts: [String: TrialComponentArtifact]?
+        /// The input artifacts to remove from the component.
+        public let inputArtifactsToRemove: [String]?
+        /// Replaces all of the component's output artifacts with the specified artifacts.
+        public let outputArtifacts: [String: TrialComponentArtifact]?
+        /// The output artifacts to remove from the component.
+        public let outputArtifactsToRemove: [String]?
+        /// Replaces all of the component's hyperparameters with the specified hyperparameters.
+        public let parameters: [String: TrialComponentParameterValue]?
+        /// The hyperparameters to remove from the component.
+        public let parametersToRemove: [String]?
+        /// When the component started.
+        public let startTime: TimeStamp?
+        /// The new status of the component.
+        public let status: TrialComponentStatus?
+        /// The name of the component to update.
+        public let trialComponentName: String
+
+        public init(displayName: String? = nil, endTime: TimeStamp? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, inputArtifactsToRemove: [String]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, outputArtifactsToRemove: [String]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, parametersToRemove: [String]? = nil, startTime: TimeStamp? = nil, status: TrialComponentStatus? = nil, trialComponentName: String) {
+            self.displayName = displayName
+            self.endTime = endTime
+            self.inputArtifacts = inputArtifacts
+            self.inputArtifactsToRemove = inputArtifactsToRemove
+            self.outputArtifacts = outputArtifacts
+            self.outputArtifactsToRemove = outputArtifactsToRemove
+            self.parameters = parameters
+            self.parametersToRemove = parametersToRemove
+            self.startTime = startTime
+            self.status = status
+            self.trialComponentName = trialComponentName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.displayName, name:"displayName", parent: name, max: 82)
+            try validate(self.displayName, name:"displayName", parent: name, min: 1)
+            try validate(self.displayName, name:"displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.inputArtifacts?.forEach {
+                try validate($0.key, name:"inputArtifacts.key", parent: name, max: 64)
+                try validate($0.key, name:"inputArtifacts.key", parent: name, pattern: ".*")
+                try $0.value.validate(name: "\(name).inputArtifacts[\"\($0.key)\"]")
+            }
+            try self.inputArtifactsToRemove?.forEach {
+                try validate($0, name: "inputArtifactsToRemove[]", parent: name, max: 256)
+                try validate($0, name: "inputArtifactsToRemove[]", parent: name, pattern: ".*")
+            }
+            try self.outputArtifacts?.forEach {
+                try validate($0.key, name:"outputArtifacts.key", parent: name, max: 64)
+                try validate($0.key, name:"outputArtifacts.key", parent: name, pattern: ".*")
+                try $0.value.validate(name: "\(name).outputArtifacts[\"\($0.key)\"]")
+            }
+            try self.outputArtifactsToRemove?.forEach {
+                try validate($0, name: "outputArtifactsToRemove[]", parent: name, max: 256)
+                try validate($0, name: "outputArtifactsToRemove[]", parent: name, pattern: ".*")
+            }
+            try self.parameters?.forEach {
+                try validate($0.key, name:"parameters.key", parent: name, max: 256)
+                try validate($0.key, name:"parameters.key", parent: name, pattern: ".*")
+                try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
+            }
+            try self.parametersToRemove?.forEach {
+                try validate($0, name: "parametersToRemove[]", parent: name, max: 256)
+                try validate($0, name: "parametersToRemove[]", parent: name, pattern: ".*")
+            }
+            try self.status?.validate(name: "\(name).status")
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case endTime = "EndTime"
+            case inputArtifacts = "InputArtifacts"
+            case inputArtifactsToRemove = "InputArtifactsToRemove"
+            case outputArtifacts = "OutputArtifacts"
+            case outputArtifactsToRemove = "OutputArtifactsToRemove"
+            case parameters = "Parameters"
+            case parametersToRemove = "ParametersToRemove"
+            case startTime = "StartTime"
+            case status = "Status"
+            case trialComponentName = "TrialComponentName"
+        }
+    }
+
+    public struct UpdateTrialComponentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialComponentArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the trial component.
+        public let trialComponentArn: String?
+
+        public init(trialComponentArn: String? = nil) {
+            self.trialComponentArn = trialComponentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialComponentArn = "TrialComponentArn"
+        }
+    }
+
+    public struct UpdateTrialRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "TrialName", required: true, type: .string)
+        ]
+
+        /// The name of the trial as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialName is displayed.
+        public let displayName: String?
+        /// The name of the trial to update.
+        public let trialName: String
+
+        public init(displayName: String? = nil, trialName: String) {
+            self.displayName = displayName
+            self.trialName = trialName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.displayName, name:"displayName", parent: name, max: 82)
+            try validate(self.displayName, name:"displayName", parent: name, min: 1)
+            try validate(self.displayName, name:"displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, min: 1)
+            try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case trialName = "TrialName"
+        }
+    }
+
+    public struct UpdateTrialResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrialArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the trial.
+        public let trialArn: String?
+
+        public init(trialArn: String? = nil) {
+            self.trialArn = trialArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trialArn = "TrialArn"
+        }
+    }
+
+    public struct UpdateUserProfileRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainId", required: true, type: .string), 
+            AWSShapeMember(label: "UserProfileName", required: true, type: .string), 
+            AWSShapeMember(label: "UserSettings", required: false, type: .structure)
+        ]
+
+        /// The domain ID.
+        public let domainId: String
+        /// The user profile name.
+        public let userProfileName: String
+        /// A collection of settings.
+        public let userSettings: UserSettings?
+
+        public init(domainId: String, userProfileName: String, userSettings: UserSettings? = nil) {
+            self.domainId = domainId
+            self.userProfileName = userProfileName
+            self.userSettings = userSettings
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainId, name:"domainId", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, max: 63)
+            try validate(self.userProfileName, name:"userProfileName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.userSettings?.validate(name: "\(name).userSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case userProfileName = "UserProfileName"
+            case userSettings = "UserSettings"
+        }
+    }
+
+    public struct UpdateUserProfileResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserProfileArn", required: false, type: .string)
+        ]
+
+        /// The user profile Amazon Resource Name (ARN).
+        public let userProfileArn: String?
+
+        public init(userProfileArn: String? = nil) {
+            self.userProfileArn = userProfileArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userProfileArn = "UserProfileArn"
+        }
+    }
+
     public struct UpdateWorkteamRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", required: false, type: .string), 
@@ -9740,6 +17115,141 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case workteam = "Workteam"
+        }
+    }
+
+    public struct UserContext: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainId", required: false, type: .string), 
+            AWSShapeMember(label: "UserProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "UserProfileName", required: false, type: .string)
+        ]
+
+        /// The domain associated with the user.
+        public let domainId: String?
+        /// The Amazon Resource Name (ARN) of the user's profile.
+        public let userProfileArn: String?
+        /// The name of the user's profile.
+        public let userProfileName: String?
+
+        public init(domainId: String? = nil, userProfileArn: String? = nil, userProfileName: String? = nil) {
+            self.domainId = domainId
+            self.userProfileArn = userProfileArn
+            self.userProfileName = userProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainId = "DomainId"
+            case userProfileArn = "UserProfileArn"
+            case userProfileName = "UserProfileName"
+        }
+    }
+
+    public struct UserProfileDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DomainId", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "UserProfileName", required: false, type: .string)
+        ]
+
+        /// The creation time.
+        public let creationTime: TimeStamp?
+        /// The domain ID.
+        public let domainId: String?
+        /// The last modified time.
+        public let lastModifiedTime: TimeStamp?
+        /// The status.
+        public let status: UserProfileStatus?
+        /// The user profile name.
+        public let userProfileName: String?
+
+        public init(creationTime: TimeStamp? = nil, domainId: String? = nil, lastModifiedTime: TimeStamp? = nil, status: UserProfileStatus? = nil, userProfileName: String? = nil) {
+            self.creationTime = creationTime
+            self.domainId = domainId
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+            self.userProfileName = userProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case domainId = "DomainId"
+            case lastModifiedTime = "LastModifiedTime"
+            case status = "Status"
+            case userProfileName = "UserProfileName"
+        }
+    }
+
+    public enum UserProfileSortKey: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case lastmodifiedtime = "LastModifiedTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserProfileStatus: String, CustomStringConvertible, Codable {
+        case deleting = "Deleting"
+        case failed = "Failed"
+        case inservice = "InService"
+        case pending = "Pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UserSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExecutionRole", required: false, type: .string), 
+            AWSShapeMember(label: "JupyterServerAppSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "KernelGatewayAppSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "SharingSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "TensorBoardAppSettings", required: false, type: .structure)
+        ]
+
+        /// The execution role for the user.
+        public let executionRole: String?
+        /// The Jupyter server's app settings.
+        public let jupyterServerAppSettings: JupyterServerAppSettings?
+        /// The kernel gateway app settings.
+        public let kernelGatewayAppSettings: KernelGatewayAppSettings?
+        /// The security groups.
+        public let securityGroups: [String]?
+        /// The sharing settings.
+        public let sharingSettings: SharingSettings?
+        /// The TensorBoard app settings.
+        public let tensorBoardAppSettings: TensorBoardAppSettings?
+
+        public init(executionRole: String? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, securityGroups: [String]? = nil, sharingSettings: SharingSettings? = nil, tensorBoardAppSettings: TensorBoardAppSettings? = nil) {
+            self.executionRole = executionRole
+            self.jupyterServerAppSettings = jupyterServerAppSettings
+            self.kernelGatewayAppSettings = kernelGatewayAppSettings
+            self.securityGroups = securityGroups
+            self.sharingSettings = sharingSettings
+            self.tensorBoardAppSettings = tensorBoardAppSettings
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.executionRole, name:"executionRole", parent: name, max: 2048)
+            try validate(self.executionRole, name:"executionRole", parent: name, min: 20)
+            try validate(self.executionRole, name:"executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.jupyterServerAppSettings?.validate(name: "\(name).jupyterServerAppSettings")
+            try self.kernelGatewayAppSettings?.validate(name: "\(name).kernelGatewayAppSettings")
+            try self.securityGroups?.forEach {
+                try validate($0, name: "securityGroups[]", parent: name, max: 32)
+                try validate($0, name: "securityGroups[]", parent: name, pattern: "[-0-9a-zA-Z]+")
+            }
+            try validate(self.securityGroups, name:"securityGroups", parent: name, max: 5)
+            try self.sharingSettings?.validate(name: "\(name).sharingSettings")
+            try self.tensorBoardAppSettings?.validate(name: "\(name).tensorBoardAppSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionRole = "ExecutionRole"
+            case jupyterServerAppSettings = "JupyterServerAppSettings"
+            case kernelGatewayAppSettings = "KernelGatewayAppSettings"
+            case securityGroups = "SecurityGroups"
+            case sharingSettings = "SharingSettings"
+            case tensorBoardAppSettings = "TensorBoardAppSettings"
         }
     }
 

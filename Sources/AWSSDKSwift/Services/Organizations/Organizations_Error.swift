@@ -20,6 +20,7 @@ public enum OrganizationsErrorType: AWSErrorType {
     case duplicateOrganizationalUnitException(message: String?)
     case duplicatePolicyAttachmentException(message: String?)
     case duplicatePolicyException(message: String?)
+    case effectivePolicyNotFoundException(message: String?)
     case finalizingOrganizationException(message: String?)
     case handshakeAlreadyInStateException(message: String?)
     case handshakeConstraintViolationException(message: String?)
@@ -32,6 +33,7 @@ public enum OrganizationsErrorType: AWSErrorType {
     case organizationalUnitNotEmptyException(message: String?)
     case organizationalUnitNotFoundException(message: String?)
     case parentNotFoundException(message: String?)
+    case policyChangesInProgressException(message: String?)
     case policyInUseException(message: String?)
     case policyNotAttachedException(message: String?)
     case policyNotFoundException(message: String?)
@@ -85,6 +87,8 @@ extension OrganizationsErrorType {
             self = .duplicatePolicyAttachmentException(message: message)
         case "DuplicatePolicyException":
             self = .duplicatePolicyException(message: message)
+        case "EffectivePolicyNotFoundException":
+            self = .effectivePolicyNotFoundException(message: message)
         case "FinalizingOrganizationException":
             self = .finalizingOrganizationException(message: message)
         case "HandshakeAlreadyInStateException":
@@ -109,6 +113,8 @@ extension OrganizationsErrorType {
             self = .organizationalUnitNotFoundException(message: message)
         case "ParentNotFoundException":
             self = .parentNotFoundException(message: message)
+        case "PolicyChangesInProgressException":
+            self = .policyChangesInProgressException(message: message)
         case "PolicyInUseException":
             self = .policyInUseException(message: message)
         case "PolicyNotAttachedException":
@@ -174,6 +180,8 @@ extension OrganizationsErrorType : CustomStringConvertible {
             return "DuplicatePolicyAttachmentException: \(message ?? "")"
         case .duplicatePolicyException(let message):
             return "DuplicatePolicyException: \(message ?? "")"
+        case .effectivePolicyNotFoundException(let message):
+            return "EffectivePolicyNotFoundException: \(message ?? "")"
         case .finalizingOrganizationException(let message):
             return "FinalizingOrganizationException: \(message ?? "")"
         case .handshakeAlreadyInStateException(let message):
@@ -198,6 +206,8 @@ extension OrganizationsErrorType : CustomStringConvertible {
             return "OrganizationalUnitNotFoundException: \(message ?? "")"
         case .parentNotFoundException(let message):
             return "ParentNotFoundException: \(message ?? "")"
+        case .policyChangesInProgressException(let message):
+            return "PolicyChangesInProgressException: \(message ?? "")"
         case .policyInUseException(let message):
             return "PolicyInUseException: \(message ?? "")"
         case .policyNotAttachedException(let message):

@@ -4682,24 +4682,50 @@ extension Greengrass {
         }
     }
 
+    public struct ResourceDownloadOwnerSetting: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupOwner", required: true, type: .string), 
+            AWSShapeMember(label: "GroupPermission", required: true, type: .enum)
+        ]
+
+        /// The group owner of the resource. This is the name of an existing Linux OS group on the system or a GID. The group's permissions are added to the Lambda process.
+        public let groupOwner: String
+        /// The permissions that the group owner has to the resource. Valid values are ''rw'' (read/write) or ''ro'' (read-only).
+        public let groupPermission: Permission
+
+        public init(groupOwner: String, groupPermission: Permission) {
+            self.groupOwner = groupOwner
+            self.groupPermission = groupPermission
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupOwner = "GroupOwner"
+            case groupPermission = "GroupPermission"
+        }
+    }
+
     public struct S3MachineLearningModelResourceData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationPath", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerSetting", required: false, type: .structure), 
             AWSShapeMember(label: "S3Uri", required: false, type: .string)
         ]
 
         /// The absolute local path of the resource inside the Lambda environment.
         public let destinationPath: String?
+        public let ownerSetting: ResourceDownloadOwnerSetting?
         /// The URI of the source model in an S3 bucket. The model package must be in tar.gz or .zip format.
         public let s3Uri: String?
 
-        public init(destinationPath: String? = nil, s3Uri: String? = nil) {
+        public init(destinationPath: String? = nil, ownerSetting: ResourceDownloadOwnerSetting? = nil, s3Uri: String? = nil) {
             self.destinationPath = destinationPath
+            self.ownerSetting = ownerSetting
             self.s3Uri = s3Uri
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationPath = "DestinationPath"
+            case ownerSetting = "OwnerSetting"
             case s3Uri = "S3Uri"
         }
     }
@@ -4707,21 +4733,25 @@ extension Greengrass {
     public struct SageMakerMachineLearningModelResourceData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationPath", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerSetting", required: false, type: .structure), 
             AWSShapeMember(label: "SageMakerJobArn", required: false, type: .string)
         ]
 
         /// The absolute local path of the resource inside the Lambda environment.
         public let destinationPath: String?
+        public let ownerSetting: ResourceDownloadOwnerSetting?
         /// The ARN of the Amazon SageMaker training job that represents the source model.
         public let sageMakerJobArn: String?
 
-        public init(destinationPath: String? = nil, sageMakerJobArn: String? = nil) {
+        public init(destinationPath: String? = nil, ownerSetting: ResourceDownloadOwnerSetting? = nil, sageMakerJobArn: String? = nil) {
             self.destinationPath = destinationPath
+            self.ownerSetting = ownerSetting
             self.sageMakerJobArn = sageMakerJobArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationPath = "DestinationPath"
+            case ownerSetting = "OwnerSetting"
             case sageMakerJobArn = "SageMakerJobArn"
         }
     }
@@ -5248,7 +5278,6 @@ extension Greengrass {
         case armv7l = "armv7l"
         case x8664 = "x86_64"
         case aarch64 = "aarch64"
-        case openwrt = "openwrt"
         public var description: String { return self.rawValue }
     }
 
@@ -5256,6 +5285,7 @@ extension Greengrass {
         case ubuntu = "ubuntu"
         case raspbian = "raspbian"
         case amazonLinux = "amazon_linux"
+        case openwrt = "openwrt"
         public var description: String { return self.rawValue }
     }
 

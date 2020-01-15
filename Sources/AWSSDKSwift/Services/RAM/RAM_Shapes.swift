@@ -49,6 +49,60 @@ extension RAM {
         }
     }
 
+    public struct AssociateResourceSharePermissionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "permissionArn", required: true, type: .string), 
+            AWSShapeMember(label: "replace", required: false, type: .boolean), 
+            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
+        ]
+
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ARN of the AWS RAM permission to associate with the resource share.
+        public let permissionArn: String
+        /// Indicates whether the permission should replace the permissions that are currently associated with the resource share. Use true to replace the current permissions. Use false to add the permission to the current permission.
+        public let replace: Bool?
+        /// The Amazon Resource Name (ARN) of the resource share.
+        public let resourceShareArn: String
+
+        public init(clientToken: String? = nil, permissionArn: String, replace: Bool? = nil, resourceShareArn: String) {
+            self.clientToken = clientToken
+            self.permissionArn = permissionArn
+            self.replace = replace
+            self.resourceShareArn = resourceShareArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case permissionArn = "permissionArn"
+            case replace = "replace"
+            case resourceShareArn = "resourceShareArn"
+        }
+    }
+
+    public struct AssociateResourceSharePermissionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "returnValue", required: false, type: .boolean)
+        ]
+
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// Indicates whether the request succeeded.
+        public let returnValue: Bool?
+
+        public init(clientToken: String? = nil, returnValue: Bool? = nil) {
+            self.clientToken = clientToken
+            self.returnValue = returnValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case returnValue = "returnValue"
+        }
+    }
+
     public struct AssociateResourceShareRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
@@ -108,6 +162,7 @@ extension RAM {
             AWSShapeMember(label: "allowExternalPrincipals", required: false, type: .boolean), 
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
             AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "permissionArns", required: false, type: .list), 
             AWSShapeMember(label: "principals", required: false, type: .list), 
             AWSShapeMember(label: "resourceArns", required: false, type: .list), 
             AWSShapeMember(label: "tags", required: false, type: .list)
@@ -119,6 +174,8 @@ extension RAM {
         public let clientToken: String?
         /// The name of the resource share.
         public let name: String
+        /// The ARNs of the permissions to associate with the resource share. If you do not specify an ARN for the permission, AWS RAM automatically attaches the default version of the permission for each resource type.
+        public let permissionArns: [String]?
         /// The principals to associate with the resource share. The possible values are IDs of AWS accounts, the ARN of an OU or organization from AWS Organizations.
         public let principals: [String]?
         /// The Amazon Resource Names (ARN) of the resources to associate with the resource share.
@@ -126,10 +183,11 @@ extension RAM {
         /// One or more tags.
         public let tags: [Tag]?
 
-        public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String, principals: [String]? = nil, resourceArns: [String]? = nil, tags: [Tag]? = nil) {
+        public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String, permissionArns: [String]? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, tags: [Tag]? = nil) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.clientToken = clientToken
             self.name = name
+            self.permissionArns = permissionArns
             self.principals = principals
             self.resourceArns = resourceArns
             self.tags = tags
@@ -139,6 +197,7 @@ extension RAM {
             case allowExternalPrincipals = "allowExternalPrincipals"
             case clientToken = "clientToken"
             case name = "name"
+            case permissionArns = "permissionArns"
             case principals = "principals"
             case resourceArns = "resourceArns"
             case tags = "tags"
@@ -211,6 +270,55 @@ extension RAM {
         }
     }
 
+    public struct DisassociateResourceSharePermissionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "permissionArn", required: true, type: .string), 
+            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
+        ]
+
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ARN of the permission to disassociate from the resource share.
+        public let permissionArn: String
+        /// The Amazon Resource Name (ARN) of the resource share.
+        public let resourceShareArn: String
+
+        public init(clientToken: String? = nil, permissionArn: String, resourceShareArn: String) {
+            self.clientToken = clientToken
+            self.permissionArn = permissionArn
+            self.resourceShareArn = resourceShareArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case permissionArn = "permissionArn"
+            case resourceShareArn = "resourceShareArn"
+        }
+    }
+
+    public struct DisassociateResourceSharePermissionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "returnValue", required: false, type: .boolean)
+        ]
+
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// Indicates whether the request succeeded.
+        public let returnValue: Bool?
+
+        public init(clientToken: String? = nil, returnValue: Bool? = nil) {
+            self.clientToken = clientToken
+            self.returnValue = returnValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case returnValue = "returnValue"
+        }
+    }
+
     public struct DisassociateResourceShareRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
@@ -223,7 +331,7 @@ extension RAM {
         public let clientToken: String?
         /// The principals.
         public let principals: [String]?
-        /// The Amazon Resource Names (ARN) of the resources.
+        /// The Amazon Resource Names (ARNs) of the resources.
         public let resourceArns: [String]?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
@@ -287,6 +395,45 @@ extension RAM {
 
         private enum CodingKeys: String, CodingKey {
             case returnValue = "returnValue"
+        }
+    }
+
+    public struct GetPermissionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "permissionArn", required: true, type: .string), 
+            AWSShapeMember(label: "permissionVersion", required: false, type: .integer)
+        ]
+
+        /// The ARN of the permission.
+        public let permissionArn: String
+        /// The identifier for the version of the permission.
+        public let permissionVersion: Int?
+
+        public init(permissionArn: String, permissionVersion: Int? = nil) {
+            self.permissionArn = permissionArn
+            self.permissionVersion = permissionVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissionArn = "permissionArn"
+            case permissionVersion = "permissionVersion"
+        }
+    }
+
+    public struct GetPermissionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "permission", required: false, type: .structure)
+        ]
+
+        /// Information about the permission.
+        public let permission: ResourceSharePermissionDetail?
+
+        public init(permission: ResourceSharePermissionDetail? = nil) {
+            self.permission = permission
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permission = "permission"
         }
     }
 
@@ -362,7 +509,7 @@ extension RAM {
 
         /// The association status.
         public let associationStatus: ResourceShareAssociationStatus?
-        /// The association type.
+        /// The association type. Specify PRINCIPAL to list the principals that are associated with the specified resource share. Specify RESOURCE to list the resources that are associated with the specified resource share.
         public let associationType: ResourceShareAssociationType
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
@@ -610,6 +757,60 @@ extension RAM {
         }
     }
 
+    public struct ListPermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .string)
+        ]
+
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// Specifies the resource type for which to list permissions. For example, to list only permissions that apply to EC2 subnets, specify ec2:Subnet.
+        public let resourceType: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceType: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct ListPermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "permissions", required: false, type: .list)
+        ]
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the permissions.
+        public let permissions: [ResourceSharePermissionSummary]?
+
+        public init(nextToken: String? = nil, permissions: [ResourceSharePermissionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.permissions = permissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case permissions = "permissions"
+        }
+    }
+
     public struct ListPrincipalsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
@@ -633,7 +834,7 @@ extension RAM {
         public let resourceOwner: ResourceOwner
         /// The Amazon Resource Names (ARN) of the resource shares.
         public let resourceShareArns: [String]?
-        /// The resource type. Valid values: route53resolver:ResolverRule | ec2:TransitGateway | ec2:Subnet | license-manager:LicenseConfiguration 
+        /// The resource type. Valid values: ec2:CapacityReservation | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | license-manager:LicenseConfiguration | rds:Cluster | route53resolver:ResolverRule I resource-groups:Group 
         public let resourceType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, principals: [String]? = nil, resourceArn: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
@@ -684,6 +885,60 @@ extension RAM {
         }
     }
 
+    public struct ListResourceSharePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceShareArn", required: true, type: .string)
+        ]
+
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the resource share.
+        public let resourceShareArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceShareArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceShareArn = resourceShareArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceShareArn = "resourceShareArn"
+        }
+    }
+
+    public struct ListResourceSharePermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "permissions", required: false, type: .list)
+        ]
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The permissions associated with the resource share.
+        public let permissions: [ResourceSharePermissionSummary]?
+
+        public init(nextToken: String? = nil, permissions: [ResourceSharePermissionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.permissions = permissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case permissions = "permissions"
+        }
+    }
+
     public struct ListResourcesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "maxResults", required: false, type: .integer), 
@@ -707,7 +962,7 @@ extension RAM {
         public let resourceOwner: ResourceOwner
         /// The Amazon Resource Names (ARN) of the resource shares.
         public let resourceShareArns: [String]?
-        /// The resource type. Valid values: route53resolver:ResolverRule | ec2:TransitGateway | ec2:Subnet | license-manager:LicenseConfiguration 
+        /// The resource type. Valid values: ec2:CapacityReservation | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | license-manager:LicenseConfiguration | rds:Cluster | route53resolver:ResolverRule | resource-groups:Group 
         public let resourceType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
@@ -795,6 +1050,40 @@ extension RAM {
         }
     }
 
+    public struct PromoteResourceShareCreatedFromPolicyRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"), required: true, type: .string)
+        ]
+
+        /// The ARN of the resource share to promote.
+        public let resourceShareArn: String
+
+        public init(resourceShareArn: String) {
+            self.resourceShareArn = resourceShareArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceShareArn = "resourceShareArn"
+        }
+    }
+
+    public struct PromoteResourceShareCreatedFromPolicyResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "returnValue", required: false, type: .boolean)
+        ]
+
+        /// Indicates whether the request succeeded.
+        public let returnValue: Bool?
+
+        public init(returnValue: Bool? = nil) {
+            self.returnValue = returnValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnValue = "returnValue"
+        }
+    }
+
     public struct RejectResourceShareInvitationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
@@ -844,6 +1133,7 @@ extension RAM {
             AWSShapeMember(label: "arn", required: false, type: .string), 
             AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "resourceGroupArn", required: false, type: .string), 
             AWSShapeMember(label: "resourceShareArn", required: false, type: .string), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "statusMessage", required: false, type: .string), 
@@ -856,6 +1146,8 @@ extension RAM {
         public let creationTime: TimeStamp?
         /// The time when the association was last updated.
         public let lastUpdatedTime: TimeStamp?
+        /// The ARN of the resource group. This value is returned only if the resource is a resource group.
+        public let resourceGroupArn: String?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String?
         /// The status of the resource.
@@ -865,10 +1157,11 @@ extension RAM {
         /// The resource type.
         public let `type`: String?
 
-        public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, resourceShareArn: String? = nil, status: ResourceStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
+        public init(arn: String? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, resourceGroupArn: String? = nil, resourceShareArn: String? = nil, status: ResourceStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.lastUpdatedTime = lastUpdatedTime
+            self.resourceGroupArn = resourceGroupArn
             self.resourceShareArn = resourceShareArn
             self.status = status
             self.statusMessage = statusMessage
@@ -879,6 +1172,7 @@ extension RAM {
             case arn = "arn"
             case creationTime = "creationTime"
             case lastUpdatedTime = "lastUpdatedTime"
+            case resourceGroupArn = "resourceGroupArn"
             case resourceShareArn = "resourceShareArn"
             case status = "status"
             case statusMessage = "statusMessage"
@@ -896,6 +1190,7 @@ extension RAM {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "allowExternalPrincipals", required: false, type: .boolean), 
             AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "featureSet", required: false, type: .enum), 
             AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "name", required: false, type: .string), 
             AWSShapeMember(label: "owningAccountId", required: false, type: .string), 
@@ -909,6 +1204,8 @@ extension RAM {
         public let allowExternalPrincipals: Bool?
         /// The time when the resource share was created.
         public let creationTime: TimeStamp?
+        /// Indicates how the resource share was created. Possible values include:    CREATED_FROM_POLICY - Indicates that the resource share was created from an AWS Identity and Access Management (AWS IAM) policy attached to a resource. These resource shares are visible only to the AWS account that created it. They cannot be modified in AWS RAM.    PROMOTING_TO_STANDARD - The resource share is in the process of being promoted. For more information, see PromoteResourceShareCreatedFromPolicy.    STANDARD - Indicates that the resource share was created in AWS RAM using the console or APIs. These resource shares are visible to all principals. They can be modified in AWS RAM.  
+        public let featureSet: ResourceShareFeatureSet?
         /// The time when the resource share was last updated.
         public let lastUpdatedTime: TimeStamp?
         /// The name of the resource share.
@@ -924,9 +1221,10 @@ extension RAM {
         /// The tags for the resource share.
         public let tags: [Tag]?
 
-        public init(allowExternalPrincipals: Bool? = nil, creationTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, owningAccountId: String? = nil, resourceShareArn: String? = nil, status: ResourceShareStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
+        public init(allowExternalPrincipals: Bool? = nil, creationTime: TimeStamp? = nil, featureSet: ResourceShareFeatureSet? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, owningAccountId: String? = nil, resourceShareArn: String? = nil, status: ResourceShareStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.creationTime = creationTime
+            self.featureSet = featureSet
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.owningAccountId = owningAccountId
@@ -939,6 +1237,7 @@ extension RAM {
         private enum CodingKeys: String, CodingKey {
             case allowExternalPrincipals = "allowExternalPrincipals"
             case creationTime = "creationTime"
+            case featureSet = "featureSet"
             case lastUpdatedTime = "lastUpdatedTime"
             case name = "name"
             case owningAccountId = "owningAccountId"
@@ -1021,6 +1320,13 @@ extension RAM {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceShareFeatureSet: String, CustomStringConvertible, Codable {
+        case createdFromPolicy = "CREATED_FROM_POLICY"
+        case promotingToStandard = "PROMOTING_TO_STANDARD"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ResourceShareInvitation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "invitationTimestamp", required: false, type: .timestamp), 
@@ -1074,6 +1380,110 @@ extension RAM {
         case rejected = "REJECTED"
         case expired = "EXPIRED"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ResourceSharePermissionDetail: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "defaultVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "permission", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+
+        /// The ARN of the permission.
+        public let arn: String?
+        /// The date and time when the permission was created.
+        public let creationTime: TimeStamp?
+        /// The identifier for the version of the permission that is set as the default version.
+        public let defaultVersion: Bool?
+        /// The date and time when the permission was last updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The name of the permission.
+        public let name: String?
+        /// The permission's effect and actions in JSON format. The effect indicates whether the actions are allowed or denied. The actions list the API actions to which the principal is granted or denied access.
+        public let permission: String?
+        /// The resource type to which the permission applies.
+        public let resourceType: String?
+        /// The identifier for the version of the permission.
+        public let version: String?
+
+        public init(arn: String? = nil, creationTime: TimeStamp? = nil, defaultVersion: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, permission: String? = nil, resourceType: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.defaultVersion = defaultVersion
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.permission = permission
+            self.resourceType = resourceType
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case defaultVersion = "defaultVersion"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+            case permission = "permission"
+            case resourceType = "resourceType"
+            case version = "version"
+        }
+    }
+
+    public struct ResourceSharePermissionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "creationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "defaultVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string)
+        ]
+
+        /// The ARN of the permission.
+        public let arn: String?
+        /// The date and time when the permission was created.
+        public let creationTime: TimeStamp?
+        /// The identifier for the version of the permission that is set as the default version.
+        public let defaultVersion: Bool?
+        /// The date and time when the permission was last updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The name of the permission.
+        public let name: String?
+        /// The type of resource to which the permission applies.
+        public let resourceType: String?
+        /// The current status of the permission.
+        public let status: String?
+        /// The identifier for the version of the permission.
+        public let version: String?
+
+        public init(arn: String? = nil, creationTime: TimeStamp? = nil, defaultVersion: Bool? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, resourceType: String? = nil, status: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.defaultVersion = defaultVersion
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.resourceType = resourceType
+            self.status = status
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case defaultVersion = "defaultVersion"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case name = "name"
+            case resourceType = "resourceType"
+            case status = "status"
+            case version = "version"
+        }
     }
 
     public enum ResourceShareStatus: String, CustomStringConvertible, Codable {

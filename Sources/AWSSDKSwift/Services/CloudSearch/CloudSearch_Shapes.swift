@@ -849,6 +849,51 @@ extension CloudSearch {
         }
     }
 
+    public struct DescribeDomainEndpointOptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deployed", required: false, type: .boolean), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+
+        /// Whether to retrieve the latest configuration (which might be in a Processing state) or the current, active configuration. Defaults to false.
+        public let deployed: Bool?
+        /// A string that represents the name of a domain.
+        public let domainName: String
+
+        public init(deployed: Bool? = nil, domainName: String) {
+            self.deployed = deployed
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name:"domainName", parent: name, max: 28)
+            try validate(self.domainName, name:"domainName", parent: name, min: 3)
+            try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deployed = "Deployed"
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct DescribeDomainEndpointOptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure)
+        ]
+
+        /// The status and configuration of a search domain's endpoint options.
+        public let domainEndpointOptions: DomainEndpointOptionsStatus?
+
+        public init(domainEndpointOptions: DomainEndpointOptionsStatus? = nil) {
+            self.domainEndpointOptions = domainEndpointOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainEndpointOptions = "DomainEndpointOptions"
+        }
+    }
+
     public struct DescribeDomainsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainNames", required: false, type: .list, encoding: .list(member:"member"))
@@ -1168,6 +1213,50 @@ extension CloudSearch {
             case fuzzyMatching = "FuzzyMatching"
             case sortExpression = "SortExpression"
             case sourceField = "SourceField"
+        }
+    }
+
+    public struct DomainEndpointOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnforceHTTPS", required: false, type: .boolean), 
+            AWSShapeMember(label: "TLSSecurityPolicy", required: false, type: .enum)
+        ]
+
+        /// Whether the domain is HTTPS only enabled.
+        public let enforceHTTPS: Bool?
+        /// The minimum required TLS version
+        public let tLSSecurityPolicy: TLSSecurityPolicy?
+
+        public init(enforceHTTPS: Bool? = nil, tLSSecurityPolicy: TLSSecurityPolicy? = nil) {
+            self.enforceHTTPS = enforceHTTPS
+            self.tLSSecurityPolicy = tLSSecurityPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enforceHTTPS = "EnforceHTTPS"
+            case tLSSecurityPolicy = "TLSSecurityPolicy"
+        }
+    }
+
+    public struct DomainEndpointOptionsStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Options", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .structure)
+        ]
+
+        /// The domain endpoint options configured for the domain.
+        public let options: DomainEndpointOptions
+        /// The status of the configured domain endpoint options.
+        public let status: OptionStatus
+
+        public init(options: DomainEndpointOptions, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
@@ -1826,7 +1915,7 @@ extension CloudSearch {
         public let creationDate: TimeStamp
         /// Indicates that the option will be deleted once processing is complete.
         public let pendingDeletion: Bool?
-        /// The state of processing a change to an option. Possible values:   RequiresIndexDocuments: the option's latest value will not be deployed until IndexDocuments has been called and indexing is complete.  Processing: the option's latest value is in the process of being activated.   Active: the option's latest value is completely deployed.  FailedToValidate: the option value is not compatible with the domain's data and cannot be used to index the data. You must either modify the option value or update or remove the incompatible documents. 
+        /// The state of processing a change to an option. Possible values: RequiresIndexDocuments: the option's latest value will not be deployed until IndexDocuments has been called and indexing is complete. Processing: the option's latest value is in the process of being activated.  Active: the option's latest value is completely deployed. FailedToValidate: the option value is not compatible with the domain's data and cannot be used to index the data. You must either modify the option value or update or remove the incompatible documents. 
         public let state: OptionState
         /// A timestamp for when this option was last updated.
         public let updateDate: TimeStamp
@@ -1984,6 +2073,12 @@ extension CloudSearch {
         }
     }
 
+    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable {
+        case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
+        case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
+        public var description: String { return self.rawValue }
+    }
+
     public struct TextArrayOptions: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AnalysisScheme", required: false, type: .string), 
@@ -2119,6 +2214,51 @@ extension CloudSearch {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityOptions = "AvailabilityOptions"
+        }
+    }
+
+    public struct UpdateDomainEndpointOptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainEndpointOptions", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
+        ]
+
+        /// Whether to require that all requests to the domain arrive over HTTPS. We recommend Policy-Min-TLS-1-2-2019-07 for TLSSecurityPolicy. For compatibility with older clients, the default is Policy-Min-TLS-1-0-2019-07. 
+        public let domainEndpointOptions: DomainEndpointOptions
+        /// A string that represents the name of a domain.
+        public let domainName: String
+
+        public init(domainEndpointOptions: DomainEndpointOptions, domainName: String) {
+            self.domainEndpointOptions = domainEndpointOptions
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name:"domainName", parent: name, max: 28)
+            try validate(self.domainName, name:"domainName", parent: name, min: 3)
+            try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainEndpointOptions = "DomainEndpointOptions"
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct UpdateDomainEndpointOptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainEndpointOptions", required: false, type: .structure)
+        ]
+
+        /// The newly-configured domain endpoint options.
+        public let domainEndpointOptions: DomainEndpointOptionsStatus?
+
+        public init(domainEndpointOptions: DomainEndpointOptionsStatus? = nil) {
+            self.domainEndpointOptions = domainEndpointOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainEndpointOptions = "DomainEndpointOptions"
         }
     }
 

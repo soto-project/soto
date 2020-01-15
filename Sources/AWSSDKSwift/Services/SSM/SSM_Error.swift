@@ -48,6 +48,7 @@ public enum SSMErrorType: AWSErrorType {
     case invalidDocumentContent(message: String?)
     case invalidDocumentOperation(message: String?)
     case invalidDocumentSchemaVersion(message: String?)
+    case invalidDocumentType(message: String?)
     case invalidDocumentVersion(message: String?)
     case invalidFilter(message: String?)
     case invalidFilterKey(message: String?)
@@ -95,6 +96,7 @@ public enum SSMErrorType: AWSErrorType {
     case parameterVersionNotFound(message: String?)
     case policiesLimitExceededException(message: String?)
     case resourceDataSyncAlreadyExistsException(message: String?)
+    case resourceDataSyncConflictException(message: String?)
     case resourceDataSyncCountExceededException(message: String?)
     case resourceDataSyncInvalidConfigurationException(message: String?)
     case resourceDataSyncNotFoundException(message: String?)
@@ -108,6 +110,7 @@ public enum SSMErrorType: AWSErrorType {
     case tooManyTagsError(message: String?)
     case tooManyUpdates(message: String?)
     case totalSizeLimitExceededException(message: String?)
+    case unsupportedCalendarException(message: String?)
     case unsupportedFeatureRequiredException(message: String?)
     case unsupportedInventoryItemContextException(message: String?)
     case unsupportedInventorySchemaVersionException(message: String?)
@@ -211,6 +214,8 @@ extension SSMErrorType {
             self = .invalidDocumentOperation(message: message)
         case "InvalidDocumentSchemaVersion":
             self = .invalidDocumentSchemaVersion(message: message)
+        case "InvalidDocumentType":
+            self = .invalidDocumentType(message: message)
         case "InvalidDocumentVersion":
             self = .invalidDocumentVersion(message: message)
         case "InvalidFilter":
@@ -305,6 +310,8 @@ extension SSMErrorType {
             self = .policiesLimitExceededException(message: message)
         case "ResourceDataSyncAlreadyExistsException":
             self = .resourceDataSyncAlreadyExistsException(message: message)
+        case "ResourceDataSyncConflictException":
+            self = .resourceDataSyncConflictException(message: message)
         case "ResourceDataSyncCountExceededException":
             self = .resourceDataSyncCountExceededException(message: message)
         case "ResourceDataSyncInvalidConfigurationException":
@@ -331,6 +338,8 @@ extension SSMErrorType {
             self = .tooManyUpdates(message: message)
         case "TotalSizeLimitExceededException":
             self = .totalSizeLimitExceededException(message: message)
+        case "UnsupportedCalendarException":
+            self = .unsupportedCalendarException(message: message)
         case "UnsupportedFeatureRequiredException":
             self = .unsupportedFeatureRequiredException(message: message)
         case "UnsupportedInventoryItemContextException":
@@ -440,6 +449,8 @@ extension SSMErrorType : CustomStringConvertible {
             return "InvalidDocumentOperation: \(message ?? "")"
         case .invalidDocumentSchemaVersion(let message):
             return "InvalidDocumentSchemaVersion: \(message ?? "")"
+        case .invalidDocumentType(let message):
+            return "InvalidDocumentType: \(message ?? "")"
         case .invalidDocumentVersion(let message):
             return "InvalidDocumentVersion: \(message ?? "")"
         case .invalidFilter(let message):
@@ -534,6 +545,8 @@ extension SSMErrorType : CustomStringConvertible {
             return "PoliciesLimitExceededException: \(message ?? "")"
         case .resourceDataSyncAlreadyExistsException(let message):
             return "ResourceDataSyncAlreadyExistsException: \(message ?? "")"
+        case .resourceDataSyncConflictException(let message):
+            return "ResourceDataSyncConflictException: \(message ?? "")"
         case .resourceDataSyncCountExceededException(let message):
             return "ResourceDataSyncCountExceededException: \(message ?? "")"
         case .resourceDataSyncInvalidConfigurationException(let message):
@@ -560,6 +573,8 @@ extension SSMErrorType : CustomStringConvertible {
             return "TooManyUpdates: \(message ?? "")"
         case .totalSizeLimitExceededException(let message):
             return "TotalSizeLimitExceededException: \(message ?? "")"
+        case .unsupportedCalendarException(let message):
+            return "UnsupportedCalendarException: \(message ?? "")"
         case .unsupportedFeatureRequiredException(let message):
             return "UnsupportedFeatureRequiredException: \(message ?? "")"
         case .unsupportedInventoryItemContextException(let message):

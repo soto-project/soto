@@ -24,14 +24,29 @@ public struct KinesisVideo {
         )
     }
 
+    ///  Creates a signaling channel.   CreateSignalingChannel is an asynchronous operation.
+    public func createSignalingChannel(_ input: CreateSignalingChannelInput) -> Future<CreateSignalingChannelOutput> {
+        return client.send(operation: "CreateSignalingChannel", path: "/createSignalingChannel", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new Kinesis video stream.  When you create a new stream, Kinesis Video Streams assigns it a version number. When you change the stream's metadata, Kinesis Video Streams updates the version.   CreateStream is an asynchronous operation. For information about how the service works, see How it Works.  You must have permissions for the KinesisVideo:CreateStream action.
     public func createStream(_ input: CreateStreamInput) -> Future<CreateStreamOutput> {
         return client.send(operation: "CreateStream", path: "/createStream", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes a specified signaling channel. DeleteSignalingChannel is an asynchronous operation. If you don't specify the channel's current version, the most recent version is deleted.
+    public func deleteSignalingChannel(_ input: DeleteSignalingChannelInput) -> Future<DeleteSignalingChannelOutput> {
+        return client.send(operation: "DeleteSignalingChannel", path: "/deleteSignalingChannel", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a Kinesis video stream and the data contained in the stream.  This method marks the stream for deletion, and makes the data in the stream inaccessible immediately.    To ensure that you have the latest version of the stream before deleting it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API.  This operation requires permission for the KinesisVideo:DeleteStream action.
     public func deleteStream(_ input: DeleteStreamInput) -> Future<DeleteStreamOutput> {
         return client.send(operation: "DeleteStream", path: "/deleteStream", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the most current information about the signaling channel. You must specify either the name or the ARN of the channel that you want to describe.
+    public func describeSignalingChannel(_ input: DescribeSignalingChannelInput) -> Future<DescribeSignalingChannelOutput> {
+        return client.send(operation: "DescribeSignalingChannel", path: "/describeSignalingChannel", httpMethod: "POST", input: input)
     }
 
     ///  Returns the most current information about the specified stream. You must specify either the StreamName or the StreamARN. 
@@ -44,9 +59,24 @@ public struct KinesisVideo {
         return client.send(operation: "GetDataEndpoint", path: "/getDataEndpoint", httpMethod: "POST", input: input)
     }
 
+    ///  Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties.  Protocols is used to determine the communication mechanism. For example, specifying WSS as the protocol, results in this API producing a secure websocket endpoint, and specifying HTTPS as the protocol, results in this API generating an HTTPS endpoint.   Role determines the messaging permissions. A MASTER role results in this API generating an endpoint that a client can use to communicate with any of the viewers on the channel. A VIEWER role results in this API generating an endpoint that a client can use to communicate only with a MASTER. 
+    public func getSignalingChannelEndpoint(_ input: GetSignalingChannelEndpointInput) -> Future<GetSignalingChannelEndpointOutput> {
+        return client.send(operation: "GetSignalingChannelEndpoint", path: "/getSignalingChannelEndpoint", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns an array of ChannelInfo objects. Each object describes a signaling channel. To retrieve only those channels that satisfy a specific condition, you can specify a ChannelNameCondition.
+    public func listSignalingChannels(_ input: ListSignalingChannelsInput) -> Future<ListSignalingChannelsOutput> {
+        return client.send(operation: "ListSignalingChannels", path: "/listSignalingChannels", httpMethod: "POST", input: input)
+    }
+
     ///  Returns an array of StreamInfo objects. Each object describes a stream. To retrieve only streams that satisfy a specific condition, you can specify a StreamNameCondition. 
     public func listStreams(_ input: ListStreamsInput) -> Future<ListStreamsOutput> {
         return client.send(operation: "ListStreams", path: "/listStreams", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of tags associated with the specified signaling channel.
+    public func listTagsForResource(_ input: ListTagsForResourceInput) -> Future<ListTagsForResourceOutput> {
+        return client.send(operation: "ListTagsForResource", path: "/ListTagsForResource", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of tags associated with the specified stream. In the request, you must specify either the StreamName or the StreamARN. 
@@ -54,9 +84,19 @@ public struct KinesisVideo {
         return client.send(operation: "ListTagsForStream", path: "/listTagsForStream", httpMethod: "POST", input: input)
     }
 
+    ///  Adds one or more tags to a signaling channel. A tag is a key-value pair (the value is optional) that you can define and assign to AWS resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+    public func tagResource(_ input: TagResourceInput) -> Future<TagResourceOutput> {
+        return client.send(operation: "TagResource", path: "/TagResource", httpMethod: "POST", input: input)
+    }
+
     ///  Adds one or more tags to a stream. A tag is a key-value pair (the value is optional) that you can define and assign to AWS resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.  You must provide either the StreamName or the StreamARN. This operation requires permission for the KinesisVideo:TagStream action. Kinesis video streams support up to 50 tags.
     public func tagStream(_ input: TagStreamInput) -> Future<TagStreamOutput> {
         return client.send(operation: "TagStream", path: "/tagStream", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes one or more tags from a signaling channel. In the request, specify only a tag key or keys; don't specify the value. If you specify a tag key that does not exist, it's ignored.
+    public func untagResource(_ input: UntagResourceInput) -> Future<UntagResourceOutput> {
+        return client.send(operation: "UntagResource", path: "/UntagResource", httpMethod: "POST", input: input)
     }
 
     ///  Removes one or more tags from a stream. In the request, specify only a tag key or keys; don't specify the value. If you specify a tag key that does not exist, it's ignored. In the request, you must provide the StreamName or StreamARN.
@@ -67,6 +107,11 @@ public struct KinesisVideo {
     ///   Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the request body. In the request, you must specify either the StreamName or the StreamARN.   The retention period that you specify replaces the current value.  This operation requires permission for the KinesisVideo:UpdateDataRetention action. Changing the data retention period affects the data in the stream as follows:   If the data retention period is increased, existing data is retained for the new retention period. For example, if the data retention period is increased from one hour to seven hours, all existing data is retained for seven hours.   If the data retention period is decreased, existing data is retained for the new retention period. For example, if the data retention period is decreased from seven hours to one hour, all existing data is retained for one hour, and any data older than one hour is deleted immediately.  
     public func updateDataRetention(_ input: UpdateDataRetentionInput) -> Future<UpdateDataRetentionOutput> {
         return client.send(operation: "UpdateDataRetention", path: "/updateDataRetention", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the existing signaling channel. This is an asynchronous operation and takes time to complete.  If the MessageTtlSeconds value is updated (either increased or reduced), then it only applies to new messages sent via this channel after it's been updated. Existing messages are still expire as per the previous MessageTtlSeconds value.
+    public func updateSignalingChannel(_ input: UpdateSignalingChannelInput) -> Future<UpdateSignalingChannelOutput> {
+        return client.send(operation: "UpdateSignalingChannel", path: "/updateSignalingChannel", httpMethod: "POST", input: input)
     }
 
     ///  Updates stream metadata, such as the device name and media type. You must provide the stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the latest version of the stream before updating it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API.   UpdateStream is an asynchronous operation, and takes time to complete.

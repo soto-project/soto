@@ -58,7 +58,7 @@ public struct Lightsail {
         return client.send(operation: "CloseInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Copies a manual instance or disk snapshot as another manual snapshot, or copies an automatic instance or disk snapshot as a manual snapshot. This operation can also be used to copy a manual or automatic snapshot of an instance or a disk from one AWS Region to another in Amazon Lightsail. When copying a manual snapshot, be sure to define the source region, source snapshot name, and target snapshot name parameters. When copying an automatic snapshot, be sure to define the source region, source resource name, target snapshot name, and either the restore date or the use latest restorable auto snapshot parameters.  Database snapshots cannot be copied at this time. 
+    ///  Copies a manual snapshot of an instance or disk as another manual snapshot, or copies an automatic snapshot of an instance or disk as a manual snapshot. This operation can also be used to copy a manual or automatic snapshot of an instance or a disk from one AWS Region to another in Amazon Lightsail. When copying a manual snapshot, be sure to define the source region, source snapshot name, and target snapshot name parameters. When copying an automatic snapshot, be sure to define the source region, source resource name, target snapshot name, and either the restore date or the use latest restorable auto snapshot parameters.
     public func copySnapshot(_ input: CopySnapshotRequest) -> Future<CopySnapshotResult> {
         return client.send(operation: "CopySnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -138,7 +138,7 @@ public struct Lightsail {
         return client.send(operation: "CreateRelationalDatabaseSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes an automatic snapshot for an instance or disk.
+    ///  Deletes an automatic snapshot of an instance or disk. For more information, see the Lightsail Dev Guide.
     public func deleteAutoSnapshot(_ input: DeleteAutoSnapshotRequest) -> Future<DeleteAutoSnapshotResult> {
         return client.send(operation: "DeleteAutoSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -243,7 +243,7 @@ public struct Lightsail {
         return client.send(operation: "GetActiveNames", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the available automatic snapshots for the specified resource name. For more information, see the Lightsail Dev Guide.
+    ///  Returns the available automatic snapshots for an instance or disk. For more information, see the Lightsail Dev Guide.
     public func getAutoSnapshots(_ input: GetAutoSnapshotsRequest) -> Future<GetAutoSnapshotsResult> {
         return client.send(operation: "GetAutoSnapshots", path: "/", httpMethod: "POST", input: input)
     }
@@ -548,7 +548,7 @@ public struct Lightsail {
         return client.send(operation: "UpdateRelationalDatabase", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which paramater updates are applied: dynamic or pending-reboot. Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only after the database is rebooted using the reboot relational database operation. The update relational database parameters operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+    ///  Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which parameter updates are applied: dynamic or pending-reboot. Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only after the database is rebooted using the reboot relational database operation. The update relational database parameters operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
     public func updateRelationalDatabaseParameters(_ input: UpdateRelationalDatabaseParametersRequest) -> Future<UpdateRelationalDatabaseParametersResult> {
         return client.send(operation: "UpdateRelationalDatabaseParameters", path: "/", httpMethod: "POST", input: input)
     }

@@ -5,7 +5,7 @@ import Foundation
 import NIO
 
 /**
-Security Hub provides you with a comprehensive view of the security state of your AWS environment and resources. It also provides you with the compliance status of your environment based on CIS AWS Foundations compliance checks. Security Hub collects security data from AWS accounts, services, and integrated third-party products and helps you analyze security trends in your environment to identify the highest priority security issues. For more information about Security Hub, see the  AWS Security Hub User Guide . When you use operations in the Security Hub API, the requests are executed only in the AWS Region that is currently active or in the specific AWS Region that you specify in your request. Any configuration or settings change that results from the operation is applied only to that Region. To make the same change in other Regions, execute the same command for each Region to apply the change to. For example, if your Region is set to us-west-2, when you use CreateMembers to add a member account to Security Hub, the association of the member account with the master account is created only in the us-west-2 Region. Security Hub must be enabled for the member account in the same Region that the invite was sent from.
+Security Hub provides you with a comprehensive view of the security state of your AWS environment and resources. It also provides you with the compliance status of your environment based on CIS AWS Foundations compliance checks. Security Hub collects security data from AWS accounts, services, and integrated third-party products and helps you analyze security trends in your environment to identify the highest priority security issues. For more information about Security Hub, see the  AWS Security Hub User Guide . When you use operations in the Security Hub API, the requests are executed only in the AWS Region that is currently active or in the specific AWS Region that you specify in your request. Any configuration or settings change that results from the operation is applied only to that Region. To make the same change in other Regions, execute the same command for each Region to apply the change to. For example, if your Region is set to us-west-2, when you use CreateMembers to add a member account to Security Hub, the association of the member account with the master account is created only in the us-west-2 Region. Security Hub must be enabled for the member account in the same Region that the invite was sent from. The following throttling limits apply to using Security Hub API operations:    GetFindings - RateLimit of 3 requests per second, and a BurstLimit of 6 requests per second.    UpdateFindings - RateLimit of 1 request per second, and a BurstLimit of 5 requests per second.   All other operations - RateLimit of 10 request per second, and a BurstLimit of 30 requests per second.  
 */
 public struct SecurityHub {
 
@@ -102,6 +102,11 @@ public struct SecurityHub {
         return client.send(operation: "DescribeProducts", path: "/products", httpMethod: "GET", input: input)
     }
 
+    ///  Returns a list of compliance standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
+    public func describeStandardsControls(_ input: DescribeStandardsControlsRequest) -> Future<DescribeStandardsControlsResponse> {
+        return client.send(operation: "DescribeStandardsControls", path: "/standards/controls/{StandardsSubscriptionArn+}", httpMethod: "GET", input: input)
+    }
+
     ///  Disables the integration of the specified product with Security Hub. Findings from that product are no longer sent to Security Hub after the integration is disabled.
     public func disableImportFindingsForProduct(_ input: DisableImportFindingsForProductRequest) -> Future<DisableImportFindingsForProductResponse> {
         return client.send(operation: "DisableImportFindingsForProduct", path: "/productSubscriptions/{ProductSubscriptionArn+}", httpMethod: "DELETE", input: input)
@@ -127,7 +132,7 @@ public struct SecurityHub {
         return client.send(operation: "EnableImportFindingsForProduct", path: "/productSubscriptions", httpMethod: "POST", input: input)
     }
 
-    ///  Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from AWS Config, Amazon GuardDuty, Amazon Inspector, and Amazon Macie. To learn more, see Setting Up AWS Security Hub.
+    ///  Enables Security Hub for your account in the current Region or the Region you specify in the request. Enabling Security Hub also enables the CIS AWS Foundations standard. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from AWS Config, Amazon GuardDuty, Amazon Inspector, and Amazon Macie. To learn more, see Setting Up AWS Security Hub.
     public func enableSecurityHub(_ input: EnableSecurityHubRequest) -> Future<EnableSecurityHubResponse> {
         return client.send(operation: "EnableSecurityHub", path: "/accounts", httpMethod: "POST", input: input)
     }
@@ -215,5 +220,10 @@ public struct SecurityHub {
     ///  Updates the Security Hub insight that the insight ARN specifies.
     public func updateInsight(_ input: UpdateInsightRequest) -> Future<UpdateInsightResponse> {
         return client.send(operation: "UpdateInsight", path: "/insights/{InsightArn+}", httpMethod: "PATCH", input: input)
+    }
+
+    ///  Used to control whether an individual compliance standard control is enabled or disabled.
+    public func updateStandardsControl(_ input: UpdateStandardsControlRequest) -> Future<UpdateStandardsControlResponse> {
+        return client.send(operation: "UpdateStandardsControl", path: "/standards/control/{StandardsControlArn+}", httpMethod: "PATCH", input: input)
     }
 }

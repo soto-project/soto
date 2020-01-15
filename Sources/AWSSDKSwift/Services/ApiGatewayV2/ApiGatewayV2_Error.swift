@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for ApiGatewayV2
 public enum ApiGatewayV2ErrorType: AWSErrorType {
+    case accessDeniedException(message: String?)
     case badRequestException(message: String?)
     case conflictException(message: String?)
     case notFoundException(message: String?)
@@ -17,6 +18,8 @@ extension ApiGatewayV2ErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "AccessDeniedException":
+            self = .accessDeniedException(message: message)
         case "BadRequestException":
             self = .badRequestException(message: message)
         case "ConflictException":
@@ -34,6 +37,8 @@ extension ApiGatewayV2ErrorType {
 extension ApiGatewayV2ErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .accessDeniedException(let message):
+            return "AccessDeniedException: \(message ?? "")"
         case .badRequestException(let message):
             return "BadRequestException: \(message ?? "")"
         case .conflictException(let message):

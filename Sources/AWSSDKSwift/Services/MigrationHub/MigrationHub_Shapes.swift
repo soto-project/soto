@@ -5,6 +5,33 @@ import AWSSDKSwiftCore
 
 extension MigrationHub {
 
+    public struct ApplicationState: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp)
+        ]
+
+        /// The configurationId from the Application Discovery Service that uniquely identifies an application.
+        public let applicationId: String?
+        /// The current status of an application.
+        public let applicationStatus: ApplicationStatus?
+        /// The timestamp when the application status was last updated.
+        public let lastUpdatedTime: TimeStamp?
+
+        public init(applicationId: String? = nil, applicationStatus: ApplicationStatus? = nil, lastUpdatedTime: TimeStamp? = nil) {
+            self.applicationId = applicationId
+            self.applicationStatus = applicationStatus
+            self.lastUpdatedTime = lastUpdatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case applicationStatus = "ApplicationStatus"
+            case lastUpdatedTime = "LastUpdatedTime"
+        }
+    }
+
     public enum ApplicationStatus: String, CustomStringConvertible, Codable {
         case notStarted = "NOT_STARTED"
         case inProgress = "IN_PROGRESS"
@@ -24,7 +51,7 @@ extension MigrationHub {
         public let createdArtifact: CreatedArtifact
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
-        /// Unique identifier that references the migration task.
+        /// Unique identifier that references the migration task. Do not store personal data in this field. 
         public let migrationTaskName: String
         /// The name of the ProgressUpdateStream. 
         public let progressUpdateStream: String
@@ -74,7 +101,7 @@ extension MigrationHub {
         public let discoveredResource: DiscoveredResource
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
-        /// The identifier given to the MigrationTask.
+        /// The identifier given to the MigrationTask. Do not store personal data in this field. 
         public let migrationTaskName: String
         /// The name of the ProgressUpdateStream.
         public let progressUpdateStream: String
@@ -120,7 +147,7 @@ extension MigrationHub {
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
-        /// The name of the ProgressUpdateStream. 
+        /// The name of the ProgressUpdateStream. Do not store personal data in this field. 
         public let progressUpdateStreamName: String
 
         public init(dryRun: Bool? = nil, progressUpdateStreamName: String) {
@@ -186,7 +213,7 @@ extension MigrationHub {
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
-        /// The name of the ProgressUpdateStream. 
+        /// The name of the ProgressUpdateStream. Do not store personal data in this field. 
         public let progressUpdateStreamName: String
 
         public init(dryRun: Bool? = nil, progressUpdateStreamName: String) {
@@ -219,7 +246,7 @@ extension MigrationHub {
             AWSShapeMember(label: "ApplicationId", required: true, type: .string)
         ]
 
-        /// The configurationId in ADS that uniquely identifies the grouped application.
+        /// The configurationId in Application Discovery Service that uniquely identifies the grouped application.
         public let applicationId: String
 
         public init(applicationId: String) {
@@ -264,7 +291,7 @@ extension MigrationHub {
             AWSShapeMember(label: "ProgressUpdateStream", required: true, type: .string)
         ]
 
-        /// The identifier given to the MigrationTask.
+        /// The identifier given to the MigrationTask. Do not store personal data in this field. 
         public let migrationTaskName: String
         /// The name of the ProgressUpdateStream. 
         public let progressUpdateStream: String
@@ -318,7 +345,7 @@ extension MigrationHub {
         public let createdArtifactName: String
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
-        /// Unique identifier that references the migration task to be disassociated with the artifact.
+        /// Unique identifier that references the migration task to be disassociated with the artifact. Do not store personal data in this field. 
         public let migrationTaskName: String
         /// The name of the ProgressUpdateStream. 
         public let progressUpdateStream: String
@@ -366,11 +393,11 @@ extension MigrationHub {
             AWSShapeMember(label: "ProgressUpdateStream", required: true, type: .string)
         ]
 
-        /// ConfigurationId of the ADS resource to be disassociated.
+        /// ConfigurationId of the Application Discovery Service resource to be disassociated.
         public let configurationId: String
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
-        /// The identifier given to the MigrationTask.
+        /// The identifier given to the MigrationTask. Do not store personal data in this field. 
         public let migrationTaskName: String
         /// The name of the ProgressUpdateStream.
         public let progressUpdateStream: String
@@ -414,7 +441,7 @@ extension MigrationHub {
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
 
-        /// The configurationId in ADS that uniquely identifies the on-premise resource.
+        /// The configurationId in Application Discovery Service that uniquely identifies the on-premise resource.
         public let configurationId: String
         /// A description that can be free-form text to record additional detail about the discovered resource for clarity or later reference.
         public let description: String?
@@ -445,9 +472,9 @@ extension MigrationHub {
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
-        /// Unique identifier that references the migration task.
+        /// Unique identifier that references the migration task. Do not store personal data in this field. 
         public let migrationTaskName: String
-        /// The name of the ProgressUpdateStream. 
+        /// The name of the ProgressUpdateStream. &gt;
         public let progressUpdateStream: String
 
         public init(dryRun: Bool? = nil, migrationTaskName: String, progressUpdateStream: String) {
@@ -480,6 +507,66 @@ extension MigrationHub {
 
     }
 
+    public struct ListApplicationStatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationIds", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The configurationIds from the Application Discovery Service that uniquely identifies your applications.
+        public let applicationIds: [String]?
+        /// Maximum number of results to be returned per page.
+        public let maxResults: Int?
+        /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
+        public let nextToken: String?
+
+        public init(applicationIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationIds = applicationIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.applicationIds?.forEach {
+                try validate($0, name: "applicationIds[]", parent: name, max: 1600)
+                try validate($0, name: "applicationIds[]", parent: name, min: 1)
+            }
+            try validate(self.applicationIds, name:"applicationIds", parent: name, max: 100)
+            try validate(self.applicationIds, name:"applicationIds", parent: name, min: 1)
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationIds = "ApplicationIds"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationStatesResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationStateList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list of Applications that exist in Application Discovery Service.
+        public let applicationStateList: [ApplicationState]?
+        /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
+        public let nextToken: String?
+
+        public init(applicationStateList: [ApplicationState]? = nil, nextToken: String? = nil) {
+            self.applicationStateList = applicationStateList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStateList = "ApplicationStateList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListCreatedArtifactsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
@@ -490,7 +577,7 @@ extension MigrationHub {
 
         /// Maximum number of results to be returned per page.
         public let maxResults: Int?
-        /// Unique identifier that references the migration task.
+        /// Unique identifier that references the migration task. Do not store personal data in this field. 
         public let migrationTaskName: String
         /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
         public let nextToken: String?
@@ -555,7 +642,7 @@ extension MigrationHub {
 
         /// The maximum number of results returned per page.
         public let maxResults: Int?
-        /// The name of the MigrationTask.
+        /// The name of the MigrationTask. Do not store personal data in this field. 
         public let migrationTaskName: String
         /// If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
         public let nextToken: String?
@@ -724,10 +811,11 @@ extension MigrationHub {
             AWSShapeMember(label: "UpdateDateTime", required: false, type: .timestamp)
         ]
 
-        /// Unique identifier that references the migration task.
+        /// Unique identifier that references the migration task. Do not store personal data in this field. 
         public let migrationTaskName: String?
         /// A name that identifies the vendor of the migration tool being used.
         public let progressUpdateStream: String?
+        /// Information about the resource that is being migrated. This data will be used to map the task to a resource in the Application Discovery Service repository.
         public let resourceAttributeList: [ResourceAttribute]?
         /// Task object encapsulating task information.
         public let task: Task?
@@ -761,8 +849,9 @@ extension MigrationHub {
             AWSShapeMember(label: "UpdateDateTime", required: false, type: .timestamp)
         ]
 
-        /// Unique identifier that references the migration task.
+        /// Unique identifier that references the migration task. Do not store personal data in this field. 
         public let migrationTaskName: String?
+        /// Indication of the percentage completion of the task.
         public let progressPercent: Int?
         /// An AWS resource used for access control. It should uniquely identify the migration tool as it is used for all updates made by the tool.
         public let progressUpdateStream: String?
@@ -796,20 +885,24 @@ extension MigrationHub {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplicationId", required: true, type: .string), 
             AWSShapeMember(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeMember(label: "Status", required: true, type: .enum)
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "UpdateDateTime", required: false, type: .timestamp)
         ]
 
-        /// The configurationId in ADS that uniquely identifies the grouped application.
+        /// The configurationId in Application Discovery Service that uniquely identifies the grouped application.
         public let applicationId: String
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
         /// Status of the application - Not Started, In-Progress, Complete.
         public let status: ApplicationStatus
+        /// The timestamp when the application state changed.
+        public let updateDateTime: TimeStamp?
 
-        public init(applicationId: String, dryRun: Bool? = nil, status: ApplicationStatus) {
+        public init(applicationId: String, dryRun: Bool? = nil, status: ApplicationStatus, updateDateTime: TimeStamp? = nil) {
             self.applicationId = applicationId
             self.dryRun = dryRun
             self.status = status
+            self.updateDateTime = updateDateTime
         }
 
         public func validate(name: String) throws {
@@ -821,6 +914,7 @@ extension MigrationHub {
             case applicationId = "ApplicationId"
             case dryRun = "DryRun"
             case status = "Status"
+            case updateDateTime = "UpdateDateTime"
         }
     }
 
@@ -844,7 +938,7 @@ extension MigrationHub {
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
-        /// Unique identifier that references the migration task.
+        /// Unique identifier that references the migration task. Do not store personal data in this field. 
         public let migrationTaskName: String
         /// Number of seconds after the UpdateDateTime within which the Migration Hub can expect an update. If Migration Hub does not receive an update within the specified interval, then the migration task will be considered stale.
         public let nextUpdateSeconds: Int
@@ -898,7 +992,7 @@ extension MigrationHub {
             AWSShapeMember(label: "ProgressUpdateStreamName", required: false, type: .string)
         ]
 
-        /// The name of the ProgressUpdateStream. 
+        /// The name of the ProgressUpdateStream. Do not store personal data in this field. 
         public let progressUpdateStreamName: String?
 
         public init(progressUpdateStreamName: String? = nil) {
@@ -920,11 +1014,11 @@ extension MigrationHub {
 
         /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
         public let dryRun: Bool?
-        /// Unique identifier that references the migration task.
+        /// Unique identifier that references the migration task. Do not store personal data in this field. 
         public let migrationTaskName: String
         /// The name of the ProgressUpdateStream. 
         public let progressUpdateStream: String
-        /// Information about the resource that is being migrated. This data will be used to map the task to a resource in the Application Discovery Service (ADS)'s repository.  Takes the object array of ResourceAttribute where the Type field is reserved for the following values: IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID | MOTHERBOARD_SERIAL_NUMBER where the identifying value can be a string up to 256 characters.     If any "VM" related value is set for a ResourceAttribute object, it is required that VM_MANAGER_ID, as a minimum, is always set. If VM_MANAGER_ID is not set, then all "VM" fields will be discarded and "VM" fields will not be used for matching the migration task to a server in Application Discovery Service (ADS)'s repository. See the Example section below for a use case of specifying "VM" related values.    If a server you are trying to match has multiple IP or MAC addresses, you should provide as many as you know in separate type/value pairs passed to the ResourceAttributeList parameter to maximize the chances of matching.   
+        /// Information about the resource that is being migrated. This data will be used to map the task to a resource in the Application Discovery Service repository.  Takes the object array of ResourceAttribute where the Type field is reserved for the following values: IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS | FQDN | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID | MOTHERBOARD_SERIAL_NUMBER where the identifying value can be a string up to 256 characters.     If any "VM" related value is set for a ResourceAttribute object, it is required that VM_MANAGER_ID, as a minimum, is always set. If VM_MANAGER_ID is not set, then all "VM" fields will be discarded and "VM" fields will not be used for matching the migration task to a server in Application Discovery Service repository. See the Example section below for a use case of specifying "VM" related values.    If a server you are trying to match has multiple IP or MAC addresses, you should provide as many as you know in separate type/value pairs passed to the ResourceAttributeList parameter to maximize the chances of matching.   
         public let resourceAttributeList: [ResourceAttribute]
 
         public init(dryRun: Bool? = nil, migrationTaskName: String, progressUpdateStream: String, resourceAttributeList: [ResourceAttribute]) {

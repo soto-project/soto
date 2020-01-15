@@ -7,6 +7,7 @@ public enum TextractErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
     case badDocumentException(message: String?)
     case documentTooLargeException(message: String?)
+    case humanLoopQuotaExceededException(message: String?)
     case idempotentParameterMismatchException(message: String?)
     case internalServerError(message: String?)
     case invalidJobIdException(message: String?)
@@ -31,6 +32,8 @@ extension TextractErrorType {
             self = .badDocumentException(message: message)
         case "DocumentTooLargeException":
             self = .documentTooLargeException(message: message)
+        case "HumanLoopQuotaExceededException":
+            self = .humanLoopQuotaExceededException(message: message)
         case "IdempotentParameterMismatchException":
             self = .idempotentParameterMismatchException(message: message)
         case "InternalServerError":
@@ -64,6 +67,8 @@ extension TextractErrorType : CustomStringConvertible {
             return "BadDocumentException: \(message ?? "")"
         case .documentTooLargeException(let message):
             return "DocumentTooLargeException: \(message ?? "")"
+        case .humanLoopQuotaExceededException(let message):
+            return "HumanLoopQuotaExceededException: \(message ?? "")"
         case .idempotentParameterMismatchException(let message):
             return "IdempotentParameterMismatchException: \(message ?? "")"
         case .internalServerError(let message):

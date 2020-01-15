@@ -6,6 +6,7 @@ import AWSSDKSwiftCore
 public enum ApplicationDiscoveryServiceErrorType: AWSErrorType {
     case authorizationErrorException(message: String?)
     case conflictErrorException(message: String?)
+    case homeRegionNotSetException(message: String?)
     case invalidParameterException(message: String?)
     case invalidParameterValueException(message: String?)
     case operationNotPermittedException(message: String?)
@@ -25,6 +26,8 @@ extension ApplicationDiscoveryServiceErrorType {
             self = .authorizationErrorException(message: message)
         case "ConflictErrorException":
             self = .conflictErrorException(message: message)
+        case "HomeRegionNotSetException":
+            self = .homeRegionNotSetException(message: message)
         case "InvalidParameterException":
             self = .invalidParameterException(message: message)
         case "InvalidParameterValueException":
@@ -50,6 +53,8 @@ extension ApplicationDiscoveryServiceErrorType : CustomStringConvertible {
             return "AuthorizationErrorException: \(message ?? "")"
         case .conflictErrorException(let message):
             return "ConflictErrorException: \(message ?? "")"
+        case .homeRegionNotSetException(let message):
+            return "HomeRegionNotSetException: \(message ?? "")"
         case .invalidParameterException(let message):
             return "InvalidParameterException: \(message ?? "")"
         case .invalidParameterValueException(let message):

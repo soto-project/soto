@@ -52,7 +52,7 @@ extension FSx {
         public let failureDetails: BackupFailureDetails?
         /// Metadata of the file system associated with the backup. This metadata is persisted even if the file system is deleted.
         public let fileSystem: FileSystem
-        /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt this backup's data.
+        /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt this backup of the Amazon FSx for Windows file system's data at rest. Amazon FSx for Lustre does not support KMS encryption.
         public let kmsKeyId: String?
         /// The lifecycle status of the backup.
         public let lifecycle: BackupLifecycle
@@ -124,6 +124,89 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
+    public struct CancelDataRepositoryTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TaskId", required: true, type: .string)
+        ]
+
+        /// Specifies the data repository task to cancel.
+        public let taskId: String
+
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.taskId, name:"taskId", parent: name, max: 128)
+            try validate(self.taskId, name:"taskId", parent: name, min: 12)
+            try validate(self.taskId, name:"taskId", parent: name, pattern: "^(task-[0-9a-f]{17,})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "TaskId"
+        }
+    }
+
+    public struct CancelDataRepositoryTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Lifecycle", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskId", required: false, type: .string)
+        ]
+
+        /// The lifecycle status of the data repository task, as follows:    PENDING - Amazon FSx has not started the task.    EXECUTING - Amazon FSx is processing the task.    FAILED - Amazon FSx was not able to complete the task. For example, there may be files the task failed to process. The DataRepositoryTaskFailureDetails property provides more information about task failures.    SUCCEEDED - FSx completed the task successfully.    CANCELED - Amazon FSx canceled the task and it did not complete.    CANCELING - FSx is in process of canceling the task.  
+        public let lifecycle: DataRepositoryTaskLifecycle?
+        /// The ID of the task being canceled.
+        public let taskId: String?
+
+        public init(lifecycle: DataRepositoryTaskLifecycle? = nil, taskId: String? = nil) {
+            self.lifecycle = lifecycle
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycle = "Lifecycle"
+            case taskId = "TaskId"
+        }
+    }
+
+    public struct CompletionReport: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Format", required: false, type: .enum), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "Scope", required: false, type: .enum)
+        ]
+
+        /// Set Enabled to True to generate a CompletionReport when the task completes. If set to true, then you need to provide a report Scope, Path, and Format. Set Enabled to False if you do not want a CompletionReport generated when the task completes.
+        public let enabled: Bool
+        /// Required if Enabled is set to true. Specifies the format of the CompletionReport. REPORT_CSV_20191124 is the only format currently supported. When Format is set to REPORT_CSV_20191124, the CompletionReport is provided in CSV format, and is delivered to {path}/task-{id}/failures.csv. 
+        public let format: ReportFormat?
+        /// Required if Enabled is set to true. Specifies the location of the report on the file system's linked S3 data repository. An absolute path that defines where the completion report will be stored in the destination location. The Path you provide must be located within the file system’s ExportPath. An example Path value is "s3://myBucket/myExportPath/optionalPrefix". The report provides the following information for each file in the report: FilePath, FileStatus, and ErrorCode. To learn more about a file system's ExportPath, see . 
+        public let path: String?
+        /// Required if Enabled is set to true. Specifies the scope of the CompletionReport; FAILED_FILES_ONLY is the only scope currently supported. When Scope is set to FAILED_FILES_ONLY, the CompletionReport only contains information about files that the data repository task failed to process.
+        public let scope: ReportScope?
+
+        public init(enabled: Bool, format: ReportFormat? = nil, path: String? = nil, scope: ReportScope? = nil) {
+            self.enabled = enabled
+            self.format = format
+            self.path = path
+            self.scope = scope
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.path, name:"path", parent: name, max: 900)
+            try validate(self.path, name:"path", parent: name, min: 3)
+            try validate(self.path, name:"path", parent: name, pattern: "^.{3,900}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case format = "Format"
+            case path = "Path"
+            case scope = "Scope"
+        }
+    }
+
     public struct CreateBackupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
@@ -145,9 +228,9 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 255)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 63)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
-            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,255}$")
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, max: 21)
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, min: 11)
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
@@ -179,6 +262,83 @@ extension FSx {
 
         private enum CodingKeys: String, CodingKey {
             case backup = "Backup"
+        }
+    }
+
+    public struct CreateDataRepositoryTaskRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "Paths", required: false, type: .list), 
+            AWSShapeMember(label: "Report", required: true, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+
+        public let clientRequestToken: String?
+        public let fileSystemId: String
+        /// (Optional) The path or paths on the Amazon FSx file system to use when the data repository task is processed. The default path is the file system root directory.
+        public let paths: [String]?
+        /// Defines whether or not Amazon FSx provides a CompletionReport once the task has completed. A CompletionReport provides a detailed report on the files that Amazon FSx processed that meet the criteria specified by the Scope parameter. 
+        public let report: CompletionReport
+        public let tags: [Tag]?
+        /// Specifies the type of data repository task to create.
+        public let `type`: DataRepositoryTaskType
+
+        public init(clientRequestToken: String? = CreateDataRepositoryTaskRequest.idempotencyToken(), fileSystemId: String, paths: [String]? = nil, report: CompletionReport, tags: [Tag]? = nil, type: DataRepositoryTaskType) {
+            self.clientRequestToken = clientRequestToken
+            self.fileSystemId = fileSystemId
+            self.paths = paths
+            self.report = report
+            self.tags = tags
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 63)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
+            try validate(self.fileSystemId, name:"fileSystemId", parent: name, max: 21)
+            try validate(self.fileSystemId, name:"fileSystemId", parent: name, min: 11)
+            try validate(self.fileSystemId, name:"fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
+            try self.paths?.forEach {
+                try validate($0, name: "paths[]", parent: name, max: 4096)
+                try validate($0, name: "paths[]", parent: name, min: 0)
+                try validate($0, name: "paths[]", parent: name, pattern: "^.{0,4096}$")
+            }
+            try validate(self.paths, name:"paths", parent: name, max: 100)
+            try self.report.validate(name: "\(name).report")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case fileSystemId = "FileSystemId"
+            case paths = "Paths"
+            case report = "Report"
+            case tags = "Tags"
+            case `type` = "Type"
+        }
+    }
+
+    public struct CreateDataRepositoryTaskResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataRepositoryTask", required: false, type: .structure)
+        ]
+
+        /// The description of the data repository task that you just created.
+        public let dataRepositoryTask: DataRepositoryTask?
+
+        public init(dataRepositoryTask: DataRepositoryTask? = nil) {
+            self.dataRepositoryTask = dataRepositoryTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataRepositoryTask = "DataRepositoryTask"
         }
     }
 
@@ -217,9 +377,9 @@ extension FSx {
             try validate(self.backupId, name:"backupId", parent: name, max: 128)
             try validate(self.backupId, name:"backupId", parent: name, min: 12)
             try validate(self.backupId, name:"backupId", parent: name, pattern: "^(backup-[0-9a-f]{8,})$")
-            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 255)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 63)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
-            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,255}$")
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
             try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 20)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 11)
@@ -294,10 +454,12 @@ extension FSx {
         public func validate(name: String) throws {
             try validate(self.exportPath, name:"exportPath", parent: name, max: 900)
             try validate(self.exportPath, name:"exportPath", parent: name, min: 3)
+            try validate(self.exportPath, name:"exportPath", parent: name, pattern: "^.{3,900}$")
             try validate(self.importedFileChunkSize, name:"importedFileChunkSize", parent: name, max: 512000)
             try validate(self.importedFileChunkSize, name:"importedFileChunkSize", parent: name, min: 1)
             try validate(self.importPath, name:"importPath", parent: name, max: 900)
             try validate(self.importPath, name:"importPath", parent: name, min: 3)
+            try validate(self.importPath, name:"importPath", parent: name, pattern: "^.{3,900}$")
             try validate(self.weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", parent: name, max: 7)
             try validate(self.weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", parent: name, min: 7)
             try validate(self.weeklyMaintenanceStartTime, name:"weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
@@ -332,9 +494,9 @@ extension FSx {
         public let lustreConfiguration: CreateFileSystemLustreConfiguration?
         /// A list of IDs specifying the security groups to apply to all network interfaces created for file system access. This list isn't returned in later requests to describe the file system.
         public let securityGroupIds: [String]?
-        /// The storage capacity of the file system being created. For Windows file systems, the storage capacity has a minimum of 300 GiB, and a maximum of 65,536 GiB. For Lustre file systems, the storage capacity has a minimum of 3,600 GiB. Storage capacity is provisioned in increments of 3,600 GiB.
+        /// The storage capacity of the file system being created. For Windows file systems, valid values are 32 GiB - 65,536 GiB. For Lustre file systems, valid values are 1,200, 2,400, 3,600, then continuing in increments of 3600 GiB.
         public let storageCapacity: Int
-        /// The IDs of the subnets that the file system will be accessible from. File systems support only one subnet. The file server is also launched in that subnet's Availability Zone.
+        /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows MULTI_AZ_1 file system deployment types, provide exactly two subnet IDs, one for the preferred file server and one for the standy file server. You specify one of these subnets as the preferred subnet using the WindowsConfiguration &gt; PreferredSubnetID property. For Windows SINGLE_AZ_1 file system deployment types and Lustre file systems, provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
         public let subnetIds: [String]
         /// The tags to apply to the file system being created. The key value of the Name tag appears in the console as the file system name.
         public let tags: [Tag]?
@@ -354,9 +516,9 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 255)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 63)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
-            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,255}$")
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
             try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, max: 2048)
             try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, min: 1)
             try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}|arn:aws[a-z-]{0,7}:kms:[a-z]{2}-[a-z-]{4,}-\\d+:\\d{12}:(key|alias)\\/([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}|[a-zA-Z0-9:\\/_-]+)|alias\\/[a-zA-Z0-9:\\/_-]+$")
@@ -367,7 +529,7 @@ extension FSx {
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^(sg-[0-9a-f]{8,})$")
             }
             try validate(self.securityGroupIds, name:"securityGroupIds", parent: name, max: 50)
-            try validate(self.storageCapacity, name:"storageCapacity", parent: name, min: 1)
+            try validate(self.storageCapacity, name:"storageCapacity", parent: name, min: 0)
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 24)
                 try validate($0, name: "subnetIds[]", parent: name, min: 15)
@@ -418,6 +580,8 @@ extension FSx {
             AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
             AWSShapeMember(label: "CopyTagsToBackups", required: false, type: .boolean), 
             AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
+            AWSShapeMember(label: "PreferredSubnetId", required: false, type: .string), 
             AWSShapeMember(label: "SelfManagedActiveDirectoryConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "ThroughputCapacity", required: true, type: .integer), 
             AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
@@ -431,17 +595,23 @@ extension FSx {
         public let copyTagsToBackups: Bool?
         /// The preferred time to take daily automatic backups, formatted HH:MM in the UTC time zone.
         public let dailyAutomaticBackupStartTime: String?
+        /// Specifies the file system deployment type, valid values are the following:   MULTI_AZ_1 - Deploys a high availability file system that is configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability. You can only deploy a Multi-AZ file system in AWS Regions that have a minimum of three Availability Zones.   SINGLE_AZ_1 - (Default) Choose to deploy a file system that is configured for single AZ redundancy.   To learn more about high availability Multi-AZ file systems, see  High Availability for Amazon FSx for Windows File Server.
+        public let deploymentType: WindowsDeploymentType?
+        /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located. For in-AWS applications, we recommend that you launch your clients in the same Availability Zone (AZ) as your preferred file server to reduce cross-AZ data transfer costs and minimize latency. 
+        public let preferredSubnetId: String?
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration?
         /// The throughput of an Amazon FSx file system, measured in megabytes per second, in 2 to the nth increments, between 2^3 (8) and 2^11 (2048).
         public let throughputCapacity: Int
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, preferredSubnetId: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.deploymentType = deploymentType
+            self.preferredSubnetId = preferredSubnetId
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -456,6 +626,9 @@ extension FSx {
             try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, max: 5)
             try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, min: 5)
             try validate(self.dailyAutomaticBackupStartTime, name:"dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
+            try validate(self.preferredSubnetId, name:"preferredSubnetId", parent: name, max: 24)
+            try validate(self.preferredSubnetId, name:"preferredSubnetId", parent: name, min: 15)
+            try validate(self.preferredSubnetId, name:"preferredSubnetId", parent: name, pattern: "^(subnet-[0-9a-f]{8,})$")
             try self.selfManagedActiveDirectoryConfiguration?.validate(name: "\(name).selfManagedActiveDirectoryConfiguration")
             try validate(self.throughputCapacity, name:"throughputCapacity", parent: name, max: 2048)
             try validate(self.throughputCapacity, name:"throughputCapacity", parent: name, min: 8)
@@ -469,6 +642,8 @@ extension FSx {
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+            case deploymentType = "DeploymentType"
+            case preferredSubnetId = "PreferredSubnetId"
             case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
             case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
@@ -502,6 +677,178 @@ extension FSx {
         }
     }
 
+    public struct DataRepositoryTask: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "FileSystemId", required: true, type: .string), 
+            AWSShapeMember(label: "Lifecycle", required: true, type: .enum), 
+            AWSShapeMember(label: "Paths", required: false, type: .list), 
+            AWSShapeMember(label: "Report", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TaskId", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+
+        public let creationTime: TimeStamp
+        /// The time that Amazon FSx completed processing the task, populated after the task is complete.
+        public let endTime: TimeStamp?
+        /// Failure message describing why the task failed, it is populated only when Lifecycle is set to FAILED.
+        public let failureDetails: DataRepositoryTaskFailureDetails?
+        public let fileSystemId: String
+        /// The lifecycle status of the data repository task, as follows:    PENDING - Amazon FSx has not started the task.    EXECUTING - Amazon FSx is processing the task.    FAILED - Amazon FSx was not able to complete the task. For example, there may be files the task failed to process. The DataRepositoryTaskFailureDetails property provides more information about task failures.    SUCCEEDED - FSx completed the task successfully.    CANCELED - Amazon FSx canceled the task and it did not complete.    CANCELING - FSx is in process of canceling the task.    You cannot delete an FSx for Lustre file system if there are data repository tasks for the file system in the PENDING or EXECUTING states. Please retry when the data repository task is finished (with a status of CANCELED, SUCCEEDED, or FAILED). You can use the DescribeDataRepositoryTask action to monitor the task status. Contact the FSx team if you need to delete your file system immediately. 
+        public let lifecycle: DataRepositoryTaskLifecycle
+        /// An array of paths on the Amazon FSx for Lustre file system that specify the data for the data repository task to process. For example, in an EXPORT_TO_REPOSITORY task, the paths specify which data to export to the linked data repository. (Default) If Paths is not specified, Amazon FSx uses the file system root directory.
+        public let paths: [String]?
+        public let report: CompletionReport?
+        public let resourceARN: String?
+        /// The time that Amazon FSx began processing the task.
+        public let startTime: TimeStamp?
+        /// Provides the status of the number of files that the task has processed successfully and failed to process.
+        public let status: DataRepositoryTaskStatus?
+        public let tags: [Tag]?
+        /// The system-generated, unique 17-digit ID of the data repository task.
+        public let taskId: String
+        /// The type of data repository task; EXPORT_TO_REPOSITORY is the only type currently supported.
+        public let `type`: DataRepositoryTaskType
+
+        public init(creationTime: TimeStamp, endTime: TimeStamp? = nil, failureDetails: DataRepositoryTaskFailureDetails? = nil, fileSystemId: String, lifecycle: DataRepositoryTaskLifecycle, paths: [String]? = nil, report: CompletionReport? = nil, resourceARN: String? = nil, startTime: TimeStamp? = nil, status: DataRepositoryTaskStatus? = nil, tags: [Tag]? = nil, taskId: String, type: DataRepositoryTaskType) {
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.failureDetails = failureDetails
+            self.fileSystemId = fileSystemId
+            self.lifecycle = lifecycle
+            self.paths = paths
+            self.report = report
+            self.resourceARN = resourceARN
+            self.startTime = startTime
+            self.status = status
+            self.tags = tags
+            self.taskId = taskId
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case endTime = "EndTime"
+            case failureDetails = "FailureDetails"
+            case fileSystemId = "FileSystemId"
+            case lifecycle = "Lifecycle"
+            case paths = "Paths"
+            case report = "Report"
+            case resourceARN = "ResourceARN"
+            case startTime = "StartTime"
+            case status = "Status"
+            case tags = "Tags"
+            case taskId = "TaskId"
+            case `type` = "Type"
+        }
+    }
+
+    public struct DataRepositoryTaskFailureDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string)
+        ]
+
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
+    public struct DataRepositoryTaskFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .enum), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
+        ]
+
+        /// Name of the task property to use in filtering the tasks returned in the response.   Use file-system-id to retrieve data repository tasks for specific file systems.   Use task-lifecycle to retrieve data repository tasks with one or more specific lifecycle states, as follows: CANCELED, EXECUTING, FAILED, PENDING, and SUCCEEDED.  
+        public let name: DataRepositoryTaskFilterName?
+        /// Use Values to include the specific file system IDs and task lifecycle states for the filters you are using.
+        public let values: [String]?
+
+        public init(name: DataRepositoryTaskFilterName? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 128)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z\\*\\.\\\\/\\?\\-\\_]*$")
+            }
+            try validate(self.values, name:"values", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public enum DataRepositoryTaskFilterName: String, CustomStringConvertible, Codable {
+        case fileSystemId = "file-system-id"
+        case taskLifecycle = "task-lifecycle"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataRepositoryTaskLifecycle: String, CustomStringConvertible, Codable {
+        case pending = "PENDING"
+        case executing = "EXECUTING"
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        case canceled = "CANCELED"
+        case canceling = "CANCELING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DataRepositoryTaskStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedCount", required: false, type: .long), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SucceededCount", required: false, type: .long), 
+            AWSShapeMember(label: "TotalCount", required: false, type: .long)
+        ]
+
+        /// A running total of the number of files that the task failed to process.
+        public let failedCount: Int64?
+        /// The time at which the task status was last updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// A running total of the number of files that the task has successfully processed.
+        public let succeededCount: Int64?
+        /// The total number of files that the task will process. While a task is executing, the sum of SucceededCount plus FailedCount may not equal TotalCount. When the task is complete, TotalCount equals the sum of SucceededCount plus FailedCount.
+        public let totalCount: Int64?
+
+        public init(failedCount: Int64? = nil, lastUpdatedTime: TimeStamp? = nil, succeededCount: Int64? = nil, totalCount: Int64? = nil) {
+            self.failedCount = failedCount
+            self.lastUpdatedTime = lastUpdatedTime
+            self.succeededCount = succeededCount
+            self.totalCount = totalCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedCount = "FailedCount"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case succeededCount = "SucceededCount"
+            case totalCount = "TotalCount"
+        }
+    }
+
+    public enum DataRepositoryTaskType: String, CustomStringConvertible, Codable {
+        case exportToRepository = "EXPORT_TO_REPOSITORY"
+        public var description: String { return self.rawValue }
+    }
+
     public struct DeleteBackupRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupId", required: true, type: .string), 
@@ -522,9 +869,9 @@ extension FSx {
             try validate(self.backupId, name:"backupId", parent: name, max: 128)
             try validate(self.backupId, name:"backupId", parent: name, min: 12)
             try validate(self.backupId, name:"backupId", parent: name, pattern: "^(backup-[0-9a-f]{8,})$")
-            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 255)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 63)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
-            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,255}$")
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -575,9 +922,9 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 255)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 63)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
-            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,255}$")
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, max: 21)
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, min: 11)
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
@@ -740,6 +1087,74 @@ extension FSx {
         }
     }
 
+    public struct DescribeDataRepositoryTasksRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TaskIds", required: false, type: .list)
+        ]
+
+        /// (Optional) You can use filters to narrow the DescribeDataRepositoryTasks response to include just tasks for specific file systems, or tasks in a specific lifecycle state.
+        public let filters: [DataRepositoryTaskFilter]?
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// (Optional) IDs of the tasks whose descriptions you want to retrieve (String).
+        public let taskIds: [String]?
+
+        public init(filters: [DataRepositoryTaskFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, taskIds: [String]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.taskIds = taskIds
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try validate(self.filters, name:"filters", parent: name, max: 3)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 255)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$")
+            try self.taskIds?.forEach {
+                try validate($0, name: "taskIds[]", parent: name, max: 128)
+                try validate($0, name: "taskIds[]", parent: name, min: 12)
+                try validate($0, name: "taskIds[]", parent: name, pattern: "^(task-[0-9a-f]{17,})$")
+            }
+            try validate(self.taskIds, name:"taskIds", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case taskIds = "TaskIds"
+        }
+    }
+
+    public struct DescribeDataRepositoryTasksResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataRepositoryTasks", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The collection of data repository task descriptions returned.
+        public let dataRepositoryTasks: [DataRepositoryTask]?
+        public let nextToken: String?
+
+        public init(dataRepositoryTasks: [DataRepositoryTask]? = nil, nextToken: String? = nil) {
+            self.dataRepositoryTasks = dataRepositoryTasks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataRepositoryTasks = "DataRepositoryTasks"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DescribeFileSystemsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "FileSystemIds", required: false, type: .list), 
@@ -831,9 +1246,9 @@ extension FSx {
         public let fileSystemId: String?
         /// The type of Amazon FSx file system, either LUSTRE or WINDOWS.
         public let fileSystemType: FileSystemType?
-        /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt the file system's data for an Amazon FSx for Windows File Server file system.
+        /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt the file system's data for an Amazon FSx for Windows File Server file system. Amazon FSx for Lustre does not support KMS encryption. 
         public let kmsKeyId: String?
-        /// The lifecycle status of the file system:    AVAILABLE indicates that the file system is reachable and available for use.    CREATING indicates that Amazon FSx is in the process of creating the new file system.    DELETING indicates that Amazon FSx is in the process of deleting the file system.    FAILED indicates that Amazon FSx was not able to create the file system.    MISCONFIGURED indicates that the file system is in a failed but recoverable state.    UPDATING indicates that the file system is undergoing a customer initiated update.  
+        /// The lifecycle status of the file system, following are the possible values and what they mean:    AVAILABLE - The file system is in a healthy state, and is reachable and available for use.    CREATING - Amazon FSx is creating the new file system.    DELETING - Amazon FSx is deleting an existing file system.    FAILED - An existing file system has experienced an unrecoverable failure. When creating a new file system, Amazon FSx was unable to create the file system.    MISCONFIGURED indicates that the file system is in a failed but recoverable state.    UPDATING indicates that the file system is undergoing a customer initiated update.  
         public let lifecycle: FileSystemLifecycle?
         public let lustreConfiguration: LustreFileSystemConfiguration?
         /// The IDs of the elastic network interface from which a specific file system is accessible. The elastic network interface is automatically created in the same VPC that the Amazon FSx file system was created in. For more information, see Elastic Network Interfaces in the Amazon EC2 User Guide.  For an Amazon FSx for Windows File Server file system, you can have one network interface ID. For an Amazon FSx for Lustre file system, you can have more than one.
@@ -1048,6 +1463,16 @@ extension FSx {
         }
     }
 
+    public enum ReportFormat: String, CustomStringConvertible, Codable {
+        case reportCsv20191124 = "REPORT_CSV_20191124"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportScope: String, CustomStringConvertible, Codable {
+        case failedFilesOnly = "FAILED_FILES_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public struct SelfManagedActiveDirectoryAttributes: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DnsIps", required: false, type: .list), 
@@ -1095,11 +1520,11 @@ extension FSx {
             AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
 
-        /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory. The IP addresses need to be either in the same VPC CIDR range as the one in which your Amazon FSx file system is being created, or in the private IP version 4 (Iv4) address ranges, as specified in RFC 1918:   10.0.0.0 - 10.255.255.255 (10/8 prefix)   172.16.0.0 - 172.31.255.255 (172.16/12 prefix)   192.168.0.0 - 192.168.255.255 (192.168/16 prefix)  
+        /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory. The IP addresses need to be either in the same VPC CIDR range as the one in which your Amazon FSx file system is being created, or in the private IP version 4 (IPv4) address ranges, as specified in RFC 1918:   10.0.0.0 - 10.255.255.255 (10/8 prefix)   172.16.0.0 - 172.31.255.255 (172.16/12 prefix)   192.168.0.0 - 192.168.255.255 (192.168/16 prefix)  
         public let dnsIps: [String]
         /// The fully qualified domain name of the self-managed AD directory, such as corp.example.com.
         public let domainName: String
-        /// (Optional) The name of the domain group whose members are granted administrative privileges for the file system. Administrative privileges include taking ownership of files and folders, and setting audit controls (audit ACLs) on files and folders. The group that you specify must already exist in your domain. If you don't provide one, your AD domain's Domain Admins group is used.
+        /// (Optional) The name of the domain group whose members are granted administrative privileges for the file system. Administrative privileges include taking ownership of files and folders, setting audit controls (audit ACLs) on files and folders, and administering the file system remotely by using the FSx Remote PowerShell. The group that you specify must already exist in your domain. If you don't provide one, your AD domain's Domain Admins group is used.
         public let fileSystemAdministratorsGroup: String?
         /// (Optional) The fully qualified distinguished name of the organizational unit within your self-managed AD directory that the Windows File Server instance will join. Amazon FSx only accepts OU as the direct parent of the file system. An example is OU=FSx,DC=yourdomain,DC=corp,DC=com. To learn more, see RFC 2253. If none is provided, the FSx file system is created in the default location of your self-managed AD directory.   Only Organizational Unit (OU) objects can be the direct parent of the file system that you're creating. 
         public let organizationalUnitDistinguishedName: String?
@@ -1119,18 +1544,27 @@ extension FSx {
 
         public func validate(name: String) throws {
             try self.dnsIps.forEach {
+                try validate($0, name: "dnsIps[]", parent: name, max: 15)
+                try validate($0, name: "dnsIps[]", parent: name, min: 7)
                 try validate($0, name: "dnsIps[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")
             }
             try validate(self.dnsIps, name:"dnsIps", parent: name, max: 2)
             try validate(self.dnsIps, name:"dnsIps", parent: name, min: 1)
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, min: 1)
+            try validate(self.domainName, name:"domainName", parent: name, pattern: "^.{1,255}$")
             try validate(self.fileSystemAdministratorsGroup, name:"fileSystemAdministratorsGroup", parent: name, max: 256)
             try validate(self.fileSystemAdministratorsGroup, name:"fileSystemAdministratorsGroup", parent: name, min: 1)
+            try validate(self.fileSystemAdministratorsGroup, name:"fileSystemAdministratorsGroup", parent: name, pattern: "^.{1,256}$")
             try validate(self.organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", parent: name, max: 2000)
             try validate(self.organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", parent: name, min: 1)
+            try validate(self.organizationalUnitDistinguishedName, name:"organizationalUnitDistinguishedName", parent: name, pattern: "^.{1,2000}$")
             try validate(self.password, name:"password", parent: name, max: 256)
             try validate(self.password, name:"password", parent: name, min: 1)
+            try validate(self.password, name:"password", parent: name, pattern: "^.{1,256}$")
             try validate(self.userName, name:"userName", parent: name, max: 256)
             try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "^.{1,256}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1165,14 +1599,18 @@ extension FSx {
 
         public func validate(name: String) throws {
             try self.dnsIps?.forEach {
+                try validate($0, name: "dnsIps[]", parent: name, max: 15)
+                try validate($0, name: "dnsIps[]", parent: name, min: 7)
                 try validate($0, name: "dnsIps[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")
             }
             try validate(self.dnsIps, name:"dnsIps", parent: name, max: 2)
             try validate(self.dnsIps, name:"dnsIps", parent: name, min: 1)
             try validate(self.password, name:"password", parent: name, max: 256)
             try validate(self.password, name:"password", parent: name, min: 1)
+            try validate(self.password, name:"password", parent: name, pattern: "^.{1,256}$")
             try validate(self.userName, name:"userName", parent: name, max: 256)
             try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "^.{1,256}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1201,8 +1639,10 @@ extension FSx {
         public func validate(name: String) throws {
             try validate(self.key, name:"key", parent: name, max: 128)
             try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try validate(self.value, name:"value", parent: name, max: 256)
             try validate(self.value, name:"value", parent: name, min: 0)
+            try validate(self.value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1275,6 +1715,7 @@ extension FSx {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
             try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
@@ -1340,9 +1781,9 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 255)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 63)
             try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
-            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,255}$")
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, max: 21)
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, min: 11)
             try validate(self.fileSystemId, name:"fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
@@ -1419,13 +1860,23 @@ extension FSx {
         }
     }
 
+    public enum WindowsDeploymentType: String, CustomStringConvertible, Codable {
+        case multiAz1 = "MULTI_AZ_1"
+        case singleAz1 = "SINGLE_AZ_1"
+        public var description: String { return self.rawValue }
+    }
+
     public struct WindowsFileSystemConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ActiveDirectoryId", required: false, type: .string), 
             AWSShapeMember(label: "AutomaticBackupRetentionDays", required: false, type: .integer), 
             AWSShapeMember(label: "CopyTagsToBackups", required: false, type: .boolean), 
             AWSShapeMember(label: "DailyAutomaticBackupStartTime", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
             AWSShapeMember(label: "MaintenanceOperationsInProgress", required: false, type: .list), 
+            AWSShapeMember(label: "PreferredFileServerIp", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredSubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "RemoteAdministrationEndpoint", required: false, type: .string), 
             AWSShapeMember(label: "SelfManagedActiveDirectoryConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "ThroughputCapacity", required: false, type: .integer), 
             AWSShapeMember(label: "WeeklyMaintenanceStartTime", required: false, type: .string)
@@ -1439,20 +1890,32 @@ extension FSx {
         public let copyTagsToBackups: Bool?
         /// The preferred time to take daily automatic backups, in the UTC time zone.
         public let dailyAutomaticBackupStartTime: String?
+        /// Specifies the file system deployment type, valid values are the following:    MULTI_AZ_1 - Specifies a high availability file system that is configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability.    SINGLE_AZ_1 - (Default) Specifies a file system that is configured for single AZ redundancy.  
+        public let deploymentType: WindowsDeploymentType?
         /// The list of maintenance operations in progress for this file system.
         public let maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]?
+        /// For MULTI_AZ_1 deployment types, the IP address of the primary, or preferred, file server. Use this IP address when mounting the file system on Linux SMB clients or Windows SMB clients that are not joined to a Microsoft Active Directory. Applicable for both SINGLE_AZ_1 and MULTI_AZ_1 deployment types. This IP address is temporarily unavailable when the file system is undergoing maintenance. For Linux and Windows SMB clients that are joined to an Active Directory, use the file system's DNSName instead. For more information and instruction on mapping and mounting file shares, see https://docs.aws.amazon.com/fsx/latest/WindowsGuide/accessing-file-shares.html.
+        public let preferredFileServerIp: String?
+        /// For MULTI_AZ_1 deployment types, it specifies the ID of the subnet where the preferred file server is located. Must be one of the two subnet IDs specified in SubnetIds property. Amazon FSx serves traffic from this subnet except in the event of a failover to the secondary file server. For SINGLE_AZ_1 deployment types, this value is the same as that for SubnetIDs.
+        public let preferredSubnetId: String?
+        /// For MULTI_AZ_1 deployment types, use this endpoint when performing administrative tasks on the file system using Amazon FSx Remote PowerShell. For SINGLE_AZ_1 deployment types, this is the DNS name of the file system. This endpoint is temporarily unavailable when the file system is undergoing maintenance.
+        public let remoteAdministrationEndpoint: String?
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes?
         /// The throughput of an Amazon FSx file system, measured in megabytes per second.
         public let throughputCapacity: Int?
         /// The preferred time to perform weekly maintenance, in the UTC time zone.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.deploymentType = deploymentType
             self.maintenanceOperationsInProgress = maintenanceOperationsInProgress
+            self.preferredFileServerIp = preferredFileServerIp
+            self.preferredSubnetId = preferredSubnetId
+            self.remoteAdministrationEndpoint = remoteAdministrationEndpoint
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -1463,7 +1926,11 @@ extension FSx {
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+            case deploymentType = "DeploymentType"
             case maintenanceOperationsInProgress = "MaintenanceOperationsInProgress"
+            case preferredFileServerIp = "PreferredFileServerIp"
+            case preferredSubnetId = "PreferredSubnetId"
+            case remoteAdministrationEndpoint = "RemoteAdministrationEndpoint"
             case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
             case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"

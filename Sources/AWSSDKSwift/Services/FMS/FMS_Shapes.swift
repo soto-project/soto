@@ -339,6 +339,7 @@ extension FMS {
             try validate(self.memberAccountId, name:"memberAccountId", parent: name, max: 1024)
             try validate(self.memberAccountId, name:"memberAccountId", parent: name, min: 1)
             try validate(self.memberAccountId, name:"memberAccountId", parent: name, pattern: "^[0-9]+$")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 4096)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try validate(self.policyId, name:"policyId", parent: name, max: 36)
@@ -411,6 +412,7 @@ extension FMS {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 4096)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try validate(self.policyId, name:"policyId", parent: name, max: 36)
@@ -466,6 +468,7 @@ extension FMS {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 4096)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
@@ -517,6 +520,7 @@ extension FMS {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 4096)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
@@ -546,6 +550,46 @@ extension FMS {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case policyList = "PolicyList"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource to return tags for. The Firewall Manager policy is the only AWS resource that supports tagging, so this ARN is a policy ARN..
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1024)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: false, type: .list)
+        ]
+
+        /// The tags associated with the resource.
+        public let tagList: [Tag]?
+
+        public init(tagList: [Tag]? = nil) {
+            self.tagList = tagList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
         }
     }
 
@@ -817,22 +861,32 @@ extension FMS {
 
     public struct PutPolicyRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Policy", required: true, type: .structure)
+            AWSShapeMember(label: "Policy", required: true, type: .structure), 
+            AWSShapeMember(label: "TagList", required: false, type: .list)
         ]
 
         /// The details of the AWS Firewall Manager policy to be created.
         public let policy: Policy
+        /// The tags to add to the AWS resource.
+        public let tagList: [Tag]?
 
-        public init(policy: Policy) {
+        public init(policy: Policy, tagList: [Tag]? = nil) {
             self.policy = policy
+            self.tagList = tagList
         }
 
         public func validate(name: String) throws {
             try self.policy.validate(name: "\(name).policy")
+            try self.tagList?.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
+            try validate(self.tagList, name:"tagList", parent: name, max: 200)
+            try validate(self.tagList, name:"tagList", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
+            case tagList = "TagList"
         }
     }
 
@@ -922,6 +976,121 @@ extension FMS {
         case securityGroupsContentAudit = "SECURITY_GROUPS_CONTENT_AUDIT"
         case securityGroupsUsageAudit = "SECURITY_GROUPS_USAGE_AUDIT"
         public var description: String { return self.rawValue }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+
+        /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
+        public let key: String
+        /// Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive. 
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
+            try validate(self.value, name:"value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagList", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource. The Firewall Manager policy is the only AWS resource that supports tagging, so this ARN is a policy ARN.
+        public let resourceArn: String
+        /// The tags to add to the resource.
+        public let tagList: [Tag]
+
+        public init(resourceArn: String, tagList: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tagList = tagList
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1024)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.tagList.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
+            try validate(self.tagList, name:"tagList", parent: name, max: 200)
+            try validate(self.tagList, name:"tagList", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagList = "TagList"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource. The Firewall Manager policy is the only AWS resource that supports tagging, so this ARN is a policy ARN.
+        public let resourceArn: String
+        /// The keys of the tags to remove from the resource. 
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 1024)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public enum ViolationReason: String, CustomStringConvertible, Codable {

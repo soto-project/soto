@@ -36,6 +36,12 @@ public enum RDSErrorType: AWSErrorType {
     case dBParameterGroupAlreadyExistsFault(message: String?)
     case dBParameterGroupNotFoundFault(message: String?)
     case dBParameterGroupQuotaExceededFault(message: String?)
+    case dBProxyAlreadyExistsFault(message: String?)
+    case dBProxyNotFoundFault(message: String?)
+    case dBProxyQuotaExceededFault(message: String?)
+    case dBProxyTargetAlreadyRegisteredFault(message: String?)
+    case dBProxyTargetGroupNotFoundFault(message: String?)
+    case dBProxyTargetNotFoundFault(message: String?)
     case dBSecurityGroupAlreadyExistsFault(message: String?)
     case dBSecurityGroupNotFoundFault(message: String?)
     case dBSecurityGroupNotSupportedFault(message: String?)
@@ -67,6 +73,7 @@ public enum RDSErrorType: AWSErrorType {
     case invalidDBInstanceAutomatedBackupStateFault(message: String?)
     case invalidDBInstanceStateFault(message: String?)
     case invalidDBParameterGroupStateFault(message: String?)
+    case invalidDBProxyStateFault(message: String?)
     case invalidDBSecurityGroupStateFault(message: String?)
     case invalidDBSnapshotStateFault(message: String?)
     case invalidDBSubnetGroupFault(message: String?)
@@ -175,6 +182,18 @@ extension RDSErrorType {
             self = .dBParameterGroupNotFoundFault(message: message)
         case "DBParameterGroupQuotaExceeded":
             self = .dBParameterGroupQuotaExceededFault(message: message)
+        case "DBProxyAlreadyExistsFault":
+            self = .dBProxyAlreadyExistsFault(message: message)
+        case "DBProxyNotFoundFault":
+            self = .dBProxyNotFoundFault(message: message)
+        case "DBProxyQuotaExceededFault":
+            self = .dBProxyQuotaExceededFault(message: message)
+        case "DBProxyTargetAlreadyRegisteredFault":
+            self = .dBProxyTargetAlreadyRegisteredFault(message: message)
+        case "DBProxyTargetGroupNotFoundFault":
+            self = .dBProxyTargetGroupNotFoundFault(message: message)
+        case "DBProxyTargetNotFoundFault":
+            self = .dBProxyTargetNotFoundFault(message: message)
         case "DBSecurityGroupAlreadyExists":
             self = .dBSecurityGroupAlreadyExistsFault(message: message)
         case "DBSecurityGroupNotFound":
@@ -237,6 +256,8 @@ extension RDSErrorType {
             self = .invalidDBInstanceStateFault(message: message)
         case "InvalidDBParameterGroupState":
             self = .invalidDBParameterGroupStateFault(message: message)
+        case "InvalidDBProxyStateFault":
+            self = .invalidDBProxyStateFault(message: message)
         case "InvalidDBSecurityGroupState":
             self = .invalidDBSecurityGroupStateFault(message: message)
         case "InvalidDBSnapshotState":
@@ -380,6 +401,18 @@ extension RDSErrorType : CustomStringConvertible {
             return "DBParameterGroupNotFound: \(message ?? "")"
         case .dBParameterGroupQuotaExceededFault(let message):
             return "DBParameterGroupQuotaExceeded: \(message ?? "")"
+        case .dBProxyAlreadyExistsFault(let message):
+            return "DBProxyAlreadyExistsFault: \(message ?? "")"
+        case .dBProxyNotFoundFault(let message):
+            return "DBProxyNotFoundFault: \(message ?? "")"
+        case .dBProxyQuotaExceededFault(let message):
+            return "DBProxyQuotaExceededFault: \(message ?? "")"
+        case .dBProxyTargetAlreadyRegisteredFault(let message):
+            return "DBProxyTargetAlreadyRegisteredFault: \(message ?? "")"
+        case .dBProxyTargetGroupNotFoundFault(let message):
+            return "DBProxyTargetGroupNotFoundFault: \(message ?? "")"
+        case .dBProxyTargetNotFoundFault(let message):
+            return "DBProxyTargetNotFoundFault: \(message ?? "")"
         case .dBSecurityGroupAlreadyExistsFault(let message):
             return "DBSecurityGroupAlreadyExists: \(message ?? "")"
         case .dBSecurityGroupNotFoundFault(let message):
@@ -442,6 +475,8 @@ extension RDSErrorType : CustomStringConvertible {
             return "InvalidDBInstanceState: \(message ?? "")"
         case .invalidDBParameterGroupStateFault(let message):
             return "InvalidDBParameterGroupState: \(message ?? "")"
+        case .invalidDBProxyStateFault(let message):
+            return "InvalidDBProxyStateFault: \(message ?? "")"
         case .invalidDBSecurityGroupStateFault(let message):
             return "InvalidDBSecurityGroupState: \(message ?? "")"
         case .invalidDBSnapshotStateFault(let message):

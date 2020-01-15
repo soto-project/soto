@@ -5,21 +5,25 @@ import AWSSDKSwiftCore
 /// Error enum for CloudFormation
 public enum CloudFormationErrorType: AWSErrorType {
     case alreadyExistsException(message: String?)
+    case cFNRegistryException(message: String?)
     case changeSetNotFoundException(message: String?)
     case createdButModifiedException(message: String?)
     case insufficientCapabilitiesException(message: String?)
     case invalidChangeSetStatusException(message: String?)
     case invalidOperationException(message: String?)
+    case invalidStateTransitionException(message: String?)
     case limitExceededException(message: String?)
     case nameAlreadyExistsException(message: String?)
     case operationIdAlreadyExistsException(message: String?)
     case operationInProgressException(message: String?)
     case operationNotFoundException(message: String?)
+    case operationStatusCheckFailedException(message: String?)
     case stackInstanceNotFoundException(message: String?)
     case stackSetNotEmptyException(message: String?)
     case stackSetNotFoundException(message: String?)
     case staleRequestException(message: String?)
     case tokenAlreadyExistsException(message: String?)
+    case typeNotFoundException(message: String?)
 }
 
 extension CloudFormationErrorType {
@@ -31,6 +35,8 @@ extension CloudFormationErrorType {
         switch errorCode {
         case "AlreadyExistsException":
             self = .alreadyExistsException(message: message)
+        case "CFNRegistryException":
+            self = .cFNRegistryException(message: message)
         case "ChangeSetNotFound":
             self = .changeSetNotFoundException(message: message)
         case "CreatedButModifiedException":
@@ -41,6 +47,8 @@ extension CloudFormationErrorType {
             self = .invalidChangeSetStatusException(message: message)
         case "InvalidOperationException":
             self = .invalidOperationException(message: message)
+        case "InvalidStateTransition":
+            self = .invalidStateTransitionException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "NameAlreadyExistsException":
@@ -51,6 +59,8 @@ extension CloudFormationErrorType {
             self = .operationInProgressException(message: message)
         case "OperationNotFoundException":
             self = .operationNotFoundException(message: message)
+        case "ConditionalCheckFailed":
+            self = .operationStatusCheckFailedException(message: message)
         case "StackInstanceNotFoundException":
             self = .stackInstanceNotFoundException(message: message)
         case "StackSetNotEmptyException":
@@ -61,6 +71,8 @@ extension CloudFormationErrorType {
             self = .staleRequestException(message: message)
         case "TokenAlreadyExistsException":
             self = .tokenAlreadyExistsException(message: message)
+        case "TypeNotFoundException":
+            self = .typeNotFoundException(message: message)
         default:
             return nil
         }
@@ -72,6 +84,8 @@ extension CloudFormationErrorType : CustomStringConvertible {
         switch self {
         case .alreadyExistsException(let message):
             return "AlreadyExistsException: \(message ?? "")"
+        case .cFNRegistryException(let message):
+            return "CFNRegistryException: \(message ?? "")"
         case .changeSetNotFoundException(let message):
             return "ChangeSetNotFound: \(message ?? "")"
         case .createdButModifiedException(let message):
@@ -82,6 +96,8 @@ extension CloudFormationErrorType : CustomStringConvertible {
             return "InvalidChangeSetStatus: \(message ?? "")"
         case .invalidOperationException(let message):
             return "InvalidOperationException: \(message ?? "")"
+        case .invalidStateTransitionException(let message):
+            return "InvalidStateTransition: \(message ?? "")"
         case .limitExceededException(let message):
             return "LimitExceededException: \(message ?? "")"
         case .nameAlreadyExistsException(let message):
@@ -92,6 +108,8 @@ extension CloudFormationErrorType : CustomStringConvertible {
             return "OperationInProgressException: \(message ?? "")"
         case .operationNotFoundException(let message):
             return "OperationNotFoundException: \(message ?? "")"
+        case .operationStatusCheckFailedException(let message):
+            return "ConditionalCheckFailed: \(message ?? "")"
         case .stackInstanceNotFoundException(let message):
             return "StackInstanceNotFoundException: \(message ?? "")"
         case .stackSetNotEmptyException(let message):
@@ -102,6 +120,8 @@ extension CloudFormationErrorType : CustomStringConvertible {
             return "StaleRequestException: \(message ?? "")"
         case .tokenAlreadyExistsException(let message):
             return "TokenAlreadyExistsException: \(message ?? "")"
+        case .typeNotFoundException(let message):
+            return "TypeNotFoundException: \(message ?? "")"
         }
     }
 }

@@ -47,6 +47,21 @@ public struct DLM {
         return client.send(operation: "GetLifecyclePolicy", path: "/policies/{policyId}/", httpMethod: "GET", input: input)
     }
 
+    ///  Lists the tags for the specified resource.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
+    }
+
+    ///  Adds the specified tags to the specified resource.
+    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes the specified tags from the specified resource.
+    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
+    }
+
     ///  Updates the specified lifecycle policy.
     public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest) -> Future<UpdateLifecyclePolicyResponse> {
         return client.send(operation: "UpdateLifecyclePolicy", path: "/policies/{policyId}", httpMethod: "PATCH", input: input)

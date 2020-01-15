@@ -7,14 +7,17 @@ public enum CloudTrailErrorType: AWSErrorType {
     case cloudTrailARNInvalidException(message: String?)
     case cloudTrailAccessNotEnabledException(message: String?)
     case cloudWatchLogsDeliveryUnavailableException(message: String?)
+    case insightNotEnabledException(message: String?)
     case insufficientDependencyServiceAccessPermissionException(message: String?)
     case insufficientEncryptionPolicyException(message: String?)
     case insufficientS3BucketPolicyException(message: String?)
     case insufficientSnsTopicPolicyException(message: String?)
     case invalidCloudWatchLogsLogGroupArnException(message: String?)
     case invalidCloudWatchLogsRoleArnException(message: String?)
+    case invalidEventCategoryException(message: String?)
     case invalidEventSelectorsException(message: String?)
     case invalidHomeRegionException(message: String?)
+    case invalidInsightSelectorsException(message: String?)
     case invalidKmsKeyIdException(message: String?)
     case invalidLookupAttributesException(message: String?)
     case invalidMaxResultsException(message: String?)
@@ -58,6 +61,8 @@ extension CloudTrailErrorType {
             self = .cloudTrailAccessNotEnabledException(message: message)
         case "CloudWatchLogsDeliveryUnavailableException":
             self = .cloudWatchLogsDeliveryUnavailableException(message: message)
+        case "InsightNotEnabledException":
+            self = .insightNotEnabledException(message: message)
         case "InsufficientDependencyServiceAccessPermissionException":
             self = .insufficientDependencyServiceAccessPermissionException(message: message)
         case "InsufficientEncryptionPolicyException":
@@ -70,10 +75,14 @@ extension CloudTrailErrorType {
             self = .invalidCloudWatchLogsLogGroupArnException(message: message)
         case "InvalidCloudWatchLogsRoleArnException":
             self = .invalidCloudWatchLogsRoleArnException(message: message)
+        case "InvalidEventCategoryException":
+            self = .invalidEventCategoryException(message: message)
         case "InvalidEventSelectorsException":
             self = .invalidEventSelectorsException(message: message)
         case "InvalidHomeRegionException":
             self = .invalidHomeRegionException(message: message)
+        case "InvalidInsightSelectorsException":
+            self = .invalidInsightSelectorsException(message: message)
         case "InvalidKmsKeyIdException":
             self = .invalidKmsKeyIdException(message: message)
         case "InvalidLookupAttributesException":
@@ -145,6 +154,8 @@ extension CloudTrailErrorType : CustomStringConvertible {
             return "CloudTrailAccessNotEnabledException: \(message ?? "")"
         case .cloudWatchLogsDeliveryUnavailableException(let message):
             return "CloudWatchLogsDeliveryUnavailableException: \(message ?? "")"
+        case .insightNotEnabledException(let message):
+            return "InsightNotEnabledException: \(message ?? "")"
         case .insufficientDependencyServiceAccessPermissionException(let message):
             return "InsufficientDependencyServiceAccessPermissionException: \(message ?? "")"
         case .insufficientEncryptionPolicyException(let message):
@@ -157,10 +168,14 @@ extension CloudTrailErrorType : CustomStringConvertible {
             return "InvalidCloudWatchLogsLogGroupArnException: \(message ?? "")"
         case .invalidCloudWatchLogsRoleArnException(let message):
             return "InvalidCloudWatchLogsRoleArnException: \(message ?? "")"
+        case .invalidEventCategoryException(let message):
+            return "InvalidEventCategoryException: \(message ?? "")"
         case .invalidEventSelectorsException(let message):
             return "InvalidEventSelectorsException: \(message ?? "")"
         case .invalidHomeRegionException(let message):
             return "InvalidHomeRegionException: \(message ?? "")"
+        case .invalidInsightSelectorsException(let message):
+            return "InvalidInsightSelectorsException: \(message ?? "")"
         case .invalidKmsKeyIdException(let message):
             return "InvalidKmsKeyIdException: \(message ?? "")"
         case .invalidLookupAttributesException(let message):

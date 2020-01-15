@@ -5,6 +5,847 @@ import AWSSDKSwiftCore
 
 extension QuickSight {
 
+    public struct ActiveIAMPolicyAssignment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentName", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyArn", required: false, type: .string)
+        ]
+
+        /// A name for the IAM policy assignment.
+        public let assignmentName: String?
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let policyArn: String?
+
+        public init(assignmentName: String? = nil, policyArn: String? = nil) {
+            self.assignmentName = assignmentName
+            self.policyArn = policyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentName = "AssignmentName"
+            case policyArn = "PolicyArn"
+        }
+    }
+
+    public struct AdHocFilteringOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityStatus", required: false, type: .enum)
+        ]
+
+        /// Availability status.
+        public let availabilityStatus: DashboardBehavior?
+
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
+    public struct AmazonElasticsearchParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domain", required: true, type: .string)
+        ]
+
+        /// The Amazon Elasticsearch Service domain.
+        public let domain: String
+
+        public init(domain: String) {
+            self.domain = domain
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domain, name:"domain", parent: name, max: 64)
+            try validate(self.domain, name:"domain", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+        }
+    }
+
+    public enum AssignmentStatus: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case draft = "DRAFT"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct AthenaParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkGroup", required: false, type: .string)
+        ]
+
+        /// The workgroup that Amazon Athena uses.
+        public let workGroup: String?
+
+        public init(workGroup: String? = nil) {
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.workGroup, name:"workGroup", parent: name, max: 128)
+            try validate(self.workGroup, name:"workGroup", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct AuroraParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "Host", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: true, type: .integer)
+        ]
+
+        /// Database.
+        public let database: String
+        /// Host.
+        public let host: String
+        /// Port.
+        public let port: Int
+
+        public init(database: String, host: String, port: Int) {
+            self.database = database
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.database, name:"database", parent: name, max: 128)
+            try validate(self.database, name:"database", parent: name, min: 1)
+            try validate(self.host, name:"host", parent: name, max: 256)
+            try validate(self.host, name:"host", parent: name, min: 1)
+            try validate(self.port, name:"port", parent: name, max: 65535)
+            try validate(self.port, name:"port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
+    public struct AuroraPostgreSqlParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "Host", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: true, type: .integer)
+        ]
+
+        /// Database.
+        public let database: String
+        /// Host.
+        public let host: String
+        /// Port.
+        public let port: Int
+
+        public init(database: String, host: String, port: Int) {
+            self.database = database
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.database, name:"database", parent: name, max: 128)
+            try validate(self.database, name:"database", parent: name, min: 1)
+            try validate(self.host, name:"host", parent: name, max: 256)
+            try validate(self.host, name:"host", parent: name, min: 1)
+            try validate(self.port, name:"port", parent: name, max: 65535)
+            try validate(self.port, name:"port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
+    public struct AwsIotAnalyticsParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSetName", required: true, type: .string)
+        ]
+
+        /// Dataset name.
+        public let dataSetName: String
+
+        public init(dataSetName: String) {
+            self.dataSetName = dataSetName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.dataSetName, name:"dataSetName", parent: name, max: 128)
+            try validate(self.dataSetName, name:"dataSetName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetName = "DataSetName"
+        }
+    }
+
+    public struct CalculatedColumn: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColumnId", required: true, type: .string), 
+            AWSShapeMember(label: "ColumnName", required: true, type: .string), 
+            AWSShapeMember(label: "Expression", required: true, type: .string)
+        ]
+
+        /// A unique ID to identify a calculated column. During a dataset update, if the column ID of a calculated column matches that of an existing calculated column, Amazon QuickSight preserves the existing calculated column.
+        public let columnId: String
+        /// Column name.
+        public let columnName: String
+        /// An expression that defines the calculated column.
+        public let expression: String
+
+        public init(columnId: String, columnName: String, expression: String) {
+            self.columnId = columnId
+            self.columnName = columnName
+            self.expression = expression
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.columnId, name:"columnId", parent: name, max: 64)
+            try validate(self.columnId, name:"columnId", parent: name, min: 1)
+            try validate(self.columnName, name:"columnName", parent: name, max: 128)
+            try validate(self.columnName, name:"columnName", parent: name, min: 1)
+            try validate(self.expression, name:"expression", parent: name, max: 4096)
+            try validate(self.expression, name:"expression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnId = "ColumnId"
+            case columnName = "ColumnName"
+            case expression = "Expression"
+        }
+    }
+
+    public struct CancelIngestionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
+            AWSShapeMember(label: "IngestionId", location: .uri(locationName: "IngestionId"), required: true, type: .string)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The ID of the dataset used in the ingestion.
+        public let dataSetId: String
+        /// An ID for the ingestion.
+        public let ingestionId: String
+
+        public init(awsAccountId: String, dataSetId: String, ingestionId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+            self.ingestionId = ingestionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.ingestionId, name:"ingestionId", parent: name, max: 128)
+            try validate(self.ingestionId, name:"ingestionId", parent: name, min: 1)
+            try validate(self.ingestionId, name:"ingestionId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dataSetId = "DataSetId"
+            case ingestionId = "IngestionId"
+        }
+    }
+
+    public struct CancelIngestionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "IngestionId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the data ingestion.
+        public let arn: String?
+        /// An ID for the ingestion.
+        public let ingestionId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, ingestionId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.ingestionId = ingestionId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case ingestionId = "IngestionId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct CastColumnTypeOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColumnName", required: true, type: .string), 
+            AWSShapeMember(label: "Format", required: false, type: .string), 
+            AWSShapeMember(label: "NewColumnType", required: true, type: .enum)
+        ]
+
+        /// Column name.
+        public let columnName: String
+        /// When casting a column from string to datetime type, you can supply a string in a format supported by Amazon QuickSight to denote the source data format.
+        public let format: String?
+        /// New column data type.
+        public let newColumnType: ColumnDataType
+
+        public init(columnName: String, format: String? = nil, newColumnType: ColumnDataType) {
+            self.columnName = columnName
+            self.format = format
+            self.newColumnType = newColumnType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.columnName, name:"columnName", parent: name, max: 128)
+            try validate(self.columnName, name:"columnName", parent: name, min: 1)
+            try validate(self.format, name:"format", parent: name, max: 32)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "ColumnName"
+            case format = "Format"
+            case newColumnType = "NewColumnType"
+        }
+    }
+
+    public enum ColumnDataType: String, CustomStringConvertible, Codable {
+        case string = "STRING"
+        case integer = "INTEGER"
+        case decimal = "DECIMAL"
+        case datetime = "DATETIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ColumnGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GeoSpatialColumnGroup", required: false, type: .structure)
+        ]
+
+        /// Geospatial column group that denotes a hierarchy.
+        public let geoSpatialColumnGroup: GeoSpatialColumnGroup?
+
+        public init(geoSpatialColumnGroup: GeoSpatialColumnGroup? = nil) {
+            self.geoSpatialColumnGroup = geoSpatialColumnGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.geoSpatialColumnGroup?.validate(name: "\(name).geoSpatialColumnGroup")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case geoSpatialColumnGroup = "GeoSpatialColumnGroup"
+        }
+    }
+
+    public struct ColumnGroupColumnSchema: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// The name of the column group's column schema.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct ColumnGroupSchema: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColumnGroupColumnSchemaList", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// A structure containing the list of schemas for column group columns.
+        public let columnGroupColumnSchemaList: [ColumnGroupColumnSchema]?
+        /// The name of the column group schema.
+        public let name: String?
+
+        public init(columnGroupColumnSchemaList: [ColumnGroupColumnSchema]? = nil, name: String? = nil) {
+            self.columnGroupColumnSchemaList = columnGroupColumnSchemaList
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnGroupColumnSchemaList = "ColumnGroupColumnSchemaList"
+            case name = "Name"
+        }
+    }
+
+    public struct ColumnSchema: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
+            AWSShapeMember(label: "GeographicRole", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// The data type of the column schema.
+        public let dataType: String?
+        /// The geographic role of the column schema.
+        public let geographicRole: String?
+        /// The name of the column schema.
+        public let name: String?
+
+        public init(dataType: String? = nil, geographicRole: String? = nil, name: String? = nil) {
+            self.dataType = dataType
+            self.geographicRole = geographicRole
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "DataType"
+            case geographicRole = "GeographicRole"
+            case name = "Name"
+        }
+    }
+
+    public struct ColumnTag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColumnGeographicRole", required: false, type: .enum)
+        ]
+
+        /// A geospatial role for a column.
+        public let columnGeographicRole: GeoSpatialDataRole?
+
+        public init(columnGeographicRole: GeoSpatialDataRole? = nil) {
+            self.columnGeographicRole = columnGeographicRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnGeographicRole = "ColumnGeographicRole"
+        }
+    }
+
+    public struct CreateColumnsOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Columns", required: true, type: .list)
+        ]
+
+        /// Calculated columns to create.
+        public let columns: [CalculatedColumn]
+
+        public init(columns: [CalculatedColumn]) {
+            self.columns = columns
+        }
+
+        public func validate(name: String) throws {
+            try self.columns.forEach {
+                try $0.validate(name: "\(name).columns[]")
+            }
+            try validate(self.columns, name:"columns", parent: name, max: 128)
+            try validate(self.columns, name:"columns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+        }
+    }
+
+    public struct CreateDashboardRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
+            AWSShapeMember(label: "DashboardPublishOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "SourceEntity", required: true, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "VersionDescription", required: false, type: .string)
+        ]
+
+        /// The ID of the AWS account where you want to create the dashboard.
+        public let awsAccountId: String
+        /// The ID for the dashboard, also added to the IAM policy.
+        public let dashboardId: String
+        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .csv format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. The sheet controls pane is collapsed by default when set to true. This option is COLLAPSED by default.   
+        public let dashboardPublishOptions: DashboardPublishOptions?
+        /// The display name of the dashboard.
+        public let name: String
+        /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values. You can use the dashboard permissions structure described following to override two string parameters that accept multiple values. 
+        public let parameters: Parameters?
+        /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions with principal and action information.
+        public let permissions: [ResourcePermission]?
+        /// The source entity from which the dashboard is created. The source entity accepts the Amazon Resource Name (ARN) of the source template or analysis and also references the replacement datasets for the placeholders set when creating the template. The replacement datasets need to follow the same schema as the datasets for which placeholders were created when creating the template.  If you are creating a dashboard from a source entity in a different AWS account, use the ARN of the source template.
+        public let sourceEntity: DashboardSourceEntity
+        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
+        public let tags: [Tag]?
+        /// A description for the first version of the dashboard being created.
+        public let versionDescription: String?
+
+        public init(awsAccountId: String, dashboardId: String, dashboardPublishOptions: DashboardPublishOptions? = nil, name: String, parameters: Parameters? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: DashboardSourceEntity, tags: [Tag]? = nil, versionDescription: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.dashboardId = dashboardId
+            self.dashboardPublishOptions = dashboardPublishOptions
+            self.name = name
+            self.parameters = parameters
+            self.permissions = permissions
+            self.sourceEntity = sourceEntity
+            self.tags = tags
+            self.versionDescription = versionDescription
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.dashboardId, name:"dashboardId", parent: name, max: 2048)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, min: 1)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try self.parameters?.validate(name: "\(name).parameters")
+            try self.permissions?.forEach {
+                try $0.validate(name: "\(name).permissions[]")
+            }
+            try validate(self.permissions, name:"permissions", parent: name, max: 64)
+            try validate(self.permissions, name:"permissions", parent: name, min: 1)
+            try self.sourceEntity.validate(name: "\(name).sourceEntity")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
+            try validate(self.versionDescription, name:"versionDescription", parent: name, max: 512)
+            try validate(self.versionDescription, name:"versionDescription", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dashboardId = "DashboardId"
+            case dashboardPublishOptions = "DashboardPublishOptions"
+            case name = "Name"
+            case parameters = "Parameters"
+            case permissions = "Permissions"
+            case sourceEntity = "SourceEntity"
+            case tags = "Tags"
+            case versionDescription = "VersionDescription"
+        }
+    }
+
+    public struct CreateDashboardResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "VersionArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the dashboard.
+        public let arn: String?
+        /// The status of the dashboard creation request.
+        public let creationStatus: ResourceStatus?
+        /// The ID for the dashboard.
+        public let dashboardId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The ARN of the dashboard, including the version number of the first version that is created.
+        public let versionArn: String?
+
+        public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, dashboardId: String? = nil, requestId: String? = nil, status: Int? = nil, versionArn: String? = nil) {
+            self.arn = arn
+            self.creationStatus = creationStatus
+            self.dashboardId = dashboardId
+            self.requestId = requestId
+            self.status = status
+            self.versionArn = versionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationStatus = "CreationStatus"
+            case dashboardId = "DashboardId"
+            case requestId = "RequestId"
+            case status = "Status"
+            case versionArn = "VersionArn"
+        }
+    }
+
+    public struct CreateDataSetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "ColumnGroups", required: false, type: .list), 
+            AWSShapeMember(label: "DataSetId", required: true, type: .string), 
+            AWSShapeMember(label: "ImportMode", required: true, type: .enum), 
+            AWSShapeMember(label: "LogicalTableMap", required: false, type: .map), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "PhysicalTableMap", required: true, type: .map), 
+            AWSShapeMember(label: "RowLevelPermissionDataSet", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// Groupings of columns that work together in certain QuickSight features. Currently, only geospatial hierarchy is supported.
+        public let columnGroups: [ColumnGroup]?
+        /// An ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        public let dataSetId: String
+        /// Indicates whether you want to import the data into SPICE.
+        public let importMode: DataSetImportMode
+        /// Configures the combination and transformation of the data from the physical tables.
+        public let logicalTableMap: [String: LogicalTable]?
+        /// The display name for the dataset.
+        public let name: String
+        /// A list of resource permissions on the dataset.
+        public let permissions: [ResourcePermission]?
+        /// Declares the physical tables that are available in the underlying data sources.
+        public let physicalTableMap: [String: PhysicalTable]
+        /// The row-level security configuration for the data that you want to create.
+        public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
+        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dataset.
+        public let tags: [Tag]?
+
+        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, dataSetId: String, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, permissions: [ResourcePermission]? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, tags: [Tag]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.columnGroups = columnGroups
+            self.dataSetId = dataSetId
+            self.importMode = importMode
+            self.logicalTableMap = logicalTableMap
+            self.name = name
+            self.permissions = permissions
+            self.physicalTableMap = physicalTableMap
+            self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.columnGroups?.forEach {
+                try $0.validate(name: "\(name).columnGroups[]")
+            }
+            try validate(self.columnGroups, name:"columnGroups", parent: name, max: 8)
+            try validate(self.columnGroups, name:"columnGroups", parent: name, min: 1)
+            try self.logicalTableMap?.forEach {
+                try validate($0.key, name:"logicalTableMap.key", parent: name, max: 64)
+                try validate($0.key, name:"logicalTableMap.key", parent: name, min: 1)
+                try validate($0.key, name:"logicalTableMap.key", parent: name, pattern: "[0-9a-zA-Z-]*")
+                try $0.value.validate(name: "\(name).logicalTableMap[\"\($0.key)\"]")
+            }
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try self.permissions?.forEach {
+                try $0.validate(name: "\(name).permissions[]")
+            }
+            try validate(self.permissions, name:"permissions", parent: name, max: 64)
+            try validate(self.permissions, name:"permissions", parent: name, min: 1)
+            try self.physicalTableMap.forEach {
+                try validate($0.key, name:"physicalTableMap.key", parent: name, max: 64)
+                try validate($0.key, name:"physicalTableMap.key", parent: name, min: 1)
+                try validate($0.key, name:"physicalTableMap.key", parent: name, pattern: "[0-9a-zA-Z-]*")
+                try $0.value.validate(name: "\(name).physicalTableMap[\"\($0.key)\"]")
+            }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case columnGroups = "ColumnGroups"
+            case dataSetId = "DataSetId"
+            case importMode = "ImportMode"
+            case logicalTableMap = "LogicalTableMap"
+            case name = "Name"
+            case permissions = "Permissions"
+            case physicalTableMap = "PhysicalTableMap"
+            case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDataSetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
+            AWSShapeMember(label: "IngestionArn", required: false, type: .string), 
+            AWSShapeMember(label: "IngestionId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the dataset.
+        public let arn: String?
+        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        public let dataSetId: String?
+        /// The ARN for the ingestion, which is triggered as a result of dataset creation if the import mode is SPICE.
+        public let ingestionArn: String?
+        /// The ID of the ingestion, which is triggered as a result of dataset creation if the import mode is SPICE.
+        public let ingestionId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, dataSetId: String? = nil, ingestionArn: String? = nil, ingestionId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.dataSetId = dataSetId
+            self.ingestionArn = ingestionArn
+            self.ingestionId = ingestionId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case dataSetId = "DataSetId"
+            case ingestionArn = "IngestionArn"
+            case ingestionId = "IngestionId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateDataSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Credentials", required: false, type: .structure), 
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "SslProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "VpcConnectionProperties", required: false, type: .structure)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The credentials QuickSight that uses to connect to your underlying source. Currently, only credentials based on user name and password are supported.
+        public let credentials: DataSourceCredentials?
+        /// An ID for the data source. This ID is unique per AWS Region for each AWS account. 
+        public let dataSourceId: String
+        /// The parameters that QuickSight uses to connect to your underlying source.
+        public let dataSourceParameters: DataSourceParameters?
+        /// A display name for the data source.
+        public let name: String
+        /// A list of resource permissions on the data source.
+        public let permissions: [ResourcePermission]?
+        /// Secure Socket Layer (SSL) properties that apply when QuickSight connects to your underlying source.
+        public let sslProperties: SslProperties?
+        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the data source.
+        public let tags: [Tag]?
+        /// The type of the data source. Currently, the supported types for this operation are: ATHENA, AURORA, AURORA_POSTGRESQL, MARIADB, MYSQL, POSTGRESQL, PRESTO, REDSHIFT, S3, SNOWFLAKE, SPARK, SQLSERVER, TERADATA. Use ListDataSources to return a list of all data sources.
+        public let `type`: DataSourceType
+        /// Use this parameter only when you want QuickSight to use a VPC connection when connecting to your underlying source.
+        public let vpcConnectionProperties: VpcConnectionProperties?
+
+        public init(awsAccountId: String, credentials: DataSourceCredentials? = nil, dataSourceId: String, dataSourceParameters: DataSourceParameters? = nil, name: String, permissions: [ResourcePermission]? = nil, sslProperties: SslProperties? = nil, tags: [Tag]? = nil, type: DataSourceType, vpcConnectionProperties: VpcConnectionProperties? = nil) {
+            self.awsAccountId = awsAccountId
+            self.credentials = credentials
+            self.dataSourceId = dataSourceId
+            self.dataSourceParameters = dataSourceParameters
+            self.name = name
+            self.permissions = permissions
+            self.sslProperties = sslProperties
+            self.tags = tags
+            self.`type` = `type`
+            self.vpcConnectionProperties = vpcConnectionProperties
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.credentials?.validate(name: "\(name).credentials")
+            try self.dataSourceParameters?.validate(name: "\(name).dataSourceParameters")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try self.permissions?.forEach {
+                try $0.validate(name: "\(name).permissions[]")
+            }
+            try validate(self.permissions, name:"permissions", parent: name, max: 64)
+            try validate(self.permissions, name:"permissions", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case credentials = "Credentials"
+            case dataSourceId = "DataSourceId"
+            case dataSourceParameters = "DataSourceParameters"
+            case name = "Name"
+            case permissions = "Permissions"
+            case sslProperties = "SslProperties"
+            case tags = "Tags"
+            case `type` = "Type"
+            case vpcConnectionProperties = "VpcConnectionProperties"
+        }
+    }
+
+    public struct CreateDataSourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the data source.
+        public let arn: String?
+        /// The status of creating the data source.
+        public let creationStatus: ResourceStatus?
+        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        public let dataSourceId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, dataSourceId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.creationStatus = creationStatus
+            self.dataSourceId = dataSourceId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationStatus = "CreationStatus"
+            case dataSourceId = "DataSourceId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct CreateGroupMembershipRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
@@ -38,7 +879,8 @@ extension QuickSight {
             try validate(self.memberName, name:"memberName", parent: name, max: 256)
             try validate(self.memberName, name:"memberName", parent: name, min: 1)
             try validate(self.memberName, name:"memberName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -60,7 +902,7 @@ extension QuickSight {
         public let groupMember: GroupMember?
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(groupMember: GroupMember? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -108,7 +950,8 @@ extension QuickSight {
             try validate(self.description, name:"description", parent: name, min: 1)
             try validate(self.groupName, name:"groupName", parent: name, min: 1)
             try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -130,7 +973,7 @@ extension QuickSight {
         public let group: Group?
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(group: Group? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -141,6 +984,1453 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case group = "Group"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateIAMPolicyAssignmentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentName", required: true, type: .string), 
+            AWSShapeMember(label: "AssignmentStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Identities", required: false, type: .map), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "PolicyArn", required: false, type: .string)
+        ]
+
+        /// The name of the assignment. It must be unique within an AWS account.
+        public let assignmentName: String
+        /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.  
+        public let assignmentStatus: AssignmentStatus
+        /// The ID of the AWS account where you want to assign an IAM policy to QuickSight users or groups.
+        public let awsAccountId: String
+        /// The QuickSight users, groups, or both that you want to assign the policy to.
+        public let identities: [String: [String]]?
+        /// The namespace that contains the assignment.
+        public let namespace: String
+        /// The ARN for the IAM policy to apply to the QuickSight users and groups specified in this assignment.
+        public let policyArn: String?
+
+        public init(assignmentName: String, assignmentStatus: AssignmentStatus, awsAccountId: String, identities: [String: [String]]? = nil, namespace: String, policyArn: String? = nil) {
+            self.assignmentName = assignmentName
+            self.assignmentStatus = assignmentStatus
+            self.awsAccountId = awsAccountId
+            self.identities = identities
+            self.namespace = namespace
+            self.policyArn = policyArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.assignmentName, name:"assignmentName", parent: name, min: 1)
+            try validate(self.assignmentName, name:"assignmentName", parent: name, pattern: "(?=^.{2,256}$)(?!.*\\s)[0-9a-zA-Z-_.:=+@]*$")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentName = "AssignmentName"
+            case assignmentStatus = "AssignmentStatus"
+            case awsAccountId = "AwsAccountId"
+            case identities = "Identities"
+            case namespace = "Namespace"
+            case policyArn = "PolicyArn"
+        }
+    }
+
+    public struct CreateIAMPolicyAssignmentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentName", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Identities", required: false, type: .map), 
+            AWSShapeMember(label: "PolicyArn", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The ID for the assignment.
+        public let assignmentId: String?
+        /// The name of the assignment. This name must be unique within the AWS account.
+        public let assignmentName: String?
+        /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.  
+        public let assignmentStatus: AssignmentStatus?
+        /// The QuickSight users, groups, or both that the IAM policy is assigned to.
+        public let identities: [String: [String]]?
+        /// The ARN for the IAM policy that is applied to the QuickSight users and groups specified in this assignment.
+        public let policyArn: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(assignmentId: String? = nil, assignmentName: String? = nil, assignmentStatus: AssignmentStatus? = nil, identities: [String: [String]]? = nil, policyArn: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.assignmentId = assignmentId
+            self.assignmentName = assignmentName
+            self.assignmentStatus = assignmentStatus
+            self.identities = identities
+            self.policyArn = policyArn
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentId = "AssignmentId"
+            case assignmentName = "AssignmentName"
+            case assignmentStatus = "AssignmentStatus"
+            case identities = "Identities"
+            case policyArn = "PolicyArn"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateIngestionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
+            AWSShapeMember(label: "IngestionId", location: .uri(locationName: "IngestionId"), required: true, type: .string)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The ID of the dataset used in the ingestion.
+        public let dataSetId: String
+        /// An ID for the ingestion.
+        public let ingestionId: String
+
+        public init(awsAccountId: String, dataSetId: String, ingestionId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+            self.ingestionId = ingestionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.ingestionId, name:"ingestionId", parent: name, max: 128)
+            try validate(self.ingestionId, name:"ingestionId", parent: name, min: 1)
+            try validate(self.ingestionId, name:"ingestionId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dataSetId = "DataSetId"
+            case ingestionId = "IngestionId"
+        }
+    }
+
+    public struct CreateIngestionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "IngestionId", required: false, type: .string), 
+            AWSShapeMember(label: "IngestionStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the data ingestion.
+        public let arn: String?
+        /// An ID for the ingestion.
+        public let ingestionId: String?
+        /// The ingestion status.
+        public let ingestionStatus: IngestionStatus?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, ingestionId: String? = nil, ingestionStatus: IngestionStatus? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.ingestionId = ingestionId
+            self.ingestionStatus = ingestionStatus
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case ingestionId = "IngestionId"
+            case ingestionStatus = "IngestionStatus"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateTemplateAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasName", location: .uri(locationName: "AliasName"), required: true, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateVersionNumber", required: true, type: .long)
+        ]
+
+        /// The name that you want to give to the template alias that you're creating. Don't start the alias name with the $ character. Alias names that start with $ are reserved by QuickSight. 
+        public let aliasName: String
+        /// The ID of the AWS account that contains the template that you creating an alias for.
+        public let awsAccountId: String
+        /// An ID for the template.
+        public let templateId: String
+        /// The version number of the template.
+        public let templateVersionNumber: Int64
+
+        public init(aliasName: String, awsAccountId: String, templateId: String, templateVersionNumber: Int64) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.templateId = templateId
+            self.templateVersionNumber = templateVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasName, name:"aliasName", parent: name, max: 2048)
+            try validate(self.aliasName, name:"aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name:"aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.templateId, name:"templateId", parent: name, max: 2048)
+            try validate(self.templateId, name:"templateId", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.templateVersionNumber, name:"templateVersionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
+            case awsAccountId = "AwsAccountId"
+            case templateId = "TemplateId"
+            case templateVersionNumber = "TemplateVersionNumber"
+        }
+    }
+
+    public struct CreateTemplateAliasResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateAlias", required: false, type: .structure)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// Information about the template alias.
+        public let templateAlias: TemplateAlias?
+
+        public init(requestId: String? = nil, status: Int? = nil, templateAlias: TemplateAlias? = nil) {
+            self.requestId = requestId
+            self.status = status
+            self.templateAlias = templateAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+            case templateAlias = "TemplateAlias"
+        }
+    }
+
+    public struct CreateTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "SourceEntity", required: true, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionDescription", required: false, type: .string)
+        ]
+
+        /// The ID for the AWS account that the group is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// A display name for the template.
+        public let name: String?
+        /// A list of resource permissions to be set on the template. 
+        public let permissions: [ResourcePermission]?
+        /// The Amazon Resource Name (ARN) of the source entity from which this template is being created. Currently, you can create a template from an analysis or another template. If the ARN is for an analysis, include its dataset references. 
+        public let sourceEntity: TemplateSourceEntity
+        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
+        public let tags: [Tag]?
+        /// An ID for the template that you want to create. This template is unique per AWS Region in each AWS account.
+        public let templateId: String
+        /// A description of the current template version being created. This API operation creates the first version of the template. Every time UpdateTemplate is called, a new version is created. Each version of the template maintains a description of the version in the VersionDescription field.
+        public let versionDescription: String?
+
+        public init(awsAccountId: String, name: String? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: TemplateSourceEntity, tags: [Tag]? = nil, templateId: String, versionDescription: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.name = name
+            self.permissions = permissions
+            self.sourceEntity = sourceEntity
+            self.tags = tags
+            self.templateId = templateId
+            self.versionDescription = versionDescription
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try self.permissions?.forEach {
+                try $0.validate(name: "\(name).permissions[]")
+            }
+            try validate(self.permissions, name:"permissions", parent: name, max: 64)
+            try validate(self.permissions, name:"permissions", parent: name, min: 1)
+            try self.sourceEntity.validate(name: "\(name).sourceEntity")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, max: 2048)
+            try validate(self.templateId, name:"templateId", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.versionDescription, name:"versionDescription", parent: name, max: 512)
+            try validate(self.versionDescription, name:"versionDescription", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case name = "Name"
+            case permissions = "Permissions"
+            case sourceEntity = "SourceEntity"
+            case tags = "Tags"
+            case templateId = "TemplateId"
+            case versionDescription = "VersionDescription"
+        }
+    }
+
+    public struct CreateTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateId", required: false, type: .string), 
+            AWSShapeMember(label: "VersionArn", required: false, type: .string)
+        ]
+
+        /// The ARN for the template.
+        public let arn: String?
+        /// The template creation status.
+        public let creationStatus: ResourceStatus?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The ID of the template.
+        public let templateId: String?
+        /// The ARN for the template, including the version information of the first version.
+        public let versionArn: String?
+
+        public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, requestId: String? = nil, status: Int? = nil, templateId: String? = nil, versionArn: String? = nil) {
+            self.arn = arn
+            self.creationStatus = creationStatus
+            self.requestId = requestId
+            self.status = status
+            self.templateId = templateId
+            self.versionArn = versionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationStatus = "CreationStatus"
+            case requestId = "RequestId"
+            case status = "Status"
+            case templateId = "TemplateId"
+            case versionArn = "VersionArn"
+        }
+    }
+
+    public struct CredentialPair: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
+        ]
+
+        /// Password.
+        public let password: String
+        /// User name.
+        public let username: String
+
+        public init(password: String, username: String) {
+            self.password = password
+            self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.password, name:"password", parent: name, max: 1024)
+            try validate(self.password, name:"password", parent: name, min: 1)
+            try validate(self.username, name:"username", parent: name, max: 64)
+            try validate(self.username, name:"username", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case username = "Username"
+        }
+    }
+
+    public struct CustomSql: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Columns", required: false, type: .list), 
+            AWSShapeMember(label: "DataSourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SqlQuery", required: true, type: .string)
+        ]
+
+        /// The column schema from the SQL query result set.
+        public let columns: [InputColumn]?
+        /// The Amazon Resource Name (ARN) of the data source.
+        public let dataSourceArn: String
+        /// A display name for the SQL query result.
+        public let name: String
+        /// The SQL query.
+        public let sqlQuery: String
+
+        public init(columns: [InputColumn]? = nil, dataSourceArn: String, name: String, sqlQuery: String) {
+            self.columns = columns
+            self.dataSourceArn = dataSourceArn
+            self.name = name
+            self.sqlQuery = sqlQuery
+        }
+
+        public func validate(name: String) throws {
+            try self.columns?.forEach {
+                try $0.validate(name: "\(name).columns[]")
+            }
+            try validate(self.columns, name:"columns", parent: name, max: 2048)
+            try validate(self.columns, name:"columns", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.sqlQuery, name:"sqlQuery", parent: name, max: 65536)
+            try validate(self.sqlQuery, name:"sqlQuery", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+            case dataSourceArn = "DataSourceArn"
+            case name = "Name"
+            case sqlQuery = "SqlQuery"
+        }
+    }
+
+    public struct Dashboard: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
+            AWSShapeMember(label: "LastPublishedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .structure)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The time that this dataset was created.
+        public let createdTime: TimeStamp?
+        /// Dashboard ID.
+        public let dashboardId: String?
+        /// The last time that this dataset was published.
+        public let lastPublishedTime: TimeStamp?
+        /// The last time that this dataset was updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// A display name for the dataset.
+        public let name: String?
+        /// Version.
+        public let version: DashboardVersion?
+
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dashboardId: String? = nil, lastPublishedTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, version: DashboardVersion? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.dashboardId = dashboardId
+            self.lastPublishedTime = lastPublishedTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case dashboardId = "DashboardId"
+            case lastPublishedTime = "LastPublishedTime"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public enum DashboardBehavior: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DashboardError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// Message.
+        public let message: String?
+        /// Type.
+        public let `type`: DashboardErrorType?
+
+        public init(message: String? = nil, type: DashboardErrorType? = nil) {
+            self.message = message
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case `type` = "Type"
+        }
+    }
+
+    public enum DashboardErrorType: String, CustomStringConvertible, Codable {
+        case dataSetNotFound = "DATA_SET_NOT_FOUND"
+        case internalFailure = "INTERNAL_FAILURE"
+        case parameterValueIncompatible = "PARAMETER_VALUE_INCOMPATIBLE"
+        case parameterTypeInvalid = "PARAMETER_TYPE_INVALID"
+        case parameterNotFound = "PARAMETER_NOT_FOUND"
+        case columnTypeMismatch = "COLUMN_TYPE_MISMATCH"
+        case columnGeographicRoleMismatch = "COLUMN_GEOGRAPHIC_ROLE_MISMATCH"
+        case columnReplacementMissing = "COLUMN_REPLACEMENT_MISSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DashboardPublishOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdHocFilteringOption", required: false, type: .structure), 
+            AWSShapeMember(label: "ExportToCSVOption", required: false, type: .structure), 
+            AWSShapeMember(label: "SheetControlsOption", required: false, type: .structure)
+        ]
+
+        /// Ad hoc (one-time) filtering option.
+        public let adHocFilteringOption: AdHocFilteringOption?
+        /// Export to .csv option.
+        public let exportToCSVOption: ExportToCSVOption?
+        /// Sheet controls option.
+        public let sheetControlsOption: SheetControlsOption?
+
+        public init(adHocFilteringOption: AdHocFilteringOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, sheetControlsOption: SheetControlsOption? = nil) {
+            self.adHocFilteringOption = adHocFilteringOption
+            self.exportToCSVOption = exportToCSVOption
+            self.sheetControlsOption = sheetControlsOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adHocFilteringOption = "AdHocFilteringOption"
+            case exportToCSVOption = "ExportToCSVOption"
+            case sheetControlsOption = "SheetControlsOption"
+        }
+    }
+
+    public struct DashboardSourceEntity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceTemplate", required: false, type: .structure)
+        ]
+
+        /// Source template.
+        public let sourceTemplate: DashboardSourceTemplate?
+
+        public init(sourceTemplate: DashboardSourceTemplate? = nil) {
+            self.sourceTemplate = sourceTemplate
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceTemplate?.validate(name: "\(name).sourceTemplate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceTemplate = "SourceTemplate"
+        }
+    }
+
+    public struct DashboardSourceTemplate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "DataSetReferences", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String
+        /// Dataset references.
+        public let dataSetReferences: [DataSetReference]
+
+        public init(arn: String, dataSetReferences: [DataSetReference]) {
+            self.arn = arn
+            self.dataSetReferences = dataSetReferences
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSetReferences.forEach {
+                try $0.validate(name: "\(name).dataSetReferences[]")
+            }
+            try validate(self.dataSetReferences, name:"dataSetReferences", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case dataSetReferences = "DataSetReferences"
+        }
+    }
+
+    public struct DashboardSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
+            AWSShapeMember(label: "LastPublishedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "PublishedVersionNumber", required: false, type: .long)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The time that this dashboard was created.
+        public let createdTime: TimeStamp?
+        /// Dashboard ID.
+        public let dashboardId: String?
+        /// The last time that this dashboard was published.
+        public let lastPublishedTime: TimeStamp?
+        /// The last time that this dashboard was updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// A display name for the dashboard.
+        public let name: String?
+        /// Published version number.
+        public let publishedVersionNumber: Int64?
+
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dashboardId: String? = nil, lastPublishedTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, publishedVersionNumber: Int64? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.dashboardId = dashboardId
+            self.lastPublishedTime = lastPublishedTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.publishedVersionNumber = publishedVersionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case dashboardId = "DashboardId"
+            case lastPublishedTime = "LastPublishedTime"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case publishedVersionNumber = "PublishedVersionNumber"
+        }
+    }
+
+    public enum DashboardUIState: String, CustomStringConvertible, Codable {
+        case expanded = "EXPANDED"
+        case collapsed = "COLLAPSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DashboardVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Errors", required: false, type: .list), 
+            AWSShapeMember(label: "SourceEntityArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "VersionNumber", required: false, type: .long)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The time that this dashboard version was created.
+        public let createdTime: TimeStamp?
+        /// Description.
+        public let description: String?
+        /// Errors.
+        public let errors: [DashboardError]?
+        /// Source entity ARN.
+        public let sourceEntityArn: String?
+        /// The HTTP status of the request.
+        public let status: ResourceStatus?
+        /// Version number.
+        public let versionNumber: Int64?
+
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, errors: [DashboardError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.errors = errors
+            self.sourceEntityArn = sourceEntityArn
+            self.status = status
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case errors = "Errors"
+            case sourceEntityArn = "SourceEntityArn"
+            case status = "Status"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct DashboardVersionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "SourceEntityArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "VersionNumber", required: false, type: .long)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The time that this dashboard version was created.
+        public let createdTime: TimeStamp?
+        /// Description.
+        public let description: String?
+        /// Source entity ARN.
+        public let sourceEntityArn: String?
+        /// The HTTP status of the request.
+        public let status: ResourceStatus?
+        /// Version number.
+        public let versionNumber: Int64?
+
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.sourceEntityArn = sourceEntityArn
+            self.status = status
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case sourceEntityArn = "SourceEntityArn"
+            case status = "Status"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct DataSet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "ColumnGroups", required: false, type: .list), 
+            AWSShapeMember(label: "ConsumedSpiceCapacityInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
+            AWSShapeMember(label: "ImportMode", required: false, type: .enum), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LogicalTableMap", required: false, type: .map), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OutputColumns", required: false, type: .list), 
+            AWSShapeMember(label: "PhysicalTableMap", required: false, type: .map), 
+            AWSShapeMember(label: "RowLevelPermissionDataSet", required: false, type: .structure)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
+        public let columnGroups: [ColumnGroup]?
+        /// The amount of SPICE capacity used by this dataset. This is 0 if the dataset isn't imported into SPICE.
+        public let consumedSpiceCapacityInBytes: Int64?
+        /// The time that this dataset was created.
+        public let createdTime: TimeStamp?
+        /// The ID of the dataset.
+        public let dataSetId: String?
+        /// Indicates whether you want to import the data into SPICE.
+        public let importMode: DataSetImportMode?
+        /// The last time that this dataset was updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// Configures the combination and transformation of the data from the physical tables.
+        public let logicalTableMap: [String: LogicalTable]?
+        /// A display name for the dataset.
+        public let name: String?
+        /// The list of columns after all transforms. These columns are available in templates, analyses, and dashboards.
+        public let outputColumns: [OutputColumn]?
+        /// Declares the physical tables that are available in the underlying data sources.
+        public let physicalTableMap: [String: PhysicalTable]?
+        /// The row-level security configuration for the dataset.
+        public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
+
+        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: TimeStamp? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: TimeStamp? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+            self.arn = arn
+            self.columnGroups = columnGroups
+            self.consumedSpiceCapacityInBytes = consumedSpiceCapacityInBytes
+            self.createdTime = createdTime
+            self.dataSetId = dataSetId
+            self.importMode = importMode
+            self.lastUpdatedTime = lastUpdatedTime
+            self.logicalTableMap = logicalTableMap
+            self.name = name
+            self.outputColumns = outputColumns
+            self.physicalTableMap = physicalTableMap
+            self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case columnGroups = "ColumnGroups"
+            case consumedSpiceCapacityInBytes = "ConsumedSpiceCapacityInBytes"
+            case createdTime = "CreatedTime"
+            case dataSetId = "DataSetId"
+            case importMode = "ImportMode"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case logicalTableMap = "LogicalTableMap"
+            case name = "Name"
+            case outputColumns = "OutputColumns"
+            case physicalTableMap = "PhysicalTableMap"
+            case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
+        }
+    }
+
+    public struct DataSetConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColumnGroupSchemaList", required: false, type: .list), 
+            AWSShapeMember(label: "DataSetSchema", required: false, type: .structure), 
+            AWSShapeMember(label: "Placeholder", required: false, type: .string)
+        ]
+
+        /// A structure containing the list of column group schemas.
+        public let columnGroupSchemaList: [ColumnGroupSchema]?
+        /// Dataset schema.
+        public let dataSetSchema: DataSetSchema?
+        /// Placeholder.
+        public let placeholder: String?
+
+        public init(columnGroupSchemaList: [ColumnGroupSchema]? = nil, dataSetSchema: DataSetSchema? = nil, placeholder: String? = nil) {
+            self.columnGroupSchemaList = columnGroupSchemaList
+            self.dataSetSchema = dataSetSchema
+            self.placeholder = placeholder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnGroupSchemaList = "ColumnGroupSchemaList"
+            case dataSetSchema = "DataSetSchema"
+            case placeholder = "Placeholder"
+        }
+    }
+
+    public enum DataSetImportMode: String, CustomStringConvertible, Codable {
+        case spice = "SPICE"
+        case directQuery = "DIRECT_QUERY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DataSetReference: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSetArn", required: true, type: .string), 
+            AWSShapeMember(label: "DataSetPlaceholder", required: true, type: .string)
+        ]
+
+        /// Dataset Amazon Resource Name (ARN).
+        public let dataSetArn: String
+        /// Dataset placeholder.
+        public let dataSetPlaceholder: String
+
+        public init(dataSetArn: String, dataSetPlaceholder: String) {
+            self.dataSetArn = dataSetArn
+            self.dataSetPlaceholder = dataSetPlaceholder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.dataSetPlaceholder, name:"dataSetPlaceholder", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetArn = "DataSetArn"
+            case dataSetPlaceholder = "DataSetPlaceholder"
+        }
+    }
+
+    public struct DataSetSchema: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColumnSchemaList", required: false, type: .list)
+        ]
+
+        /// A structure containing the list of column schemas.
+        public let columnSchemaList: [ColumnSchema]?
+
+        public init(columnSchemaList: [ColumnSchema]? = nil) {
+            self.columnSchemaList = columnSchemaList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnSchemaList = "ColumnSchemaList"
+        }
+    }
+
+    public struct DataSetSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
+            AWSShapeMember(label: "ImportMode", required: false, type: .enum), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RowLevelPermissionDataSet", required: false, type: .structure)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the dataset.
+        public let arn: String?
+        /// The time that this dataset was created.
+        public let createdTime: TimeStamp?
+        /// The ID of the dataset.
+        public let dataSetId: String?
+        /// Indicates whether you want to import the data into SPICE.
+        public let importMode: DataSetImportMode?
+        /// The last time that this dataset was updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// A display name for the dataset.
+        public let name: String?
+        /// The row-level security configuration for the dataset.
+        public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
+
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.dataSetId = dataSetId
+            self.importMode = importMode
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case dataSetId = "DataSetId"
+            case importMode = "ImportMode"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
+        }
+    }
+
+    public struct DataSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "DataSourceParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "ErrorInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SslProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "VpcConnectionProperties", required: false, type: .structure)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the data source.
+        public let arn: String?
+        /// The time that this data source was created.
+        public let createdTime: TimeStamp?
+        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        public let dataSourceId: String?
+        /// The parameters that Amazon QuickSight uses to connect to your underlying source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
+        public let dataSourceParameters: DataSourceParameters?
+        /// Error information from the last update or the creation of the data source.
+        public let errorInfo: DataSourceErrorInfo?
+        /// The last time that this data source was updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// A display name for the data source.
+        public let name: String?
+        /// Secure Socket Layer (SSL) properties that apply when QuickSight connects to your underlying source.
+        public let sslProperties: SslProperties?
+        /// The HTTP status of the request.
+        public let status: ResourceStatus?
+        /// The type of the data source. This type indicates which database engine the data source connects to.
+        public let `type`: DataSourceType?
+        /// The VPC connection information. You need to use this parameter only when you want QuickSight to use a VPC connection when connecting to your underlying source.
+        public let vpcConnectionProperties: VpcConnectionProperties?
+
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dataSourceId: String? = nil, dataSourceParameters: DataSourceParameters? = nil, errorInfo: DataSourceErrorInfo? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, sslProperties: SslProperties? = nil, status: ResourceStatus? = nil, type: DataSourceType? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.dataSourceId = dataSourceId
+            self.dataSourceParameters = dataSourceParameters
+            self.errorInfo = errorInfo
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.sslProperties = sslProperties
+            self.status = status
+            self.`type` = `type`
+            self.vpcConnectionProperties = vpcConnectionProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case dataSourceId = "DataSourceId"
+            case dataSourceParameters = "DataSourceParameters"
+            case errorInfo = "ErrorInfo"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case sslProperties = "SslProperties"
+            case status = "Status"
+            case `type` = "Type"
+            case vpcConnectionProperties = "VpcConnectionProperties"
+        }
+    }
+
+    public struct DataSourceCredentials: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CredentialPair", required: false, type: .structure)
+        ]
+
+        /// Credential pair.
+        public let credentialPair: CredentialPair?
+
+        public init(credentialPair: CredentialPair? = nil) {
+            self.credentialPair = credentialPair
+        }
+
+        public func validate(name: String) throws {
+            try self.credentialPair?.validate(name: "\(name).credentialPair")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentialPair = "CredentialPair"
+        }
+    }
+
+    public struct DataSourceErrorInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// Error message.
+        public let message: String?
+        /// Error type.
+        public let `type`: DataSourceErrorInfoType?
+
+        public init(message: String? = nil, type: DataSourceErrorInfoType? = nil) {
+            self.message = message
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case `type` = "Type"
+        }
+    }
+
+    public enum DataSourceErrorInfoType: String, CustomStringConvertible, Codable {
+        case timeout = "TIMEOUT"
+        case engineVersionNotSupported = "ENGINE_VERSION_NOT_SUPPORTED"
+        case unknownHost = "UNKNOWN_HOST"
+        case genericSqlFailure = "GENERIC_SQL_FAILURE"
+        case conflict = "CONFLICT"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DataSourceParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmazonElasticsearchParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "AthenaParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "AuroraParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "AuroraPostgreSqlParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsIotAnalyticsParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "JiraParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "MariaDbParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "MySqlParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "PostgreSqlParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "PrestoParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "RdsParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "RedshiftParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "S3Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "ServiceNowParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "SnowflakeParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "SparkParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "SqlServerParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "TeradataParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "TwitterParameters", required: false, type: .structure)
+        ]
+
+        /// Amazon Elasticsearch Service parameters.
+        public let amazonElasticsearchParameters: AmazonElasticsearchParameters?
+        /// Amazon Athena parameters.
+        public let athenaParameters: AthenaParameters?
+        /// Amazon Aurora MySQL parameters.
+        public let auroraParameters: AuroraParameters?
+        /// Aurora PostgreSQL parameters.
+        public let auroraPostgreSqlParameters: AuroraPostgreSqlParameters?
+        /// AWS IoT Analytics parameters.
+        public let awsIotAnalyticsParameters: AwsIotAnalyticsParameters?
+        /// Jira parameters.
+        public let jiraParameters: JiraParameters?
+        /// MariaDB parameters.
+        public let mariaDbParameters: MariaDbParameters?
+        /// MySQL parameters.
+        public let mySqlParameters: MySqlParameters?
+        /// PostgreSQL parameters.
+        public let postgreSqlParameters: PostgreSqlParameters?
+        /// Presto parameters.
+        public let prestoParameters: PrestoParameters?
+        /// Amazon RDS parameters.
+        public let rdsParameters: RdsParameters?
+        /// Amazon Redshift parameters.
+        public let redshiftParameters: RedshiftParameters?
+        /// S3 parameters.
+        public let s3Parameters: S3Parameters?
+        /// ServiceNow parameters.
+        public let serviceNowParameters: ServiceNowParameters?
+        /// Snowflake parameters.
+        public let snowflakeParameters: SnowflakeParameters?
+        /// Spark parameters.
+        public let sparkParameters: SparkParameters?
+        /// SQL Server parameters.
+        public let sqlServerParameters: SqlServerParameters?
+        /// Teradata parameters.
+        public let teradataParameters: TeradataParameters?
+        /// Twitter parameters.
+        public let twitterParameters: TwitterParameters?
+
+        public init(amazonElasticsearchParameters: AmazonElasticsearchParameters? = nil, athenaParameters: AthenaParameters? = nil, auroraParameters: AuroraParameters? = nil, auroraPostgreSqlParameters: AuroraPostgreSqlParameters? = nil, awsIotAnalyticsParameters: AwsIotAnalyticsParameters? = nil, jiraParameters: JiraParameters? = nil, mariaDbParameters: MariaDbParameters? = nil, mySqlParameters: MySqlParameters? = nil, postgreSqlParameters: PostgreSqlParameters? = nil, prestoParameters: PrestoParameters? = nil, rdsParameters: RdsParameters? = nil, redshiftParameters: RedshiftParameters? = nil, s3Parameters: S3Parameters? = nil, serviceNowParameters: ServiceNowParameters? = nil, snowflakeParameters: SnowflakeParameters? = nil, sparkParameters: SparkParameters? = nil, sqlServerParameters: SqlServerParameters? = nil, teradataParameters: TeradataParameters? = nil, twitterParameters: TwitterParameters? = nil) {
+            self.amazonElasticsearchParameters = amazonElasticsearchParameters
+            self.athenaParameters = athenaParameters
+            self.auroraParameters = auroraParameters
+            self.auroraPostgreSqlParameters = auroraPostgreSqlParameters
+            self.awsIotAnalyticsParameters = awsIotAnalyticsParameters
+            self.jiraParameters = jiraParameters
+            self.mariaDbParameters = mariaDbParameters
+            self.mySqlParameters = mySqlParameters
+            self.postgreSqlParameters = postgreSqlParameters
+            self.prestoParameters = prestoParameters
+            self.rdsParameters = rdsParameters
+            self.redshiftParameters = redshiftParameters
+            self.s3Parameters = s3Parameters
+            self.serviceNowParameters = serviceNowParameters
+            self.snowflakeParameters = snowflakeParameters
+            self.sparkParameters = sparkParameters
+            self.sqlServerParameters = sqlServerParameters
+            self.teradataParameters = teradataParameters
+            self.twitterParameters = twitterParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.amazonElasticsearchParameters?.validate(name: "\(name).amazonElasticsearchParameters")
+            try self.athenaParameters?.validate(name: "\(name).athenaParameters")
+            try self.auroraParameters?.validate(name: "\(name).auroraParameters")
+            try self.auroraPostgreSqlParameters?.validate(name: "\(name).auroraPostgreSqlParameters")
+            try self.awsIotAnalyticsParameters?.validate(name: "\(name).awsIotAnalyticsParameters")
+            try self.jiraParameters?.validate(name: "\(name).jiraParameters")
+            try self.mariaDbParameters?.validate(name: "\(name).mariaDbParameters")
+            try self.mySqlParameters?.validate(name: "\(name).mySqlParameters")
+            try self.postgreSqlParameters?.validate(name: "\(name).postgreSqlParameters")
+            try self.prestoParameters?.validate(name: "\(name).prestoParameters")
+            try self.rdsParameters?.validate(name: "\(name).rdsParameters")
+            try self.redshiftParameters?.validate(name: "\(name).redshiftParameters")
+            try self.s3Parameters?.validate(name: "\(name).s3Parameters")
+            try self.serviceNowParameters?.validate(name: "\(name).serviceNowParameters")
+            try self.snowflakeParameters?.validate(name: "\(name).snowflakeParameters")
+            try self.sparkParameters?.validate(name: "\(name).sparkParameters")
+            try self.sqlServerParameters?.validate(name: "\(name).sqlServerParameters")
+            try self.teradataParameters?.validate(name: "\(name).teradataParameters")
+            try self.twitterParameters?.validate(name: "\(name).twitterParameters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amazonElasticsearchParameters = "AmazonElasticsearchParameters"
+            case athenaParameters = "AthenaParameters"
+            case auroraParameters = "AuroraParameters"
+            case auroraPostgreSqlParameters = "AuroraPostgreSqlParameters"
+            case awsIotAnalyticsParameters = "AwsIotAnalyticsParameters"
+            case jiraParameters = "JiraParameters"
+            case mariaDbParameters = "MariaDbParameters"
+            case mySqlParameters = "MySqlParameters"
+            case postgreSqlParameters = "PostgreSqlParameters"
+            case prestoParameters = "PrestoParameters"
+            case rdsParameters = "RdsParameters"
+            case redshiftParameters = "RedshiftParameters"
+            case s3Parameters = "S3Parameters"
+            case serviceNowParameters = "ServiceNowParameters"
+            case snowflakeParameters = "SnowflakeParameters"
+            case sparkParameters = "SparkParameters"
+            case sqlServerParameters = "SqlServerParameters"
+            case teradataParameters = "TeradataParameters"
+            case twitterParameters = "TwitterParameters"
+        }
+    }
+
+    public enum DataSourceType: String, CustomStringConvertible, Codable {
+        case adobeAnalytics = "ADOBE_ANALYTICS"
+        case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
+        case athena = "ATHENA"
+        case aurora = "AURORA"
+        case auroraPostgresql = "AURORA_POSTGRESQL"
+        case awsIotAnalytics = "AWS_IOT_ANALYTICS"
+        case github = "GITHUB"
+        case jira = "JIRA"
+        case mariadb = "MARIADB"
+        case mysql = "MYSQL"
+        case postgresql = "POSTGRESQL"
+        case presto = "PRESTO"
+        case redshift = "REDSHIFT"
+        case s3 = "S3"
+        case salesforce = "SALESFORCE"
+        case servicenow = "SERVICENOW"
+        case snowflake = "SNOWFLAKE"
+        case spark = "SPARK"
+        case sqlserver = "SQLSERVER"
+        case teradata = "TERADATA"
+        case twitter = "TWITTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DateTimeParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
+        ]
+
+        /// A display name for the dataset.
+        public let name: String
+        /// Values.
+        public let values: [TimeStamp]
+
+        public init(name: String, values: [TimeStamp]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct DecimalParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
+        ]
+
+        /// A display name for the dataset.
+        public let name: String
+        /// Values.
+        public let values: [Double]
+
+        public init(name: String, values: [Double]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct DeleteDashboardRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionNumber", location: .querystring(locationName: "version-number"), required: false, type: .long)
+        ]
+
+        /// The ID of the AWS account that contains the dashboard that you're deleting.
+        public let awsAccountId: String
+        /// The ID for the dashboard.
+        public let dashboardId: String
+        /// The version number of the dashboard. If the version number property is provided, only the specified version of the dashboard is deleted.
+        public let versionNumber: Int64?
+
+        public init(awsAccountId: String, dashboardId: String, versionNumber: Int64? = nil) {
+            self.awsAccountId = awsAccountId
+            self.dashboardId = dashboardId
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.dashboardId, name:"dashboardId", parent: name, max: 2048)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, min: 1)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.versionNumber, name:"versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dashboardId = "DashboardId"
+            case versionNumber = "version-number"
+        }
+    }
+
+    public struct DeleteDashboardResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Secure Socket Layer (SSL) properties that apply for the resource.
+        public let arn: String?
+        /// The ID of the dashboard.
+        public let dashboardId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, dashboardId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.dashboardId = dashboardId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case dashboardId = "DashboardId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteDataSetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        public let dataSetId: String
+
+        public init(awsAccountId: String, dataSetId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dataSetId = "DataSetId"
+        }
+    }
+
+    public struct DeleteDataSetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the dataset.
+        public let arn: String?
+        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        public let dataSetId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, dataSetId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.dataSetId = dataSetId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case dataSetId = "DataSetId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteDataSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceId", location: .uri(locationName: "DataSourceId"), required: true, type: .string)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        public let dataSourceId: String
+
+        public init(awsAccountId: String, dataSourceId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSourceId = dataSourceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dataSourceId = "DataSourceId"
+        }
+    }
+
+    public struct DeleteDataSourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the data source that you deleted.
+        public let arn: String?
+        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        public let dataSourceId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, dataSourceId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.dataSourceId = dataSourceId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case dataSourceId = "DataSourceId"
             case requestId = "RequestId"
             case status = "Status"
         }
@@ -179,7 +2469,8 @@ extension QuickSight {
             try validate(self.memberName, name:"memberName", parent: name, max: 256)
             try validate(self.memberName, name:"memberName", parent: name, min: 1)
             try validate(self.memberName, name:"memberName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -198,7 +2489,7 @@ extension QuickSight {
 
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(requestId: String? = nil, status: Int? = nil) {
@@ -238,7 +2529,8 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try validate(self.groupName, name:"groupName", parent: name, min: 1)
             try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -256,7 +2548,7 @@ extension QuickSight {
 
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(requestId: String? = nil, status: Int? = nil) {
@@ -267,6 +2559,215 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
             case status = "Status"
+        }
+    }
+
+    public struct DeleteIAMPolicyAssignmentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentName", location: .uri(locationName: "AssignmentName"), required: true, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+        ]
+
+        /// The name of the assignment. 
+        public let assignmentName: String
+        /// The AWS account ID where you want to delete the IAM policy assignment.
+        public let awsAccountId: String
+        /// The namespace that contains the assignment.
+        public let namespace: String
+
+        public init(assignmentName: String, awsAccountId: String, namespace: String) {
+            self.assignmentName = assignmentName
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.assignmentName, name:"assignmentName", parent: name, min: 1)
+            try validate(self.assignmentName, name:"assignmentName", parent: name, pattern: "(?=^.{2,256}$)(?!.*\\s)[0-9a-zA-Z-_.:=+@]*$")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentName = "AssignmentName"
+            case awsAccountId = "AwsAccountId"
+            case namespace = "Namespace"
+        }
+    }
+
+    public struct DeleteIAMPolicyAssignmentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentName", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The name of the assignment. 
+        public let assignmentName: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(assignmentName: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.assignmentName = assignmentName
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentName = "AssignmentName"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteTemplateAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasName", location: .uri(locationName: "AliasName"), required: true, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string)
+        ]
+
+        /// The name for the template alias. If you name a specific alias, you delete the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. 
+        public let aliasName: String
+        /// The ID of the AWS account that contains the item to delete.
+        public let awsAccountId: String
+        /// The ID for the template that the specified alias is for.
+        public let templateId: String
+
+        public init(aliasName: String, awsAccountId: String, templateId: String) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.templateId = templateId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasName, name:"aliasName", parent: name, max: 2048)
+            try validate(self.aliasName, name:"aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name:"aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.templateId, name:"templateId", parent: name, max: 2048)
+            try validate(self.templateId, name:"templateId", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
+            case awsAccountId = "AwsAccountId"
+            case templateId = "TemplateId"
+        }
+    }
+
+    public struct DeleteTemplateAliasResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasName", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateId", required: false, type: .string)
+        ]
+
+        /// The name for the template alias.
+        public let aliasName: String?
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// An ID for the template associated with the deletion.
+        public let templateId: String?
+
+        public init(aliasName: String? = nil, arn: String? = nil, requestId: String? = nil, status: Int? = nil, templateId: String? = nil) {
+            self.aliasName = aliasName
+            self.arn = arn
+            self.requestId = requestId
+            self.status = status
+            self.templateId = templateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case status = "Status"
+            case templateId = "TemplateId"
+        }
+    }
+
+    public struct DeleteTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionNumber", location: .querystring(locationName: "version-number"), required: false, type: .long)
+        ]
+
+        /// The ID of the AWS account that contains the template that you're deleting.
+        public let awsAccountId: String
+        /// An ID for the template you want to delete.
+        public let templateId: String
+        /// Specifies the version of the template that you want to delete. If you don't provide a version number, DeleteTemplate deletes all versions of the template. 
+        public let versionNumber: Int64?
+
+        public init(awsAccountId: String, templateId: String, versionNumber: Int64? = nil) {
+            self.awsAccountId = awsAccountId
+            self.templateId = templateId
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.templateId, name:"templateId", parent: name, max: 2048)
+            try validate(self.templateId, name:"templateId", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.versionNumber, name:"versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case templateId = "TemplateId"
+            case versionNumber = "version-number"
+        }
+    }
+
+    public struct DeleteTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateId", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// An ID for the template.
+        public let templateId: String?
+
+        public init(arn: String? = nil, requestId: String? = nil, status: Int? = nil, templateId: String? = nil) {
+            self.arn = arn
+            self.requestId = requestId
+            self.status = status
+            self.templateId = templateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case requestId = "RequestId"
+            case status = "Status"
+            case templateId = "TemplateId"
         }
     }
 
@@ -294,7 +2795,8 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -312,7 +2814,7 @@ extension QuickSight {
 
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(requestId: String? = nil, status: Int? = nil) {
@@ -350,7 +2852,8 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
             try validate(self.userName, name:"userName", parent: name, min: 1)
             try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
@@ -370,7 +2873,7 @@ extension QuickSight {
 
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(requestId: String? = nil, status: Int? = nil) {
@@ -379,6 +2882,386 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeDashboardPermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string)
+        ]
+
+        /// The ID of the AWS account that contains the dashboard that you're describing permissions for.
+        public let awsAccountId: String
+        /// The ID for the dashboard, also added to the IAM policy.
+        public let dashboardId: String
+
+        public init(awsAccountId: String, dashboardId: String) {
+            self.awsAccountId = awsAccountId
+            self.dashboardId = dashboardId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.dashboardId, name:"dashboardId", parent: name, max: 2048)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, min: 1)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dashboardId = "DashboardId"
+        }
+    }
+
+    public struct DescribeDashboardPermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashboardArn", required: false, type: .string), 
+            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the dashboard.
+        public let dashboardArn: String?
+        /// The ID for the dashboard.
+        public let dashboardId: String?
+        /// A structure that contains the permissions for the dashboard.
+        public let permissions: [ResourcePermission]?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dashboardArn: String? = nil, dashboardId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dashboardArn = dashboardArn
+            self.dashboardId = dashboardId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardArn = "DashboardArn"
+            case dashboardId = "DashboardId"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeDashboardRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasName", location: .querystring(locationName: "alias-name"), required: false, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionNumber", location: .querystring(locationName: "version-number"), required: false, type: .long)
+        ]
+
+        /// The alias name.
+        public let aliasName: String?
+        /// The ID of the AWS account that contains the dashboard that you're describing.
+        public let awsAccountId: String
+        /// The ID for the dashboard.
+        public let dashboardId: String
+        /// The version number for the dashboard. If a version number isn't passed, the latest published dashboard version is described. 
+        public let versionNumber: Int64?
+
+        public init(aliasName: String? = nil, awsAccountId: String, dashboardId: String, versionNumber: Int64? = nil) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.dashboardId = dashboardId
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasName, name:"aliasName", parent: name, max: 2048)
+            try validate(self.aliasName, name:"aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name:"aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.dashboardId, name:"dashboardId", parent: name, max: 2048)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, min: 1)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.versionNumber, name:"versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "alias-name"
+            case awsAccountId = "AwsAccountId"
+            case dashboardId = "DashboardId"
+            case versionNumber = "version-number"
+        }
+    }
+
+    public struct DescribeDashboardResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dashboard", required: false, type: .structure), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// Information about the dashboard.
+        public let dashboard: Dashboard?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of this request.
+        public let status: Int?
+
+        public init(dashboard: Dashboard? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dashboard = dashboard
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboard = "Dashboard"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeDataSetPermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        public let dataSetId: String
+
+        public init(awsAccountId: String, dataSetId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dataSetId = "DataSetId"
+        }
+    }
+
+    public struct DescribeDataSetPermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSetArn", required: false, type: .string), 
+            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the dataset.
+        public let dataSetArn: String?
+        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        public let dataSetId: String?
+        /// A list of resource permissions on the dataset.
+        public let permissions: [ResourcePermission]?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dataSetArn: String? = nil, dataSetId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dataSetArn = dataSetArn
+            self.dataSetId = dataSetId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetArn = "DataSetArn"
+            case dataSetId = "DataSetId"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeDataSetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        public let dataSetId: String
+
+        public init(awsAccountId: String, dataSetId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dataSetId = "DataSetId"
+        }
+    }
+
+    public struct DescribeDataSetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSet", required: false, type: .structure), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// Information on the dataset.
+        public let dataSet: DataSet?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dataSet: DataSet? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dataSet = dataSet
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSet = "DataSet"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeDataSourcePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceId", location: .uri(locationName: "DataSourceId"), required: true, type: .string)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        public let dataSourceId: String
+
+        public init(awsAccountId: String, dataSourceId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSourceId = dataSourceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dataSourceId = "DataSourceId"
+        }
+    }
+
+    public struct DescribeDataSourcePermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the data source.
+        public let dataSourceArn: String?
+        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        public let dataSourceId: String?
+        /// A list of resource permissions on the data source.
+        public let permissions: [ResourcePermission]?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dataSourceArn: String? = nil, dataSourceId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dataSourceArn = dataSourceArn
+            self.dataSourceId = dataSourceId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "DataSourceArn"
+            case dataSourceId = "DataSourceId"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeDataSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceId", location: .uri(locationName: "DataSourceId"), required: true, type: .string)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        public let dataSourceId: String
+
+        public init(awsAccountId: String, dataSourceId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSourceId = dataSourceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dataSourceId = "DataSourceId"
+        }
+    }
+
+    public struct DescribeDataSourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSource", required: false, type: .structure), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The information on the data source.
+        public let dataSource: DataSource?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dataSource: DataSource? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dataSource = dataSource
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "DataSource"
             case requestId = "RequestId"
             case status = "Status"
         }
@@ -410,7 +3293,8 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try validate(self.groupName, name:"groupName", parent: name, min: 1)
             try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -431,7 +3315,7 @@ extension QuickSight {
         public let group: Group?
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(group: Group? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -444,6 +3328,334 @@ extension QuickSight {
             case group = "Group"
             case requestId = "RequestId"
             case status = "Status"
+        }
+    }
+
+    public struct DescribeIAMPolicyAssignmentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentName", location: .uri(locationName: "AssignmentName"), required: true, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string)
+        ]
+
+        /// The name of the assignment. 
+        public let assignmentName: String
+        /// The ID of the AWS account that contains the assignment that you want to describe.
+        public let awsAccountId: String
+        /// The namespace that contains the assignment.
+        public let namespace: String
+
+        public init(assignmentName: String, awsAccountId: String, namespace: String) {
+            self.assignmentName = assignmentName
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.assignmentName, name:"assignmentName", parent: name, min: 1)
+            try validate(self.assignmentName, name:"assignmentName", parent: name, pattern: "(?=^.{2,256}$)(?!.*\\s)[0-9a-zA-Z-_.:=+@]*$")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentName = "AssignmentName"
+            case awsAccountId = "AwsAccountId"
+            case namespace = "Namespace"
+        }
+    }
+
+    public struct DescribeIAMPolicyAssignmentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IAMPolicyAssignment", required: false, type: .structure), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// Information describing the IAM policy assignment.
+        public let iAMPolicyAssignment: IAMPolicyAssignment?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(iAMPolicyAssignment: IAMPolicyAssignment? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.iAMPolicyAssignment = iAMPolicyAssignment
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iAMPolicyAssignment = "IAMPolicyAssignment"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeIngestionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
+            AWSShapeMember(label: "IngestionId", location: .uri(locationName: "IngestionId"), required: true, type: .string)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The ID of the dataset used in the ingestion.
+        public let dataSetId: String
+        /// An ID for the ingestion.
+        public let ingestionId: String
+
+        public init(awsAccountId: String, dataSetId: String, ingestionId: String) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+            self.ingestionId = ingestionId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.ingestionId, name:"ingestionId", parent: name, max: 128)
+            try validate(self.ingestionId, name:"ingestionId", parent: name, min: 1)
+            try validate(self.ingestionId, name:"ingestionId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dataSetId = "DataSetId"
+            case ingestionId = "IngestionId"
+        }
+    }
+
+    public struct DescribeIngestionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ingestion", required: false, type: .structure), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// Information about the ingestion.
+        public let ingestion: Ingestion?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(ingestion: Ingestion? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.ingestion = ingestion
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestion = "Ingestion"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeTemplateAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasName", location: .uri(locationName: "AliasName"), required: true, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string)
+        ]
+
+        /// The name of the template alias that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
+        public let aliasName: String
+        /// The ID of the AWS account that contains the template alias that you're describing.
+        public let awsAccountId: String
+        /// The ID for the template.
+        public let templateId: String
+
+        public init(aliasName: String, awsAccountId: String, templateId: String) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.templateId = templateId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasName, name:"aliasName", parent: name, max: 2048)
+            try validate(self.aliasName, name:"aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name:"aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.templateId, name:"templateId", parent: name, max: 2048)
+            try validate(self.templateId, name:"templateId", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
+            case awsAccountId = "AwsAccountId"
+            case templateId = "TemplateId"
+        }
+    }
+
+    public struct DescribeTemplateAliasResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateAlias", required: false, type: .structure)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// Information about the template alias.
+        public let templateAlias: TemplateAlias?
+
+        public init(requestId: String? = nil, status: Int? = nil, templateAlias: TemplateAlias? = nil) {
+            self.requestId = requestId
+            self.status = status
+            self.templateAlias = templateAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+            case templateAlias = "TemplateAlias"
+        }
+    }
+
+    public struct DescribeTemplatePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string)
+        ]
+
+        /// The ID of the AWS account that contains the template that you're describing.
+        public let awsAccountId: String
+        /// The ID for the template.
+        public let templateId: String
+
+        public init(awsAccountId: String, templateId: String) {
+            self.awsAccountId = awsAccountId
+            self.templateId = templateId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.templateId, name:"templateId", parent: name, max: 2048)
+            try validate(self.templateId, name:"templateId", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case templateId = "TemplateId"
+        }
+    }
+
+    public struct DescribeTemplatePermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateArn", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateId", required: false, type: .string)
+        ]
+
+        /// A list of resource permissions to be set on the template. 
+        public let permissions: [ResourcePermission]?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The Amazon Resource Name (ARN) of the template.
+        public let templateArn: String?
+        /// The ID for the template.
+        public let templateId: String?
+
+        public init(permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil, templateArn: String? = nil, templateId: String? = nil) {
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+            self.templateArn = templateArn
+            self.templateId = templateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+            case templateArn = "TemplateArn"
+            case templateId = "TemplateId"
+        }
+    }
+
+    public struct DescribeTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasName", location: .querystring(locationName: "alias-name"), required: false, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionNumber", location: .querystring(locationName: "version-number"), required: false, type: .long)
+        ]
+
+        /// The alias of the template that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
+        public let aliasName: String?
+        /// The ID of the AWS account that contains the template that you're describing.
+        public let awsAccountId: String
+        /// The ID for the template.
+        public let templateId: String
+        /// (Optional) The number for the version to describe. If a VersionNumber parameter value isn't provided, the latest version of the template is described.
+        public let versionNumber: Int64?
+
+        public init(aliasName: String? = nil, awsAccountId: String, templateId: String, versionNumber: Int64? = nil) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.templateId = templateId
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasName, name:"aliasName", parent: name, max: 2048)
+            try validate(self.aliasName, name:"aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name:"aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.templateId, name:"templateId", parent: name, max: 2048)
+            try validate(self.templateId, name:"templateId", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.versionNumber, name:"versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "alias-name"
+            case awsAccountId = "AwsAccountId"
+            case templateId = "TemplateId"
+            case versionNumber = "version-number"
+        }
+    }
+
+    public struct DescribeTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "Template", required: false, type: .structure)
+        ]
+
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The template structure for the object you want to describe.
+        public let template: Template?
+
+        public init(status: Int? = nil, template: Template? = nil) {
+            self.status = status
+            self.template = template
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case template = "Template"
         }
     }
 
@@ -471,7 +3683,8 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
             try validate(self.userName, name:"userName", parent: name, min: 1)
             try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
@@ -492,7 +3705,7 @@ extension QuickSight {
 
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
         /// The user name.
         public let user: User?
@@ -510,6 +3723,131 @@ extension QuickSight {
         }
     }
 
+    public struct ErrorInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// Error message.
+        public let message: String?
+        /// Error type.
+        public let `type`: IngestionErrorType?
+
+        public init(message: String? = nil, type: IngestionErrorType? = nil) {
+            self.message = message
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case `type` = "Type"
+        }
+    }
+
+    public struct ExportToCSVOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityStatus", required: false, type: .enum)
+        ]
+
+        /// Availability status.
+        public let availabilityStatus: DashboardBehavior?
+
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
+    public enum FileFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case tsv = "TSV"
+        case clf = "CLF"
+        case elf = "ELF"
+        case xlsx = "XLSX"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct FilterOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConditionExpression", required: true, type: .string)
+        ]
+
+        /// An expression that must evaluate to a Boolean value. Rows for which the expression evaluates to true are kept in the dataset.
+        public let conditionExpression: String
+
+        public init(conditionExpression: String) {
+            self.conditionExpression = conditionExpression
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.conditionExpression, name:"conditionExpression", parent: name, max: 4096)
+            try validate(self.conditionExpression, name:"conditionExpression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionExpression = "ConditionExpression"
+        }
+    }
+
+    public struct GeoSpatialColumnGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Columns", required: true, type: .list), 
+            AWSShapeMember(label: "CountryCode", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// Columns in this hierarchy.
+        public let columns: [String]
+        /// Country code.
+        public let countryCode: GeoSpatialCountryCode
+        /// A display name for the hierarchy.
+        public let name: String
+
+        public init(columns: [String], countryCode: GeoSpatialCountryCode, name: String) {
+            self.columns = columns
+            self.countryCode = countryCode
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.columns.forEach {
+                try validate($0, name: "columns[]", parent: name, max: 128)
+                try validate($0, name: "columns[]", parent: name, min: 1)
+            }
+            try validate(self.columns, name:"columns", parent: name, max: 16)
+            try validate(self.columns, name:"columns", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+            case countryCode = "CountryCode"
+            case name = "Name"
+        }
+    }
+
+    public enum GeoSpatialCountryCode: String, CustomStringConvertible, Codable {
+        case us = "US"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GeoSpatialDataRole: String, CustomStringConvertible, Codable {
+        case country = "COUNTRY"
+        case state = "STATE"
+        case county = "COUNTY"
+        case city = "CITY"
+        case postcode = "POSTCODE"
+        case longitude = "LONGITUDE"
+        case latitude = "LATITUDE"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetDashboardEmbedUrlRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
@@ -521,19 +3859,19 @@ extension QuickSight {
             AWSShapeMember(label: "UserArn", location: .querystring(locationName: "user-arn"), required: false, type: .string)
         ]
 
-        /// AWS account ID that contains the dashboard you are embedding.
+        /// The ID for the AWS account that contains the dashboard that you're embedding.
         public let awsAccountId: String
-        /// The ID for the dashboard, also added to IAM policy
+        /// The ID for the dashboard, also added to the IAM policy.
         public let dashboardId: String
-        /// The authentication method the user uses to sign in (IAM only).
+        /// The authentication method that the user uses to sign in.
         public let identityType: IdentityType
-        /// Remove the reset button on embedded dashboard. The default is FALSE, which allows the reset button.
+        /// Remove the reset button on the embedded dashboard. The default is FALSE, which enables the reset button.
         public let resetDisabled: Bool?
-        /// How many minutes the session is valid. The session lifetime must be between 15 and 600 minutes.
+        /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
         public let sessionLifetimeInMinutes: Int64?
-        /// Remove the undo/redo button on embedded dashboard. The default is FALSE, which enables the undo/redo button.
+        /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
         public let undoRedoDisabled: Bool?
-        /// The Amazon QuickSight user's ARN, for use with QUICKSIGHT identity type. You can use this for any of the following:   Amazon QuickSight users in your account (readers, authors, or admins)   AD users   Invited non-federated users   Federated IAM users   Federated IAM role-based sessions  
+        /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon QuickSight users in your account (readers, authors, or admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation.  
         public let userArn: String?
 
         public init(awsAccountId: String, dashboardId: String, identityType: IdentityType, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, undoRedoDisabled: Bool? = nil, userArn: String? = nil) {
@@ -550,6 +3888,9 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.dashboardId, name:"dashboardId", parent: name, max: 2048)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, min: 1)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, pattern: "[\\w\\-]+")
             try validate(self.sessionLifetimeInMinutes, name:"sessionLifetimeInMinutes", parent: name, max: 600)
             try validate(self.sessionLifetimeInMinutes, name:"sessionLifetimeInMinutes", parent: name, min: 15)
         }
@@ -572,11 +3913,11 @@ extension QuickSight {
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
 
-        /// URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes, and the resulting session is valid for 10 hours. The API provides the URL with an auth_code that enables a single-signon session. 
+        /// An URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes, and the resulting session is valid for 10 hours. The API provides the URL with an auth_code value that enables a single sign-on session. 
         public let embedUrl: String?
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(embedUrl: String? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -646,10 +3987,620 @@ extension QuickSight {
         }
     }
 
+    public struct IAMPolicyAssignment: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentName", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "AwsAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Identities", required: false, type: .map), 
+            AWSShapeMember(label: "PolicyArn", required: false, type: .string)
+        ]
+
+        /// Assignment ID.
+        public let assignmentId: String?
+        /// Assignment name.
+        public let assignmentName: String?
+        /// Assignment status.
+        public let assignmentStatus: AssignmentStatus?
+        /// The AWS account ID.
+        public let awsAccountId: String?
+        /// Identities.
+        public let identities: [String: [String]]?
+        /// The Amazon Resource Name (ARN) for the IAM policy.
+        public let policyArn: String?
+
+        public init(assignmentId: String? = nil, assignmentName: String? = nil, assignmentStatus: AssignmentStatus? = nil, awsAccountId: String? = nil, identities: [String: [String]]? = nil, policyArn: String? = nil) {
+            self.assignmentId = assignmentId
+            self.assignmentName = assignmentName
+            self.assignmentStatus = assignmentStatus
+            self.awsAccountId = awsAccountId
+            self.identities = identities
+            self.policyArn = policyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentId = "AssignmentId"
+            case assignmentName = "AssignmentName"
+            case assignmentStatus = "AssignmentStatus"
+            case awsAccountId = "AwsAccountId"
+            case identities = "Identities"
+            case policyArn = "PolicyArn"
+        }
+    }
+
+    public struct IAMPolicyAssignmentSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentName", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum)
+        ]
+
+        /// Assignment name.
+        public let assignmentName: String?
+        /// Assignment status.
+        public let assignmentStatus: AssignmentStatus?
+
+        public init(assignmentName: String? = nil, assignmentStatus: AssignmentStatus? = nil) {
+            self.assignmentName = assignmentName
+            self.assignmentStatus = assignmentStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentName = "AssignmentName"
+            case assignmentStatus = "AssignmentStatus"
+        }
+    }
+
     public enum IdentityType: String, CustomStringConvertible, Codable {
         case iam = "IAM"
         case quicksight = "QUICKSIGHT"
         public var description: String { return self.rawValue }
+    }
+
+    public struct Ingestion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ErrorInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "IngestionId", required: false, type: .string), 
+            AWSShapeMember(label: "IngestionSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "IngestionStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "IngestionTimeInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "QueueInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "RequestSource", required: false, type: .enum), 
+            AWSShapeMember(label: "RequestType", required: false, type: .enum), 
+            AWSShapeMember(label: "RowInfo", required: false, type: .structure)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String
+        /// The time that this ingestion started.
+        public let createdTime: TimeStamp
+        /// Error information for this ingestion.
+        public let errorInfo: ErrorInfo?
+        /// Ingestion ID.
+        public let ingestionId: String?
+        /// The size of the data ingested, in bytes.
+        public let ingestionSizeInBytes: Int64?
+        /// Ingestion status.
+        public let ingestionStatus: IngestionStatus
+        /// The time that this ingestion took, measured in seconds.
+        public let ingestionTimeInSeconds: Int64?
+        public let queueInfo: QueueInfo?
+        /// Event source for this ingestion.
+        public let requestSource: IngestionRequestSource?
+        /// Type of this ingestion.
+        public let requestType: IngestionRequestType?
+        public let rowInfo: RowInfo?
+
+        public init(arn: String, createdTime: TimeStamp, errorInfo: ErrorInfo? = nil, ingestionId: String? = nil, ingestionSizeInBytes: Int64? = nil, ingestionStatus: IngestionStatus, ingestionTimeInSeconds: Int64? = nil, queueInfo: QueueInfo? = nil, requestSource: IngestionRequestSource? = nil, requestType: IngestionRequestType? = nil, rowInfo: RowInfo? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.errorInfo = errorInfo
+            self.ingestionId = ingestionId
+            self.ingestionSizeInBytes = ingestionSizeInBytes
+            self.ingestionStatus = ingestionStatus
+            self.ingestionTimeInSeconds = ingestionTimeInSeconds
+            self.queueInfo = queueInfo
+            self.requestSource = requestSource
+            self.requestType = requestType
+            self.rowInfo = rowInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case errorInfo = "ErrorInfo"
+            case ingestionId = "IngestionId"
+            case ingestionSizeInBytes = "IngestionSizeInBytes"
+            case ingestionStatus = "IngestionStatus"
+            case ingestionTimeInSeconds = "IngestionTimeInSeconds"
+            case queueInfo = "QueueInfo"
+            case requestSource = "RequestSource"
+            case requestType = "RequestType"
+            case rowInfo = "RowInfo"
+        }
+    }
+
+    public enum IngestionErrorType: String, CustomStringConvertible, Codable {
+        case failureToAssumeRole = "FAILURE_TO_ASSUME_ROLE"
+        case ingestionSuperseded = "INGESTION_SUPERSEDED"
+        case ingestionCanceled = "INGESTION_CANCELED"
+        case dataSetDeleted = "DATA_SET_DELETED"
+        case dataSetNotSpice = "DATA_SET_NOT_SPICE"
+        case s3UploadedFileDeleted = "S3_UPLOADED_FILE_DELETED"
+        case s3ManifestError = "S3_MANIFEST_ERROR"
+        case dataToleranceException = "DATA_TOLERANCE_EXCEPTION"
+        case spiceTableNotFound = "SPICE_TABLE_NOT_FOUND"
+        case dataSetSizeLimitExceeded = "DATA_SET_SIZE_LIMIT_EXCEEDED"
+        case rowSizeLimitExceeded = "ROW_SIZE_LIMIT_EXCEEDED"
+        case accountCapacityLimitExceeded = "ACCOUNT_CAPACITY_LIMIT_EXCEEDED"
+        case customerError = "CUSTOMER_ERROR"
+        case dataSourceNotFound = "DATA_SOURCE_NOT_FOUND"
+        case iamRoleNotAvailable = "IAM_ROLE_NOT_AVAILABLE"
+        case connectionFailure = "CONNECTION_FAILURE"
+        case sqlTableNotFound = "SQL_TABLE_NOT_FOUND"
+        case permissionDenied = "PERMISSION_DENIED"
+        case sslCertificateValidationFailure = "SSL_CERTIFICATE_VALIDATION_FAILURE"
+        case oauthTokenFailure = "OAUTH_TOKEN_FAILURE"
+        case sourceApiLimitExceededFailure = "SOURCE_API_LIMIT_EXCEEDED_FAILURE"
+        case passwordAuthenticationFailure = "PASSWORD_AUTHENTICATION_FAILURE"
+        case sqlSchemaMismatchError = "SQL_SCHEMA_MISMATCH_ERROR"
+        case invalidDateFormat = "INVALID_DATE_FORMAT"
+        case invalidDataprepSyntax = "INVALID_DATAPREP_SYNTAX"
+        case sourceResourceLimitExceeded = "SOURCE_RESOURCE_LIMIT_EXCEEDED"
+        case sqlInvalidParameterValue = "SQL_INVALID_PARAMETER_VALUE"
+        case queryTimeout = "QUERY_TIMEOUT"
+        case sqlNumericOverflow = "SQL_NUMERIC_OVERFLOW"
+        case unresolvableHost = "UNRESOLVABLE_HOST"
+        case unroutableHost = "UNROUTABLE_HOST"
+        case sqlException = "SQL_EXCEPTION"
+        case s3FileInaccessible = "S3_FILE_INACCESSIBLE"
+        case iotFileNotFound = "IOT_FILE_NOT_FOUND"
+        case iotDataSetFileEmpty = "IOT_DATA_SET_FILE_EMPTY"
+        case invalidDataSourceConfig = "INVALID_DATA_SOURCE_CONFIG"
+        case dataSourceAuthFailed = "DATA_SOURCE_AUTH_FAILED"
+        case dataSourceConnectionFailed = "DATA_SOURCE_CONNECTION_FAILED"
+        case failureToProcessJsonFile = "FAILURE_TO_PROCESS_JSON_FILE"
+        case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestionRequestSource: String, CustomStringConvertible, Codable {
+        case manual = "MANUAL"
+        case scheduled = "SCHEDULED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestionRequestType: String, CustomStringConvertible, Codable {
+        case initialIngestion = "INITIAL_INGESTION"
+        case edit = "EDIT"
+        case incrementalRefresh = "INCREMENTAL_REFRESH"
+        case fullRefresh = "FULL_REFRESH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestionStatus: String, CustomStringConvertible, Codable {
+        case initialized = "INITIALIZED"
+        case queued = "QUEUED"
+        case running = "RUNNING"
+        case failed = "FAILED"
+        case completed = "COMPLETED"
+        case cancelled = "CANCELLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct InputColumn: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+
+        /// The name of this column in the underlying data source.
+        public let name: String
+        /// The data type of the column.
+        public let `type`: InputColumnDataType
+
+        public init(name: String, type: InputColumnDataType) {
+            self.name = name
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `type` = "Type"
+        }
+    }
+
+    public enum InputColumnDataType: String, CustomStringConvertible, Codable {
+        case string = "STRING"
+        case integer = "INTEGER"
+        case decimal = "DECIMAL"
+        case datetime = "DATETIME"
+        case bit = "BIT"
+        case boolean = "BOOLEAN"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct IntegerParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
+        ]
+
+        /// A display name for the dataset.
+        public let name: String
+        /// Values.
+        public let values: [Int64]
+
+        public init(name: String, values: [Int64]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct JiraParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SiteBaseUrl", required: true, type: .string)
+        ]
+
+        /// The base URL of the Jira site.
+        public let siteBaseUrl: String
+
+        public init(siteBaseUrl: String) {
+            self.siteBaseUrl = siteBaseUrl
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.siteBaseUrl, name:"siteBaseUrl", parent: name, max: 1024)
+            try validate(self.siteBaseUrl, name:"siteBaseUrl", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case siteBaseUrl = "SiteBaseUrl"
+        }
+    }
+
+    public struct JoinInstruction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LeftOperand", required: true, type: .string), 
+            AWSShapeMember(label: "OnClause", required: true, type: .string), 
+            AWSShapeMember(label: "RightOperand", required: true, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
+        ]
+
+        /// Left operand.
+        public let leftOperand: String
+        /// On Clause.
+        public let onClause: String
+        /// Right operand.
+        public let rightOperand: String
+        /// Type.
+        public let `type`: JoinType
+
+        public init(leftOperand: String, onClause: String, rightOperand: String, type: JoinType) {
+            self.leftOperand = leftOperand
+            self.onClause = onClause
+            self.rightOperand = rightOperand
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.leftOperand, name:"leftOperand", parent: name, max: 64)
+            try validate(self.leftOperand, name:"leftOperand", parent: name, min: 1)
+            try validate(self.leftOperand, name:"leftOperand", parent: name, pattern: "[0-9a-zA-Z-]*")
+            try validate(self.onClause, name:"onClause", parent: name, max: 512)
+            try validate(self.onClause, name:"onClause", parent: name, min: 1)
+            try validate(self.rightOperand, name:"rightOperand", parent: name, max: 64)
+            try validate(self.rightOperand, name:"rightOperand", parent: name, min: 1)
+            try validate(self.rightOperand, name:"rightOperand", parent: name, pattern: "[0-9a-zA-Z-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case leftOperand = "LeftOperand"
+            case onClause = "OnClause"
+            case rightOperand = "RightOperand"
+            case `type` = "Type"
+        }
+    }
+
+    public enum JoinType: String, CustomStringConvertible, Codable {
+        case inner = "INNER"
+        case outer = "OUTER"
+        case left = "LEFT"
+        case right = "RIGHT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListDashboardVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        ]
+
+        /// The ID of the AWS account that contains the dashboard that you're listing versions for.
+        public let awsAccountId: String
+        /// The ID for the dashboard.
+        public let dashboardId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, dashboardId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.dashboardId = dashboardId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.dashboardId, name:"dashboardId", parent: name, max: 2048)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, min: 1)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dashboardId = "DashboardId"
+            case maxResults = "max-results"
+            case nextToken = "next-token"
+        }
+    }
+
+    public struct ListDashboardVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashboardVersionSummaryList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// A structure that contains information about each version of the dashboard.
+        public let dashboardVersionSummaryList: [DashboardVersionSummary]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dashboardVersionSummaryList: [DashboardVersionSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dashboardVersionSummaryList = dashboardVersionSummaryList
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardVersionSummaryList = "DashboardVersionSummaryList"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct ListDashboardsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        ]
+
+        /// The ID of the AWS account that contains the dashboards that you're listing.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case maxResults = "max-results"
+            case nextToken = "next-token"
+        }
+    }
+
+    public struct ListDashboardsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashboardSummaryList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// A structure that contains all of the dashboards shared with the user. This structure provides basic information about the dashboards.
+        public let dashboardSummaryList: [DashboardSummary]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dashboardSummaryList: [DashboardSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dashboardSummaryList = dashboardSummaryList
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardSummaryList = "DashboardSummaryList"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct ListDataSetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case maxResults = "max-results"
+            case nextToken = "next-token"
+        }
+    }
+
+    public struct ListDataSetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSetSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The list of dataset summaries.
+        public let dataSetSummaries: [DataSetSummary]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dataSetSummaries: [DataSetSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dataSetSummaries = dataSetSummaries
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetSummaries = "DataSetSummaries"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct ListDataSourcesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case maxResults = "max-results"
+            case nextToken = "next-token"
+        }
+    }
+
+    public struct ListDataSourcesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSources", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// A list of data sources.
+        public let dataSources: [DataSource]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dataSources: [DataSource]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dataSources = dataSources
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSources = "DataSources"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
     }
 
     public struct ListGroupMembershipsRequest: AWSShape {
@@ -688,7 +4639,8 @@ extension QuickSight {
             try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -714,7 +4666,7 @@ extension QuickSight {
         public let nextToken: String?
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(groupMemberList: [GroupMember]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -762,7 +4714,8 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -787,7 +4740,7 @@ extension QuickSight {
         public let nextToken: String?
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(groupList: [Group]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -805,6 +4758,499 @@ extension QuickSight {
         }
     }
 
+    public struct ListIAMPolicyAssignmentsForUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
+        ]
+
+        /// The ID of the AWS account that contains the assignments.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The namespace of the assignment.
+        public let namespace: String
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The name of the user.
+        public let userName: String
+
+        public init(awsAccountId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil, userName: String) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.namespace = namespace
+            self.nextToken = nextToken
+            self.userName = userName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try validate(self.userName, name:"userName", parent: name, min: 1)
+            try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case maxResults = "max-results"
+            case namespace = "Namespace"
+            case nextToken = "next-token"
+            case userName = "UserName"
+        }
+    }
+
+    public struct ListIAMPolicyAssignmentsForUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActiveAssignments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The active assignments for this user.
+        public let activeAssignments: [ActiveIAMPolicyAssignment]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(activeAssignments: [ActiveIAMPolicyAssignment]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.activeAssignments = activeAssignments
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeAssignments = "ActiveAssignments"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct ListIAMPolicyAssignmentsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        ]
+
+        /// The status of the assignments.
+        public let assignmentStatus: AssignmentStatus?
+        /// The ID of the AWS account that contains these IAM policy assignments.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The namespace for the assignments.
+        public let namespace: String
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(assignmentStatus: AssignmentStatus? = nil, awsAccountId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil) {
+            self.assignmentStatus = assignmentStatus
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.namespace = namespace
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentStatus = "AssignmentStatus"
+            case awsAccountId = "AwsAccountId"
+            case maxResults = "max-results"
+            case namespace = "Namespace"
+            case nextToken = "next-token"
+        }
+    }
+
+    public struct ListIAMPolicyAssignmentsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IAMPolicyAssignments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// Information describing the IAM policy assignments.
+        public let iAMPolicyAssignments: [IAMPolicyAssignmentSummary]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(iAMPolicyAssignments: [IAMPolicyAssignmentSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.iAMPolicyAssignments = iAMPolicyAssignments
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iAMPolicyAssignments = "IAMPolicyAssignments"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct ListIngestionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The ID of the dataset used in the ingestion.
+        public let dataSetId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, dataSetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dataSetId = "DataSetId"
+            case maxResults = "max-results"
+            case nextToken = "next-token"
+        }
+    }
+
+    public struct ListIngestionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ingestions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// A list of the ingestions.
+        public let ingestions: [Ingestion]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(ingestions: [Ingestion]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.ingestions = ingestions
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestions = "Ingestions"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource that you want a list of tags for.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
+        public let tags: [Tag]?
+
+        public init(requestId: String? = nil, status: Int? = nil, tags: [Tag]? = nil) {
+            self.requestId = requestId
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListTemplateAliasesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-result"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string)
+        ]
+
+        /// The ID of the AWS account that contains the template aliases that you're listing.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The ID for the template.
+        public let templateId: String
+
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, templateId: String) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.templateId = templateId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, max: 2048)
+            try validate(self.templateId, name:"templateId", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case maxResults = "max-result"
+            case nextToken = "next-token"
+            case templateId = "TemplateId"
+        }
+    }
+
+    public struct ListTemplateAliasesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateAliasList", required: false, type: .list)
+        ]
+
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// A structure containing the list of the template's aliases.
+        public let templateAliasList: [TemplateAlias]?
+
+        public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, templateAliasList: [TemplateAlias]? = nil) {
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+            self.templateAliasList = templateAliasList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+            case templateAliasList = "TemplateAliasList"
+        }
+    }
+
+    public struct ListTemplateVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string)
+        ]
+
+        /// The ID of the AWS account that contains the templates that you're listing.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The ID for the template.
+        public let templateId: String
+
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, templateId: String) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.templateId = templateId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, max: 2048)
+            try validate(self.templateId, name:"templateId", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case maxResults = "max-results"
+            case nextToken = "next-token"
+            case templateId = "TemplateId"
+        }
+    }
+
+    public struct ListTemplateVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateVersionSummaryList", required: false, type: .list)
+        ]
+
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// A structure containing a list of all the versions of the specified template.
+        public let templateVersionSummaryList: [TemplateVersionSummary]?
+
+        public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, templateVersionSummaryList: [TemplateVersionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+            self.templateVersionSummaryList = templateVersionSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+            case templateVersionSummaryList = "TemplateVersionSummaryList"
+        }
+    }
+
+    public struct ListTemplatesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-result"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        ]
+
+        /// The ID of the AWS account that contains the templates that you're listing.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case maxResults = "max-result"
+            case nextToken = "next-token"
+        }
+    }
+
+    public struct ListTemplatesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateSummaryList", required: false, type: .list)
+        ]
+
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// A structure containing information about the templates in the list.
+        public let templateSummaryList: [TemplateSummary]?
+
+        public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, templateSummaryList: [TemplateSummary]? = nil) {
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+            self.templateSummaryList = templateSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+            case templateSummaryList = "TemplateSummaryList"
+        }
+    }
+
     public struct ListUserGroupsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
@@ -814,7 +5260,7 @@ extension QuickSight {
             AWSShapeMember(label: "UserName", location: .uri(locationName: "UserName"), required: true, type: .string)
         ]
 
-        /// The AWS Account ID that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
+        /// The AWS account ID that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
         /// The maximum number of results to return from this request.
         public let maxResults: Int?
@@ -839,7 +5285,8 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
             try validate(self.userName, name:"userName", parent: name, min: 1)
             try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
@@ -915,7 +5362,8 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -938,7 +5386,7 @@ extension QuickSight {
         public let nextToken: String?
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
         /// The list of users.
         public let userList: [User]?
@@ -955,6 +5403,467 @@ extension QuickSight {
             case requestId = "RequestId"
             case status = "Status"
             case userList = "UserList"
+        }
+    }
+
+    public struct LogicalTable: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: true, type: .string), 
+            AWSShapeMember(label: "DataTransforms", required: false, type: .list), 
+            AWSShapeMember(label: "Source", required: true, type: .structure)
+        ]
+
+        /// A display name for the logical table.
+        public let alias: String
+        /// Transform operations that act on this logical table.
+        public let dataTransforms: [TransformOperation]?
+        /// Source of this logical table.
+        public let source: LogicalTableSource
+
+        public init(alias: String, dataTransforms: [TransformOperation]? = nil, source: LogicalTableSource) {
+            self.alias = alias
+            self.dataTransforms = dataTransforms
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.alias, name:"alias", parent: name, max: 64)
+            try validate(self.alias, name:"alias", parent: name, min: 1)
+            try self.dataTransforms?.forEach {
+                try $0.validate(name: "\(name).dataTransforms[]")
+            }
+            try validate(self.dataTransforms, name:"dataTransforms", parent: name, max: 2048)
+            try validate(self.dataTransforms, name:"dataTransforms", parent: name, min: 1)
+            try self.source.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case dataTransforms = "DataTransforms"
+            case source = "Source"
+        }
+    }
+
+    public struct LogicalTableSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JoinInstruction", required: false, type: .structure), 
+            AWSShapeMember(label: "PhysicalTableId", required: false, type: .string)
+        ]
+
+        /// Specifies the result of a join of two logical tables.
+        public let joinInstruction: JoinInstruction?
+        /// Physical table ID.
+        public let physicalTableId: String?
+
+        public init(joinInstruction: JoinInstruction? = nil, physicalTableId: String? = nil) {
+            self.joinInstruction = joinInstruction
+            self.physicalTableId = physicalTableId
+        }
+
+        public func validate(name: String) throws {
+            try self.joinInstruction?.validate(name: "\(name).joinInstruction")
+            try validate(self.physicalTableId, name:"physicalTableId", parent: name, max: 64)
+            try validate(self.physicalTableId, name:"physicalTableId", parent: name, min: 1)
+            try validate(self.physicalTableId, name:"physicalTableId", parent: name, pattern: "[0-9a-zA-Z-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case joinInstruction = "JoinInstruction"
+            case physicalTableId = "PhysicalTableId"
+        }
+    }
+
+    public struct ManifestFileLocation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
+        ]
+
+        /// Amazon S3 bucket.
+        public let bucket: String
+        /// Amazon S3 key that identifies an object.
+        public let key: String
+
+        public init(bucket: String, key: String) {
+            self.bucket = bucket
+            self.key = key
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.bucket, name:"bucket", parent: name, max: 1024)
+            try validate(self.bucket, name:"bucket", parent: name, min: 1)
+            try validate(self.key, name:"key", parent: name, max: 1024)
+            try validate(self.key, name:"key", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case key = "Key"
+        }
+    }
+
+    public struct MariaDbParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "Host", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: true, type: .integer)
+        ]
+
+        /// Database.
+        public let database: String
+        /// Host.
+        public let host: String
+        /// Port.
+        public let port: Int
+
+        public init(database: String, host: String, port: Int) {
+            self.database = database
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.database, name:"database", parent: name, max: 128)
+            try validate(self.database, name:"database", parent: name, min: 1)
+            try validate(self.host, name:"host", parent: name, max: 256)
+            try validate(self.host, name:"host", parent: name, min: 1)
+            try validate(self.port, name:"port", parent: name, max: 65535)
+            try validate(self.port, name:"port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
+    public struct MySqlParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "Host", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: true, type: .integer)
+        ]
+
+        /// Database.
+        public let database: String
+        /// Host.
+        public let host: String
+        /// Port.
+        public let port: Int
+
+        public init(database: String, host: String, port: Int) {
+            self.database = database
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.database, name:"database", parent: name, max: 128)
+            try validate(self.database, name:"database", parent: name, min: 1)
+            try validate(self.host, name:"host", parent: name, max: 256)
+            try validate(self.host, name:"host", parent: name, min: 1)
+            try validate(self.port, name:"port", parent: name, max: 65535)
+            try validate(self.port, name:"port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
+    public struct OutputColumn: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// A display name for the dataset.
+        public let name: String?
+        /// Type.
+        public let `type`: ColumnDataType?
+
+        public init(name: String? = nil, type: ColumnDataType? = nil) {
+            self.name = name
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `type` = "Type"
+        }
+    }
+
+    public struct Parameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DateTimeParameters", required: false, type: .list), 
+            AWSShapeMember(label: "DecimalParameters", required: false, type: .list), 
+            AWSShapeMember(label: "IntegerParameters", required: false, type: .list), 
+            AWSShapeMember(label: "StringParameters", required: false, type: .list)
+        ]
+
+        /// DateTime parameters.
+        public let dateTimeParameters: [DateTimeParameter]?
+        /// Decimal parameters.
+        public let decimalParameters: [DecimalParameter]?
+        /// Integer parameters.
+        public let integerParameters: [IntegerParameter]?
+        /// String parameters.
+        public let stringParameters: [StringParameter]?
+
+        public init(dateTimeParameters: [DateTimeParameter]? = nil, decimalParameters: [DecimalParameter]? = nil, integerParameters: [IntegerParameter]? = nil, stringParameters: [StringParameter]? = nil) {
+            self.dateTimeParameters = dateTimeParameters
+            self.decimalParameters = decimalParameters
+            self.integerParameters = integerParameters
+            self.stringParameters = stringParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.dateTimeParameters?.forEach {
+                try $0.validate(name: "\(name).dateTimeParameters[]")
+            }
+            try validate(self.dateTimeParameters, name:"dateTimeParameters", parent: name, max: 100)
+            try self.decimalParameters?.forEach {
+                try $0.validate(name: "\(name).decimalParameters[]")
+            }
+            try validate(self.decimalParameters, name:"decimalParameters", parent: name, max: 100)
+            try self.integerParameters?.forEach {
+                try $0.validate(name: "\(name).integerParameters[]")
+            }
+            try validate(self.integerParameters, name:"integerParameters", parent: name, max: 100)
+            try self.stringParameters?.forEach {
+                try $0.validate(name: "\(name).stringParameters[]")
+            }
+            try validate(self.stringParameters, name:"stringParameters", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateTimeParameters = "DateTimeParameters"
+            case decimalParameters = "DecimalParameters"
+            case integerParameters = "IntegerParameters"
+            case stringParameters = "StringParameters"
+        }
+    }
+
+    public struct PhysicalTable: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomSql", required: false, type: .structure), 
+            AWSShapeMember(label: "RelationalTable", required: false, type: .structure), 
+            AWSShapeMember(label: "S3Source", required: false, type: .structure)
+        ]
+
+        /// A physical table type built from the results of the custom SQL query.
+        public let customSql: CustomSql?
+        /// A physical table type for relational data sources.
+        public let relationalTable: RelationalTable?
+        /// A physical table type for as S3 data source.
+        public let s3Source: S3Source?
+
+        public init(customSql: CustomSql? = nil, relationalTable: RelationalTable? = nil, s3Source: S3Source? = nil) {
+            self.customSql = customSql
+            self.relationalTable = relationalTable
+            self.s3Source = s3Source
+        }
+
+        public func validate(name: String) throws {
+            try self.customSql?.validate(name: "\(name).customSql")
+            try self.relationalTable?.validate(name: "\(name).relationalTable")
+            try self.s3Source?.validate(name: "\(name).s3Source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customSql = "CustomSql"
+            case relationalTable = "RelationalTable"
+            case s3Source = "S3Source"
+        }
+    }
+
+    public struct PostgreSqlParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "Host", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: true, type: .integer)
+        ]
+
+        /// Database.
+        public let database: String
+        /// Host.
+        public let host: String
+        /// Port.
+        public let port: Int
+
+        public init(database: String, host: String, port: Int) {
+            self.database = database
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.database, name:"database", parent: name, max: 128)
+            try validate(self.database, name:"database", parent: name, min: 1)
+            try validate(self.host, name:"host", parent: name, max: 256)
+            try validate(self.host, name:"host", parent: name, min: 1)
+            try validate(self.port, name:"port", parent: name, max: 65535)
+            try validate(self.port, name:"port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
+    public struct PrestoParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Catalog", required: true, type: .string), 
+            AWSShapeMember(label: "Host", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: true, type: .integer)
+        ]
+
+        /// Catalog.
+        public let catalog: String
+        /// Host.
+        public let host: String
+        /// Port.
+        public let port: Int
+
+        public init(catalog: String, host: String, port: Int) {
+            self.catalog = catalog
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalog, name:"catalog", parent: name, max: 128)
+            try validate(self.host, name:"host", parent: name, max: 256)
+            try validate(self.host, name:"host", parent: name, min: 1)
+            try validate(self.port, name:"port", parent: name, max: 65535)
+            try validate(self.port, name:"port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
+    public struct ProjectOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProjectedColumns", required: true, type: .list)
+        ]
+
+        /// Projected columns.
+        public let projectedColumns: [String]
+
+        public init(projectedColumns: [String]) {
+            self.projectedColumns = projectedColumns
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.projectedColumns, name:"projectedColumns", parent: name, max: 2000)
+            try validate(self.projectedColumns, name:"projectedColumns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectedColumns = "ProjectedColumns"
+        }
+    }
+
+    public struct QueueInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueuedIngestion", required: true, type: .string), 
+            AWSShapeMember(label: "WaitingOnIngestion", required: true, type: .string)
+        ]
+
+        /// The ID of the ongoing ingestion. The queued ingestion is waiting for the ongoing ingestion to complete.
+        public let queuedIngestion: String
+        /// The ID of the queued ingestion.
+        public let waitingOnIngestion: String
+
+        public init(queuedIngestion: String, waitingOnIngestion: String) {
+            self.queuedIngestion = queuedIngestion
+            self.waitingOnIngestion = waitingOnIngestion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queuedIngestion = "QueuedIngestion"
+            case waitingOnIngestion = "WaitingOnIngestion"
+        }
+    }
+
+    public struct RdsParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
+        ]
+
+        /// Database.
+        public let database: String
+        /// Instance ID.
+        public let instanceId: String
+
+        public init(database: String, instanceId: String) {
+            self.database = database
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.database, name:"database", parent: name, max: 128)
+            try validate(self.database, name:"database", parent: name, min: 1)
+            try validate(self.instanceId, name:"instanceId", parent: name, max: 64)
+            try validate(self.instanceId, name:"instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct RedshiftParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "Host", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
+        ]
+
+        /// Cluster ID. This field can be blank if the Host and Port are provided.
+        public let clusterId: String?
+        /// Database.
+        public let database: String
+        /// Host. This field can be blank if ClusterId is provided.
+        public let host: String?
+        /// Port. This field can be blank if the ClusterId is provided.
+        public let port: Int?
+
+        public init(clusterId: String? = nil, database: String, host: String? = nil, port: Int? = nil) {
+            self.clusterId = clusterId
+            self.database = database
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clusterId, name:"clusterId", parent: name, max: 64)
+            try validate(self.clusterId, name:"clusterId", parent: name, min: 1)
+            try validate(self.database, name:"database", parent: name, max: 128)
+            try validate(self.database, name:"database", parent: name, min: 1)
+            try validate(self.host, name:"host", parent: name, max: 256)
+            try validate(self.host, name:"host", parent: name, min: 1)
+            try validate(self.port, name:"port", parent: name, max: 65535)
+            try validate(self.port, name:"port", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case database = "Database"
+            case host = "Host"
+            case port = "Port"
         }
     }
 
@@ -984,7 +5893,7 @@ extension QuickSight {
         public let sessionName: String?
         /// The Amazon QuickSight user name that you want to create for the user you are registering.
         public let userName: String?
-        /// The Amazon QuickSight role of the user. The user role can be one of the following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, data sets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.  
+        /// The Amazon QuickSight role for the user. The user role can be one of the following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.  
         public let userRole: UserRole
 
         public init(awsAccountId: String, email: String, iamArn: String? = nil, identityType: IdentityType, namespace: String, sessionName: String? = nil, userName: String? = nil, userRole: UserRole) {
@@ -1002,7 +5911,8 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
             try validate(self.sessionName, name:"sessionName", parent: name, max: 64)
             try validate(self.sessionName, name:"sessionName", parent: name, min: 2)
             try validate(self.sessionName, name:"sessionName", parent: name, pattern: "[\\w+=.@-]*")
@@ -1032,7 +5942,7 @@ extension QuickSight {
 
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
         /// The user name.
         public let user: User?
@@ -1051,6 +5961,1620 @@ extension QuickSight {
             case status = "Status"
             case user = "User"
             case userInvitationUrl = "UserInvitationUrl"
+        }
+    }
+
+    public struct RelationalTable: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "InputColumns", required: true, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Schema", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the data source.
+        public let dataSourceArn: String
+        /// The column schema of the table.
+        public let inputColumns: [InputColumn]
+        /// The name of the relational table.
+        public let name: String
+        /// The schema name. This name applies to certain relational database engines.
+        public let schema: String?
+
+        public init(dataSourceArn: String, inputColumns: [InputColumn], name: String, schema: String? = nil) {
+            self.dataSourceArn = dataSourceArn
+            self.inputColumns = inputColumns
+            self.name = name
+            self.schema = schema
+        }
+
+        public func validate(name: String) throws {
+            try self.inputColumns.forEach {
+                try $0.validate(name: "\(name).inputColumns[]")
+            }
+            try validate(self.inputColumns, name:"inputColumns", parent: name, max: 2048)
+            try validate(self.inputColumns, name:"inputColumns", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, max: 64)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.schema, name:"schema", parent: name, max: 64)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "DataSourceArn"
+            case inputColumns = "InputColumns"
+            case name = "Name"
+            case schema = "Schema"
+        }
+    }
+
+    public struct RenameColumnOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColumnName", required: true, type: .string), 
+            AWSShapeMember(label: "NewColumnName", required: true, type: .string)
+        ]
+
+        /// The name of the column to be renamed.
+        public let columnName: String
+        /// The new name for the column.
+        public let newColumnName: String
+
+        public init(columnName: String, newColumnName: String) {
+            self.columnName = columnName
+            self.newColumnName = newColumnName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.columnName, name:"columnName", parent: name, max: 128)
+            try validate(self.columnName, name:"columnName", parent: name, min: 1)
+            try validate(self.newColumnName, name:"newColumnName", parent: name, max: 128)
+            try validate(self.newColumnName, name:"newColumnName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "ColumnName"
+            case newColumnName = "NewColumnName"
+        }
+    }
+
+    public struct ResourcePermission: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: true, type: .list), 
+            AWSShapeMember(label: "Principal", required: true, type: .string)
+        ]
+
+        /// The action to grant or revoke permissions on, for example "quicksight:DescribeDashboard".
+        public let actions: [String]
+        /// The Amazon Resource Name (ARN) of an Amazon QuickSight user or group, or an IAM ARN. If you are using cross-account resource sharing, this is the IAM ARN of an account root. Otherwise, it is the ARN of a QuickSight user or group. .
+        public let principal: String
+
+        public init(actions: [String], principal: String) {
+            self.actions = actions
+            self.principal = principal
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.actions, name:"actions", parent: name, max: 16)
+            try validate(self.actions, name:"actions", parent: name, min: 1)
+            try validate(self.principal, name:"principal", parent: name, max: 256)
+            try validate(self.principal, name:"principal", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case principal = "Principal"
+        }
+    }
+
+    public enum ResourceStatus: String, CustomStringConvertible, Codable {
+        case creationInProgress = "CREATION_IN_PROGRESS"
+        case creationSuccessful = "CREATION_SUCCESSFUL"
+        case creationFailed = "CREATION_FAILED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateSuccessful = "UPDATE_SUCCESSFUL"
+        case updateFailed = "UPDATE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct RowInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RowsDropped", required: false, type: .long), 
+            AWSShapeMember(label: "RowsIngested", required: false, type: .long)
+        ]
+
+        /// The number of rows that were not ingested.
+        public let rowsDropped: Int64?
+        /// The number of rows that were ingested.
+        public let rowsIngested: Int64?
+
+        public init(rowsDropped: Int64? = nil, rowsIngested: Int64? = nil) {
+            self.rowsDropped = rowsDropped
+            self.rowsIngested = rowsIngested
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rowsDropped = "RowsDropped"
+            case rowsIngested = "RowsIngested"
+        }
+    }
+
+    public struct RowLevelPermissionDataSet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "PermissionPolicy", required: true, type: .enum)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the permission dataset.
+        public let arn: String
+        /// Permission policy.
+        public let permissionPolicy: RowLevelPermissionPolicy
+
+        public init(arn: String, permissionPolicy: RowLevelPermissionPolicy) {
+            self.arn = arn
+            self.permissionPolicy = permissionPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case permissionPolicy = "PermissionPolicy"
+        }
+    }
+
+    public enum RowLevelPermissionPolicy: String, CustomStringConvertible, Codable {
+        case grantAccess = "GRANT_ACCESS"
+        case denyAccess = "DENY_ACCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct S3Parameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManifestFileLocation", required: true, type: .structure)
+        ]
+
+        /// Location of the Amazon S3 manifest file. This is NULL if the manifest file was uploaded in the console.
+        public let manifestFileLocation: ManifestFileLocation
+
+        public init(manifestFileLocation: ManifestFileLocation) {
+            self.manifestFileLocation = manifestFileLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.manifestFileLocation.validate(name: "\(name).manifestFileLocation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestFileLocation = "ManifestFileLocation"
+        }
+    }
+
+    public struct S3Source: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "InputColumns", required: true, type: .list), 
+            AWSShapeMember(label: "UploadSettings", required: false, type: .structure)
+        ]
+
+        /// The amazon Resource Name (ARN) for the data source.
+        public let dataSourceArn: String
+        /// A physical table type for as S3 data source.
+        public let inputColumns: [InputColumn]
+        /// Information about the format for the S3 source file or files.
+        public let uploadSettings: UploadSettings?
+
+        public init(dataSourceArn: String, inputColumns: [InputColumn], uploadSettings: UploadSettings? = nil) {
+            self.dataSourceArn = dataSourceArn
+            self.inputColumns = inputColumns
+            self.uploadSettings = uploadSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.inputColumns.forEach {
+                try $0.validate(name: "\(name).inputColumns[]")
+            }
+            try validate(self.inputColumns, name:"inputColumns", parent: name, max: 2048)
+            try validate(self.inputColumns, name:"inputColumns", parent: name, min: 1)
+            try self.uploadSettings?.validate(name: "\(name).uploadSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "DataSourceArn"
+            case inputColumns = "InputColumns"
+            case uploadSettings = "UploadSettings"
+        }
+    }
+
+    public struct ServiceNowParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SiteBaseUrl", required: true, type: .string)
+        ]
+
+        /// URL of the base site.
+        public let siteBaseUrl: String
+
+        public init(siteBaseUrl: String) {
+            self.siteBaseUrl = siteBaseUrl
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.siteBaseUrl, name:"siteBaseUrl", parent: name, max: 1024)
+            try validate(self.siteBaseUrl, name:"siteBaseUrl", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case siteBaseUrl = "SiteBaseUrl"
+        }
+    }
+
+    public struct SheetControlsOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VisibilityState", required: false, type: .enum)
+        ]
+
+        /// Visibility state.
+        public let visibilityState: DashboardUIState?
+
+        public init(visibilityState: DashboardUIState? = nil) {
+            self.visibilityState = visibilityState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibilityState = "VisibilityState"
+        }
+    }
+
+    public struct SnowflakeParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "Host", required: true, type: .string), 
+            AWSShapeMember(label: "Warehouse", required: true, type: .string)
+        ]
+
+        /// Database.
+        public let database: String
+        /// Host.
+        public let host: String
+        /// Warehouse.
+        public let warehouse: String
+
+        public init(database: String, host: String, warehouse: String) {
+            self.database = database
+            self.host = host
+            self.warehouse = warehouse
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.database, name:"database", parent: name, max: 128)
+            try validate(self.database, name:"database", parent: name, min: 1)
+            try validate(self.host, name:"host", parent: name, max: 256)
+            try validate(self.host, name:"host", parent: name, min: 1)
+            try validate(self.warehouse, name:"warehouse", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case host = "Host"
+            case warehouse = "Warehouse"
+        }
+    }
+
+    public struct SparkParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Host", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: true, type: .integer)
+        ]
+
+        /// Host.
+        public let host: String
+        /// Port.
+        public let port: Int
+
+        public init(host: String, port: Int) {
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.host, name:"host", parent: name, max: 256)
+            try validate(self.host, name:"host", parent: name, min: 1)
+            try validate(self.port, name:"port", parent: name, max: 65535)
+            try validate(self.port, name:"port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
+    public struct SqlServerParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "Host", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: true, type: .integer)
+        ]
+
+        /// Database.
+        public let database: String
+        /// Host.
+        public let host: String
+        /// Port.
+        public let port: Int
+
+        public init(database: String, host: String, port: Int) {
+            self.database = database
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.database, name:"database", parent: name, max: 128)
+            try validate(self.database, name:"database", parent: name, min: 1)
+            try validate(self.host, name:"host", parent: name, max: 256)
+            try validate(self.host, name:"host", parent: name, min: 1)
+            try validate(self.port, name:"port", parent: name, max: 65535)
+            try validate(self.port, name:"port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
+    public struct SslProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisableSsl", required: false, type: .boolean)
+        ]
+
+        /// A Boolean option to control whether SSL should be disabled.
+        public let disableSsl: Bool?
+
+        public init(disableSsl: Bool? = nil) {
+            self.disableSsl = disableSsl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disableSsl = "DisableSsl"
+        }
+    }
+
+    public struct StringParameter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
+        ]
+
+        /// A display name for the dataset.
+        public let name: String
+        /// Values.
+        public let values: [String]
+
+        public init(name: String, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+
+        /// Tag key.
+        public let key: String
+        /// Tag value.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagColumnOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColumnName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+
+        /// The column that this operation acts on.
+        public let columnName: String
+        /// The dataset column tag, currently only used for geospatial type tagging. .  This is not tags for the AWS tagging feature. . 
+        public let tags: [ColumnTag]
+
+        public init(columnName: String, tags: [ColumnTag]) {
+            self.columnName = columnName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.columnName, name:"columnName", parent: name, max: 128)
+            try validate(self.columnName, name:"columnName", parent: name, min: 1)
+            try validate(self.tags, name:"tags", parent: name, max: 16)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "ColumnName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource that you want to tag.
+        public let resourceArn: String
+        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct Template: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateId", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .structure)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the template.
+        public let arn: String?
+        /// Time when this was created.
+        public let createdTime: TimeStamp?
+        /// Time when this was last updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// The display name of the template.
+        public let name: String?
+        /// The ID for the template. This is unique per AWS Region for each AWS account.
+        public let templateId: String?
+        /// A structure describing the versions of the template.
+        public let version: TemplateVersion?
+
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, templateId: String? = nil, version: TemplateVersion? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.templateId = templateId
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case templateId = "TemplateId"
+            case version = "Version"
+        }
+    }
+
+    public struct TemplateAlias: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasName", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateVersionNumber", required: false, type: .long)
+        ]
+
+        /// The display name of the template alias.
+        public let aliasName: String?
+        /// The Amazon Resource Name (ARN) of the template alias.
+        public let arn: String?
+        /// The version number of the template alias.
+        public let templateVersionNumber: Int64?
+
+        public init(aliasName: String? = nil, arn: String? = nil, templateVersionNumber: Int64? = nil) {
+            self.aliasName = aliasName
+            self.arn = arn
+            self.templateVersionNumber = templateVersionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
+            case arn = "Arn"
+            case templateVersionNumber = "TemplateVersionNumber"
+        }
+    }
+
+    public struct TemplateError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// Description of the error type.
+        public let message: String?
+        /// Type of error.
+        public let `type`: TemplateErrorType?
+
+        public init(message: String? = nil, type: TemplateErrorType? = nil) {
+            self.message = message
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case `type` = "Type"
+        }
+    }
+
+    public enum TemplateErrorType: String, CustomStringConvertible, Codable {
+        case dataSetNotFound = "DATA_SET_NOT_FOUND"
+        case internalFailure = "INTERNAL_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TemplateSourceAnalysis: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "DataSetReferences", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String
+        /// A structure containing information about the dataset references used as placeholders in the template.
+        public let dataSetReferences: [DataSetReference]
+
+        public init(arn: String, dataSetReferences: [DataSetReference]) {
+            self.arn = arn
+            self.dataSetReferences = dataSetReferences
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSetReferences.forEach {
+                try $0.validate(name: "\(name).dataSetReferences[]")
+            }
+            try validate(self.dataSetReferences, name:"dataSetReferences", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case dataSetReferences = "DataSetReferences"
+        }
+    }
+
+    public struct TemplateSourceEntity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceAnalysis", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceTemplate", required: false, type: .structure)
+        ]
+
+        /// The source analysis, if it is based on an analysis.
+        public let sourceAnalysis: TemplateSourceAnalysis?
+        /// The source template, if it is based on an template.
+        public let sourceTemplate: TemplateSourceTemplate?
+
+        public init(sourceAnalysis: TemplateSourceAnalysis? = nil, sourceTemplate: TemplateSourceTemplate? = nil) {
+            self.sourceAnalysis = sourceAnalysis
+            self.sourceTemplate = sourceTemplate
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceAnalysis?.validate(name: "\(name).sourceAnalysis")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceAnalysis = "SourceAnalysis"
+            case sourceTemplate = "SourceTemplate"
+        }
+    }
+
+    public struct TemplateSourceTemplate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct TemplateSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LatestVersionNumber", required: false, type: .long), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateId", required: false, type: .string)
+        ]
+
+        /// A summary of a template.
+        public let arn: String?
+        /// The last time that this template was created.
+        public let createdTime: TimeStamp?
+        /// The last time that this template was updated.
+        public let lastUpdatedTime: TimeStamp?
+        /// A structure containing a list of version numbers for the template summary.
+        public let latestVersionNumber: Int64?
+        /// A display name for the template.
+        public let name: String?
+        /// The ID of the template. This ID is unique per AWS Region for each AWS account.
+        public let templateId: String?
+
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, lastUpdatedTime: TimeStamp? = nil, latestVersionNumber: Int64? = nil, name: String? = nil, templateId: String? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.latestVersionNumber = latestVersionNumber
+            self.name = name
+            self.templateId = templateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case latestVersionNumber = "LatestVersionNumber"
+            case name = "Name"
+            case templateId = "TemplateId"
+        }
+    }
+
+    public struct TemplateVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DataSetConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Errors", required: false, type: .list), 
+            AWSShapeMember(label: "SourceEntityArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "VersionNumber", required: false, type: .long)
+        ]
+
+        /// The time that this template version was created.
+        public let createdTime: TimeStamp?
+        /// Schema of the dataset identified by the placeholder. The idea is that any dashboard created from the template should be bound to new datasets matching the same schema described through this API. .
+        public let dataSetConfigurations: [DataSetConfiguration]?
+        /// The description of the template.
+        public let description: String?
+        /// Errors associated with the template.
+        public let errors: [TemplateError]?
+        /// The Amazon Resource Name (ARN) of the analysis or template which was used to create this template.
+        public let sourceEntityArn: String?
+        /// The HTTP status of the request.
+        public let status: ResourceStatus?
+        /// The version number of the template.
+        public let versionNumber: Int64?
+
+        public init(createdTime: TimeStamp? = nil, dataSetConfigurations: [DataSetConfiguration]? = nil, description: String? = nil, errors: [TemplateError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+            self.createdTime = createdTime
+            self.dataSetConfigurations = dataSetConfigurations
+            self.description = description
+            self.errors = errors
+            self.sourceEntityArn = sourceEntityArn
+            self.status = status
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case dataSetConfigurations = "DataSetConfigurations"
+            case description = "Description"
+            case errors = "Errors"
+            case sourceEntityArn = "SourceEntityArn"
+            case status = "Status"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct TemplateVersionSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "VersionNumber", required: false, type: .long)
+        ]
+
+        /// The ARN of the template version.
+        public let arn: String?
+        /// The time that this template version was created.
+        public let createdTime: TimeStamp?
+        /// The description of the template version.
+        public let description: String?
+        /// The status of the template version.
+        public let status: ResourceStatus?
+        /// The version number of the template version.
+        public let versionNumber: Int64?
+
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, description: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.status = status
+            self.versionNumber = versionNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case status = "Status"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct TeradataParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "Host", required: true, type: .string), 
+            AWSShapeMember(label: "Port", required: true, type: .integer)
+        ]
+
+        /// Database.
+        public let database: String
+        /// Host.
+        public let host: String
+        /// Port.
+        public let port: Int
+
+        public init(database: String, host: String, port: Int) {
+            self.database = database
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.database, name:"database", parent: name, max: 128)
+            try validate(self.database, name:"database", parent: name, min: 1)
+            try validate(self.host, name:"host", parent: name, max: 256)
+            try validate(self.host, name:"host", parent: name, min: 1)
+            try validate(self.port, name:"port", parent: name, max: 65535)
+            try validate(self.port, name:"port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
+    public enum TextQualifier: String, CustomStringConvertible, Codable {
+        case doubleQuote = "DOUBLE_QUOTE"
+        case singleQuote = "SINGLE_QUOTE"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TransformOperation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CastColumnTypeOperation", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateColumnsOperation", required: false, type: .structure), 
+            AWSShapeMember(label: "FilterOperation", required: false, type: .structure), 
+            AWSShapeMember(label: "ProjectOperation", required: false, type: .structure), 
+            AWSShapeMember(label: "RenameColumnOperation", required: false, type: .structure), 
+            AWSShapeMember(label: "TagColumnOperation", required: false, type: .structure)
+        ]
+
+        /// A transform operation that casts a column to a different type.
+        public let castColumnTypeOperation: CastColumnTypeOperation?
+        /// An operation that creates calculated columns. Columns created in one such operation form a lexical closure.
+        public let createColumnsOperation: CreateColumnsOperation?
+        /// An operation that filters rows based on some condition.
+        public let filterOperation: FilterOperation?
+        /// An operation that projects columns. Operations that come after a projection can only refer to projected columns.
+        public let projectOperation: ProjectOperation?
+        /// An operation that renames a column.
+        public let renameColumnOperation: RenameColumnOperation?
+        /// An operation that tags a column with additional information.
+        public let tagColumnOperation: TagColumnOperation?
+
+        public init(castColumnTypeOperation: CastColumnTypeOperation? = nil, createColumnsOperation: CreateColumnsOperation? = nil, filterOperation: FilterOperation? = nil, projectOperation: ProjectOperation? = nil, renameColumnOperation: RenameColumnOperation? = nil, tagColumnOperation: TagColumnOperation? = nil) {
+            self.castColumnTypeOperation = castColumnTypeOperation
+            self.createColumnsOperation = createColumnsOperation
+            self.filterOperation = filterOperation
+            self.projectOperation = projectOperation
+            self.renameColumnOperation = renameColumnOperation
+            self.tagColumnOperation = tagColumnOperation
+        }
+
+        public func validate(name: String) throws {
+            try self.castColumnTypeOperation?.validate(name: "\(name).castColumnTypeOperation")
+            try self.createColumnsOperation?.validate(name: "\(name).createColumnsOperation")
+            try self.filterOperation?.validate(name: "\(name).filterOperation")
+            try self.projectOperation?.validate(name: "\(name).projectOperation")
+            try self.renameColumnOperation?.validate(name: "\(name).renameColumnOperation")
+            try self.tagColumnOperation?.validate(name: "\(name).tagColumnOperation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case castColumnTypeOperation = "CastColumnTypeOperation"
+            case createColumnsOperation = "CreateColumnsOperation"
+            case filterOperation = "FilterOperation"
+            case projectOperation = "ProjectOperation"
+            case renameColumnOperation = "RenameColumnOperation"
+            case tagColumnOperation = "TagColumnOperation"
+        }
+    }
+
+    public struct TwitterParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRows", required: true, type: .integer), 
+            AWSShapeMember(label: "Query", required: true, type: .string)
+        ]
+
+        /// Maximum number of rows to query Twitter.
+        public let maxRows: Int
+        /// Twitter query string.
+        public let query: String
+
+        public init(maxRows: Int, query: String) {
+            self.maxRows = maxRows
+            self.query = query
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxRows, name:"maxRows", parent: name, min: 1)
+            try validate(self.query, name:"query", parent: name, max: 256)
+            try validate(self.query, name:"query", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRows = "MaxRows"
+            case query = "Query"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "ResourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .querystring(locationName: "keys"), required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource that you want to untag.
+        public let resourceArn: String
+        /// The keys of the key-value pairs for the resource tag or tags assigned to the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "keys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateDashboardPermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
+            AWSShapeMember(label: "GrantPermissions", required: false, type: .list), 
+            AWSShapeMember(label: "RevokePermissions", required: false, type: .list)
+        ]
+
+        /// The ID of the AWS account that contains the dashboard whose permissions you're updating.
+        public let awsAccountId: String
+        /// The ID for the dashboard.
+        public let dashboardId: String
+        /// The permissions that you want to grant on this resource.
+        public let grantPermissions: [ResourcePermission]?
+        /// The permissions that you want to revoke from this resource.
+        public let revokePermissions: [ResourcePermission]?
+
+        public init(awsAccountId: String, dashboardId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.dashboardId = dashboardId
+            self.grantPermissions = grantPermissions
+            self.revokePermissions = revokePermissions
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.dashboardId, name:"dashboardId", parent: name, max: 2048)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, min: 1)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, pattern: "[\\w\\-]+")
+            try self.grantPermissions?.forEach {
+                try $0.validate(name: "\(name).grantPermissions[]")
+            }
+            try validate(self.grantPermissions, name:"grantPermissions", parent: name, max: 100)
+            try validate(self.grantPermissions, name:"grantPermissions", parent: name, min: 1)
+            try self.revokePermissions?.forEach {
+                try $0.validate(name: "\(name).revokePermissions[]")
+            }
+            try validate(self.revokePermissions, name:"revokePermissions", parent: name, max: 100)
+            try validate(self.revokePermissions, name:"revokePermissions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dashboardId = "DashboardId"
+            case grantPermissions = "GrantPermissions"
+            case revokePermissions = "RevokePermissions"
+        }
+    }
+
+    public struct UpdateDashboardPermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashboardArn", required: false, type: .string), 
+            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the dashboard.
+        public let dashboardArn: String?
+        /// The ID for the dashboard.
+        public let dashboardId: String?
+        /// Information about the permissions on the dashboard.
+        public let permissions: [ResourcePermission]?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dashboardArn: String? = nil, dashboardId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dashboardArn = dashboardArn
+            self.dashboardId = dashboardId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardArn = "DashboardArn"
+            case dashboardId = "DashboardId"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateDashboardPublishedVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionNumber", location: .uri(locationName: "VersionNumber"), required: true, type: .long)
+        ]
+
+        /// The ID of the AWS account that contains the dashboard that you're updating.
+        public let awsAccountId: String
+        /// The ID for the dashboard.
+        public let dashboardId: String
+        /// The version number of the dashboard.
+        public let versionNumber: Int64
+
+        public init(awsAccountId: String, dashboardId: String, versionNumber: Int64) {
+            self.awsAccountId = awsAccountId
+            self.dashboardId = dashboardId
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.dashboardId, name:"dashboardId", parent: name, max: 2048)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, min: 1)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.versionNumber, name:"versionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dashboardId = "DashboardId"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct UpdateDashboardPublishedVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DashboardArn", required: false, type: .string), 
+            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the dashboard.
+        public let dashboardArn: String?
+        /// The ID for the dashboard.
+        public let dashboardId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dashboardArn: String? = nil, dashboardId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dashboardArn = dashboardArn
+            self.dashboardId = dashboardId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardArn = "DashboardArn"
+            case dashboardId = "DashboardId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateDashboardRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DashboardId", location: .uri(locationName: "DashboardId"), required: true, type: .string), 
+            AWSShapeMember(label: "DashboardPublishOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceEntity", required: true, type: .structure), 
+            AWSShapeMember(label: "VersionDescription", required: false, type: .string)
+        ]
+
+        /// The ID of the AWS account that contains the dashboard that you're updating.
+        public let awsAccountId: String
+        /// The ID for the dashboard.
+        public let dashboardId: String
+        /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .csv format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. The sheet controls pane is collapsed by default when set to true. This option is COLLAPSED by default.   
+        public let dashboardPublishOptions: DashboardPublishOptions?
+        /// The display name of the dashboard.
+        public let name: String
+        /// A structure that contains the parameters of the dashboard.
+        public let parameters: Parameters?
+        /// The template or analysis from which the dashboard is created. The SouceTemplate entity accepts the Amazon Resource Name (ARN) of the template and also references to replacement datasets for the placeholders set when creating the template. The replacement datasets need to follow the same schema as the datasets for which placeholders were created when creating the template.
+        public let sourceEntity: DashboardSourceEntity
+        /// A description for the first version of the dashboard being created.
+        public let versionDescription: String?
+
+        public init(awsAccountId: String, dashboardId: String, dashboardPublishOptions: DashboardPublishOptions? = nil, name: String, parameters: Parameters? = nil, sourceEntity: DashboardSourceEntity, versionDescription: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.dashboardId = dashboardId
+            self.dashboardPublishOptions = dashboardPublishOptions
+            self.name = name
+            self.parameters = parameters
+            self.sourceEntity = sourceEntity
+            self.versionDescription = versionDescription
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.dashboardId, name:"dashboardId", parent: name, max: 2048)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, min: 1)
+            try validate(self.dashboardId, name:"dashboardId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try self.parameters?.validate(name: "\(name).parameters")
+            try self.sourceEntity.validate(name: "\(name).sourceEntity")
+            try validate(self.versionDescription, name:"versionDescription", parent: name, max: 512)
+            try validate(self.versionDescription, name:"versionDescription", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dashboardId = "DashboardId"
+            case dashboardPublishOptions = "DashboardPublishOptions"
+            case name = "Name"
+            case parameters = "Parameters"
+            case sourceEntity = "SourceEntity"
+            case versionDescription = "VersionDescription"
+        }
+    }
+
+    public struct UpdateDashboardResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DashboardId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "VersionArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let arn: String?
+        /// The creation status of the request.
+        public let creationStatus: ResourceStatus?
+        /// The ID for the dashboard.
+        public let dashboardId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The ARN of the dashboard, including the version number.
+        public let versionArn: String?
+
+        public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, dashboardId: String? = nil, requestId: String? = nil, status: Int? = nil, versionArn: String? = nil) {
+            self.arn = arn
+            self.creationStatus = creationStatus
+            self.dashboardId = dashboardId
+            self.requestId = requestId
+            self.status = status
+            self.versionArn = versionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationStatus = "CreationStatus"
+            case dashboardId = "DashboardId"
+            case requestId = "RequestId"
+            case status = "Status"
+            case versionArn = "VersionArn"
+        }
+    }
+
+    public struct UpdateDataSetPermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
+            AWSShapeMember(label: "GrantPermissions", required: false, type: .list), 
+            AWSShapeMember(label: "RevokePermissions", required: false, type: .list)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The ID for the dataset whose permissions you want to update. This ID is unique per AWS Region for each AWS account.
+        public let dataSetId: String
+        /// The resource permissions that you want to grant to the dataset.
+        public let grantPermissions: [ResourcePermission]?
+        /// The resource permissions that you want to revoke from the dataset.
+        public let revokePermissions: [ResourcePermission]?
+
+        public init(awsAccountId: String, dataSetId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.dataSetId = dataSetId
+            self.grantPermissions = grantPermissions
+            self.revokePermissions = revokePermissions
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.grantPermissions?.forEach {
+                try $0.validate(name: "\(name).grantPermissions[]")
+            }
+            try validate(self.grantPermissions, name:"grantPermissions", parent: name, max: 64)
+            try validate(self.grantPermissions, name:"grantPermissions", parent: name, min: 1)
+            try self.revokePermissions?.forEach {
+                try $0.validate(name: "\(name).revokePermissions[]")
+            }
+            try validate(self.revokePermissions, name:"revokePermissions", parent: name, max: 64)
+            try validate(self.revokePermissions, name:"revokePermissions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dataSetId = "DataSetId"
+            case grantPermissions = "GrantPermissions"
+            case revokePermissions = "RevokePermissions"
+        }
+    }
+
+    public struct UpdateDataSetPermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSetArn", required: false, type: .string), 
+            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the dataset.
+        public let dataSetArn: String?
+        /// The ID for the dataset whose permissions you want to update. This ID is unique per AWS Region for each AWS account.
+        public let dataSetId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dataSetArn: String? = nil, dataSetId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dataSetArn = dataSetArn
+            self.dataSetId = dataSetId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetArn = "DataSetArn"
+            case dataSetId = "DataSetId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateDataSetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "ColumnGroups", required: false, type: .list), 
+            AWSShapeMember(label: "DataSetId", location: .uri(locationName: "DataSetId"), required: true, type: .string), 
+            AWSShapeMember(label: "ImportMode", required: true, type: .enum), 
+            AWSShapeMember(label: "LogicalTableMap", required: false, type: .map), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "PhysicalTableMap", required: true, type: .map), 
+            AWSShapeMember(label: "RowLevelPermissionDataSet", required: false, type: .structure)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// Groupings of columns that work together in certain QuickSight features. Currently, only geospatial hierarchy is supported.
+        public let columnGroups: [ColumnGroup]?
+        /// The ID for the dataset that you want to update. This ID is unique per AWS Region for each AWS account.
+        public let dataSetId: String
+        /// Indicates whether you want to import the data into SPICE.
+        public let importMode: DataSetImportMode
+        /// Configures the combination and transformation of the data from the physical tables.
+        public let logicalTableMap: [String: LogicalTable]?
+        /// The display name for the dataset.
+        public let name: String
+        /// Declares the physical tables that are available in the underlying data sources.
+        public let physicalTableMap: [String: PhysicalTable]
+        /// The row-level security configuration for the data you want to create.
+        public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
+
+        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, dataSetId: String, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil) {
+            self.awsAccountId = awsAccountId
+            self.columnGroups = columnGroups
+            self.dataSetId = dataSetId
+            self.importMode = importMode
+            self.logicalTableMap = logicalTableMap
+            self.name = name
+            self.physicalTableMap = physicalTableMap
+            self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.columnGroups?.forEach {
+                try $0.validate(name: "\(name).columnGroups[]")
+            }
+            try validate(self.columnGroups, name:"columnGroups", parent: name, max: 8)
+            try validate(self.columnGroups, name:"columnGroups", parent: name, min: 1)
+            try self.logicalTableMap?.forEach {
+                try validate($0.key, name:"logicalTableMap.key", parent: name, max: 64)
+                try validate($0.key, name:"logicalTableMap.key", parent: name, min: 1)
+                try validate($0.key, name:"logicalTableMap.key", parent: name, pattern: "[0-9a-zA-Z-]*")
+                try $0.value.validate(name: "\(name).logicalTableMap[\"\($0.key)\"]")
+            }
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try self.physicalTableMap.forEach {
+                try validate($0.key, name:"physicalTableMap.key", parent: name, max: 64)
+                try validate($0.key, name:"physicalTableMap.key", parent: name, min: 1)
+                try validate($0.key, name:"physicalTableMap.key", parent: name, pattern: "[0-9a-zA-Z-]*")
+                try $0.value.validate(name: "\(name).physicalTableMap[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case columnGroups = "ColumnGroups"
+            case dataSetId = "DataSetId"
+            case importMode = "ImportMode"
+            case logicalTableMap = "LogicalTableMap"
+            case name = "Name"
+            case physicalTableMap = "PhysicalTableMap"
+            case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
+        }
+    }
+
+    public struct UpdateDataSetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DataSetId", required: false, type: .string), 
+            AWSShapeMember(label: "IngestionArn", required: false, type: .string), 
+            AWSShapeMember(label: "IngestionId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the dataset.
+        public let arn: String?
+        /// The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account.
+        public let dataSetId: String?
+        /// The ARN for the ingestion, which is triggered as a result of dataset creation if the import mode is SPICE.
+        public let ingestionArn: String?
+        /// The ID of the ingestion, which is triggered as a result of dataset creation if the import mode is SPICE.
+        public let ingestionId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(arn: String? = nil, dataSetId: String? = nil, ingestionArn: String? = nil, ingestionId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.dataSetId = dataSetId
+            self.ingestionArn = ingestionArn
+            self.ingestionId = ingestionId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case dataSetId = "DataSetId"
+            case ingestionArn = "IngestionArn"
+            case ingestionId = "IngestionId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateDataSourcePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceId", location: .uri(locationName: "DataSourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "GrantPermissions", required: false, type: .list), 
+            AWSShapeMember(label: "RevokePermissions", required: false, type: .list)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The ID of the data source. This ID is unique per AWS Region for each AWS account. 
+        public let dataSourceId: String
+        /// A list of resource permissions that you want to grant on the data source.
+        public let grantPermissions: [ResourcePermission]?
+        /// A list of resource permissions that you want to revoke on the data source.
+        public let revokePermissions: [ResourcePermission]?
+
+        public init(awsAccountId: String, dataSourceId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.dataSourceId = dataSourceId
+            self.grantPermissions = grantPermissions
+            self.revokePermissions = revokePermissions
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.grantPermissions?.forEach {
+                try $0.validate(name: "\(name).grantPermissions[]")
+            }
+            try validate(self.grantPermissions, name:"grantPermissions", parent: name, max: 64)
+            try validate(self.grantPermissions, name:"grantPermissions", parent: name, min: 1)
+            try self.revokePermissions?.forEach {
+                try $0.validate(name: "\(name).revokePermissions[]")
+            }
+            try validate(self.revokePermissions, name:"revokePermissions", parent: name, max: 64)
+            try validate(self.revokePermissions, name:"revokePermissions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case dataSourceId = "DataSourceId"
+            case grantPermissions = "GrantPermissions"
+            case revokePermissions = "RevokePermissions"
+        }
+    }
+
+    public struct UpdateDataSourcePermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the data source.
+        public let dataSourceArn: String?
+        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        public let dataSourceId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(dataSourceArn: String? = nil, dataSourceId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.dataSourceArn = dataSourceArn
+            self.dataSourceId = dataSourceId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "DataSourceArn"
+            case dataSourceId = "DataSourceId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateDataSourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Credentials", required: false, type: .structure), 
+            AWSShapeMember(label: "DataSourceId", location: .uri(locationName: "DataSourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SslProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcConnectionProperties", required: false, type: .structure)
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The credentials that QuickSight that uses to connect to your underlying source. Currently, only credentials based on user name and password are supported.
+        public let credentials: DataSourceCredentials?
+        /// The ID of the data source. This ID is unique per AWS Region for each AWS account. 
+        public let dataSourceId: String
+        /// The parameters that QuickSight uses to connect to your underlying source.
+        public let dataSourceParameters: DataSourceParameters?
+        /// A display name for the data source.
+        public let name: String
+        /// Secure Socket Layer (SSL) properties that apply when QuickSight connects to your underlying source.
+        public let sslProperties: SslProperties?
+        /// Use this parameter only when you want QuickSight to use a VPC connection when connecting to your underlying source.
+        public let vpcConnectionProperties: VpcConnectionProperties?
+
+        public init(awsAccountId: String, credentials: DataSourceCredentials? = nil, dataSourceId: String, dataSourceParameters: DataSourceParameters? = nil, name: String, sslProperties: SslProperties? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
+            self.awsAccountId = awsAccountId
+            self.credentials = credentials
+            self.dataSourceId = dataSourceId
+            self.dataSourceParameters = dataSourceParameters
+            self.name = name
+            self.sslProperties = sslProperties
+            self.vpcConnectionProperties = vpcConnectionProperties
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.credentials?.validate(name: "\(name).credentials")
+            try self.dataSourceParameters?.validate(name: "\(name).dataSourceParameters")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case credentials = "Credentials"
+            case dataSourceId = "DataSourceId"
+            case dataSourceParameters = "DataSourceParameters"
+            case name = "Name"
+            case sslProperties = "SslProperties"
+            case vpcConnectionProperties = "VpcConnectionProperties"
+        }
+    }
+
+    public struct UpdateDataSourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "UpdateStatus", required: false, type: .enum)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the data source.
+        public let arn: String?
+        /// The ID of the data source. This ID is unique per AWS Region for each AWS account.
+        public let dataSourceId: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The update status of the data source's last update.
+        public let updateStatus: ResourceStatus?
+
+        public init(arn: String? = nil, dataSourceId: String? = nil, requestId: String? = nil, status: Int? = nil, updateStatus: ResourceStatus? = nil) {
+            self.arn = arn
+            self.dataSourceId = dataSourceId
+            self.requestId = requestId
+            self.status = status
+            self.updateStatus = updateStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case dataSourceId = "DataSourceId"
+            case requestId = "RequestId"
+            case status = "Status"
+            case updateStatus = "UpdateStatus"
         }
     }
 
@@ -1086,7 +7610,8 @@ extension QuickSight {
             try validate(self.description, name:"description", parent: name, min: 1)
             try validate(self.groupName, name:"groupName", parent: name, min: 1)
             try validate(self.groupName, name:"groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1108,7 +7633,7 @@ extension QuickSight {
         public let group: Group?
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(group: Group? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -1121,6 +7646,359 @@ extension QuickSight {
             case group = "Group"
             case requestId = "RequestId"
             case status = "Status"
+        }
+    }
+
+    public struct UpdateIAMPolicyAssignmentRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentName", location: .uri(locationName: "AssignmentName"), required: true, type: .string), 
+            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Identities", required: false, type: .map), 
+            AWSShapeMember(label: "Namespace", location: .uri(locationName: "Namespace"), required: true, type: .string), 
+            AWSShapeMember(label: "PolicyArn", required: false, type: .string)
+        ]
+
+        /// The name of the assignment. This name must be unique within an AWS account.
+        public let assignmentName: String
+        /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.  
+        public let assignmentStatus: AssignmentStatus?
+        /// The ID of the AWS account that contains the IAM policy assignment.
+        public let awsAccountId: String
+        /// The QuickSight users, groups, or both that you want to assign the policy to.
+        public let identities: [String: [String]]?
+        /// The namespace of the assignment.
+        public let namespace: String
+        /// The ARN for the IAM policy to apply to the QuickSight users and groups specified in this assignment.
+        public let policyArn: String?
+
+        public init(assignmentName: String, assignmentStatus: AssignmentStatus? = nil, awsAccountId: String, identities: [String: [String]]? = nil, namespace: String, policyArn: String? = nil) {
+            self.assignmentName = assignmentName
+            self.assignmentStatus = assignmentStatus
+            self.awsAccountId = awsAccountId
+            self.identities = identities
+            self.namespace = namespace
+            self.policyArn = policyArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.assignmentName, name:"assignmentName", parent: name, min: 1)
+            try validate(self.assignmentName, name:"assignmentName", parent: name, pattern: "(?=^.{2,256}$)(?!.*\\s)[0-9a-zA-Z-_.:=+@]*$")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentName = "AssignmentName"
+            case assignmentStatus = "AssignmentStatus"
+            case awsAccountId = "AwsAccountId"
+            case identities = "Identities"
+            case namespace = "Namespace"
+            case policyArn = "PolicyArn"
+        }
+    }
+
+    public struct UpdateIAMPolicyAssignmentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentName", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Identities", required: false, type: .map), 
+            AWSShapeMember(label: "PolicyArn", required: false, type: .string), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer)
+        ]
+
+        /// The ID of the assignment.
+        public let assignmentId: String?
+        /// The name of the assignment. 
+        public let assignmentName: String?
+        /// The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.  
+        public let assignmentStatus: AssignmentStatus?
+        /// The QuickSight users, groups, or both that the IAM policy is assigned to.
+        public let identities: [String: [String]]?
+        /// The ARN for the IAM policy applied to the QuickSight users and groups specified in this assignment.
+        public let policyArn: String?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(assignmentId: String? = nil, assignmentName: String? = nil, assignmentStatus: AssignmentStatus? = nil, identities: [String: [String]]? = nil, policyArn: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.assignmentId = assignmentId
+            self.assignmentName = assignmentName
+            self.assignmentStatus = assignmentStatus
+            self.identities = identities
+            self.policyArn = policyArn
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignmentId = "AssignmentId"
+            case assignmentName = "AssignmentName"
+            case assignmentStatus = "AssignmentStatus"
+            case identities = "Identities"
+            case policyArn = "PolicyArn"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateTemplateAliasRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasName", location: .uri(locationName: "AliasName"), required: true, type: .string), 
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string), 
+            AWSShapeMember(label: "TemplateVersionNumber", required: true, type: .long)
+        ]
+
+        /// The alias of the template that you want to update. If you name a specific alias, you update the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
+        public let aliasName: String
+        /// The ID of the AWS account that contains the template alias that you're updating.
+        public let awsAccountId: String
+        /// The ID for the template.
+        public let templateId: String
+        /// The version number of the template.
+        public let templateVersionNumber: Int64
+
+        public init(aliasName: String, awsAccountId: String, templateId: String, templateVersionNumber: Int64) {
+            self.aliasName = aliasName
+            self.awsAccountId = awsAccountId
+            self.templateId = templateId
+            self.templateVersionNumber = templateVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.aliasName, name:"aliasName", parent: name, max: 2048)
+            try validate(self.aliasName, name:"aliasName", parent: name, min: 1)
+            try validate(self.aliasName, name:"aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.templateId, name:"templateId", parent: name, max: 2048)
+            try validate(self.templateId, name:"templateId", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.templateVersionNumber, name:"templateVersionNumber", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
+            case awsAccountId = "AwsAccountId"
+            case templateId = "TemplateId"
+            case templateVersionNumber = "TemplateVersionNumber"
+        }
+    }
+
+    public struct UpdateTemplateAliasResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateAlias", required: false, type: .structure)
+        ]
+
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The template alias.
+        public let templateAlias: TemplateAlias?
+
+        public init(requestId: String? = nil, status: Int? = nil, templateAlias: TemplateAlias? = nil) {
+            self.requestId = requestId
+            self.status = status
+            self.templateAlias = templateAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+            case templateAlias = "TemplateAlias"
+        }
+    }
+
+    public struct UpdateTemplatePermissionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "GrantPermissions", required: false, type: .list), 
+            AWSShapeMember(label: "RevokePermissions", required: false, type: .list), 
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string)
+        ]
+
+        /// The ID of the AWS account that contains the template.
+        public let awsAccountId: String
+        /// A list of resource permissions to be granted on the template. 
+        public let grantPermissions: [ResourcePermission]?
+        /// A list of resource permissions to be revoked from the template. 
+        public let revokePermissions: [ResourcePermission]?
+        /// The ID for the template.
+        public let templateId: String
+
+        public init(awsAccountId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil, templateId: String) {
+            self.awsAccountId = awsAccountId
+            self.grantPermissions = grantPermissions
+            self.revokePermissions = revokePermissions
+            self.templateId = templateId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.grantPermissions?.forEach {
+                try $0.validate(name: "\(name).grantPermissions[]")
+            }
+            try validate(self.grantPermissions, name:"grantPermissions", parent: name, max: 100)
+            try validate(self.grantPermissions, name:"grantPermissions", parent: name, min: 1)
+            try self.revokePermissions?.forEach {
+                try $0.validate(name: "\(name).revokePermissions[]")
+            }
+            try validate(self.revokePermissions, name:"revokePermissions", parent: name, max: 100)
+            try validate(self.revokePermissions, name:"revokePermissions", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, max: 2048)
+            try validate(self.templateId, name:"templateId", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case grantPermissions = "GrantPermissions"
+            case revokePermissions = "RevokePermissions"
+            case templateId = "TemplateId"
+        }
+    }
+
+    public struct UpdateTemplatePermissionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Permissions", required: false, type: .list), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateArn", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateId", required: false, type: .string)
+        ]
+
+        /// A list of resource permissions to be set on the template.
+        public let permissions: [ResourcePermission]?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The Amazon Resource Name (ARN) of the template.
+        public let templateArn: String?
+        /// The ID for the template.
+        public let templateId: String?
+
+        public init(permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil, templateArn: String? = nil, templateId: String? = nil) {
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+            self.templateArn = templateArn
+            self.templateId = templateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+            case templateArn = "TemplateArn"
+            case templateId = "TemplateId"
+        }
+    }
+
+    public struct UpdateTemplateRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountId", location: .uri(locationName: "AwsAccountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SourceEntity", required: true, type: .structure), 
+            AWSShapeMember(label: "TemplateId", location: .uri(locationName: "TemplateId"), required: true, type: .string), 
+            AWSShapeMember(label: "VersionDescription", required: false, type: .string)
+        ]
+
+        /// The ID of the AWS account that contains the template that you're updating.
+        public let awsAccountId: String
+        /// The name for the template.
+        public let name: String?
+        /// The source QuickSight entity from which this template is being updated. You can currently update templates from an Analysis or another template.
+        public let sourceEntity: TemplateSourceEntity
+        /// The ID for the template.
+        public let templateId: String
+        /// A description of the current template version that is being updated. Every time you call UpdateTemplate, you create a new version of the template. Each version of the template maintains a description of the version in the VersionDescription field.
+        public let versionDescription: String?
+
+        public init(awsAccountId: String, name: String? = nil, sourceEntity: TemplateSourceEntity, templateId: String, versionDescription: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.name = name
+            self.sourceEntity = sourceEntity
+            self.templateId = templateId
+            self.versionDescription = versionDescription
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
+            try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try validate(self.name, name:"name", parent: name, max: 2048)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try self.sourceEntity.validate(name: "\(name).sourceEntity")
+            try validate(self.templateId, name:"templateId", parent: name, max: 2048)
+            try validate(self.templateId, name:"templateId", parent: name, min: 1)
+            try validate(self.templateId, name:"templateId", parent: name, pattern: "[\\w\\-]+")
+            try validate(self.versionDescription, name:"versionDescription", parent: name, max: 512)
+            try validate(self.versionDescription, name:"versionDescription", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case name = "Name"
+            case sourceEntity = "SourceEntity"
+            case templateId = "TemplateId"
+            case versionDescription = "VersionDescription"
+        }
+    }
+
+    public struct UpdateTemplateResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "RequestId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateId", required: false, type: .string), 
+            AWSShapeMember(label: "VersionArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the template.
+        public let arn: String?
+        /// The creation status of the template.
+        public let creationStatus: ResourceStatus?
+        /// The AWS request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The ID for the template.
+        public let templateId: String?
+        /// The ARN for the template, including the version information of the first version.
+        public let versionArn: String?
+
+        public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, requestId: String? = nil, status: Int? = nil, templateId: String? = nil, versionArn: String? = nil) {
+            self.arn = arn
+            self.creationStatus = creationStatus
+            self.requestId = requestId
+            self.status = status
+            self.templateId = templateId
+            self.versionArn = versionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationStatus = "CreationStatus"
+            case requestId = "RequestId"
+            case status = "Status"
+            case templateId = "TemplateId"
+            case versionArn = "VersionArn"
         }
     }
 
@@ -1139,7 +8017,7 @@ extension QuickSight {
         public let email: String
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
-        /// The Amazon QuickSight role of the user. The user role can be one of the following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, data sets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.  
+        /// The Amazon QuickSight role of the user. The user role can be one of the following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.  
         public let role: UserRole
         /// The Amazon QuickSight user name that you want to update.
         public let userName: String
@@ -1156,7 +8034,8 @@ extension QuickSight {
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, max: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, min: 12)
             try validate(self.awsAccountId, name:"awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(self.namespace, name:"namespace", parent: name, pattern: "default")
+            try validate(self.namespace, name:"namespace", parent: name, max: 64)
+            try validate(self.namespace, name:"namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
             try validate(self.userName, name:"userName", parent: name, min: 1)
             try validate(self.userName, name:"userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
@@ -1179,7 +8058,7 @@ extension QuickSight {
 
         /// The AWS request ID for this operation.
         public let requestId: String?
-        /// The http status of the request.
+        /// The HTTP status of the request.
         public let status: Int?
         /// The Amazon QuickSight user.
         public let user: User?
@@ -1197,6 +8076,49 @@ extension QuickSight {
         }
     }
 
+    public struct UploadSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContainsHeader", required: false, type: .boolean), 
+            AWSShapeMember(label: "Delimiter", required: false, type: .string), 
+            AWSShapeMember(label: "Format", required: false, type: .enum), 
+            AWSShapeMember(label: "StartFromRow", required: false, type: .integer), 
+            AWSShapeMember(label: "TextQualifier", required: false, type: .enum)
+        ]
+
+        /// Whether the file has a header row, or the files each have a header row.
+        public let containsHeader: Bool?
+        /// The delimiter between values in the file.
+        public let delimiter: String?
+        /// File format.
+        public let format: FileFormat?
+        /// A row number to start reading data from.
+        public let startFromRow: Int?
+        /// Text qualifier.
+        public let textQualifier: TextQualifier?
+
+        public init(containsHeader: Bool? = nil, delimiter: String? = nil, format: FileFormat? = nil, startFromRow: Int? = nil, textQualifier: TextQualifier? = nil) {
+            self.containsHeader = containsHeader
+            self.delimiter = delimiter
+            self.format = format
+            self.startFromRow = startFromRow
+            self.textQualifier = textQualifier
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.delimiter, name:"delimiter", parent: name, max: 1)
+            try validate(self.delimiter, name:"delimiter", parent: name, min: 1)
+            try validate(self.startFromRow, name:"startFromRow", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containsHeader = "ContainsHeader"
+            case delimiter = "Delimiter"
+            case format = "Format"
+            case startFromRow = "StartFromRow"
+            case textQualifier = "TextQualifier"
+        }
+    }
+
     public struct User: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Active", required: false, type: .boolean), 
@@ -1208,7 +8130,7 @@ extension QuickSight {
             AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
 
-        /// Active status of user. When you create an Amazon QuickSight user that’s not an IAM user or an AD user, that user is inactive until they sign in and provide a password
+        /// The active status of user. When you create an Amazon QuickSight user that’s not an IAM user or an Active Directory user, that user is inactive until they sign in and provide a password.
         public let active: Bool?
         /// The Amazon Resource Name (ARN) for the user.
         public let arn: String?
@@ -1218,7 +8140,7 @@ extension QuickSight {
         public let identityType: IdentityType?
         /// The principal ID of the user.
         public let principalId: String?
-        /// The Amazon QuickSight role for the user.
+        /// The Amazon QuickSight role for the user. The user role can be one of the following:.    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.  
         public let role: UserRole?
         /// The user's user name.
         public let userName: String?
@@ -1251,5 +8173,22 @@ extension QuickSight {
         case restrictedAuthor = "RESTRICTED_AUTHOR"
         case restrictedReader = "RESTRICTED_READER"
         public var description: String { return self.rawValue }
+    }
+
+    public struct VpcConnectionProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcConnectionArn", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the VPC connection.
+        public let vpcConnectionArn: String
+
+        public init(vpcConnectionArn: String) {
+            self.vpcConnectionArn = vpcConnectionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcConnectionArn = "VpcConnectionArn"
+        }
     }
 }

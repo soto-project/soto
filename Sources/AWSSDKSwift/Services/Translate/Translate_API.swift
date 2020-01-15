@@ -34,6 +34,11 @@ public struct Translate {
         return client.send(operation: "DeleteTerminology", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets the properties associated with an asycnhronous batch translation job including name, ID, status, source and target languages, input/output S3 buckets, and so on.
+    public func describeTextTranslationJob(_ input: DescribeTextTranslationJobRequest) -> Future<DescribeTextTranslationJobResponse> {
+        return client.send(operation: "DescribeTextTranslationJob", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves a custom terminology.
     public func getTerminology(_ input: GetTerminologyRequest) -> Future<GetTerminologyResponse> {
         return client.send(operation: "GetTerminology", path: "/", httpMethod: "POST", input: input)
@@ -49,7 +54,22 @@ public struct Translate {
         return client.send(operation: "ListTerminologies", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Translates input text from the source language to the target language. It is not necessary to use English (en) as either the source or the target language but not all language combinations are supported by Amazon Translate. For more information, see Supported Language Pairs.   Arabic (ar)   Chinese (Simplified) (zh)   Chinese (Traditional) (zh-TW)   Czech (cs)   Danish (da)   Dutch (nl)   English (en)   Finnish (fi)   French (fr)   German (de)   Hebrew (he)   Indonesian (id)   Italian (it)   Japanese (ja)   Korean (ko)   Polish (pl)   Portuguese (pt)   Russian (ru)   Spanish (es)   Swedish (sv)   Turkish (tr)   To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
+    ///  Gets a list of the batch translation jobs that you have submitted.
+    public func listTextTranslationJobs(_ input: ListTextTranslationJobsRequest) -> Future<ListTextTranslationJobsResponse> {
+        return client.send(operation: "ListTextTranslationJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts an asynchronous batch translation job. Batch translation jobs can be used to translate large volumes of text across multiple documents at once. For more information, see async. Batch translation jobs can be described with the DescribeTextTranslationJob operation, listed with the ListTextTranslationJobs operation, and stopped with the StopTextTranslationJob operation.  Amazon Translate does not support batch translation of multiple source languages at once. 
+    public func startTextTranslationJob(_ input: StartTextTranslationJobRequest) -> Future<StartTextTranslationJobResponse> {
+        return client.send(operation: "StartTextTranslationJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS, the job will be marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the StartTextTranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs operations to get a batch translation job's JobId.
+    public func stopTextTranslationJob(_ input: StopTextTranslationJobRequest) -> Future<StopTextTranslationJobResponse> {
+        return client.send(operation: "StopTextTranslationJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Translates input text from the source language to the target language. For a list of available languages and language codes, see what-is-languages.
     public func translateText(_ input: TranslateTextRequest) -> Future<TranslateTextResponse> {
         return client.send(operation: "TranslateText", path: "/", httpMethod: "POST", input: input)
     }

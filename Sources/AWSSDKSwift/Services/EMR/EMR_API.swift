@@ -119,9 +119,14 @@ public struct EMR {
         return client.send(operation: "ListSecurityConfigurations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request.
+    ///  Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request of filter by StepStates. You can specify a maximum of ten stepIDs.
     public func listSteps(_ input: ListStepsInput) -> Future<ListStepsOutput> {
         return client.send(operation: "ListSteps", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies the number of steps that can be executed concurrently for the cluster specified using ClusterID.
+    public func modifyCluster(_ input: ModifyClusterInput) -> Future<ModifyClusterOutput> {
+        return client.send(operation: "ModifyCluster", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the target On-Demand and target Spot capacities for the instance fleet with the specified InstanceFleetID within the cluster specified using ClusterID. The call either succeeds or fails atomically.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
@@ -164,7 +169,7 @@ public struct EMR {
         return client.send(operation: "SetTerminationProtection", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   This member will be deprecated.  Sets whether all AWS Identity and Access Management (IAM) users under your account can access the specified clusters (job flows). This action works on running clusters. You can also set the visibility of a cluster when you launch it using the VisibleToAllUsers parameter of RunJobFlow. The SetVisibleToAllUsers action can be called only by an IAM user who created the cluster or the AWS account that owns the cluster.
+    ///  Sets the Cluster$VisibleToAllUsers value, which determines whether the cluster is visible to all IAM users of the AWS account associated with the cluster. Only the IAM user who created the cluster or the AWS account root user can call this action. The default value, true, indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. If set to false, only the IAM user that created the cluster can perform actions. This action works on running clusters. You can override the default true setting when you create a cluster by using the VisibleToAllUsers parameter with RunJobFlow.
     @discardableResult public func setVisibleToAllUsers(_ input: SetVisibleToAllUsersInput) -> Future<Void> {
         return client.send(operation: "SetVisibleToAllUsers", path: "/", httpMethod: "POST", input: input)
     }

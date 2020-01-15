@@ -54,7 +54,7 @@ public struct DataSync {
         return client.send(operation: "CreateLocationS3", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Defines a file system on an Server Message Block (SMB) server that can be read from or written to
+    ///  Defines a file system on an Server Message Block (SMB) server that can be read from or written to.
     public func createLocationSmb(_ input: CreateLocationSmbRequest) -> Future<CreateLocationSmbResponse> {
         return client.send(operation: "CreateLocationSmb", path: "/", httpMethod: "POST", input: input)
     }

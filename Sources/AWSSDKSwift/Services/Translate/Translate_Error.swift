@@ -6,6 +6,7 @@ import AWSSDKSwiftCore
 public enum TranslateErrorType: AWSErrorType {
     case detectedLanguageLowConfidenceException(message: String?)
     case internalServerException(message: String?)
+    case invalidFilterException(message: String?)
     case invalidParameterValueException(message: String?)
     case invalidRequestException(message: String?)
     case limitExceededException(message: String?)
@@ -27,6 +28,8 @@ extension TranslateErrorType {
             self = .detectedLanguageLowConfidenceException(message: message)
         case "InternalServerException":
             self = .internalServerException(message: message)
+        case "InvalidFilterException":
+            self = .invalidFilterException(message: message)
         case "InvalidParameterValueException":
             self = .invalidParameterValueException(message: message)
         case "InvalidRequestException":
@@ -56,6 +59,8 @@ extension TranslateErrorType : CustomStringConvertible {
             return "DetectedLanguageLowConfidenceException: \(message ?? "")"
         case .internalServerException(let message):
             return "InternalServerException: \(message ?? "")"
+        case .invalidFilterException(let message):
+            return "InvalidFilterException: \(message ?? "")"
         case .invalidParameterValueException(let message):
             return "InvalidParameterValueException: \(message ?? "")"
         case .invalidRequestException(let message):

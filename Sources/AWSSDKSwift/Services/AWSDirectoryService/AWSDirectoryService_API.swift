@@ -68,17 +68,17 @@ public struct AWSDirectoryService {
         return client.send(operation: "CreateConditionalForwarder", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Simple AD directory. Before you call CreateDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory operation, see AWS Directory Service API Permissions: Actions, Resources, and Conditions Reference.
+    ///  Creates a Simple AD directory. For more information, see Simple Active Directory in the AWS Directory Service Admin Guide. Before you call CreateDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory operation, see AWS Directory Service API Permissions: Actions, Resources, and Conditions Reference.
     public func createDirectory(_ input: CreateDirectoryRequest) -> Future<CreateDirectoryResult> {
         return client.send(operation: "CreateDirectory", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a subscription to forward real time Directory Service domain controller security logs to the specified CloudWatch log group in your AWS account.
+    ///  Creates a subscription to forward real-time Directory Service domain controller security logs to the specified Amazon CloudWatch log group in your AWS account.
     public func createLogSubscription(_ input: CreateLogSubscriptionRequest) -> Future<CreateLogSubscriptionResult> {
         return client.send(operation: "CreateLogSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an AWS Managed Microsoft AD directory. Before you call CreateMicrosoftAD, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateMicrosoftAD operation, see AWS Directory Service API Permissions: Actions, Resources, and Conditions Reference.
+    ///  Creates a Microsoft AD directory in the AWS Cloud. For more information, see AWS Managed Microsoft AD in the AWS Directory Service Admin Guide. Before you call CreateMicrosoftAD, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateMicrosoftAD operation, see AWS Directory Service API Permissions: Actions, Resources, and Conditions Reference.
     public func createMicrosoftAD(_ input: CreateMicrosoftADRequest) -> Future<CreateMicrosoftADResult> {
         return client.send(operation: "CreateMicrosoftAD", path: "/", httpMethod: "POST", input: input)
     }
@@ -118,9 +118,19 @@ public struct AWSDirectoryService {
         return client.send(operation: "DeleteTrust", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes from the system the certificate that was registered for a secured LDAP connection.
+    public func deregisterCertificate(_ input: DeregisterCertificateRequest) -> Future<DeregisterCertificateResult> {
+        return client.send(operation: "DeregisterCertificate", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Removes the specified directory as a publisher to the specified SNS topic.
     public func deregisterEventTopic(_ input: DeregisterEventTopicRequest) -> Future<DeregisterEventTopicResult> {
         return client.send(operation: "DeregisterEventTopic", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Displays information about the certificate registered for a secured LDAP connection.
+    public func describeCertificate(_ input: DescribeCertificateRequest) -> Future<DescribeCertificateResult> {
+        return client.send(operation: "DescribeCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Obtains information about the conditional forwarders for this account. If no input parameters are provided for RemoteDomainNames, this request describes all conditional forwarders for the specified directory ID.
@@ -143,6 +153,11 @@ public struct AWSDirectoryService {
         return client.send(operation: "DescribeEventTopics", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes the status of LDAP security for the specified directory.
+    public func describeLDAPSSettings(_ input: DescribeLDAPSSettingsRequest) -> Future<DescribeLDAPSSettingsResult> {
+        return client.send(operation: "DescribeLDAPSSettings", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns the shared directories in your account. 
     public func describeSharedDirectories(_ input: DescribeSharedDirectoriesRequest) -> Future<DescribeSharedDirectoriesResult> {
         return client.send(operation: "DescribeSharedDirectories", path: "/", httpMethod: "POST", input: input)
@@ -158,6 +173,11 @@ public struct AWSDirectoryService {
         return client.send(operation: "DescribeTrusts", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deactivates LDAP secure calls for the specified directory.
+    public func disableLDAPS(_ input: DisableLDAPSRequest) -> Future<DisableLDAPSResult> {
+        return client.send(operation: "DisableLDAPS", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
     public func disableRadius(_ input: DisableRadiusRequest) -> Future<DisableRadiusResult> {
         return client.send(operation: "DisableRadius", path: "/", httpMethod: "POST", input: input)
@@ -168,17 +188,22 @@ public struct AWSDirectoryService {
         return client.send(operation: "DisableSso", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Activates the switch for the specific directory to always use LDAP secure calls.
+    public func enableLDAPS(_ input: EnableLDAPSRequest) -> Future<EnableLDAPSResult> {
+        return client.send(operation: "EnableLDAPS", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
     public func enableRadius(_ input: EnableRadiusRequest) -> Future<EnableRadiusResult> {
         return client.send(operation: "EnableRadius", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Enables single sign-on for a directory.
+    ///  Enables single sign-on for a directory. Single sign-on allows users in your directory to access certain AWS services from a computer joined to the directory without having to enter their credentials separately.
     public func enableSso(_ input: EnableSsoRequest) -> Future<EnableSsoResult> {
         return client.send(operation: "EnableSso", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Obtains directory limit information for the current region.
+    ///  Obtains directory limit information for the current Region.
     public func getDirectoryLimits(_ input: GetDirectoryLimitsRequest) -> Future<GetDirectoryLimitsResult> {
         return client.send(operation: "GetDirectoryLimits", path: "/", httpMethod: "POST", input: input)
     }
@@ -186,6 +211,11 @@ public struct AWSDirectoryService {
     ///  Obtains the manual snapshot limits for a directory.
     public func getSnapshotLimits(_ input: GetSnapshotLimitsRequest) -> Future<GetSnapshotLimitsResult> {
         return client.send(operation: "GetSnapshotLimits", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  For the specified directory, lists all the certificates registered for a secured LDAP connection.
+    public func listCertificates(_ input: ListCertificatesRequest) -> Future<ListCertificatesResult> {
+        return client.send(operation: "ListCertificates", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the address blocks that you have added to a directory.
@@ -208,6 +238,11 @@ public struct AWSDirectoryService {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Registers a certificate for secured LDAP connection.
+    public func registerCertificate(_ input: RegisterCertificateRequest) -> Future<RegisterCertificateResult> {
+        return client.send(operation: "RegisterCertificate", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Associates a directory with an SNS topic. This establishes the directory as a publisher to the specified SNS topic. You can then receive email or text (SMS) messages when the status of your directory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notification when the directory returns to an Active status.
     public func registerEventTopic(_ input: RegisterEventTopicRequest) -> Future<RegisterEventTopicResult> {
         return client.send(operation: "RegisterEventTopic", path: "/", httpMethod: "POST", input: input)
@@ -228,7 +263,7 @@ public struct AWSDirectoryService {
         return client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Resets the password for any user in your AWS Managed Microsoft AD or Simple AD directory.
+    ///  Resets the password for any user in your AWS Managed Microsoft AD or Simple AD directory. You can reset the password for any user in your directory with the following exceptions:   For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user.   For AWS Managed Microsoft AD, you can only reset the password for a user that is in an OU based off of the NetBIOS name that you typed when you created your directory. For example, you cannot reset the password for a user in the AWS Reserved OU. For more information about the OU structure for an AWS Managed Microsoft AD directory, see What Gets Created in the AWS Directory Service Administration Guide.  
     public func resetUserPassword(_ input: ResetUserPasswordRequest) -> Future<ResetUserPasswordResult> {
         return client.send(operation: "ResetUserPassword", path: "/", httpMethod: "POST", input: input)
     }

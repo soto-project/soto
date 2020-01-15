@@ -424,7 +424,9 @@ extension LexRuntimeService {
             AWSShapeMember(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name"), required: false, type: .string), 
             AWSShapeMember(label: "message", location: .header(locationName: "x-amz-lex-message"), required: false, type: .string), 
             AWSShapeMember(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format"), required: false, type: .enum), 
+            AWSShapeMember(label: "sentimentResponse", location: .header(locationName: "x-amz-lex-sentiment"), required: false, type: .string), 
             AWSShapeMember(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
+            AWSShapeMember(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id"), required: false, type: .string), 
             AWSShapeMember(label: "slots", location: .header(locationName: "x-amz-lex-slots"), required: false, type: .string), 
             AWSShapeMember(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"), required: false, type: .string)
         ]
@@ -443,14 +445,18 @@ extension LexRuntimeService {
         public let message: String?
         /// The format of the response message. One of the following values:    PlainText - The message contains plain UTF-8 text.    CustomPayload - The message is a custom format for the client.    SSML - The message contains text formatted for voice output.    Composite - The message contains an escaped JSON object containing one or more messages from the groups that messages were assigned to when the intent was created.  
         public let messageFormat: MessageFormatType?
+        /// The sentiment expressed in and utterance. When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis, this field contains the result of the analysis.
+        public let sentimentResponse: String?
         ///  Map of key/value pairs representing the session-specific context information. 
         public let sessionAttributes: String?
+        /// The unique identifier for the session.
+        public let sessionId: String?
         /// Map of zero or more intent slots (name/value pairs) Amazon Lex detected from the user input during the conversation. The field is base-64 encoded. Amazon Lex creates a resolution list containing likely values for a slot. The value that it returns is determined by the valueSelectionStrategy selected when the slot type was created or updated. If valueSelectionStrategy is set to ORIGINAL_VALUE, the value provided by the user is returned, if the user value is similar to the slot values. If valueSelectionStrategy is set to TOP_RESOLUTION Amazon Lex returns the first value in the resolution list or, if there is no resolution list, null. If you don't specify a valueSelectionStrategy, the default is ORIGINAL_VALUE.
         public let slots: String?
         ///  If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
 
-        public init(audioStream: Data? = nil, contentType: String? = nil, dialogState: DialogState? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+        public init(audioStream: Data? = nil, contentType: String? = nil, dialogState: DialogState? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
             self.dialogState = dialogState
@@ -458,7 +464,9 @@ extension LexRuntimeService {
             self.intentName = intentName
             self.message = message
             self.messageFormat = messageFormat
+            self.sentimentResponse = sentimentResponse
             self.sessionAttributes = sessionAttributes
+            self.sessionId = sessionId
             self.slots = slots
             self.slotToElicit = slotToElicit
         }
@@ -471,7 +479,9 @@ extension LexRuntimeService {
             case intentName = "x-amz-lex-intent-name"
             case message = "x-amz-lex-message"
             case messageFormat = "x-amz-lex-message-format"
+            case sentimentResponse = "x-amz-lex-sentiment"
             case sessionAttributes = "x-amz-lex-session-attributes"
+            case sessionId = "x-amz-lex-session-id"
             case slots = "x-amz-lex-slots"
             case slotToElicit = "x-amz-lex-slot-to-elicit"
         }
@@ -534,7 +544,9 @@ extension LexRuntimeService {
             AWSShapeMember(label: "message", required: false, type: .string), 
             AWSShapeMember(label: "messageFormat", required: false, type: .enum), 
             AWSShapeMember(label: "responseCard", required: false, type: .structure), 
+            AWSShapeMember(label: "sentimentResponse", required: false, type: .structure), 
             AWSShapeMember(label: "sessionAttributes", required: false, type: .map), 
+            AWSShapeMember(label: "sessionId", required: false, type: .string), 
             AWSShapeMember(label: "slots", required: false, type: .map), 
             AWSShapeMember(label: "slotToElicit", required: false, type: .string)
         ]
@@ -549,20 +561,26 @@ extension LexRuntimeService {
         public let messageFormat: MessageFormatType?
         /// Represents the options that the user has to respond to the current prompt. Response Card can come from the bot configuration (in the Amazon Lex console, choose the settings button next to a slot) or from a code hook (Lambda function). 
         public let responseCard: ResponseCard?
+        /// The sentiment expressed in and utterance. When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis, this field contains the result of the analysis.
+        public let sentimentResponse: SentimentResponse?
         /// A map of key-value pairs representing the session-specific context information.
         public let sessionAttributes: [String: String]?
+        /// A unique identifier for the session.
+        public let sessionId: String?
         ///  The intent slots that Amazon Lex detected from the user input in the conversation.  Amazon Lex creates a resolution list containing likely values for a slot. The value that it returns is determined by the valueSelectionStrategy selected when the slot type was created or updated. If valueSelectionStrategy is set to ORIGINAL_VALUE, the value provided by the user is returned, if the user value is similar to the slot values. If valueSelectionStrategy is set to TOP_RESOLUTION Amazon Lex returns the first value in the resolution list or, if there is no resolution list, null. If you don't specify a valueSelectionStrategy, the default is ORIGINAL_VALUE.
         public let slots: [String: String]?
         /// If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
 
-        public init(dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, responseCard: ResponseCard? = nil, sessionAttributes: [String: String]? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil) {
+        public init(dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, responseCard: ResponseCard? = nil, sentimentResponse: SentimentResponse? = nil, sessionAttributes: [String: String]? = nil, sessionId: String? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil) {
             self.dialogState = dialogState
             self.intentName = intentName
             self.message = message
             self.messageFormat = messageFormat
             self.responseCard = responseCard
+            self.sentimentResponse = sentimentResponse
             self.sessionAttributes = sessionAttributes
+            self.sessionId = sessionId
             self.slots = slots
             self.slotToElicit = slotToElicit
         }
@@ -573,7 +591,9 @@ extension LexRuntimeService {
             case message = "message"
             case messageFormat = "messageFormat"
             case responseCard = "responseCard"
+            case sentimentResponse = "sentimentResponse"
             case sessionAttributes = "sessionAttributes"
+            case sessionId = "sessionId"
             case slots = "slots"
             case slotToElicit = "slotToElicit"
         }
@@ -726,6 +746,28 @@ extension LexRuntimeService {
             case contentType = "contentType"
             case genericAttachments = "genericAttachments"
             case version = "version"
+        }
+    }
+
+    public struct SentimentResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sentimentLabel", required: false, type: .string), 
+            AWSShapeMember(label: "sentimentScore", required: false, type: .string)
+        ]
+
+        /// The inferred sentiment that Amazon Comprehend has the highest confidence in.
+        public let sentimentLabel: String?
+        /// The likelihood that the sentiment was correctly inferred.
+        public let sentimentScore: String?
+
+        public init(sentimentLabel: String? = nil, sentimentScore: String? = nil) {
+            self.sentimentLabel = sentimentLabel
+            self.sentimentScore = sentimentScore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sentimentLabel = "sentimentLabel"
+            case sentimentScore = "sentimentScore"
         }
     }
 }

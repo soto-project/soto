@@ -76,6 +76,8 @@ extension MQ {
             AWSShapeMember(label: "AvailabilityZones", location: .body(locationName: "availabilityZones"), required: false, type: .list), 
             AWSShapeMember(label: "EngineType", location: .body(locationName: "engineType"), required: false, type: .enum), 
             AWSShapeMember(label: "HostInstanceType", location: .body(locationName: "hostInstanceType"), required: false, type: .string), 
+            AWSShapeMember(label: "StorageType", location: .body(locationName: "storageType"), required: false, type: .enum), 
+            AWSShapeMember(label: "SupportedDeploymentModes", location: .body(locationName: "supportedDeploymentModes"), required: false, type: .list), 
             AWSShapeMember(label: "SupportedEngineVersions", location: .body(locationName: "supportedEngineVersions"), required: false, type: .list)
         ]
 
@@ -85,13 +87,19 @@ extension MQ {
         public let engineType: EngineType?
         /// The type of broker instance.
         public let hostInstanceType: String?
+        /// The broker's storage type.
+        public let storageType: BrokerStorageType?
+        /// The list of supported deployment modes.
+        public let supportedDeploymentModes: [DeploymentMode]?
         /// The list of supported engine versions.
         public let supportedEngineVersions: [String]?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, engineType: EngineType? = nil, hostInstanceType: String? = nil, supportedEngineVersions: [String]? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, engineType: EngineType? = nil, hostInstanceType: String? = nil, storageType: BrokerStorageType? = nil, supportedDeploymentModes: [DeploymentMode]? = nil, supportedEngineVersions: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.engineType = engineType
             self.hostInstanceType = hostInstanceType
+            self.storageType = storageType
+            self.supportedDeploymentModes = supportedDeploymentModes
             self.supportedEngineVersions = supportedEngineVersions
         }
 
@@ -99,6 +107,8 @@ extension MQ {
             case availabilityZones = "availabilityZones"
             case engineType = "engineType"
             case hostInstanceType = "hostInstanceType"
+            case storageType = "storageType"
+            case supportedDeploymentModes = "supportedDeploymentModes"
             case supportedEngineVersions = "supportedEngineVersions"
         }
     }
@@ -109,6 +119,12 @@ extension MQ {
         case deletionInProgress = "DELETION_IN_PROGRESS"
         case running = "RUNNING"
         case rebootInProgress = "REBOOT_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BrokerStorageType: String, CustomStringConvertible, Codable {
+        case ebs = "EBS"
+        case efs = "EFS"
         public var description: String { return self.rawValue }
     }
 
@@ -314,6 +330,7 @@ extension MQ {
             AWSShapeMember(label: "MaintenanceWindowStartTime", location: .body(locationName: "maintenanceWindowStartTime"), required: false, type: .structure), 
             AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "StorageType", location: .body(locationName: "storageType"), required: false, type: .enum), 
             AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
@@ -332,11 +349,12 @@ extension MQ {
         public let maintenanceWindowStartTime: WeeklyStartTime?
         public let publiclyAccessible: Bool?
         public let securityGroups: [String]?
+        public let storageType: BrokerStorageType?
         public let subnetIds: [String]?
         public let tags: [String: String]?
         public let users: [User]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerName = brokerName
             self.configuration = configuration
@@ -350,6 +368,7 @@ extension MQ {
             self.maintenanceWindowStartTime = maintenanceWindowStartTime
             self.publiclyAccessible = publiclyAccessible
             self.securityGroups = securityGroups
+            self.storageType = storageType
             self.subnetIds = subnetIds
             self.tags = tags
             self.users = users
@@ -369,6 +388,7 @@ extension MQ {
             case maintenanceWindowStartTime = "maintenanceWindowStartTime"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroups = "securityGroups"
+            case storageType = "storageType"
             case subnetIds = "subnetIds"
             case tags = "tags"
             case users = "users"
@@ -670,19 +690,22 @@ extension MQ {
             AWSShapeMember(label: "EngineType", location: .querystring(locationName: "engineType"), required: false, type: .string), 
             AWSShapeMember(label: "HostInstanceType", location: .querystring(locationName: "hostInstanceType"), required: false, type: .string), 
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "StorageType", location: .querystring(locationName: "storageType"), required: false, type: .string)
         ]
 
         public let engineType: String?
         public let hostInstanceType: String?
         public let maxResults: Int?
         public let nextToken: String?
+        public let storageType: String?
 
-        public init(engineType: String? = nil, hostInstanceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(engineType: String? = nil, hostInstanceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, storageType: String? = nil) {
             self.engineType = engineType
             self.hostInstanceType = hostInstanceType
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.storageType = storageType
         }
 
         public func validate(name: String) throws {
@@ -695,6 +718,7 @@ extension MQ {
             case hostInstanceType = "hostInstanceType"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
+            case storageType = "storageType"
         }
     }
 
@@ -760,6 +784,7 @@ extension MQ {
             AWSShapeMember(label: "PendingSecurityGroups", location: .body(locationName: "pendingSecurityGroups"), required: false, type: .list), 
             AWSShapeMember(label: "PubliclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .boolean), 
             AWSShapeMember(label: "SecurityGroups", location: .body(locationName: "securityGroups"), required: false, type: .list), 
+            AWSShapeMember(label: "StorageType", location: .body(locationName: "storageType"), required: false, type: .enum), 
             AWSShapeMember(label: "SubnetIds", location: .body(locationName: "subnetIds"), required: false, type: .list), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map), 
             AWSShapeMember(label: "Users", location: .body(locationName: "users"), required: false, type: .list)
@@ -785,11 +810,12 @@ extension MQ {
         public let pendingSecurityGroups: [String]?
         public let publiclyAccessible: Bool?
         public let securityGroups: [String]?
+        public let storageType: BrokerStorageType?
         public let subnetIds: [String]?
         public let tags: [String: String]?
         public let users: [UserSummary]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: TimeStamp? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerArn = brokerArn
             self.brokerId = brokerId
@@ -810,6 +836,7 @@ extension MQ {
             self.pendingSecurityGroups = pendingSecurityGroups
             self.publiclyAccessible = publiclyAccessible
             self.securityGroups = securityGroups
+            self.storageType = storageType
             self.subnetIds = subnetIds
             self.tags = tags
             self.users = users
@@ -836,6 +863,7 @@ extension MQ {
             case pendingSecurityGroups = "pendingSecurityGroups"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroups = "securityGroups"
+            case storageType = "storageType"
             case subnetIds = "subnetIds"
             case tags = "tags"
             case users = "users"

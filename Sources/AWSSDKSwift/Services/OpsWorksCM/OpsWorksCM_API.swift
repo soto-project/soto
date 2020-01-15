@@ -88,7 +88,12 @@ public struct OpsWorksCM {
         return client.send(operation: "ExportServerEngineAttribute", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Restores a backup to a server that is in a CONNECTION_LOST, HEALTHY, RUNNING, UNHEALTHY, or TERMINATED state. When you run RestoreServer, the server's EC2 instance is deleted, and a new EC2 instance is configured. RestoreServer maintains the existing server endpoint, so configuration management of the server's client devices (nodes) should continue to work.   This operation is asynchronous.   An InvalidStateException is thrown when the server is not in a valid state. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
+    ///  Returns a list of tags that are applied to the specified AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise servers or backups.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> Future<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Restores a backup to a server that is in a CONNECTION_LOST, HEALTHY, RUNNING, UNHEALTHY, or TERMINATED state. When you run RestoreServer, the server's EC2 instance is deleted, and a new EC2 instance is configured. RestoreServer maintains the existing server endpoint, so configuration management of the server's client devices (nodes) should continue to work.  Restoring from a backup is performed by creating a new EC2 instance. If restoration is successful, and the server is in a HEALTHY state, AWS OpsWorks CM switches traffic over to the new instance. After restoration is finished, the old EC2 instance is maintained in a Running or Stopped state, but is eventually terminated.  This operation is asynchronous.   An InvalidStateException is thrown when the server is not in a valid state. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
     public func restoreServer(_ input: RestoreServerRequest) -> Future<RestoreServerResponse> {
         return client.send(operation: "RestoreServer", path: "/", httpMethod: "POST", input: input)
     }
@@ -96,6 +101,16 @@ public struct OpsWorksCM {
     ///   Manually starts server maintenance. This command can be useful if an earlier maintenance attempt failed, and the underlying cause of maintenance failure has been resolved. The server is in an UNDER_MAINTENANCE state while maintenance is in progress.   Maintenance can only be started on servers in HEALTHY and UNHEALTHY states. Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. 
     public func startMaintenance(_ input: StartMaintenanceRequest) -> Future<StartMaintenanceResponse> {
         return client.send(operation: "StartMaintenance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Applies tags to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server, or to server backups.
+    public func tagResource(_ input: TagResourceRequest) -> Future<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes specified tags from an AWS OpsWorks-CM server or backup.
+    public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Updates settings for a server.   This operation is synchronous. 

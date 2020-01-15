@@ -5,6 +5,33 @@ import AWSSDKSwiftCore
 
 extension DynamoDB {
 
+    public struct ArchivalSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ArchivalBackupArn", required: false, type: .string), 
+            AWSShapeMember(label: "ArchivalDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ArchivalReason", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the backup the table was archived to, when applicable in the archival reason. If you wish to restore this backup to the same table name, you will need to delete the original table.
+        public let archivalBackupArn: String?
+        /// The date and time when table archival was initiated by DynamoDB, in UNIX epoch time format.
+        public let archivalDateTime: TimeStamp?
+        /// The reason DynamoDB archived the table. Currently, the only possible value is:    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The table was archived due to the table's AWS KMS key being inaccessible for more than seven days. An On-Demand backup was created at the archival time.  
+        public let archivalReason: String?
+
+        public init(archivalBackupArn: String? = nil, archivalDateTime: TimeStamp? = nil, archivalReason: String? = nil) {
+            self.archivalBackupArn = archivalBackupArn
+            self.archivalDateTime = archivalDateTime
+            self.archivalReason = archivalReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archivalBackupArn = "ArchivalBackupArn"
+            case archivalDateTime = "ArchivalDateTime"
+            case archivalReason = "ArchivalReason"
+        }
+    }
+
     public enum AttributeAction: String, CustomStringConvertible, Codable {
         case add = "ADD"
         case put = "PUT"
@@ -196,9 +223,9 @@ extension DynamoDB {
             AWSShapeMember(label: "ScalingPolicies", required: false, type: .list)
         ]
 
-        /// Disabled autoscaling for this global table or global secondary index.
+        /// Disabled auto scaling for this global table or global secondary index.
         public let autoScalingDisabled: Bool?
-        /// Role ARN used for configuring autoScaling policy.
+        /// Role ARN used for configuring the auto scaling policy.
         public let autoScalingRoleArn: String?
         /// The maximum capacity units that a global table or global secondary index should be scaled up to.
         public let maximumUnits: Int64?
@@ -233,9 +260,9 @@ extension DynamoDB {
             AWSShapeMember(label: "ScalingPolicyUpdate", required: false, type: .structure)
         ]
 
-        /// Disabled autoscaling for this global table or global secondary index.
+        /// Disabled auto scaling for this global table or global secondary index.
         public let autoScalingDisabled: Bool?
-        /// Role ARN used for configuring autoscaling policy.
+        /// Role ARN used for configuring auto scaling policy.
         public let autoScalingRoleArn: String?
         /// The maximum capacity units that a global table or global secondary index should be scaled up to.
         public let maximumUnits: Int64?
@@ -280,7 +307,7 @@ extension DynamoDB {
 
         /// Indicates whether scale in by the target tracking policy is disabled. If the value is true, scale in is disabled and the target tracking policy won't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking policy can remove capacity from the scalable resource. The default value is false.
         public let disableScaleIn: Bool?
-        /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. The cooldown period is used to block subsequent scale in requests until it has expired. You should scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, application autoscaling scales out your scalable target immediately. 
+        /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. The cooldown period is used to block subsequent scale in requests until it has expired. You should scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, application auto scaling scales out your scalable target immediately. 
         public let scaleInCooldown: Int?
         /// The amount of time, in seconds, after a scale out activity completes before another scale out activity can start. While the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. You should continuously (but not excessively) scale out.
         public let scaleOutCooldown: Int?
@@ -312,7 +339,7 @@ extension DynamoDB {
 
         /// Indicates whether scale in by the target tracking policy is disabled. If the value is true, scale in is disabled and the target tracking policy won't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking policy can remove capacity from the scalable resource. The default value is false.
         public let disableScaleIn: Bool?
-        /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. The cooldown period is used to block subsequent scale in requests until it has expired. You should scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, application autoscaling scales out your scalable target immediately. 
+        /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. The cooldown period is used to block subsequent scale in requests until it has expired. You should scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, application auto scaling scales out your scalable target immediately. 
         public let scaleInCooldown: Int?
         /// The amount of time, in seconds, after a scale out activity completes before another scale out activity can start. While the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. You should continuously (but not excessively) scale out.
         public let scaleOutCooldown: Int?
@@ -851,6 +878,48 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContributorInsightsAction: String, CustomStringConvertible, Codable {
+        case enable = "ENABLE"
+        case disable = "DISABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContributorInsightsStatus: String, CustomStringConvertible, Codable {
+        case enabling = "ENABLING"
+        case enabled = "ENABLED"
+        case disabling = "DISABLING"
+        case disabled = "DISABLED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ContributorInsightsSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContributorInsightsStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string)
+        ]
+
+        /// Describes the current status for contributor insights for the given table and index, if applicable.
+        public let contributorInsightsStatus: ContributorInsightsStatus?
+        /// Name of the index associated with the summary, if any.
+        public let indexName: String?
+        /// Name of the table associated with the summary.
+        public let tableName: String?
+
+        public init(contributorInsightsStatus: ContributorInsightsStatus? = nil, indexName: String? = nil, tableName: String? = nil) {
+            self.contributorInsightsStatus = contributorInsightsStatus
+            self.indexName = indexName
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contributorInsightsStatus = "ContributorInsightsStatus"
+            case indexName = "IndexName"
+            case tableName = "TableName"
+        }
+    }
+
     public struct CreateBackupInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupName", required: true, type: .string), 
@@ -994,7 +1063,7 @@ extension DynamoDB {
             AWSShapeMember(label: "RegionName", required: true, type: .string)
         ]
 
-        /// The region of the replica to be added.
+        /// The Region of the replica to be added.
         public let regionName: String
 
         public init(regionName: String) {
@@ -1002,6 +1071,46 @@ extension DynamoDB {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case regionName = "RegionName"
+        }
+    }
+
+    public struct CreateReplicationGroupMemberAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeMember(label: "KMSMasterKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
+            AWSShapeMember(label: "RegionName", required: true, type: .string)
+        ]
+
+        /// Replica-specific global secondary index settings.
+        public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]?
+        /// The AWS KMS customer master key (CMK) that should be used for AWS KMS encryption in the new replica. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB KMS master key alias/aws/dynamodb.
+        public let kMSMasterKeyId: String?
+        /// Replica-specific provisioned throughput. If not specified, uses the source table's provisioned throughput settings.
+        public let provisionedThroughputOverride: ProvisionedThroughputOverride?
+        /// The Region where the new replica will be created.
+        public let regionName: String
+
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kMSMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String) {
+            self.globalSecondaryIndexes = globalSecondaryIndexes
+            self.kMSMasterKeyId = kMSMasterKeyId
+            self.provisionedThroughputOverride = provisionedThroughputOverride
+            self.regionName = regionName
+        }
+
+        public func validate(name: String) throws {
+            try self.globalSecondaryIndexes?.forEach {
+                try $0.validate(name: "\(name).globalSecondaryIndexes[]")
+            }
+            try validate(self.globalSecondaryIndexes, name:"globalSecondaryIndexes", parent: name, min: 1)
+            try self.provisionedThroughputOverride?.validate(name: "\(name).provisionedThroughputOverride")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalSecondaryIndexes = "GlobalSecondaryIndexes"
+            case kMSMasterKeyId = "KMSMasterKeyId"
+            case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case regionName = "RegionName"
         }
     }
@@ -1022,7 +1131,7 @@ extension DynamoDB {
 
         /// An array of attributes that describe the key schema for the table and indexes.
         public let attributeDefinitions: [AttributeDefinition]
-        /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.    PROVISIONED - Sets the billing mode to PROVISIONED. We recommend using PROVISIONED for predictable workloads.    PAY_PER_REQUEST - Sets the billing mode to PAY_PER_REQUEST. We recommend using PAY_PER_REQUEST for unpredictable workloads.   
+        /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.    PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to Provisioned Mode.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to On-Demand Mode.   
         public let billingMode: BillingMode?
         /// One or more global secondary indexes (the maximum is 20) to be created on the table. Each global secondary index in the array includes the following:    IndexName - The name of the global secondary index. Must be unique only for this table.     KeySchema - Specifies the key schema for the global secondary index.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units.  
         public let globalSecondaryIndexes: [GlobalSecondaryIndex]?
@@ -1342,7 +1451,24 @@ extension DynamoDB {
             AWSShapeMember(label: "RegionName", required: true, type: .string)
         ]
 
-        /// The region of the replica to be removed.
+        /// The Region of the replica to be removed.
+        public let regionName: String
+
+        public init(regionName: String) {
+            self.regionName = regionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionName = "RegionName"
+        }
+    }
+
+    public struct DeleteReplicationGroupMemberAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RegionName", required: true, type: .string)
+        ]
+
+        /// The Region where the replica exists.
         public let regionName: String
 
         public init(regionName: String) {
@@ -1494,6 +1620,79 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case continuousBackupsDescription = "ContinuousBackupsDescription"
+        }
+    }
+
+    public struct DescribeContributorInsightsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+
+        /// The name of the global secondary index to describe, if applicable.
+        public let indexName: String?
+        /// The name of the table to describe.
+        public let tableName: String
+
+        public init(indexName: String? = nil, tableName: String) {
+            self.indexName = indexName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.indexName, name:"indexName", parent: name, max: 255)
+            try validate(self.indexName, name:"indexName", parent: name, min: 3)
+            try validate(self.indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(self.tableName, name:"tableName", parent: name, max: 255)
+            try validate(self.tableName, name:"tableName", parent: name, min: 3)
+            try validate(self.tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct DescribeContributorInsightsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContributorInsightsRuleList", required: false, type: .list), 
+            AWSShapeMember(label: "ContributorInsightsStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "FailureException", required: false, type: .structure), 
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TableName", required: false, type: .string)
+        ]
+
+        /// List of names of the associated Alpine rules.
+        public let contributorInsightsRuleList: [String]?
+        /// Current Status contributor insights.
+        public let contributorInsightsStatus: ContributorInsightsStatus?
+        /// Returns information about the last failure that encountered. The most common exceptions for a FAILED status are:   LimitExceededException - Per-account Amazon CloudWatch Contributor Insights rule limit reached. Please disable Contributor Insights for other tables/indexes OR disable Contributor Insights rules before retrying.   AccessDeniedException - Amazon CloudWatch Contributor Insights rules cannot be modified due to insufficient permissions.   AccessDeniedException - Failed to create service-linked role for Contributor Insights due to insufficient permissions.   InternalServerError - Failed to create Amazon CloudWatch Contributor Insights rules. Please retry request.  
+        public let failureException: FailureException?
+        /// The name of the global secondary index being described.
+        public let indexName: String?
+        /// Timestamp of the last time the status was changed.
+        public let lastUpdateDateTime: TimeStamp?
+        /// The name of the table being described.
+        public let tableName: String?
+
+        public init(contributorInsightsRuleList: [String]? = nil, contributorInsightsStatus: ContributorInsightsStatus? = nil, failureException: FailureException? = nil, indexName: String? = nil, lastUpdateDateTime: TimeStamp? = nil, tableName: String? = nil) {
+            self.contributorInsightsRuleList = contributorInsightsRuleList
+            self.contributorInsightsStatus = contributorInsightsStatus
+            self.failureException = failureException
+            self.indexName = indexName
+            self.lastUpdateDateTime = lastUpdateDateTime
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contributorInsightsRuleList = "ContributorInsightsRuleList"
+            case contributorInsightsStatus = "ContributorInsightsStatus"
+            case failureException = "FailureException"
+            case indexName = "IndexName"
+            case lastUpdateDateTime = "LastUpdateDateTime"
+            case tableName = "TableName"
         }
     }
 
@@ -1687,6 +1886,46 @@ extension DynamoDB {
         }
     }
 
+    public struct DescribeTableReplicaAutoScalingInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+
+        /// The name of the table.
+        public let tableName: String
+
+        public init(tableName: String) {
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.tableName, name:"tableName", parent: name, max: 255)
+            try validate(self.tableName, name:"tableName", parent: name, min: 3)
+            try validate(self.tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableName = "TableName"
+        }
+    }
+
+    public struct DescribeTableReplicaAutoScalingOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableAutoScalingDescription", required: false, type: .structure)
+        ]
+
+        /// Represents the auto scaling properties of the table.
+        public let tableAutoScalingDescription: TableAutoScalingDescription?
+
+        public init(tableAutoScalingDescription: TableAutoScalingDescription? = nil) {
+            self.tableAutoScalingDescription = tableAutoScalingDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableAutoScalingDescription = "TableAutoScalingDescription"
+        }
+    }
+
     public struct DescribeTimeToLiveInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "TableName", required: true, type: .string)
@@ -1784,6 +2023,28 @@ extension DynamoDB {
             case comparisonOperator = "ComparisonOperator"
             case exists = "Exists"
             case value = "Value"
+        }
+    }
+
+    public struct FailureException: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExceptionDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ExceptionName", required: false, type: .string)
+        ]
+
+        /// Description of the failure.
+        public let exceptionDescription: String?
+        /// Exception name.
+        public let exceptionName: String?
+
+        public init(exceptionDescription: String? = nil, exceptionName: String? = nil) {
+            self.exceptionDescription = exceptionDescription
+            self.exceptionName = exceptionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionDescription = "ExceptionDescription"
+            case exceptionName = "ExceptionName"
         }
     }
 
@@ -1927,7 +2188,7 @@ extension DynamoDB {
 
         /// The name of the global secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
-        /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
+        /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
         public let keySchema: [KeySchemaElement]
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection
@@ -1962,6 +2223,34 @@ extension DynamoDB {
         }
     }
 
+    public struct GlobalSecondaryIndexAutoScalingUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedWriteCapacityAutoScalingUpdate", required: false, type: .structure)
+        ]
+
+        /// The name of the global secondary index.
+        public let indexName: String?
+        public let provisionedWriteCapacityAutoScalingUpdate: AutoScalingSettingsUpdate?
+
+        public init(indexName: String? = nil, provisionedWriteCapacityAutoScalingUpdate: AutoScalingSettingsUpdate? = nil) {
+            self.indexName = indexName
+            self.provisionedWriteCapacityAutoScalingUpdate = provisionedWriteCapacityAutoScalingUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.indexName, name:"indexName", parent: name, max: 255)
+            try validate(self.indexName, name:"indexName", parent: name, min: 3)
+            try validate(self.indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.provisionedWriteCapacityAutoScalingUpdate?.validate(name: "\(name).provisionedWriteCapacityAutoScalingUpdate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case provisionedWriteCapacityAutoScalingUpdate = "ProvisionedWriteCapacityAutoScalingUpdate"
+        }
+    }
+
     public struct GlobalSecondaryIndexDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Backfilling", required: false, type: .boolean), 
@@ -1975,7 +2264,7 @@ extension DynamoDB {
             AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure)
         ]
 
-        /// Indicates whether the index is currently backfilling. Backfilling is the process of reading items from the table and determining whether they can be added to the index. (Not all items will qualify: For example, a partition key cannot have any duplicate values.) If an item can be added to the index, DynamoDB will do so. After all items have been processed, the backfilling operation is complete and Backfilling is false.  For indexes that were created during a CreateTable operation, the Backfilling attribute does not appear in the DescribeTable output. 
+        /// Indicates whether the index is currently backfilling. Backfilling is the process of reading items from the table and determining whether they can be added to the index. (Not all items will qualify: For example, a partition key cannot have any duplicate values.) If an item can be added to the index, DynamoDB will do so. After all items have been processed, the backfilling operation is complete and Backfilling is false. You can delete an index that is being created during the Backfilling phase when IndexStatus is set to CREATING and Backfilling is true. You can't delete the index that is being created when IndexStatus is set to CREATING and Backfilling is false.   For indexes that were created during a CreateTable operation, the Backfilling attribute does not appear in the DescribeTable output. 
         public let backfilling: Bool?
         /// The Amazon Resource Name (ARN) that uniquely identifies the index.
         public let indexArn: String?
@@ -1987,7 +2276,7 @@ extension DynamoDB {
         public let indexStatus: IndexStatus?
         /// The number of items in the specified index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
         public let itemCount: Int64?
-        /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
+        /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
         public let keySchema: [KeySchemaElement]?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection?
@@ -2029,7 +2318,7 @@ extension DynamoDB {
 
         /// The name of the global secondary index.
         public let indexName: String?
-        /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
+        /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
         public let keySchema: [KeySchemaElement]?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection?
@@ -2092,7 +2381,7 @@ extension DynamoDB {
 
         /// The global table name.
         public let globalTableName: String?
-        /// The regions where the global table has replicas.
+        /// The Regions where the global table has replicas.
         public let replicationGroup: [Replica]?
 
         public init(globalTableName: String? = nil, replicationGroup: [Replica]? = nil) {
@@ -2123,7 +2412,7 @@ extension DynamoDB {
         public let globalTableName: String?
         /// The current state of the global table:    CREATING - The global table is being created.    UPDATING - The global table is being updated.    DELETING - The global table is being deleted.    ACTIVE - The global table is ready for use.  
         public let globalTableStatus: GlobalTableStatus?
-        /// The regions where the global table has replicas.
+        /// The Regions where the global table has replicas.
         public let replicationGroup: [ReplicaDescription]?
 
         public init(creationDateTime: TimeStamp? = nil, globalTableArn: String? = nil, globalTableName: String? = nil, globalTableStatus: GlobalTableStatus? = nil, replicationGroup: [ReplicaDescription]? = nil) {
@@ -2152,7 +2441,7 @@ extension DynamoDB {
 
         /// The name of the global secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
-        /// AutoScaling settings for managing a global secondary index's write capacity units.
+        /// Auto scaling settings for managing a global secondary index's write capacity units.
         public let provisionedWriteCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate?
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. 
         public let provisionedWriteCapacityUnits: Int64?
@@ -2241,7 +2530,7 @@ extension DynamoDB {
 
         /// The name of a key attribute.
         public let attributeName: String
-        /// The role that this key attribute will assume:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
+        /// The role that this key attribute will assume:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
         public let keyType: KeyType
 
         public init(attributeName: String, keyType: KeyType) {
@@ -2386,6 +2675,62 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case backupSummaries = "BackupSummaries"
             case lastEvaluatedBackupArn = "LastEvaluatedBackupArn"
+        }
+    }
+
+    public struct ListContributorInsightsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string)
+        ]
+
+        /// Maximum number of results to return per page.
+        public let maxResults: Int?
+        /// A token to for the desired page, if there is one.
+        public let nextToken: String?
+        /// The name of the table.
+        public let tableName: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, tableName: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.tableName, name:"tableName", parent: name, max: 255)
+            try validate(self.tableName, name:"tableName", parent: name, min: 3)
+            try validate(self.tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct ListContributorInsightsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContributorInsightsSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list of ContributorInsightsSummary.
+        public let contributorInsightsSummaries: [ContributorInsightsSummary]?
+        /// A token to go to the next page if there is one.
+        public let nextToken: String?
+
+        public init(contributorInsightsSummaries: [ContributorInsightsSummary]? = nil, nextToken: String? = nil) {
+            self.contributorInsightsSummaries = contributorInsightsSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contributorInsightsSummaries = "ContributorInsightsSummaries"
+            case nextToken = "NextToken"
         }
     }
 
@@ -2555,7 +2900,7 @@ extension DynamoDB {
 
         /// The name of the local secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
-        /// The complete key schema for the local secondary index, consisting of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
+        /// The complete key schema for the local secondary index, consisting of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
         public let keySchema: [KeySchemaElement]
         /// Represents attributes that are copied (projected) from the table into the local secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection
@@ -2603,7 +2948,7 @@ extension DynamoDB {
         public let indexSizeBytes: Int64?
         /// The number of items in the specified index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
         public let itemCount: Int64?
-        /// The complete key schema for the local secondary index, consisting of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
+        /// The complete key schema for the local secondary index, consisting of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
         public let keySchema: [KeySchemaElement]?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection?
@@ -2636,7 +2981,7 @@ extension DynamoDB {
 
         /// Represents the name of the local secondary index.
         public let indexName: String?
-        /// The complete key schema for a local secondary index, which consists of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
+        /// The complete key schema for a local secondary index, which consists of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
         public let keySchema: [KeySchemaElement]?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection?
@@ -2661,7 +3006,7 @@ extension DynamoDB {
             AWSShapeMember(label: "PointInTimeRecoveryStatus", required: false, type: .enum)
         ]
 
-        /// Specifies the earliest point in time you can restore your table to. It You can restore your table to any point in time during the last 35 days. 
+        /// Specifies the earliest point in time you can restore your table to. You can restore your table to any point in time during the last 35 days. 
         public let earliestRestorableDateTime: TimeStamp?
         ///  LatestRestorableDateTime is typically 5 minutes before the current time. 
         public let latestRestorableDateTime: TimeStamp?
@@ -2712,7 +3057,7 @@ extension DynamoDB {
 
         /// Represents the non-key attribute names which will be projected into the index. For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
         public let nonKeyAttributes: [String]?
-        /// The set of attributes that are projected into the index:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.  
+        /// The set of attributes that are projected into the index:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.  
         public let projectionType: ProjectionType?
 
         public init(nonKeyAttributes: [String]? = nil, projectionType: ProjectionType? = nil) {
@@ -2803,6 +3148,27 @@ extension DynamoDB {
             case numberOfDecreasesToday = "NumberOfDecreasesToday"
             case readCapacityUnits = "ReadCapacityUnits"
             case writeCapacityUnits = "WriteCapacityUnits"
+        }
+    }
+
+    public struct ProvisionedThroughputOverride: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReadCapacityUnits", required: false, type: .long)
+        ]
+
+        /// Replica-specific read capacity units. If not specified, uses the source table's read capacity settings.
+        public let readCapacityUnits: Int64?
+
+        public init(readCapacityUnits: Int64? = nil) {
+            self.readCapacityUnits = readCapacityUnits
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.readCapacityUnits, name:"readCapacityUnits", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case readCapacityUnits = "ReadCapacityUnits"
         }
     }
 
@@ -2977,7 +3343,7 @@ extension DynamoDB {
             AWSShapeMember(label: "Item", required: true, type: .map)
         ]
 
-        /// A map of attribute name to attribute values, representing the primary key of an item to be processed by PutItem. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item which are part of an index key schema for the table, their types must match the index key schema.
+        /// A map of attribute name to attribute values, representing the primary key of an item to be processed by PutItem. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item that are part of an index key schema for the table, their types must match the index key schema.
         public let item: [String: AttributeValue]
 
         public init(item: [String: AttributeValue]) {
@@ -3166,7 +3532,7 @@ extension DynamoDB {
             AWSShapeMember(label: "RegionName", required: false, type: .string)
         ]
 
-        /// The region where the replica needs to be created.
+        /// The Region where the replica needs to be created.
         public let regionName: String?
 
         public init(regionName: String? = nil) {
@@ -3178,20 +3544,227 @@ extension DynamoDB {
         }
     }
 
-    public struct ReplicaDescription: AWSShape {
+    public struct ReplicaAutoScalingDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "RegionName", required: false, type: .string)
+            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeMember(label: "RegionName", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicaProvisionedReadCapacityAutoScalingSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicaProvisionedWriteCapacityAutoScalingSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicaStatus", required: false, type: .enum)
         ]
 
-        /// The name of the region.
+        /// Replica-specific global secondary index auto scaling settings.
+        public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexAutoScalingDescription]?
+        /// The Region where the replica exists.
         public let regionName: String?
+        public let replicaProvisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription?
+        public let replicaProvisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription?
+        /// The current state of the replica:    CREATING - The replica is being created.    UPDATING - The replica is being updated.    DELETING - The replica is being deleted.    ACTIVE - The replica is ready for use.  
+        public let replicaStatus: ReplicaStatus?
 
-        public init(regionName: String? = nil) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexAutoScalingDescription]? = nil, regionName: String? = nil, replicaProvisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaProvisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaStatus: ReplicaStatus? = nil) {
+            self.globalSecondaryIndexes = globalSecondaryIndexes
             self.regionName = regionName
+            self.replicaProvisionedReadCapacityAutoScalingSettings = replicaProvisionedReadCapacityAutoScalingSettings
+            self.replicaProvisionedWriteCapacityAutoScalingSettings = replicaProvisionedWriteCapacityAutoScalingSettings
+            self.replicaStatus = replicaStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalSecondaryIndexes = "GlobalSecondaryIndexes"
+            case regionName = "RegionName"
+            case replicaProvisionedReadCapacityAutoScalingSettings = "ReplicaProvisionedReadCapacityAutoScalingSettings"
+            case replicaProvisionedWriteCapacityAutoScalingSettings = "ReplicaProvisionedWriteCapacityAutoScalingSettings"
+            case replicaStatus = "ReplicaStatus"
+        }
+    }
+
+    public struct ReplicaAutoScalingUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RegionName", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicaGlobalSecondaryIndexUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "ReplicaProvisionedReadCapacityAutoScalingUpdate", required: false, type: .structure)
+        ]
+
+        /// The Region where the replica exists.
+        public let regionName: String
+        /// Represents the auto scaling settings of global secondary indexes that will be modified.
+        public let replicaGlobalSecondaryIndexUpdates: [ReplicaGlobalSecondaryIndexAutoScalingUpdate]?
+        public let replicaProvisionedReadCapacityAutoScalingUpdate: AutoScalingSettingsUpdate?
+
+        public init(regionName: String, replicaGlobalSecondaryIndexUpdates: [ReplicaGlobalSecondaryIndexAutoScalingUpdate]? = nil, replicaProvisionedReadCapacityAutoScalingUpdate: AutoScalingSettingsUpdate? = nil) {
+            self.regionName = regionName
+            self.replicaGlobalSecondaryIndexUpdates = replicaGlobalSecondaryIndexUpdates
+            self.replicaProvisionedReadCapacityAutoScalingUpdate = replicaProvisionedReadCapacityAutoScalingUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.replicaGlobalSecondaryIndexUpdates?.forEach {
+                try $0.validate(name: "\(name).replicaGlobalSecondaryIndexUpdates[]")
+            }
+            try self.replicaProvisionedReadCapacityAutoScalingUpdate?.validate(name: "\(name).replicaProvisionedReadCapacityAutoScalingUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
             case regionName = "RegionName"
+            case replicaGlobalSecondaryIndexUpdates = "ReplicaGlobalSecondaryIndexUpdates"
+            case replicaProvisionedReadCapacityAutoScalingUpdate = "ReplicaProvisionedReadCapacityAutoScalingUpdate"
+        }
+    }
+
+    public struct ReplicaDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeMember(label: "KMSMasterKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
+            AWSShapeMember(label: "RegionName", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicaStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ReplicaStatusDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicaStatusPercentProgress", required: false, type: .string)
+        ]
+
+        /// Replica-specific global secondary index settings.
+        public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]?
+        /// The AWS KMS customer master key (CMK) of the replica that will be used for AWS KMS encryption.
+        public let kMSMasterKeyId: String?
+        /// Replica-specific provisioned throughput. If not described, uses the source table's provisioned throughput settings.
+        public let provisionedThroughputOverride: ProvisionedThroughputOverride?
+        /// The name of the Region.
+        public let regionName: String?
+        /// The current state of the replica:    CREATING - The replica is being created.    UPDATING - The replica is being updated.    DELETING - The replica is being deleted.    ACTIVE - The replica is ready for use.  
+        public let replicaStatus: ReplicaStatus?
+        /// Detailed information about the replica status.
+        public let replicaStatusDescription: String?
+        /// Specifies the progress of a Create, Update, or Delete action on the replica as a percentage.
+        public let replicaStatusPercentProgress: String?
+
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, kMSMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil) {
+            self.globalSecondaryIndexes = globalSecondaryIndexes
+            self.kMSMasterKeyId = kMSMasterKeyId
+            self.provisionedThroughputOverride = provisionedThroughputOverride
+            self.regionName = regionName
+            self.replicaStatus = replicaStatus
+            self.replicaStatusDescription = replicaStatusDescription
+            self.replicaStatusPercentProgress = replicaStatusPercentProgress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalSecondaryIndexes = "GlobalSecondaryIndexes"
+            case kMSMasterKeyId = "KMSMasterKeyId"
+            case provisionedThroughputOverride = "ProvisionedThroughputOverride"
+            case regionName = "RegionName"
+            case replicaStatus = "ReplicaStatus"
+            case replicaStatusDescription = "ReplicaStatusDescription"
+            case replicaStatusPercentProgress = "ReplicaStatusPercentProgress"
+        }
+    }
+
+    public struct ReplicaGlobalSecondaryIndex: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexName", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure)
+        ]
+
+        /// The name of the global secondary index.
+        public let indexName: String
+        /// Replica table GSI-specific provisioned throughput. If not specified, uses the source table GSI's read capacity settings.
+        public let provisionedThroughputOverride: ProvisionedThroughputOverride?
+
+        public init(indexName: String, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil) {
+            self.indexName = indexName
+            self.provisionedThroughputOverride = provisionedThroughputOverride
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.indexName, name:"indexName", parent: name, max: 255)
+            try validate(self.indexName, name:"indexName", parent: name, min: 3)
+            try validate(self.indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.provisionedThroughputOverride?.validate(name: "\(name).provisionedThroughputOverride")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case provisionedThroughputOverride = "ProvisionedThroughputOverride"
+        }
+    }
+
+    public struct ReplicaGlobalSecondaryIndexAutoScalingDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "IndexStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisionedReadCapacityAutoScalingSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisionedWriteCapacityAutoScalingSettings", required: false, type: .structure)
+        ]
+
+        /// The name of the global secondary index.
+        public let indexName: String?
+        /// The current state of the replica global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.  
+        public let indexStatus: IndexStatus?
+        public let provisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription?
+        public let provisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription?
+
+        public init(indexName: String? = nil, indexStatus: IndexStatus? = nil, provisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, provisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil) {
+            self.indexName = indexName
+            self.indexStatus = indexStatus
+            self.provisionedReadCapacityAutoScalingSettings = provisionedReadCapacityAutoScalingSettings
+            self.provisionedWriteCapacityAutoScalingSettings = provisionedWriteCapacityAutoScalingSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case indexStatus = "IndexStatus"
+            case provisionedReadCapacityAutoScalingSettings = "ProvisionedReadCapacityAutoScalingSettings"
+            case provisionedWriteCapacityAutoScalingSettings = "ProvisionedWriteCapacityAutoScalingSettings"
+        }
+    }
+
+    public struct ReplicaGlobalSecondaryIndexAutoScalingUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedReadCapacityAutoScalingUpdate", required: false, type: .structure)
+        ]
+
+        /// The name of the global secondary index.
+        public let indexName: String?
+        public let provisionedReadCapacityAutoScalingUpdate: AutoScalingSettingsUpdate?
+
+        public init(indexName: String? = nil, provisionedReadCapacityAutoScalingUpdate: AutoScalingSettingsUpdate? = nil) {
+            self.indexName = indexName
+            self.provisionedReadCapacityAutoScalingUpdate = provisionedReadCapacityAutoScalingUpdate
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.indexName, name:"indexName", parent: name, max: 255)
+            try validate(self.indexName, name:"indexName", parent: name, min: 3)
+            try validate(self.indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.provisionedReadCapacityAutoScalingUpdate?.validate(name: "\(name).provisionedReadCapacityAutoScalingUpdate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case provisionedReadCapacityAutoScalingUpdate = "ProvisionedReadCapacityAutoScalingUpdate"
+        }
+    }
+
+    public struct ReplicaGlobalSecondaryIndexDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure)
+        ]
+
+        /// The name of the global secondary index.
+        public let indexName: String?
+        /// If not described, uses the source table GSI's read capacity settings.
+        public let provisionedThroughputOverride: ProvisionedThroughputOverride?
+
+        public init(indexName: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil) {
+            self.indexName = indexName
+            self.provisionedThroughputOverride = provisionedThroughputOverride
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case provisionedThroughputOverride = "ProvisionedThroughputOverride"
         }
     }
 
@@ -3209,11 +3782,11 @@ extension DynamoDB {
         public let indexName: String
         ///  The current status of the global secondary index:    CREATING - The global secondary index is being created.    UPDATING - The global secondary index is being updated.    DELETING - The global secondary index is being deleted.    ACTIVE - The global secondary index is ready for use.  
         public let indexStatus: IndexStatus?
-        /// Autoscaling settings for a global secondary index replica's read capacity units.
+        /// Auto scaling settings for a global secondary index replica's read capacity units.
         public let provisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription?
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException.
         public let provisionedReadCapacityUnits: Int64?
-        /// AutoScaling settings for a global secondary index replica's write capacity units.
+        /// Auto scaling settings for a global secondary index replica's write capacity units.
         public let provisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription?
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public let provisionedWriteCapacityUnits: Int64?
@@ -3246,7 +3819,7 @@ extension DynamoDB {
 
         /// The name of the global secondary index. The name must be unique among all other indexes on this table.
         public let indexName: String
-        /// Autoscaling settings for managing a global secondary index replica's read capacity units.
+        /// Auto scaling settings for managing a global secondary index replica's read capacity units.
         public let provisionedReadCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate?
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException.
         public let provisionedReadCapacityUnits: Int64?
@@ -3284,21 +3857,21 @@ extension DynamoDB {
             AWSShapeMember(label: "ReplicaStatus", required: false, type: .enum)
         ]
 
-        /// The region name of the replica.
+        /// The Region name of the replica.
         public let regionName: String
         /// The read/write capacity mode of the replica.
         public let replicaBillingModeSummary: BillingModeSummary?
         /// Replica global secondary index settings for the global table.
         public let replicaGlobalSecondaryIndexSettings: [ReplicaGlobalSecondaryIndexSettingsDescription]?
-        /// Autoscaling settings for a global table replica's read capacity units.
+        /// Auto scaling settings for a global table replica's read capacity units.
         public let replicaProvisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription?
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide. 
         public let replicaProvisionedReadCapacityUnits: Int64?
-        /// AutoScaling settings for a global table replica's write capacity units.
+        /// Auto scaling settings for a global table replica's write capacity units.
         public let replicaProvisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription?
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide.
         public let replicaProvisionedWriteCapacityUnits: Int64?
-        /// The current state of the region:    CREATING - The region is being created.    UPDATING - The region is being updated.    DELETING - The region is being deleted.    ACTIVE - The region is ready for use.  
+        /// The current state of the Region:    CREATING - The Region is being created.    UPDATING - The Region is being updated.    DELETING - The Region is being deleted.    ACTIVE - The Region is ready for use.  
         public let replicaStatus: ReplicaStatus?
 
         public init(regionName: String, replicaBillingModeSummary: BillingModeSummary? = nil, replicaGlobalSecondaryIndexSettings: [ReplicaGlobalSecondaryIndexSettingsDescription]? = nil, replicaProvisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaProvisionedReadCapacityUnits: Int64? = nil, replicaProvisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaProvisionedWriteCapacityUnits: Int64? = nil, replicaStatus: ReplicaStatus? = nil) {
@@ -3332,11 +3905,11 @@ extension DynamoDB {
             AWSShapeMember(label: "ReplicaProvisionedReadCapacityUnits", required: false, type: .long)
         ]
 
-        /// The region of the replica to be added.
+        /// The Region of the replica to be added.
         public let regionName: String
         /// Represents the settings of a global secondary index for a global table that will be modified.
         public let replicaGlobalSecondaryIndexSettingsUpdate: [ReplicaGlobalSecondaryIndexSettingsUpdate]?
-        /// Autoscaling settings for managing a global table replica's read capacity units.
+        /// Auto scaling settings for managing a global table replica's read capacity units.
         public let replicaProvisionedReadCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate?
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide. 
         public let replicaProvisionedReadCapacityUnits: Int64?
@@ -3368,6 +3941,7 @@ extension DynamoDB {
 
     public enum ReplicaStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
+        case creationFailed = "CREATION_FAILED"
         case updating = "UPDATING"
         case deleting = "DELETING"
         case active = "ACTIVE"
@@ -3396,6 +3970,38 @@ extension DynamoDB {
         }
     }
 
+    public struct ReplicationGroupUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Create", required: false, type: .structure), 
+            AWSShapeMember(label: "Delete", required: false, type: .structure), 
+            AWSShapeMember(label: "Update", required: false, type: .structure)
+        ]
+
+        /// The parameters required for creating a replica for the table.
+        public let create: CreateReplicationGroupMemberAction?
+        /// The parameters required for deleting a replica for the table.
+        public let delete: DeleteReplicationGroupMemberAction?
+        /// The parameters required for updating a replica for the table.
+        public let update: UpdateReplicationGroupMemberAction?
+
+        public init(create: CreateReplicationGroupMemberAction? = nil, delete: DeleteReplicationGroupMemberAction? = nil, update: UpdateReplicationGroupMemberAction? = nil) {
+            self.create = create
+            self.delete = delete
+            self.update = update
+        }
+
+        public func validate(name: String) throws {
+            try self.create?.validate(name: "\(name).create")
+            try self.update?.validate(name: "\(name).update")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case create = "Create"
+            case delete = "Delete"
+            case update = "Update"
+        }
+    }
+
     public struct RestoreSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RestoreDateTime", required: true, type: .timestamp), 
@@ -3408,9 +4014,9 @@ extension DynamoDB {
         public let restoreDateTime: TimeStamp
         /// Indicates if a restore is in progress or not.
         public let restoreInProgress: Bool
-        /// ARN of the backup from which the table was restored.
+        /// The Amazon Resource Name (ARN) of the backup from which the table was restored.
         public let sourceBackupArn: String?
-        /// ARN of the source table of the backup that is being restored.
+        /// The ARN of the source table of the backup that is being restored.
         public let sourceTableArn: String?
 
         public init(restoreDateTime: TimeStamp, restoreInProgress: Bool, sourceBackupArn: String? = nil, sourceTableArn: String? = nil) {
@@ -3431,22 +4037,45 @@ extension DynamoDB {
     public struct RestoreTableFromBackupInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BackupArn", required: true, type: .string), 
+            AWSShapeMember(label: "BillingModeOverride", required: false, type: .enum), 
+            AWSShapeMember(label: "GlobalSecondaryIndexOverride", required: false, type: .list), 
+            AWSShapeMember(label: "LocalSecondaryIndexOverride", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
             AWSShapeMember(label: "TargetTableName", required: true, type: .string)
         ]
 
         /// The Amazon Resource Name (ARN) associated with the backup.
         public let backupArn: String
+        /// The billing mode of the restored table.
+        public let billingModeOverride: BillingMode?
+        /// List of global secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
+        public let globalSecondaryIndexOverride: [GlobalSecondaryIndex]?
+        /// List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
+        public let localSecondaryIndexOverride: [LocalSecondaryIndex]?
+        /// Provisioned throughput settings for the restored table.
+        public let provisionedThroughputOverride: ProvisionedThroughput?
         /// The name of the new table to which the backup must be restored.
         public let targetTableName: String
 
-        public init(backupArn: String, targetTableName: String) {
+        public init(backupArn: String, billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, targetTableName: String) {
             self.backupArn = backupArn
+            self.billingModeOverride = billingModeOverride
+            self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
+            self.localSecondaryIndexOverride = localSecondaryIndexOverride
+            self.provisionedThroughputOverride = provisionedThroughputOverride
             self.targetTableName = targetTableName
         }
 
         public func validate(name: String) throws {
             try validate(self.backupArn, name:"backupArn", parent: name, max: 1024)
             try validate(self.backupArn, name:"backupArn", parent: name, min: 37)
+            try self.globalSecondaryIndexOverride?.forEach {
+                try $0.validate(name: "\(name).globalSecondaryIndexOverride[]")
+            }
+            try self.localSecondaryIndexOverride?.forEach {
+                try $0.validate(name: "\(name).localSecondaryIndexOverride[]")
+            }
+            try self.provisionedThroughputOverride?.validate(name: "\(name).provisionedThroughputOverride")
             try validate(self.targetTableName, name:"targetTableName", parent: name, max: 255)
             try validate(self.targetTableName, name:"targetTableName", parent: name, min: 3)
             try validate(self.targetTableName, name:"targetTableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -3454,6 +4083,10 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case backupArn = "BackupArn"
+            case billingModeOverride = "BillingModeOverride"
+            case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
+            case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
+            case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case targetTableName = "TargetTableName"
         }
     }
@@ -3477,12 +4110,24 @@ extension DynamoDB {
 
     public struct RestoreTableToPointInTimeInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BillingModeOverride", required: false, type: .enum), 
+            AWSShapeMember(label: "GlobalSecondaryIndexOverride", required: false, type: .list), 
+            AWSShapeMember(label: "LocalSecondaryIndexOverride", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
             AWSShapeMember(label: "RestoreDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "SourceTableName", required: true, type: .string), 
             AWSShapeMember(label: "TargetTableName", required: true, type: .string), 
             AWSShapeMember(label: "UseLatestRestorableTime", required: false, type: .boolean)
         ]
 
+        /// The billing mode of the restored table.
+        public let billingModeOverride: BillingMode?
+        /// List of global secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
+        public let globalSecondaryIndexOverride: [GlobalSecondaryIndex]?
+        /// List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
+        public let localSecondaryIndexOverride: [LocalSecondaryIndex]?
+        /// Provisioned throughput settings for the restored table.
+        public let provisionedThroughputOverride: ProvisionedThroughput?
         /// Time in the past to restore the table to.
         public let restoreDateTime: TimeStamp?
         /// Name of the source table that is being restored.
@@ -3492,7 +4137,11 @@ extension DynamoDB {
         /// Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time. 
         public let useLatestRestorableTime: Bool?
 
-        public init(restoreDateTime: TimeStamp? = nil, sourceTableName: String, targetTableName: String, useLatestRestorableTime: Bool? = nil) {
+        public init(billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, restoreDateTime: TimeStamp? = nil, sourceTableName: String, targetTableName: String, useLatestRestorableTime: Bool? = nil) {
+            self.billingModeOverride = billingModeOverride
+            self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
+            self.localSecondaryIndexOverride = localSecondaryIndexOverride
+            self.provisionedThroughputOverride = provisionedThroughputOverride
             self.restoreDateTime = restoreDateTime
             self.sourceTableName = sourceTableName
             self.targetTableName = targetTableName
@@ -3500,6 +4149,13 @@ extension DynamoDB {
         }
 
         public func validate(name: String) throws {
+            try self.globalSecondaryIndexOverride?.forEach {
+                try $0.validate(name: "\(name).globalSecondaryIndexOverride[]")
+            }
+            try self.localSecondaryIndexOverride?.forEach {
+                try $0.validate(name: "\(name).localSecondaryIndexOverride[]")
+            }
+            try self.provisionedThroughputOverride?.validate(name: "\(name).provisionedThroughputOverride")
             try validate(self.sourceTableName, name:"sourceTableName", parent: name, max: 255)
             try validate(self.sourceTableName, name:"sourceTableName", parent: name, min: 3)
             try validate(self.sourceTableName, name:"sourceTableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -3509,6 +4165,10 @@ extension DynamoDB {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingModeOverride = "BillingModeOverride"
+            case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
+            case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
+            case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case restoreDateTime = "RestoreDateTime"
             case sourceTableName = "SourceTableName"
             case targetTableName = "TargetTableName"
@@ -3563,25 +4223,30 @@ extension DynamoDB {
 
     public struct SSEDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InaccessibleEncryptionDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "KMSMasterKeyArn", required: false, type: .string), 
             AWSShapeMember(label: "SSEType", required: false, type: .enum), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
 
-        /// The KMS customer master key (CMK) ARN used for the KMS encryption.
+        /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that the table's AWS KMS key was inaccessible. This attribute will automatically be cleared when DynamoDB detects that the table's AWS KMS key is accessible again. DynamoDB will initiate the table archival process when table's AWS KMS key remains inaccessible for more than seven days from this date.
+        public let inaccessibleEncryptionDateTime: TimeStamp?
+        /// The AWS KMS customer master key (CMK) ARN used for the AWS KMS encryption.
         public let kMSMasterKeyArn: String?
-        /// Server-side encryption type. The only supported value is:    KMS - Server-side encryption which uses AWS Key Management Service. Key is stored in your account and is managed by AWS KMS (KMS charges apply).  
+        /// Server-side encryption type. The only supported value is:    KMS - Server-side encryption that uses AWS Key Management Service. The key is stored in your account and is managed by AWS KMS (AWS KMS charges apply).  
         public let sSEType: SSEType?
         /// Represents the current state of server-side encryption. The only supported values are:    ENABLED - Server-side encryption is enabled.    UPDATING - Server-side encryption is being updated.  
         public let status: SSEStatus?
 
-        public init(kMSMasterKeyArn: String? = nil, sSEType: SSEType? = nil, status: SSEStatus? = nil) {
+        public init(inaccessibleEncryptionDateTime: TimeStamp? = nil, kMSMasterKeyArn: String? = nil, sSEType: SSEType? = nil, status: SSEStatus? = nil) {
+            self.inaccessibleEncryptionDateTime = inaccessibleEncryptionDateTime
             self.kMSMasterKeyArn = kMSMasterKeyArn
             self.sSEType = sSEType
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case inaccessibleEncryptionDateTime = "InaccessibleEncryptionDateTime"
             case kMSMasterKeyArn = "KMSMasterKeyArn"
             case sSEType = "SSEType"
             case status = "Status"
@@ -3597,9 +4262,9 @@ extension DynamoDB {
 
         /// Indicates whether server-side encryption is done using an AWS managed CMK or an AWS owned CMK. If enabled (true), server-side encryption type is set to KMS and an AWS managed CMK is used (AWS KMS charges apply). If disabled (false) or not specified, server-side encryption is set to AWS owned CMK.
         public let enabled: Bool?
-        /// The KMS Customer Master Key (CMK) which should be used for the KMS encryption. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB Customer Master Key alias/aws/dynamodb.
+        /// The AWS KMS customer master key (CMK) that should be used for the AWS KMS encryption. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB customer master key alias/aws/dynamodb.
         public let kMSMasterKeyId: String?
-        /// Server-side encryption type. The only supported value is:    KMS - Server-side encryption which uses AWS Key Management Service. Key is stored in your account and is managed by AWS KMS (KMS charges apply).  
+        /// Server-side encryption type. The only supported value is:    KMS - Server-side encryption that uses AWS Key Management Service. The key is stored in your account and is managed by AWS KMS (AWS KMS charges apply).  
         public let sSEType: SSEType?
 
         public init(enabled: Bool? = nil, kMSMasterKeyId: String? = nil, sSEType: SSEType? = nil) {
@@ -3820,7 +4485,7 @@ extension DynamoDB {
 
         /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.    PROVISIONED - Sets the read/write capacity mode to PROVISIONED. We recommend using PROVISIONED for predictable workloads.    PAY_PER_REQUEST - Sets the read/write capacity mode to PAY_PER_REQUEST. We recommend using PAY_PER_REQUEST for unpredictable workloads.   
         public let billingMode: BillingMode?
-        /// Number of items in the table. Please note this is an approximate value. 
+        /// Number of items in the table. Note that this is an approximate value. 
         public let itemCount: Int64?
         /// Schema of the table. 
         public let keySchema: [KeySchemaElement]
@@ -3834,7 +4499,7 @@ extension DynamoDB {
         public let tableId: String
         /// The name of the table for which the backup was created. 
         public let tableName: String
-        /// Size of the table in bytes. Please note this is an approximate value.
+        /// Size of the table in bytes. Note that this is an approximate value.
         public let tableSizeBytes: Int64?
 
         public init(billingMode: BillingMode? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement], provisionedThroughput: ProvisionedThroughput, tableArn: String? = nil, tableCreationDateTime: TimeStamp, tableId: String, tableName: String, tableSizeBytes: Int64? = nil) {
@@ -3871,7 +4536,7 @@ extension DynamoDB {
             AWSShapeMember(label: "TimeToLiveDescription", required: false, type: .structure)
         ]
 
-        /// Represents the GSI properties for the table when the backup was created. It includes the IndexName, KeySchema, Projection and ProvisionedThroughput for the GSIs on the table at the time of backup. 
+        /// Represents the GSI properties for the table when the backup was created. It includes the IndexName, KeySchema, Projection, and ProvisionedThroughput for the GSIs on the table at the time of backup. 
         public let globalSecondaryIndexes: [GlobalSecondaryIndexInfo]?
         /// Represents the LSI properties for the table when the backup was created. It includes the IndexName, KeySchema and Projection for the LSIs on the table at the time of backup. 
         public let localSecondaryIndexes: [LocalSecondaryIndexInfo]?
@@ -3901,16 +4566,16 @@ extension DynamoDB {
 
     public struct StreamSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "StreamEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "StreamEnabled", required: true, type: .boolean), 
             AWSShapeMember(label: "StreamViewType", required: false, type: .enum)
         ]
 
         /// Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
-        public let streamEnabled: Bool?
+        public let streamEnabled: Bool
         ///  When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:    KEYS_ONLY - Only the key attributes of the modified item are written to the stream.    NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.    OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.    NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.  
         public let streamViewType: StreamViewType?
 
-        public init(streamEnabled: Bool? = nil, streamViewType: StreamViewType? = nil) {
+        public init(streamEnabled: Bool, streamViewType: StreamViewType? = nil) {
             self.streamEnabled = streamEnabled
             self.streamViewType = streamViewType
         }
@@ -3929,18 +4594,48 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
+    public struct TableAutoScalingDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Replicas", required: false, type: .list), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "TableStatus", required: false, type: .enum)
+        ]
+
+        /// Represents replicas of the global table.
+        public let replicas: [ReplicaAutoScalingDescription]?
+        /// The name of the table.
+        public let tableName: String?
+        /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table is being updated.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.  
+        public let tableStatus: TableStatus?
+
+        public init(replicas: [ReplicaAutoScalingDescription]? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil) {
+            self.replicas = replicas
+            self.tableName = tableName
+            self.tableStatus = tableStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicas = "Replicas"
+            case tableName = "TableName"
+            case tableStatus = "TableStatus"
+        }
+    }
+
     public struct TableDescription: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ArchivalSummary", required: false, type: .structure), 
             AWSShapeMember(label: "AttributeDefinitions", required: false, type: .list), 
             AWSShapeMember(label: "BillingModeSummary", required: false, type: .structure), 
             AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeMember(label: "GlobalTableVersion", required: false, type: .string), 
             AWSShapeMember(label: "ItemCount", required: false, type: .long), 
             AWSShapeMember(label: "KeySchema", required: false, type: .list), 
             AWSShapeMember(label: "LatestStreamArn", required: false, type: .string), 
             AWSShapeMember(label: "LatestStreamLabel", required: false, type: .string), 
             AWSShapeMember(label: "LocalSecondaryIndexes", required: false, type: .list), 
             AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure), 
+            AWSShapeMember(label: "Replicas", required: false, type: .list), 
             AWSShapeMember(label: "RestoreSummary", required: false, type: .structure), 
             AWSShapeMember(label: "SSEDescription", required: false, type: .structure), 
             AWSShapeMember(label: "StreamSpecification", required: false, type: .structure), 
@@ -3951,26 +4646,32 @@ extension DynamoDB {
             AWSShapeMember(label: "TableStatus", required: false, type: .enum)
         ]
 
+        /// Contains information about the table archive.
+        public let archivalSummary: ArchivalSummary?
         /// An array of AttributeDefinition objects. Each of these objects describes one attribute in the table and index key schema. Each AttributeDefinition object in this array is composed of:    AttributeName - The name of the attribute.    AttributeType - The data type for the attribute.  
         public let attributeDefinitions: [AttributeDefinition]?
         /// Contains the details for the read/write capacity mode.
         public let billingModeSummary: BillingModeSummary?
         /// The date and time when the table was created, in UNIX epoch time format.
         public let creationDateTime: TimeStamp?
-        /// The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:    Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table; it is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.)    IndexName - The name of the global secondary index.    IndexSizeBytes - The total size of the global secondary index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     IndexStatus - The current status of the global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.      ItemCount - The number of items in the global secondary index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units, along with data about increases and decreases.    If the table is in the DELETING state, no information about indexes will be returned.
+        /// The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:    Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table. It is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.)   You can delete an index that is being created during the Backfilling phase when IndexStatus is set to CREATING and Backfilling is true. You can't delete the index that is being created when IndexStatus is set to CREATING and Backfilling is false. (This attribute does not appear for indexes that were created during a CreateTable operation.)    IndexName - The name of the global secondary index.    IndexSizeBytes - The total size of the global secondary index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     IndexStatus - The current status of the global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.      ItemCount - The number of items in the global secondary index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units, along with data about increases and decreases.    If the table is in the DELETING state, no information about indexes will be returned.
         public let globalSecondaryIndexes: [GlobalSecondaryIndexDescription]?
+        /// Represents the version of global tables in use, if the table is replicated across AWS Regions.
+        public let globalTableVersion: String?
         /// The number of items in the specified table. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
         public let itemCount: Int64?
         /// The primary key structure for the table. Each KeySchemaElement consists of:    AttributeName - The name of the attribute.    KeyType - The role of the attribute:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.    For more information about primary keys, see Primary Key in the Amazon DynamoDB Developer Guide.
         public let keySchema: [KeySchemaElement]?
         /// The Amazon Resource Name (ARN) that uniquely identifies the latest stream for this table.
         public let latestStreamArn: String?
-        /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name.   the StreamLabel.  
+        /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   AWS customer ID   Table name    StreamLabel   
         public let latestStreamLabel: String?
-        /// Represents one or more local secondary indexes on the table. Each index is scoped to a given partition key value. Tables with one or more local secondary indexes are subject to an item collection size limit, where the amount of data within a given item collection cannot exceed 10 GB. Each element is composed of:    IndexName - The name of the local secondary index.    KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      IndexSizeBytes - Represents the total size of the index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.    ItemCount - Represents the number of items in the index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.   If the table is in the DELETING state, no information about indexes will be returned.
+        /// Represents one or more local secondary indexes on the table. Each index is scoped to a given partition key value. Tables with one or more local secondary indexes are subject to an item collection size limit, where the amount of data within a given item collection cannot exceed 10 GB. Each element is composed of:    IndexName - The name of the local secondary index.    KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      IndexSizeBytes - Represents the total size of the index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.    ItemCount - Represents the number of items in the index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.   If the table is in the DELETING state, no information about indexes will be returned.
         public let localSecondaryIndexes: [LocalSecondaryIndexDescription]?
         /// The provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
         public let provisionedThroughput: ProvisionedThroughputDescription?
+        /// Represents replicas of the table.
+        public let replicas: [ReplicaDescription]?
         /// Contains details for the restore.
         public let restoreSummary: RestoreSummary?
         /// The description of the server-side encryption status on the specified table.
@@ -3985,20 +4686,23 @@ extension DynamoDB {
         public let tableName: String?
         /// The total size of the specified table, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
         public let tableSizeBytes: Int64?
-        /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table is being updated.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.  
+        /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table is being updated.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The AWS KMS key used to encrypt the table in inaccessible. Table operations may fail due to failure to use the AWS KMS key. DynamoDB will initiate the table archival process when a table's AWS KMS key remains inaccessible for more than seven days.     ARCHIVING - The table is being archived. Operations are not allowed until archival is complete.     ARCHIVED - The table has been archived. See the ArchivalReason for more information.   
         public let tableStatus: TableStatus?
 
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: TimeStamp? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, restoreSummary: RestoreSummary? = nil, sSEDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
+        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: TimeStamp? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sSEDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
+            self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
             self.creationDateTime = creationDateTime
             self.globalSecondaryIndexes = globalSecondaryIndexes
+            self.globalTableVersion = globalTableVersion
             self.itemCount = itemCount
             self.keySchema = keySchema
             self.latestStreamArn = latestStreamArn
             self.latestStreamLabel = latestStreamLabel
             self.localSecondaryIndexes = localSecondaryIndexes
             self.provisionedThroughput = provisionedThroughput
+            self.replicas = replicas
             self.restoreSummary = restoreSummary
             self.sSEDescription = sSEDescription
             self.streamSpecification = streamSpecification
@@ -4010,16 +4714,19 @@ extension DynamoDB {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case archivalSummary = "ArchivalSummary"
             case attributeDefinitions = "AttributeDefinitions"
             case billingModeSummary = "BillingModeSummary"
             case creationDateTime = "CreationDateTime"
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
+            case globalTableVersion = "GlobalTableVersion"
             case itemCount = "ItemCount"
             case keySchema = "KeySchema"
             case latestStreamArn = "LatestStreamArn"
             case latestStreamLabel = "LatestStreamLabel"
             case localSecondaryIndexes = "LocalSecondaryIndexes"
             case provisionedThroughput = "ProvisionedThroughput"
+            case replicas = "Replicas"
             case restoreSummary = "RestoreSummary"
             case sSEDescription = "SSEDescription"
             case streamSpecification = "StreamSpecification"
@@ -4036,6 +4743,9 @@ extension DynamoDB {
         case updating = "UPDATING"
         case deleting = "DELETING"
         case active = "ACTIVE"
+        case inaccessibleEncryptionCredentials = "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
+        case archiving = "ARCHIVING"
+        case archived = "ARCHIVED"
         public var description: String { return self.rawValue }
     }
 
@@ -4196,7 +4906,7 @@ extension DynamoDB {
             try self.transactItems.forEach {
                 try $0.validate(name: "\(name).transactItems[]")
             }
-            try validate(self.transactItems, name:"transactItems", parent: name, max: 10)
+            try validate(self.transactItems, name:"transactItems", parent: name, max: 25)
             try validate(self.transactItems, name:"transactItems", parent: name, min: 1)
         }
 
@@ -4296,7 +5006,7 @@ extension DynamoDB {
             try self.transactItems.forEach {
                 try $0.validate(name: "\(name).transactItems[]")
             }
-            try validate(self.transactItems, name:"transactItems", parent: name, max: 10)
+            try validate(self.transactItems, name:"transactItems", parent: name, max: 25)
             try validate(self.transactItems, name:"transactItems", parent: name, min: 1)
         }
 
@@ -4469,6 +5179,69 @@ extension DynamoDB {
         }
     }
 
+    public struct UpdateContributorInsightsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContributorInsightsAction", required: true, type: .enum), 
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+
+        /// Represents the contributor insights action.
+        public let contributorInsightsAction: ContributorInsightsAction
+        /// The global secondary index name, if applicable.
+        public let indexName: String?
+        /// The name of the table.
+        public let tableName: String
+
+        public init(contributorInsightsAction: ContributorInsightsAction, indexName: String? = nil, tableName: String) {
+            self.contributorInsightsAction = contributorInsightsAction
+            self.indexName = indexName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.indexName, name:"indexName", parent: name, max: 255)
+            try validate(self.indexName, name:"indexName", parent: name, min: 3)
+            try validate(self.indexName, name:"indexName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try validate(self.tableName, name:"tableName", parent: name, max: 255)
+            try validate(self.tableName, name:"tableName", parent: name, min: 3)
+            try validate(self.tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contributorInsightsAction = "ContributorInsightsAction"
+            case indexName = "IndexName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct UpdateContributorInsightsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContributorInsightsStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string)
+        ]
+
+        /// The status of contributor insights
+        public let contributorInsightsStatus: ContributorInsightsStatus?
+        /// The name of the global secondary index, if applicable.
+        public let indexName: String?
+        /// The name of the table.
+        public let tableName: String?
+
+        public init(contributorInsightsStatus: ContributorInsightsStatus? = nil, indexName: String? = nil, tableName: String? = nil) {
+            self.contributorInsightsStatus = contributorInsightsStatus
+            self.indexName = indexName
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contributorInsightsStatus = "ContributorInsightsStatus"
+            case indexName = "IndexName"
+            case tableName = "TableName"
+        }
+    }
+
     public struct UpdateGlobalSecondaryIndexAction: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "IndexName", required: true, type: .string), 
@@ -4553,7 +5326,7 @@ extension DynamoDB {
             AWSShapeMember(label: "ReplicaSettingsUpdate", required: false, type: .list)
         ]
 
-        /// The billing mode of the global table. If GlobalTableBillingMode is not specified, the global table defaults to PROVISIONED capacity billing mode.
+        /// The billing mode of the global table. If GlobalTableBillingMode is not specified, the global table defaults to PROVISIONED capacity billing mode.    PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to Provisioned Mode.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to On-Demand Mode.   
         public let globalTableBillingMode: BillingMode?
         /// Represents the settings of a global secondary index for a global table that will be modified.
         public let globalTableGlobalSecondaryIndexSettingsUpdate: [GlobalTableGlobalSecondaryIndexSettingsUpdate]?
@@ -4747,12 +5520,53 @@ extension DynamoDB {
         }
     }
 
+    public struct UpdateReplicationGroupMemberAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeMember(label: "KMSMasterKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
+            AWSShapeMember(label: "RegionName", required: true, type: .string)
+        ]
+
+        /// Replica-specific global secondary index settings.
+        public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]?
+        /// The AWS KMS customer master key (CMK) of the replica that should be used for AWS KMS encryption. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB KMS master key alias/aws/dynamodb.
+        public let kMSMasterKeyId: String?
+        /// Replica-specific provisioned throughput. If not specified, uses the source table's provisioned throughput settings.
+        public let provisionedThroughputOverride: ProvisionedThroughputOverride?
+        /// The Region where the replica exists.
+        public let regionName: String
+
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kMSMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String) {
+            self.globalSecondaryIndexes = globalSecondaryIndexes
+            self.kMSMasterKeyId = kMSMasterKeyId
+            self.provisionedThroughputOverride = provisionedThroughputOverride
+            self.regionName = regionName
+        }
+
+        public func validate(name: String) throws {
+            try self.globalSecondaryIndexes?.forEach {
+                try $0.validate(name: "\(name).globalSecondaryIndexes[]")
+            }
+            try validate(self.globalSecondaryIndexes, name:"globalSecondaryIndexes", parent: name, min: 1)
+            try self.provisionedThroughputOverride?.validate(name: "\(name).provisionedThroughputOverride")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalSecondaryIndexes = "GlobalSecondaryIndexes"
+            case kMSMasterKeyId = "KMSMasterKeyId"
+            case provisionedThroughputOverride = "ProvisionedThroughputOverride"
+            case regionName = "RegionName"
+        }
+    }
+
     public struct UpdateTableInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AttributeDefinitions", required: false, type: .list), 
             AWSShapeMember(label: "BillingMode", required: false, type: .enum), 
             AWSShapeMember(label: "GlobalSecondaryIndexUpdates", required: false, type: .list), 
             AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicaUpdates", required: false, type: .list), 
             AWSShapeMember(label: "SSESpecification", required: false, type: .structure), 
             AWSShapeMember(label: "StreamSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "TableName", required: true, type: .string)
@@ -4760,12 +5574,14 @@ extension DynamoDB {
 
         /// An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
         public let attributeDefinitions: [AttributeDefinition]?
-        /// Controls how you are charged for read and write throughput and how you manage capacity. When switching from pay-per-request to provisioned capacity, initial provisioned capacity values must be set. The initial provisioned capacity values are estimated based on the consumed read and write capacity of your table and global secondary indexes over the past 30 minutes.    PROVISIONED - Sets the billing mode to PROVISIONED. We recommend using PROVISIONED for predictable workloads.    PAY_PER_REQUEST - Sets the billing mode to PAY_PER_REQUEST. We recommend using PAY_PER_REQUEST for unpredictable workloads.   
+        /// Controls how you are charged for read and write throughput and how you manage capacity. When switching from pay-per-request to provisioned capacity, initial provisioned capacity values must be set. The initial provisioned capacity values are estimated based on the consumed read and write capacity of your table and global secondary indexes over the past 30 minutes.    PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to Provisioned Mode.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to On-Demand Mode.   
         public let billingMode: BillingMode?
-        /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide. 
+        /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   You can create or delete only one global secondary index per UpdateTable operation. For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide. 
         public let globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]?
         /// The new provisioned throughput settings for the specified table or index.
         public let provisionedThroughput: ProvisionedThroughput?
+        /// A list of replica update actions (create, delete, or update) for the table.  This property only applies to Version 2019.11.21 of global tables. 
+        public let replicaUpdates: [ReplicationGroupUpdate]?
         /// The new server-side encryption settings for the specified table.
         public let sSESpecification: SSESpecification?
         /// Represents the DynamoDB Streams configuration for the table.  You receive a ResourceInUseException if you try to enable a stream on a table that already has a stream, or if you try to disable a stream on a table that doesn't have a stream. 
@@ -4773,11 +5589,12 @@ extension DynamoDB {
         /// The name of the table to be updated.
         public let tableName: String
 
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, sSESpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableName: String) {
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sSESpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableName: String) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
             self.provisionedThroughput = provisionedThroughput
+            self.replicaUpdates = replicaUpdates
             self.sSESpecification = sSESpecification
             self.streamSpecification = streamSpecification
             self.tableName = tableName
@@ -4791,6 +5608,10 @@ extension DynamoDB {
                 try $0.validate(name: "\(name).globalSecondaryIndexUpdates[]")
             }
             try self.provisionedThroughput?.validate(name: "\(name).provisionedThroughput")
+            try self.replicaUpdates?.forEach {
+                try $0.validate(name: "\(name).replicaUpdates[]")
+            }
+            try validate(self.replicaUpdates, name:"replicaUpdates", parent: name, min: 1)
             try validate(self.tableName, name:"tableName", parent: name, max: 255)
             try validate(self.tableName, name:"tableName", parent: name, min: 3)
             try validate(self.tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -4801,6 +5622,7 @@ extension DynamoDB {
             case billingMode = "BillingMode"
             case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
             case provisionedThroughput = "ProvisionedThroughput"
+            case replicaUpdates = "ReplicaUpdates"
             case sSESpecification = "SSESpecification"
             case streamSpecification = "StreamSpecification"
             case tableName = "TableName"
@@ -4821,6 +5643,69 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case tableDescription = "TableDescription"
+        }
+    }
+
+    public struct UpdateTableReplicaAutoScalingInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GlobalSecondaryIndexUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisionedWriteCapacityAutoScalingUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicaUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+
+        /// Represents the auto scaling settings of the global secondary indexes of the replica to be updated.
+        public let globalSecondaryIndexUpdates: [GlobalSecondaryIndexAutoScalingUpdate]?
+        public let provisionedWriteCapacityAutoScalingUpdate: AutoScalingSettingsUpdate?
+        /// Represents the auto scaling settings of replicas of the table that will be modified.
+        public let replicaUpdates: [ReplicaAutoScalingUpdate]?
+        /// The name of the global table to be updated.
+        public let tableName: String
+
+        public init(globalSecondaryIndexUpdates: [GlobalSecondaryIndexAutoScalingUpdate]? = nil, provisionedWriteCapacityAutoScalingUpdate: AutoScalingSettingsUpdate? = nil, replicaUpdates: [ReplicaAutoScalingUpdate]? = nil, tableName: String) {
+            self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
+            self.provisionedWriteCapacityAutoScalingUpdate = provisionedWriteCapacityAutoScalingUpdate
+            self.replicaUpdates = replicaUpdates
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.globalSecondaryIndexUpdates?.forEach {
+                try $0.validate(name: "\(name).globalSecondaryIndexUpdates[]")
+            }
+            try validate(self.globalSecondaryIndexUpdates, name:"globalSecondaryIndexUpdates", parent: name, min: 1)
+            try self.provisionedWriteCapacityAutoScalingUpdate?.validate(name: "\(name).provisionedWriteCapacityAutoScalingUpdate")
+            try self.replicaUpdates?.forEach {
+                try $0.validate(name: "\(name).replicaUpdates[]")
+            }
+            try validate(self.replicaUpdates, name:"replicaUpdates", parent: name, min: 1)
+            try validate(self.tableName, name:"tableName", parent: name, max: 255)
+            try validate(self.tableName, name:"tableName", parent: name, min: 3)
+            try validate(self.tableName, name:"tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
+            case provisionedWriteCapacityAutoScalingUpdate = "ProvisionedWriteCapacityAutoScalingUpdate"
+            case replicaUpdates = "ReplicaUpdates"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct UpdateTableReplicaAutoScalingOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableAutoScalingDescription", required: false, type: .structure)
+        ]
+
+        /// Returns information about the auto scaling settings of a table with replicas.
+        public let tableAutoScalingDescription: TableAutoScalingDescription?
+
+        public init(tableAutoScalingDescription: TableAutoScalingDescription? = nil) {
+            self.tableAutoScalingDescription = tableAutoScalingDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableAutoScalingDescription = "TableAutoScalingDescription"
         }
     }
 

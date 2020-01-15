@@ -6,8 +6,13 @@ import AWSSDKSwiftCore
 public enum AWSDirectoryServiceErrorType: AWSErrorType {
     case accessDeniedException(message: String?)
     case authenticationFailedException(message: String?)
+    case certificateAlreadyExistsException(message: String?)
+    case certificateDoesNotExistException(message: String?)
+    case certificateInUseException(message: String?)
+    case certificateLimitExceededException(message: String?)
     case clientException(message: String?)
     case directoryAlreadySharedException(message: String?)
+    case directoryDoesNotExistException(message: String?)
     case directoryLimitExceededException(message: String?)
     case directoryNotSharedException(message: String?)
     case directoryUnavailableException(message: String?)
@@ -15,11 +20,14 @@ public enum AWSDirectoryServiceErrorType: AWSErrorType {
     case entityAlreadyExistsException(message: String?)
     case entityDoesNotExistException(message: String?)
     case insufficientPermissionsException(message: String?)
+    case invalidCertificateException(message: String?)
+    case invalidLDAPSStatusException(message: String?)
     case invalidNextTokenException(message: String?)
     case invalidParameterException(message: String?)
     case invalidPasswordException(message: String?)
     case invalidTargetException(message: String?)
     case ipRouteLimitExceededException(message: String?)
+    case noAvailableCertificateException(message: String?)
     case organizationsException(message: String?)
     case serviceException(message: String?)
     case shareLimitExceededException(message: String?)
@@ -40,10 +48,20 @@ extension AWSDirectoryServiceErrorType {
             self = .accessDeniedException(message: message)
         case "AuthenticationFailedException":
             self = .authenticationFailedException(message: message)
+        case "CertificateAlreadyExistsException":
+            self = .certificateAlreadyExistsException(message: message)
+        case "CertificateDoesNotExistException":
+            self = .certificateDoesNotExistException(message: message)
+        case "CertificateInUseException":
+            self = .certificateInUseException(message: message)
+        case "CertificateLimitExceededException":
+            self = .certificateLimitExceededException(message: message)
         case "ClientException":
             self = .clientException(message: message)
         case "DirectoryAlreadySharedException":
             self = .directoryAlreadySharedException(message: message)
+        case "DirectoryDoesNotExistException":
+            self = .directoryDoesNotExistException(message: message)
         case "DirectoryLimitExceededException":
             self = .directoryLimitExceededException(message: message)
         case "DirectoryNotSharedException":
@@ -58,6 +76,10 @@ extension AWSDirectoryServiceErrorType {
             self = .entityDoesNotExistException(message: message)
         case "InsufficientPermissionsException":
             self = .insufficientPermissionsException(message: message)
+        case "InvalidCertificateException":
+            self = .invalidCertificateException(message: message)
+        case "InvalidLDAPSStatusException":
+            self = .invalidLDAPSStatusException(message: message)
         case "InvalidNextTokenException":
             self = .invalidNextTokenException(message: message)
         case "InvalidParameterException":
@@ -68,6 +90,8 @@ extension AWSDirectoryServiceErrorType {
             self = .invalidTargetException(message: message)
         case "IpRouteLimitExceededException":
             self = .ipRouteLimitExceededException(message: message)
+        case "NoAvailableCertificateException":
+            self = .noAvailableCertificateException(message: message)
         case "OrganizationsException":
             self = .organizationsException(message: message)
         case "ServiceException":
@@ -95,10 +119,20 @@ extension AWSDirectoryServiceErrorType : CustomStringConvertible {
             return "AccessDeniedException: \(message ?? "")"
         case .authenticationFailedException(let message):
             return "AuthenticationFailedException: \(message ?? "")"
+        case .certificateAlreadyExistsException(let message):
+            return "CertificateAlreadyExistsException: \(message ?? "")"
+        case .certificateDoesNotExistException(let message):
+            return "CertificateDoesNotExistException: \(message ?? "")"
+        case .certificateInUseException(let message):
+            return "CertificateInUseException: \(message ?? "")"
+        case .certificateLimitExceededException(let message):
+            return "CertificateLimitExceededException: \(message ?? "")"
         case .clientException(let message):
             return "ClientException: \(message ?? "")"
         case .directoryAlreadySharedException(let message):
             return "DirectoryAlreadySharedException: \(message ?? "")"
+        case .directoryDoesNotExistException(let message):
+            return "DirectoryDoesNotExistException: \(message ?? "")"
         case .directoryLimitExceededException(let message):
             return "DirectoryLimitExceededException: \(message ?? "")"
         case .directoryNotSharedException(let message):
@@ -113,6 +147,10 @@ extension AWSDirectoryServiceErrorType : CustomStringConvertible {
             return "EntityDoesNotExistException: \(message ?? "")"
         case .insufficientPermissionsException(let message):
             return "InsufficientPermissionsException: \(message ?? "")"
+        case .invalidCertificateException(let message):
+            return "InvalidCertificateException: \(message ?? "")"
+        case .invalidLDAPSStatusException(let message):
+            return "InvalidLDAPSStatusException: \(message ?? "")"
         case .invalidNextTokenException(let message):
             return "InvalidNextTokenException: \(message ?? "")"
         case .invalidParameterException(let message):
@@ -123,6 +161,8 @@ extension AWSDirectoryServiceErrorType : CustomStringConvertible {
             return "InvalidTargetException: \(message ?? "")"
         case .ipRouteLimitExceededException(let message):
             return "IpRouteLimitExceededException: \(message ?? "")"
+        case .noAvailableCertificateException(let message):
+            return "NoAvailableCertificateException: \(message ?? "")"
         case .organizationsException(let message):
             return "OrganizationsException: \(message ?? "")"
         case .serviceException(let message):

@@ -94,6 +94,17 @@ extension StorageGateway {
         }
     }
 
+    public enum ActiveDirectoryStatus: String, CustomStringConvertible, Codable {
+        case accessDenied = "ACCESS_DENIED"
+        case detached = "DETACHED"
+        case joined = "JOINED"
+        case joining = "JOINING"
+        case networkError = "NETWORK_ERROR"
+        case timeout = "TIMEOUT"
+        case unknownError = "UNKNOWN_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AddCacheInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DiskIds", required: true, type: .list), 
@@ -396,6 +407,13 @@ extension StorageGateway {
             case targetARN = "TargetARN"
             case volumeARN = "VolumeARN"
         }
+    }
+
+    public enum AvailabilityMonitorTestStatus: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
     }
 
     public struct CachediSCSIVolume: AWSShape {
@@ -1719,6 +1737,53 @@ extension StorageGateway {
         }
     }
 
+    public struct DescribeAvailabilityMonitorTestInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+
+        public let gatewayARN: String
+
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct DescribeAvailabilityMonitorTestOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        public let gatewayARN: String?
+        /// The time the High Availability monitoring test was started. If a test hasn't been performed, the value of this field is null.
+        public let startTime: TimeStamp?
+        /// The status of the High Availability monitoring test. If a test hasn't been performed, the value of this field is null.
+        public let status: AvailabilityMonitorTestStatus?
+
+        public init(gatewayARN: String? = nil, startTime: TimeStamp? = nil, status: AvailabilityMonitorTestStatus? = nil) {
+            self.gatewayARN = gatewayARN
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case startTime = "StartTime"
+            case status = "Status"
+        }
+    }
+
     public struct DescribeBandwidthRateLimitInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: true, type: .string)
@@ -1946,13 +2011,14 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayState", required: false, type: .string), 
             AWSShapeMember(label: "GatewayTimezone", required: false, type: .string), 
             AWSShapeMember(label: "GatewayType", required: false, type: .string), 
+            AWSShapeMember(label: "HostEnvironment", required: false, type: .enum), 
             AWSShapeMember(label: "LastSoftwareUpdate", required: false, type: .string), 
             AWSShapeMember(label: "NextUpdateAvailabilityDate", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "VPCEndpoint", required: false, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that was used to monitor and log events in the gateway.
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Log Group that is used to monitor events in the gateway.
         public let cloudWatchLogGroupARN: String?
         /// The ID of the Amazon EC2 instance that was used to launch the gateway.
         public let ec2InstanceId: String?
@@ -1971,6 +2037,8 @@ extension StorageGateway {
         public let gatewayTimezone: String?
         /// The type of the gateway.
         public let gatewayType: String?
+        /// The type of hypervisor environment used by the host.
+        public let hostEnvironment: HostEnvironment?
         /// The date on which the last software update was applied to the gateway. If the gateway has never been updated, this field does not return a value in the response.
         public let lastSoftwareUpdate: String?
         /// The date on which an update to the gateway is available. This date is in the time zone of the gateway. If the gateway is not available for an update this field is not returned in the response.
@@ -1980,7 +2048,7 @@ extension StorageGateway {
         /// The configuration settings for the virtual private cloud (VPC) endpoint for your gateway. 
         public let vPCEndpoint: String?
 
-        public init(cloudWatchLogGroupARN: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, gatewayARN: String? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, tags: [Tag]? = nil, vPCEndpoint: String? = nil) {
+        public init(cloudWatchLogGroupARN: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, gatewayARN: String? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, hostEnvironment: HostEnvironment? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, tags: [Tag]? = nil, vPCEndpoint: String? = nil) {
             self.cloudWatchLogGroupARN = cloudWatchLogGroupARN
             self.ec2InstanceId = ec2InstanceId
             self.ec2InstanceRegion = ec2InstanceRegion
@@ -1991,6 +2059,7 @@ extension StorageGateway {
             self.gatewayState = gatewayState
             self.gatewayTimezone = gatewayTimezone
             self.gatewayType = gatewayType
+            self.hostEnvironment = hostEnvironment
             self.lastSoftwareUpdate = lastSoftwareUpdate
             self.nextUpdateAvailabilityDate = nextUpdateAvailabilityDate
             self.tags = tags
@@ -2008,6 +2077,7 @@ extension StorageGateway {
             case gatewayState = "GatewayState"
             case gatewayTimezone = "GatewayTimezone"
             case gatewayType = "GatewayType"
+            case hostEnvironment = "HostEnvironment"
             case lastSoftwareUpdate = "LastSoftwareUpdate"
             case nextUpdateAvailabilityDate = "NextUpdateAvailabilityDate"
             case tags = "Tags"
@@ -2186,12 +2256,15 @@ extension StorageGateway {
 
     public struct DescribeSMBSettingsOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActiveDirectoryStatus", required: false, type: .enum), 
             AWSShapeMember(label: "DomainName", required: false, type: .string), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
             AWSShapeMember(label: "SMBGuestPasswordSet", required: false, type: .boolean), 
             AWSShapeMember(label: "SMBSecurityStrategy", required: false, type: .enum)
         ]
 
+        /// Indicates the status of a gateway that is a member of the Active Directory domain.   ACCESS_DENIED: Indicates that the JoinDomain operation failed due to an authentication error.   DETACHED: Indicates that gateway is not joined to a domain.   JOINED: Indicates that the gateway has successfully joined a domain.   JOINING: Indicates that a JoinDomain operation is in progress.   NETWORK_ERROR: Indicates that JoinDomain operation failed due to a network or connectivity error.   TIMEOUT: Indicates that the JoinDomain operation failed because the operation didn't complete within the allotted time.   UNKNOWN_ERROR: Indicates that the JoinDomain operation failed due to another type of error.  
+        public let activeDirectoryStatus: ActiveDirectoryStatus?
         /// The name of the domain that the gateway is joined to.
         public let domainName: String?
         public let gatewayARN: String?
@@ -2200,7 +2273,8 @@ extension StorageGateway {
         /// The type of security strategy that was specified for file gateway. ClientSpecified: if you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment.  MandatorySigning: if you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.  MandatoryEncryption: if you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer. 
         public let sMBSecurityStrategy: SMBSecurityStrategy?
 
-        public init(domainName: String? = nil, gatewayARN: String? = nil, sMBGuestPasswordSet: Bool? = nil, sMBSecurityStrategy: SMBSecurityStrategy? = nil) {
+        public init(activeDirectoryStatus: ActiveDirectoryStatus? = nil, domainName: String? = nil, gatewayARN: String? = nil, sMBGuestPasswordSet: Bool? = nil, sMBSecurityStrategy: SMBSecurityStrategy? = nil) {
+            self.activeDirectoryStatus = activeDirectoryStatus
             self.domainName = domainName
             self.gatewayARN = gatewayARN
             self.sMBGuestPasswordSet = sMBGuestPasswordSet
@@ -2208,6 +2282,7 @@ extension StorageGateway {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeDirectoryStatus = "ActiveDirectoryStatus"
             case domainName = "DomainName"
             case gatewayARN = "GatewayARN"
             case sMBGuestPasswordSet = "SMBGuestPasswordSet"
@@ -2928,6 +3003,14 @@ extension StorageGateway {
         }
     }
 
+    public enum HostEnvironment: String, CustomStringConvertible, Codable {
+        case vmware = "VMWARE"
+        case hyperV = "HYPER-V"
+        case ec2 = "EC2"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
     public struct JoinDomainInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainControllers", required: false, type: .list), 
@@ -2935,6 +3018,7 @@ extension StorageGateway {
             AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
             AWSShapeMember(label: "OrganizationalUnit", required: false, type: .string), 
             AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer), 
             AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
 
@@ -2948,15 +3032,18 @@ extension StorageGateway {
         public let organizationalUnit: String?
         /// Sets the password of the user who has permission to add the gateway to the Active Directory domain.
         public let password: String
-        /// Sets the user name of user who has permission to add the gateway to the Active Directory domain.
+        /// Specifies the time in seconds, in which the JoinDomain operation must complete. The default is 20 seconds.
+        public let timeoutInSeconds: Int?
+        /// Sets the user name of user who has permission to add the gateway to the Active Directory domain. The domain user account should be enabled to join computers to the domain. For example, you can use the domain administrator account or an account with delegated permissions to join computers to the domain.
         public let userName: String
 
-        public init(domainControllers: [String]? = nil, domainName: String, gatewayARN: String, organizationalUnit: String? = nil, password: String, userName: String) {
+        public init(domainControllers: [String]? = nil, domainName: String, gatewayARN: String, organizationalUnit: String? = nil, password: String, timeoutInSeconds: Int? = nil, userName: String) {
             self.domainControllers = domainControllers
             self.domainName = domainName
             self.gatewayARN = gatewayARN
             self.organizationalUnit = organizationalUnit
             self.password = password
+            self.timeoutInSeconds = timeoutInSeconds
             self.userName = userName
         }
 
@@ -2974,6 +3061,8 @@ extension StorageGateway {
             try validate(self.password, name:"password", parent: name, max: 1024)
             try validate(self.password, name:"password", parent: name, min: 1)
             try validate(self.password, name:"password", parent: name, pattern: "^[ -~]+$")
+            try validate(self.timeoutInSeconds, name:"timeoutInSeconds", parent: name, max: 3600)
+            try validate(self.timeoutInSeconds, name:"timeoutInSeconds", parent: name, min: 0)
             try validate(self.userName, name:"userName", parent: name, max: 1024)
             try validate(self.userName, name:"userName", parent: name, min: 1)
             try validate(self.userName, name:"userName", parent: name, pattern: "^\\w[\\w\\.\\- ]*$")
@@ -2985,23 +3074,29 @@ extension StorageGateway {
             case gatewayARN = "GatewayARN"
             case organizationalUnit = "OrganizationalUnit"
             case password = "Password"
+            case timeoutInSeconds = "TimeoutInSeconds"
             case userName = "UserName"
         }
     }
 
     public struct JoinDomainOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActiveDirectoryStatus", required: false, type: .enum), 
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
 
+        /// Indicates the status of the gateway as a member of the Active Directory domain.   ACCESS_DENIED: Indicates that the JoinDomain operation failed due to an authentication error.   DETACHED: Indicates that gateway is not joined to a domain.   JOINED: Indicates that the gateway has successfully joined a domain.   JOINING: Indicates that a JoinDomain operation is in progress.   NETWORK_ERROR: Indicates that JoinDomain operation failed due to a network or connectivity error.   TIMEOUT: Indicates that the JoinDomain operation failed because the operation didn't complete within the allotted time.   UNKNOWN_ERROR: Indicates that the JoinDomain operation failed due to another type of error.  
+        public let activeDirectoryStatus: ActiveDirectoryStatus?
         /// The unique Amazon Resource Name (ARN) of the gateway that joined the domain.
         public let gatewayARN: String?
 
-        public init(gatewayARN: String? = nil) {
+        public init(activeDirectoryStatus: ActiveDirectoryStatus? = nil, gatewayARN: String? = nil) {
+            self.activeDirectoryStatus = activeDirectoryStatus
             self.gatewayARN = gatewayARN
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeDirectoryStatus = "ActiveDirectoryStatus"
             case gatewayARN = "GatewayARN"
         }
     }
@@ -4095,6 +4190,43 @@ extension StorageGateway {
     }
 
     public struct ShutdownGatewayOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
+        ]
+
+        public let gatewayARN: String?
+
+        public init(gatewayARN: String? = nil) {
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct StartAvailabilityMonitorTestInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
+        ]
+
+        public let gatewayARN: String
+
+        public init(gatewayARN: String) {
+            self.gatewayARN = gatewayARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, max: 500)
+            try validate(self.gatewayARN, name:"gatewayARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct StartAvailabilityMonitorTestOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]

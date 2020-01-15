@@ -1988,7 +1988,7 @@ extension IAM {
         public let id: String
         /// The name of the entity (user or role).
         public let name: String
-        /// The path to the entity (user or role). For more information about paths, see IAM Identifiers in the Using IAM guide. 
+        /// The path to the entity (user or role). For more information about paths, see IAM Identifiers in the IAM User Guide. 
         public let path: String?
         /// The type of entity (user or role).
         public let `type`: PolicyOwnerEntityType
@@ -3468,15 +3468,15 @@ extension IAM {
             AWSShapeMember(label: "Path", required: true, type: .string)
         ]
 
-        ///  The Amazon Resource Name (ARN) specifying the group. For more information about ARNs and how to use them in policies, see IAM Identifiers in the Using IAM guide. 
+        ///  The Amazon Resource Name (ARN) specifying the group. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide. 
         public let arn: String
         /// The date and time, in ISO 8601 date-time format, when the group was created.
         public let createDate: TimeStamp
-        ///  The stable and unique string identifying the group. For more information about IDs, see IAM Identifiers in the Using IAM guide. 
+        ///  The stable and unique string identifying the group. For more information about IDs, see IAM Identifiers in the IAM User Guide. 
         public let groupId: String
         /// The friendly name that identifies the group.
         public let groupName: String
-        /// The path to the group. For more information about paths, see IAM Identifiers in the Using IAM guide. 
+        /// The path to the group. For more information about paths, see IAM Identifiers in the IAM User Guide. 
         public let path: String
 
         public init(arn: String, createDate: TimeStamp, groupId: String, groupName: String, path: String) {
@@ -3512,13 +3512,13 @@ extension IAM {
         public let attachedManagedPolicies: [AttachedPolicy]?
         /// The date and time, in ISO 8601 date-time format, when the group was created.
         public let createDate: TimeStamp?
-        /// The stable and unique string identifying the group. For more information about IDs, see IAM Identifiers in the Using IAM guide.
+        /// The stable and unique string identifying the group. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let groupId: String?
         /// The friendly name that identifies the group.
         public let groupName: String?
         /// A list of the inline policies embedded in the group.
         public let groupPolicyList: [PolicyDetail]?
-        /// The path to the group. For more information about paths, see IAM Identifiers in the Using IAM guide.
+        /// The path to the group. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String?
 
         public init(arn: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: TimeStamp? = nil, groupId: String? = nil, groupName: String? = nil, groupPolicyList: [PolicyDetail]? = nil, path: String? = nil) {
@@ -3552,15 +3552,15 @@ extension IAM {
             AWSShapeMember(label: "Roles", required: true, type: .list, encoding: .list(member:"member"))
         ]
 
-        ///  The Amazon Resource Name (ARN) specifying the instance profile. For more information about ARNs and how to use them in policies, see IAM Identifiers in the Using IAM guide. 
+        ///  The Amazon Resource Name (ARN) specifying the instance profile. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide. 
         public let arn: String
         /// The date when the instance profile was created.
         public let createDate: TimeStamp
-        ///  The stable and unique string identifying the instance profile. For more information about IDs, see IAM Identifiers in the Using IAM guide. 
+        ///  The stable and unique string identifying the instance profile. For more information about IDs, see IAM Identifiers in the IAM User Guide. 
         public let instanceProfileId: String
         /// The name identifying the instance profile.
         public let instanceProfileName: String
-        ///  The path to the instance profile. For more information about paths, see IAM Identifiers in the Using IAM guide. 
+        ///  The path to the instance profile. For more information about paths, see IAM Identifiers in the IAM User Guide. 
         public let path: String
         /// The role associated with the instance profile.
         public let roles: [Role]
@@ -5459,17 +5459,17 @@ extension IAM {
         public let attachmentCount: Int?
         /// The date and time, in ISO 8601 date-time format, when the policy was created.
         public let createDate: TimeStamp?
-        /// The identifier for the version of the policy that is set as the default (operative) version. For more information about policy versions, see Versioning for Managed Policies in the Using IAM guide. 
+        /// The identifier for the version of the policy that is set as the default (operative) version. For more information about policy versions, see Versioning for Managed Policies in the IAM User Guide. 
         public let defaultVersionId: String?
         /// A friendly description of the policy.
         public let description: String?
         /// Specifies whether the policy can be attached to an IAM user, group, or role.
         public let isAttachable: Bool?
-        /// The path to the policy. For more information about paths, see IAM Identifiers in the Using IAM guide.
+        /// The path to the policy. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String?
         /// The number of entities (users and roles) for which the policy is used as the permissions boundary.  For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
         public let permissionsBoundaryUsageCount: Int?
-        /// The stable and unique string identifying the policy. For more information about IDs, see IAM Identifiers in the Using IAM guide.
+        /// The stable and unique string identifying the policy. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let policyId: String?
         /// The friendly name (not ARN) identifying the policy.
         public let policyName: String?
@@ -5635,11 +5635,11 @@ extension IAM {
         public let description: String?
         /// Specifies whether the policy can be attached to an IAM user, group, or role.
         public let isAttachable: Bool?
-        /// The path to the policy. For more information about paths, see IAM Identifiers in the Using IAM guide.
+        /// The path to the policy. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String?
         /// The number of entities (users and roles) for which the policy is used to set the permissions boundary.  For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
         public let permissionsBoundaryUsageCount: Int?
-        /// The stable and unique string identifying the policy. For more information about IDs, see IAM Identifiers in the Using IAM guide.
+        /// The stable and unique string identifying the policy. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let policyId: String?
         /// The friendly name (not ARN) identifying the policy.
         public let policyName: String?
@@ -6299,6 +6299,7 @@ extension IAM {
             AWSShapeMember(label: "Path", required: true, type: .string), 
             AWSShapeMember(label: "PermissionsBoundary", required: false, type: .structure), 
             AWSShapeMember(label: "RoleId", required: true, type: .string), 
+            AWSShapeMember(label: "RoleLastUsed", required: false, type: .structure), 
             AWSShapeMember(label: "RoleName", required: true, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
@@ -6313,18 +6314,20 @@ extension IAM {
         public let description: String?
         /// The maximum session duration (in seconds) for the specified role. Anyone who uses the AWS CLI, or API to assume the role can specify the duration using the optional DurationSeconds API parameter or duration-seconds CLI parameter.
         public let maxSessionDuration: Int?
-        ///  The path to the role. For more information about paths, see IAM Identifiers in the Using IAM guide. 
+        ///  The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide. 
         public let path: String
         /// The ARN of the policy used to set the permissions boundary for the role. For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
         public let permissionsBoundary: AttachedPermissionsBoundary?
-        ///  The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the Using IAM guide. 
+        ///  The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the IAM User Guide. 
         public let roleId: String
+        /// Contains information about the last time that an IAM role was used. This includes the date and time and the Region in which the role was last used. Activity is only reported for the trailing 400 days. This period can be shorter if your Region began supporting these features within the last year. The role might have been used more than 400 days ago. For more information, see Regions Where Data Is Tracked in the IAM User Guide.
+        public let roleLastUsed: RoleLastUsed?
         /// The friendly name that identifies the role.
         public let roleName: String
         /// A list of tags that are attached to the specified role. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
         public let tags: [Tag]?
 
-        public init(arn: String, assumeRolePolicyDocument: String? = nil, createDate: TimeStamp, description: String? = nil, maxSessionDuration: Int? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String, roleName: String, tags: [Tag]? = nil) {
+        public init(arn: String, assumeRolePolicyDocument: String? = nil, createDate: TimeStamp, description: String? = nil, maxSessionDuration: Int? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String, roleLastUsed: RoleLastUsed? = nil, roleName: String, tags: [Tag]? = nil) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.createDate = createDate
@@ -6333,6 +6336,7 @@ extension IAM {
             self.path = path
             self.permissionsBoundary = permissionsBoundary
             self.roleId = roleId
+            self.roleLastUsed = roleLastUsed
             self.roleName = roleName
             self.tags = tags
         }
@@ -6346,6 +6350,7 @@ extension IAM {
             case path = "Path"
             case permissionsBoundary = "PermissionsBoundary"
             case roleId = "RoleId"
+            case roleLastUsed = "RoleLastUsed"
             case roleName = "RoleName"
             case tags = "Tags"
         }
@@ -6361,6 +6366,7 @@ extension IAM {
             AWSShapeMember(label: "Path", required: false, type: .string), 
             AWSShapeMember(label: "PermissionsBoundary", required: false, type: .structure), 
             AWSShapeMember(label: "RoleId", required: false, type: .string), 
+            AWSShapeMember(label: "RoleLastUsed", required: false, type: .structure), 
             AWSShapeMember(label: "RoleName", required: false, type: .string), 
             AWSShapeMember(label: "RolePolicyList", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
@@ -6375,12 +6381,14 @@ extension IAM {
         public let createDate: TimeStamp?
         /// A list of instance profiles that contain this role.
         public let instanceProfileList: [InstanceProfile]?
-        /// The path to the role. For more information about paths, see IAM Identifiers in the Using IAM guide.
+        /// The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String?
         /// The ARN of the policy used to set the permissions boundary for the role. For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
         public let permissionsBoundary: AttachedPermissionsBoundary?
-        /// The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the Using IAM guide.
+        /// The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let roleId: String?
+        /// Contains information about the last time that an IAM role was used. This includes the date and time and the Region in which the role was last used. Activity is only reported for the trailing 400 days. This period can be shorter if your Region began supporting these features within the last year. The role might have been used more than 400 days ago. For more information, see Regions Where Data Is Tracked in the IAM User Guide.
+        public let roleLastUsed: RoleLastUsed?
         /// The friendly name that identifies the role.
         public let roleName: String?
         /// A list of inline policies embedded in the role. These policies are the role's access (permissions) policies.
@@ -6388,7 +6396,7 @@ extension IAM {
         /// A list of tags that are attached to the specified role. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, assumeRolePolicyDocument: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: TimeStamp? = nil, instanceProfileList: [InstanceProfile]? = nil, path: String? = nil, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String? = nil, roleName: String? = nil, rolePolicyList: [PolicyDetail]? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, assumeRolePolicyDocument: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: TimeStamp? = nil, instanceProfileList: [InstanceProfile]? = nil, path: String? = nil, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String? = nil, roleLastUsed: RoleLastUsed? = nil, roleName: String? = nil, rolePolicyList: [PolicyDetail]? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.attachedManagedPolicies = attachedManagedPolicies
@@ -6397,6 +6405,7 @@ extension IAM {
             self.path = path
             self.permissionsBoundary = permissionsBoundary
             self.roleId = roleId
+            self.roleLastUsed = roleLastUsed
             self.roleName = roleName
             self.rolePolicyList = rolePolicyList
             self.tags = tags
@@ -6411,9 +6420,32 @@ extension IAM {
             case path = "Path"
             case permissionsBoundary = "PermissionsBoundary"
             case roleId = "RoleId"
+            case roleLastUsed = "RoleLastUsed"
             case roleName = "RoleName"
             case rolePolicyList = "RolePolicyList"
             case tags = "Tags"
+        }
+    }
+
+    public struct RoleLastUsed: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastUsedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Region", required: false, type: .string)
+        ]
+
+        /// The date and time, in ISO 8601 date-time format that the role was last used. This field is null if the role has not been used within the IAM tracking period. For more information about the tracking period, see Regions Where Data Is Tracked in the IAM User Guide. 
+        public let lastUsedDate: TimeStamp?
+        /// The name of the AWS Region in which the role was last used.
+        public let region: String?
+
+        public init(lastUsedDate: TimeStamp? = nil, region: String? = nil) {
+            self.lastUsedDate = lastUsedDate
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUsedDate = "LastUsedDate"
+            case region = "Region"
         }
     }
 
@@ -6577,13 +6609,13 @@ extension IAM {
             AWSShapeMember(label: "UploadDate", required: false, type: .timestamp)
         ]
 
-        ///  The Amazon Resource Name (ARN) specifying the server certificate. For more information about ARNs and how to use them in policies, see IAM Identifiers in the Using IAM guide. 
+        ///  The Amazon Resource Name (ARN) specifying the server certificate. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide. 
         public let arn: String
         /// The date on which the certificate is set to expire.
         public let expiration: TimeStamp?
-        ///  The path to the server certificate. For more information about paths, see IAM Identifiers in the Using IAM guide. 
+        ///  The path to the server certificate. For more information about paths, see IAM Identifiers in the IAM User Guide. 
         public let path: String
-        ///  The stable and unique string identifying the server certificate. For more information about IDs, see IAM Identifiers in the Using IAM guide. 
+        ///  The stable and unique string identifying the server certificate. For more information about IDs, see IAM Identifiers in the IAM User Guide. 
         public let serverCertificateId: String
         /// The name that identifies the server certificate.
         public let serverCertificateName: String
@@ -7979,19 +8011,19 @@ extension IAM {
             AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
 
-        /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see IAM Identifiers in the Using IAM guide. 
+        /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see IAM Identifiers in the IAM User Guide. 
         public let arn: String
         /// The date and time, in ISO 8601 date-time format, when the user was created.
         public let createDate: TimeStamp
-        /// The date and time, in ISO 8601 date-time format, when the user's password was last used to sign in to an AWS website. For a list of AWS websites that capture a user's last sign-in time, see the Credential Reports topic in the Using IAM guide. If a password is used more than once in a five-minute span, only the first use is returned in this field. If the field is null (no value), then it indicates that they never signed in with a password. This can be because:   The user never had a password.   A password exists but has not been used since IAM started tracking this information on October 20, 2014.   A null value does not mean that the user never had a password. Also, if the user does not currently have a password, but had one in the past, then this field contains the date and time the most recent password was used. This value is returned only in the GetUser and ListUsers operations. 
+        /// The date and time, in ISO 8601 date-time format, when the user's password was last used to sign in to an AWS website. For a list of AWS websites that capture a user's last sign-in time, see the Credential Reports topic in the IAM User Guide. If a password is used more than once in a five-minute span, only the first use is returned in this field. If the field is null (no value), then it indicates that they never signed in with a password. This can be because:   The user never had a password.   A password exists but has not been used since IAM started tracking this information on October 20, 2014.   A null value does not mean that the user never had a password. Also, if the user does not currently have a password but had one in the past, then this field contains the date and time the most recent password was used. This value is returned only in the GetUser and ListUsers operations. 
         public let passwordLastUsed: TimeStamp?
-        /// The path to the user. For more information about paths, see IAM Identifiers in the Using IAM guide.
+        /// The path to the user. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String
         /// The ARN of the policy used to set the permissions boundary for the user. For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
         public let permissionsBoundary: AttachedPermissionsBoundary?
         /// A list of tags that are associated with the specified user. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
         public let tags: [Tag]?
-        /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the Using IAM guide.
+        /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let userId: String
         /// The friendly name identifying the user.
         public let userName: String
@@ -8040,13 +8072,13 @@ extension IAM {
         public let createDate: TimeStamp?
         /// A list of IAM groups that the user is in.
         public let groupList: [String]?
-        /// The path to the user. For more information about paths, see IAM Identifiers in the Using IAM guide.
+        /// The path to the user. For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String?
         /// The ARN of the policy used to set the permissions boundary for the user. For more information about permissions boundaries, see Permissions Boundaries for IAM Identities  in the IAM User Guide.
         public let permissionsBoundary: AttachedPermissionsBoundary?
         /// A list of tags that are associated with the specified user. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
         public let tags: [Tag]?
-        /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the Using IAM guide.
+        /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let userId: String?
         /// The friendly name identifying the user.
         public let userName: String?

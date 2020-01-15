@@ -38,6 +38,7 @@ public enum ELBV2ErrorType: AWSErrorType {
     case tooManyTagsException(message: String?)
     case tooManyTargetGroupsException(message: String?)
     case tooManyTargetsException(message: String?)
+    case tooManyUniqueTargetGroupsPerLoadBalancerException(message: String?)
     case unsupportedProtocolException(message: String?)
 }
 
@@ -116,6 +117,8 @@ extension ELBV2ErrorType {
             self = .tooManyTargetGroupsException(message: message)
         case "TooManyTargets":
             self = .tooManyTargetsException(message: message)
+        case "TooManyUniqueTargetGroupsPerLoadBalancer":
+            self = .tooManyUniqueTargetGroupsPerLoadBalancerException(message: message)
         case "UnsupportedProtocol":
             self = .unsupportedProtocolException(message: message)
         default:
@@ -195,6 +198,8 @@ extension ELBV2ErrorType : CustomStringConvertible {
             return "TooManyTargetGroups: \(message ?? "")"
         case .tooManyTargetsException(let message):
             return "TooManyTargets: \(message ?? "")"
+        case .tooManyUniqueTargetGroupsPerLoadBalancerException(let message):
+            return "TooManyUniqueTargetGroupsPerLoadBalancer: \(message ?? "")"
         case .unsupportedProtocolException(let message):
             return "UnsupportedProtocol: \(message ?? "")"
         }

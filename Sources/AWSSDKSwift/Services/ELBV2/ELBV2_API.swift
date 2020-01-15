@@ -137,7 +137,7 @@ public struct ELBV2 {
         return client.send(operation: "DescribeTargetHealth", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the specified properties of the specified listener. Any properties that you do not specify retain their current values. However, changing the protocol from HTTPS to HTTP, or from TLS to TCP, removes the security policy and default certificate properties. If you change the protocol from HTTP to HTTPS, or from TCP to TLS, you must add the security policy and default certificate properties.
+    ///  Replaces the specified properties of the specified listener. Any properties that you do not specify remain unchanged. Changing the protocol from HTTPS to HTTP, or from TLS to TCP, removes the security policy and default certificate properties. If you change the protocol from HTTP to HTTPS, or from TCP to TLS, you must add the security policy and default certificate properties. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For example, to add an action, specify a list with the current actions plus the new action.
     public func modifyListener(_ input: ModifyListenerInput) -> Future<ModifyListenerOutput> {
         return client.send(operation: "ModifyListener", path: "/", httpMethod: "POST", input: input)
     }
@@ -147,7 +147,7 @@ public struct ELBV2 {
         return client.send(operation: "ModifyLoadBalancerAttributes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the specified rule. Any existing properties that you do not modify retain their current values. To modify the actions for the default rule, use ModifyListener.
+    ///  Replaces the specified properties of the specified rule. Any properties that you do not specify are unchanged. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For example, to add an action, specify a list with the current actions plus the new action. To modify the actions for the default rule, use ModifyListener.
     public func modifyRule(_ input: ModifyRuleInput) -> Future<ModifyRuleOutput> {
         return client.send(operation: "ModifyRule", path: "/", httpMethod: "POST", input: input)
     }
@@ -192,7 +192,7 @@ public struct ELBV2 {
         return client.send(operation: "SetSecurityGroups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Enables the Availability Zone for the specified public subnets for the specified Application Load Balancer. The specified subnets replace the previously enabled subnets. You can't change the subnets for a Network Load Balancer.
+    ///  Enables the Availability Zones for the specified public subnets for the specified load balancer. The specified subnets replace the previously enabled subnets. When you specify subnets for a Network Load Balancer, you must include all subnets that were enabled previously, with their existing configurations, plus any additional subnets.
     public func setSubnets(_ input: SetSubnetsInput) -> Future<SetSubnetsOutput> {
         return client.send(operation: "SetSubnets", path: "/", httpMethod: "POST", input: input)
     }

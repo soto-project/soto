@@ -10,7 +10,7 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ComponentName", required: false, type: .string), 
             AWSShapeMember(label: "Monitor", required: false, type: .boolean), 
             AWSShapeMember(label: "ResourceType", required: false, type: .string), 
-            AWSShapeMember(label: "Tier", required: false, type: .string)
+            AWSShapeMember(label: "Tier", required: false, type: .enum)
         ]
 
         /// The name of the component.
@@ -20,9 +20,9 @@ extension ApplicationInsights {
         /// The resource type. Supported resource types include EC2 instances, Auto Scaling group, Classic ELB, Application ELB, and SQS Queue.
         public let resourceType: String?
         /// The stack tier of the application component.
-        public let tier: String?
+        public let tier: Tier?
 
-        public init(componentName: String? = nil, monitor: Bool? = nil, resourceType: String? = nil, tier: String? = nil) {
+        public init(componentName: String? = nil, monitor: Bool? = nil, resourceType: String? = nil, tier: Tier? = nil) {
             self.componentName = componentName
             self.monitor = monitor
             self.resourceType = resourceType
@@ -78,7 +78,8 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OpsCenterEnabled", required: false, type: .boolean), 
             AWSShapeMember(label: "OpsItemSNSTopicArn", required: false, type: .string), 
-            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
+            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         ///  When set to true, creates opsItems for any problems detected on an application. 
@@ -87,17 +88,34 @@ extension ApplicationInsights {
         public let opsItemSNSTopicArn: String?
         /// The name of the resource group.
         public let resourceGroupName: String
+        /// List of tags to add to the application. tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
+        public let tags: [Tag]?
 
-        public init(opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String) {
+        public init(opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String, tags: [Tag]? = nil) {
             self.opsCenterEnabled = opsCenterEnabled
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.resourceGroupName = resourceGroupName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.opsItemSNSTopicArn, name:"opsItemSNSTopicArn", parent: name, max: 300)
+            try validate(self.opsItemSNSTopicArn, name:"opsItemSNSTopicArn", parent: name, min: 20)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case opsCenterEnabled = "OpsCenterEnabled"
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
             case resourceGroupName = "ResourceGroupName"
+            case tags = "Tags"
         }
     }
 
@@ -138,6 +156,16 @@ extension ApplicationInsights {
             self.resourceList = resourceList
         }
 
+        public func validate(name: String) throws {
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try self.resourceList.forEach {
+                try validate($0, name: "resourceList[]", parent: name, max: 1011)
+                try validate($0, name: "resourceList[]", parent: name, min: 1)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case componentName = "ComponentName"
             case resourceGroupName = "ResourceGroupName"
@@ -153,6 +181,79 @@ extension ApplicationInsights {
 
     }
 
+    public struct CreateLogPatternRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pattern", required: true, type: .string), 
+            AWSShapeMember(label: "PatternName", required: true, type: .string), 
+            AWSShapeMember(label: "PatternSetName", required: true, type: .string), 
+            AWSShapeMember(label: "Rank", required: true, type: .integer), 
+            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
+        ]
+
+        /// The log pattern.
+        public let pattern: String
+        /// The name of the log pattern.
+        public let patternName: String
+        /// The name of the log pattern set.
+        public let patternSetName: String
+        /// Rank of the log pattern.
+        public let rank: Int
+        /// The name of the resource group.
+        public let resourceGroupName: String
+
+        public init(pattern: String, patternName: String, patternSetName: String, rank: Int, resourceGroupName: String) {
+            self.pattern = pattern
+            self.patternName = patternName
+            self.patternSetName = patternSetName
+            self.rank = rank
+            self.resourceGroupName = resourceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.pattern, name:"pattern", parent: name, max: 50)
+            try validate(self.pattern, name:"pattern", parent: name, min: 1)
+            try validate(self.patternName, name:"patternName", parent: name, max: 50)
+            try validate(self.patternName, name:"patternName", parent: name, min: 1)
+            try validate(self.patternName, name:"patternName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try validate(self.patternSetName, name:"patternSetName", parent: name, max: 30)
+            try validate(self.patternSetName, name:"patternSetName", parent: name, min: 1)
+            try validate(self.patternSetName, name:"patternSetName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pattern = "Pattern"
+            case patternName = "PatternName"
+            case patternSetName = "PatternSetName"
+            case rank = "Rank"
+            case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
+    public struct CreateLogPatternResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogPattern", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
+        ]
+
+        /// The successfully created log pattern.
+        public let logPattern: LogPattern?
+        /// The name of the resource group.
+        public let resourceGroupName: String?
+
+        public init(logPattern: LogPattern? = nil, resourceGroupName: String? = nil) {
+            self.logPattern = logPattern
+            self.resourceGroupName = resourceGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logPattern = "LogPattern"
+            case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
     public struct DeleteApplicationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
@@ -163,6 +264,12 @@ extension ApplicationInsights {
 
         public init(resourceGroupName: String) {
             self.resourceGroupName = resourceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -194,6 +301,12 @@ extension ApplicationInsights {
             self.resourceGroupName = resourceGroupName
         }
 
+        public func validate(name: String) throws {
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case componentName = "ComponentName"
             case resourceGroupName = "ResourceGroupName"
@@ -201,6 +314,53 @@ extension ApplicationInsights {
     }
 
     public struct DeleteComponentResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteLogPatternRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PatternName", required: true, type: .string), 
+            AWSShapeMember(label: "PatternSetName", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
+        ]
+
+        /// The name of the log pattern.
+        public let patternName: String
+        /// The name of the log pattern set.
+        public let patternSetName: String
+        /// The name of the resource group.
+        public let resourceGroupName: String
+
+        public init(patternName: String, patternSetName: String, resourceGroupName: String) {
+            self.patternName = patternName
+            self.patternSetName = patternSetName
+            self.resourceGroupName = resourceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.patternName, name:"patternName", parent: name, max: 50)
+            try validate(self.patternName, name:"patternName", parent: name, min: 1)
+            try validate(self.patternName, name:"patternName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try validate(self.patternSetName, name:"patternSetName", parent: name, max: 30)
+            try validate(self.patternSetName, name:"patternSetName", parent: name, min: 1)
+            try validate(self.patternSetName, name:"patternSetName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case patternName = "PatternName"
+            case patternSetName = "PatternSetName"
+            case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
+    public struct DeleteLogPatternResponse: AWSShape {
 
 
         public init() {
@@ -218,6 +378,12 @@ extension ApplicationInsights {
 
         public init(resourceGroupName: String) {
             self.resourceGroupName = resourceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -246,20 +412,26 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComponentName", required: true, type: .string), 
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Tier", required: true, type: .string)
+            AWSShapeMember(label: "Tier", required: true, type: .enum)
         ]
 
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
         public let resourceGroupName: String
-        /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT.
-        public let tier: String
+        /// The tier of the application component. Supported tiers include DOT_NET_CORE, DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT.
+        public let tier: Tier
 
-        public init(componentName: String, resourceGroupName: String, tier: String) {
+        public init(componentName: String, resourceGroupName: String, tier: Tier) {
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
             self.tier = tier
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -302,6 +474,12 @@ extension ApplicationInsights {
             self.resourceGroupName = resourceGroupName
         }
 
+        public func validate(name: String) throws {
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case componentName = "ComponentName"
             case resourceGroupName = "ResourceGroupName"
@@ -312,17 +490,17 @@ extension ApplicationInsights {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComponentConfiguration", required: false, type: .string), 
             AWSShapeMember(label: "Monitor", required: false, type: .boolean), 
-            AWSShapeMember(label: "Tier", required: false, type: .string)
+            AWSShapeMember(label: "Tier", required: false, type: .enum)
         ]
 
         /// The configuration settings of the component. The value is the escaped JSON of the configuration.
         public let componentConfiguration: String?
         /// Indicates whether the application component is monitored.
         public let monitor: Bool?
-        /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT 
-        public let tier: String?
+        /// The tier of the application component. Supported tiers include DOT_NET_CORE, DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT 
+        public let tier: Tier?
 
-        public init(componentConfiguration: String? = nil, monitor: Bool? = nil, tier: String? = nil) {
+        public init(componentConfiguration: String? = nil, monitor: Bool? = nil, tier: Tier? = nil) {
             self.componentConfiguration = componentConfiguration
             self.monitor = monitor
             self.tier = tier
@@ -349,6 +527,12 @@ extension ApplicationInsights {
         public init(componentName: String, resourceGroupName: String) {
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -378,6 +562,67 @@ extension ApplicationInsights {
         }
     }
 
+    public struct DescribeLogPatternRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PatternName", required: true, type: .string), 
+            AWSShapeMember(label: "PatternSetName", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
+        ]
+
+        /// The name of the log pattern.
+        public let patternName: String
+        /// The name of the log pattern set.
+        public let patternSetName: String
+        /// The name of the resource group.
+        public let resourceGroupName: String
+
+        public init(patternName: String, patternSetName: String, resourceGroupName: String) {
+            self.patternName = patternName
+            self.patternSetName = patternSetName
+            self.resourceGroupName = resourceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.patternName, name:"patternName", parent: name, max: 50)
+            try validate(self.patternName, name:"patternName", parent: name, min: 1)
+            try validate(self.patternName, name:"patternName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try validate(self.patternSetName, name:"patternSetName", parent: name, max: 30)
+            try validate(self.patternSetName, name:"patternSetName", parent: name, min: 1)
+            try validate(self.patternSetName, name:"patternSetName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case patternName = "PatternName"
+            case patternSetName = "PatternSetName"
+            case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
+    public struct DescribeLogPatternResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogPattern", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
+        ]
+
+        /// The successfully created log pattern.
+        public let logPattern: LogPattern?
+        /// The name of the resource group.
+        public let resourceGroupName: String?
+
+        public init(logPattern: LogPattern? = nil, resourceGroupName: String? = nil) {
+            self.logPattern = logPattern
+            self.resourceGroupName = resourceGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logPattern = "LogPattern"
+            case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
     public struct DescribeObservationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ObservationId", required: true, type: .string)
@@ -388,6 +633,12 @@ extension ApplicationInsights {
 
         public init(observationId: String) {
             self.observationId = observationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.observationId, name:"observationId", parent: name, max: 38)
+            try validate(self.observationId, name:"observationId", parent: name, min: 38)
+            try validate(self.observationId, name:"observationId", parent: name, pattern: "o-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -424,6 +675,12 @@ extension ApplicationInsights {
             self.problemId = problemId
         }
 
+        public func validate(name: String) throws {
+            try validate(self.problemId, name:"problemId", parent: name, max: 38)
+            try validate(self.problemId, name:"problemId", parent: name, min: 38)
+            try validate(self.problemId, name:"problemId", parent: name, pattern: "p-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case problemId = "ProblemId"
         }
@@ -456,6 +713,12 @@ extension ApplicationInsights {
 
         public init(problemId: String) {
             self.problemId = problemId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.problemId, name:"problemId", parent: name, max: 38)
+            try validate(self.problemId, name:"problemId", parent: name, min: 38)
+            try validate(self.problemId, name:"problemId", parent: name, pattern: "p-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -564,6 +827,9 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 40)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -592,6 +858,138 @@ extension ApplicationInsights {
         private enum CodingKeys: String, CodingKey {
             case applicationComponentList = "ApplicationComponentList"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLogPatternSetsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
+        ]
+
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int?
+        /// The token to request the next page of results.
+        public let nextToken: String?
+        /// The name of the resource group.
+        public let resourceGroupName: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceGroupName = resourceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 40)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
+    public struct ListLogPatternSetsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogPatternSets", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
+        ]
+
+        /// The list of log pattern sets.
+        public let logPatternSets: [String]?
+        /// The token used to retrieve the next page of results. This value is null when there are no more results to return. 
+        public let nextToken: String?
+        /// The name of the resource group.
+        public let resourceGroupName: String?
+
+        public init(logPatternSets: [String]? = nil, nextToken: String? = nil, resourceGroupName: String? = nil) {
+            self.logPatternSets = logPatternSets
+            self.nextToken = nextToken
+            self.resourceGroupName = resourceGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logPatternSets = "LogPatternSets"
+            case nextToken = "NextToken"
+            case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
+    public struct ListLogPatternsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PatternSetName", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
+        ]
+
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int?
+        /// The token to request the next page of results.
+        public let nextToken: String?
+        /// The name of the log pattern set.
+        public let patternSetName: String?
+        /// The name of the resource group.
+        public let resourceGroupName: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, patternSetName: String? = nil, resourceGroupName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.patternSetName = patternSetName
+            self.resourceGroupName = resourceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 40)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.patternSetName, name:"patternSetName", parent: name, max: 30)
+            try validate(self.patternSetName, name:"patternSetName", parent: name, min: 1)
+            try validate(self.patternSetName, name:"patternSetName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case patternSetName = "PatternSetName"
+            case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
+    public struct ListLogPatternsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogPatterns", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
+        ]
+
+        /// The list of log patterns.
+        public let logPatterns: [LogPattern]?
+        /// The token used to retrieve the next page of results. This value is null when there are no more results to return. 
+        public let nextToken: String?
+        /// The name of the resource group.
+        public let resourceGroupName: String?
+
+        public init(logPatterns: [LogPattern]? = nil, nextToken: String? = nil, resourceGroupName: String? = nil) {
+            self.logPatterns = logPatterns
+            self.nextToken = nextToken
+            self.resourceGroupName = resourceGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logPatterns = "LogPatterns"
+            case nextToken = "NextToken"
+            case resourceGroupName = "ResourceGroupName"
         }
     }
 
@@ -626,6 +1024,9 @@ extension ApplicationInsights {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 40)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -659,11 +1060,82 @@ extension ApplicationInsights {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the application that you want to retrieve tag information for.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// An array that lists all the tags that are associated with the application. Each tag consists of a required tag key (Key) and an associated tag value (Value).
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public enum LogFilter: String, CustomStringConvertible, Codable {
         case error = "ERROR"
         case warn = "WARN"
         case info = "INFO"
         public var description: String { return self.rawValue }
+    }
+
+    public struct LogPattern: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pattern", required: false, type: .string), 
+            AWSShapeMember(label: "PatternName", required: false, type: .string), 
+            AWSShapeMember(label: "PatternSetName", required: false, type: .string), 
+            AWSShapeMember(label: "Rank", required: false, type: .integer)
+        ]
+
+        /// A regular expression that defines the log pattern. A log pattern can contains at many as 50 characters, and it cannot be empty.
+        public let pattern: String?
+        /// The name of the log pattern. A log pattern name can contains at many as 50 characters, and it cannot be empty. The characters can be Unicode letters, digits or one of the following symbols: period, dash, underscore.
+        public let patternName: String?
+        /// The name of the log pattern. A log pattern name can contains at many as 30 characters, and it cannot be empty. The characters can be Unicode letters, digits or one of the following symbols: period, dash, underscore.
+        public let patternSetName: String?
+        /// Rank of the log pattern.
+        public let rank: Int?
+
+        public init(pattern: String? = nil, patternName: String? = nil, patternSetName: String? = nil, rank: Int? = nil) {
+            self.pattern = pattern
+            self.patternName = patternName
+            self.patternSetName = patternSetName
+            self.rank = rank
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pattern = "Pattern"
+            case patternName = "PatternName"
+            case patternSetName = "PatternSetName"
+            case rank = "Rank"
+        }
     }
 
     public struct Observation: AWSShape {
@@ -823,9 +1295,9 @@ extension ApplicationInsights {
     }
 
     public enum SeverityLevel: String, CustomStringConvertible, Codable {
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case high = "HIGH"
+        case low = "Low"
+        case medium = "Medium"
+        case high = "High"
         public var description: String { return self.rawValue }
     }
 
@@ -834,6 +1306,125 @@ extension ApplicationInsights {
         case resolved = "RESOLVED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
+    }
+
+    public struct Tag: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .string)
+        ]
+
+        /// One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character.
+        public let key: String
+        /// The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don't want an application to have a specific tag value, don't specify a value for this parameter.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.key, name:"key", parent: name, max: 128)
+            try validate(self.key, name:"key", parent: name, min: 1)
+            try validate(self.value, name:"value", parent: name, max: 256)
+            try validate(self.value, name:"value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the application that you want to add one or more tags to.
+        public let resourceARN: String
+        /// A list of tags that to add to the application. A tag consists of a required tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 200)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public enum Tier: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case dotNetCore = "DOT_NET_CORE"
+        case dotNetWorker = "DOT_NET_WORKER"
+        case dotNetWeb = "DOT_NET_WEB"
+        case sqlServer = "SQL_SERVER"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the application that you want to remove one or more tags from.
+        public let resourceARN: String
+        /// The tags (tag keys) that you want to remove from the resource. When you specify a tag key, the action removes both that key and its associated tag value. To remove more than one tag from the application, append the TagKeys parameter and argument for each additional tag to remove, separated by an ampersand. 
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resourceARN, name:"resourceARN", parent: name, max: 1011)
+            try validate(self.resourceARN, name:"resourceARN", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 200)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateApplicationRequest: AWSShape {
@@ -858,6 +1449,14 @@ extension ApplicationInsights {
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.removeSNSTopic = removeSNSTopic
             self.resourceGroupName = resourceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.opsItemSNSTopicArn, name:"opsItemSNSTopicArn", parent: name, max: 300)
+            try validate(self.opsItemSNSTopicArn, name:"opsItemSNSTopicArn", parent: name, min: 20)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -891,10 +1490,10 @@ extension ApplicationInsights {
             AWSShapeMember(label: "ComponentName", required: true, type: .string), 
             AWSShapeMember(label: "Monitor", required: false, type: .boolean), 
             AWSShapeMember(label: "ResourceGroupName", required: true, type: .string), 
-            AWSShapeMember(label: "Tier", required: false, type: .string)
+            AWSShapeMember(label: "Tier", required: false, type: .enum)
         ]
 
-        /// The configuration settings of the component. The value is the escaped JSON of the configuration. For more information about the JSON format, see Working with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see the recommended configuration for a component.
+        /// The configuration settings of the component. The value is the escaped JSON of the configuration. For more information about the JSON format, see Working with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see the recommended configuration for a component. For the complete format of the component configuration file, see Component Configuration.
         public let componentConfiguration: String?
         /// The name of the component.
         public let componentName: String
@@ -902,15 +1501,23 @@ extension ApplicationInsights {
         public let monitor: Bool?
         /// The name of the resource group.
         public let resourceGroupName: String
-        /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT.
-        public let tier: String?
+        /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB, DOT_NET_CORE, SQL_SERVER, and DEFAULT.
+        public let tier: Tier?
 
-        public init(componentConfiguration: String? = nil, componentName: String, monitor: Bool? = nil, resourceGroupName: String, tier: String? = nil) {
+        public init(componentConfiguration: String? = nil, componentName: String, monitor: Bool? = nil, resourceGroupName: String, tier: Tier? = nil) {
             self.componentConfiguration = componentConfiguration
             self.componentName = componentName
             self.monitor = monitor
             self.resourceGroupName = resourceGroupName
             self.tier = tier
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.componentConfiguration, name:"componentConfiguration", parent: name, max: 10000)
+            try validate(self.componentConfiguration, name:"componentConfiguration", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -954,6 +1561,16 @@ extension ApplicationInsights {
             self.resourceList = resourceList
         }
 
+        public func validate(name: String) throws {
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try self.resourceList?.forEach {
+                try validate($0, name: "resourceList[]", parent: name, max: 1011)
+                try validate($0, name: "resourceList[]", parent: name, min: 1)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case componentName = "ComponentName"
             case newComponentName = "NewComponentName"
@@ -968,5 +1585,78 @@ extension ApplicationInsights {
         public init() {
         }
 
+    }
+
+    public struct UpdateLogPatternRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pattern", required: false, type: .string), 
+            AWSShapeMember(label: "PatternName", required: true, type: .string), 
+            AWSShapeMember(label: "PatternSetName", required: true, type: .string), 
+            AWSShapeMember(label: "Rank", required: false, type: .integer), 
+            AWSShapeMember(label: "ResourceGroupName", required: true, type: .string)
+        ]
+
+        /// The log pattern.
+        public let pattern: String?
+        /// The name of the log pattern.
+        public let patternName: String
+        /// The name of the log pattern set.
+        public let patternSetName: String
+        /// Rank of the log pattern.
+        public let rank: Int?
+        /// The name of the resource group.
+        public let resourceGroupName: String
+
+        public init(pattern: String? = nil, patternName: String, patternSetName: String, rank: Int? = nil, resourceGroupName: String) {
+            self.pattern = pattern
+            self.patternName = patternName
+            self.patternSetName = patternSetName
+            self.rank = rank
+            self.resourceGroupName = resourceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.pattern, name:"pattern", parent: name, max: 50)
+            try validate(self.pattern, name:"pattern", parent: name, min: 1)
+            try validate(self.patternName, name:"patternName", parent: name, max: 50)
+            try validate(self.patternName, name:"patternName", parent: name, min: 1)
+            try validate(self.patternName, name:"patternName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try validate(self.patternSetName, name:"patternSetName", parent: name, max: 30)
+            try validate(self.patternSetName, name:"patternSetName", parent: name, min: 1)
+            try validate(self.patternSetName, name:"patternSetName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, max: 256)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, min: 1)
+            try validate(self.resourceGroupName, name:"resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pattern = "Pattern"
+            case patternName = "PatternName"
+            case patternSetName = "PatternSetName"
+            case rank = "Rank"
+            case resourceGroupName = "ResourceGroupName"
+        }
+    }
+
+    public struct UpdateLogPatternResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogPattern", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceGroupName", required: false, type: .string)
+        ]
+
+        /// The successfully created log pattern.
+        public let logPattern: LogPattern?
+        /// The name of the resource group.
+        public let resourceGroupName: String?
+
+        public init(logPattern: LogPattern? = nil, resourceGroupName: String? = nil) {
+            self.logPattern = logPattern
+            self.resourceGroupName = resourceGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logPattern = "LogPattern"
+            case resourceGroupName = "ResourceGroupName"
+        }
     }
 }

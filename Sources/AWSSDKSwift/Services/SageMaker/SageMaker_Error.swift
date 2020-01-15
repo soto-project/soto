@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for SageMaker
 public enum SageMakerErrorType: AWSErrorType {
+    case conflictException(message: String?)
     case resourceInUse(message: String?)
     case resourceLimitExceeded(message: String?)
     case resourceNotFound(message: String?)
@@ -16,6 +17,8 @@ extension SageMakerErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "ResourceInUse":
             self = .resourceInUse(message: message)
         case "ResourceLimitExceeded":
@@ -31,6 +34,8 @@ extension SageMakerErrorType {
 extension SageMakerErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
         case .resourceInUse(let message):
             return "ResourceInUse: \(message ?? "")"
         case .resourceLimitExceeded(let message):

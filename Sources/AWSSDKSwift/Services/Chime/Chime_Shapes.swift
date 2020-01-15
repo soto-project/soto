@@ -13,6 +13,7 @@ extension Chime {
             AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
             AWSShapeMember(label: "DefaultLicense", required: false, type: .enum), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SigninDelegateGroups", required: false, type: .list), 
             AWSShapeMember(label: "SupportedLicenses", required: false, type: .list)
         ]
 
@@ -28,16 +29,19 @@ extension Chime {
         public let defaultLicense: License?
         /// The Amazon Chime account name.
         public let name: String
+        /// The sign-in delegate groups associated with the account.
+        public let signinDelegateGroups: [SigninDelegateGroup]?
         /// Supported licenses for the Amazon Chime account.
         public let supportedLicenses: [License]?
 
-        public init(accountId: String, accountType: AccountType? = nil, awsAccountId: String, createdTimestamp: TimeStamp? = nil, defaultLicense: License? = nil, name: String, supportedLicenses: [License]? = nil) {
+        public init(accountId: String, accountType: AccountType? = nil, awsAccountId: String, createdTimestamp: TimeStamp? = nil, defaultLicense: License? = nil, name: String, signinDelegateGroups: [SigninDelegateGroup]? = nil, supportedLicenses: [License]? = nil) {
             self.accountId = accountId
             self.accountType = accountType
             self.awsAccountId = awsAccountId
             self.createdTimestamp = createdTimestamp
             self.defaultLicense = defaultLicense
             self.name = name
+            self.signinDelegateGroups = signinDelegateGroups
             self.supportedLicenses = supportedLicenses
         }
 
@@ -48,6 +52,7 @@ extension Chime {
             case createdTimestamp = "CreatedTimestamp"
             case defaultLicense = "DefaultLicense"
             case name = "Name"
+            case signinDelegateGroups = "SigninDelegateGroups"
             case supportedLicenses = "SupportedLicenses"
         }
     }
@@ -80,6 +85,28 @@ extension Chime {
         case enterpriselwa = "EnterpriseLWA"
         case enterpriseoidc = "EnterpriseOIDC"
         public var description: String { return self.rawValue }
+    }
+
+    public struct AlexaForBusinessMetadata: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlexaForBusinessRoomArn", required: false, type: .string), 
+            AWSShapeMember(label: "IsAlexaForBusinessEnabled", required: false, type: .boolean)
+        ]
+
+        /// The ARN of the room resource.
+        public let alexaForBusinessRoomArn: String?
+        /// Starts or stops Alexa for Business.
+        public let isAlexaForBusinessEnabled: Bool?
+
+        public init(alexaForBusinessRoomArn: String? = nil, isAlexaForBusinessEnabled: Bool? = nil) {
+            self.alexaForBusinessRoomArn = alexaForBusinessRoomArn
+            self.isAlexaForBusinessEnabled = isAlexaForBusinessEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alexaForBusinessRoomArn = "AlexaForBusinessRoomArn"
+            case isAlexaForBusinessEnabled = "IsAlexaForBusinessEnabled"
+        }
     }
 
     public struct AssociatePhoneNumberWithUserRequest: AWSShape {
@@ -220,6 +247,174 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case phoneNumberErrors = "PhoneNumberErrors"
+        }
+    }
+
+    public struct AssociateSigninDelegateGroupsWithAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "SigninDelegateGroups", required: true, type: .list)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The sign-in delegate groups.
+        public let signinDelegateGroups: [SigninDelegateGroup]
+
+        public init(accountId: String, signinDelegateGroups: [SigninDelegateGroup]) {
+            self.accountId = accountId
+            self.signinDelegateGroups = signinDelegateGroups
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try self.signinDelegateGroups.forEach {
+                try $0.validate(name: "\(name).signinDelegateGroups[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case signinDelegateGroups = "SigninDelegateGroups"
+        }
+    }
+
+    public struct AssociateSigninDelegateGroupsWithAccountResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct Attendee: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttendeeId", required: false, type: .string), 
+            AWSShapeMember(label: "ExternalUserId", required: false, type: .string), 
+            AWSShapeMember(label: "JoinToken", required: false, type: .string)
+        ]
+
+        /// The Amazon Chime SDK attendee ID.
+        public let attendeeId: String?
+        /// The Amazon Chime SDK external user ID. Links the attendee to an identity managed by a builder application.
+        public let externalUserId: String?
+        /// The join token used by the Amazon Chime SDK attendee.
+        public let joinToken: String?
+
+        public init(attendeeId: String? = nil, externalUserId: String? = nil, joinToken: String? = nil) {
+            self.attendeeId = attendeeId
+            self.externalUserId = externalUserId
+            self.joinToken = joinToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendeeId = "AttendeeId"
+            case externalUserId = "ExternalUserId"
+            case joinToken = "JoinToken"
+        }
+    }
+
+    public struct BatchCreateAttendeeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attendees", required: true, type: .list), 
+            AWSShapeMember(label: "MeetingId", location: .uri(locationName: "meetingId"), required: true, type: .string)
+        ]
+
+        /// The request containing the attendees to create.
+        public let attendees: [CreateAttendeeRequestItem]
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+
+        public init(attendees: [CreateAttendeeRequestItem], meetingId: String) {
+            self.attendees = attendees
+            self.meetingId = meetingId
+        }
+
+        public func validate(name: String) throws {
+            try self.attendees.forEach {
+                try $0.validate(name: "\(name).attendees[]")
+            }
+            try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendees = "Attendees"
+            case meetingId = "meetingId"
+        }
+    }
+
+    public struct BatchCreateAttendeeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attendees", required: false, type: .list), 
+            AWSShapeMember(label: "Errors", required: false, type: .list)
+        ]
+
+        /// The attendee information, including attendees IDs and join tokens.
+        public let attendees: [Attendee]?
+        /// If the action fails for one or more of the attendees in the request, a list of the attendees is returned, along with error codes and error messages.
+        public let errors: [CreateAttendeeError]?
+
+        public init(attendees: [Attendee]? = nil, errors: [CreateAttendeeError]? = nil) {
+            self.attendees = attendees
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendees = "Attendees"
+            case errors = "Errors"
+        }
+    }
+
+    public struct BatchCreateRoomMembershipRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MembershipItemList", required: true, type: .list), 
+            AWSShapeMember(label: "RoomId", location: .uri(locationName: "roomId"), required: true, type: .string)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The list of membership items.
+        public let membershipItemList: [MembershipItem]
+        /// The room ID.
+        public let roomId: String
+
+        public init(accountId: String, membershipItemList: [MembershipItem], roomId: String) {
+            self.accountId = accountId
+            self.membershipItemList = membershipItemList
+            self.roomId = roomId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try self.membershipItemList.forEach {
+                try $0.validate(name: "\(name).membershipItemList[]")
+            }
+            try validate(self.membershipItemList, name:"membershipItemList", parent: name, max: 50)
+            try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case membershipItemList = "MembershipItemList"
+            case roomId = "roomId"
+        }
+    }
+
+    public struct BatchCreateRoomMembershipResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Errors", required: false, type: .list)
+        ]
+
+        /// If the action fails for one or more of the member IDs in the request, a list of the member IDs is returned, along with error codes and error messages.
+        public let errors: [MemberError]?
+
+        public init(errors: [MemberError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
         }
     }
 
@@ -569,6 +764,100 @@ extension Chime {
         }
     }
 
+    public struct CreateAttendeeError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ExternalUserId", required: false, type: .string)
+        ]
+
+        /// The error code.
+        public let errorCode: String?
+        /// The error message.
+        public let errorMessage: String?
+        /// The Amazon Chime SDK external user ID. Links the attendee to an identity managed by a builder application.
+        public let externalUserId: String?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, externalUserId: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.externalUserId = externalUserId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case externalUserId = "ExternalUserId"
+        }
+    }
+
+    public struct CreateAttendeeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExternalUserId", required: true, type: .string), 
+            AWSShapeMember(label: "MeetingId", location: .uri(locationName: "meetingId"), required: true, type: .string)
+        ]
+
+        /// The Amazon Chime SDK external user ID. Links the attendee to an identity managed by a builder application.
+        public let externalUserId: String
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+
+        public init(externalUserId: String, meetingId: String) {
+            self.externalUserId = externalUserId
+            self.meetingId = meetingId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.externalUserId, name:"externalUserId", parent: name, max: 64)
+            try validate(self.externalUserId, name:"externalUserId", parent: name, min: 2)
+            try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalUserId = "ExternalUserId"
+            case meetingId = "meetingId"
+        }
+    }
+
+    public struct CreateAttendeeRequestItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExternalUserId", required: true, type: .string)
+        ]
+
+        /// The Amazon Chime SDK external user ID. Links the attendee to an identity managed by a builder application.
+        public let externalUserId: String
+
+        public init(externalUserId: String) {
+            self.externalUserId = externalUserId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.externalUserId, name:"externalUserId", parent: name, max: 64)
+            try validate(self.externalUserId, name:"externalUserId", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalUserId = "ExternalUserId"
+        }
+    }
+
+    public struct CreateAttendeeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attendee", required: false, type: .structure)
+        ]
+
+        /// The attendee information, including attendee ID and join token.
+        public let attendee: Attendee?
+
+        public init(attendee: Attendee? = nil) {
+            self.attendee = attendee
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendee = "Attendee"
+        }
+    }
+
     public struct CreateBotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
@@ -618,6 +907,64 @@ extension Chime {
         }
     }
 
+    public struct CreateMeetingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: true, type: .string), 
+            AWSShapeMember(label: "MediaRegion", required: false, type: .string), 
+            AWSShapeMember(label: "MeetingHostId", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationsConfiguration", required: false, type: .structure)
+        ]
+
+        /// The unique identifier for the client request. Use a different token for different meetings.
+        public let clientRequestToken: String
+        /// The Region in which to create the meeting. Available values: ap-northeast-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.
+        public let mediaRegion: String?
+        /// Reserved.
+        public let meetingHostId: String?
+        /// The configuration for resource targets to receive notifications when meeting and attendee events occur.
+        public let notificationsConfiguration: MeetingNotificationConfiguration?
+
+        public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), mediaRegion: String? = nil, meetingHostId: String? = nil, notificationsConfiguration: MeetingNotificationConfiguration? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.mediaRegion = mediaRegion
+            self.meetingHostId = meetingHostId
+            self.notificationsConfiguration = notificationsConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 2)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
+            try validate(self.meetingHostId, name:"meetingHostId", parent: name, max: 64)
+            try validate(self.meetingHostId, name:"meetingHostId", parent: name, min: 2)
+            try self.notificationsConfiguration?.validate(name: "\(name).notificationsConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case mediaRegion = "MediaRegion"
+            case meetingHostId = "MeetingHostId"
+            case notificationsConfiguration = "NotificationsConfiguration"
+        }
+    }
+
+    public struct CreateMeetingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Meeting", required: false, type: .structure)
+        ]
+
+        /// The meeting information, including the meeting ID and MediaPlacement.
+        public let meeting: Meeting?
+
+        public init(meeting: Meeting? = nil) {
+            self.meeting = meeting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case meeting = "Meeting"
+        }
+    }
+
     public struct CreatePhoneNumberOrderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "E164PhoneNumbers", required: true, type: .list), 
@@ -660,6 +1007,165 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case phoneNumberOrder = "PhoneNumberOrder"
+        }
+    }
+
+    public struct CreateRoomMembershipRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MemberId", required: true, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .enum), 
+            AWSShapeMember(label: "RoomId", location: .uri(locationName: "roomId"), required: true, type: .string)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The Amazon Chime member ID (user ID or bot ID).
+        public let memberId: String
+        /// The role of the member.
+        public let role: RoomMembershipRole?
+        /// The room ID.
+        public let roomId: String
+
+        public init(accountId: String, memberId: String, role: RoomMembershipRole? = nil, roomId: String) {
+            self.accountId = accountId
+            self.memberId = memberId
+            self.role = role
+            self.roomId = roomId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.memberId, name:"memberId", parent: name, pattern: ".*\\S.*")
+            try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case memberId = "MemberId"
+            case role = "Role"
+            case roomId = "roomId"
+        }
+    }
+
+    public struct CreateRoomMembershipResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoomMembership", required: false, type: .structure)
+        ]
+
+        /// The room membership details.
+        public let roomMembership: RoomMembership?
+
+        public init(roomMembership: RoomMembership? = nil) {
+            self.roomMembership = roomMembership
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roomMembership = "RoomMembership"
+        }
+    }
+
+    public struct CreateRoomRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The idempotency token for the request.
+        public let clientRequestToken: String?
+        /// The room name.
+        public let name: String
+
+        public init(accountId: String, clientRequestToken: String? = CreateRoomRequest.idempotencyToken(), name: String) {
+            self.accountId = accountId
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 2)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case clientRequestToken = "ClientRequestToken"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateRoomResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Room", required: false, type: .structure)
+        ]
+
+        /// The room details.
+        public let room: Room?
+
+        public init(room: Room? = nil) {
+            self.room = room
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case room = "Room"
+        }
+    }
+
+    public struct CreateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "UserType", required: false, type: .enum)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The user's email address.
+        public let email: String?
+        /// The user name.
+        public let username: String?
+        /// The user type.
+        public let userType: UserType?
+
+        public init(accountId: String, email: String? = nil, username: String? = nil, userType: UserType? = nil) {
+            self.accountId = accountId
+            self.email = email
+            self.username = username
+            self.userType = userType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.email, name:"email", parent: name, pattern: ".+@.+\\..+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case email = "Email"
+            case username = "Username"
+            case userType = "UserType"
+        }
+    }
+
+    public struct CreateUserResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: false, type: .structure)
+        ]
+
+        public let user: User?
+
+        public init(user: User? = nil) {
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
         }
     }
 
@@ -810,6 +1316,33 @@ extension Chime {
 
     }
 
+    public struct DeleteAttendeeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttendeeId", location: .uri(locationName: "attendeeId"), required: true, type: .string), 
+            AWSShapeMember(label: "MeetingId", location: .uri(locationName: "meetingId"), required: true, type: .string)
+        ]
+
+        /// The Amazon Chime SDK attendee ID.
+        public let attendeeId: String
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+
+        public init(attendeeId: String, meetingId: String) {
+            self.attendeeId = attendeeId
+            self.meetingId = meetingId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.attendeeId, name:"attendeeId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendeeId = "attendeeId"
+            case meetingId = "meetingId"
+        }
+    }
+
     public struct DeleteEventsConfigurationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
@@ -837,6 +1370,27 @@ extension Chime {
         }
     }
 
+    public struct DeleteMeetingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MeetingId", location: .uri(locationName: "meetingId"), required: true, type: .string)
+        ]
+
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+
+        public init(meetingId: String) {
+            self.meetingId = meetingId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case meetingId = "meetingId"
+        }
+    }
+
     public struct DeletePhoneNumberRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PhoneNumberId", location: .uri(locationName: "phoneNumberId"), required: true, type: .string)
@@ -851,6 +1405,66 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case phoneNumberId = "phoneNumberId"
+        }
+    }
+
+    public struct DeleteRoomMembershipRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId"), required: true, type: .string), 
+            AWSShapeMember(label: "RoomId", location: .uri(locationName: "roomId"), required: true, type: .string)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The member ID (user ID or bot ID).
+        public let memberId: String
+        /// The room ID.
+        public let roomId: String
+
+        public init(accountId: String, memberId: String, roomId: String) {
+            self.accountId = accountId
+            self.memberId = memberId
+            self.roomId = roomId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.memberId, name:"memberId", parent: name, pattern: ".*\\S.*")
+            try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case memberId = "memberId"
+            case roomId = "roomId"
+        }
+    }
+
+    public struct DeleteRoomRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "RoomId", location: .uri(locationName: "roomId"), required: true, type: .string)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The chat room ID.
+        public let roomId: String
+
+        public init(accountId: String, roomId: String) {
+            self.accountId = accountId
+            self.roomId = roomId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case roomId = "roomId"
         }
     }
 
@@ -1107,6 +1721,41 @@ extension Chime {
         }
     }
 
+    public struct DisassociateSigninDelegateGroupsFromAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupNames", required: true, type: .list)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The sign-in delegate group names.
+        public let groupNames: [String]
+
+        public init(accountId: String, groupNames: [String]) {
+            self.accountId = accountId
+            self.groupNames = groupNames
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.groupNames, name:"groupNames", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case groupNames = "GroupNames"
+        }
+    }
+
+    public struct DisassociateSigninDelegateGroupsFromAccountResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public enum EmailStatus: String, CustomStringConvertible, Codable {
         case notsent = "NotSent"
         case sent = "Sent"
@@ -1235,6 +1884,50 @@ extension Chime {
         }
     }
 
+    public struct GetAttendeeRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttendeeId", location: .uri(locationName: "attendeeId"), required: true, type: .string), 
+            AWSShapeMember(label: "MeetingId", location: .uri(locationName: "meetingId"), required: true, type: .string)
+        ]
+
+        /// The Amazon Chime SDK attendee ID.
+        public let attendeeId: String
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+
+        public init(attendeeId: String, meetingId: String) {
+            self.attendeeId = attendeeId
+            self.meetingId = meetingId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.attendeeId, name:"attendeeId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendeeId = "attendeeId"
+            case meetingId = "meetingId"
+        }
+    }
+
+    public struct GetAttendeeResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attendee", required: false, type: .structure)
+        ]
+
+        /// The Amazon Chime SDK attendee information.
+        public let attendee: Attendee?
+
+        public init(attendee: Attendee? = nil) {
+            self.attendee = attendee
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendee = "Attendee"
+        }
+    }
+
     public struct GetBotRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
@@ -1345,6 +2038,44 @@ extension Chime {
         }
     }
 
+    public struct GetMeetingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MeetingId", location: .uri(locationName: "meetingId"), required: true, type: .string)
+        ]
+
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+
+        public init(meetingId: String) {
+            self.meetingId = meetingId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case meetingId = "meetingId"
+        }
+    }
+
+    public struct GetMeetingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Meeting", required: false, type: .structure)
+        ]
+
+        /// The Amazon Chime SDK meeting information.
+        public let meeting: Meeting?
+
+        public init(meeting: Meeting? = nil) {
+            self.meeting = meeting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case meeting = "Meeting"
+        }
+    }
+
     public struct GetPhoneNumberOrderRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PhoneNumberOrderId", location: .uri(locationName: "phoneNumberOrderId"), required: true, type: .string)
@@ -1436,6 +2167,50 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case callingName = "CallingName"
             case callingNameUpdatedTimestamp = "CallingNameUpdatedTimestamp"
+        }
+    }
+
+    public struct GetRoomRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "RoomId", location: .uri(locationName: "roomId"), required: true, type: .string)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The room ID.
+        public let roomId: String
+
+        public init(accountId: String, roomId: String) {
+            self.accountId = accountId
+            self.roomId = roomId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case roomId = "roomId"
+        }
+    }
+
+    public struct GetRoomResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Room", required: false, type: .structure)
+        ]
+
+        /// The room details.
+        public let room: Room?
+
+        public init(room: Room? = nil) {
+            self.room = room
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case room = "Room"
         }
     }
 
@@ -1830,17 +2605,21 @@ extension Chime {
     public struct InviteUsersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "UserEmailList", required: true, type: .list)
+            AWSShapeMember(label: "UserEmailList", required: true, type: .list), 
+            AWSShapeMember(label: "UserType", required: false, type: .enum)
         ]
 
         /// The Amazon Chime account ID.
         public let accountId: String
-        /// The user email addresses to which to send the invite.
+        /// The user email addresses to which to send the email invitation.
         public let userEmailList: [String]
+        /// The user type.
+        public let userType: UserType?
 
-        public init(accountId: String, userEmailList: [String]) {
+        public init(accountId: String, userEmailList: [String], userType: UserType? = nil) {
             self.accountId = accountId
             self.userEmailList = userEmailList
+            self.userType = userType
         }
 
         public func validate(name: String) throws {
@@ -1854,6 +2633,7 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case userEmailList = "UserEmailList"
+            case userType = "UserType"
         }
     }
 
@@ -1862,7 +2642,7 @@ extension Chime {
             AWSShapeMember(label: "Invites", required: false, type: .list)
         ]
 
-        /// The invite details.
+        /// The email invitation details.
         public let invites: [Invite]?
 
         public init(invites: [Invite]? = nil) {
@@ -1945,6 +2725,61 @@ extension Chime {
         }
     }
 
+    public struct ListAttendeesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "MeetingId", location: .uri(locationName: "meetingId"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        ]
+
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, meetingId: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.meetingId = meetingId
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 99)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.meetingId, name:"meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "max-results"
+            case meetingId = "meetingId"
+            case nextToken = "next-token"
+        }
+    }
+
+    public struct ListAttendeesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attendees", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The Amazon Chime SDK attendee information.
+        public let attendees: [Attendee]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(attendees: [Attendee]? = nil, nextToken: String? = nil) {
+            self.attendees = attendees
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendees = "Attendees"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListBotsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
@@ -1954,7 +2789,7 @@ extension Chime {
 
         /// The Amazon Chime account ID.
         public let accountId: String
-        /// The maximum number of results to return in a single call. Default is 10.
+        /// The maximum number of results to return in a single call. The default is 10.
         public let maxResults: Int?
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
@@ -1996,6 +2831,55 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case bots = "Bots"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMeetingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        ]
+
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 99)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "max-results"
+            case nextToken = "next-token"
+        }
+    }
+
+    public struct ListMeetingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Meetings", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The Amazon Chime SDK meeting information.
+        public let meetings: [Meeting]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(meetings: [Meeting]? = nil, nextToken: String? = nil) {
+            self.meetings = meetings
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case meetings = "Meetings"
             case nextToken = "NextToken"
         }
     }
@@ -2118,12 +3002,134 @@ extension Chime {
         }
     }
 
+    public struct ListRoomMembershipsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
+            AWSShapeMember(label: "RoomId", location: .uri(locationName: "roomId"), required: true, type: .string)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+        /// The room ID.
+        public let roomId: String
+
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil, roomId: String) {
+            self.accountId = accountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.roomId = roomId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 99)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case maxResults = "max-results"
+            case nextToken = "next-token"
+            case roomId = "roomId"
+        }
+    }
+
+    public struct ListRoomMembershipsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "RoomMemberships", required: false, type: .list)
+        ]
+
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+        /// The room membership details.
+        public let roomMemberships: [RoomMembership]?
+
+        public init(nextToken: String? = nil, roomMemberships: [RoomMembership]? = nil) {
+            self.nextToken = nextToken
+            self.roomMemberships = roomMemberships
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case roomMemberships = "RoomMemberships"
+        }
+    }
+
+    public struct ListRoomsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
+            AWSShapeMember(label: "MemberId", location: .querystring(locationName: "member-id"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The member ID (user ID or bot ID).
+        public let memberId: String?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(accountId: String, maxResults: Int? = nil, memberId: String? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.maxResults = maxResults
+            self.memberId = memberId
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 99)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case maxResults = "max-results"
+            case memberId = "member-id"
+            case nextToken = "next-token"
+        }
+    }
+
+    public struct ListRoomsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Rooms", required: false, type: .list)
+        ]
+
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+        /// The room details.
+        public let rooms: [Room]?
+
+        public init(nextToken: String? = nil, rooms: [Room]? = nil) {
+            self.nextToken = nextToken
+            self.rooms = rooms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rooms = "Rooms"
+        }
+    }
+
     public struct ListUsersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "max-results"), required: false, type: .integer), 
             AWSShapeMember(label: "NextToken", location: .querystring(locationName: "next-token"), required: false, type: .string), 
-            AWSShapeMember(label: "UserEmail", location: .querystring(locationName: "user-email"), required: false, type: .string)
+            AWSShapeMember(label: "UserEmail", location: .querystring(locationName: "user-email"), required: false, type: .string), 
+            AWSShapeMember(label: "UserType", location: .querystring(locationName: "user-type"), required: false, type: .enum)
         ]
 
         /// The Amazon Chime account ID.
@@ -2134,12 +3140,15 @@ extension Chime {
         public let nextToken: String?
         /// Optional. The user email address used to filter results. Maximum 1.
         public let userEmail: String?
+        /// The user type.
+        public let userType: UserType?
 
-        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil, userEmail: String? = nil) {
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil, userEmail: String? = nil, userType: UserType? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.userEmail = userEmail
+            self.userType = userType
         }
 
         public func validate(name: String) throws {
@@ -2154,6 +3163,7 @@ extension Chime {
             case maxResults = "max-results"
             case nextToken = "next-token"
             case userEmail = "user-email"
+            case userType = "user-type"
         }
     }
 
@@ -2365,6 +3375,203 @@ extension Chime {
         public init() {
         }
 
+    }
+
+    public struct MediaPlacement: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AudioHostUrl", required: false, type: .string), 
+            AWSShapeMember(label: "ScreenDataUrl", required: false, type: .string), 
+            AWSShapeMember(label: "ScreenSharingUrl", required: false, type: .string), 
+            AWSShapeMember(label: "ScreenViewingUrl", required: false, type: .string), 
+            AWSShapeMember(label: "SignalingUrl", required: false, type: .string), 
+            AWSShapeMember(label: "TurnControlUrl", required: false, type: .string)
+        ]
+
+        /// The audio host URL.
+        public let audioHostUrl: String?
+        /// The screen data URL.
+        public let screenDataUrl: String?
+        /// The screen sharing URL.
+        public let screenSharingUrl: String?
+        /// The screen viewing URL.
+        public let screenViewingUrl: String?
+        /// The signaling URL.
+        public let signalingUrl: String?
+        /// The turn control URL.
+        public let turnControlUrl: String?
+
+        public init(audioHostUrl: String? = nil, screenDataUrl: String? = nil, screenSharingUrl: String? = nil, screenViewingUrl: String? = nil, signalingUrl: String? = nil, turnControlUrl: String? = nil) {
+            self.audioHostUrl = audioHostUrl
+            self.screenDataUrl = screenDataUrl
+            self.screenSharingUrl = screenSharingUrl
+            self.screenViewingUrl = screenViewingUrl
+            self.signalingUrl = signalingUrl
+            self.turnControlUrl = turnControlUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioHostUrl = "AudioHostUrl"
+            case screenDataUrl = "ScreenDataUrl"
+            case screenSharingUrl = "ScreenSharingUrl"
+            case screenViewingUrl = "ScreenViewingUrl"
+            case signalingUrl = "SignalingUrl"
+            case turnControlUrl = "TurnControlUrl"
+        }
+    }
+
+    public struct Meeting: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MediaPlacement", required: false, type: .structure), 
+            AWSShapeMember(label: "MediaRegion", required: false, type: .string), 
+            AWSShapeMember(label: "MeetingId", required: false, type: .string)
+        ]
+
+        /// The media placement for the meeting.
+        public let mediaPlacement: MediaPlacement?
+        /// The Region in which to create the meeting. Available values: ap-northeast-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.
+        public let mediaRegion: String?
+        /// The Amazon Chime SDK meeting ID.
+        public let meetingId: String?
+
+        public init(mediaPlacement: MediaPlacement? = nil, mediaRegion: String? = nil, meetingId: String? = nil) {
+            self.mediaPlacement = mediaPlacement
+            self.mediaRegion = mediaRegion
+            self.meetingId = meetingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaPlacement = "MediaPlacement"
+            case mediaRegion = "MediaRegion"
+            case meetingId = "MeetingId"
+        }
+    }
+
+    public struct MeetingNotificationConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SqsQueueArn", required: false, type: .string)
+        ]
+
+        /// The SNS topic ARN.
+        public let snsTopicArn: String?
+        /// The SQS queue ARN.
+        public let sqsQueueArn: String?
+
+        public init(snsTopicArn: String? = nil, sqsQueueArn: String? = nil) {
+            self.snsTopicArn = snsTopicArn
+            self.sqsQueueArn = sqsQueueArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.snsTopicArn, name:"snsTopicArn", parent: name, max: 1024)
+            try validate(self.snsTopicArn, name:"snsTopicArn", parent: name, min: 1)
+            try validate(self.snsTopicArn, name:"snsTopicArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+            try validate(self.sqsQueueArn, name:"sqsQueueArn", parent: name, max: 1024)
+            try validate(self.sqsQueueArn, name:"sqsQueueArn", parent: name, min: 1)
+            try validate(self.sqsQueueArn, name:"sqsQueueArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snsTopicArn = "SnsTopicArn"
+            case sqsQueueArn = "SqsQueueArn"
+        }
+    }
+
+    public struct Member: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Email", required: false, type: .string), 
+            AWSShapeMember(label: "FullName", required: false, type: .string), 
+            AWSShapeMember(label: "MemberId", required: false, type: .string), 
+            AWSShapeMember(label: "MemberType", required: false, type: .enum)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String?
+        /// The member email address.
+        public let email: String?
+        /// The member name.
+        public let fullName: String?
+        /// The member ID (user ID or bot ID).
+        public let memberId: String?
+        /// The member type.
+        public let memberType: MemberType?
+
+        public init(accountId: String? = nil, email: String? = nil, fullName: String? = nil, memberId: String? = nil, memberType: MemberType? = nil) {
+            self.accountId = accountId
+            self.email = email
+            self.fullName = fullName
+            self.memberId = memberId
+            self.memberType = memberType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case email = "Email"
+            case fullName = "FullName"
+            case memberId = "MemberId"
+            case memberType = "MemberType"
+        }
+    }
+
+    public struct MemberError: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "MemberId", required: false, type: .string)
+        ]
+
+        /// The error code.
+        public let errorCode: ErrorCode?
+        /// The error message.
+        public let errorMessage: String?
+        /// The member ID.
+        public let memberId: String?
+
+        public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, memberId: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.memberId = memberId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case memberId = "MemberId"
+        }
+    }
+
+    public enum MemberType: String, CustomStringConvertible, Codable {
+        case user = "User"
+        case bot = "Bot"
+        case webhook = "Webhook"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct MembershipItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MemberId", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .enum)
+        ]
+
+        /// The member ID.
+        public let memberId: String?
+        /// The member role.
+        public let role: RoomMembershipRole?
+
+        public init(memberId: String? = nil, role: RoomMembershipRole? = nil) {
+            self.memberId = memberId
+            self.role = role
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.memberId, name:"memberId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberId = "MemberId"
+            case role = "Role"
+        }
     }
 
     public struct OrderedPhoneNumber: AWSShape {
@@ -3112,6 +4319,90 @@ extension Chime {
         }
     }
 
+    public struct Room: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RoomId", required: false, type: .string), 
+            AWSShapeMember(label: "UpdatedTimestamp", required: false, type: .timestamp)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String?
+        /// The identifier of the room creator.
+        public let createdBy: String?
+        /// The room creation timestamp, in ISO 8601 format.
+        public let createdTimestamp: TimeStamp?
+        /// The room name.
+        public let name: String?
+        /// The room ID.
+        public let roomId: String?
+        /// The room update timestamp, in ISO 8601 format.
+        public let updatedTimestamp: TimeStamp?
+
+        public init(accountId: String? = nil, createdBy: String? = nil, createdTimestamp: TimeStamp? = nil, name: String? = nil, roomId: String? = nil, updatedTimestamp: TimeStamp? = nil) {
+            self.accountId = accountId
+            self.createdBy = createdBy
+            self.createdTimestamp = createdTimestamp
+            self.name = name
+            self.roomId = roomId
+            self.updatedTimestamp = updatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case createdBy = "CreatedBy"
+            case createdTimestamp = "CreatedTimestamp"
+            case name = "Name"
+            case roomId = "RoomId"
+            case updatedTimestamp = "UpdatedTimestamp"
+        }
+    }
+
+    public struct RoomMembership: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InvitedBy", required: false, type: .string), 
+            AWSShapeMember(label: "Member", required: false, type: .structure), 
+            AWSShapeMember(label: "Role", required: false, type: .enum), 
+            AWSShapeMember(label: "RoomId", required: false, type: .string), 
+            AWSShapeMember(label: "UpdatedTimestamp", required: false, type: .timestamp)
+        ]
+
+        /// The identifier of the user that invited the room member.
+        public let invitedBy: String?
+        public let member: Member?
+        /// The membership role.
+        public let role: RoomMembershipRole?
+        /// The room ID.
+        public let roomId: String?
+        /// The room membership update timestamp, in ISO 8601 format.
+        public let updatedTimestamp: TimeStamp?
+
+        public init(invitedBy: String? = nil, member: Member? = nil, role: RoomMembershipRole? = nil, roomId: String? = nil, updatedTimestamp: TimeStamp? = nil) {
+            self.invitedBy = invitedBy
+            self.member = member
+            self.role = role
+            self.roomId = roomId
+            self.updatedTimestamp = updatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invitedBy = "InvitedBy"
+            case member = "Member"
+            case role = "Role"
+            case roomId = "RoomId"
+            case updatedTimestamp = "UpdatedTimestamp"
+        }
+    }
+
+    public enum RoomMembershipRole: String, CustomStringConvertible, Codable {
+        case administrator = "Administrator"
+        case member = "Member"
+        public var description: String { return self.rawValue }
+    }
+
     public struct SearchAvailablePhoneNumbersRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AreaCode", location: .querystring(locationName: "area-code"), required: false, type: .string), 
@@ -3184,13 +4475,34 @@ extension Chime {
         }
     }
 
+    public struct SigninDelegateGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: false, type: .string)
+        ]
+
+        /// The group name.
+        public let groupName: String?
+
+        public init(groupName: String? = nil) {
+            self.groupName = groupName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.groupName, name:"groupName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+        }
+    }
+
     public struct StreamingConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataRetentionInHours", required: true, type: .integer), 
             AWSShapeMember(label: "Disabled", required: false, type: .boolean)
         ]
 
-        /// The retention period for the Amazon Kinesis data, in hours.
+        /// The retention period, in hours, for the Amazon Kinesis data.
         public let dataRetentionInHours: Int
         /// When true, media streaming to Amazon Kinesis is turned off.
         public let disabled: Bool?
@@ -3553,24 +4865,136 @@ extension Chime {
         }
     }
 
-    public struct UpdateUserRequest: AWSShape {
+    public struct UpdateRoomMembershipRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
-            AWSShapeMember(label: "LicenseType", required: false, type: .enum), 
-            AWSShapeMember(label: "UserId", location: .uri(locationName: "userId"), required: true, type: .string)
+            AWSShapeMember(label: "MemberId", location: .uri(locationName: "memberId"), required: true, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .enum), 
+            AWSShapeMember(label: "RoomId", location: .uri(locationName: "roomId"), required: true, type: .string)
         ]
 
         /// The Amazon Chime account ID.
         public let accountId: String
+        /// The member ID.
+        public let memberId: String
+        /// The role of the member.
+        public let role: RoomMembershipRole?
+        /// The room ID.
+        public let roomId: String
+
+        public init(accountId: String, memberId: String, role: RoomMembershipRole? = nil, roomId: String) {
+            self.accountId = accountId
+            self.memberId = memberId
+            self.role = role
+            self.roomId = roomId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.memberId, name:"memberId", parent: name, pattern: ".*\\S.*")
+            try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case memberId = "memberId"
+            case role = "Role"
+            case roomId = "roomId"
+        }
+    }
+
+    public struct UpdateRoomMembershipResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoomMembership", required: false, type: .structure)
+        ]
+
+        /// The room membership details.
+        public let roomMembership: RoomMembership?
+
+        public init(roomMembership: RoomMembership? = nil) {
+            self.roomMembership = roomMembership
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roomMembership = "RoomMembership"
+        }
+    }
+
+    public struct UpdateRoomRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RoomId", location: .uri(locationName: "roomId"), required: true, type: .string)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The room name.
+        public let name: String?
+        /// The room ID.
+        public let roomId: String
+
+        public init(accountId: String, name: String? = nil, roomId: String) {
+            self.accountId = accountId
+            self.name = name
+            self.roomId = roomId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.roomId, name:"roomId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case name = "Name"
+            case roomId = "roomId"
+        }
+    }
+
+    public struct UpdateRoomResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Room", required: false, type: .structure)
+        ]
+
+        /// The room details.
+        public let room: Room?
+
+        public init(room: Room? = nil) {
+            self.room = room
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case room = "Room"
+        }
+    }
+
+    public struct UpdateUserRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", location: .uri(locationName: "accountId"), required: true, type: .string), 
+            AWSShapeMember(label: "AlexaForBusinessMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "LicenseType", required: false, type: .enum), 
+            AWSShapeMember(label: "UserId", location: .uri(locationName: "userId"), required: true, type: .string), 
+            AWSShapeMember(label: "UserType", required: false, type: .enum)
+        ]
+
+        /// The Amazon Chime account ID.
+        public let accountId: String
+        /// The Alexa for Business metadata.
+        public let alexaForBusinessMetadata: AlexaForBusinessMetadata?
         /// The user license type to update. This must be a supported license type for the Amazon Chime account that the user belongs to.
         public let licenseType: License?
         /// The user ID.
         public let userId: String
+        /// The user type.
+        public let userType: UserType?
 
-        public init(accountId: String, licenseType: License? = nil, userId: String) {
+        public init(accountId: String, alexaForBusinessMetadata: AlexaForBusinessMetadata? = nil, licenseType: License? = nil, userId: String, userType: UserType? = nil) {
             self.accountId = accountId
+            self.alexaForBusinessMetadata = alexaForBusinessMetadata
             self.licenseType = licenseType
             self.userId = userId
+            self.userType = userType
         }
 
         public func validate(name: String) throws {
@@ -3580,25 +5004,35 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case alexaForBusinessMetadata = "AlexaForBusinessMetadata"
             case licenseType = "LicenseType"
             case userId = "userId"
+            case userType = "UserType"
         }
     }
 
     public struct UpdateUserRequestItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlexaForBusinessMetadata", required: false, type: .structure), 
             AWSShapeMember(label: "LicenseType", required: false, type: .enum), 
-            AWSShapeMember(label: "UserId", required: true, type: .string)
+            AWSShapeMember(label: "UserId", required: true, type: .string), 
+            AWSShapeMember(label: "UserType", required: false, type: .enum)
         ]
 
+        /// The Alexa for Business metadata.
+        public let alexaForBusinessMetadata: AlexaForBusinessMetadata?
         /// The user license type.
         public let licenseType: License?
         /// The user ID.
         public let userId: String
+        /// The user type.
+        public let userType: UserType?
 
-        public init(licenseType: License? = nil, userId: String) {
+        public init(alexaForBusinessMetadata: AlexaForBusinessMetadata? = nil, licenseType: License? = nil, userId: String, userType: UserType? = nil) {
+            self.alexaForBusinessMetadata = alexaForBusinessMetadata
             self.licenseType = licenseType
             self.userId = userId
+            self.userType = userType
         }
 
         public func validate(name: String) throws {
@@ -3606,8 +5040,10 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alexaForBusinessMetadata = "AlexaForBusinessMetadata"
             case licenseType = "LicenseType"
             case userId = "UserId"
+            case userType = "UserType"
         }
     }
 
@@ -3761,6 +5197,7 @@ extension Chime {
     public struct User: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "AlexaForBusinessMetadata", required: false, type: .structure), 
             AWSShapeMember(label: "DisplayName", required: false, type: .string), 
             AWSShapeMember(label: "InvitedOn", required: false, type: .timestamp), 
             AWSShapeMember(label: "LicenseType", required: false, type: .enum), 
@@ -3770,11 +5207,14 @@ extension Chime {
             AWSShapeMember(label: "RegisteredOn", required: false, type: .timestamp), 
             AWSShapeMember(label: "UserId", required: true, type: .string), 
             AWSShapeMember(label: "UserInvitationStatus", required: false, type: .enum), 
-            AWSShapeMember(label: "UserRegistrationStatus", required: false, type: .enum)
+            AWSShapeMember(label: "UserRegistrationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "UserType", required: false, type: .enum)
         ]
 
         /// The Amazon Chime account ID.
         public let accountId: String?
+        /// The Alexa for Business metadata.
+        public let alexaForBusinessMetadata: AlexaForBusinessMetadata?
         /// The display name of the user.
         public let displayName: String?
         /// Date and time when the user is invited to the Amazon Chime account, in ISO 8601 format.
@@ -3795,9 +5235,12 @@ extension Chime {
         public let userInvitationStatus: InviteStatus?
         /// The user registration status.
         public let userRegistrationStatus: RegistrationStatus?
+        /// The user type.
+        public let userType: UserType?
 
-        public init(accountId: String? = nil, displayName: String? = nil, invitedOn: TimeStamp? = nil, licenseType: License? = nil, personalPIN: String? = nil, primaryEmail: String? = nil, primaryProvisionedNumber: String? = nil, registeredOn: TimeStamp? = nil, userId: String, userInvitationStatus: InviteStatus? = nil, userRegistrationStatus: RegistrationStatus? = nil) {
+        public init(accountId: String? = nil, alexaForBusinessMetadata: AlexaForBusinessMetadata? = nil, displayName: String? = nil, invitedOn: TimeStamp? = nil, licenseType: License? = nil, personalPIN: String? = nil, primaryEmail: String? = nil, primaryProvisionedNumber: String? = nil, registeredOn: TimeStamp? = nil, userId: String, userInvitationStatus: InviteStatus? = nil, userRegistrationStatus: RegistrationStatus? = nil, userType: UserType? = nil) {
             self.accountId = accountId
+            self.alexaForBusinessMetadata = alexaForBusinessMetadata
             self.displayName = displayName
             self.invitedOn = invitedOn
             self.licenseType = licenseType
@@ -3808,10 +5251,12 @@ extension Chime {
             self.userId = userId
             self.userInvitationStatus = userInvitationStatus
             self.userRegistrationStatus = userRegistrationStatus
+            self.userType = userType
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
+            case alexaForBusinessMetadata = "AlexaForBusinessMetadata"
             case displayName = "DisplayName"
             case invitedOn = "InvitedOn"
             case licenseType = "LicenseType"
@@ -3822,6 +5267,7 @@ extension Chime {
             case userId = "UserId"
             case userInvitationStatus = "UserInvitationStatus"
             case userRegistrationStatus = "UserRegistrationStatus"
+            case userType = "UserType"
         }
     }
 
@@ -3867,6 +5313,12 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case telephony = "Telephony"
         }
+    }
+
+    public enum UserType: String, CustomStringConvertible, Codable {
+        case privateuser = "PrivateUser"
+        case shareddevice = "SharedDevice"
+        public var description: String { return self.rawValue }
     }
 
     public struct VoiceConnector: AWSShape {

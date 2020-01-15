@@ -53,9 +53,19 @@ public struct Comprehend {
         return client.send(operation: "BatchDetectSyntax", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a new document classification request to analyze a single document in real-time, using a previously created and trained custom model and an endpoint.
+    public func classifyDocument(_ input: ClassifyDocumentRequest) -> Future<ClassifyDocumentResponse> {
+        return client.send(operation: "ClassifyDocument", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new document classifier that you can use to categorize documents. To create a classifier you provide a set of training documents that labeled with the categories that you want to use. After the classifier is trained you can use it to categorize a set of labeled documents into the categories. For more information, see how-document-classification.
     public func createDocumentClassifier(_ input: CreateDocumentClassifierRequest) -> Future<CreateDocumentClassifierResponse> {
         return client.send(operation: "CreateDocumentClassifier", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a model-specific endpoint for synchronous inference for a previously trained custom model 
+    public func createEndpoint(_ input: CreateEndpointRequest) -> Future<CreateEndpointResponse> {
+        return client.send(operation: "CreateEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an entity recognizer using submitted files. After your CreateEntityRecognizer request is submitted, you can check job status using the API. 
@@ -66,6 +76,11 @@ public struct Comprehend {
     ///  Deletes a previously created document classifier Only those classifiers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the classifier into a DELETING state, and it is then removed by a background job. Once removed, the classifier disappears from your account and is no longer available for use. 
     public func deleteDocumentClassifier(_ input: DeleteDocumentClassifierRequest) -> Future<DeleteDocumentClassifierResponse> {
         return client.send(operation: "DeleteDocumentClassifier", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a model-specific endpoint for a previously-trained custom model. All endpoints must be deleted in order for the model to be deleted.
+    public func deleteEndpoint(_ input: DeleteEndpointRequest) -> Future<DeleteEndpointResponse> {
+        return client.send(operation: "DeleteEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an entity recognizer. Only those recognizers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the recognizer into a DELETING state, and it is then removed by a background job. Once removed, the recognizer disappears from your account and is no longer available for use. 
@@ -86,6 +101,11 @@ public struct Comprehend {
     ///  Gets the properties associated with a dominant language detection job. Use this operation to get the status of a detection job.
     public func describeDominantLanguageDetectionJob(_ input: DescribeDominantLanguageDetectionJobRequest) -> Future<DescribeDominantLanguageDetectionJobResponse> {
         return client.send(operation: "DescribeDominantLanguageDetectionJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets the properties associated with a specific endpoint. Use this operation to get the status of an endpoint.
+    public func describeEndpoint(_ input: DescribeEndpointRequest) -> Future<DescribeEndpointResponse> {
+        return client.send(operation: "DescribeEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the properties associated with an entities detection job. Use this operation to get the status of a detection job.
@@ -151,6 +171,11 @@ public struct Comprehend {
     ///  Gets a list of the dominant language detection jobs that you have submitted.
     public func listDominantLanguageDetectionJobs(_ input: ListDominantLanguageDetectionJobsRequest) -> Future<ListDominantLanguageDetectionJobsResponse> {
         return client.send(operation: "ListDominantLanguageDetectionJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets a list of all existing endpoints that you've created.
+    public func listEndpoints(_ input: ListEndpointsRequest) -> Future<ListEndpointsResponse> {
+        return client.send(operation: "ListEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of the entity detection jobs that you have submitted.
@@ -251,5 +276,10 @@ public struct Comprehend {
     ///  Removes a specific tag associated with an Amazon Comprehend resource. 
     public func untagResource(_ input: UntagResourceRequest) -> Future<UntagResourceResponse> {
         return client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates information about the specified endpoint.
+    public func updateEndpoint(_ input: UpdateEndpointRequest) -> Future<UpdateEndpointResponse> {
+        return client.send(operation: "UpdateEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 }
