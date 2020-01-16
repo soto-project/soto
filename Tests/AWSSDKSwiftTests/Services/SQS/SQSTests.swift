@@ -63,12 +63,20 @@ class SQSTests: XCTestCase {
             let receiveMessageRequest = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: testData.queueUrl)
             let messages = try client.receiveMessage(receiveMessageRequest).wait().messages ?? []
             
-            let message = try XCTUnwrap(messages.first, "Expected to get first message")
+            guard let message = messages.first else {
+                XCTFail("Expected to get first message")
+                return
+            }
             XCTAssertEqual(message.messageId, messageId)
-            let body = try XCTUnwrap(message.body, "Expected to have message body")
+            guard let body = message.body else {
+                XCTFail("Expected to have message body")
+                return
+            }
             XCTAssertEqual(body, messageBody)
-
-            let receiptHandle = try XCTUnwrap(message.receiptHandle, "Expected to have message receiptHandle")
+            guard let receiptHandle = message.receiptHandle else {
+                XCTFail("Expected to have message receiptHandle")
+                return
+            }
             let deleteRequest = SQS.DeleteMessageRequest(queueUrl: testData.queueUrl, receiptHandle: receiptHandle)
             try client.deleteMessage(deleteRequest).wait()
         }
@@ -95,12 +103,20 @@ class SQSTests: XCTestCase {
             let receiveMessageRequest = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: testData.queueUrl)
             let messages = try client.receiveMessage(receiveMessageRequest).wait().messages ?? []
             
-            let message = try XCTUnwrap(messages.first, "Expected to get first message")
+            guard let message = messages.first else {
+                XCTFail("Expected to get first message")
+                return
+            }
             XCTAssertEqual(message.messageId, messageId)
-            let body = try XCTUnwrap(message.body, "Expected to have message body")
+            guard let body = message.body else {
+                XCTFail("Expected to have message body")
+                return
+            }
             XCTAssertEqual(body, messageBody)
-
-            let receiptHandle = try XCTUnwrap(message.receiptHandle, "Expected to have message receiptHandle")
+            guard let receiptHandle = message.receiptHandle else {
+                XCTFail("Expected to have message receiptHandle")
+                return
+            }
             let deleteRequest = SQS.DeleteMessageRequest(queueUrl: testData.queueUrl, receiptHandle: receiptHandle)
             try client.deleteMessage(deleteRequest).wait()
         }
